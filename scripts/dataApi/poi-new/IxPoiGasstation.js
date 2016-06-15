@@ -10,17 +10,17 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
         this.gasstationId = data['gasstationId'] || 0;
         this.poiPid = data['poiPid'];
         this.serviceProv = data['serviceProv'];
-        var fuelTypeArr = (data["fuelType"]).split("|");
+        var fuelTypeArr = (data["fuelType"] || "").split("|");
         this.fuelType = {};
         for(var i=0;i<fuelTypeArr.length;i++) {
             this.fuelType[fuelTypeArr[i]] = true;
         }
-        var oilTypeArr = (data["oilType"]).split("|");
+        var oilTypeArr = (data["oilType"] || "").split("|");
         this.oilType = {};
         for(var i=0;i<oilTypeArr.length;i++) {
             this.oilType[oilTypeArr[i]] = true;
         }
-        var egTypeArr = (data["egType"]).split("|");
+        var egTypeArr = (data["egType"] || "").split("|");
         this.egType = {};
         for(var i=0;i<egTypeArr.length;i++) {
             this.egType[egTypeArr[i]] = true;
@@ -31,12 +31,12 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
             this.mgType[mgTypeArr[i]] = true;
         }
 
-        var paymentArr = (data["payment"]).split("|");
+        var paymentArr = (data["payment"] || "").split("|");
         this.payment = {};
         for(var i=0;i<paymentArr.length;i++) {
             this.payment[paymentArr[i]] = true;
         }
-        var serviceArr = (data["service"]).split("|");
+        var serviceArr = (data["service"] || "").split("|");
         this.payment = {};
         for(var i=0;i<serviceArr.length;i++) {
             this.service[serviceArr[i]] = true;
