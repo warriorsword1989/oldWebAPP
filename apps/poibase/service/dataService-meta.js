@@ -1,4 +1,62 @@
 angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function($http, $q, ajax) {
+    //大分类
+    this.getTopKind = function (){
+        var defer = $q.defer();
+        ajax.get("metadata/queryTopKind/", {
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve(0);
+            }
+        });
+        return defer.promise;
+    };
+
+    this.getMediumKind = function (){
+        var defer = $q.defer();
+        ajax.get("metadata/queryMediumKind/", {
+            region:0,
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve(-1);
+            }
+        });
+        return defer.promise;
+    };
+    //小分类
+    this.getKindListNew = function (){
+        var defer = $q.defer();
+        ajax.get("metadata/queryKind/", {
+            region:0,
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取分类出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
+    this.getFocus = function (){
+        var defer = $q.defer();
+        ajax.get("metadata/queryFocus/", {
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve(0);
+            }
+        });
+        return defer.promise;
+    };
+
     this.getKindList = function() {
         var defer = $q.defer();
         var param = {
@@ -13,6 +71,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+
     this.getAllBrandList = function (){
         var defer = $q.defer();
         ajax.get("meta/queryChain/", {}).success(function(data) {
