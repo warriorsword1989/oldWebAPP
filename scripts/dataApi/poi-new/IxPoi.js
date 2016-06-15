@@ -344,13 +344,13 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				}
 			}
 		}
-		ret["restaurantes"] = [];
-		if(this.restaurantes){
-			if(this.restaurantes.length == 1 && FM.Util.isEmptyObject(this.restaurantes[0])){
-				ret["hotels"] = [];
+		ret["restaurants"] = [];
+		if(this.restaurants){
+			if(this.restaurants.length == 1 && FM.Util.isEmptyObject(this.restaurants[0])){
+				ret["restaurants"] = [];
 			} else{
-				for (var i = 0 , len = this.restaurantes.length ; i < len ; i ++){
-					ret["restaurantes"].push(this.restaurantes[i].getIntegrate());
+				for (var i = 0 , len = this.restaurants.length ; i < len ; i ++){
+					ret["restaurants"].push(this.restaurants[i].getIntegrate());
 				}
 			}
 		}
