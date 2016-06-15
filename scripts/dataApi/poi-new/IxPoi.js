@@ -218,7 +218,6 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 			}
 		}
 		ret["label"] = checkedLabelArr.join("|");
-		ret[""] = this.label;
 		ret["type"] = this.type;
 		ret["addressFlag"] = this.addressFlag;
 		ret["exPriority"] = this.exPriority;
