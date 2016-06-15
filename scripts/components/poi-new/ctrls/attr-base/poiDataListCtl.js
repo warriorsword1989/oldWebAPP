@@ -11,14 +11,13 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	/*选择数据查找poi详情*/
 	scope.selectData = function (data,index) {
-		// changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
-			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
-				if(data){
-					scope.$emit('getObjectById',data);
-					scope.itemActive = index;
-				}
-			});
-		// });
+		var param = {
+			dbId:8,
+			type:'IXPOI',
+			pid:data.pid
+		}
+		scope.$emit('getObjectById',param);
+		scope.itemActive = index;
 	};
 
 	/*键盘控制poilist切换*/

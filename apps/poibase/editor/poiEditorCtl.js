@@ -46,10 +46,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.outputType = val;
 	};
 	/*选中poi列表查询poi详细信息*/
-	$scope.$on('getObjectById',function(event,data){
-		showPoiInfo(data);
-		$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
-		initOcll();
+	$scope.$on('getObjectById',function(event,param){
+		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
+			poiDS.getPoiByPid(param).then(function (data) {
+				if(data){
+					showPoiInfo(data);
+					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
+					initOcll();
+				}
+			});
+		});
 	});
 
 	/**
