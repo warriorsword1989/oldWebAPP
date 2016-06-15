@@ -4,7 +4,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.radio_select = '全局';
 	//当前表格数据;
 	scope.finalData = null;
-	init();
+	/*初始化方法*/
+	initPoiTable();
 	/*切换poi列表类型*/
 	scope.changeDataList = function (val) {
 		scope.dataListType = val;
@@ -79,7 +80,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.refreshData = function(){
 		_self.tableParams.reload();
 	}
-	function init(){
+	function initPoiTable(){
 		_self.tableParams = new NgTableParams({count:20,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
 				dbId: App.Temp.dbId,
