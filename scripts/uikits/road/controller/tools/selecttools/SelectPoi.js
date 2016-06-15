@@ -109,15 +109,8 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             var newGeom = [];
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
-            if (this._TouchesPoint(newGeom, x, y, 10)) {
+            if (this._TouchesPoint(newGeom, x, y, 5)) {
                 this.samePois.push({id:data[item].properties.id, data: data[item]});
-                // id = data[item].properties.id;
-                // this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
-                //     id: id,
-                //     optype: "POIPOINT",
-                //     event: event
-                // });
-                // break;
             }
         }
         //同位点的处理
@@ -146,22 +139,6 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
                         event: event
                     });
                     that._map.closePopup(that.popup);
-                    // if (e.target.tagName == 'A') {
-                    //     var layer = '';
-                    //     var d = '';
-                    //     var layertype = ''
-                    //     for (var key in that.overlays) {
-                    //         if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
-                    //             layer = that.overlays[key].layer;
-                    //             layertype = that.overlays[key].data.properties.featType
-                    //             d = that.overlays[key].data;
-                    //         }
-                    //     }
-                    //
-                    //     frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
-                    //     frs.tiles = that.tiles;
-                    //     frs.drawGeomCanvasHighlight(d, layertype);
-                    // }
                 }
             });
 

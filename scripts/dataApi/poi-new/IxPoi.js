@@ -30,6 +30,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.editFlag = data['editFlag'] || 1;
 		this.state = data['state'] || 0;
 		this.fieldState = data['fieldState'] || null;
+		var labelArr = (data["label"]).split("|");
+		this.label = {};
+		for(var i=0;i<labelArr.length;i++) {
+			this.label[labelArr[i]] = true;
+		}
 		this.label = data['label'] || null;
 		this.type = data['type'] || 0;
 		this.addressFlag = data['addressFlag'] || 0;
@@ -128,7 +133,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.gasstations = [];
 		if(data['gasstations']){
 			if(data['gasstations'].length == 0){
-				this.gasstations = [{}];
+				this.gasstations = [{}]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			}else {
 				for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
 					this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
@@ -138,7 +143,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.hotels = [];
 		if(data["hotels"]){
 			if(data["hotels"].length == 0){
-				this.hotels = [{}];
+				this.hotels = [{}];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			} else {
 				for (var i = 0 ,len = data["hotels"].length ;i < len ; i++){
 					this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
@@ -148,7 +153,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.restaurants = [];
 		if(data["restaurants"]){
 			if(data["restaurants"].length == 0){
-				this.restaurants = [{}];
+				this.restaurants = [{}];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			}else {
 				for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
 					this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
@@ -158,7 +163,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.parkings = [];
 		if(data["parkings"]){
 			if(data["parkings"].length == 0){
-				this.parkings = [{}];
+				this.parkings = [{}];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			} else {
 				for (var i = 0 ,len = data["parkings"].length ;i < len ; i++){
 					this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
@@ -185,10 +190,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		var ret = {};
 		ret["pid"] = this.pid;
 		ret["kindCode"] = this.kindCode;
-		ret["geometry"] = this.geometry;
-		ret["xGuide"] = this.xGuide;
-		ret["yGuide"] = this.yGuide;
-		ret["linkPid"] = this.linkPid;
+		//ret["geometry"] = this.geometry;
+		//ret["xGuide"] = this.xGuide;
+		//ret["yGuide"] = this.yGuide;
+		//ret["linkPid"] = this.linkPid;
 		ret["side"] = this.side;
 		ret["nameGroupId"] = this.nameGroupId;
 		ret["roadFlag"] = this.roadFlag;
@@ -206,7 +211,13 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["editFlag"] = this.editFlag;
 		ret["state"] = this.state;
 		ret["fieldState"] = this.fieldState;
-		ret["label"] = this.label;
+		var checkedLabelArr = [];
+		for(var key in this.label){
+			if(this.label[key] == true){
+				checkedLabelArr.push(key);
+			}
+		}
+		ret["label"] = checkedLabelArr.join("|");
 		ret["type"] = this.type;
 		ret["addressFlag"] = this.addressFlag;
 		ret["exPriority"] = this.exPriority;
@@ -231,19 +242,56 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["freshnessVefication"] = this.freshnessVefication;
 		ret['status'] = this.status;
 
-		ret["xGuide"] = this.guide.coordinates[0];
-		ret["yGuide"] = this.guide.coordinates[1];
+		//ret["xGuide"] = this.guide.coordinates[0];
+		//ret["yGuide"] = this.guide.coordinates[1];
 
 		ret["names"] = [];
 		if(this.names){
-			for (var i = 0 , len = this.names.length ; i < len ; i ++){
-				ret["names"].push(this.names[i].getIntegrate());
+			if(this.names.length > 0){
+				if(this.name && !FM.Util.isEmptyObject(this.name) && this.name.name != ""){
+					var flag = true;
+					for (var i = 0 , len = this.names.length ; i < len ; i ++){
+						if(this.name.langCode == this.names[i].langCode && this.name.nameClass == this.names[i].nameClass && this.name.nameType == this.names[i].nameType ){
+							flag = false;
+							break;
+						}
+					}
+					if(flag){
+						this.names.push(this.name);
+					}
+				}
+				for (var i = 0 , len = this.names.length ; i < len ; i ++){
+					ret["names"].push(this.names[i].getIntegrate());
+				}
+			} else {
+				if(!FM.Util.isEmptyObject(this.name) && this.name.name != ""){
+					ret["names"].push(this.name.getIntegrate());
+				}
 			}
 		}
+
 		ret["addresses"] = [];
 		if(this.addresses){
-			for (var i = 0 , len = this.addresses.length ; i < len ; i ++){
-				ret["addresses"].push(this.addresses[i].getIntegrate());
+			if(this.addresses.length > 0 ){
+				if(this.address && !FM.Util.isEmptyObject(this.address) && this.address.fullname !=""){
+					var flag = true;
+					for (var i = 0 , len = this.addresses.length ; i < len ; i ++){
+						if(this.address.langCode == this.addresses[i].langCode){
+							flag = false;
+							break;
+						}
+					}
+					if(flag){
+						this.addresses.push(this.address);
+					}
+				}
+				for (var i = 0 , len = this.addresses.length ; i < len ; i ++){
+					ret["addresses"].push(this.addresses[i].getIntegrate());
+				}
+			} else {
+				if(!FM.Util.isEmptyObject(this.address) && this.address.fullname !="" ){
+					ret["addresses"].push(this.address.getIntegrate());
+				}
 			}
 		}
 		ret["contacts"] = [];
@@ -299,7 +347,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["restaurantes"] = [];
 		if(this.restaurantes){
 			if(this.restaurantes.length == 1 && FM.Util.isEmptyObject(this.restaurantes[0])){
-				ret["restaurantes"] = [];
+				ret["hotels"] = [];
 			} else{
 				for (var i = 0 , len = this.restaurantes.length ; i < len ; i ++){
 					ret["restaurantes"].push(this.restaurantes[i].getIntegrate());
