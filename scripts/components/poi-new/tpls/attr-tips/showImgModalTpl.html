@@ -8,7 +8,7 @@
                 </button>
             </li>
             <li class="tips-option-li">
-                <button class="tips-btn-group btn-next" title="下一张" ng-disabled="indexNow == imgList.length"
+                <button class="tips-btn-group btn-next" title="下一张" ng-disabled="indexNow == poi.photos.length"
                         ng-click="showImgNext();">
                     <i class='glyphicon glyphicon-arrow-right'></i>
                 </button>
@@ -25,10 +25,10 @@
             </li>
         </ul>
         <div id="originImgPanel">
-            <img id="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.url}}"/>
+            <img class="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.originUrl}}"/>
         </div>
         <div class="text-center">
-            {{indexNow}}/{{imgList.length}}
+            {{indexNow}}/{{poi.photos.length}}
         </div>
     </div>
 </div>

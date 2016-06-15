@@ -30,6 +30,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.editFlag = data['editFlag'] || 1;
 		this.state = data['state'] || 0;
 		this.fieldState = data['fieldState'] || null;
+		var labelArr = (data["label"]).split("|");
+		this.label = {};
+		for(var i=0;i<labelArr.length;i++) {
+			this.label[labelArr[i]] = true;
+		}
 		this.label = data['label'] || null;
 		this.type = data['type'] || 0;
 		this.addressFlag = data['addressFlag'] || 0;
@@ -52,6 +57,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.level = data['level']
 		this.indoor = data['indoor'] || 0;
 		this.freshnessVefication = data['freshnessVefication'];
+		this.status = data['status'] || 0;
 		this.poi3DIcon = false;
 		this.poiRmbIcon = false;
 		this.poiCarIcon = false;
@@ -104,12 +110,6 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		if (data['photos']){
 			for (var i = 0 ,len = data['photos'].length ;i < len ; i++){
 				this.photos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
-			}
-		}
-		this.tempPhotos = [];
-		if (data['photos']){
-			for (var i = 0 ,len = data['photos'].length ;i < len ; i++){
-				this.tempPhotos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
 			}
 		}
 		this.children = [];
@@ -211,7 +211,13 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["editFlag"] = this.editFlag;
 		ret["state"] = this.state;
 		ret["fieldState"] = this.fieldState;
-		ret["label"] = this.label;
+		var checkedLabelArr = [];
+		for(var key in this.label){
+			if(this.label[key] == true){
+				checkedLabelArr.push(key);
+			}
+		}
+		ret["label"] = checkedLabelArr.join("|");
 		ret["type"] = this.type;
 		ret["addressFlag"] = this.addressFlag;
 		ret["exPriority"] = this.exPriority;
@@ -234,6 +240,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["indoor"] = this.indoor;
 		ret["vipFlag"] = this.vipFlag;
 		ret["freshnessVefication"] = this.freshnessVefication;
+		ret['status'] = this.status;
 
 		//ret["xGuide"] = this.guide.coordinates[0];
 		//ret["yGuide"] = this.guide.coordinates[1];

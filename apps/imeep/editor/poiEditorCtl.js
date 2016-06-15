@@ -32,10 +32,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				dbId: App.Temp.dbId,
 				// type: [1,2,3],
 				pageNum: 1,
-				pageSize: 20
+				pageSize: 10
 			});
 		}else{      //道路
-
+			console.log('道路')
+			$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+				$scope.dataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/fieldsResult.html';
+			});
 		}
 		$scope.projectType = type;
 	}
@@ -60,10 +63,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":6131753}).then(function (data) {
 			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
 				if(data){
-
-
 					showPoiInfo(data);
-					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
+					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
 
 					initOcll();
 
@@ -75,11 +76,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	};
 	/**
 	 * 显示poi基本信息，tips信息等
-     */
+	 */
 	var showPoiInfo = function (data){
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 		$scope.hideEditorPanel = true; //打开右侧面板
-		
+
 		specialDetail(data);//名称组和地址组特殊处理
 		$scope.poi = data;
 		$scope.origPoi = angular.copy(data);
@@ -100,7 +101,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	function getPoiList(param){
 		poiDS.getPoiList(param).then(function (data) {
 			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+				$scope.dataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
 				$scope.poiList = data.rows;
 				$scope.poiListTotal = data.total;
 				$scope.$broadcast('getPoiDataResult',data);
@@ -202,10 +203,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			}
 			if(flag){
 				swal({
-				    title: "电话格式有误，请重新输入!",
-				    type: "warning",
-				    timer: 1000,
-				    showConfirmButton: false
+					title: "电话格式有误，请重新输入!",
+					type: "warning",
+					timer: 1000,
+					showConfirmButton: false
 				});
 				return ;
 			}
@@ -595,7 +596,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.$on('showConflictInMap', function (event, data) {
 		$scope.showConflictInfo = data;
 	});
-	
+
 	/*接收新上传的图片数据*/
 	$scope.$on('getImgItems', function (event, data) {
 		for (var i = 0; i < data.length; i++) {
@@ -668,73 +669,40 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	// 		$scope.origPoi = angular.copy(data);
 	// 	}
 	// }));
+
 	/**
 	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
 	 * 如果名称组不存在12CHI的名称，则增加一组12CHI的名称
 	 * 如果地址组不存在CHI的地址，则增加一组CHI的地址
 	 * @param data
-     */
+	 */
 	function specialDetail(data){
 		var flag = true;
 		for (var i = 0 ,len = data.names.length;i < len ; i++){
 			if(data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI"){
 				flag = false;
-				data.name = data.names[i];
-				break;
 			}
 		}
 		if(flag){
-			var name = new FM.dataApi.IxPoiName({
+			var name = {
 				langCode : "CHI",
-				nameClass : 1,
-				nameType : 2,
-				name : ""
-			});
-			data.name = name;
+				nameClass : data['nameClass'] || 1,
+				nameType : data['nameType'] || 2
+			}
+			data.names.push(new FM.dataApi.IxPoiName(name));
 		}
-
 		flag = true;
 		for (var i = 0 ,len = data.addresses.length;i < len ; i++){
 			if(data.addresses[i].langCode == "CHI"){
 				flag = false;
-				data.address = data.addresses[i];
-				break;
 			}
 		}
 		if(flag){
-			var address = new FM.dataApi.IxPoiAddress({
-				langCode : "CHI",
-				fullname : ""
-			});
-			data.address = address;
+			var address = {
+				langCode : "CHI"
+			}
+			data.addresses.push(new FM.dataApi.IxPoiAddress(address));
 		}
-
-		// var flag = true;
-		// for (var i = 0 ,len = data.names.length;i < len ; i++){
-		// 	if(data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI"){
-		// 		flag = false;
-		// 	}
-		// }
-		// if(flag){
-		// 	var name = {
-		// 		langCode : "CHI",
-		// 		nameClass : data['nameClass'] || 1,
-		// 		nameType : data['nameType'] || 2
-		// 	}
-		// 	data.names.push(new FM.dataApi.IxPoiName(name));
-		// }
-		// flag = true;
-		// for (var i = 0 ,len = data.addresses.length;i < len ; i++){
-		// 	if(data.addresses[i].langCode == "CHI"){
-		// 		flag = false;
-		// 	}
-		// }
-		// if(flag){
-		// 	var address = {
-		// 		langCode : "CHI"
-		// 	}
-		// 	data.addresses.push(new FM.dataApi.IxPoiAddress(address));
-		// }
 	}
 
 	/*刷新poi数据*/
