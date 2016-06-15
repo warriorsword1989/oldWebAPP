@@ -670,8 +670,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	// }));
 	/**
 	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
-	 * 如果名称组不存在12CHI的名称，则增加一组12CHI的名称
-	 * 如果地址组不存在CHI的地址，则增加一组CHI的地址
+	 * 将名称组中的21CHI的名称放置在name中，如果不存在21CHI的数据，则给name赋值默认数据
+	 * 将地址组中CHI的地址放置在address中，如果不存在CHI的数据，则给address赋值默认数据
 	 * @param data
      */
 	function specialDetail(data){
@@ -708,33 +708,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			});
 			data.address = address;
 		}
-
-		// var flag = true;
-		// for (var i = 0 ,len = data.names.length;i < len ; i++){
-		// 	if(data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI"){
-		// 		flag = false;
-		// 	}
-		// }
-		// if(flag){
-		// 	var name = {
-		// 		langCode : "CHI",
-		// 		nameClass : data['nameClass'] || 1,
-		// 		nameType : data['nameType'] || 2
-		// 	}
-		// 	data.names.push(new FM.dataApi.IxPoiName(name));
-		// }
-		// flag = true;
-		// for (var i = 0 ,len = data.addresses.length;i < len ; i++){
-		// 	if(data.addresses[i].langCode == "CHI"){
-		// 		flag = false;
-		// 	}
-		// }
-		// if(flag){
-		// 	var address = {
-		// 		langCode : "CHI"
-		// 	}
-		// 	data.addresses.push(new FM.dataApi.IxPoiAddress(address));
-		// }
 	}
 
 	/*刷新poi数据*/

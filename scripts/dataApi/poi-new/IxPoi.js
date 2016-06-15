@@ -163,7 +163,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.parkings = [];
 		if(data["parkings"]){
 			if(data["parkings"].length == 0){
-				this.parkings = [{}];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+				this.parkings = [new FM.dataApi.IxPoiParking({})];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			} else {
 				for (var i = 0 ,len = data["parkings"].length ;i < len ; i++){
 					this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
