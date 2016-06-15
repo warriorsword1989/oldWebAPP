@@ -158,6 +158,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     * 点击选择poi按钮
     * */
     $scope.selectPoiShape = function (type, num) {
+        map.closePopup();//如果有popup的话清除它
         //重置选择工具
         $scope.resetToolAndMap();
 
@@ -239,6 +240,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         $scope.$emit("mapSelectPoiBefore", data);
     };
     $scope.$on("clickSelectedPoi",function (event,data) {
+        map.closePopup();//如果有popup的话清除它
         //移除上一步中的悬浮按钮
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
