@@ -1,4 +1,10 @@
 <div ng-controller="OptionBarCtl">
+    <!--控制台箭头图标-->
+    <div class="fm-panel-arrow">
+        <a ng-class="{true:'fm-panel-controlArrowUp',false:'fm-panel-controlArrowDown'}[hideConsole]" ng-click="changePanelShow('bottom');">
+            <span></span>
+        </a>
+    </div>
     <div class="fm-container fm-lvl1 full-width">
         <div class="fm-tabs">
             <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'outputResult'}" ng-model="tagSelect" uib-btn-radio="'outputResult'" ng-click="changeTag('outputResult')">
@@ -46,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="fm-console-content">
+        <div class="fm-console-content dark scroll-styled">
             <div ng-include="tagContentTpl"></div>
         </div>
     </div>

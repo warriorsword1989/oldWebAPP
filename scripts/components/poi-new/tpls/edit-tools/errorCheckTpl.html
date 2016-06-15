@@ -12,7 +12,7 @@
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
             <tr ng-repeat="row in checkResultData">
-                <td>{{row.ruleid}}</td>
+                <td title="{{row.ruleid}}">{{row.ruleid}}</td>
                 <td>
                     <span ng-if="row.rank==0" >无</span>
                     <span ng-if="row.rank==1" >Fatal</span>
@@ -26,7 +26,7 @@
                 <td>
                     <div title="{{row.information}}">{{row.shortInfo}}</div>
                 </td>
-                <td>
+                <td width="11%">
                     <div>{{row.create_date}}</div>
                 </td>
                 <td>

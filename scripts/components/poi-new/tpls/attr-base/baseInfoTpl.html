@@ -6,14 +6,17 @@
                     <ul class="fm-ul fm-ul-form">
                         <li>
                             <label>名 称</label>
-                            <div ng-repeat="name in poi.names|filter:{nameClass:1,nameType:2,langCode:'CHI'}">
-                                <input type="text" class="fm-control" ng-model="name.name"/>
+                            <div >
+                                <input type="text" class="fm-control" ng-model="poi.name.name"/>
                             </div>
                         </li>
                         <li>
                             <label>地 址</label>
-                            <div ng-repeat="address in poi.addresses|filter:{langCode:'CHI'}">
-                                <input type="text" class="fm-control" ng-model="address.fullname"/>
+                            <!--<div ng-repeat="address in poi.addresses|filter:{langCode:'CHI'}">-->
+                                <!--<input type="text" class="fm-control" ng-model="address.fullname"/>-->
+                            <!--</div>-->
+                            <div>
+                                <input type="text" class="fm-control" ng-model="poi.address.fullname"/>
                             </div>
                         </li>
                         <li>

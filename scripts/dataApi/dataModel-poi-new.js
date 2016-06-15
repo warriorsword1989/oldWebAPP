@@ -27,7 +27,8 @@
                 "dataApi/poi-new/IxPoiRestaurant.js",
                 "dataApi/poi-new/IxPoiSnapShot.js",
                 "dataApi/poi-new/IxSamePoi.js",
-                "dataApi/poi-new/IxSamePoiPart.js"
+                "dataApi/poi-new/IxSamePoiPart.js",
+                "dataApi/poi-new/IxPoiParking.js"
 
             ]; // etc.
         var scriptTags = new Array(jsFiles.length);
