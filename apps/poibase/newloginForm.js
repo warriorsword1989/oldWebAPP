@@ -10,7 +10,7 @@ angular.module('fastmap.uikit').directive('login', function() {
     return {
         restrict: 'EA',
         replace: true,
-        templateUrl: '../../scripts/components/directives/loginForm/newloginForm.htm',
+        templateUrl: '../../scripts/components/directives/loginForm/loginForm.htm',
         scope: {
             validType: '@validType'
         },
@@ -36,18 +36,6 @@ angular.module('fastmap.uikit').directive('login', function() {
             } else if (scope.validType == 2) {
                 scope.showInputError = true;
                 scope.showErrorMsg = true;
-            }
-            //登录框垂直居中;
-            function countPos() {
-                var top = (element[0].offsetParent.clientHeight - element[0].clientHeight) / 2;
-                var left = (element[0].offsetParent.clientWidth - element[0].clientWidth) / 2;
-                top = top>0?top:-top;
-                element.css('marginTop', top + 'px');
-                element.css('marginLeft', left + 'px');
-            }
-            countPos();
-            window.onresize = function() {
-                countPos();
             }
         }
     };
