@@ -11,9 +11,10 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 		this.geometry = data['geometry'];
 		this.id = data['id'];
 		this.information = data['information'];
-		this.shortInfo = this.information.substring(0,8)+'...';
+		this.shortInfo = this.information.substring(0,17)+'...';
 		this.rank = data['rank'];
 		this.ruleid = data['ruleid'];
+		this.shortRuleId = this.ruleid.substring(0,10) + '...';
 		this.targets = data['targets'];
 		this.worker = data['worker'];
 	},

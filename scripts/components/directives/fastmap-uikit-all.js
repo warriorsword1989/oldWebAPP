@@ -4,7 +4,7 @@
 (function() {
     jsFiles = [
         "components/directives/fastmap-uikit.js",
-        "../apps/poibase/newloginForm.js",
+        "components/directives/loginForm/newloginForm.js",
         "components/directives/showBox/showBox.js",
         "components/directives/fmTable/fmTable.js"
     ]; // etc.

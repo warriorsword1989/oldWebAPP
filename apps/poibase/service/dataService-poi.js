@@ -414,4 +414,25 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
+    //根据用户名查找子任务列表;
+    this.querySubtaskByUser = function(paramObj){
+        var defer = $q.defer();
+        //var params = {
+        //    'userId':paramObj.userId?paramObj.userId:1,
+        //    'snapshot':paramObj.snapshot?paramObj:0,
+        //};
+        ajax.get("man/subtask/listByUser", {
+            parameter:JSON.stringify(paramObj),
+            urlType:'general'
+        }).success(function(data){
+            if(data.errcode == 0){
+                defer.resolve(data.data.result);
+            }else{
+                defer.resolve("查询子任务列表出错：" +data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    }
 }]);

@@ -35,7 +35,9 @@ html, body {
     max-width: 300px
 }
 .login button{
-    max-width: 300px
+    max-width: 300px;
+    background:#265a88;
+    color: #FFFFFF;
 }
 
 /*****************************************底部**************************************************/

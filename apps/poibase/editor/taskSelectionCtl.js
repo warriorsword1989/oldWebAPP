@@ -1,38 +1,54 @@
 /**
  * Created by mali on 2016/6/7.
  */
-angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('TaskSelectionCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngCookies']).controller('TaskSelectionCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q','$cookies','$location', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q,$cookies,$location) {
     var layerCtrl = new fastmap.uikit.LayerController({config: App.taskSelectionLayersConfig});
-    console.log(layerCtrl.getLayerById('mesh'))
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
     var eventCtrl = new fastmap.uikit.EventController();
     var gridLayer = new fastmap.mapApi.GridLayer();
+    //当前高亮的格网数组;
     $scope.currentHighLight = [];
-
-    /*加载子任务列表*/
-    poiDS.getPoiList({
-        dbId: App.Temp.dbId,
-        // type: [1,2,3],
-        pageNum: 1,
-        pageSize: 10
-    }).then(function(data) {
-        $scope.poiList = data.rows;
-    });
-    loadMap();
+    //编辑开关;
+    $scope.editorDisabled = true;
+    //顶标签初始状态;
     $scope.dataListType = 1;
+    //侧标签初始状态;
     $scope.taskStatus = 6;
+    //初始默认状态下的请求参数;
+    $scope.requestParams = {classType:2};
+    //当前作业类型;
+    $scope.currentWorkType = 'road';
+
+    //控制页面tab页切换;
     $scope.changeDataList = function(val) {
         $scope.dataListType = val;
         $scope.taskStatus = 6;
+        //构建过滤请求参数;
+        switch ($scope.dataListType){
+            case 1: $scope.requestParams.classType=2;break;
+            case 2: $scope.requestParams.classType=0;$scope.requestParams.classStage=1;break;
+            case 3: $scope.requestParams.classType=1;$scope.requestParams.classStage=1;break;
+            case 4: $scope.requestParams.classType=0;$scope.requestParams.classStage=2;break;
+            case 5: $scope.requestParams.classType=3;break;
+        }
+        loadSubTaskfn($scope.requestParams)
     };
     $scope.changeTaskStatus = function(val) {
         $scope.taskStatus = val;
+        switch ($scope.taskStatus){
+            case 6: $scope.requestParams.currentStatus='';break;
+            case 7: $scope.requestParams.currentStatus=1;break;
+            case 8: $scope.requestParams.currentStatus=0;break;
+        }
+        loadSubTaskfn($scope.requestParams)
     }
+
     var promises = [];
     $q.all(promises).then(function(){
 
     });
+
     /*弹出/弹入任务信息面板*/
     $scope.hideEditorPanel = true;
     $scope.changePanelShow = function (type) {
@@ -49,15 +65,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 break;
         }
     }
+    $scope.startEdit = function(){
+        if($scope.currentWorkType=='road'){
+            window.location.href = "./poiEditor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
+        }else{
+            window.location.href = "./poiEditor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
+        }
+    }
     //高亮显示网格并聚焦;
-    $scope.highlightGrid = function (gridId){
+    $scope.highlightGrid = function (params){
         //防止重绘高亮;
         if($scope.currentHighLight.length) {
             for(var i=0;i<$scope.currentHighLight.length;i++){
                 map.removeLayer($scope.currentHighLight[i])
             }
         }
-        var gridid = gridId?gridId:['605603_01','605603_12','595672_02'];
+        var gridid = ['605603_01','605603_12','595672_02'];//params.gridIds?params.gridIds:['605603_01','605603_12','595672_02'];
         var meshid = [];
         for(var i=0;i<gridid.length;i++){
             meshid.push(gridid[i].substr(0,6));
@@ -72,7 +95,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             }
         }
         for(var i=0;i<gridarr.length;i++){
-            $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699	", weight: 0,fillOpacity:0.5}).addTo(map));
+            $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
         }
         var meshArr = [];
         for(var i=0;i<meshid.length;i++){
@@ -86,12 +109,45 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         //东北角坐标;
         var northEast_X = getMaxOrMin(allLatArr.lng,'max');
         var northEast_Y = getMaxOrMin(allLatArr.lat,'max');
-        //var southWest = L.latLng(sourthWest_X, sourthWest_Y),
-        //    northEast = L.latLng(northEast_X, northEast_Y),
-        //    bounds = L.latLngBounds(southWest, northEast);
-        //L.rectangle([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]], {fillColor: "#000000", weight: 0,fillOpacity:0.3}).addTo(map)
+        console.log(sourthWest_Y+'----'+sourthWest_X+'  '+northEast_Y+'----'+northEast_X)
         map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
-
+        map.on('moveend', function(e) {
+            if($scope.currentHighLight.length) {
+                for(var i=0;i<$scope.currentHighLight.length;i++){
+                    map.removeLayer($scope.currentHighLight[i])
+                }
+            }
+            for(var i=0;i<gridarr.length;i++){
+                $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
+            }
+        });
+        //控制编辑按钮是否可用;
+        ctrlEditorSwitch(params);
+    }
+    /*加载子任务列表*/
+    function loadSubTaskfn(obj){
+        console.log(obj)
+        if(!obj)return;
+        poiDS.querySubtaskByUser({
+            'userId':1,//$cookies.get('FM_USER_ID');
+            'stage':obj.classStage,
+            'type':obj.classType,
+            'status':obj.currentStatus,
+            'snapshot':0,
+            'pageNum':0,
+            'pageSize':20
+        }).then(function(data) {
+            $scope.currentSubTaskList = data;
+            console.log(data)
+        });
+    }
+    //控制编辑按钮是否可用函数;
+    function ctrlEditorSwitch(params){
+        if(params.status){
+            $scope.editorDisabled = false
+        }else{
+            $scope.editorDisabled = true
+        }
     }
 
     //去除数组中重复的值;
@@ -159,6 +215,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         //    console.log(gridlayer.gridArr)
         //})
     }
+    //子任务查询
+    loadSubTaskfn($scope.requestParams);
+    //加载地图;
+    loadMap();
 }]);
 
 

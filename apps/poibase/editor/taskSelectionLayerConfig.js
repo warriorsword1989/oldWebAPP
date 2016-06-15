@@ -37,19 +37,7 @@ App.taskSelectionLayersConfig = [{
             singleselect: true,
             zIndex: 2
         }
-    },
-    //    {
-    //    url: '',
-    //    clazz: fastmap.mapApi.tileJSON,
-    //    options: {
-    //        layername: '照片',
-    //        id: 'photo',
-    //        url: '',
-    //        visible: false,
-    //        zIndex: 4
-    //    }
-    //}
-        , {
+    }, {
         url: '',
         clazz: fastmap.mapApi.meshLayer,
         options: {
@@ -173,20 +161,5 @@ App.taskSelectionLayersConfig = [{
                 visible: true
             }
         }]
-},
-//    {
-//    groupid: 'editlayer',
-//    groupname: '编辑图层',
-//    layers: [{
-//        clazz: fastmap.mapApi.editLayer,
-//        url: '',
-//        options: {
-//            layername: '编辑',
-//            id: 'edit',
-//            url: '',
-//            visible: true,
-//            zIndex: 0
-//        }
-//    }]
-//}
+}
 ];

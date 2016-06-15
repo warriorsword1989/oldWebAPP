@@ -10,18 +10,18 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this.parkingId = data['parkingId'];
         this.poiPid = data['poiPid'] || 0;
-        var parkingTypeArr = (data["parkingType"]).split("|");
+        var parkingTypeArr = (data["parkingType"] || "").split("|");
         this.parkingType = {};
         for(var i=0;i<parkingTypeArr.length;i++) {
             this.parkingType[parkingTypeArr[i]] = true;
         }
-        var tollStdArr = (data["tollStd"]).split("|");
+        var tollStdArr = (data["tollStd"] || "").split("|");
         this.tollStd = {};
         for(var i=0;i<tollStdArr.length;i++) {
             this.tollStd[tollStdArr[i]] = true;
         }
         this.tollDes = data['tollDes'];
-        var tollWayArr = (data["tollWay"]).split("|");
+        var tollWayArr = (data["tollWay"] || "").split("|");
         this.tollWay = {};
         for(var i=0;i<tollWayArr.length;i++) {
             this.tollWay[tollWayArr[i]] = true;
@@ -33,7 +33,7 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         this.totalNum = data['totalNum'];
         this.workTime = data['workTime'];
         this.accessType = data['accessType'] || 2;
-        this.resHigh = data[resHigh] || 0;
+        this.resHigh = data['resHigh'] || 0;
         this.resWidth = data['resWidth'] || 0;
         this.resWeigh = data['resWeigh'] || 0;
         this.certificate = data['certificate'] || 0;
