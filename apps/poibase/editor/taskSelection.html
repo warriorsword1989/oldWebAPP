@@ -80,8 +80,8 @@
                                     <div class="fm-panel" >
                                         <div class="content" style="padding-bottom: 30px;">
                                             <ul class="fm-ul fm-ul-form">
-                                                <li ng-repeat="item in poiList" style="cursor:pointer">
-                                                    <a href='javascript:void(0);' ng-click="highlightGrid()">{{item.name}}</a>
+                                                <li ng-repeat="item in currentSubTaskList" style="cursor:pointer;padding: 8px 15px 8px 5px;">
+                                                    <a href='javascript:void(0);' style="font-size: 14px" ng-click="highlightGrid(item)" ng-bind="item.$$hashKey.length>10?$index+1+'. '+item.$$hashKey.substr(0,10)+'...':$index+1+'. '+item.$$hashKey"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -141,8 +141,8 @@
                             <div style="bottom: 25px;position:absolute;width: 300px;right: 0px;z-index: 100;" class="fm-poiList-btnGroup">
                                 <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px; text-align: center;">
                                     <div class="col-sm-4 col-sm-offset-4" >
-                                        <button type="button"  ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px">
-                                            <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-edit"></i> 开始作业</a>
+                                        <button type="button" ng-disabled="editorDisabled" ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px">
+                                            <i class="glyphicon glyphicon-edit"></i> 开始作业
                                         </button>
                                     </div>
                                 </div>

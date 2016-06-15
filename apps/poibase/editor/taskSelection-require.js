@@ -7,6 +7,7 @@ requirejs.config({
         // 第三方库
         'angular': 'scripts/libs/angularjs/1.4.4/angular',
         'jquery': 'scripts/libs/jquery/2.1.1/jquery-2.1.1',
+        'ngCookies':'scripts/libs/angularjs/1.4.4/angular-cookies.min',
         'ocLazyLoad': 'scripts/libs/ocLazyLoad/ocLazyLoad.require',
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
         'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
@@ -29,12 +30,13 @@ requirejs.config({
         'uiBootstrap': ['angular'],
         'chosenJquery': ['jquery'],
         'angularChosen': ['angular'],
+        'ngCookies': ['angular'],
         'fileUpload': ['angular'],
         'angularDrag': ['angular', 'jquery'],
         'dataService': ['angular', "sweet-alert"],
         'poiService': ['dataService'],
         'metaService': ['dataService'],
-        'TaskSelectionCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers','wheelZoom'],
+        'TaskSelectionCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers','wheelZoom','ngCookies']
     }
 });
 // Start the main app logic.
