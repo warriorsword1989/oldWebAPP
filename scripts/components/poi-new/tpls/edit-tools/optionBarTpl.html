@@ -5,7 +5,7 @@
             <span></span>
         </a>
     </div>
-    <div class="fm-container fm-lvl1 full-width">
+    <div class="fm-container fm-lvl1 full-width scroll-styled">
         <div class="fm-tabs">
             <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'outputResult'}" ng-model="tagSelect" uib-btn-radio="'outputResult'" ng-click="changeTag('outputResult')">
                 <i class="glyphicon glyphicon-filter"></i>
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="fm-console-content scroll-styled">
+        <div class="fm-console-content">
             <div ng-include="tagContentTpl"></div>
         </div>
     </div>
