@@ -847,10 +847,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #fff;
 }
 
-#poiTipsOriginImg {
+.poiTipsOriginImg {
     width: 100%;
     cursor: move;
-    margin-top: -325px;
+    margin-top: -260px;
 }
 
 .tips-option-well {
