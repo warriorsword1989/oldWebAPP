@@ -379,7 +379,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     this.updateCheckType = function(id,type){
         var defer = $q.defer();
         var params = {
-            projectId: App.Temp.dbId,
+            dbId: App.Temp.dbId,
             type: type,
             id: id
         };

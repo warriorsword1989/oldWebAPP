@@ -87,7 +87,10 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'NgTableParams','ng
             }
         });*/
     }
-
+    /*高亮地图上poi*/
+    $scope.showPoiOnMap = function(pid){
+        console.log(pid)
+    }
 
     //点击数据在地图上高亮
     $scope.showOnMap = function (targets,geom) {
