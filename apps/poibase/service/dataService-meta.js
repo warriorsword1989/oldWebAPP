@@ -151,4 +151,21 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /*获取餐饮类型*/
+    this.queryFoodType = function () {
+        var defer = $q.defer();
+        ajax.get("metadata/queryFoodType", {
+            parameter:JSON.stringify(params),
+            urlType:'general'
+        }).success(function(data) {
+            if(data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("加载菜品风味出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        })
+        return defer.promise;
+    }
 }]);
