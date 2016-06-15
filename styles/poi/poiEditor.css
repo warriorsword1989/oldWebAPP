@@ -1217,3 +1217,12 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #72ACE3 !important;
     cursor: pointer;
 }
+/*-------------------------------------------------地图缩放等级-----------------------------------------------*/
+.div_float{
+    width:100px;
+    height:20px;
+    bottom:5px;
+    left:10px;
+    position: absolute;
+    z-index:1;
+}

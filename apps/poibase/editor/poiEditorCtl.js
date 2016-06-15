@@ -25,6 +25,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 
 	loadMap();
+	map.on("zoomend", function(e) {
+		document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
+	});
+	keyEvent($ocLazyLoad, $scope);//注册快捷键
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		if(type == 1){  //poi
@@ -746,5 +750,5 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			map.addLayer(layerCtrl.getVisibleLayers()[layer]);
 		}
 	}
-
+	document.getElementById('zoomLevelBar').innerHTML = "缩放等级:17";
 }]);
