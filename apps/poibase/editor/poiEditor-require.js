@@ -24,6 +24,7 @@ requirejs.config({
 		'metaService': 'apps/poibase/service/dataService-meta',
 		'PoiEditorCtl': 'apps/poibase/editor/poiEditorCtl',
 		'layers': "apps/poibase/editor/layerConfig",
+		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
 	},
 	shim: {
 		'angular': {exports: 'angular'},
@@ -39,7 +40,8 @@ requirejs.config({
 		'dataService': ['angular', "sweet-alert"],
 		'poiService': ['dataService'],
 		'metaService': ['dataService'],
-		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize'],
+		'keyPressFunctions':['jquery','dataService','poiService','metaService'],
+		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
 	}
 });
 // Start the main app logic.

@@ -12,16 +12,24 @@
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
             <tr ng-repeat="row in checkResultData">
-                <td title="{{row.ruleid}}">{{row.ruleid}}</td>
-                <td>
+                <td title="{{row.ruleid}}" width="5%" class="fm-table-long-text">{{row.shortRuleId}}</td>
+                <td width="59">
                     <span ng-if="row.rank==0" >无</span>
                     <span ng-if="row.rank==1" >Fatal</span>
                     <span ng-if="row.rank==2" >Critical</span>
                     <span ng-if="row.rank==3" >Error</span>
                     <span ng-if="row.rank==4" >warning</span>
                 </td>
-                <td>
-                    <a href="#" class="fm-target" ng-click="showOnMap(row.targets,row.geometry)">{{row.targets }}</a>
+                <td width="5%">
+                    <a href="#" ng-if="!row.poiCheck" class="fm-target" ng-click="showOnMap(row.targets,row.geometry)">{{row.targets }}</a>
+                    <div ng-if="row.poiCheck">
+                        [IX_POI,
+                        <span ng-repeat="item in row.poiListCheck">
+                            <a href="#" ng-if="$index < row.poiListCheck.length-1" class="fm-target" ng-click="showPoiOnMap(item)">{{item }},</a>
+                            <a href="#" ng-if="$index == row.poiListCheck.length-1" class="fm-target" ng-click="showPoiOnMap(item)">{{item }}</a>
+                        </span>
+                        ]
+                    </div>
                 </td>
                 <td>
                     <div title="{{row.information}}">{{row.shortInfo}}</div>
@@ -29,10 +37,10 @@
                 <td width="11%">
                     <div>{{row.create_date}}</div>
                 </td>
-                <td>
+                <td width="47">
                     <div>{{row.worker}}</div>
                 </td>
-                <td>
+                <td width="103">
                     <select class="fm-control" ng-model="initType"
                             ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
                     </select>

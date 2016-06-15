@@ -532,13 +532,18 @@ form input[type='checkbox']:checked.ng-dirty {
 .fm-console-table {
     color: #ffffff;
     margin-top: 5px;
+    /*table-layout: fixed;*/
 }
 
 .fm-console-table > tbody > tr > td {
     padding: 0px 3px;
     line-height: 2;
 }
-
+.fm-table-long-text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .fm-console-content {
     height: 200px;
     overflow-y: auto;
@@ -1238,4 +1243,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 #layerpopup a:active, #layerpopup a:link, #layerpopup a:visited {
     color: #72ACE3 !important;
     cursor: pointer;
+}
+/*-------------------------------------------------地图缩放等级-----------------------------------------------*/
+.div_float{
+    width:100px;
+    height:20px;
+    bottom:5px;
+    left:10px;
+    position: absolute;
+    z-index:1;
 }

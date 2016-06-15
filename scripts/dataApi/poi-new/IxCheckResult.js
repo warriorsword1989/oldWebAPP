@@ -11,11 +11,27 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 		this.geometry = data['geometry'];
 		this.id = data['id'];
 		this.information = data['information'] || "";
-		this.shortInfo = this.information.substring(0,8)+'...';
+		this.shortInfo = this.information.substring(0,17)+'...';
 		this.rank = data['rank'];
 		this.ruleid = data['ruleid'] || "";
 		this.shortRuleId = this.ruleid.substring(0,10) + '...';
+		/*是否是poi检查项*/
+		this.poiCheck = false;
+		/*poi检查项数组*/
+		this.poiListCheck = [];
 		this.targets = data['targets'];
+		if(data['targets'] && data['targets'].indexOf('IX_POI') > -1){
+			var poiCheckArr = data['targets'].split('][');
+			this.poiCheck = true;
+			for(var i=0,len=poiCheckArr.length;i<len;i++){
+				if(i<len-1){
+					this.poiListCheck.push(poiCheckArr[i].split(',')[1]);
+				}else{
+					this.poiListCheck.push(poiCheckArr[i].split(',')[1].substring(0,poiCheckArr[i].split(',')[1].length-1));
+				}
+			}
+			console.log(this.poiListCheck)
+		}
 		this.worker = data['worker'];
 	},
 	getIntegrate: function(){
