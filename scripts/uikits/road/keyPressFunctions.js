@@ -548,6 +548,36 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
                             'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
+                } else if(shapeCtrl.editType === "POILOCMOVE" || shapeCtrl.editType === "POIGUIDEMOVE" || shapeCtrl.editType === "POIAUTODRAG"){
+                    var points = selectCtrl.selectedFeatures;
+                    if (points || points.geometry || points.geometry[0] || points.id) {
+                        swal("操作失败", "无法获取poi点数据", "error");
+                        return;
+                    }
+                    if (point.geometry[1] == undefined) {
+                        point.geometry[1] = point.geometry[0];//将显示坐标赋给引导坐标
+                    }
+                    if (points.linkPid == undefined) {
+                        points.linkPid = 0;//将引导link赋默认值
+                    }
+                    param = {
+                        "command": "MOVE",
+                        "type": "IXPOI",
+                        "dbId": App.Temp.dbId,
+                        "objId": points.id,
+                        "data": {
+                            "longitude": points.geometry[0].x,
+                            "latitude": points.geometry[0].y,
+                            "x_guide": points.geometry[1].x,
+                            "y_guide": points.geometry[1].y,
+                            "linkPid": points.linkPid
+                        }
+                    };
+                    Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("poiPoint").redraw();
+                        treatmentOfChanged(data, "poi", "移动poi成功",
+                            'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
+                    })
                 }
             }
         });

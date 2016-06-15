@@ -21,7 +21,40 @@
     </head>
     <body ng-controller="loginPageCtrl">
         <!-- main login part -->
-        <login valid-type="2"></login>
+        <div class="wrapper">
+            <div class="container" style="height: 500px;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 text">
+                        <h1><strong>FastMap</strong> | 室内作业系统</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3><i class="glyphicon glyphicon-user"></i> 用户登录</h3>
+                                <p>Enter your username and password to log on:</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <login valid-type="2"></login>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 social-login">
+                        <div class="social-login-buttons">
+                    <span>
+                        Copyright©2014 北京四维图新科技股份有限公司
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- background effect part -->
         <div class="backstretch" backstretch backstretch-images="images" backstretch-duration="9000" backstretch-fade="1.5"></div>
     </body>
