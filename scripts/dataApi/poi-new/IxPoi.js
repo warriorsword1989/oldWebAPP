@@ -133,7 +133,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.gasstations = [];
 		if(data['gasstations']){
 			if(data['gasstations'].length == 0){
-				this.gasstations = [{}]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+				this.gasstations = [new FM.dataApi.IxPoiGasstation({})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			}else {
 				for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
 					this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
@@ -143,7 +143,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.hotels = [];
 		if(data["hotels"]){
 			if(data["hotels"].length == 0){
-				this.hotels = [{}];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+				this.hotels = [new FM.dataApi.IxPoiHotel({})];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			} else {
 				for (var i = 0 ,len = data["hotels"].length ;i < len ; i++){
 					this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
@@ -153,7 +153,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.restaurants = [];
 		if(data["restaurants"]){
 			if(data["restaurants"].length == 0){
-				this.restaurants = [{}];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+				this.restaurants = [new FM.dataApi.IxPoiRestaurant({})];//深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
 			}else {
 				for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
 					this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));

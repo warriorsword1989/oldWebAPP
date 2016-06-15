@@ -25,7 +25,7 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
         for(var i=0;i<egTypeArr.length;i++) {
             this.egType[egTypeArr[i]] = true;
         }
-        var mgTypeArr = (data["mgType"]).split("|");
+        var mgTypeArr = (data["mgType"] || "").split("|");
         this.mgType = {};
         for(var i=0;i<mgTypeArr.length;i++) {
             this.mgType[mgTypeArr[i]] = true;
