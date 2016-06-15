@@ -1,9 +1,42 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce', 'dsPoi','$document',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce, poiDS,$document) {
 	var _self = scope;
 	uibBtnCfg.activeClass = "btn-success";
 	scope.radio_select = '全局';
 	//当前表格数据;
 	scope.finalData = null;
+	init();
+	/*切换poi列表类型*/
+	scope.changeDataList = function (val) {
+		scope.dataListType = val;
+	};
+	/*选择数据查找poi详情*/
+	scope.selectData = function (data,index) {
+		// changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
+			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
+				if(data){
+					scope.$emit('getObjectById',data);
+					scope.itemActive = index;
+				}
+			});
+		// });
+	};
+
+	/*键盘控制poilist切换*/
+	$document.bind("keyup", function (event) {
+		if (scope.itemActive<scope.poiList.length-1 && event.keyCode == 34) {
+			scope.itemActive++;
+			refreshData();
+		}
+		if (scope.itemActive!=0 && event.keyCode == 33) {
+			scope.itemActive--;
+			refreshData();
+		}
+		/*刷新poi，弹出tips*/
+		function refreshData(){
+			scope.selectData(scope.poiList[scope.itemActive],scope.itemActive);
+			scope.$apply();
+		}
+	});
 	//初始化ng-table表头;
 	scope.cols = [
 		{field: "num_index", title: "序号", show: true},
@@ -26,10 +59,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		}
 	}
 
-	//itemActive改变（切换poilist）
-	scope.$on('poiListItemActive',function(event,index){
-		scope.itemActive = index;
-	});
 
 	//重置表格字段显示方法;
 	scope.resetTableField = function(){
@@ -51,7 +80,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.refreshData = function(){
 		_self.tableParams.reload();
 	}
-	scope.intit = function(){
+	function init(){
 		_self.tableParams = new NgTableParams({count:20,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
 				dbId: App.Temp.dbId,
@@ -59,9 +88,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				pageNum: params.page(),
 				pageSize: params.count()
 			};
-			scope.$emit("getPoiListData",param);
-			_self.tableParams.total(scope.poiListTotal);
-			scope.$on('getPoiDataResult',function(event, data){
+			poiDS.getPoiList(param).then(function (data) {
+				scope.poiList = data.rows;
+				_self.tableParams.total(data.total);
+				scope.$emit('getPoiList',data.rows);
 				$defer.resolve(data.rows);
 			});
 		}});
@@ -69,23 +99,15 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 
 	//给每条数据安排序号;
 	ngTableEventsChannel.onAfterReloadData(function(){
-		scope.$emit('initItemActive',true);
+		scope.itemActive = -1;
 		angular.forEach(scope.tableParams.data,function(data,index){
 			data.num_index = (scope.tableParams.page()-1)*scope.tableParams.count()+index+1;
 		})
 	})
 
-	/*选择数据弹出tips*/
-	/*self.selectData = function(item,$index){
-	 var temp = {
-	 item:item,
-	 index:$index
-	 }
-	 self.$emit('getSelectData',temp);
-	 }*/
+
 	/*-----------------------------------格式化函数部分----------------------------------*/
 
-	scope.intit();
 	/*采集时间*/
 	function getCollectTime(scope,row){
 		var temp = '';
