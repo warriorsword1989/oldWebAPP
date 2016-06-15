@@ -20,11 +20,11 @@ requirejs.config({
 		'ngSanitize':'scripts/libs/angularjs/1.4.4/angular-sanitize',
 		// app相关
 		'dataService': 'apps/poibase/service/dataService',
-		'fccService': 'apps/imeep/service/dataService-fcc',
 		'poiService': 'apps/poibase/service/dataService-poi',
 		'metaService': 'apps/poibase/service/dataService-meta',
-		'PoiEditorCtl': 'apps/imeep/editor/poiEditorCtl',
+		'PoiEditorCtl': 'apps/poibase/editor/poiEditorCtl',
 		'layers': "apps/poibase/editor/layerConfig",
+		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
 	},
 	shim: {
 		'angular': {exports: 'angular'},
@@ -38,10 +38,10 @@ requirejs.config({
 		'ngTable': ['angular'],
 		'angularDrag': ['angular', 'jquery'],
 		'dataService': ['angular', "sweet-alert"],
-		'fccService':['dataService'],
 		'poiService': ['dataService'],
 		'metaService': ['dataService'],
-		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','fccService'],
+		'keyPressFunctions':['jquery','dataService','poiService','metaService'],
+		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
 	}
 });
 // Start the main app logic.
