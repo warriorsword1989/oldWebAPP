@@ -1,6 +1,5 @@
 angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce', 'dsPoi','$document',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce, poiDS,$document) {
 	var _self = scope;
-	uibBtnCfg.activeClass = "btn-success";
 	scope.radio_select = '全局';
 	//当前表格数据;
 	scope.finalData = null;

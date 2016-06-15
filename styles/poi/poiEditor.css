@@ -61,7 +61,7 @@ a:hover {
     padding: 0px 0px 10px 0;
 }
 
-.fm-banner .banner-center div h4{
+.fm-banner .banner-center div h4 {
     font-size: 24px;
     font-family: "宋体";
     font-weight: bolder;
@@ -158,7 +158,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 }
 
 .fm-tabs {
-    /*background-color: rgb(64, 64, 64);*/
+    background-color: rgb(64, 64, 64);
     padding: 0px 10px;
 }
 
@@ -169,8 +169,6 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     padding: 6px 5px;
     display: inline-block;
     text-align: center;
-    margin:-2px;
-    background-color: rgb(64, 64, 64);
 }
 
 .fm-tabs a.tab:hover {
@@ -184,12 +182,12 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     transition: all .3s;
 }
 
-.fm-tabs .btn-group-vertical button{
+.fm-tabs .btn-group-vertical button {
     padding: 25px 7px;
 }
 
-.banner-top{
-    padding-bottom: 0!important;
+.banner-top {
+    padding-bottom: 0 !important;
 }
 
 .fm-panel {
@@ -1037,7 +1035,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /***************************poi-list**********************/
 .fm-project-switch {
-    background-color: rgb(64, 64, 64);
+    height: 30px;
 }
 
 .fm-project-switch a.tab.active {
@@ -1207,14 +1205,16 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-specialopt {
     color: greenyellow;
 }
+
 /*-------------------------------------------------选择同点位popup-----------------------------------------------*/
 
-#layerpopup{
-    list-style:none;
+#layerpopup {
+    list-style: none;
     padding: 0px;
     min-width: 150px;
 }
-#layerpopup a:active, #layerpopup a:link,#layerpopup a:visited{
+
+#layerpopup a:active, #layerpopup a:link, #layerpopup a:visited {
     color: #72ACE3 !important;
     cursor: pointer;
 }
