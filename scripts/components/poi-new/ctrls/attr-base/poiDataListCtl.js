@@ -52,7 +52,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		_self.tableParams.reload();
 	}
 	scope.intit = function(){
-		_self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts:[],getData:function($defer, params){
+		_self.tableParams = new NgTableParams({count:20,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
 				dbId: App.Temp.dbId,
 				// type: [1,2,3],
