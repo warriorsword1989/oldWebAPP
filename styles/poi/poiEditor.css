@@ -532,13 +532,18 @@ form input[type='checkbox']:checked.ng-dirty {
 .fm-console-table {
     color: #ffffff;
     margin-top: 5px;
+    /*table-layout: fixed;*/
 }
 
 .fm-console-table > tbody > tr > td {
     padding: 0px 3px;
     line-height: 2;
 }
-
+.fm-table-long-text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .fm-console-content {
     height: 200px;
     overflow-y: auto;
