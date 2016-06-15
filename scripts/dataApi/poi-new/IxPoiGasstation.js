@@ -37,7 +37,7 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
             this.payment[paymentArr[i]] = true;
         }
         var serviceArr = (data["service"] || "").split("|");
-        this.payment = {};
+        this.service = {};
         for(var i=0;i<serviceArr.length;i++) {
             this.service[serviceArr[i]] = true;
         }
