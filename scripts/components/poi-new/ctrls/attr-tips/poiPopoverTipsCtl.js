@@ -23,12 +23,18 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     $scope.$on('refreshImgsData',function(event,data){
         initData();
     });
-    /*记录状态*/
-    $scope.statusObject = {
+    /*数据状态*/
+    $scope.stateObject = {
         0:'无',
         1:'删除',
         2:'修改',
         3:'新增'
+    };
+    /*审核状态*/
+    $scope.statusObject = {
+        1:'待作业',
+        2:'已作业',
+        3:'已提交'
     };
     /*查看图片*/
     $scope.showImage = function(img,index){

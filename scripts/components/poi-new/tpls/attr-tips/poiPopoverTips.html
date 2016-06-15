@@ -21,29 +21,14 @@
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">审核状态：</label>
                     <label class="label label-primary"
-                           ng-class="{1:'info', 2: 'success',3: 'danger', 4: 'default', 5: 'warning'}[poi.auditStatus]"
-                           ng-bind="poi.auditStatusText"></label>
-                </div>
-                <div class="col-sm-12 tips-info">
-                    <label class="col-sm-6 control-label text-right">记录状态：</label>
-                    <label class="label label-primary"
-                           ng-class="{0: 'default', 1:'danger', 2: 'info', 3: 'success'}[poi.state]"
-                           ng-bind="statusObject[poi.state]"></label>
+                           ng-class="{1: 'danger', 2: 'warning', 3: 'success'}[poi.status]"
+                           ng-bind="statusObject[poi.status]"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">数据状态：</label>
                     <label class="label label-primary"
-                           ng-class="{1: 'danger', 2: 'warning', 3: 'success', 4: 'default'}[poi.lifecycle]"
-                           ng-bind="poi.lifecycleName"></label>
-                </div>
-                <div class="col-sm-12 tips-info">
-                    <label class="col-sm-6 control-label text-right">检查抽样：</label>
-                    <div class="col-sm-6" ng-if="poi.evaluatePlanningLabel == 1 || poi.evaluatePlanningLabel == 2">
-                        是
-                    </div>
-                    <div class="col-sm-6" ng-if="poi.evaluatePlanningLabel != 1 && poi.evaluatePlanningLabel != 2">
-                        否
-                    </div>
+                           ng-class="{0: 'default', 1:'danger', 2: 'info', 3: 'success'}[poi.state]"
+                           ng-bind="stateObject[poi.state]"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">3D标识：</label>

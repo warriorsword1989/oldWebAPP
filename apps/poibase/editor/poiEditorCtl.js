@@ -32,7 +32,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				dbId: App.Temp.dbId,
 				// type: [1,2,3],
 				pageNum: 1,
-				pageSize: 10
+				pageSize: 20
 			});
 		}else{      //道路
 
