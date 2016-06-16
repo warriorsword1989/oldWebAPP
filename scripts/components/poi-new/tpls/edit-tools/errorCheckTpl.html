@@ -21,7 +21,15 @@
                     <span ng-if="row.rank==4" >warning</span>
                 </td>
                 <td width="5%">
-                    <a href="#" class="fm-target" ng-click="showOnMap(row.targets,row.geometry)">{{row.targets }}</a>
+                    <a href="#" ng-if="!row.poiCheck" class="fm-target" ng-click="showOnMap(row.targets,row.geometry)">{{row.targets }}</a>
+                    <div ng-if="row.poiCheck">
+                        [IX_POI,
+                        <span ng-repeat="item in row.poiListCheck">
+                            <a href="#" ng-if="$index < row.poiListCheck.length-1" class="fm-target" ng-click="showPoiOnMap(item)">{{item }},</a>
+                            <a href="#" ng-if="$index == row.poiListCheck.length-1" class="fm-target" ng-click="showPoiOnMap(item)">{{item }}</a>
+                        </span>
+                        ]
+                    </div>
                 </td>
                 <td>
                     <div title="{{row.information}}">{{row.shortInfo}}</div>
