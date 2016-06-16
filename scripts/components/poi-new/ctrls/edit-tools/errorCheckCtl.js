@@ -24,15 +24,18 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', function($
     
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
-        $scope.$emit('updateCheckType',params);
-        poiDS.updateCheckType(rowid, selectInd).then(function (data) {
+        dsPoi.updateCheckType(rowid, selectInd).then(function (data) {
             console.log('修改成功')
         });
-    }
+    };
     /*高亮地图上poi*/
     $scope.showPoiOnMap = function(pid){
-        console.log(pid)
-    }
+        var param = {
+            pid:pid,
+            type:'IX_POI'
+        };
+        $scope.$emit('getHighlightData',param);
+    };
 
     //点击数据在地图上高亮
     $scope.showOnMap = function (targets,geom) {
@@ -40,37 +43,11 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', function($
         var value1 = value.replace("]", "");
 
         var data = {
-            id:value1.split(",")[1],
+            pid:value1.split(",")[1],
             type:value1.split(",")[0].replace("_", "")
         };
-        var poiData = {
-            pid:value1.split(",")[1],
-            geometry:geom
-        }
-        //线高亮
-        if (data.type == "RDLINK") {
-            $scope.$emit('getRdObjectById',data);
-        }else if(data.type == "IX_POI"){
-            $scope.$emit('poiHeighLight',poiData);
-        } else if (data.type == "RDRESTRICTION") {//交限高亮
-            $scope.$emit('getRdObjectById',data);
-        } else {//其他tips高亮
-            layerCtrl.pushLayerFront("workPoint");
-            Application.functions.getTipsResult(id, function (data) {
-                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-
-                var highlightFeatures=[];
-                highlightFeatures.push({
-                    id:data.rowkey,
-                    layerid:'workPoint',
-                    type:'workPoint',
-                    style:{}
-                });
-                highRenderCtrl.highLightFeatures = highlightFeatures;
-                highRenderCtrl.drawHighlight();
-            });
-        }
-    }
+        $scope.$emit('getHighlightData',data);
+    };
 
 
     //监听检查结果并获取

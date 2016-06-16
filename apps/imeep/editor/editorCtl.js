@@ -82,48 +82,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	});
 	/*获取检查结果*/
 	// $scope.checkPageNow = 1;
-	/*刷新检查结果*/
-	$scope.$on('refreshCheckReusltData',function(event,param){
-		initCheckResultData();
-	});
-	/*查找检查结果*/
-	function getCheckResultData(num){
-		poiDS.getCheckData(num).then(function(data){
-			$scope.checkResultData = [];
-			for(var i=0,len=data.length;i<len;i++){
-				$scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
-			}
-		});
-	}
-	// getCheckResultData($scope.checkPageNow);
-	initCheckResultData();
-	/*查找检查结果总数*/
-	poiDS.getCheckDataCount().then(function(data){
-		$scope.checkResultTotal = data;
-		$scope.checkPageTotal = Math.ceil(data/5);
-	});
-	/*初始化检查结果数据*/
-	function initCheckResultData(){
-		$scope.checkPageNow = 1;//检查结果当前页
-		getCheckResultData(1);
-	}
-	/*检查结果翻页*/
-	$scope.$on('trunPaging',function(event,type){
-		if(type == 'prev'){     //上一页
-			getCheckResultData($scope.checkPageNow-1);
-			$scope.checkPageNow--;
-		}else{      //  下一页
-			getCheckResultData($scope.checkPageNow+1);
-			$scope.checkPageNow++;
-		}
-	});
 	/*高亮检查结果poi点*/
-	$scope.$on('poiHeighLight',function(event,data){
+	$scope.$on('getHighlightData',function(event,data){
 		$scope.$broadcast('highlightPoiInMap',data);
-	});
-	/*关闭popoverTips状态框*/
-	$scope.$on('closePopoverTips', function (event, data) {
-		$scope.showPopoverTips = false;
 	});
 	/*翻页时初始化itemActive*/
 	$scope.$on('initItemActive',function(event,data){
@@ -421,9 +382,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
 			$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
 		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
-		});
 	}
 	//页面初始化方法调用
 	var initPage = function (){
@@ -432,6 +390,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
 			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+		});
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
+			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
 		});
 		/*默认显示poi作业平台*/
 		$scope.changeProject(1);
