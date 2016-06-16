@@ -22,7 +22,7 @@ requirejs.config({
 		'dataService': 'apps/imeep/service/dataService',
 		'poiService': 'apps/imeep/service/dataService-poi',
 		'metaService': 'apps/imeep/service/dataService-meta',
-		'PoiEditorCtl': 'apps/imeep/editor/poiEditorCtl',
+		'EditorCtl': 'apps/imeep/editor/editorCtl',
 		'layers': "apps/imeep/editor/layerConfig",
 		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
 	},
@@ -41,10 +41,10 @@ requirejs.config({
 		'poiService': ['dataService'],
 		'metaService': ['dataService'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService'],
-		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
+		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
 	}
 });
 // Start the main app logic.
-requirejs(['PoiEditorCtl'], function () {
+requirejs(['EditorCtl'], function () {
 	angular.bootstrap(document.body, ['app']);
 });

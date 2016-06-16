@@ -10,8 +10,8 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
-        <link rel="stylesheet" type="text/css" href="../../../styles/poi/poiEditor.css">
-        <link rel="stylesheet" type="text/css" href="../../../styles/poi/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/imeep/animate.min.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
@@ -21,7 +21,7 @@
         <script src="loadUikit.js"></script>
         <script src="loadCanvasFeature.js"></script>
     </head>
-    <body ng-controller="PoiEditorCtl">
+    <body ng-controller="EditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
@@ -125,6 +125,6 @@
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
         </div>
-        <script type="text/javascript" data-main="poiEditor-require" src="../../../scripts/libs/require/require.js"></script>
+        <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
     </body>
 </html>
