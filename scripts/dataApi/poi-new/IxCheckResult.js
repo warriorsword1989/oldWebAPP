@@ -30,7 +30,6 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 					this.poiListCheck.push(poiCheckArr[i].split(',')[1].substring(0,poiCheckArr[i].split(',')[1].length-1));
 				}
 			}
-			console.log(this.poiListCheck)
 		}
 		this.worker = data['worker'];
 	},
