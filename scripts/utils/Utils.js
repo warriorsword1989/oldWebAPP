@@ -31,5 +31,5 @@ Utils = {
             ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
         }
         return ret;
-    }
+    },
 }
