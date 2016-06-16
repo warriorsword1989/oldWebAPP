@@ -22,18 +22,20 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
-		if (event.keyCode == 34 && scope.itemActive<scope.poiList.length-1) {
-			scope.itemActive++;
-			refreshData();
-		}
-		if (event.keyCode == 33 && scope.itemActive!=0) {
-			scope.itemActive--;
-			refreshData();
-		}
-		/*刷新poi，弹出tips*/
-		function refreshData(){
-			scope.selectData(scope.poiList[scope.itemActive],scope.itemActive);
-			scope.$apply();
+		if(event.keyCode == 34 || event.keyCode == 33){
+			if (scope.itemActive<scope.poiList.length-1 && event.keyCode == 34) {
+				scope.itemActive++;
+				refreshData();
+			}
+			if (scope.itemActive!=0 && event.keyCode == 33) {
+				scope.itemActive--;
+				refreshData();
+			}
+			/*刷新poi，弹出tips*/
+			function refreshData(){
+				scope.selectData(scope.poiList[scope.itemActive],scope.itemActive);
+				scope.$apply();
+			}
 		}
 	});
 	//初始化ng-table表头;
@@ -111,7 +113,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	function getCollectTime(scope,row){
 		var temp = '';
 		if(row.collectTime){
-			temp = App.Util.dateFormat(row.collectTime);
+			//temp = App.Util.dateFormat(row.collectTime);
+			temp = Utils.dateFormat(row.collectTime);
 		}else{
 			temp = '无';
 		}

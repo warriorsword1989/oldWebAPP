@@ -1,4 +1,4 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
+angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, dsMeta) {
 
     /*切换tag按钮*/
     $scope.changeProperty = function (tagName) {
@@ -61,6 +61,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 $ocll.load("scripts/components/poi-new/ctrls/attr-deep/restaurantCtl").then(function() {
                     $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/restaurantTpl.html";
                 });
+                dsMeta.queryFoodType($scope.poi.kindCode).then(function(ret){
+                    console.log('获取风味类型');
+                    console.log(JSON.stringify(ret));
+                });
                 break;
             case 7: //加气站
                 $ocll.load("scripts/components/poi-new/ctrls/attr-deep/gasStationCtl").then(function() {
@@ -101,4 +105,23 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         $scope.nodeForm.$setPristine(); //清除ng-ditry
         $scope.controlFlag.isTelEmptyArr = []; //清除异常电话样式
     });
+    $scope.parseFoodType = function(foodType) {
+        if(foodType.length > 0){
+            var temp1 = [];
+            var temp2 = [];
+            for (var i = 0, n = foodtype.length; i < n; i++) {
+                if (foodtype[i].foodType == "1") {
+                    temp1.push({
+                        value: foodtype[i].foodCode,
+                        text: foodtype[i].foodName
+                    });
+                } else {
+                    temp2.push({
+                        value: foodtype[i].foodCode,
+                        text: foodtype[i].foodName
+                    });
+                }
+            }
+        }
+    };
 }]);

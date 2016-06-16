@@ -39,8 +39,17 @@
     </div>
     <div class="table-container dark scroll-styled">
         <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
+            <colgroup>
+                <col width="35px" />
+                <col width="135px" />
+                <col width="60px" />
+                <col width="60px" />
+                <col width="130px" />
+                <col width="60px" />
+                <col width="60px" />
+            </colgroup>
             <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
-                <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]">{{row[col.field]}}</td>
+                <td ng-repeat="col in $columns" title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]">{{row[col.field]}}</td>
             </tr>
         </table>
     </div>

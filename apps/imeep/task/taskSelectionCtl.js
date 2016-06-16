@@ -19,6 +19,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.requestParams = {classType:2};
     //当前作业类型;
     $scope.currentWorkType = 'road';
+    $scope.currentDataLength = true;
 
     //控制页面tab页切换;
     $scope.changeDataList = function(val) {
@@ -67,9 +68,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     }
     $scope.startEdit = function(){
         if($scope.currentWorkType=='road'){
-            window.location.href = "./editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
+            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
         }else{
-            window.location.href = "./editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
+            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
         }
     }
     //高亮显示网格并聚焦;
@@ -80,28 +81,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 map.removeLayer($scope.currentHighLight[i])
             }
         }
+        //得到当前格网;
         var gridid = ['605603_01','605603_12','595672_02'];//params.gridIds?params.gridIds:['605603_01','605603_12','595672_02'];
-        var meshid = [];
-        for(var i=0;i<gridid.length;i++){
-            meshid.push(gridid[i].substr(0,6));
-        }
-        //高亮显示网格;
-        var gridarr = [];
-        for(var i=0;i<layerCtrl.getLayerById('grid').gridArr.length;i++){
-            for(var j=0;j<gridid.length;j++){
-                if(layerCtrl.getLayerById('grid').gridArr[i].options.gridId===gridid[j]){
-                    gridarr.push(layerCtrl.getLayerById('grid').gridArr[i])
-                }
-            }
-        }
-        for(var i=0;i<gridarr.length;i++){
-            $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
-        }
+        //获取所有图幅;
         var meshArr = [];
-        for(var i=0;i<meshid.length;i++){
-            meshArr.push(layerCtrl.getLayerById('mesh').Calculate25TMeshBorder(meshid[i]))
+        for(var i=0;i<gridid.length;i++){
+            meshArr.push(layerCtrl.getLayerById('mesh').Calculate25TMeshBorder(gridid[i].substr(0,6)))
         }
-        //所有高亮都在视口范围;
+        //根据图幅号获取聚焦的范围;
         var allLatArr = getAllLatLng(meshArr);
         //西南角坐标;
         var sourthWest_X = getMaxOrMin(allLatArr.lng,'min');
@@ -110,17 +97,26 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         var northEast_X = getMaxOrMin(allLatArr.lng,'max');
         var northEast_Y = getMaxOrMin(allLatArr.lat,'max');
         console.log(sourthWest_Y+'----'+sourthWest_X+'  '+northEast_Y+'----'+northEast_X)
-        map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
-        map.on('moveend', function(e) {
-            if($scope.currentHighLight.length) {
-                for(var i=0;i<$scope.currentHighLight.length;i++){
-                    map.removeLayer($scope.currentHighLight[i])
+        //聚焦完成后300毫秒再高亮;
+        var mydefer = $q.defer();
+        //聚焦后的延迟方法;
+        function waitFitView(){
+            function fitView(){
+                map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
+                setTimeout(function(){mydefer.resolve();},300)
+            }
+            fitView();
+            return mydefer.promise;
+        }
+        $q.when(waitFitView(mydefer)).then(function(){
+            for(var i=0;i<layerCtrl.getLayerById('grid').gridArr.length;i++){
+                for(var j=0;j<gridid.length;j++){
+                    if(layerCtrl.getLayerById('grid').gridArr[i].options.gridId===gridid[j]){
+                        $scope.currentHighLight.push(L.rectangle(layerCtrl.getLayerById('grid').gridArr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
+                    }
                 }
             }
-            for(var i=0;i<gridarr.length;i++){
-                $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
-            }
-        });
+        })
         //控制编辑按钮是否可用;
         ctrlEditorSwitch(params);
     }
@@ -129,7 +125,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         console.log(obj)
         if(!obj)return;
         poiDS.querySubtaskByUser({
-            'userId':1,//$cookies.get('FM_USER_ID');
+            'exeUserId':1,//$cookies.get('FM_USER_ID');
             'stage':obj.classStage,
             'type':obj.classType,
             'status':obj.currentStatus,
@@ -138,6 +134,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             'pageSize':20
         }).then(function(data) {
             $scope.currentSubTaskList = data;
+            if(!data.length)$scope.currentDataLength = false;
             console.log(data)
         });
     }
