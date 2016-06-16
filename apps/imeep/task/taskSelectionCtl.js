@@ -51,7 +51,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     });
 
     /*弹出/弹入任务信息面板*/
-    $scope.hideEditorPanel = true;
+    $scope.hideEditorPanel = false;
     $scope.changePanelShow = function (type) {
         switch (type) {
             case 'bottom':
@@ -75,6 +75,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     }
     //高亮显示网格并聚焦;
     $scope.highlightGrid = function (params){
+        $scope.hideEditorPanel = true;
         //防止重绘高亮;
         if($scope.currentHighLight.length) {
             for(var i=0;i<$scope.currentHighLight.length;i++){
@@ -98,17 +99,20 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         var northEast_Y = getMaxOrMin(allLatArr.lat,'max');
         console.log(sourthWest_Y+'----'+sourthWest_X+'  '+northEast_Y+'----'+northEast_X)
         //聚焦完成后300毫秒再高亮;
-        var mydefer = $q.defer();
-        //聚焦后的延迟方法;
-        function waitFitView(){
-            function fitView(){
-                map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
-                setTimeout(function(){mydefer.resolve();},300)
+        map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
+        //判断任务网格是否都加载上的定时器;
+        var timer = setInterval(function(){
+            var gridLayers = layerCtrl.getLayerById('grid').gridArr;
+            for(var i=0;i<gridLayers.length;i++){
+                if(gridLayers[i].options.gridId==gridid[gridid.length-1]){
+                    clearInterval(timer);
+                    addHighlight()
+                }
             }
-            fitView();
-            return mydefer.promise;
-        }
-        $q.when(waitFitView(mydefer)).then(function(){
+        },50)
+
+        function addHighlight(){
+            console.log(gridid)
             for(var i=0;i<layerCtrl.getLayerById('grid').gridArr.length;i++){
                 for(var j=0;j<gridid.length;j++){
                     if(layerCtrl.getLayerById('grid').gridArr[i].options.gridId===gridid[j]){
@@ -116,7 +120,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                     }
                 }
             }
-        })
+        }
         //控制编辑按钮是否可用;
         ctrlEditorSwitch(params);
     }
