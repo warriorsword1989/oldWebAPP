@@ -19,10 +19,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.requestParams = {classType:2};
     //当前作业类型;
     $scope.currentWorkType = 'road';
+    //当前选中子任务对象;
+    $scope.currentTaskData = null;
+
     $scope.currentDataLength = true;
+    //是否显示箭头;
+    $scope.showArrow = false;
 
     //控制页面tab页切换;
     $scope.changeDataList = function(val) {
+        $scope.editorDisabled = true;
         $scope.dataListType = val;
         $scope.taskStatus = 6;
         //构建过滤请求参数;
@@ -36,6 +42,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         loadSubTaskfn($scope.requestParams)
     };
     $scope.changeTaskStatus = function(val) {
+        $scope.editorDisabled = true;
         $scope.taskStatus = val;
         switch ($scope.taskStatus){
             case 6: $scope.requestParams.currentStatus='';break;
@@ -66,15 +73,20 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 break;
         }
     }
+    //开始编辑跳转;
     $scope.startEdit = function(){
-        if($scope.currentWorkType=='road'){
-            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
-        }else{
+        $scope.currentWorkType = $scope.currentTaskData.type;
+        alert($scope.currentWorkType)
+        if($scope.currentWorkType==0){
             window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
+        }else{
+            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
         }
     }
     //高亮显示网格并聚焦;
     $scope.highlightGrid = function (params){
+        $scope.showArrow = true;
+        $scope.currentTaskData = params;
         $scope.hideEditorPanel = true;
         //防止重绘高亮;
         if($scope.currentHighLight.length) {
@@ -109,7 +121,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                     addHighlight()
                 }
             }
-        },50)
+        },100)
 
         function addHighlight(){
             console.log(gridid)

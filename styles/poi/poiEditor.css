@@ -58,11 +58,12 @@ a:hover {
 }
 
 .fm-banner .banner-center div {
-    padding: 0px 0px 10px 0;
+    padding: 0px 0px 0px 0;
 }
 
 .fm-banner .banner-center div h4 {
-    font-size: 24px;
+    color: white;
+    font-size: 19px;
     font-family: "宋体";
     font-weight: bolder;
 }
@@ -255,7 +256,7 @@ ul.fm-ul-form > li > div > label {
 ul.fm-ul-list > li > label {
     color: #F3F6FA;
     font-weight: normal;
-    width: 70%;
+    width: 40%;
 }
 
 ul.fm-ul-list > li > div:first-child {
