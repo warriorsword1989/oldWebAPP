@@ -71,18 +71,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.changeOutput = function (val) {
 		$scope.outputType = val;
 	};
-	/*选中poi列表查询poi详细信息*/
-	$scope.$on('getObjectById',function(event,param){
-		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
-			dsPoi.getPoiByPid(param).then(function (data) {
-				if(data){
-					initOcll();
-					showPoiInfo(data);
-					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
-				}
-			});
-		});
-	});
 
 	/**
 	 * 显示poi基本信息，tips信息等
@@ -271,7 +259,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/**
 	 * 查询POI数据
 	 */
-	$scope.$on("getOjbectById",function (event,data){
+	$scope.$on("getObjectById",function (event,data){
+		console.info("getObjectById");
 		dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.pid}).then(function (da) {
 			if(da){
 				showPoiInfo(da);
