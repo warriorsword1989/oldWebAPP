@@ -399,10 +399,6 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     //根据用户名查找子任务列表;
     this.querySubtaskByUser = function(paramObj){
         var defer = $q.defer();
-        //var params = {
-        //    'userId':paramObj.userId?paramObj.userId:1,
-        //    'snapshot':paramObj.snapshot?paramObj:0,
-        //};
         ajax.get("man/subtask/listByUser", {
             parameter:JSON.stringify(paramObj),
             urlType:'general'
