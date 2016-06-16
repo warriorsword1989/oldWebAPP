@@ -283,29 +283,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.$on("changeData",function (event,data){
 		$scope.disappearEditorPanel = false; //不隐藏右边的属性面板
 
-		var broadcastTitle = "";
-
-		switch (data.type) {
-			case '1':   //表示点击poi列表触发
-				break;
-			case '2':
-				break;  //表示地图上点击POI点
-			default:
-				break;
-		}
-
 		changePoi(function (){
-			dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.id}).then(function (da) {
-				if(da){
-					showPoiInfo(da);
-
-					if(broadcastTitle){
-						$scope.$broadcast(broadcastTitle,data);
-					}
-				}
-			});
+			$scope.$broadcast("changeDataRes");
 		});
 	});
+
+	/**
+	 * 查询POI数据
+	 */
+	$scope.$on("getOjbectById",function (event,data){
+		dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.pid}).then(function (da) {
+			if(da){
+				showPoiInfo(da);
+			}
+		});
+	});
+
+
 
 	/*弹出/弹入面板*/
 	$scope.changePanelShow = function (type) {
