@@ -67,9 +67,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     }
     $scope.startEdit = function(){
         if($scope.currentWorkType=='road'){
-            window.location.href = "./poiEditor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
+            window.location.href = "./editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
         }else{
-            window.location.href = "./poiEditor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
+            window.location.href = "./editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
         }
     }
     //高亮显示网格并聚焦;
