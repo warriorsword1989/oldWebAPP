@@ -11,16 +11,19 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	/*选择数据查找poi详情*/
 	scope.selectData = function (data,index) {
-		scope.$emit('closePopoverTips',false);
-		var param = {
-			dbId:App.Temp.dbId,
-			type:'IXPOI',
-			pid:data.pid
-		}
-		scope.$emit('getObjectById',param);
-		scope.itemActive = index;
+		scope.$emit('changeData');
+		/*如果用户确认，切换poi*/
+		scope.$on('changeDataRes',function(event,d){
+			scope.$emit('closePopoverTips',false);
+			var param = {
+				dbId:App.Temp.dbId,
+				type:'IXPOI',
+				pid:data.pid
+			}
+			scope.$emit('getObjectById',param);
+			scope.itemActive = index;
+		});
 	};
-
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
 		if(event.keyCode == 34 || event.keyCode == 33){

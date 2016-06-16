@@ -1,4 +1,4 @@
-angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
+angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, dsPoi, dsMeta) {
     var pKindFormat = {}, pKindList = [] ,pAllChain = {};
 
     pKindList = $scope.$parent.metaData.kindList;
@@ -57,7 +57,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     /*切换 品牌*/
     $scope.brandChange = function (evt, obj){
         $scope.poi.chain = obj.selectedChain;
-        meta.getChainLevel($scope.poi.kindCode,obj.selectedChain).then(function (dataLevel){
+        dsMeta.getChainLevel($scope.poi.kindCode,obj.selectedChain).then(function (dataLevel){
             if (dataLevel) {
                 checkLevel(dataLevel);
             }
