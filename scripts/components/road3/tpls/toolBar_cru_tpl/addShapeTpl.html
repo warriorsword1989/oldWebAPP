@@ -1,0 +1,90 @@
+<style>
+    .addNode_false {
+        background: url('../../images/road/button/dot_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addNode_true {
+        background: url('../../images/road//button/dot_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addLink_false {
+        background: url('../../images/road//button/line_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addLink_true {
+        background: url('../../images/road//button/line_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addRelation_false {
+        background: url('../../images/road//button/relation_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addRelation_true {
+        background: url('../../images/road//button/relation_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .addRdMultidDgitized_false {
+        background: url('../../images/road//button/multidDgitized_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addRdMultidDgitized_true {
+        background: url('../../images/road/button/multidDgitized_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    #fm-addShapeContainer>button:focus{
+        outline: none;
+    }
+    .btn-shape{
+        color: #fff;
+        background-color: #7F7F7F;
+        border: 1px solid #494949;
+    }
+    .btn-shape:hover{
+        border: 1px solid #494949;
+    }
+    .shape-well{
+        min-width: 367px;
+        background-color: #494949;
+        text-align: center;
+        opacity: .9;
+    }
+</style>
+<div id="fm-addShapeContainer" ng-controller="addShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
+    <button type="button" class="btn addNode_{{classArr[5]}}" id="addNode" ng-click="addShape('RDNODE',5,$event)"
+            title="新增点+"></button>
+    <button type="button" class="btn addLink_{{classArr[6]}}" id="addLink" ng-click="addShape('RDLINK',6,$event)"
+            title="新增线"></button>
+    <button type="button" class="btn addRdMultidDgitized_{{classArr[7]}}" id="addRdMultidDgitized" ng-click="addShape('RDMULTIDIGITIZED',7,$event)"
+            title="新上下线分离"></button>
+    <button type="button" class="btn addRelation_{{classArr[8]}} dropdown-toggle" id="addRelation"
+            data-toggle="dropdown" title="新增关系">
+    </button>
+    <ul class="dropdown-menu shape-well" role="menu">
+        <div class="btn-group btn-group-sm" style="float: none;">
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDGSC',8,$event)">立交</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('3dBranch',8,$event)">3D分歧</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDRESTRICTION',8,$event)">交限</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDLANECONNEXITY',8,$event)">车信</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDBRANCH',8,$event)">高速分歧</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDSPEEDLIMIT',8,$event)">限速</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDCROSS',8,$event)">路口</button>
+        </div>
+
+
+    </ul>
+</div>

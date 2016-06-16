@@ -1,0 +1,77 @@
+
+<div id="basicDiv" ng-controller="rdGscController" >
+    <form name="rdGscForm">
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    立交
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{reGscData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div  class="list-name text-left">
+                基础属性
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">处理标识</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="reGscData.processFlag"
+                         ng-options="value.id as value.label for value in processFlag">
+                </select>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" ng-repeat="item in reGscData.links ">
+        <li class="list-group-item">
+            <div><label class="control-label">组成link{{$index+1}}</label></div>
+            <div class="inline"><input type="text" ng-model="item.linkPid"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">高度层次</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="item.zlevel"
+                         ng-options="value.id as value.label for value in zlevel">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">起终点标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio"  value=0 ng-model="item.startEnd">
+                    形状点
+                </label>
+                <label>
+                    <input type="radio"  value=1 ng-model="item.startEnd">
+                    起点
+                </label>
+                <label>
+                    <input type="radio"  value=2 ng-model="item.startEnd">
+                    终点
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">要素类型</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="item.tableName"
+                         ng-options="value.id as value.label for value in tableName">
+                </select>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

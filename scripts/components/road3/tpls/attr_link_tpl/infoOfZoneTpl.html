@@ -1,0 +1,36 @@
+
+<div ng-controller="zoneInfoController" id="zoneInfoDiv">
+    <form name="zoneInfoForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">区划号码</label></div>
+            <div class="inline">
+                <input type="number"  placeholder="0" ng-model="oridiData.regionId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">Zone类型</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.type" ng-options="value.id as value.label for value in typeoption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">Link左右</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="sideRadio" value="0"
+                           ng-model="oridiData.side">
+                    左
+                </label>
+                <label>
+                    <input type="radio" name="sideRadio" value="1"
+                           ng-model="oridiData.side">
+                    右
+                </label>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

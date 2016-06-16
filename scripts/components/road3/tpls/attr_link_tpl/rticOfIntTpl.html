@@ -1,0 +1,68 @@
+
+<div ng-controller="oridinaryRticsController" id="oridinaryRticsDiv">
+    <form name="ordinaryRticForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">RTIC代码</label></div>
+            <div class="inline"><input style="width:148px;" type="text" ng-model="oridiData.code"/>
+                    <span ng-click="addRticCode()"  class="glyphicon glyphicon-plus" style="cursor: pointer;margin-left: 3px;color:#FFF;"></span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >RTIC等级</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.rank"
+                         ng-options="value.id as value.label for value in rankoption" ng-change="changeRank()">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >RTIC方向</label></div>
+            <div class="inline" ng-if="isupDirect==true">
+                <select  ng-model="oridiData.rticDr"
+                         ng-options="value.id as value.label for value in rticDroption" ng-change="changeDirect(oridiData.rticDr)">
+                    <option>--</option>
+                </select>
+            </div>
+            <div class="inline" ng-if="isupDirect==false">
+                <select disabled="disabled"  ng-model="oridiData.rticDr"
+                         ng-options="value.id as value.label for value in rticDroption" >
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">上下行 标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="updownFlagRadio" value=0 ng-model="oridiData.updownFlag">
+                    上行
+                </label>
+                <label>
+                    <input type="radio" name="updownFlagRadio" value=1 ng-model="oridiData.updownFlag">
+                    下行
+                </label>
+            </div>
+        </li>
+
+        <li class="list-group-item">
+            <div><label class="control-label">RTIC域类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="processFlagRadio" value=0 ng-model="oridiData.rangeType">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="processFlagRadio" value=1 ng-model="oridiData.rangeType">
+                    上坡
+                </label>
+                <label>
+                    <input type="radio" name="processFlagRadio" value=2 ng-model="oridiData.rangeType">
+                    下坡
+                </label>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

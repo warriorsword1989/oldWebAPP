@@ -74,9 +74,9 @@
                             </div>
                             <div id="zoomLevelBar" class="div_float"></div>
                         </div>
-                        <div class="fm-editor-panel" ng-class="{false:'fm-editor-panel-sm',true:'fm-editor-panel-normal'}[hideEditorPanel]">
+                        <div class="fm-editor-panel" ng-class="{'fm-editor-panel-sm':!hideEditorPanel,'fm-editor-panel-normal':hideEditorPanel,'fm-editor-panel-disappear':disappearEditorPanel}">
                             <div class="fm-editor-arrow">
-                                <a ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#" style="">
+                                <a ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#">
                                     <span></span>
                                 </a>
                             </div>
@@ -125,6 +125,7 @@
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
         </div>
+        <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
         <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
     </body>
 </html>
