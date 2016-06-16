@@ -1,10 +1,11 @@
 /**
- * Created by zhongxiaoming on 2015/08/07.
+ * Created by mali on 2016/6/8.
  */
-App.layersConfig = [{
+App.taskSelectionLayersConfig = [{
     groupid: "backgroundLayers",
     groupname: "参考",
-    layers: [{
+    layers: [
+        {
         clazz: L.tileLayer.wms,
         url: "http://zs.navinfo.com:7090/rest/wms",
         options: {
@@ -20,7 +21,8 @@ App.layersConfig = [{
             zIndex: 1,
             singleselect: true
         }
-    }, {
+    },
+        {
         clazz: L.tileLayer,
         url: 'http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0',
         options: {
@@ -37,22 +39,12 @@ App.layersConfig = [{
         }
     }, {
         url: '',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '照片',
-            id: 'photo',
-            url: '',
-            visible: false,
-            zIndex: 4
-        }
-    }, {
-        url: '',
         clazz: fastmap.mapApi.meshLayer,
         options: {
             layername: '图幅',
             id: 'mesh',
             url: '',
-            visible: false,
+            visible: true,
             zIndex: 3
         }
     }, {
@@ -65,11 +57,12 @@ App.layersConfig = [{
             url: '',
             divideX: 4,
             divideY: 4,
-            visible: false,
+            visible: true,
             zIndex: 3
         }
     }]
-}, {
+},
+    {
     groupid: "dataLayers",
     groupname: "作业参考",
     layers: [{
@@ -93,7 +86,7 @@ App.layersConfig = [{
             type: 'Marker',
             zIndex: 6,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: 'RDBRANCH,RDGSC',
             showNodeLevel: 17
         }
@@ -121,11 +114,11 @@ App.layersConfig = [{
             editable: false,
             visible: true,
             requestType: 'RDLINK',
-            showNodeLevel: 17
+            showNodeLevel: 13
         }
     },
         {
-            url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
+            url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADADMIN'),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: 'POI点数据',
@@ -147,40 +140,26 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: true,
                 requestType: 'POI',
-                showNodeLevel: 15
+                showNodeLevel: 13
             }
-        },
-        {
-        url: '',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '选中高亮图层',
-            id: 'highlightlayer',
-            maxZoom: 20,
-            debug: false,
-            buffer: 8,
-            boolPixelCrs: true,
-            // parse: function(data) {},
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            tileSize: 256,
-            type: 'highlight',
-            zIndex: 18,
-            restrictZoom: 10,
-            visible: true
-        }
-    }]
-}, {
-    groupid: 'editlayer',
-    groupname: '编辑图层',
-    layers: [{
-        clazz: fastmap.mapApi.editLayer,
-        url: '',
-        options: {
-            layername: '编辑',
-            id: 'edit',
+        }, {
             url: '',
-            visible: true,
-            zIndex: 0
-        }
-    }]
-}];
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '选中高亮图层',
+                id: 'highlightlayer',
+                maxZoom: 20,
+                debug: false,
+                buffer: 8,
+                boolPixelCrs: true,
+                // parse: function(data) {},
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                tileSize: 256,
+                type: 'highlight',
+                zIndex: 18,
+                restrictZoom: 10,
+                visible: true
+            }
+        }]
+}
+];

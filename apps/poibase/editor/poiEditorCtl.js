@@ -25,6 +25,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 
 	loadMap();
+	map.on("zoomend", function(e) {
+		document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
+	});
+	keyEvent($ocLazyLoad, $scope);//注册快捷键
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		if(type == 1){  //poi
@@ -600,6 +604,35 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		}
 	};
 
+	/**
+	 * 元数据接口联调测试
+	 * @type {Array}
+     */
+	metaTest();
+	function metaTest(){
+		//大分类
+		meta.getTopKind().then(function (kindData) {
+			console.info("大分类：",kindData);
+		});
+		//中分类
+		meta.getMediumKind().then(function (data) {
+			console.info("中分类：",data);
+		});
+		//小分类
+		var param = {
+			mediumId:"",
+			region:0
+		};
+		meta.getKindListNew().then(function (kindData) {
+			console.info("==============",kindData);
+		});
+		//
+		meta.getFocus().then(function (data) {
+			console.info("focus:",data);
+		});
+	}
+
+
 	var promises = [];
 	promises.push(poiDS.queryChargeChain("230218").then(function (data) {
 		$scope.chargeChain = data;
@@ -719,5 +752,5 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			map.addLayer(layerCtrl.getVisibleLayers()[layer]);
 		}
 	}
-
+	document.getElementById('zoomLevelBar').innerHTML = "缩放等级:17";
 }]);
