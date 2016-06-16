@@ -1,4 +1,4 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, dsMeta) {
+angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q','dsMeta', function($scope, $ocll, $q, dsMeta) {
 
     /*切换tag按钮*/
     $scope.changeProperty = function (tagName) {

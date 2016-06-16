@@ -7,30 +7,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
             $scope.$emit('trunPaging','next');
         }
     }
-    var distinguishResult = function (data) {
-        $scope.outputResult = [
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-        ];
-    }
     /*编辑关联poi数据*/
     $scope.$on('editPoiInfo', function (event, data) {
         refreshPoiData(data);
@@ -44,23 +20,23 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
         $scope.tagSelect = tagName;
         switch (tagName) {
             case 'outputResult':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/outputResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/outputResultTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/outputResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/outputResultTpl.html';
                 });
                 break;
             case 'errorCheck':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/errorCheckCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/errorCheckTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/errorCheckCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/errorCheckTpl.html';
                 });
                 break;
             case 'searchResult':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/searchResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/searchResultTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/searchResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/searchResultTpl.html';
                 });
                 break;
             default:
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/checkResultTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
         }
@@ -91,7 +67,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     /*查找检查结果总数*/
     dsPoi.getCheckDataCount().then(function(data){
         $scope.checkResultTotal = data;
-        $scope.checkPageTotal = Math.ceil(data/5);
+        $scope.checkPageTotal = data.length > 0 ? Math.ceil(data/5):1;
     });
     /*初始化检查结果数据*/
     function initCheckResultData(){
