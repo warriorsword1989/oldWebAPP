@@ -80,7 +80,6 @@
                                     <div class="fm-panel" >
                                         <div class="content" style="padding: 0">
                                             <ul class="fm-ul fm-ul-form">
-                                                <!--<li ng-show ="!currentDataLength"><a href="javascript:void(0);" style="font-size: 14px">没有子任务!</a></li>-->
                                                 <li ng-repeat="item in currentSubTaskList" style="cursor:pointer;padding: 8px 15px 8px 5px;">
                                                     <a href='javascript:void(0);' style="font-size: 14px" ng-click="highlightGrid(item)" ng-bind="item.descp.length>10?$index+1+'. '+item.descp.substr(0,10)+'...':$index+1+'. '+item.descp"></a>
                                                 </li>
@@ -117,7 +116,7 @@
                                             <li>
                                                 <label>计划完成时间：</label>
                                                 <label ng-if="!currentTaskData">0000:00:00</label>
-                                                <label ng-if="currentTaskData">{{currentTaskData.planStartDate.split(' ')[0].split('-').join('.')}}~{{currentTaskData.planEndDate.split(' ')[0].split('-').join('.')}}</label><!--2016.5.3~2016.5.8-->
+                                                <label ng-if="currentTaskData" ng-bind="getDateFormat()"></label><!--2016.5.3~2016.5.8-->
                                             </li>
                                             <li>
                                                 <label>完成进度：</label>
