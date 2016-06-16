@@ -1093,6 +1093,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-bottom: 0px;
     width: 100%;
     overflow-x: auto;
+    table-layout: fixed;
 }
 
 .poi-list > thead > tr > th {
@@ -1105,6 +1106,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .poi-list > tbody > tr > td {
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .poi-list > tbody > tr.active > td {

@@ -245,8 +245,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					$scope.$broadcast("clickSelectedPoi",data);
 				}
 			});
-
-
 		});
 	});
 
