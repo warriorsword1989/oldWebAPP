@@ -131,26 +131,6 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
-    /*检查规则*/
-    this.queryRule = function() {
-        var defer = $q.defer();
-        ajax.get("meta/queryRule/", {}).success(function(data) {
-            if (data.errcode == 0) {
-                var checkRules = [],
-                    checkRule;
-                for (var i = 0; i < data.data.length; i++) {
-                    checkRule = new FM.dataApi.CheckRule(data.data[i]);
-                    checkRules.push(checkRule);
-                }
-                defer.resolve(checkRules);
-            } else {
-                defer.resolve("查询检查规则出错：" + data.errmsg);
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    };
     /*获取餐饮类型*/
     this.queryFoodType = function () {
         var defer = $q.defer();

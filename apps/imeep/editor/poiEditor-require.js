@@ -19,11 +19,11 @@ requirejs.config({
 		'ngTable': 'scripts/libs/ng-table/ng-table',
 		'ngSanitize':'scripts/libs/angularjs/1.4.4/angular-sanitize',
 		// app相关
-		'dataService': 'apps/poibase/service/dataService',
-		'poiService': 'apps/poibase/service/dataService-poi',
-		'metaService': 'apps/poibase/service/dataService-meta',
-		'PoiEditorCtl': 'apps/poibase/editor/poiEditorCtl',
-		'layers': "apps/poibase/editor/layerConfig",
+		'dataService': 'apps/imeep/service/dataService',
+		'poiService': 'apps/imeep/service/dataService-poi',
+		'metaService': 'apps/imeep/service/dataService-meta',
+		'PoiEditorCtl': 'apps/imeep/editor/poiEditorCtl',
+		'layers': "apps/imeep/editor/layerConfig",
 		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
 	},
 	shim: {

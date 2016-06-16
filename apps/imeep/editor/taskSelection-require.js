@@ -18,11 +18,11 @@ requirejs.config({
         "sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",
         "wheelZoom":"scripts/libs/wheelzoom/wheelzoom",
         // app相关
-        'dataService': 'apps/poibase/service/dataService',
-        'poiService': 'apps/poibase/service/dataService-poi',
-        'metaService': 'apps/poibase/service/dataService-meta',
-        'TaskSelectionCtl': 'apps/poibase/editor/taskSelectionCtl',
-        'layers': "apps/poibase/editor/taskSelectionLayerConfig",
+        'dataService': 'apps/imeep/service/dataService',
+        'poiService': 'apps/imeep/service/dataService-poi',
+        'metaService': 'apps/imeep/service/dataService-meta',
+        'TaskSelectionCtl': 'apps/imeep/editor/taskSelectionCtl',
+        'layers': "apps/imeep/editor/taskSelectionLayerConfig",
     },
     shim: {
         'ocLazyLoad': ['angular'],
