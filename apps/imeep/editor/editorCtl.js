@@ -12,6 +12,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	//$scope.show = true;
 	//$scope.panelFlag = true;
+	$scope.showLoading = true;
 	$scope.suspendFlag = true;
 	$scope.selectedTool = 1;
 	$scope.dataListType = 1;
@@ -29,6 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		if(type == 1){  //poi
 			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
 				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+				$scope.showLoading = false;
 			});
 		}else{      //道路
 			$scope.poiDataListTpl = '';
@@ -37,7 +39,32 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			});*/
 		}
 		$scope.projectType = type;
-	}
+	};
+
+	$scope.isTipsPanel = 1;
+	//切换成果-场景栏中的显示内容
+	$scope.changeEditTool = function (id) {
+		changePoi(function () {
+			if (id === "tipsPanel") {
+				$scope.isTipsPanel = 1;
+				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+					$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/fieldsResult.html';
+				});
+			} else if (id === "scenePanel") {
+				$scope.isTipsPanel = 2;
+				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
+					$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/sceneLayers.html';
+				});
+			} else if (id === "layerPanel") {
+				$scope.isTipsPanel = 3;
+				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
+						$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/referenceLayers.html';
+					}
+				);
+			}
+		})
+	};
+
 	$scope.changeProperty = function (val) {
 		$scope.propertyType = val;
 	};
@@ -432,11 +459,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
 			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+
 		});
 		/*默认显示poi作业平台*/
 		$scope.changeProject(1);
 
 		keyEvent($ocLazyLoad, $scope);//注册快捷键
+
+
 	};
 
 

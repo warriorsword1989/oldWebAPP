@@ -1,0 +1,19 @@
+
+<div ng-controller="errorCheckPageController" >
+    <div class="fm-error-num-well">
+        共 <span class="pic-num" ng-bind="checkTotal">1</span> 项错误
+    </div>
+    <div class="fm-error-pull-right">
+        第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
+        共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
+        <div class="fm-error pull-right btn-group" style="margin-left: 2px">
+            <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled>
+            <<
+            </button>
+            <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">
+            >>
+            </button>
+            <button id="immediatelyCheck" class="btn btn-xs" style="margin-left: 20px;" ng-click="refCheck()"><i class="glyphicon glyphicon-refresh"></i> 刷新检查</button>
+        </div>
+    </div>
+</div>

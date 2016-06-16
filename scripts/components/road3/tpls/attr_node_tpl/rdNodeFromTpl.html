@@ -1,0 +1,80 @@
+
+<div id="rdNodediv" ng-controller="rdNodeFromController" >
+
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    道路点
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdNodeData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="nodeForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div ><label class="control-label">NODE种别</label></div>
+            <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.kind"
+                            ng-options="value.id as value.label for value in kindOptions" >
+                    </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">差分产品ID</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="rdNodeData.difGroupid">
+                </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">数据来源</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.srcFlag"
+                            ng-options="value.id as value.label for value in srcFlagOptions" >
+                    </select>
+                </div>
+        </li>
+
+        <li class="list-group-item">
+            <div ><label class="control-label">精度级别</label></div>
+
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.digitalLevel"
+                            ng-options="value.id as value.label for value in digitalLeveOptions" >
+                    </select>
+                </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">辅助标志</label></div>
+
+            <div class="inline" style="text-align: left">
+                <select ng-model="auxiFlag" ng-options="value.id as value.label for value in auxiFlagOptions" >
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">图幅号码</label></div>
+                <div class="inline" style="text-align: left" ng-repeat="mitem in rdNodeData.meshes">
+                    <input type="text"  ng-model="mitem.meshId">
+                </div>
+
+        </li>
+        <li class="list-group-item">
+            <div style="margin-top: 5px;"><label class="control-label">Node形态</label></div>
+
+            <div class="inline" style="text-align: left;">
+                <a  ng-click="showPopover()" style="cursor: pointer;">添加</a>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div id="fromOfWRoaddiv" style="width:260px;">
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                    {{fromitem.label}}
+                </div>
+            </div>
+        </li>
+
+    </ul>
+    </form>
+</div>

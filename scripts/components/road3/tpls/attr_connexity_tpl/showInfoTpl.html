@@ -1,0 +1,72 @@
+<style>
+    #infoOfConnexityDiv {
+        opacity: 1;
+        width: 100%;
+        font-size: 12px;
+    }
+    #infoOfConnexityDiv .lanePic{
+        cursor: pointer;
+        width: 30px;
+        margin-bottom: 10px;
+        /*margin: 15px;*/
+        transition: all 0.5s;
+    }
+    #infoOfConnexityDiv .lanePic.active{
+        box-shadow: 0px 0px 7px 4px #9d9d9d;
+    }
+</style>
+<div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div  class="lanePic">
+                <img  ng-if="!laneFlag"
+                      ng-repeat="showItem in directArr track by $index"
+                      ng-click="getLanesInfo(showItem)"
+                      ng-src="../../images/road/1301/1301_0_{{showItem}}.svg"
+                >
+                <img  ng-if="laneFlag"
+                      ng-repeat="showItem in directArr track by $index"
+                      ng-click="getLanesInfo(showItem)"
+                      ng-src="../../images/road/1301/1301_2_{{showItem}}.svg"
+                >
+            </div>
+        </li>
+
+    </ul>
+    <form name="infoConnexityForm">
+    <ul class="list-group list-group-lg m-b-none" ng-repeat="laneData in showLaneInfo track by $index">
+        <li class="list-group-item">
+            <div><label class="control-label">退出linkID</label></div>
+            <div class="inline"><input type="text" ng-model="laneData.outLinkPid" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">通达方向</label></div>
+            <div class="inline">
+                <select ng-options="value.id as value.label for value in reachDirOptions"
+                        ng-model="laneData.reachDir"></select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">进入车道</label></div>
+            <div class="inline"><input type="text" ng-model="laneData.enterLaneNum" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">公交车道</label></div>
+            <div class="inline"><input type="text" ng-model="laneData.enterBusNum" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">关系类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="crossingOrLine{$index}" value=0 ng-model="laneData.relationshipType">
+                    路口
+                </label>
+                <label>
+                    <input type="radio" name="crossingOrLine{$index}" value=1 ng-model="laneData.relationshipType">
+                    线线
+                </label>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

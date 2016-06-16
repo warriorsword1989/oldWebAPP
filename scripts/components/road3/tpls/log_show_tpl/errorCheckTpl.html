@@ -1,0 +1,122 @@
+
+<style>
+    .errorClass{
+        width:100%;
+        height:100%;
+        overflow-y: auto;
+        /*background-color: #404040;*/
+    }
+    table td{
+        color:#FFF;
+        font-weight: bold;
+    }
+    table th{
+        color:#FFF;
+        font-size: 12px;
+    }
+    div.errorClass>table tr{
+        color:#FFF;
+        font-size: 12px;
+        border: 0px;
+    }
+    div.errorClass>table tr td{
+        border-bottom: 1px solid #fff;
+        padding: 5px;
+    }
+
+    div.errorClass td>div>select{
+        color: rgba(255,255,255,.5);
+        background-color: rgba(255,255,255,0.10);
+        word-spacing: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    div.errorClass td>div>select:focus{
+        outline: none;
+    }
+
+    div.errorClass td>div>select:hover{
+        color:#FFF;
+    }
+
+    div.errorClass td>div>select:hover>option{
+        background-color: rgb(64,64,64);
+    }
+
+    #alinkDiv a:hover{
+        color:#A4A4E1;
+        opacity: 0.7;
+    }
+    #alinkDiv a:link{
+        color:#A4A4E1;
+
+    }
+
+    #fm-option-type>option{
+        background-color: rgb(64,64,64);
+        font-size: 12px;
+        color: #FFF;
+    }
+</style>
+
+<div ng-controller="errorCheckController" style="width:100%; height:100%;background-color: #404040;overflow-y: auto;padding-top: 38px">
+    <table st-table="rowCollection" id="errorTable" class="table table-striped" style="height:38px;margin-top: -38px;margin-bottom: 0px;">
+        <thead>
+        <tr>
+            <td style="width:90px;">检查规则号</td>
+            <!--<td style="width:40px;">类型</td>-->
+            <td style="width:70px;">错误等级</td>
+            <td style="width:70px;">错误对象</td>
+            <td style="width:120px;">错误信息</td>
+            <!--<td style="width:100px;">错误定位</td>-->
+            <td style="width:70px;">检查时间</td>
+            <td style="width:80px;">作业员</td>
+            <td style="width:80px;">检查管理</td>
+        </tr>
+        </thead>
+    </table>
+   <div  class="errorClass scroll-styled">
+       <table style="overflow-y: hidden;margin-bottom: 0px;width: 100%;" >
+           <tr ng-repeat="row in rowCollection" style="border-top: 1px solid #FFF;">
+               <td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.ruleid}}</div></td>
+               <!--<td><div style="width:40px;color:#FFF;word-wrap:break-word;">-->
+                   <!--<span  ng-if="row.situation==null" >无</span>-->
+                   <!--<span  ng-if="row.situation!=null" >{{row.situation}}</span>-->
+                   <!--</div>-->
+               <!--</td>-->
+               <td>
+                   <div style="width:40px;color:#FFF;word-wrap:break-word;">
+                   <span ng-if="row.rank==0" >无</span>
+                   <span ng-if="row.rank==1" >Fatal</span>
+                   <span ng-if="row.rank==2" >Critical</span>
+                   <span ng-if="row.rank==3" >Error</span>
+                   <span ng-if="row.rank==4" >warning</span>
+                   </div>
+               </td>
+               <td>
+                   <div style="width:80px;color:#FFF;word-wrap:break-word;" id="alinkDiv">
+                         <a style="font-size: 10px;text-decoration: none;font-weight:bold;cursor:pointer;color:#A4A4E1;" ng-click="showOnMap(row.targets)">{{row.targets }}</a>
+                   </div>
+               </td>
+               <td><div title="{{row.information}}" style="width:120px;color:#FFF;word-wrap:break-word;">{{row.information.substring(0,8)}}...</div></td>
+               <!--<td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.geometry}}</div></td>-->
+               <td><div style="width:80px;color:#FFF;word-wrap:break-word;">{{row.create_date}}</div></td>
+               <td><div style="width:60px;color:#FFF;word-wrap:break-word;">{{row.worker}}</div></td>
+               <td><div style="width:80px;color:#FFF;word-wrap:break-word;">
+                   <select id="fm-option-type" class="form-control" ng-model="initType"  style="height: 25px;padding: 0;"
+                           ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
+                   </select>
+                  </div>
+               </td>
+           </tr>
+
+       </table>
+   </div>
+
+
+
+</div>

@@ -1,0 +1,107 @@
+
+<div id="pedestrianDiv" ng-controller="pedestrianNaviController">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label" >DICI城市类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="diciTypeRadio" value=0 ng-model="naviData.diciType">
+                    不应用
+                </label>
+                <label>
+                    <input type="radio" name="diciTypeRadio" value=1 ng-model="naviData.diciType">
+                    全要素
+                </label>
+                <label>
+                    <input type="radio" name="diciTypeRadio" value=2 ng-model="naviData.diciType">
+                    简版
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >人行便道标记</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="sideWalkFlagRadio" value=0 ng-model="naviData.sidewalkFlag">
+                    未采集
+                </label>
+                <label>
+                    <input type="radio" name="sideWalkFlagRadio" value=1 ng-model="naviData.sidewalkFlag">
+                    有
+                </label>
+                <label>
+                    <input type="radio" name="sideWalkFlagRadio" value=2 ng-model="naviData.sidewalkFlag">
+                    无
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >人行阶梯标记</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="walkStairFlagRadio" value=0 ng-model="naviData.walkstairFlag">
+                    未采集
+                </label>
+                <label>
+                    <input type="radio" name="walkStairFlagRadio" value=1 ng-model="naviData.walkstairFlag">
+                    有
+                </label>
+                <label>
+                    <input type="radio" name="walkStairFlagRadio" value=2 ng-model="naviData.walkstairFlag">
+                    无
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >行人步行</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="walkFlagRadio" value=0 ng-model="naviData.walkFlag">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="walkFlagRadio" value=1 ng-model="naviData.walkFlag">
+                    允许
+                </label>
+                <label>
+                    <input type="radio" name="walkFlagRadio" value=2 ng-model="naviData.walkFlag">
+                    禁止
+                </label>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item">
+            <div class="list-name" style="width:120px;">
+                <a ng-click="addSidewalk()" style="cursor: pointer;color: #ffffff;">人行便道 共{{naviData.sidewalks.length}}个</a>
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
+            <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer; width: 150px">
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 0">未调查</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 1">高度差隔离(马路涯)</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 2">物理栅栏隔离</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 3">划线隔离</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 4">无隔离</label>
+                <span id="SidewalkSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusSidewalk($index)"></span>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item">
+            <div class="list-name" style="width:120px;">
+                <a ng-click="addWalkstair()" style="cursor: pointer;color: #ffffff;">人行阶梯 共{{naviData.walkstairs.length}}个</a>
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" ng-repeat="walkstairsItem in naviData.walkstairs">
+            <div ng-click="showWalkstair(walkstairsItem)" style="cursor: pointer;width: 150px">
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="walkstairsItem.stairFlag == 0">未调查</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="walkstairsItem.stairFlag == 1">上坡</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="walkstairsItem.stairFlag == 2">下坡</label>
+                <span id="WalkstairSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusWalkstair($index)"></span>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,154 @@
+
+<div id="speedlimitTeplDiv" ng-controller="speedlimitTeplController" style="overflow-y: auto">
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    限速PID
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{speedLimitData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="speedLimitForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">限速PID</label>-->
+            <!--</div>-->
+            <!--<div class="inline">-->
+                <!--<input type="text" readonly ng-model="speedLimitData.pid"/>-->
+            <!--</div>-->
+
+        <!--</li>-->
+        <li class="list-group-item">
+            <div><label>限速值</label></div>
+            <div class="inline">
+                <input type="text" ng-model="speedLimitData.speedValue" style="width:130px;"/>
+                <span style="color: #F3F6FA;font-weight: normal;">km/h</span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label>限速类型</label></div>
+            <div class="inline">
+                <select ng-model="speedLimitData.speedType"
+                        ng-options="value.id as value.label for value in speedTypeOptions" >
+                </select>
+            </div>
+
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label>限速标志</label>
+            </div>
+
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="speedStartOrEnd" value=0 ng-model="speedLimitData.speedFlag">
+                    限速开始
+                </label>
+                <label>
+                    <input type="radio" name="speedStartOrEnd" value=1 ng-model="speedLimitData.speedFlag">
+                    解除限速
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label>作用方向</label></div>
+            <div class="inline">
+                <select ng-model="speedLimitData.direct"
+                        ng-options="value.id as value.label for value in speedDirectTypeOptions" ng-change="changeDirect(speedLimitData.direct)">
+                </select>
+            </div>
+
+        </li>
+        <li class="list-group-item" ng-if="speedLimitData.speedType==3">
+            <div>
+                <label>限速条件</label>
+            </div>
+            <div class="inline">
+                <select ng-model="speedLimitData.speedDependent"
+                        ng-options="value.id as value.label for value in speedDependentOption">
+                    <option>--</option>
+                </select>
+            </div>
+
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label>限速来源</label>
+            </div>
+            <div class="inline">
+                <select ng-model="speedLimitData.limitSrc"
+                        ng-options="value.id as value.label for value in limitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label>采集标志</label>
+            </div>
+
+            <div class="radio  inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="secneOrTheory" value=0 ng-model="speedLimitData.captureFlag">
+                    现场采集
+                </label>
+                <label>
+                    <input type="radio" name="secneOrTheory" value=1 ng-model="speedLimitData.captureFlag">
+                    理论判断
+                </label>
+            </div>
+        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div ng-include="dateURL"></div>-->
+        <!--</li>-->
+        <li class="list-group-item">
+            <div><label>收费站前</label></div>
+            <div class="radio  inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="beforeOrAfter" value=0 ng-model="speedLimitData.tollgateFlag">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="beforeOrAfter" value=1 ng-model="speedLimitData.tollgateFlag">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label>标牌坐标</label>
+            </div>
+            <div class="inline ">
+                <input type="text" ng-model="speedLimitGeometryData.coordinates">
+            </div>
+
+        </li>
+        <li class="list-group-item">
+            <div><label>关联Link</label></div>
+            <div class="inline ">
+                <input type="text" ng-model="speedLimitData.linkPid">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label>文字说明</label></div>
+            <div class="inline ">
+                <input type="text" ng-model="speedLimitData.descript">
+            </div>
+        </li>
+        <li class="list-group-item" ng-if="speedLimitData.speedType==4">
+            <div><label>车道限速值</label></div>
+            <div class="inline ">
+                <input type="text" ng-model="speedLimitData.laneSpeedValue" style="width: 130px">
+                <span style="color: #F3F6FA;font-weight: normal;">km/h</span>
+            </div>
+        </li>
+        <li class="list-group-item" style="padding:7px;">
+            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{speedLimitData.timeDomain}}' style="width:100%;padding: 5px;"></div>
+        </li>
+
+    </ul>
+    </form>
+</div>

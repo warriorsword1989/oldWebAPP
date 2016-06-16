@@ -1,0 +1,73 @@
+
+<div ng-controller="conditionSpeedController" id="conditionSpeedDiv">
+    <form name="conditForm">
+    <ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===3">
+        <li class="list-group-item">
+            <div><label class="control-label">限速类型</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.speedType"
+                        ng-options="value.id as value.label for value in speedTypeOption" disabled="disabled">
+                    <option>--</option>
+                </select>
+                <!--<span id="minusSpan{{$index}}" class="glyphicon glyphicon-remove-sign"-->
+                         <!--style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor:pointer;"-->
+                         <!--ng-click="minusSpeedlimit($index)"  ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>-->
+                 <!--<span class="glyphicon glyphicon-remove-sign"-->
+                       <!--style="float: left;color: darkgray;left: 0px;display:none;margin-top: 5px;position: absolute"-->
+                       <!--ng-click="changeSpeedAndDirect(roadlinkData.direct,oridiData.rowid)"></span>-->
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">限速条件</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.speedDependent"
+                        ng-options="value.id as value.label for value in speedDependentOption">
+                    <option>--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">顺向速度</label></div>
+            <div class="inline">
+                <input type="text"
+                       placeholder="0530" id="{{oridiData.rowid}}fromSpeedLimit"
+                       ng-model="oridiData.fromSpeedLimit">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">逆向速度</label></div>
+            <div class="inline">
+                <input type="text"
+                       placeholder="0530" id="{{item.rowid}}toSpeedLimit"
+                       ng-model="oridiData.toSpeedLimit">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">顺向来源</label></div>
+            <div class="inline">
+                <select ng-model="item.fromLimitSrc"
+                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">逆向来源</label></div>
+            <div class="inline">
+                <select ng-model="item.toLimitSrc"
+                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">时间段</label></div>
+            <div class="inline">
+                <input type="text"
+                       ng-model="oridiData.timeDomain">
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

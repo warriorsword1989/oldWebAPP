@@ -1,0 +1,189 @@
+
+<div id="basicDiv" ng-controller="basicController" >
+    <from name="basicFrom">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item1">
+            <div  class="list-name text-left">
+                基础属性
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" style="padding-left: 15px">
+            <div>
+                <label class="control-label">道路种别</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.kind"
+                        ng-options="value.id as value.label for value in kindOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">道路方向</label></div>
+            <div class="inline"><input type="text" ng-model="linkData.direct" disabled/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">车道数</label></div>
+            <div class="inline">
+                <label for="LaneNum" style="margin-left: -3px;">总</label>
+                <input id="LaneNum" type="text" style="width: 30px" ng-model="linkData.laneNum"
+                       ng-change="addLeftAdditionalLane($event)"/>
+                <label for="leftLaneNum">左</label>
+                <input id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
+                       ng-change="addLeftAdditionalLane($event)"/>
+                <label for="rightLneNum">右</label>
+                <input id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">车道等级</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.laneClass"
+                        ng-options="value.id as value.label for value in laneClassOptions">
+                    <option value="0">--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">上下分离</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="multiDigitized" value=0 ng-model="linkData.multiDigitized">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="multiDigitized" value=1 ng-model="linkData.multiDigitized">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">IMI代码</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.imiCode"
+                        ng-options="value.id as value.label for value in imiCodeOptions">
+                    <option>--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">功能等级</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.functionClass"
+                        ng-options="value.id as value.label for value in functionClassOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">开发状态</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="developStateRadio" value="0" ng-model="linkData.developState">
+                    非详细
+                </label>
+                <label>
+                    <input type="radio" name="developStateRadio" value="1" ng-model="linkData.developState">
+                    详细
+                </label>
+                <label>
+                    <input type="radio" name="developStateRadio" value="2" ng-model="linkData.developState">
+                    未验证
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">城市道路</label></div>
+
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="urbanRadio" value="0" ng-model="linkData.urban">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="urbanRadio" value="1" ng-model="linkData.urban">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >特殊交通</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="specialTrafficRadio" value=0 ng-model="linkData.specialTraffic">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="specialTrafficRadio" value=1 ng-model="linkData.specialTraffic">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >是否高架</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="isViaductRadio" value=0 ng-model="linkData.isViaduct">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="isViaductRadio" value=1 ng-model="linkData.isViaduct">
+                    是
+                </label>
+                <label>
+                    <input type="radio" name="isViaductRadio" value=2 ng-model="linkData.isViaduct">
+                    未调查
+                </label>
+            </div>
+        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路名</label></div>-->
+            <!--<div class="inline">-->
+                <!--<span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>-->
+            <!--</div>-->
+        <!--</li>-->
+        <li class="list-group-item">
+            <div><label class="control-label">道路形态</label></div>
+            <div class="inline">
+                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+            </div>
+
+        </li>
+        <li style="padding-left: 20px">
+            <div id="fromOfWRoaddiv" style="width:260px;" >
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                      {{fromitem.label}}
+                </div>
+            </div>
+        </li>
+        </ul>
+    </from>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item1">
+                <div  class="inline" style="text-align: left;width: 120px;">
+                    <a ng-click="showOther()" style="cursor: pointer;color:#FFF;">附加属性</a>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div  ng-click="showOther()" style="cursor: pointer;width: 180px"><label style="padding-top: 5px;cursor: pointer;width:160px" class="control-label">起终点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费信息</label>
+                </div>
+            </li>
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item1">
+                <div  class="inline" style="text-align: left;width: 120px;" >
+                    <a ng-click="showZone(linkData.zones.length)" style="cursor: pointer;color:#FFF;" >zone属性（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
+                </div>
+            </li>
+        </ul>
+</div>

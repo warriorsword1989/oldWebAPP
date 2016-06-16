@@ -1,0 +1,80 @@
+<style>
+    .insertDot_false{
+        background: url('../../images/road//button/smooth.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .insertDot_true{
+        background: url('../../images/road//button/smooth_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .deleteDot_false{
+        background: url('../../images/road//button/deleteDot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .deleteDot_true{
+        background: url('../../images/road//button/deleteDot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .moveDot_false{
+        background: url('../../images/road//button/moveDot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .moveDot_true{
+        background: url('../../images/road//button/moveDot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .pathBreak_false{
+        background: url('../../images/road//button/breakLine.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .pathBreak_true{
+        background: url('../../images/road//button/breakLine_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .nodeMove_true{
+        background: url('../../images/road//button/nodeMove_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .nodeMove_false{
+        background: url('../../images/road//button/nodeMove.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .navi_true{
+        background: url('../../images/road//button/navi_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .navi_false{
+        background: url('../../images/road//button/navi.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    #fm-modifyToolContainer>button:focus{
+        outline: none;
+    }
+</style>
+<div id="fm-modifyToolContainer" ng-controller="modifyToolController" class="btn-group btn-group-sm">
+    <!--<button type="button" class="btn insertDot_{{classArr[9]}}" id="insertDot" ng-click="modifyShape('PATHVERTEXINSERT',9,$event)" title="插入形状点"></button>-->
+    <!--<button type="button" class="btn deleteDot_{{classArr[10]}}" id="deleteDot" ng-click="modifyShape('PATHVERTEXREMOVE',10,$event)" title="删除形状点"></button>-->
+    <!--<button type="button" class="btn moveDot_{{classArr[11]}}" id="moveDot" ng-click="modifyShape('PATHVERTEXMOVE',11,$event)" title="移动形状点"></button>-->
+    <!--&lt;!&ndash;<button type="button" class="btn btn-default"  disabled>复制link</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button type="button" class="btn btn-default" disabled>平移link</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button type="button" class="btn btn-default" id="extendDot" disabled ng-click="modifyShape('pathVertexInsert')">延长link</button>&ndash;&gt;-->
+    <!--<button type="button" class="btn pathBreak_{{classArr[12]}}" id="pathBreak" ng-click="modifyShape('PATHBREAK',12,$event)" title="打断link"></button>-->
+
+    <!--<button type="button" class="btn nodeMove_{{classArr[13]}}" id="nodemove" ng-click="modifyShape('PATHNODEMOVE',13,$event)" title="移动node"></button>-->
+    <button type="button" class="btn navi_{{classArr[14]}}" id="naviTool" ng-click="modifyShape('naviTool',14,$event)" title="浏览"></button>
+</div>

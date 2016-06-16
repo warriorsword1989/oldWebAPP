@@ -22,11 +22,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
-		if (scope.itemActive<scope.poiList.length-1 && event.keyCode == 34) {
+		if (event.keyCode == 34 && scope.itemActive<scope.poiList.length-1) {
 			scope.itemActive++;
 			refreshData();
 		}
-		if (scope.itemActive!=0 && event.keyCode == 33) {
+		if (event.keyCode == 33 && scope.itemActive!=0) {
 			scope.itemActive--;
 			refreshData();
 		}
