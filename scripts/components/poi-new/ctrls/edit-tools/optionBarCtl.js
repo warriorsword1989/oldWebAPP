@@ -120,17 +120,19 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     }
 
     /*所有初始化执行方法放在此*/
-    function initializeData() {
+    /*function initializeData() {
         for (var i = 0, len = $scope.checkRuleList.length; i < len; i++) {
             checkRuleObj[$scope.checkRuleList[i].ruleId] = $scope.checkRuleList[i].severity;
         }
         refreshPoiData();
     }
-    initializeData();
+    initializeData();*/
+    refreshPoiData();
 
     /*当poi刷新broadcast此方法*/
     $scope.$on('initOptionData',function(event,data){
-       initializeData();
+       // initializeData();
+        refreshPoiData();
     });
     /*判断默认显示哪个tab*/
     function initShowTag(){
