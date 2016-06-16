@@ -111,7 +111,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	function getCollectTime(scope,row){
 		var temp = '';
 		if(row.collectTime){
-			temp = App.Util.dateFormat(row.collectTime);
+			//temp = App.Util.dateFormat(row.collectTime);
+			temp = Utils.dateFormat(row.collectTime);
 		}else{
 			temp = '无';
 		}
