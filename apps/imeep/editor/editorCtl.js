@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -45,7 +45,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*选中poi列表查询poi详细信息*/
 	$scope.$on('getObjectById',function(event,param){
 		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
-			poiDS.getPoiByPid(param).then(function (data) {
+			dsPoi.getPoiByPid(param).then(function (data) {
 				if(data){
 					showPoiInfo(data);
 					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
@@ -68,7 +68,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 		/*查询3DIcon*/
-		meta.getCiParaIcon(data.poiNum).then(function (data) {
+		dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
 			$scope.poi.poi3DIcon = data;
 		});
 
@@ -197,7 +197,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 */
 	$scope.$on("changeData",function (event,data){
 		changePoi(function (){
-			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.id}).then(function (da) {
+			dsPoi.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.id}).then(function (da) {
 				if(da){
 					showPoiInfo(da);
 
@@ -268,11 +268,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//metaTest();
 	function metaTest(){
 		//大分类
-		meta.getTopKind().then(function (kindData) {
+		dsMeta.getTopKind().then(function (kindData) {
 			console.info("大分类：",kindData);
 		});
 		//中分类
-		meta.getMediumKind().then(function (data) {
+		dsMeta.getMediumKind().then(function (data) {
 			console.info("中分类：",data);
 		});
 		//小分类
@@ -280,23 +280,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			mediumId:"",
 			region:0
 		};
-		meta.getKindListNew().then(function (kindData) {
+		dsMeta.getKindListNew().then(function (kindData) {
 			console.info("==============",kindData);
 		});
 		//
-		meta.getFocus().then(function (data) {
+		dsMeta.getFocus().then(function (data) {
 			console.info("focus:",data);
 		});
 	}
 
 
 	var promises = [];
-	promises.push(meta.getKindList().then(function (kindData) {
-		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//数组最前面增加
+	promises.push(dsMeta.getKindList().then(function (kindData) {
+		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
 		initKindFormat(kindData);
 	}));
-	promises.push(meta.getAllBrandList().then(function (chainData) {
-		//chainData.unshift({"chainCode":"0","chainName":"--请选择--"});
+	promises.push(dsMeta.getAllBrandList().then(function (chainData) {
 		$scope.metaData.allChain = chainData;
 	}));
 
