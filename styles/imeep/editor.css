@@ -643,7 +643,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-bottom-right-radius: 3px;
 }
 
-
+.check-total{
+    margin-right:10px;
+}
 /**********tips style**********/
 
 .modal-tips-img {

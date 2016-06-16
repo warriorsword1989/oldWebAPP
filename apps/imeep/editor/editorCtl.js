@@ -26,14 +26,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		if(type == 1){  //poi
-			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl = '../../../scripts/components/poi3/tpls/attr-base/poiDataListTpl.html';
 				$scope.showLoading = false;
 			});
 		}else{      //道路
 			$scope.poiDataListTpl = '';
-			/*$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			/*$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl = '../../../scripts/components/poi3/tpls/attr-base/poiDataListTpl.html';
 			});*/
 		}
 		$scope.projectType = type;
@@ -74,9 +74,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
 			poiDS.getPoiByPid(param).then(function (data) {
 				if(data){
+					initOcll();
 					showPoiInfo(data);
 					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
-					initOcll();
 				}
 			});
 		});
@@ -401,12 +401,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	function initOcll() {
 		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi3/tpls/attr-tips/poiPopoverTips.html';
 			$scope.showPopoverTips = true;
 		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/generalBaseCtl').then(function () {
+			$scope.generalBaseTpl = '../../../scripts/components/poi3/tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	//页面初始化方法调用
@@ -414,12 +414,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		loadMap();
 
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+			$scope.selectPoiURL = '../../../scripts/components/poi3/tpls/toolBar_cru_tpl/selectPoiTpl.html';
 
 		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/edit-tools/optionBarCtl').then(function () {
+			$scope.consoleDeskTpl = '../../../scripts/components/poi3/tpls/edit-tools/optionBarTpl.html';
 		});
 		/*默认显示poi作业平台*/
 		$scope.changeProject(1);

@@ -44,23 +44,23 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
         $scope.tagSelect = tagName;
         switch (tagName) {
             case 'outputResult':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/outputResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/outputResultTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/outputResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/outputResultTpl.html';
                 });
                 break;
             case 'errorCheck':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/errorCheckCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/errorCheckTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/errorCheckCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/errorCheckTpl.html';
                 });
                 break;
             case 'searchResult':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/searchResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/searchResultTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/searchResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/searchResultTpl.html';
                 });
                 break;
             default:
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/checkResultTpl.html';
+                $ocll.load('scripts/components/poi3/ctrls/edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
         }
@@ -91,6 +91,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     /*查找检查结果总数*/
     dsPoi.getCheckDataCount().then(function(data){
         $scope.checkResultTotal = data;
+        console.log(data)
         $scope.checkPageTotal = Math.ceil(data/5);
     });
     /*初始化检查结果数据*/
