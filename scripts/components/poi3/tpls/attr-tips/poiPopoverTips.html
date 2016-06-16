@@ -5,7 +5,16 @@
         </label>
     </div>
     <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
+    <div class="col-sm-12 img-preview-container">
+        <img image-404="../../../images/road/img/noimg.png" src="{{poi.photos[0].originUrl}}" class="img-preview" alt="">
+    </div>
     <div class="meta-info col-sm-12">
+        <div class="preview-left">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </div>
+        <div class="preview-right">
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </div>
         <div ng-repeat="item in poi.photos ">
             <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
                  ng-click="showImage(item,$index);" class="tips-img" alt="">
