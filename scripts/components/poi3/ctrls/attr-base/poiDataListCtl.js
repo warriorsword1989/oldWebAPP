@@ -11,9 +11,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	/*选择数据查找poi详情*/
 	scope.selectData = function (data,index) {
-		scope.$emit('changeData');
-		// scope.nowPoi = data;
-		// scope.nowPoiIndex = index;
 		/*如果用户确认，切换poi*/
 		scope.$on('changeDataRes',function(event,d){
 			scope.$emit('closePopoverTips',false);
@@ -25,6 +22,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			scope.$emit('getObjectById',param);
 			scope.itemActive = index;
 		});
+		scope.$emit('changeData');
+		// scope.nowPoi = data;
+		// scope.nowPoiIndex = index;
 	};
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
