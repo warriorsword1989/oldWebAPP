@@ -26,8 +26,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		if(type == 1){  //poi
-			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl = '../../../scripts/components/poi3/tpls/attr-base/poiDataListTpl.html';
 				$scope.showLoading = false;
 			});
 		}else{      //道路
@@ -45,18 +45,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		changePoi(function () {
 			if (id === "tipsPanel") {
 				$scope.isTipsPanel = 1;
-				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/fieldsResult.html';
+				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
 				$scope.isTipsPanel = 2;
-				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/sceneLayers.html';
+				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
+					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/sceneLayers.html';
 				});
 			} else if (id === "layerPanel") {
 				$scope.isTipsPanel = 3;
-				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
-						$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/referenceLayers.html';
+				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
+						$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/referenceLayers.html';
 					}
 				);
 			}
@@ -228,7 +228,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 */
 	$scope.$on("changeData",function (event,data){
 		changePoi(function (){
-			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.id}).then(function (da) {
+			poiDS.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.id}).then(function (da) {
 				if(da){
 					showPoiInfo(da);
 
@@ -401,12 +401,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	function initOcll() {
 		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi3/tpls/attr-tips/poiPopoverTips.html';
 			$scope.showPopoverTips = true;
 		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/generalBaseCtl').then(function () {
+			$scope.generalBaseTpl = '../../../scripts/components/poi3/tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	//页面初始化方法调用
@@ -414,12 +414,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		loadMap();
 
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+			$scope.selectPoiURL = '../../../scripts/components/poi3/tpls/toolBar_cru_tpl/selectPoiTpl.html';
 
 		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
+		$ocLazyLoad.load('scripts/components/poi3/ctrls/edit-tools/optionBarCtl').then(function () {
+			$scope.consoleDeskTpl = '../../../scripts/components/poi3/tpls/edit-tools/optionBarTpl.html';
 		});
 		/*默认显示poi作业平台*/
 		$scope.changeProject(1);
