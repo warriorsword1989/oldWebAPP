@@ -19,8 +19,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.outputType = 1;
 	$scope.hideConsole = true;
 	$scope.hideEditorPanel = false;
-	//$scope.parentPoi = {};//父POI
-	//$scope.childrenPoi = []; //子POI
 	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
@@ -306,7 +304,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 元数据接口联调测试
 	 * @type {Array}
      */
-	metaTest();
+	//metaTest();
 	function metaTest(){
 		//大分类
 		meta.getTopKind().then(function (kindData) {
@@ -332,13 +330,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 
 	var promises = [];
-	promises.push(poiDS.queryChargeChain("230218").then(function (data) {
-		$scope.chargeChain = data;
-	}));
 	promises.push(meta.getKindList().then(function (kindData) {
+		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//数组最前面增加
 		initKindFormat(kindData);
 	}));
 	promises.push(meta.getAllBrandList().then(function (chainData) {
+		chainData.unshift({"chainCode":"0","chainName":"--请选择--"});
 		$scope.metaData.allChain = chainData;
 	}));
 
