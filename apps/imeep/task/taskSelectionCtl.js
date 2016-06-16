@@ -19,6 +19,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.requestParams = {classType:2};
     //当前作业类型;
     $scope.currentWorkType = 'road';
+    $scope.currentDataLength = true;
 
     //控制页面tab页切换;
     $scope.changeDataList = function(val) {
@@ -67,9 +68,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     }
     $scope.startEdit = function(){
         if($scope.currentWorkType=='road'){
-            window.location.href = "./poiEditor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
+            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
         }else{
-            window.location.href = "./poiEditor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
+            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
         }
     }
     //高亮显示网格并聚焦;
@@ -129,7 +130,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         console.log(obj)
         if(!obj)return;
         poiDS.querySubtaskByUser({
-            'userId':1,//$cookies.get('FM_USER_ID');
+            'exeUserId':1,//$cookies.get('FM_USER_ID');
             'stage':obj.classStage,
             'type':obj.classType,
             'status':obj.currentStatus,
@@ -138,6 +139,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             'pageSize':20
         }).then(function(data) {
             $scope.currentSubTaskList = data;
+            if(!data.length)$scope.currentDataLength = false;
             console.log(data)
         });
     }
