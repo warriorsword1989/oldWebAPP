@@ -45,18 +45,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		changePoi(function () {
 			if (id === "tipsPanel") {
 				$scope.isTipsPanel = 1;
-				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/fieldsResult.html';
+				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
 				$scope.isTipsPanel = 2;
-				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/sceneLayers.html';
+				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
+					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/sceneLayers.html';
 				});
 			} else if (id === "layerPanel") {
 				$scope.isTipsPanel = 3;
-				$ocLazyLoad.load('scripts/components/road/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
-						$scope.poiDataListTpl = '../../../scripts/components/road/tpls/layers_switch_tpl/referenceLayers.html';
+				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
+						$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/referenceLayers.html';
 					}
 				);
 			}
@@ -228,7 +228,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 */
 	$scope.$on("changeData",function (event,data){
 		changePoi(function (){
-			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.id}).then(function (da) {
+			poiDS.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.id}).then(function (da) {
 				if(da){
 					showPoiInfo(da);
 
