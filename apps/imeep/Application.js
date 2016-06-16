@@ -52,4 +52,23 @@ App.Util = {
         }
         return reqObj;
     },
+    createTipsTileRequestObject: function(url, requestType) {
+        var urlObj = {};
+        if (requestType != "") {
+            urlObj.url = App.Config.generalUrl + url;
+            urlObj.parameter = {
+                dbId: App.Temp.dbId,
+                gap: 80,
+                types: requestType
+            }
+        }else{
+            urlObj.url = App.Config.generalUrl + url;
+            urlObj.parameter = {
+                dbId: App.Temp.dbId,
+                gap: 80
+            }
+        }
+        return urlObj;
+    },
+
 };

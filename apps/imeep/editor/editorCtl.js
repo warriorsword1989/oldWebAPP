@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -21,6 +21,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.hideConsole = true;
 	$scope.hideEditorPanel = false;
 	$scope.controlFlag = {};//用于父Scope控制子Scope
+	$scope.outErrorArr = [false, true, true, false];//输出框样式控制
 
 
 	/*切换项目平台*/
@@ -39,22 +40,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.projectType = type;
 	};
 
-	$scope.isTipsPanel = 1;
+	$scope.selectedTool = 1;
 	//切换成果-场景栏中的显示内容
 	$scope.changeEditTool = function (id) {
 		changePoi(function () {
 			if (id === "tipsPanel") {
-				$scope.isTipsPanel = 1;
+				$scope.selectedTool = 1;
 				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
-				$scope.isTipsPanel = 2;
+				$scope.selectedTool = 2;
 				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
 					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/sceneLayers.html';
 				});
 			} else if (id === "layerPanel") {
-				$scope.isTipsPanel = 3;
+				$scope.selectedTool = 3;
 				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
 						$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/referenceLayers.html';
 					}
@@ -62,6 +63,33 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			}
 		})
 	};
+	$scope.$on("SWITCHCONTAINERSTATE", function (event, data) {
+		if (data.hasOwnProperty("attrContainerTpl")) {
+			$scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+		} else if (data.hasOwnProperty("subAttrContainerTpl")) {
+			$scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+		}
+	});
+	//属性栏开关逻辑控制
+	$scope.attrTplContainerSwitch = function (flag) {
+		$scope.panelFlag = flag;
+		$scope.objectFlag = flag;
+		if ($scope.panelFlag) {
+
+			$scope.outErrorArr[3] = true;
+			$scope.outErrorArr[2] = false;
+		}
+		else {
+			$scope.attrTplContainer = "";
+			$scope.suspendFlag = false;
+			$scope.outErrorArr[2] = true;
+			$scope.outErrorArr[3] = false;
+		}
+	};
+	//次属性开关逻辑控制
+	$scope.subAttrTplContainerSwitch = function (flag) {
+		$scope.suspendFlag = flag;
+	}
 
 	$scope.changeProperty = function (val) {
 		$scope.propertyType = val;
@@ -72,7 +100,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*选中poi列表查询poi详细信息*/
 	$scope.$on('getObjectById',function(event,param){
 		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
-			poiDS.getPoiByPid(param).then(function (data) {
+			dsPoi.getPoiByPid(param).then(function (data) {
 				if(data){
 					showPoiInfo(data);
 					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
@@ -95,7 +123,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 		/*查询3DIcon*/
-		meta.getCiParaIcon(data.poiNum).then(function (data) {
+		dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
 			$scope.poi.poi3DIcon = data;
 		});
 
@@ -228,7 +256,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 */
 	$scope.$on("changeData",function (event,data){
 		changePoi(function (){
-			poiDS.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.id}).then(function (da) {
+			dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.id}).then(function (da) {
 				if(da){
 					showPoiInfo(da);
 
@@ -299,11 +327,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//metaTest();
 	function metaTest(){
 		//大分类
-		meta.getTopKind().then(function (kindData) {
+		dsMeta.getTopKind().then(function (kindData) {
 			console.info("大分类：",kindData);
 		});
 		//中分类
-		meta.getMediumKind().then(function (data) {
+		dsMeta.getMediumKind().then(function (data) {
 			console.info("中分类：",data);
 		});
 		//小分类
@@ -311,22 +339,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			mediumId:"",
 			region:0
 		};
-		meta.getKindListNew().then(function (kindData) {
+		dsMeta.getKindListNew().then(function (kindData) {
 			console.info("==============",kindData);
 		});
 		//
-		meta.getFocus().then(function (data) {
+		dsMeta.getFocus().then(function (data) {
 			console.info("focus:",data);
 		});
 	}
 
 
 	var promises = [];
-	promises.push(meta.getKindList().then(function (kindData) {
+	promises.push(dsMeta.getKindList().then(function (kindData) {
 		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//数组最前面增加
 		initKindFormat(kindData);
 	}));
-	promises.push(meta.getAllBrandList().then(function (chainData) {
+	promises.push(dsMeta.getAllBrandList().then(function (chainData) {
 		//chainData.unshift({"chainCode":"0","chainName":"--请选择--"});
 		$scope.metaData.allChain = chainData;
 	}));
