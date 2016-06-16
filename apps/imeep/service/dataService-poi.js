@@ -287,24 +287,6 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
-    this.queryChargeChain = function (kindCode){
-        var defer = $q.defer();
-        var params = {
-            "kindCode": kindCode,
-        };
-        ajax.get("charge/row_edit/queryChain/", {
-            parameter: params
-        }).success(function (data) {
-            if (data.errcode == 0) {
-                defer.resolve(data.data);
-            } else {
-                defer.resolve("加载品牌信息出错：" + data.errmsg);
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    };
     /*获取检查结果*/
     this.getCheckData = function(num){
         var defer = $q.defer();
@@ -417,10 +399,6 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     //根据用户名查找子任务列表;
     this.querySubtaskByUser = function(paramObj){
         var defer = $q.defer();
-        //var params = {
-        //    'userId':paramObj.userId?paramObj.userId:1,
-        //    'snapshot':paramObj.snapshot?paramObj:0,
-        //};
         ajax.get("man/subtask/listByUser", {
             parameter:JSON.stringify(paramObj),
             urlType:'general'

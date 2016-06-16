@@ -17,9 +17,9 @@
     <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
     <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
     <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
-    <script src="loadMapApi.js"></script>
-    <script src="loadUikit.js"></script>
-    <script src="loadCanvasFeature.js"></script>
+    <script src="../editor/loadMapApi.js"></script>
+    <script src="../editor/loadUikit.js"></script>
+    <script src="../editor/loadCanvasFeature.js"></script>
 </head>
 <body ng-controller="TaskSelectionCtl">
 <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
@@ -78,8 +78,9 @@
                                         </tbody>
                                     </table>-->
                                     <div class="fm-panel" >
-                                        <div class="content" style="padding-bottom: 30px;">
+                                        <div class="content" style="padding: 0">
                                             <ul class="fm-ul fm-ul-form">
+                                                <!--<li ng-show ="!currentDataLength"><a href="javascript:void(0);" style="font-size: 14px">没有子任务!</a></li>-->
                                                 <li ng-repeat="item in currentSubTaskList" style="cursor:pointer;padding: 8px 15px 8px 5px;">
                                                     <a href='javascript:void(0);' style="font-size: 14px" ng-click="highlightGrid(item)" ng-bind="item.$$hashKey.length>10?$index+1+'. '+item.$$hashKey.substr(0,10)+'...':$index+1+'. '+item.$$hashKey"></a>
                                                 </li>

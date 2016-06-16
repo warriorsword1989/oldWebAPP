@@ -21,8 +21,8 @@ requirejs.config({
         'dataService': 'apps/imeep/service/dataService',
         'poiService': 'apps/imeep/service/dataService-poi',
         'metaService': 'apps/imeep/service/dataService-meta',
-        'TaskSelectionCtl': 'apps/imeep/editor/taskSelectionCtl',
-        'layers': "apps/imeep/editor/taskSelectionLayerConfig",
+        'TaskSelectionCtl': 'apps/imeep/task/taskSelectionCtl',
+        'layers': "apps/imeep/task/layerConfig",
     },
     shim: {
         'ocLazyLoad': ['angular'],

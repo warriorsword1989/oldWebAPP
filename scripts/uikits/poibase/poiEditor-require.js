@@ -13,7 +13,6 @@ requirejs.config({
         "chosenJquery": "libs/angular-chosen/chosen.jquery.min",
         "angularChosen": "libs/angular-chosen/angular-chosen.min",
         'application': 'uikits/Application',
-        'appUtil': 'uikits/common/app-util',
         'dataService': 'uikits/poibase/dataService',
         'poiService': 'uikits/poibase/dataService-poi',
         'PoiEditorCtl': 'uikits/poibase/poiEditorCtl'
@@ -24,10 +23,9 @@ requirejs.config({
         'uiBootstrap': ['angular'],
         'chosenJquery': ['jquery'],
         'angularChosen': ['angular'],
-        'appUtil': ['application'],
         'dataService': ['angular'],
         'poiService': ['dataService'],
-        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService']
+        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'poiService']
     }
 });
 // Start the main app logic.
