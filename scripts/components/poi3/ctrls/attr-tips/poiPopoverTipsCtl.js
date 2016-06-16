@@ -40,9 +40,9 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     /*tips图片翻页*/
     $scope.turnTipsPage = function(type){
         if(type == 1){  //上一页
-            
+            $scope.tipsPage++;
         }else{      //下一页
-
+            $scope.tipsPage--;
         }
     }
     /*更新图片数组*/

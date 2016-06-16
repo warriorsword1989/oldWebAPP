@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/9/25.
  */
-var filedsModule = angular.module('mapApp');
+var filedsModule = angular.module('app');
 filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout',
         function ($rootScope, $scope, $ocLazyLoad, $timeout) {
             var objCtrl = fastmap.uikit.ObjectEditController();
