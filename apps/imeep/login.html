@@ -9,7 +9,7 @@
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/sweet-alert/css/sweet-alert.css" rel="stylesheet" type="text/css"/>
-        <link href="../../styles/poi/newlogin.css" rel="stylesheet" type="text/css" />
+        <link href="../../styles/poi/login.css" rel="stylesheet" type="text/css" />
         <script src="../../scripts/libs/sweet-alert/js/sweet-alert.js"></script>
         <script src="../../scripts/uikits/Application.js"></script>
         <script src="../../scripts/uikits/common/app-util.js"></script>
@@ -17,12 +17,21 @@
         <script src="../../scripts/libs/angularjs/1.4.4/angular-cookies.min.js"></script>
         <script src="../../scripts/libs/backstretch/ng-backstretch.min.js"></script>
         <script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>
-        <script src="../../scripts/uikits/poibase/newLoginCtrl.js"></script>
+        <script src="../../scripts/uikits/poibase/loginCtrl.js"></script>
     </head>
-    <body ng-controller="loginPageCtrl">
-        <!-- main login part -->
-        <login valid-type="2"></login>
-        <!-- background effect part -->
-        <div class="backstretch" backstretch backstretch-images="images" backstretch-duration="9000" backstretch-fade="1.5"></div>
-    </body>
+        <body ng-controller="loginCtrl">
+            <div id="navibar" class="container-fluid">
+                <div class="navbar-header">
+                    <h1>FastMap <small>室内作业系统</small></h1>
+                </div>
+            </div>
+            <!-- main login part -->
+            <div style="top: 0;bottom: 0;left: 0;right: 0;margin: auto;height: 300px;" class="login">
+                <div class="company-logo" style="margin-left: -15px"></div>
+                <login valid-type="2"></login>
+            </div>
+            <footer class="bs-docs-footer">
+                <small>Copyright©2014 北京四维图新科技股份有限公司</small>
+            </footer>
+        </body>
 </html>
