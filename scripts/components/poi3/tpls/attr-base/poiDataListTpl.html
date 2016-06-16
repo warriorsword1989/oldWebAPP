@@ -1,0 +1,57 @@
+<div ng-controller="PoiDataListCtl">
+    <div class="fm-poiList-btnGroup btn-group col-sm-12" role="group" aria-label="...">
+        <div class="btn-group col-sm-4" role="group">
+            <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 1}" ng-click="changeDataList(1)"><i class="glyphicon glyphicon-th-large"></i> <a href="#allTaskers" data-toggle="tab" style="font-size: 10px;text-decoration: none;font-weight:bold">全 部</a></button>
+        </div>
+        <div class="btn-group col-sm-4 data-list-btn-middle" role="group">
+            <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 2}" ng-click="changeDataList(2)"><i class="glyphicon glyphicon-list-alt"></i> <a href="#pendingTaskers" data-toggle="tab" style="font-size: 10px;text-decoration: none;font-weight:bold">待 处 理</a></button>
+        </div>
+        <div class="btn-group col-sm-4" role="group">
+            <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 3}" ng-click="changeDataList(3)"><i class="glyphicon glyphicon-th-list"></i> <a href="#solvedTaskers" data-toggle="tab" style="font-size: 10px;text-decoration: none;font-weight:bold">已 处 理</a></button>
+        </div>
+    </div>
+    <span class="fm-list-filter" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+        <button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+            <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+            <li ng-repeat="col in cols">
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show"/> {{col.title}}
+                </label>
+            </li>
+        </ul>
+    </span>
+    <div class="table-search fm-inline fm-list-dropdown">
+        <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-xs dropdown-toggle fm-xs-btn fm-group-btn" uib-dropdown-toggle ng-disabled="disabled">
+                {{radio_select}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <!--<li role="menuitem" ng-repeat="col in cols">
+                    <a href="#" ng-bind="col.title"></a>
+                </li>-->
+                <li ng-model="radio_select" uib-btn-radio="'全局'" role="menuitem"><a href="#">全局搜索</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'名称'" role="menuitem"><a href="#">项目名称</a></li>
+            </ul>
+        </div>
+        <input class="fm-search-control" type="text" ng-model="filters['value']" placeholder="搜索"/>
+    </div>
+    <div class="table-container dark scroll-styled">
+        <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
+            <colgroup>
+                <col width="35px" />
+                <col width="135px" />
+                <col width="60px" />
+                <col width="60px" />
+                <col width="130px" />
+                <col width="60px" />
+                <col width="60px" />
+            </colgroup>
+            <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
+                <td ng-repeat="col in $columns" title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]">{{row[col.field]}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+

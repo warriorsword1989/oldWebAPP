@@ -1,0 +1,47 @@
+<div ng-controller="restaurantCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>信用卡类型</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in creditCard" ng-if="key == 0" class="fm-specialopt">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
+                            </label>
+                            <label ng-repeat="(key, value) in creditCard" ng-if="key != 0">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>停车信息</label>
+                        <div>
+                            <select class="fm-control" ng-model="poi.restaurants[0].parking"
+                                    ng-options="value.id as value.label for value in parkingOptions"
+                                    >
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>人均消费</label>
+                        <div><input type="number" class="fm-control" ng-model="poi.restaurants[0].avgCost"/></div>
+                    </li>
+                    <li>
+                        <label>营业时间</label>
+                        <div><input type="text" class="fm-control" ng-model="poi.restaurants[0].openHour"/></div>
+                    </li>
+                    <li>
+                        <label>菜品风味 需要接口返回</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in tollWay">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].tollWay[key]"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

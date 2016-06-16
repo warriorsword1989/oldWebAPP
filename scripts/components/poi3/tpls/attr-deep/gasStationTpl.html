@@ -1,0 +1,45 @@
+<div ng-controller="GasStationCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>支付方式</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in paymentML" ng-if="true">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].payment[key]"> {{value}}
+                            </label>
+                            <label ng-repeat="(key, value) in paymentHM" ng-if="">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].payment[key]"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>附属服务</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in serviceML" ng-if="true">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].service[key]"> {{value}}
+                            </label>
+                            <label ng-repeat="(key, value) in serviceHM" ng-if="">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].service[key]"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>燃气类型</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in oilType">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].oilType[key]"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>营业时间</label>
+                        <div><input type="text" class="fm-control" ng-model="poi.gasstations[0].openHour"/></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
