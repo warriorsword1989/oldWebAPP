@@ -1,0 +1,60 @@
+<style>
+    #layerPanel ul{
+        list-style-type: none;
+        padding-left: 10px;
+    }
+
+    #layerPanel ul>li{
+        list-style-type: none;
+        margin-top: 10px;;
+    }
+
+    #layerPanel ul>li{
+        margin-left: 10px;
+    }
+
+    #layerPanel ul>li label {
+        color: #FFF;
+        cursor: pointer;
+    }
+
+    #layerPanel ul>li input{
+        cursor: pointer;
+    }
+
+    #layerPanel ul>li>div>label{
+        color:#FFF;
+    }
+
+    #layerPanel ul>li>div>a{
+        color:#FFF;
+        cursor: pointer;
+    }
+
+    #layerPanel ul>li:hover>div>a{
+        color:rgba(255,255,255,0.5);
+    }
+
+    #layerPanel ul>li:hover>div>label{
+        color:rgba(255,255,255,0.5);
+    }
+</style>
+<div ng-controller="referenceLayersController" id="layerPanel">
+    <div style="background-color: rgb(64,64,64);padding: 5px 10px;">
+        <label style="font-size:18px;color:#FFF;"><i style="font-size: 16px;" class="glyphicon glyphicon-wrench"></i> 参考图层设置</label>
+    </div>
+    <ul>
+        <li ng-repeat="item in items">
+            <div ng-if="item.options.singleselect===true">
+                <input tabindex="1" style="float:right;margin-right: 10px" type="radio"
+                       ng-checked="item.options.visible"
+                       ng-click="showLayers(item,$event)"/>
+                <label style="font-weight: bold;">{{item.options.layername}}</label>
+            </div>
+            <div ng-if="item.options.singleselect!==true">
+                <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]" ng-click="showLayers(item,$event)"></a>
+                <label style="font-weight: bold;">{{item.options.layername}}</label>
+            </div>
+        </li>
+    </ul>
+</div>

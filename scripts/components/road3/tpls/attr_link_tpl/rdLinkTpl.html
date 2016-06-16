@@ -1,0 +1,58 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+
+    #fm-link-tabControl{
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    #fm-link-tabControl>a{
+        float: none;
+        background-color: #555;
+        margin-right: 1px;
+        color: rgba(255,255,255,.5);
+    }
+
+    #fm-link-tabControl>a:hover{
+        color:#FFF;
+        background-color: rgba(255,255,255,0.25);
+    }
+
+    #fm-link-tabControl>a.selected{
+        color:#FFF;
+        background-color: rgba(255,255,255,0.25);
+    }
+</style>
+<div id="currentObjectDiv" ng-controller="linkObjectController">
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+     <div class="panel panel-default " style="background-color: transparent;border:0;">
+         <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 11px;">
+             道路线
+
+             <span ng-if="brigeLinkArrays==null" class="label label-info" >{{linkData.pid}}</span>
+             <span ng-if="brigeLinkArrays!=null" ng-class="{'active':$index==brigeIndex,'btn btn-primary btn-xs':true}" ng-repeat="item in brigeLinkArrays"  >
+                  <label class="brige-line" ng-click="changeLink($index,item.id)">{{item.id}}</label>
+             </span>
+         </div>
+     </div>
+        </form>
+    </div>
+    <div id="fm-link-tabControl" class="btn-group" role="group" aria-label="...">
+        <a title="基础属性" ng-class="{'btn glyphicon glyphicon-star selected':modelArray[0]==true,'btn glyphicon glyphicon-star':modelArray[0]==false}"   ng-click="changeModule('basicModule',0)"></a>
+        <a title="道路名" ng-class="{'btn glyphicon glyphicon-tag selected':modelArray[1]==true,'btn glyphicon glyphicon-tag':modelArray[1]==false}"  ng-click="changeModule('nameModule',1)"></a>
+        <a title="限速" ng-class="{'btn glyphicon glyphicon-dashboard selected':modelArray[2]==true,'btn glyphicon glyphicon-dashboard':modelArray[2]==false}"  ng-click="changeModule('speedModule',2)"></a>
+        <a title="限制信息" ng-class="{'btn glyphicon glyphicon-ban-circle selected':modelArray[3]==true,'btn glyphicon glyphicon-ban-circle':modelArray[3]==false}"  ng-click="changeModule('limitedModule',3)"></a>
+        <a title="实时交通" ng-class="{'btn glyphicon glyphicon-road selected':modelArray[4]==true,'btn glyphicon glyphicon-road':modelArray[4]==false}"  ng-click="changeModule('realtimeModule',4)"></a>
+        <a title="行人导航" ng-class="{'btn glyphicon glyphicon-send selected':modelArray[5]==true,'btn glyphicon glyphicon-send':modelArray[5]==false}"  ng-click="changeModule('paginationModule',5)"></a>
+    </div>
+    <div style="width: 100%;">
+        <div ng-include="currentURL" ></div></div>
+</div>

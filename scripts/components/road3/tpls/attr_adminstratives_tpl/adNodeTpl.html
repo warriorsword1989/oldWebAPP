@@ -1,0 +1,41 @@
+
+<div id="rdNodediv"  ng-controller="adNodeController" >
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    行政区划点
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adNodeData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="adNodeForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div ><label class="control-label">种别</label></div>
+            <div class="inline" style="text-align: left" ng-repeat="item in kind | filter:{id:adNodeData.kind}">
+                <input type="text" ng-model="item.label" disabled="disabled">
+            </div>
+
+        </li>
+
+        <li class="list-group-item">
+            <div ><label class="control-label">形态</label></div>
+            <div class="inline" style="text-align: left">
+                <select  ng-model="adNodeData.form"
+                         ng-options="value.id as value.label for value in form" >
+                </select>
+            </div>
+        </li>
+
+        <li class="list-group-item">
+            <div ><label class="control-label">图幅号</label></div>
+            <div class="inline" style="text-align: left">
+                <input type="text"  ng-model="adNodeData.meshId" disabled="disabled">
+            </div>
+
+        </li>
+    </ul>
+    </form>
+</div>

@@ -1,0 +1,67 @@
+
+<div ng-controller="sidewalkController" id="sidewalkDiv">
+    <form name="sideWalkForm">
+    <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+
+        <li class="list-group-item">
+            <div><label class="control-label">位置关系</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.sidewalkLoc" ng-options="value.id as value.label for value in sidewalkLocoptions">
+                <option>--</option>
+            </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">隔离方式</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.dividerType" ng-options="value.id as value.label for value in dividerTypeoptions" >
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">作业方向</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="workDirRadio" value=0 ng-model="oridiData.workDir" ng-click="changeStrToInt('workDir')">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="workDirRadio" value=1 ng-model="oridiData.workDir" ng-click="changeStrToInt('workDir')">
+                    顺
+                </label>
+                <label>
+                    <input type="radio" name="workDirRadio" value=2 ng-model="oridiData.workDir" ng-click="changeStrToInt('workDir')">
+                    逆
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">处理标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="processFlagRadio" value=0 ng-model="oridiData.processFlag" ng-click="changeStrToInt('processFlag')">
+                    程序
+                </label>
+                <label>
+                    <input type="radio" name="processFlagRadio" value=1 ng-model="oridiData.processFlag" ng-click="changeStrToInt('processFlag')">
+                    手工
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">采集标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="captureFlagRadio" value=0 ng-model="oridiData.captureFlag" ng-click="changeStrToInt('captureFlag')">
+                    未采集
+                </label>
+                <label>
+                    <input type="radio" name="captureFlagRadio" value=1 ng-model="oridiData.captureFlag" ng-click="changeStrToInt('captureFlag')">
+                    外业确认
+                </label>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

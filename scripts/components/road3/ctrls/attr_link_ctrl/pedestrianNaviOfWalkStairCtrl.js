@@ -1,0 +1,70 @@
+/**
+ * Created by liwanchong on 2016/3/2.
+ */
+var walkstairApp = angular.module("mapApp");
+walkstairApp.controller("walkstairController",function($scope) {
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.walkstairData = objCtrl.data.walkstairs;
+    $scope.linkData = objCtrl.data;
+
+
+    for(var i= 0,len=$scope.walkstairData.length;i<len;i++) {
+        if($scope.walkstairData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
+            $scope.oridiData = $scope.walkstairData[i];
+        }
+    }
+    $scope.walkstairLocoptions=[
+        {"id": 0, "label":"无"},
+        {"id": 1, "label":"右侧"},
+        {"id": 2, "label":"中间"},
+        {"id": 3, "label":"右侧+中间"},
+        {"id": 4, "label":"左侧"},
+        {"id": 5, "label":"右侧+左侧"},
+        {"id": 6, "label":"左侧+中间"},
+        {"id": 7, "label":"右侧+左侧+中间"},
+        {"id": 8, "label":"混合"}
+    ];
+
+    $scope.dividerTypeoptions=[
+        {"id": 0, "label":"未调查"},
+        {"id": 1, "label":"高度差隔离(马路涯)"},
+        {"id": 2, "label":"物理栅栏隔离"},
+        {"id": 3, "label":"划线隔离"},
+        {"id": 4, "label":"无隔离"}
+    ];
+
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.walkStairForm) {
+        $scope.walkStairForm.$setPristine();
+    }
+
+    $scope.addStairWalk = function () {
+        $scope.walkstairData.unshift({
+            captureFlag: 1,
+            stairFlag: 1,
+            stairLoc: 2,
+            workDir: 1,
+            linkPid:0
+        })
+
+    };
+    $scope.minusStairWalk=function(id) {
+        $scope.walkstairData.splice(id, 1);;
+    };
+
+    $scope.changeColor=function(ind){
+        $("#walkstairSpan"+ind).css("color","#FFF");
+    }
+    $scope.backColor=function(ind){
+        $("#walkstairSpan"+ind).css("color","darkgray");
+    }
+    $scope.stairFlagFun=function(item) {
+        item.stairFlag = parseInt(item.stairFlag);
+    };
+    $scope.workDirFun=function(item) {
+        item.workDir = parseInt(item.workDir);
+    };
+    $scope.captureFlagFun=function(item) {
+        item.captureFlag = parseInt( item.captureFlag );
+    };
+});

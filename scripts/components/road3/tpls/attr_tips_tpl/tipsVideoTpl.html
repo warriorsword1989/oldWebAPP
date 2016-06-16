@@ -1,0 +1,30 @@
+
+<div ng-controller="tipsVideoController">
+    <div class="modal-header">
+        <button id="tipsImgClose" type="button" class="close"
+                ng-click="closePicContainer()"
+                data-dismiss="modal" aria-hidden="true" title="关闭">
+            &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+            语音
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="switch-left" ng-click="switchVideo(0);">
+            <img src="../../images/road/img/left.png">
+        </div>
+        <div id="dataVideoModal">
+                <audio controls="controls" style="margin-top: 50px;margin-left: 15px">
+                    <source src="" type="audio/mpeg" id="VideoModal">
+                </audio>
+                <!--<button style="margin-left: 120px;color: #F3F3F3;background-color: #434343;" title="上一首"> <<  </button>
+                <button style="color: #F3F3F3;background-color: #434343;" title="下一首">  >> </button>-->
+            </div>
+        <div class="switch-right" ng-click="switchVideo(1);">
+            <img src="../../images/road/img/right.png">
+        </div>
+        <!--<div ng-show="showLoading" id="loadText">加载中...</div>-->
+        <div id="imgPage">{{imgPageNow || 0}}/{{imgAllPage || 0}}</div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<style>
+    #sceneLayerPanel ul {
+        list-style-type: none;
+        padding-left: 10px;
+    }
+
+    #sceneLayerPanel ul > li {
+        list-style-type: none;
+        margin-top: 10px;
+    }
+
+    #sceneLayerPanel ul > li {
+        margin-left: 10px;
+    }
+
+    #sceneLayerPanel ul > li label {
+        color: #FFF;
+    }
+
+    #sceneLayerPanel ul > li input {
+        cursor: pointer;
+    }
+
+    #sceneLayerPanel ul > li > a {
+        color: #FFF;
+        cursor: pointer;;
+    }
+
+    #sceneLayerPanel ul > li:hover > a {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    #sceneLayerPanel ul > li:hover > label {
+        color: rgba(255, 255, 255, 0.5);
+    }
+</style>
+<div ng-controller="sceneLayersController" id="sceneLayerPanel">
+    <div style="background-color: rgb(64,64,64);padding: 5px 10px;">
+        <label style="font-size:18px;color:#FFF;"><i style="font-size: 16px;" class="glyphicon glyphicon-wrench"></i>
+            场景设置</label>
+    </div>
+    <ul>
+        <li>
+            <label> 场景选择</label>
+        </li>
+        <li>
+            <ul style="padding-left: 10px">
+                <li ng-repeat="scene in scenceArr">
+                    <input tabindex="1" style="float:right;margin-right: 10px" type="radio"
+                           ng-checked="scene.selected"
+                           ng-click="showScene(scene,$event)"/>
+                    <label style="font-weight: bold;">{{scene.label}}</label>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li><label>关系</label></li>
+        <li>
+            <ul style="padding-left: 10px" >
+                <li ng-repeat="item in items" ng-if="item.options.id!=='rdrtic'">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">{{item.options.layername}}</label>
+                </li>
+            </ul>
+           <!-- <ul style="padding-left: 10px" >
+                <li ng-repeat="item in testItem" ng-if="item.options.id!=='rdrtic' && !item.options.flag">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">{{item.options.layername}}</label>
+                </li>
+            </ul>
+            <ul style="padding-left: 10px" ng-repeat="item in testItem" ng-if="item.options.flag">
+                <li ng-repeat="item1 in item.options.sonName">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item1[1]]"
+                       ng-click="showLayers1(item,item1,$event)"></a>
+                    <label style="font-weight: bold;">{{item1[0]}}</label>
+                </li>
+            </ul>-->
+        </li>
+       <!-- <li>
+            <ul style="padding-left: 10px">
+                <li ng-repeat="item in testItem" ng-if="item.options.id!=='rdrtic'">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">{{item.options.layername}}</label>
+                </li>
+                <li  ng-repeat="item in testItem" ng-if="item.options.layername==='普通限速'">
+                     <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">条件限速</label>
+                </li>
+            </ul>
+        </li>-->
+    </ul>
+</div>

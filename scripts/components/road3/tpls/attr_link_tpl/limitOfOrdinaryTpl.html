@@ -1,0 +1,89 @@
+
+<div ng-controller="ordinaryLimitController" id="oridinaryLimitDiv" style="font-size: 12px">
+    <form name="ordinaryLimitFrom">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label" >供用信息</label></div>
+            <div class="inline">
+                <select  ng-model="linkData.appInfo"
+                        ng-options="value.id as value.label for value in appInfoOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >限制类型</label></div>
+            <div class="inline">
+                <select ng-change="limitTypeChange()" ng-model="oridiData.type"
+                        ng-options="value.id as value.label for value in typeOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >限制方向</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.limitDir" ng-disabled="oridiData.type==0||oridiData.type==2||oridiData.type==3||oridiData.type==4"
+                        ng-options="value.id as value.label for value in limitDirOptions"  ng-change="changeDirect(oridiData.limitDir)">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >收费类型</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.tollType" ng-disabled="oridiData.type!=6"
+                        ng-options="value.id as value.label for value in tollTypeOptions">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >天气条件</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.weather"
+                        ng-options="value.id as value.label for value in weatherOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">录入时间</label></div>
+            <div class="inline"><input type="text" ng-disabled="oridiData.type==0||oridiData.type==4" ng-model="oridiData.inputTime"/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">赋值方式</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" ng-disabled="oridiData.type==0||oridiData.type==1||oridiData.type==2||oridiData.type==4||oridiData.type==5||oridiData.type==6||oridiData.type==7" name="processFlagRadio" value=0 ng-model="oridiData.processFlag">
+                    默认
+                </label>
+                <label>
+                    <input type="radio" ng-disabled="oridiData.type==0||oridiData.type==1||oridiData.type==2||oridiData.type==4||oridiData.type==5||oridiData.type==6||oridiData.type==7" name="processFlagRadio" value=1 ng-model="oridiData.processFlag">
+                    外业
+                </label>
+                <label>
+                    <input type="radio" ng-disabled="oridiData.type==0||oridiData.type==1||oridiData.type==2||oridiData.type==4||oridiData.type==5||oridiData.type==6||oridiData.type==7" name="processFlagRadio" value=2 ng-model="oridiData.processFlag">
+                    未验证
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ng-include="dateURL" class="muti-date" date-str='{{oridiData.timeDomain}}' style="width:100%;padding: 5px;"></div>
+        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div ng-include="dateURL" class="muti-date" date-str='{{item.timeDomain}}'></div>-->
+        <!--</li>-->
+        <li class="list-group-item">
+            <div ng-include="carPopoverURL"  style="width:100%;padding: 5px;"></div>
+            <!--<div class="inline" style="width:100%;">-->
+                <!--<div style="text-align: center;"><a style="cursor: pointer;"  ng-click="showPopover($index,item.vehicle)">添加</a><input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-click="checkViche()" ng-model="checkValue">允许</div>-->
+
+                <!--<div  id="vehicleExpressiondiv"-->
+                      <!--style="min-width:60px; min-heigth:60px;list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;overflow-y:auto;word-break: break-all;word-wrap: break-word;"-->
+                      <!--tabindex="0" role="button" data-toggle="popover"  title="车辆类型">-->
+                <!--</div>-->
+            <!--</div>-->
+        </li>
+    </ul>
+    </form>
+</div>

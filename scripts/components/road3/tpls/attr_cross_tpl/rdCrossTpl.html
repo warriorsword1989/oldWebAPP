@@ -1,0 +1,78 @@
+
+<div id="rdCrossDiv" ng-controller="rdCrossController">
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    道路路口
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdCrossData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="rdCrossForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">信号灯</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="crossOrMan" value=0 ng-model="rdCrossData.signal">
+                    无
+                </label>
+                <label>
+                    <input type="radio" name="crossOrMan" value=1 ng-model="rdCrossData.signal">
+                    路口
+                </label>
+                <label>
+                    <input type="radio" name="crossOrMan" value=2 ng-model="rdCrossData.signal">
+                    行人
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">路口类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="easyOrHard" value=0 ng-model="rdCrossData.type">
+                    简单
+                </label>
+                <label>
+                    <input type="radio" name="easyOrHard" value=1 ng-model="rdCrossData.type">
+                    复合
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">电子眼</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="electRoeye" value=0 ng-model="rdCrossData.electroeye">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="electRoeye" value=1 ng-model="rdCrossData.electroeye">
+                    有
+                </label>
+                <label>
+                    <input type="radio" name="electRoeye" value=2 ng-model="rdCrossData.electroeye">
+                    无
+                </label>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div style="width: 120px;">
+                <a ng-click="addRdCrossName()" style="cursor: pointer;color:#FFF;">路口名称（共<span ng-if="rdCrossData.names!=undefined">{{rdCrossData.names.length}}</span>条）</a>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item"  ng-repeat="cItem in rdCrossData.names">
+            <div ng-click="showCrossNames(cItem)" style="cursor: pointer;width: 180px;margin-left: 15px"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
+                <span id="crossnameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minuscrossName($index)"></span>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>

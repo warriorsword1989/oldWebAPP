@@ -1,0 +1,65 @@
+<div ng-controller="OptionBarCtl">
+    <!--控制台箭头图标-->
+    <div class="fm-panel-arrow">
+        <a ng-class="{true:'fm-panel-controlArrowUp',false:'fm-panel-controlArrowDown'}[hideConsole]" ng-click="changePanelShow('bottom');">
+            <span></span>
+        </a>
+    </div>
+    <div class="fm-container fm-lvl1 full-width">
+        <div class="fm-tabs">
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'outputResult'}" ng-model="tagSelect" uib-btn-radio="'outputResult'" ng-click="changeTag('outputResult')">
+                <i class="glyphicon glyphicon-filter"></i>
+                输出结果
+            </a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'errorCheck'}" ng-model="tagSelect" uib-btn-radio="'errorCheck'" ng-click="changeTag('errorCheck')">
+                <i class="glyphicon glyphicon-tasks"></i>
+                检查结果
+            </a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'searchResult'}" ng-model="tagSelect" uib-btn-radio="'searchResult'" ng-click="changeTag('searchResult')">
+                <i class="glyphicon glyphicon-search"></i>
+                搜索结果
+            </a>
+            <!--<a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'checkResult'}" ng-model="tagSelect" uib-btn-radio="'checkResult'" ng-click="changeTag('checkResult')">检查结果</a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'confusionInfo'}" ng-model="tagSelect" uib-btn-radio="'confusionInfo'" ng-click="changeTag('confusionInfo')">冲突检测</a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'editHistory'}" ng-model="tagSelect" uib-btn-radio="'editHistory'" ng-click="changeTag('editHistory')">作业履历</a>-->
+            <button ng-show="tagSelect == 'outputResult'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="emptyTableResult('outputResult');">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                清空
+            </button>
+            <button ng-show="tagSelect == 'errorCheck'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="refreshCheckResult();">
+                <i class="glyphicon glyphicon-refresh"></i>
+                刷新检查
+            </button>
+            <button ng-show="tagSelect == 'errorCheck'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="CheckUpResult();">
+                <i class="glyphicon glyphicon-equalizer"></i>
+                在线检查
+            </button>
+            <button ng-show="tagSelect == 'searchResult'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="emptyTableResult('searchResult');">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                清空
+            </button>
+            <div class="fm-pagination pull-right" ng-show="tagSelect == 'errorCheck'">
+                <div class="check-total pull-left">
+                    共
+                    <span ng-bind="checkResultTotal"></span>
+                     项错误
+                </div>
+                <div class="pull-left">
+                    第
+                    <span ng-bind="checkPageNow"></span>
+                    页 | 共
+                    <span ng-bind="checkPageTotal"></span>
+                    页
+                </div>
+                <div class="pull-left fm-pagination-btn">
+                    <button class="btn btn-xs fm-btn fm-output-btn fm-page-btn-prev" ng-disabled="checkPageNow == 1" ng-click="turnPage('prev');"> << </button>
+                    <button class="btn btn-xs fm-btn fm-output-btn fm-page-btn-next" ng-disabled="checkPageNow == checkPageTotal" ng-click="turnPage('next');"> >> </button>
+                </div>
+            </div>
+        </div>
+        <div class="fm-console-content dark scroll-styled">
+            <div ng-include="tagContentTpl"></div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,52 @@
+<style>
+    .node_false{
+        background: url('../../images/road//button/dot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .node_true{
+        background: url('../../images/road//button/dot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adLink_false{
+        background: url('../../images/road//button/line.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adLink_true{
+        background: url('../../images/road//button/line_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adAdmin_false{
+        background: url('../../images/road//button/adAdmin.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adAdmin_true{
+        background: url('../../images/road//button/adAdmin_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adFace_false{
+        background: url('../../images/road//button/adFace.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adFace_true{
+        background: url('../../images/road//button/adFace_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #fm-selectAdShapeContainer>button:focus{
+        outline: none;
+    }
+</style>
+<div id="fm-selectAdShapeContainer" ng-controller="selectAdShapeController" class="btn-group btn-group-sm" style="width: 100%;">
+    <button type="button" class="btn node_{{classArr[0]}}"  id="node" ng-click="selectAddShape('adNode',0)" title="选择ADNODE"></button>
+    <button type="button" class="btn adLink_{{classArr[1]}}" id="adLink" ng-click="selectAddShape('adLink',1)" title="选择ADLINK"></button>
+    <button type="button" class="btn adAdmin_{{classArr[2]}}" id="adAdmin" ng-click="selectAddShape('adAdmin',2)" title="行政区划代表点"></button>
+    <button type="button" class="btn adFace_{{classArr[3]}}" id="adFace" ng-click="selectAddShape('adFace',3)" title="选择行政区划面"></button>
+
+</div>

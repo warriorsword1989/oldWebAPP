@@ -1,0 +1,61 @@
+<style>
+    .node_false{
+        background: url('../../images/road//button/dot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .node_true{
+        background: url('../../images/road//button/dot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .link_false{
+        background: url('../../images/road//button/line.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .link_true{
+        background: url('../../images/road//button/line_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .relation_false{
+        background: url('../../images/road//button/relation.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .relation_true{
+        background: url('../../images/road//button/relation_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .tips_false{
+        background: url('../../images/road//button/tips.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .tips_true{
+        background: url('../../images/road//button/tips_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .cross_true{
+        background: url('../../images/road//button/cross_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .cross_false{
+        background: url('../../images/road//button/cross.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #fm-selectShapeContainer>button:focus{
+        outline: none;
+    }
+</style>
+<div id="fm-selectShapeContainer" ng-controller="selectShapeController" class="btn-group btn-group-sm" style="width: 100%;">
+    <button type="button" class="btn node_{{classArr[0]}}"  id="node" ng-click="selectShape('node',0)" title="选择点"></button>
+    <button type="button" class="btn link_{{classArr[1]}}" id="link" ng-click="selectShape('RDLINK',1)" title="选择线"></button>
+    <button type="button" class="btn relation_{{classArr[2]}}" id="relation" ng-click="selectShape('relation',2)" title="选择关系"></button>
+    <button type="button" class="btn tips_{{classArr[3]}}" id="tips" ng-click="selectShape('tips',3)" title="选择tips"></button>
+</div>

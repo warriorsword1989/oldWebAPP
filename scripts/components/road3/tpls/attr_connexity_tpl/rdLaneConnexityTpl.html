@@ -1,0 +1,78 @@
+
+<div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv" oncontextmenu=self.event.returnValue=false>
+    <div style="height:50px">
+        <form class="form-horizontal" method="get" style="border: 0;">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    车信ID
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{lanesData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="rdLaneConnexityForm">
+    <ul  class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div style="width: 100%;text-align: right;margin-bottom: 10px;"> <span style="float:right;font-size: 14px;color: #FFF;" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
+            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index" ng-if="showNormalData.length!==0">
+                <div >
+                    <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:-5px;color: #fff;cursor: pointer;"
+                          class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                    <img    class="lanePic" ng-if="item.type===0"
+                            ng-click="showLanesInfo(item,$index,$event)"
+                            ng-mousedown="changeDirect(item,$event,$index)"
+                            ng-src="../../images/road/1301/1301_0_{{item.flag}}.svg"
+                            title="{{item}}">
+                    <img    class="lanePic" ng-if="item.type===2"
+                            ng-click="showLanesInfo(item,$index,$event)"
+                            ng-mousedown="changeDirect(item,$event,$index)"
+                            ng-src="../../images/road/1301/1301_2_{{item.flag}}.svg"
+                            title="{{item}}">
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div style="display: none;"></div>
+            <div style="display: inline-block;padding-top: 15px" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
+                <div >
+                    <span ng-if="items.flag!=='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                          class="glyphicon glyphicon-remove-sign"
+                          ng-click="minusTransitData(items,$index)"></span>
+                       <span ng-if="items==='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                               ></span>
+                    <img
+                         class="lanePic"
+                         ng-if="items.flag!=='test'"
+                         ng-click="changeTransit(items,$index)"
+                         ng-src="../../images/road/1301/1301_1_{{items.flag}}.svg"
+                         title="{{items}}">
+                    <img
+                         ng-if="items.flag==='test'"
+                         ng-click="changeTransit(items,$index)"
+                         ng-src="../../images/road/1301/1301_1_test.svg">
+                </div>
+            </div>
+
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">进入线</label></div>
+            <div class="inline"><input type="text" readonly ng-model="lanesData.inLinkPid"/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">车道总数</label></div>
+            <div class="inline"><input type="text" readonly ng-model="lanesData.laneNum"/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">附加车道</label></div>
+            <div class="inline">
+                <label for="leftAddtionalLane">左</label>
+                <input id="leftAddtionalLane" type="text" style="width: 49px" ng-model="lanesData.leftExtend"/>
+                <label for="rightAddtionalLane">右</label>
+                <input id="rightAddtionalLane" type="text" style="width: 49px" ng-model="lanesData.rightExtend"/>
+
+            </div>
+        </li>
+
+    </ul>
+    </form>
+</div>

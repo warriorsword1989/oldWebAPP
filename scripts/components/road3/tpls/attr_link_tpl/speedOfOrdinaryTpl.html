@@ -1,0 +1,70 @@
+
+<div ng-controller="ordinarySpeedController" id="oridinarySpeedDiv">
+    <form name="ordinarySpeedForm">
+    <!--<ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===0" style="margin-bottom: 5px">-->
+        <ul class="list-group list-group-lg m-b-none"  style="margin-bottom: 5px">
+        <li class="list-group-item">
+            <div class="list-name">
+                <a ng-click="changeSpeedAndDirect(roadlinkData.direct,oridiData.rowId)" style="cursor: pointer;color:#FFF;">修改方向</a>
+            </div>
+            <div class="list-line" style="margin-bottom: 5px;"></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">限速类型</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.speedType"
+                        ng-options="value.id as value.label for value in speedTypeOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">顺向速度</label></div>
+            <div class="inline">
+                    <input type="text"
+                           placeholder="0530" id="fromSpeed"
+                           ng-model="oridiData.fromSpeedLimit">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">逆向速度</label></div>
+            <div class="inline">
+                <input type="text"
+                       placeholder="0530" id="toSpeed"
+                       ng-model="oridiData.toSpeedLimit">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">顺向来源</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.fromLimitSrc"
+                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">逆向来源</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.toLimitSrc"
+                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">等级赋值</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="speedClassWorkRadio" value=0 ng-model="oridiData.speedClassWork">
+                    手工
+                </label>
+                <label>
+                    <input type="radio" name="speedClassWorkRadio" value=1 ng-model="oridiData.speedClassWork">
+                    程序
+                </label>
+            </div>
+        </li>
+    </ul>
+    </form>
+</div>
