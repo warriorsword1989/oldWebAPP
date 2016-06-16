@@ -5,15 +5,12 @@ var App = {};
 App.Config = {
     appType: "WEB",
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "0000029900O8W64A6BABD577C832761FEDC8208F4B9D6DD3",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
-    generalUrl: 'http://192.168.4.188:8000/service',
-    tipsServer: "/fcc/tip",
-    editServer: "/edit",
-    metaServer: "/metadata"
+    generalUrl: 'http://192.168.4.188:8000/service'
 };
 App.Temp = {
+    accessToken: "0000029900O8W64A6BABD577C832761FEDC8208F4B9D6DD3",
     dbId: 8,
     meshList: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
     relationNameObj: {
@@ -32,13 +29,13 @@ App.Util = {
         return location.pathname.substr(0, location.pathname.indexOf("/apps"));
     },
     getFullUrl: function(url) {
-        return App.Config.serviceUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
+        return App.Config.serviceUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
     },
     getHbaseUrl: function(url) {
         return App.Config.hbaseServiceUrl + "/" + url;
     },
     getGeneralUrl: function(url) {
-        return App.Config.generalUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
+        return App.Config.generalUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
     },
     createTileRequestObject: function(url, requestType) {
         var reqObj = {};

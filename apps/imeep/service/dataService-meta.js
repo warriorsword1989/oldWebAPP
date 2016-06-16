@@ -147,5 +147,91 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             defer.reject(rejection);
         })
         return defer.promise;
-    }
+    };
+
+    /*****************-------------------------------道路相关----------------------------************************/
+
+    /**
+     *  获取箭头图图片组
+     * @param param
+     * @param func
+     */
+    this.getArrowImgGroup = function(param) {
+        var defer = $q.defer();
+        ajax.get("/metadata/patternImage/search", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    /**
+     *  获取箭头图图片
+     * @param param
+     * @param func
+     */
+    this.getArrowImg = function(param) {
+        var defer = $q.defer();
+        ajax.get("/metadata/patternImage/getById", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    /**
+     *  高速分歧 名称发音和语音
+     * @param param
+     * @param func
+     */
+    this.getNamePronunciation = function(param) {
+        var defer = $q.defer();
+        ajax.get("/metadata/pinyin/convert", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    //根据输入的道路名模糊查询所有道路民
+    this.getNamesbyName = function(param) {
+        var defer = $q.defer();
+        ajax.get("/metadata/rdname/search", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);
