@@ -1,5 +1,4 @@
 angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', function($scope, $ocll,dsPoi) {
-    var checkRuleObj = {};
     /*翻页事件*/
     $scope.turnPage = function(type){
         if(type == 'prev'){     //上一页
@@ -9,19 +8,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
         }
     }
     var distinguishResult = function (data) {
-        /*检查规则*/
-        // for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
-        //     $scope.poi.checkResults[i].setCheckRule(checkRuleObj[$scope.poi.checkResults[i].errorCode])
-        // }
-        // if ($scope.poi.lifeCycle != 2) {
-        //     /*根据履历作业员id查找真实姓名*/
-        //     poi.queryUser($scope.poi.editHistoryData.operator.user.toString()).then(function(userInfo){
-        //         $scope.poi.editHistoryData.operator.name = userInfo.realName;
-        //     });
-        // }else {
-        //     $scope.poi.editHistoryData = false;
-        // }
-
         $scope.outputResult = [
             new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
             new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
@@ -72,21 +58,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
                     $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/searchResultTpl.html';
                 });
                 break;
-            case 'checkResult':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/checkResultTpl.html';
-                });
-                break;
-            case 'confusionInfo':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/confusionResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/confusionResultTpl.html';
-                });
-                break;
-            case 'editHistory':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/editHistoryCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/editHistoryTpl.html';
-                });
-                break;
             default:
                 $ocll.load('scripts/components/poi-new/ctrls/edit-tools/checkResultCtl').then(function () {
                     $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/checkResultTpl.html';
@@ -98,14 +69,14 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     $scope.emptyTableResult = function(type){
         if(type == 'outputResult'){     //输出结果
             $scope.outputResult = [];
-        }else{
+        }else{      //搜索结果
 
         }
-    }
+    };
     /*刷新检查*/
     $scope.refreshCheckResult = function(){
         initCheckResultData();
-    }
+    };
 
     /*查找检查结果*/
     function getCheckResultData(num){
@@ -115,8 +86,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
                 $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
             }
         });
-    }
-    // getCheckResultData($scope.checkPageNow);
+    };
     initCheckResultData();
     /*查找检查结果总数*/
     dsPoi.getCheckDataCount().then(function(data){
