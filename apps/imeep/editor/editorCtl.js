@@ -296,7 +296,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		initKindFormat(kindData);
 	}));
 	promises.push(meta.getAllBrandList().then(function (chainData) {
-		chainData.unshift({"chainCode":"0","chainName":"--请选择--"});
+		//chainData.unshift({"chainCode":"0","chainName":"--请选择--"});
 		$scope.metaData.allChain = chainData;
 	}));
 
