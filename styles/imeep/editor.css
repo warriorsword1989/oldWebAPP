@@ -512,7 +512,7 @@ form input[type='checkbox']:checked.ng-dirty {
 }
 
 .fm-console-hide {
-    margin-bottom: -237px;
+    margin-bottom: -202px;
 }
 
 .fm-console-whole-width {
@@ -525,7 +525,7 @@ form input[type='checkbox']:checked.ng-dirty {
 
 .fm-option-bar {
     width: auto;
-    bottom: 237px;
+    bottom: 202px;
     left: 0;
     right: 300px;
     z-index: 1;
@@ -550,7 +550,7 @@ form input[type='checkbox']:checked.ng-dirty {
     text-overflow: ellipsis;
 }
 .fm-console-content {
-    height: 205px;
+    height: 170px;
     overflow-y: auto;
     padding-left: 5px;
     padding-right: 5px;
@@ -647,7 +647,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-bottom-right-radius: 3px;
 }
 
-
+.check-total{
+    margin-right:10px;
+}
 /**********tips style**********/
 
 .modal-tips-img {
