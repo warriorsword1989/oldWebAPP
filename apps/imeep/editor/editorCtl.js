@@ -78,6 +78,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.$on('getPoiList',function(event,data){
 		$scope.poiList = data;
 	});
+	/*关闭tips*/
+	$scope.$on('closePopoverTips',function(event,data){
+		$scope.showPopoverTips = false;
+	});
 	/*获取检查结果*/
 	// $scope.checkPageNow = 1;
 	/*高亮检查结果poi点*/
