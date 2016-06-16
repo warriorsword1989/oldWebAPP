@@ -48,7 +48,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var type = event.currentTarget.type;//按钮的类型
         if (type === "POILOCMOVE") {
             if (selectCtrl.selectedFeatures) {
-                $scope.poi.geometry = selectCtrl.selectedFeatures.geometry[0];
                 tooltipsCtrl.setCurrentTooltip('开始移动POI显示坐标点！');
             } else {
                 tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
@@ -56,8 +55,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         } else if (type === "POIGUIDEMOVE") {
             if (selectCtrl.selectedFeatures) {
-                $scope.poi.guide = selectCtrl.selectedFeatures.geometry[1];
-                $scope.poi.linkPid = selectCtrl.selectedFeatures.linkPid;
                 tooltipsCtrl.setCurrentTooltip('开始移动POI引导坐标点！');
             } else {
                 tooltipsCtrl.setCurrentTooltip('先选择POI引导坐标点！');
@@ -65,9 +62,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         } else if(type === "POIAUTODRAG"){
             if (selectCtrl.selectedFeatures) {
-                $scope.poi.geometry = selectCtrl.selectedFeatures.geometry[0];
-                $scope.poi.guide = selectCtrl.selectedFeatures.geometry[1];
-                $scope.poi.linkPid = selectCtrl.selectedFeatures.linkPid;
                 tooltipsCtrl.setCurrentTooltip('开始移动POI显示坐标点！');
             } else {
                 tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
@@ -158,6 +152,9 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     * 点击选择poi按钮
     * */
     $scope.selectPoiShape = function (type, num) {
+        if (map.getZoom() < poi.options.showNodeLevel) {
+            return;
+        }
         map.closePopup();//如果有popup的话清除它
         //重置选择工具
         $scope.resetToolAndMap();
@@ -237,7 +234,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
      * @param data
      */
     $scope.selectObjCallback = function (data) {
-        $scope.$emit("mapSelectPoiBefore", data);
+        $scope.$emit("changeData", data);
     };
     $scope.$on("clickSelectedPoi",function (event,data) {
         map.closePopup();//如果有popup的话清除它
@@ -278,6 +275,13 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                             'text': "<a class='glyphicon glyphicon-refresh'></a>",
                             'title': "重置",
                             'type': "POIRESET",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        },
+                        {
+                            'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
+                            'title': "编辑父",
+                            'type': "PARENTRALATION",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }]
