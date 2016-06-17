@@ -29,6 +29,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.hideEditorPanel = false;
 	$scope.disappearEditorPanel = true;
 	$scope.controlFlag = {};//用于父Scope控制子Scope
+	$scope.outErrorArr = [false, true, true, false];//输出框样式控制
 	$scope.outputResult = [];//输出结果
 
 
@@ -50,29 +51,56 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.projectType = type;
 	};
 
-	$scope.isTipsPanel = 1;
+	$scope.selectedTool = 1;
 	//切换成果-场景栏中的显示内容
 	$scope.changeEditTool = function (id) {
 		changePoi(function () {
 			if (id === "tipsPanel") {
-				$scope.isTipsPanel = 1;
-				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/fieldsResult.html';
+				$scope.selectedTool = 1;
+				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+					$scope.poiDataListTpl =  appPath.root + appPath.road + 'tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
-				$scope.isTipsPanel = 2;
-				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/sceneLayers.html';
+				$scope.selectedTool = 2;
+				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
+					$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
 				});
 			} else if (id === "layerPanel") {
-				$scope.isTipsPanel = 3;
-				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
-						$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/referenceLayers.html';
+				$scope.selectedTool = 3;
+				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
+						$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/referenceLayers.html';
 					}
 				);
 			}
 		})
 	};
+	$scope.$on("SWITCHCONTAINERSTATE", function (event, data) {
+		if (data.hasOwnProperty("attrContainerTpl")) {
+			$scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+		} else if (data.hasOwnProperty("subAttrContainerTpl")) {
+			$scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+		}
+	});
+	//属性栏开关逻辑控制
+	$scope.attrTplContainerSwitch = function (flag) {
+		$scope.panelFlag = flag;
+		$scope.objectFlag = flag;
+		if ($scope.panelFlag) {
+
+			$scope.outErrorArr[3] = true;
+			$scope.outErrorArr[2] = false;
+		}
+		else {
+			$scope.attrTplContainer = "";
+			$scope.suspendFlag = false;
+			$scope.outErrorArr[2] = true;
+			$scope.outErrorArr[3] = false;
+		}
+	};
+	//次属性开关逻辑控制
+	$scope.subAttrTplContainerSwitch = function (flag) {
+		$scope.suspendFlag = flag;
+	}
 
 	$scope.changeProperty = function (val) {
 		$scope.propertyType = val;
@@ -80,14 +108,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.changeOutput = function (val) {
 		$scope.outputType = val;
 	};
-
 	/**
 	 * 显示poi基本信息，tips信息等
      */
 	var showPoiInfo = function (data){
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 		$scope.hideEditorPanel = true; //打开右侧面板
-		
+
 		specialDetail(data);//名称组和地址组特殊处理
 		$scope.poi = data;
 		$scope.origPoi = angular.copy(data);
@@ -446,12 +473,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	function initOcll() {
 		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi3/tpls/attr-tips/poiPopoverTips.html';
+		//appPath.root + appPath.road +
+		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = appPath.root + appPath.poi + 'tpls/attr-tips/poiPopoverTips.html';
 			$scope.showPopoverTips = true;
 		});
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = '../../../scripts/components/poi3/tpls/attr-base/generalBaseTpl.html';
+		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-base/generalBaseCtl').then(function () {
+			$scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	//页面初始化方法调用
@@ -459,12 +487,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		loadMap();
 
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = '../../../scripts/components/poi3/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+		$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+			$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
 
 		});
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = '../../../scripts/components/poi3/tpls/edit-tools/optionBarTpl.html';
+		$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
+			$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 		});
 		/*默认显示poi作业平台*/
 		$scope.changeProject(1);

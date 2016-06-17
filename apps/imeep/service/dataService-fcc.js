@@ -8,12 +8,13 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
     this.getTipsStatics = function(stage) {
         var defer = $q.defer();
         var params = {
-            "grids": [App.Temp.meshList.toString()],
-            "stage": [stage.toString()]
+            "grids": App.Temp.meshList,
+            "stage": stage
         };
 
         ajax.get("/fcc/tip/getStats", {
-            parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -37,7 +38,8 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
         };
 
         ajax.get("/fcc/tip/getSnapshot", {
-            parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -57,7 +59,8 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
             "rowkey": rowkey
         };
         ajax.get("/fcc/tip/getByRowkey", {
-            parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -79,7 +82,8 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
     this.changeDataTipsState = function(param) {
         var defer = $q.defer();
         ajax.get("/fcc/tip/edit", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -109,7 +113,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
         };
 
         ajax.get("editsupport/poi/query", {
-            parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params),
         }).success(function(data) {
             if (data.errcode == 0) {
                 var poi = new FM.dataApi.IxPoi(data.data.data[0]);

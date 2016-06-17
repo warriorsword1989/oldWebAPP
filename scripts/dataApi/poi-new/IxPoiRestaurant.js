@@ -9,7 +9,17 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this.restaurantId = data['restaurantId'] || 0;
         this.poiPid = data['poiPid'] || 0;
-        this.foodType = data['foodType'];
+        var foodTypeArr = (data["foodType"] || "").split("|");
+        this.foodType1 = {};
+        this.foodType2 = {};
+        if(foodTypeArr.length == 2){
+            this.foodType1[foodTypeArr[0]] = true;
+            this.foodType2[foodTypeArr[1]] = true;
+        }
+        // if(foodTypeArr.length == 2){
+        //     this.foodType1 = foodTypeArr[0];
+        //     this.foodType2 = foodTypeArr[1];
+        // }
         var creditCardArr = (data["creditCard"] || "").split("|");
         this.creditCard = {};
         for(var i=0;i<creditCardArr.length;i++) {

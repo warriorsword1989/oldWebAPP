@@ -515,7 +515,7 @@ form input[type='checkbox']:checked.ng-dirty {
     right: 0px !important;
 }
 
-.fm-editor-panel-disappear{
+.fm-editor-panel-disappear {
     right: -315px !important;
 }
 
@@ -833,9 +833,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     height: 100%;
-    background-color: #3D3B3B;
+    background-color: #555555;
     opacity: .8;
     margin-left: -20px;
+    cursor: pointer;
+    width: 20px;
+    border: 0;
+    cursor: pointer !important;
 }
 
 .preview-left > .glyphicon {
@@ -846,10 +850,14 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     height: 100%;
-    background-color: #3D3B3B;
+    background-color: #555555;
     opacity: .8;
     right: 0;
     margin-right: 0;
+    cursor: pointer;
+    width: 20px;
+    border: 0;
+    cursor: pointer !important;
 }
 
 .preview-right > .glyphicon {
@@ -867,6 +875,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .meta-info {
     padding-left: 20px;
+    height:47px;
 }
 
 .full-screen-img-panel {
@@ -1214,6 +1223,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #e5e5e5;
     background-color: #1D1B1B;
     background-image: linear-gradient(to bottom, #1F1E1E 0%, #1F1E1E 100%)
+}
+
+.dropdown-menu-name {
+    margin-left: -10px;
+    margin-right: -10px;
 }
 
 .fm-xs-btn {

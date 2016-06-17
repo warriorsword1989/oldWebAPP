@@ -32,11 +32,21 @@
                         <div><input type="text" class="fm-control" ng-model="poi.restaurants[0].openHour"/></div>
                     </li>
                     <li>
-                        <label>菜品风味 需要接口返回</label>
+                        <label>菜品风味</label>
                         <div class="block">
-                            <label ng-repeat="(key, value) in tollWay">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].tollWay[key]"> {{value}}
-                            </label>
+                            <div style="border-bottom: 1px solid gray;">
+                                <label ng-repeat="(key, value) in foodType1Obj">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1"> {{value}}
+                                </label>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <label ng-repeat="(key, value) in foodType2Obj" ng-if="key == 2016" style="color:yellowgreen">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2"> {{value}}
+                                </label>
+                                <label ng-repeat="(key, value) in foodType2Obj" ng-if="key != 2016">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2"> {{value}}
+                                </label>
+                            </div>
                         </div>
                     </li>
                 </ul>

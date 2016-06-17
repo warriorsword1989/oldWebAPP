@@ -31,8 +31,8 @@
                 <!--<li role="menuitem" ng-repeat="col in cols">
                     <a href="#" ng-bind="col.title"></a>
                 </li>-->
-                <li ng-model="radio_select" uib-btn-radio="'全局'" role="menuitem"><a href="#">全局搜索</a></li>
-                <li ng-model="radio_select" uib-btn-radio="'名称'" role="menuitem"><a href="#">项目名称</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'全局'" role="menuitem"><a href="#" class="dropdown-menu-name">全局搜索</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'名称'" role="menuitem"><a href="#" class="dropdown-menu-name">项目名称</a></li>
             </ul>
         </div>
         <input class="fm-search-control" type="text" ng-model="filters['value']" placeholder="搜索"/>

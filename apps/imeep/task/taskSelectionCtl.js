@@ -19,10 +19,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.requestParams = {classType:2};
     //当前作业类型;
     $scope.currentWorkType = 'road';
-    $scope.currentDataLength = true;
+    //当前选中子任务对象;
+    $scope.currentTaskData = null;
+    //是否显示箭头;
+    $scope.showArrow = false;
 
     //控制页面tab页切换;
     $scope.changeDataList = function(val) {
+        $scope.requestParams={};
+        $scope.editorDisabled = true;
         $scope.dataListType = val;
         $scope.taskStatus = 6;
         //构建过滤请求参数;
@@ -36,9 +41,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         loadSubTaskfn($scope.requestParams)
     };
     $scope.changeTaskStatus = function(val) {
+        $scope.editorDisabled = true;
         $scope.taskStatus = val;
         switch ($scope.taskStatus){
-            case 6: $scope.requestParams.currentStatus='';break;
+            case 6: delete  $scope.requestParams.currentStatus;break;
             case 7: $scope.requestParams.currentStatus=1;break;
             case 8: $scope.requestParams.currentStatus=0;break;
         }
@@ -66,15 +72,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 break;
         }
     }
+    //开始编辑跳转;
     $scope.startEdit = function(){
-        if($scope.currentWorkType=='road'){
-            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
-        }else{
+        $scope.currentWorkType = $scope.currentTaskData.type;
+        if($scope.currentWorkType==0){
             window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=poi";
+        }else{
+            window.location.href = "../editor/editor.html?"+$location.absUrl().split('?')[1].substr(0,48)+"?type=road";
         }
     }
     //高亮显示网格并聚焦;
     $scope.highlightGrid = function (params){
+        $scope.showArrow = true;
+        $scope.currentTaskData = params;
         $scope.hideEditorPanel = true;
         //防止重绘高亮;
         if($scope.currentHighLight.length) {
@@ -109,7 +119,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                     addHighlight()
                 }
             }
-        },50)
+        },100)
 
         function addHighlight(){
             console.log(gridid)
@@ -124,6 +134,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         //控制编辑按钮是否可用;
         ctrlEditorSwitch(params);
     }
+
+    $scope.getDateFormat = function(){
+        var startTime = $scope.currentTaskData.planStartDate.split(' ')[0].split('-').join('.');
+        var endTime = $scope.currentTaskData.planEndDate.split(' ')[0].split('-').join('.');
+        return startTime+'~'+endTime;
+    }
+
     /*加载子任务列表*/
     function loadSubTaskfn(obj){
         console.log(obj)
@@ -137,7 +154,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             'pageNum':0,
             'pageSize':20
         }).then(function(data) {
-            $scope.currentSubTaskList = data;
+            if(data.length){
+                $scope.currentSubTaskList = data;
+            }else{
+                $scope.currentSubTaskList = [{'descp':'没有子任务数据!'}];
+            }
+
             if(!data.length)$scope.currentDataLength = false;
             console.log(data)
         });
@@ -200,6 +222,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             doubleClickZoom: false,
             zoomControl: false
         }).setView([40.012834, 116.476293], 13);
+        //防止地图视口加载不全;
+        map.on('resize',function(){
+            setTimeout(function(){ map.invalidateSize()}, 400);
+        });
+
         tooltipsCtrl.setMap(map, 'tooltip');
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
             if (event.flag == true) {

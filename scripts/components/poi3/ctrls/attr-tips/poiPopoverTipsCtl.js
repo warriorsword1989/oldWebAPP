@@ -1,4 +1,6 @@
 angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope) {
+    /*tips图片当前页数*/
+    $scope.tipsPage = 1;
     $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
         thumbnailUrl:'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg',
         originUrl:'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg'
@@ -6,6 +8,22 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
         thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095316_81341.png?t=0.908229194341623',
         originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095316_81341.png?t=0.908229194341623'
+    }));
+    $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095024_27853.png?t=0.27135223066014236',
+        originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095024_27853.png?t=0.27135223066014236'
+    }));
+    $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408094938_37544.png?t=0.757342256295586',
+        originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408094938_37544.png?t=0.757342256295586'
+    }));
+    $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160512/292520160512171549_23501.png?t=0.7994319534547933',
+        originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160512/292520160512171549_23501.png?t=0.7994319534547933'
+    }));
+    $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160311/292520160311135852_42381.jpg?t=0.0009477164371798352',
+        originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160311/292520160311135852_42381.jpg?t=0.0009477164371798352'
     }));
     initData();
 
@@ -17,6 +35,14 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
                     thumbnailUrl:'../../../images/road/img/noimg.png'
                 }));
             }
+        }
+    }
+    /*tips图片翻页*/
+    $scope.turnTipsPage = function(type){
+        if(type == 1){  //上一页
+            $scope.tipsPage++;
+        }else{      //下一页
+            $scope.tipsPage--;
         }
     }
     /*更新图片数组*/
