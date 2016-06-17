@@ -9,7 +9,8 @@
                             {{poi.parents[0].parentPoiPid}}
                         </label>
                         <div>
-                            <a href="javascript:void(0);" ng-click="showParentPoiInMap(poi.parents[0].parentPoiPid)"><i class="glyphicon glyphicon-link"></i></a>
+                            <a href="javascript:void(0);" title="显示" ng-click="showParentPoiInMap(poi.parents[0].parentPoiPid)"><i class="glyphicon glyphicon-link"></i></a>
+                            <a href="javascript:void(0);" title="解除父" ng-click="showParentPoiInMap(poi.parents[0].parentPoiPid)" style="padding-left:10px;"><i class="glyphicon glyphicon-trash"></i></a>
                         </div>
                     </li>
                     <li ng-if="poi.parents.length <= 0">
