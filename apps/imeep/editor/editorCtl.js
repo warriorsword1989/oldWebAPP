@@ -83,19 +83,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	});
 	//属性栏开关逻辑控制
 	$scope.attrTplContainerSwitch = function (flag) {
-		$scope.panelFlag = flag;
 		$scope.objectFlag = flag;
-		if ($scope.panelFlag) {
+		if(flag){ //打开右边属性栏
+			$scope.disappearEditorPanel = false;
+			$scope.hideEditorPanel = true;
+		}
 
-			$scope.outErrorArr[3] = true;
-			$scope.outErrorArr[2] = false;
-		}
-		else {
-			$scope.attrTplContainer = "";
-			$scope.suspendFlag = false;
-			$scope.outErrorArr[2] = true;
-			$scope.outErrorArr[3] = false;
-		}
+		// if ($scope.panelFlag) {
+        //
+		// 	$scope.outErrorArr[3] = true;
+		// 	$scope.outErrorArr[2] = false;
+		// }
+		// else {
+		// 	$scope.attrTplContainer = "";
+		// 	$scope.suspendFlag = false;
+		// 	$scope.outErrorArr[2] = true;
+		// 	$scope.outErrorArr[3] = false;
+		// }
 	};
 	//次属性开关逻辑控制
 	$scope.subAttrTplContainerSwitch = function (flag) {
@@ -499,8 +503,35 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/**
 	 * 接收点击地图上要素的监听事件
 	 */
-	$scope.$on("transitCtrlAndTpl",$scope.controlProperty)
+	$scope.$on("transitCtrlAndTpl",function (event, data){
+		if (data["loadType"] === "subAttrTplContainer") {
+			$scope.subAttrTplContainerSwitch(true);
+			$scope.subAttrTplContainer = "";
+		} else if (data["loadType"] === "generalBaseTpl") { //右边属性面板
+			if (!$scope.panelFlag) {
+				$scope.attrTplContainerSwitch(true);
+			}
+		} else if (data["loadType"] === "tipsTplContainer") {
 
+		} else if (data["loadType"] === "tipsPitureContainer") {
+			if ($scope[data["loadType"]]) {
+				$scope.$broadcast("TRANSITTIPSPICTURE", {})
+				return;
+			}
+		} else if (data["loadType"] === "tipsVideoContainer") {
+			if ($scope[data["loadType"]]) {
+				$scope.$broadcast("TRANSITTIPSVIDEO", {})
+				return;
+			}
+		}
+
+		$ocLazyLoad.load(data["propertyCtrl"]).then(function () {
+			$scope[data["loadType"]] = data["propertyHtml"];
+			if (data["callback"]) {
+				data["callback"]();
+			}
+		})
+	});
 
 	//页面初始化方法调用
 	var initPage = function (){
