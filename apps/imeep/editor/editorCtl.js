@@ -1,4 +1,11 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize'])
+	.constant("appPath",{
+		root : App.Util.getAppPath()+"/",
+		meta : "scripts/components/meta/",
+		road : "scripts/components/road3/",
+		poi : "scripts/components/poi3/",
+		tool : "scripts/components/tools/"
+	}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -25,17 +32,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.outputResult = [];//输出结果
 
 
+
+
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		if(type == 1){  //poi
-			$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/poiDataListCtl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/poi3/tpls/attr-base/poiDataListTpl.html';
+			$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl =  appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
 				$scope.showLoading = false;
 			});
 		}else{      //道路
 			$scope.poiDataListTpl = '';
-			$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_ctrl/filedsResultTpl.html';
+			$ocLazyLoad.load( appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+				$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_ctrl/filedsResultTpl.html';
 			});
 		}
 		$scope.projectType = type;
