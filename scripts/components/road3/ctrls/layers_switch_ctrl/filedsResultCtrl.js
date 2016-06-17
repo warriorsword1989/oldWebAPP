@@ -72,6 +72,20 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                                 objArr.total = obj[item];
                                 $scope.tipsObj["1203"] = true;
                                 break;
+                            case "1205":
+                                objArr.name = "SA";
+                                objArr.id = "1205";
+                                objArr.flag = true;
+                                objArr.total = obj[item];
+                                $scope.tipsObj["1205"] = true;
+                                break;
+                            case "1206":
+                                objArr.name = "PA";
+                                objArr.id = "1206";
+                                objArr.flag = true;
+                                objArr.total = obj[item];
+                                $scope.tipsObj["1206"] = true;
+                                break;
                             case "1301":
                                 objArr.name = "车信";
                                 objArr.id = "1301";
@@ -85,6 +99,20 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                                 objArr.flag = true;
                                 objArr.total = obj[item];
                                 $scope.tipsObj["1302"] = true;
+                                break;
+                            case "1401":
+                                objArr.name = "方向看板";
+                                objArr.id = "1401";
+                                objArr.flag = true;
+                                objArr.total = obj[item];
+                                $scope.tipsObj["1401"] = true;
+                                break;
+                            case "1402":
+                                objArr.name = "Real Sign";
+                                objArr.id = "1402";
+                                objArr.flag = true;
+                                objArr.total = obj[item];
+                                $scope.tipsObj["1402"] = true;
                                 break;
                             case "1407":
                                 objArr.name = "高速分歧";
@@ -120,6 +148,13 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                                 objArr.flag = true;
                                 objArr.total = obj[item];
                                 $scope.tipsObj["1803"] = true;
+                                break;
+                            case "1806":
+                                objArr.name = "草图";
+                                objArr.id = "1806";
+                                objArr.flag = true;
+                                objArr.total = obj[item];
+                                $scope.tipsObj["1806"] = true;
                                 break;
                             case "1901":
                                 objArr.name = "道路名";
