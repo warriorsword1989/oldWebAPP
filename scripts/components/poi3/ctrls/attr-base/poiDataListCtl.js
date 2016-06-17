@@ -9,8 +9,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	/*选择数据查找poi详情*/
 	scope.selectData = function (data,index) {
-		/*如果用户确认，切换poi*/
-		scope.$on('changeDataRes',function(event,d){
+		var listener ;
+		//on监听事件必须写在emit方法前面
+		listener = scope.$on('changeDataRes',function(event,d){
 			scope.$emit('closePopoverTips',false);
 			var param = {
 				dbId:App.Temp.dbId,
@@ -19,10 +20,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			};
 			scope.$emit('getObjectById',param);
 			scope.itemActive = index;
+			if(listener){
+				listener();
+			}
 		});
 		scope.$emit('changeData');
-		// scope.nowPoi = data;
-		// scope.nowPoiIndex = index;
 	};
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {

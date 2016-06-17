@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", function($http, $q, ajax) {
+angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function($http, $q, ajax) {
 
     /**
      * 根据道路id获得道路的详细属性
@@ -23,7 +23,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
             };
         }
         ajax.get("/edit/getByPid", {
-            parameter: JSON.stringify(params)
+            parameter: JSON.stringify(params),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -45,7 +46,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
     this.editGeometryOrProperty = function(param) {
         var defer = $q.defer();
         ajax.get("/edit/run", {
-            parameter: JSON.stringify(param.replace(/\+/g,'%2B'))
+            parameter: JSON.stringify(param.replace(/\+/g,'%2B')),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -63,7 +65,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
     this.getCheckData = function(param) {
         var defer = $q.defer();
         ajax.get("/edit/check/get", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -81,7 +84,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
     this.getCheckCount = function(param) {
         var defer = $q.defer();
         ajax.get("/edit/check/count", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -99,7 +103,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
     this.updateCheckType = function(param) {
         var defer = $q.defer();
         ajax.get("/edit/check/update", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -119,7 +124,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
     this.getIntRticRank = function(param) {
         var defer = $q.defer();
         ajax.get("/edit/applyPid", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -139,7 +145,8 @@ angular.module("dataService").service("dsEditor", ["$http", "$q", "ajax", functi
     this.getByCondition = function(param) {
         var defer = $q.defer();
         ajax.get("/edit/getByCondition", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);

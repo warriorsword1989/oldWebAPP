@@ -10,7 +10,24 @@
         "RdGscMarker.js",
         "RdGscPart.js",
         "RdGsc.js",
-        "poiMarker.js"
+        "poiMarker.js",
+        "Tips.js",
+        "TipsRestriction.js",
+        "TipsLaneConnexity.js",
+        "TipsGSBranch.js",
+        "TipsRegionRoad.js",
+        "TipsRoadCross.js",
+        "TipsConnect.js",
+        "TipsMultiDigitized.js",
+        "TipsNomalRestriction.js",
+        "TipsRoadTypes.js",
+        "TipsRoadNames.js",
+        "TipsLink.js",
+        "TipsRoadDirection.js",
+        "Tips3DBranch.js",
+        "TipsBridge.js",
+        "TipsMaintenance.js",
+        "TipsGSC.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
