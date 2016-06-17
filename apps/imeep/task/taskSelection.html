@@ -65,7 +65,7 @@
                                         <div class="content" style="min-height: 217px;">
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
-                                                    <a href='javascript:void(0);' ng-click="highlightGrid(item)" ng-bind="item.descp.length>10?$index+1+'. '+item.descp.substr(0,10)+'...':$index+1+'. '+item.descp"></a>
+                                                    <a href='javascript:void(0);' class="fm-table-long-text" ng-click="highlightGrid(item)" ng-bind="item.descp.length>10?$index+1+'. '+item.descp.substr(0,10)+'...':$index+1+'. '+item.descp"></a>
                                                 </li>
                                             </ul>
                                         </div>

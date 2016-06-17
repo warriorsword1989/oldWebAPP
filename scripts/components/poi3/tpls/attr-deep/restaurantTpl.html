@@ -35,16 +35,16 @@
                         <label>菜品风味</label>
                         <div class="block">
                             <div style="border-bottom: 1px solid gray;">
-                                <label ng-repeat="(key, value) in foodType1Obj">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1"> {{value}}
+                                <label ng-repeat="(key, value) in foodType1Obj" ng-if="key == 2016 || key == 1001 || key == 3009 || key == 3015" class="fm-specialopt">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
+                                </label>
+                                <label ng-repeat="(key, value) in foodType1Obj" ng-if="key != 2016">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
                                 </label>
                             </div>
                             <div style="margin-top: 10px;">
-                                <label ng-repeat="(key, value) in foodType2Obj" ng-if="key == 2016" style="color:yellowgreen">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2"> {{value}}
-                                </label>
-                                <label ng-repeat="(key, value) in foodType2Obj" ng-if="key != 2016">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2"> {{value}}
+                                <label ng-repeat="(key, value) in foodType2Obj">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}
                                 </label>
                             </div>
                         </div>
