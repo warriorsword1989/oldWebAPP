@@ -85,12 +85,24 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	//表格配置搜索;
 	scope.filters = {
-		value:''
+		value:'',
+		name:'',
+		pid:0
+	};
+	scope.searchType = 'name';
+	/*改变搜索类型*/
+	scope.changeSearchType = function(type){
+		scope.searchType = type;
+		scope.filters.value = '';
+		scope.filters.name = '';
+		scope.filters.pid = 0;
 	};
 	//切换搜索条件清空输入;
-	scope.$watch('radio_select',function(newValue,oldValue,scope){
+	/*scope.$watch('radio_select',function(newValue,oldValue,scope){
 		scope.filters.value = '';
-	});
+		scope.filters.name = '';
+		scope.filters.pid = 0;
+	});*/
 	//刷新表格方法;
 	scope.refreshData = function(){
 		_self.tableParams.reload();
@@ -102,8 +114,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				// type: [1,2,3],
 				pageNum: params.page(),
 				pageSize: params.count(),
-				pidName:params.filter().value,
-				pid:params.filter().value
+				pidName:params.filter().name,
+				pid:parseInt(params.filter().pid)
 			};
 			scope.getColsLength();
 			poiDS.getPoiList(param).then(function (data) {
