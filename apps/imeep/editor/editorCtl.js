@@ -1,4 +1,11 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize'])
+	.constant("appPath",{
+		root : App.Util.getAppPath()+"/",
+		meta : "scripts/components/meta/",
+		road : "scripts/components/road3/",
+		poi : "scripts/components/poi3/",
+		tool : "scripts/components/tools/"
+	}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -26,17 +33,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.outputResult = [];//输出结果
 
 
+
+
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		if(type == 1){  //poi
-			$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/poiDataListCtl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/poi3/tpls/attr-base/poiDataListTpl.html';
+			$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl =  appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
 				$scope.showLoading = false;
 			});
 		}else{      //道路
 			$scope.poiDataListTpl = '';
-			$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-				$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_ctrl/filedsResultTpl.html';
+			$ocLazyLoad.load( appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+				$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_ctrl/filedsResultTpl.html';
 			});
 		}
 		$scope.projectType = type;
@@ -48,18 +57,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		changePoi(function () {
 			if (id === "tipsPanel") {
 				$scope.selectedTool = 1;
-				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/fieldsResult.html';
+				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
+					$scope.poiDataListTpl =  appPath.root + appPath.road + 'tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
 				$scope.selectedTool = 2;
-				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
-					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/sceneLayers.html';
+				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
+					$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
 				});
 			} else if (id === "layerPanel") {
 				$scope.selectedTool = 3;
-				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
-						$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/referenceLayers.html';
+				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
+						$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/referenceLayers.html';
 					}
 				);
 			}
@@ -464,12 +473,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	function initOcll() {
 		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi3/tpls/attr-tips/poiPopoverTips.html';
+		//appPath.root + appPath.road +
+		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = appPath.root + appPath.poi + 'tpls/attr-tips/poiPopoverTips.html';
 			$scope.showPopoverTips = true;
 		});
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = '../../../scripts/components/poi3/tpls/attr-base/generalBaseTpl.html';
+		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-base/generalBaseCtl').then(function () {
+			$scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	//页面初始化方法调用
@@ -477,12 +487,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		loadMap();
 
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = '../../../scripts/components/poi3/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+		$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+			$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
 
 		});
-		$ocLazyLoad.load('scripts/components/poi3/ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = '../../../scripts/components/poi3/tpls/edit-tools/optionBarTpl.html';
+		$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
+			$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 		});
 		/*默认显示poi作业平台*/
 		$scope.changeProject(1);
