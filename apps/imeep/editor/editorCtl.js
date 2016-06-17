@@ -46,6 +46,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.poiDataListTpl = '';
 			$ocLazyLoad.load( appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 				$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
+				$scope.showLoading = false;
 			});
 		}
 		$scope.projectType = type;
@@ -507,9 +508,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		initData();
 		loadMap();
 
-		$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-		});
+
 
 		//选择道路要素的工具栏
 		// $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
@@ -519,15 +518,20 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		//选择道路要素的工具栏
 		$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
 			$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
+			$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+				$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
+				$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
+					$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
+					/*默认显示poi作业平台*/
+					$scope.changeProject(1);
+
+					keyEvent($ocLazyLoad, $scope);//注册快捷键
+				});
+			});
 		});
 
-		$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-		});
-		/*默认显示poi作业平台*/
-		$scope.changeProject(1);
 
-		keyEvent($ocLazyLoad, $scope);//注册快捷键
+
 
 
 	};
