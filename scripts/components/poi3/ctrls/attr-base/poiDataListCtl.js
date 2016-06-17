@@ -11,16 +11,21 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	/*选择数据查找poi详情*/
 	scope.selectData = function (data,index) {
-		scope.$emit('closePopoverTips',false);
-		var param = {
-			dbId:App.Temp.dbId,
-			type:'IXPOI',
-			pid:data.pid
-		}
-		scope.$emit('getObjectById',param);
-		scope.itemActive = index;
+		/*如果用户确认，切换poi*/
+		scope.$on('changeDataRes',function(event,d){
+			scope.$emit('closePopoverTips',false);
+			var param = {
+				dbId:App.Temp.dbId,
+				type:'IXPOI',
+				pid:data.pid
+			};
+			scope.$emit('getObjectById',param);
+			scope.itemActive = index;
+		});
+		scope.$emit('changeData');
+		// scope.nowPoi = data;
+		// scope.nowPoiIndex = index;
 	};
-
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
 		if(event.keyCode == 34 || event.keyCode == 33){
@@ -69,7 +74,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				scope.cols[i].show = !scope.cols[i].show;
 			}
 		}
-	}
+	};
 	//表格配置搜索;
 	scope.filters = {
 		value:''
@@ -77,19 +82,21 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	//切换搜索条件清空输入;
 	scope.$watch('radio_select',function(newValue,oldValue,scope){
 		scope.filters.value = '';
-	})
+	});
 	//刷新表格方法;
 	scope.refreshData = function(){
 		_self.tableParams.reload();
-	}
+	};
 	function initPoiTable(){
 		_self.tableParams = new NgTableParams({count:20,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
 				dbId: App.Temp.dbId,
 				// type: [1,2,3],
 				pageNum: params.page(),
-				pageSize: params.count()
+				pageSize: params.count(),
+				// poiName:params.filter().value
 			};
+			console.log(scope.filters)
 			poiDS.getPoiList(param).then(function (data) {
 				scope.poiList = data.rows;
 				_self.tableParams.total(data.total);

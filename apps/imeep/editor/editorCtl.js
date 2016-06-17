@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -20,7 +20,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.outputType = 1;
 	$scope.hideConsole = true;
 	$scope.hideEditorPanel = false;
+	$scope.disappearEditorPanel = true;
 	$scope.controlFlag = {};//用于父Scope控制子Scope
+	$scope.outErrorArr = [false, true, true, false];//输出框样式控制
+	$scope.outputResult = [];//输出结果
 
 
 	/*切换项目平台*/
@@ -39,22 +42,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.projectType = type;
 	};
 
-	$scope.isTipsPanel = 1;
+	$scope.selectedTool = 1;
 	//切换成果-场景栏中的显示内容
 	$scope.changeEditTool = function (id) {
 		changePoi(function () {
 			if (id === "tipsPanel") {
-				$scope.isTipsPanel = 1;
+				$scope.selectedTool = 1;
 				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
-				$scope.isTipsPanel = 2;
+				$scope.selectedTool = 2;
 				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
 					$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/sceneLayers.html';
 				});
 			} else if (id === "layerPanel") {
-				$scope.isTipsPanel = 3;
+				$scope.selectedTool = 3;
 				$ocLazyLoad.load('scripts/components/road3/ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
 						$scope.poiDataListTpl = '../../../scripts/components/road3/tpls/layers_switch_tpl/referenceLayers.html';
 					}
@@ -62,6 +65,33 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			}
 		})
 	};
+	$scope.$on("SWITCHCONTAINERSTATE", function (event, data) {
+		if (data.hasOwnProperty("attrContainerTpl")) {
+			$scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+		} else if (data.hasOwnProperty("subAttrContainerTpl")) {
+			$scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+		}
+	});
+	//属性栏开关逻辑控制
+	$scope.attrTplContainerSwitch = function (flag) {
+		$scope.panelFlag = flag;
+		$scope.objectFlag = flag;
+		if ($scope.panelFlag) {
+
+			$scope.outErrorArr[3] = true;
+			$scope.outErrorArr[2] = false;
+		}
+		else {
+			$scope.attrTplContainer = "";
+			$scope.suspendFlag = false;
+			$scope.outErrorArr[2] = true;
+			$scope.outErrorArr[3] = false;
+		}
+	};
+	//次属性开关逻辑控制
+	$scope.subAttrTplContainerSwitch = function (flag) {
+		$scope.suspendFlag = flag;
+	}
 
 	$scope.changeProperty = function (val) {
 		$scope.propertyType = val;
@@ -69,35 +99,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.changeOutput = function (val) {
 		$scope.outputType = val;
 	};
-	/*选中poi列表查询poi详细信息*/
-	$scope.$on('getObjectById',function(event,param){
-		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
-			poiDS.getPoiByPid(param).then(function (data) {
-				if(data){
-					initOcll();
-					showPoiInfo(data);
-					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
-				}
-			});
-		});
-	});
-
 	/**
 	 * 显示poi基本信息，tips信息等
      */
 	var showPoiInfo = function (data){
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 		$scope.hideEditorPanel = true; //打开右侧面板
-		
+
 		specialDetail(data);//名称组和地址组特殊处理
 		$scope.poi = data;
 		$scope.origPoi = angular.copy(data);
-		$scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
-		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
-		/*查询3DIcon*/
-		meta.getCiParaIcon(data.poiNum).then(function (data) {
-			$scope.poi.poi3DIcon = data;
-		});
+		// $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
+		// $scope.$broadcast('refreshImgsData',$scope.poi.photos);
+		// /*查询3DIcon*/
+		// dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
+		// 	$scope.poi.poi3DIcon = data;
+		// });
 
 		initOcll();
 	}
@@ -111,28 +128,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	});
 	/*获取输出结果信息*/
 	$scope.$on('getConsoleInfo',function(event,data){
-		$scope.outputResult = [
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-			new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-			new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
-		];
+		$scope.outputResult.push(new FM.dataApi.IxOutput(data));
 	});
 	// $scope.checkPageNow = 1;
 	/*高亮检查结果poi点*/
@@ -152,6 +148,30 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.closeFullScreen = function(){
 		$scope.showFullScreen = false;
 	};
+
+	/**
+	 * 删除poi
+	 */
+	$scope.delete = function (){
+		swal({
+			title: "确认删除？",
+			type: "warning",
+			animation:'slide-from-top',
+			showCancelButton: true,
+			closeOnConfirm: true,
+			confirmButtonText: "是的，我要删除",
+			cancelButtonText: "取消"
+		}, function(f) {
+			if (f) {
+				data = {type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"};
+				$scope.$broadcast('getConsoleInfo', data); //显示输出结果
+			}
+
+		});
+	};
+	/**
+	 * 保存前数据校验及准备
+	 */
 	$scope.save = function () {
 		console.log("poi:", $scope.poi);
 		console.info("poi.getIntegrate", $scope.poi.getIntegrate());
@@ -182,6 +202,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			} else {
 				swal("操作成功!", "属性值发生了变化", "success");
 			}
+			data = {type:'RDLINK',pid:100004343,childPid:"",op:"道路link修改成功"};
+			$scope.$broadcast('getConsoleInfo', data); //显示输出结果
 		});
 	};
 	/*切换POI时进行保存提醒*/
@@ -218,7 +240,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			}
 		}
 	};
-
+	/**
+	 * 调用保存接口
+	 * @param callback
+     */
 	var savePoi = function (callback){
 		//此处调用接口暂时省略
 		if(callback){
@@ -248,19 +273,29 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.$broadcast("highlightPoiByPid",parentPid);
 	});
 	/**
-	 * 接收地图上点击POI之前的事件
+	 * 接收其他子片段切换导致数据发生变化之前触发的事件
 	 */
 	$scope.$on("changeData",function (event,data){
-		changePoi(function (){
-			poiDS.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.id}).then(function (da) {
-				if(da){
-					showPoiInfo(da);
+		$scope.disappearEditorPanel = false; //不隐藏右边的属性面板
 
-					$scope.$broadcast("clickSelectedPoi",data);
-				}
-			});
+		changePoi(function (){
+			$scope.$broadcast("changeDataRes");
 		});
 	});
+
+	/**
+	 * 查询POI数据
+	 */
+	$scope.$on("getObjectById",function (event,data){
+		console.info("getObjectById");
+		dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.pid}).then(function (da) {
+			if(da){
+				showPoiInfo(da);
+			}
+		});
+	});
+
+
 
 	/*弹出/弹入面板*/
 	$scope.changePanelShow = function (type) {
@@ -271,8 +306,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			case 'left':
 				break;
 			case 'right':
-				$scope.hideEditorPanel = !$scope.hideEditorPanel;
-				$scope.wholeWidth = !$scope.wholeWidth;
+				if($scope.hideEditorPanel){
+					$scope.hideEditorPanel = false;
+					$scope.wholeWidth = true;
+				} else {
+					$scope.hideEditorPanel = true;
+					$scope.wholeWidth = false;
+				}
 				break;
 			default:
 				break;
@@ -323,11 +363,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//metaTest();
 	function metaTest(){
 		//大分类
-		meta.getTopKind().then(function (kindData) {
+		dsMeta.getTopKind().then(function (kindData) {
 			console.info("大分类：",kindData);
 		});
 		//中分类
-		meta.getMediumKind().then(function (data) {
+		dsMeta.getMediumKind().then(function (data) {
 			console.info("中分类：",data);
 		});
 		//小分类
@@ -335,23 +375,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			mediumId:"",
 			region:0
 		};
-		meta.getKindListNew().then(function (kindData) {
+		dsMeta.getKindListNew().then(function (kindData) {
 			console.info("==============",kindData);
 		});
 		//
-		meta.getFocus().then(function (data) {
+		dsMeta.getFocus().then(function (data) {
 			console.info("focus:",data);
 		});
 	}
 
 
 	var promises = [];
-	promises.push(meta.getKindList().then(function (kindData) {
-		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//数组最前面增加
+	promises.push(dsMeta.getKindList().then(function (kindData) {
+		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
 		initKindFormat(kindData);
 	}));
-	promises.push(meta.getAllBrandList().then(function (chainData) {
-		//chainData.unshift({"chainCode":"0","chainName":"--请选择--"});
+	promises.push(dsMeta.getAllBrandList().then(function (chainData) {
 		$scope.metaData.allChain = chainData;
 	}));
 

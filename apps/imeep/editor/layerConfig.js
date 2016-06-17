@@ -172,7 +172,34 @@ App.layersConfig = [{
 }, {
     groupid: 'editlayer',
     groupname: '编辑图层',
-    layers: [{
+    layers: [
+        {
+        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', ""),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: '外业点数据',
+            id: 'workPoint',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 8,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasTips.Tips.transformation,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Point',
+            zIndex: 9,
+            restrictZoom: 10,
+            visible: true,
+            requestType: "",
+            showNodeLevel: 17
+        }
+    },
+        {
         clazz: fastmap.mapApi.editLayer,
         url: '',
         options: {
