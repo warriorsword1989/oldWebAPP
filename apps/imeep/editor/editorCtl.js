@@ -21,6 +21,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//$scope.show = true;
 	//$scope.panelFlag = true;
 	$scope.showLoading = true;
+		$scope.showTab = true;
 	$scope.suspendFlag = true;
 	$scope.selectedTool = 1;
 	$scope.dataListType = 1;
@@ -59,11 +60,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.changeEditTool = function (id) {
 		changePoi(function () {
 			if (id === "tipsPanel") {
+				$scope.showTab = true;
 				$scope.selectedTool = 1;
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 					$scope.poiDataListTpl =  appPath.root + appPath.road + 'tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
+				$scope.showTab = false;
 				$scope.selectedTool = 2;
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
 					$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
@@ -541,9 +544,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		initData();
 		loadMap();
 
-		$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-		});
+
 
 		//选择道路要素的工具栏
 		// $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
@@ -553,17 +554,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		//选择道路要素的工具栏
 		$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
 			$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
+			$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+				$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
+				$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
+					$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
+					/*默认显示poi作业平台*/
+					$scope.changeProject(2);
+
+					keyEvent($ocLazyLoad, $scope);//注册快捷键
+				});
+			});
 		});
-
-		$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-		});
-		/*默认显示poi作业平台*/
-		$scope.changeProject(2);
-
-		keyEvent($ocLazyLoad, $scope);//注册快捷键
-
-
 	};
 
 

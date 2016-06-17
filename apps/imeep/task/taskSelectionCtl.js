@@ -50,10 +50,10 @@ angular.module('app', ['ui.layout', 'dataService','ngCookies']).controller('Task
         loadSubTaskfn($scope.requestParams)
     }
 
-    var promises = [];
-    $q.all(promises).then(function(){
-
-    });
+    //var promises = [];
+    //$q.all(promises).then(function(){
+    //
+    //});
 
     /*弹出/弹入任务信息面板*/
     $scope.hideEditorPanel = false;
@@ -138,6 +138,16 @@ angular.module('app', ['ui.layout', 'dataService','ngCookies']).controller('Task
         var endTime = $scope.currentTaskData.planEndDate.split(' ')[0].split('-').join('.');
         return startTime+'~'+endTime;
     }
+
+    //退出登录;
+    $scope.logout = function() {
+        //$cookies.remove('FM_USER_ID');
+        //$cookies.remove('FM_USER_NAME');
+        //$cookies.remove('FM_USER_TYPE');
+        //$cookies.remove('FM_USER_ROLES');
+        //$cookies.remove('FM_USER_GROUPS');
+        window.location.href = "../newlogin.html";
+    };
 
     /*加载子任务列表*/
     function loadSubTaskfn(obj){
