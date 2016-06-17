@@ -154,7 +154,7 @@ App.layersConfig = [{
     groupid: 'worklayer',
     groupname: '作业图层',
     layers: [{
-        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', '12'),
+        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', '12'),//暂时未用到此图层
         clazz: fastmap.mapApi.tileJSON,
         options: {
             layername: '外业线数据',
@@ -222,7 +222,26 @@ App.layersConfig = [{
                 zIndex: 18,
                 restrictZoom: 10,
                 visible: true
-            }
+            },
+            requestType: "uuuuu"//未用
+        }, {
+            url: '',
+            clazz: fastmap.mapApi.guideLineLayer,
+            options: {
+                layername: '引导线',
+                id: 'guideLineLayer',
+                maxZoom: 20,
+                debug: false,
+                buffer: 8,
+                boolPixelCrs: true,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                tileSize: 256,
+                type: 'guideLine',
+                zIndex: 9,
+                restrictZoom: 10,
+                visible: true
+            },
+            requestType: "uuuuu"
         }]
 },{
     groupid: 'editlayer',

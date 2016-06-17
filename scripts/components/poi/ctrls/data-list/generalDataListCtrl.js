@@ -84,6 +84,8 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         }
     })
 
+
+
     var timeout = null;
     scope.$watch('search_text',function(newValue,oldValue,scope){
         var search_type = '';

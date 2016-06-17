@@ -9,24 +9,26 @@
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/sweet-alert/css/sweet-alert.css" rel="stylesheet" type="text/css"/>
-        <link href="../../styles/poi/newlogin.css" rel="stylesheet" type="text/css" />
+        <link href="../../styles/imeep/newlogin.css" rel="stylesheet" type="text/css" />
         <script src="../../scripts/libs/sweet-alert/js/sweet-alert.js"></script>
-        <script src="./Application.js"></script>
         <script src="../../scripts/libs/angularjs/1.4.4/angular.min.js"></script>
         <script src="../../scripts/libs/angularjs/1.4.4/angular-cookies.min.js"></script>
         <script src="../../scripts/libs/backstretch/ng-backstretch.min.js"></script>
         <script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>
+        <script src="./Application.js"></script>
         <script src="./newLoginCtrl.js"></script>
+
     </head>
     <body ng-controller="loginPageCtrl">
-        <!-- main login part -->
         <div class="wrapper">
             <div class="container" style="height: 500px;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;">
+                <!-- 登录页logo -->
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 text">
                         <h1><strong>FastMap</strong> | 室内作业系统</h1>
                     </div>
                 </div>
+                <!-- form 表单部分 -->
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 form-box">
                         <div class="form-top">
@@ -39,10 +41,12 @@
                             </div>
                         </div>
                         <div class="form-bottom">
+                            <!-- form directive -->
                             <login valid-type="2"></login>
                         </div>
                     </div>
                 </div>
+                <!-- 登录页版权 -->
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 social-login">
                         <div class="social-login-buttons">

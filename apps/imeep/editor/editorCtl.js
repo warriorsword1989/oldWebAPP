@@ -300,6 +300,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.pid}).then(function (da) {
 			if(da){
 				showPoiInfo(da);
+				$scope.$broadcast("getObjectByIdRes");
 			}
 		});
 	});
@@ -369,28 +370,28 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 元数据接口联调测试
 	 * @type {Array}
      */
-	//metaTest();
+	metaTest();
 	function metaTest(){
-		//大分类
-		dsMeta.getTopKind().then(function (kindData) {
-			console.info("大分类：",kindData);
-		});
-		//中分类
-		dsMeta.getMediumKind().then(function (data) {
-			console.info("中分类：",data);
-		});
+		// //大分类
+		// dsMeta.getTopKind().then(function (kindData) {
+		// 	console.info("大分类：",kindData);
+		// });
+		// //中分类
+		// dsMeta.getMediumKind().then(function (data) {
+		// 	console.info("中分类：",data);
+		// });
 		//小分类
 		var param = {
 			mediumId:"",
 			region:0
 		};
-		dsMeta.getKindListNew().then(function (kindData) {
+		dsMeta.getKindListNew(param).then(function (kindData) {
 			console.info("==============",kindData);
 		});
 		//
-		dsMeta.getFocus().then(function (data) {
-			console.info("focus:",data);
-		});
+		// dsMeta.getFocus().then(function (data) {
+		// 	console.info("focus:",data);
+		// });
 	}
 
 

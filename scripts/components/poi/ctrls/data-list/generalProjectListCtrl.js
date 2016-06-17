@@ -70,7 +70,6 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
         })
         return temp;
     }
-
     scope.$watch('radioModel',function(newValue,oldValue,scope){
         _self.tableParams=null;
         //初始化ng-table;
@@ -88,6 +87,7 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                     orderFeild:scope.constructSortParams(params),
                     projectName:params.filter().value
                 };
+                console.log(params.filter())
                 scope.$emit("getPageData",currparam);
                 scope.$on('getPageDataResult',function(event, data){
                     _self.tableParams.total(data.total);
