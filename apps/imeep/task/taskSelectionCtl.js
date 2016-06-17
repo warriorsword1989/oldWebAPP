@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/6/7.
  */
-angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngCookies']).controller('TaskSelectionCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q','$cookies','$location', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q,$cookies,$location) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'ui.bootstrap','ngCookies']).controller('TaskSelectionCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', '$q','$cookies','$location', function($scope, $ocLazyLoad, $rootScope, poiDS ,$q,$cookies,$location) {
     var layerCtrl = new fastmap.uikit.LayerController({config: App.taskSelectionLayersConfig});
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
@@ -223,7 +223,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             //setTimeout(function(){ map.invalidateSize()}, 400);
             map.invalidateSize()
         });
-
         tooltipsCtrl.setMap(map, 'tooltip');
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
             if (event.flag == true) {

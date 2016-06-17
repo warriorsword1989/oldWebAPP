@@ -62,9 +62,11 @@ a:hover {
 }
 
 .fm-banner .banner-center div h4 {
-    font-size: 24px;
+    font-size: 21px;
     font-family: "宋体";
     font-weight: bolder;
+     margin-top: 5px;
+     margin-bottom: 0px;
 }
 
 .fm-banner .banner-bottom {
