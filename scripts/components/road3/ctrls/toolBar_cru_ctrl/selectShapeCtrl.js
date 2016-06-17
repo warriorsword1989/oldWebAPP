@@ -280,8 +280,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
 
-                ctrlAndTmplParams.propertyCtrl = 'components/road3/ctrls/attr_node_ctrl/rdNodeFromCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road3/tpls/attr_node_tpl/rdNodeFromTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_node_ctrl/rdNodeFromCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
@@ -607,7 +607,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             objCtrl.setCurrentObject(type, data.data);
             tooltipsCtrl.onRemoveTooltip();
             var options = {
-                "loadType": 'attrTplContainer',
+                //"loadType": 'attrTplContainer',
+                "loadType": 'generalBaseTpl',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             }

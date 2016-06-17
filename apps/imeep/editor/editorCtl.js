@@ -5,7 +5,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		road : "scripts/components/road3/",
 		poi : "scripts/components/poi3/",
 		tool : "scripts/components/tools/"
-	}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
+	}).constant('tipsType',fastmap.dataApi.TipsType)
+	.controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -88,19 +89,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	});
 	//属性栏开关逻辑控制
 	$scope.attrTplContainerSwitch = function (flag) {
-		$scope.panelFlag = flag;
 		$scope.objectFlag = flag;
-		if ($scope.panelFlag) {
+		if(flag){ //打开右边属性栏
+			$scope.disappearEditorPanel = false;
+			$scope.hideEditorPanel = true;
+		}
 
-			$scope.outErrorArr[3] = true;
-			$scope.outErrorArr[2] = false;
-		}
-		else {
-			$scope.attrTplContainer = "";
-			$scope.suspendFlag = false;
-			$scope.outErrorArr[2] = true;
-			$scope.outErrorArr[3] = false;
-		}
+		// if ($scope.panelFlag) {
+        //
+		// 	$scope.outErrorArr[3] = true;
+		// 	$scope.outErrorArr[2] = false;
+		// }
+		// else {
+		// 	$scope.attrTplContainer = "";
+		// 	$scope.suspendFlag = false;
+		// 	$scope.outErrorArr[2] = true;
+		// 	$scope.outErrorArr[3] = false;
+		// }
 	};
 	//次属性开关逻辑控制
 	$scope.subAttrTplContainerSwitch = function (flag) {
@@ -504,17 +509,42 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/**
 	 * 接收点击地图上要素的监听事件
 	 */
-	$scope.$on("transitCtrlAndTpl",$scope.controlProperty)
+	$scope.$on("transitCtrlAndTpl",function (event, data){
+		if (data["loadType"] === "subAttrTplContainer") {
+			$scope.subAttrTplContainerSwitch(true);
+			$scope.subAttrTplContainer = "";
+		} else if (data["loadType"] === "generalBaseTpl") { //右边属性面板
+			if (!$scope.panelFlag) {
+				$scope.attrTplContainerSwitch(true);
+			}
+		} else if (data["loadType"] === "tipsTplContainer") {
 
+		} else if (data["loadType"] === "tipsPitureContainer") {
+			if ($scope[data["loadType"]]) {
+				$scope.$broadcast("TRANSITTIPSPICTURE", {})
+				return;
+			}
+		} else if (data["loadType"] === "tipsVideoContainer") {
+			if ($scope[data["loadType"]]) {
+				$scope.$broadcast("TRANSITTIPSVIDEO", {})
+				return;
+			}
+		}
+
+		$ocLazyLoad.load(data["propertyCtrl"]).then(function () {
+			$scope[data["loadType"]] = data["propertyHtml"];
+			if (data["callback"]) {
+				data["callback"]();
+			}
+		})
+	});
 
 	//页面初始化方法调用
 	var initPage = function (){
 		initData();
 		loadMap();
 
-		$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-		});
+
 
 		//选择道路要素的工具栏
 		// $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
@@ -524,17 +554,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		//选择道路要素的工具栏
 		$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
 			$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
+			$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+				$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
+				$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
+					$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
+					/*默认显示poi作业平台*/
+					$scope.changeProject(2);
+
+					keyEvent($ocLazyLoad, $scope);//注册快捷键
+				});
+			});
 		});
-
-		$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-		});
-		/*默认显示poi作业平台*/
-		$scope.changeProject(2);
-
-		keyEvent($ocLazyLoad, $scope);//注册快捷键
-
-
 	};
 
 

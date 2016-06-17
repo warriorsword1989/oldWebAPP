@@ -3,8 +3,7 @@
  */
 //var otherApp=angular.module("lazymodule", []);
 var otherApp=angular.module("app");
-otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
-    alert()
+otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,dsRoad){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -71,11 +70,53 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         var highlightFeatures = [];
-        Application.functions.getByCondition(JSON.stringify({
-            projectId: Application.projectid,
+        // Application.functions.getByCondition(JSON.stringify({
+        //     projectId: Application.projectid,
+        //     type: 'RDLINK',
+        //     data: {"nodePid":  $scope.rdNodeData.pid}
+        // }), function (data) {
+        //     if (data.errcode === -1) {
+        //         return;
+        //     }
+        //     var lines = [];
+        //     $scope.linepids = [];
+        //     for (var index in data.data) {
+        //         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
+        //         for (var i = 0, len = linkArr.length; i < len; i++) {
+        //             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+        //             points.push(point);
+        //         }
+        //         lines.push(fastmap.mapApi.lineString(points));
+        //         $scope.linepids.push(data.data[index].pid);
+        //         highlightFeatures.push({
+        //             id:data.data[index].pid.toString(),
+        //             layerid:'referenceLine',
+        //             type:'line',
+        //             style:{}
+        //         })
+        //     }
+        //
+        //     var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
+        //
+        //     selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.rdNodeData.pid});
+        //     $scope.initialForms();
+        //
+        //
+        //     highlightFeatures.push({
+        //         id:$scope.rdNodeData.pid.toString(),
+        //         layerid:'referenceLine',
+        //         type:'node',
+        //         style:{}
+        //     })
+        //     highRenderCtrl.highLightFeatures =highlightFeatures;
+        //     highRenderCtrl.drawHighlight();
+        //
+        // });
+        dsRoad.getByCondition({
+            dbId: App.Temp.dbId,
             type: 'RDLINK',
             data: {"nodePid":  $scope.rdNodeData.pid}
-        }), function (data) {
+        }).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
@@ -111,8 +152,8 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             })
             highRenderCtrl.highLightFeatures =highlightFeatures;
             highRenderCtrl.drawHighlight();
-
         });
+
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nodeForm) {
             $scope.nodeForm.$setPristine();
@@ -263,4 +304,4 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeNodeData);
-})
+}])
