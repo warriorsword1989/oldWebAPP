@@ -14,8 +14,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var originalFeature = [];
     var selectCount = 0;
-    var selectData = null;
-    $scope.toolTipText = "";
+     $scope.toolTipText = "";
     /**
      * 重新设置选择工具
      */
@@ -235,7 +234,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
      * @param data
      */
     $scope.selectObjCallback = function (data) {
-        selectData = data;
         var listener;
         listener = $scope.$on("changeDataRes",function (event) {
             $scope.selectPoiCallback(data);
