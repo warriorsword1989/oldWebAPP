@@ -86,5 +86,14 @@ FM.Util.extend(FM.Util, {
                 obj[rejectVal] = false;
             }
         }
+    },
+    setCheckBoxSingleCheck : function(event,obj){
+        if(event.target.checked){
+            for(var key in obj){
+                if(key != event.target.value){
+                    obj[key] = false;
+                }
+            }
+        }
     }
 });

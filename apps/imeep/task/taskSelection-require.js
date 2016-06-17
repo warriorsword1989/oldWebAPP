@@ -12,11 +12,6 @@ requirejs.config({
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
         'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
         "chosenJquery": "scripts/libs/angular-chosen/chosen.jquery.min",
-        "angularChosen": "scripts/libs/angular-chosen/angular-chosen.min",
-        'fileUpload': 'scripts/libs/angular-file-upload/angular-file-upload',
-        "angularDrag": "scripts/libs/angular-drag/angular-drag",
-        "sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",
-        "wheelZoom":"scripts/libs/wheelzoom/wheelzoom",
         // app相关
         'dataService': 'apps/imeep/service/dataService',
         'poiService': 'apps/imeep/service/dataService-poi',
@@ -29,14 +24,10 @@ requirejs.config({
         'ngLayout': ['angular'],
         'uiBootstrap': ['angular'],
         'chosenJquery': ['jquery'],
-        'angularChosen': ['angular'],
         'ngCookies': ['angular'],
-        'fileUpload': ['angular'],
-        'angularDrag': ['angular', 'jquery'],
-        'dataService': ['angular', "sweet-alert"],
+        'dataService': ['angular'],
         'poiService': ['dataService'],
-        'metaService': ['dataService'],
-        'TaskSelectionCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers','wheelZoom','ngCookies']
+        'TaskSelectionCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'poiService', 'layers','ngCookies']
     }
 });
 // Start the main app logic.
