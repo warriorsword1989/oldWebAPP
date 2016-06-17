@@ -18,18 +18,22 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 2: //照片
                     break;
                 case 3: //交限
+                    ret = new fastmap.uikit.canvasFeature.RdRestriction(data);
                     break;
                 case 4: //rdlink
                     ret = new fastmap.uikit.canvasFeature.RdLink(data);
                     break;
                 case 5: //车信
+                    ret = new fastmap.uikit.canvasFeature.RdLaneConnexity(data);
                     break;
                 case 6: //点限速
+                    ret = new fastmap.uikit.canvasFeature.RdSpeedLimit(data);
                     break;
                 case 7: //分歧
                     ret = new fastmap.uikit.canvasFeature.RdBranch(data);
                     break;
                 case 8: //路口
+                    ret = new fastmap.uikit.canvasFeature.RdCross(data);
                     break;
                 case 9: //线限速
                     break;
@@ -38,6 +42,23 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 11: //立交
                     ret = new fastmap.uikit.canvasFeature.RdGsc(data);
                     break;
+                case 12://行政区划线
+                    ret = new fastmap.uikit.canvasFeature.AdLink(data);
+                    break;
+                case 13://行政区划面
+                    ret = new fastmap.uikit.canvasFeature.AdFace(data);
+                    break;
+                case 14://铁路
+                    ret = new fastmap.uikit.canvasFeature.RwLink(data);
+                    break;
+                case 15://行政区划点
+                    ret = new fastmap.uikit.canvasFeature.AdAdmin(data);
+                    break;
+                case 16://RDNODE
+                    ret = new fastmap.uikit.canvasFeature.RdNode(data);
+                    break;
+                case 18://AdNode
+                    ret = new fastmap.uikit.canvasFeature.AdNode(data);
                 case 21: //poi
                     ret = new fastmap.uikit.canvasFeature.poiMarker(data);
                     break;
