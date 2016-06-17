@@ -218,8 +218,7 @@ angular.module('app', ['ui.layout', 'dataService','ngCookies']).controller('Task
         }).setView([40.012834, 116.476293], 13);
         //防止地图视口加载不全;
         map.on('resize',function(){
-            //setTimeout(function(){ map.invalidateSize()}, 400);
-            map.invalidateSize()
+            setTimeout(function(){ map.invalidateSize()}, 400);
         });
         tooltipsCtrl.setMap(map, 'tooltip');
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
