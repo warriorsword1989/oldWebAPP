@@ -5,7 +5,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		road : "scripts/components/road3/",
 		poi : "scripts/components/poi3/",
 		tool : "scripts/components/tools/"
-	}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
+	}).constant('tipsType',fastmap.dataApi.TipsType)
+	.controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -37,6 +38,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
+		$scope.showLoading = true;
 		if(type == 1){  //poi
 			$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
 				$scope.poiDataListTpl =  appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
@@ -46,6 +48,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.poiDataListTpl = '';
 			$ocLazyLoad.load( appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 				$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
+				$scope.showLoading = false;
 			});
 		}
 		$scope.projectType = type;
@@ -556,7 +559,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 		});
 		/*默认显示poi作业平台*/
-		$scope.changeProject(1);
+		$scope.changeProject(2);
 
 		keyEvent($ocLazyLoad, $scope);//注册快捷键
 

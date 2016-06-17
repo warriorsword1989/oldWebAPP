@@ -158,7 +158,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 }
 
 .left-container {
-    padding: 5px;
+    /*padding: 5px;*/
 }
 
 .fm-tabs {
@@ -1175,6 +1175,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .table-container {
     width: 100%;
     overflow-x: auto;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .poi-list {
@@ -1208,7 +1210,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .fm-poiList-btnGroup {
-    margin-top: 4px;
+    margin-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .fm-poiList-btnGroup > div > button {
@@ -1302,6 +1306,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-list-filter {
     margin-top: 5px;
     float: left;
+    margin-left:5px;
 }
 
 .pagination > li > a, .pagination > li > span {
