@@ -16,10 +16,6 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
             this.foodType1[foodTypeArr[0]] = true;
             this.foodType2[foodTypeArr[1]] = true;
         }
-        // if(foodTypeArr.length == 2){
-        //     this.foodType1 = foodTypeArr[0];
-        //     this.foodType2 = foodTypeArr[1];
-        // }
         var creditCardArr = (data["creditCard"] || "").split("|");
         this.creditCard = {};
         for(var i=0;i<creditCardArr.length;i++) {
@@ -43,7 +39,26 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
         var ret = {};
         ret['restaurantId'] = this.restaurantId;
         ret['poiPid'] = this.poiPid;
-        ret['foodType'] = this.foodType;
+        // ret['foodType'] = this.foodType;
+        var foodType1Code = "";
+        var foodType2Code = "";
+        for(var key in this.foodType1){
+            if(this.foodType1[key] == true){
+                foodType1Code = key;
+            }
+        }
+        for(var key in this.foodType2){
+            if(this.foodType2[key] == true){
+                foodType2Code = key;
+            }
+        }
+        if(foodType2Code.length > 0 && foodType2Code.length>0){
+            ret['foodType'] = foodType2Code + "|" + foodType1Code;
+        }else if(foodType2Code.length > 0){
+            ret['foodType'] = foodType2Code;
+        }else{
+            ret['foodType'] = foodType1Code;
+        }
         var checkedCreditCardArr = [];
         for(var key in this.creditCard){
             if(this.creditCard[key] == true){
