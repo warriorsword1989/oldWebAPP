@@ -44,6 +44,7 @@
                 <tr ng-repeat="row in $data">
                     <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
                 </tr>
+                <tr style="text-align: center" ng-show="!$data.length"><td colspan="{{getValue()}}">没有一条数据!!!</td></tr>
             </tbody>
         </table>
     </div>

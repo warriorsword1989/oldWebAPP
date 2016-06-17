@@ -1,87 +1,74 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>FastMap设施编辑系统</title>
-    <link href="../../../favicon.ico" rel="icon" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert/css/sweet-alert.css">
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../styles/poi/poiEditor.css">
-    <link rel="stylesheet" type="text/css" href="../../../styles/poi/animate.min.css">
-    <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
-    <script type="text/javascript" src="../Application.js"></script>
-    <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
-    <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
-    <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
-    <script src="../editor/loadMapApi.js"></script>
-    <script src="../editor/loadUikit.js"></script>
-    <script src="../editor/loadCanvasFeature.js"></script>
-</head>
-<body ng-controller="TaskSelectionCtl">
-<div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-    <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
-        <div class="banner-top"><a><strong>FM</strong></a></div>
-        <div class="banner-center" style="margin-top: 0;">
-            <div><h4>任</h4></div>
-            <div><h4>务</h4></div>
-            <div><h4>设</h4></div>
-            <div><h4>置</h4></div>
-        </div>
-        <div class="banner-bottom">
-            <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
-            <div><a><i title="退出" class="glyphicon glyphicon-log-out"></i></a></div>
-        </div>
-    </div>
-    <div ui-layout-container>
-        <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
-            <div class="table-toolbar" ui-layout-container size="33px" max-size="33px" min-size="33px" style="background-color: #222;">
-                <div>
-                    <div class="fm-poiList-btnGroup" >
-                        <div class="btn-group" role="group">
-                            <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 1}" ng-click="changeDataList(1)"><a href="#allTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">日 一体化任务</a></button>
-                            <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 2}" ng-click="changeDataList(2)"><a href="#pendingTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">日 POI任务</a></button>
-                            <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 3}" ng-click="changeDataList(3)"><a href="#solvedTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">日 道路任务</a></button>
-                            <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 4}" ng-click="changeDataList(4)"><a href="#" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">月 POI任务</a></button>
-                            <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 5}" ng-click="changeDataList(5)"><a href="#" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">专项作业任务</a></button>
-                        </div>
-                    </div>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>FastMap设施编辑系统</title>
+        <link href="../../../favicon.ico" rel="icon" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert/css/sweet-alert.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../styles/poi/poiEditor.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/poi/animate.min.css">
+        <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+        <script type="text/javascript" src="../Application.js"></script>
+        <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
+        <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
+        <script src="../editor/loadMapApi.js"></script>
+        <script src="../editor/loadUikit.js"></script>
+        <script src="../editor/loadCanvasFeature.js"></script>
+    </head>
+    <body ng-controller="TaskSelectionCtl">
+        <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+            <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
+                <div class="banner-top"><a><strong>FM</strong></a></div>
+                <div class="banner-center" style="margin-top: 0;">
+                    <div><a><h4>任</h4></a></div>
+                    <div><a><h4>务</h4></a></div>
+                    <div><a><h4>设</h4></a></div>
+                    <div><a><h4>置</h4></a></div>
+                </div>
+                <div class="banner-bottom">
+                    <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
+                    <div><a><i title="退出" class="glyphicon glyphicon-log-out"></i></a></div>
                 </div>
             </div>
-            <div ui-layout-container class="fm-list-panel" style="margin-left: -50px">
-                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-                    <div class="fm-container fm-col animated fadeInLeft" ui-layout-container size="250px" min-size="250px">
-                        <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}" class="dark scroll-styled">
-                            <div ui-layout-container size="45px" style="overflow:visible">
-                                <div class="fm-tabs" style="background: none">
-                                    <div class="fm-poiList-btnGroup" class="btn-group" role="group" aria-label="...">
-                                        <div class="btn-group-vertical" role="group">
-                                            <button type="button" ng-class="{'btn btn-xs': true, 'active': taskStatus == 6}" ng-click="changeTaskStatus(6)"><a href="#allTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">全<br>部</a></button>
-                                            <button type="button" ng-class="{'btn btn-xs': true, 'active': taskStatus == 7}" ng-click="changeTaskStatus(7)"><a href="#pendingTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">开<br>启</a></button>
-                                            <button type="button" ng-class="{'btn btn-xs': true, 'active': taskStatus == 8}" ng-click="changeTaskStatus(8)"><a href="#solvedTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">关<br>闭</a></button>
+            <div ui-layout-container>
+                <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
+                    <div ui-layout-container size="35px" style="background-color: #222;padding:5px 10px;">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 1}" ng-click="changeDataList(1)">日 一体化任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 2}" ng-click="changeDataList(2)">日 POI任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 3}" ng-click="changeDataList(3)">日 道路任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 4}" ng-click="changeDataList(4)">月 POI任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 5}" ng-click="changeDataList(5)">专项作业任务</button>
+                        </div>
+                    </div>
+                    <div ui-layout-container>
+                        <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
+                            <div ui-layout-container class="fm-container fm-col animated fadeInLeft" size="250px">
+                                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}" class="dark scroll-styled">
+                                    <div ui-layout-container size="36px" style="padding: 5px 5px;overflow:visible">
+                                        <div class="btn-group" role="group">
+                                            <div class="btn-group-vertical">
+                                                <button class="btn btn-xs btn-purple" ng-class="{'active': taskStatus == 6}" ng-click="changeTaskStatus(6)" style="padding: 20px 5px;">全<br>部</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{'active': taskStatus == 7}" ng-click="changeTaskStatus(7)" style="padding: 20px 5px;">开<br>启</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{'active': taskStatus == 8}" ng-click="changeTaskStatus(8)" style="padding: 20px 5px;">关<br>闭</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div ui-layout-container>
-                                <div class="content">
-                                    <!--<table class="table table-bordered table-condensed" style="color:#fff;margin-top:8px;margin-bottom:0px;">
-                                        <thead>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="item in poiList" ng-click="selectData(item)" style="cursor:pointer;">
-                                            <td>{{item.name}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>-->
-                                    <div class="fm-panel" >
-                                        <div class="content" style="padding: 0">
-                                            <ul class="fm-ul fm-ul-form">
-                                                <li ng-repeat="item in currentSubTaskList" style="cursor:pointer;padding: 8px 15px 8px 5px;">
-                                                    <a href='javascript:void(0);' style="font-size: 14px" ng-click="highlightGrid(item)" ng-bind="item.descp.length>10?$index+1+'. '+item.descp.substr(0,10)+'...':$index+1+'. '+item.descp"></a>
+                                    <div ui-layout-container>
+                                        <div class="fm-panel" style="font-size:14px;margin-left:0px;">
+                                            <div class="title"><label style="margin:0px;"><i class="glyphicon glyphicon-list"></i> 任务列表</label>
+                                            <span style="float:right;">共 <span ng-bind="currentSubTaskList.length"></span> 条</span>
+                                        </div>
+                                        <div class="content" style="min-height: 217px;">
+                                            <ul class="fm-ul fm-ul-list">
+                                                <li ng-repeat="item in currentSubTaskList">
+                                                    <a href='javascript:void(0);' ng-click="highlightGrid(item)" ng-bind="item.descp.length>10?$index+1+'. '+item.descp.substr(0,10)+'...':$index+1+'. '+item.descp"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -89,61 +76,42 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div ui-layout-container class="fm-no-scroll">
-                        <div ui-layout="{flow:'row',dividerSize:'0'}">
-                            <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
-                            <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
-                                <div class="btn-toolbar">
-                                    <div ng-include="selectShapeURL" style="float: left"></div>
-                                    <div ng-include="selectPoiURL" style="float: left"></div>
-                                    <div ng-include="addShapeURL" style="float: left;"></div>
-                                    <div ng-include="modifyToolURL" style="float: left"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="fm-editor-panel" ng-class="{false:'fm-editor-panel-sm',true:'fm-editor-panel-normal'}[hideEditorPanel]">
-                            <div class="fm-editor-arrow">
-                                <a ng-show="showArrow" ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#" style="">
+                        <div ui-layout-container class="fm-no-scroll">
+                            <div id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
+                            <div class="fm-editor-panel" ng-class="{false:'fm-editor-panel-sm',true:'fm-editor-panel-normal'}[hideEditorPanel]">
+                                <div class="fm-editor-arrow">
+                                    <a ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#" style="">
                                     <span></span>
-                                </a>
-                            </div>
-                            <div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;">
-                                <div class="title">任务信息</div>
-                                <div class="fm-panel">
-                                    <div class="title">
-                                        <ul class="fm-ul fm-ul-list">
-                                            <li>
-                                                <label>计划完成时间：</label>
-                                                <label ng-if="!currentTaskData">0000:00:00</label>
-                                                <label ng-if="currentTaskData" ng-bind="getDateFormat()"></label><!--2016.5.3~2016.5.8-->
-                                            </li>
-                                            <li>
-                                                <label>完成进度：</label>
-                                                <label>6%</label>
-                                            </li>
-                                            <li>
-                                                <label>........</label>
-                                                <label></label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="content" style="max-height: 300px;">
-                                        <ul class="fm-ul fm-ul-list">
-                                            <li>
-                                                <div>
-                                                    <img ng-src="../../../images/poi/icon/统计图.png"/>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    </a>
                                 </div>
-                            </div>
-                            <div style="bottom: 25px;position:absolute;width: 300px;right: 0px;z-index: 100;" class="fm-poiList-btnGroup">
-                                <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px; text-align: center;">
-                                    <div class="col-sm-4 col-sm-offset-4" >
+                                <div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;">
+                                    <div class="fm-panel">
+                                        <div class="title">任务信息</div>
+                                        <div class="content" style="max-height: 300px;">
+                                            <ul class="fm-ul fm-ul-list">
+                                                <li>
+                                                    <label>计划完成时间：</label>
+                                                    <label>2016.5.3~2016.5.8</label>
+                                                </li>
+                                                <li>
+                                                    <label>完成进度：</label>
+                                                    <label>6%</label>
+                                                </li>
+                                                <li>
+                                                    <label>........</label>
+                                                    <label></label>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <img ng-src="../../../images/poi/icon/统计图.png"/>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div style="width:100%;text-align:center;position:absolute;bottom:26px;">
                                         <button type="button" ng-disabled="editorDisabled" ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px">
-                                            <i class="glyphicon glyphicon-edit"></i> 开始作业
+                                        <i class="glyphicon glyphicon-edit"></i> 开始作业
                                         </button>
                                     </div>
                                 </div>
@@ -153,8 +121,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
-</body>
+        <script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
+    </body>
 </html>

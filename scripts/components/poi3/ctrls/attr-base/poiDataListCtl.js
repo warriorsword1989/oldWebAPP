@@ -88,7 +88,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		_self.tableParams.reload();
 	};
 	function initPoiTable(){
-		_self.tableParams = new NgTableParams({count:20,filter: scope.filters}, {counts:[],getData:function($defer, params){
+		_self.tableParams = new NgTableParams({page:1,count:15,filter: scope.filters}, {counts:[],getData:function($defer, params){
+			alert('1')
 			var param = {
 				dbId: App.Temp.dbId,
 				// type: [1,2,3],
@@ -96,7 +97,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				pageSize: params.count(),
 				// poiName:params.filter().value
 			};
-			console.log(scope.filters)
 			poiDS.getPoiList(param).then(function (data) {
 				scope.poiList = data.rows;
 				_self.tableParams.total(data.total);

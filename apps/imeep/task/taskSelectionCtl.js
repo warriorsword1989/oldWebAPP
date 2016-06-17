@@ -143,7 +143,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
 
     /*加载子任务列表*/
     function loadSubTaskfn(obj){
-        console.log(obj)
         if(!obj)return;
         poiDS.querySubtaskByUser({
             'exeUserId':1,//$cookies.get('FM_USER_ID');
@@ -157,10 +156,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             if(data.length){
                 $scope.currentSubTaskList = data;
             }else{
-                $scope.currentSubTaskList = [{'descp':'没有子任务数据!'}];
+                $scope.currentSubTaskList = [];
             }
-
-            if(!data.length)$scope.currentDataLength = false;
             console.log(data)
         });
     }
@@ -215,7 +212,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         return temp;
     }
 
-    // var map = null;
     function loadMap() {
         map = L.map('map', {
             attributionControl: false,
@@ -224,7 +220,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         }).setView([40.012834, 116.476293], 13);
         //防止地图视口加载不全;
         map.on('resize',function(){
-            setTimeout(function(){ map.invalidateSize()}, 400);
+            //setTimeout(function(){ map.invalidateSize()}, 400);
+            map.invalidateSize()
         });
 
         tooltipsCtrl.setMap(map, 'tooltip');
@@ -238,10 +235,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         for (var layer in layerCtrl.getVisibleLayers()) {
             map.addLayer(layerCtrl.getVisibleLayers()[layer]);
         }
-        //var gridlayer = layerCtrl.getVisibleLayers()[1];
-        //map.on("click",function(e){
-        //    console.log(gridlayer.gridArr)
-        //})
     }
     //子任务查询
     loadSubTaskfn($scope.requestParams);
