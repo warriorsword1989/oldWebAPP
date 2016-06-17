@@ -10,7 +10,7 @@ App.Config = {
     generalUrl: 'http://192.168.4.188:8000/service'
 };
 App.Temp = {
-    accessToken: "0000029900O8W64A6BABD577C832761FEDC8208F4B9D6DD3",
+    accessToken: "0000029900O8Y2RMC3262B6300BECA23901DFB9D503E2C06",
     dbId: 42,
     meshList: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
     relationNameObj: {
@@ -52,4 +52,23 @@ App.Util = {
         }
         return reqObj;
     },
+    createTipsTileRequestObject: function(url, requestType) {
+        var urlObj = {};
+        if (requestType != "") {
+            urlObj.url = App.Config.generalUrl + url;
+            urlObj.parameter = {
+                dbId: App.Temp.dbId,
+                gap: 80,
+                types: requestType
+            }
+        }else{
+            urlObj.url = App.Config.generalUrl + url;
+            urlObj.parameter = {
+                dbId: App.Temp.dbId,
+                gap: 80
+            }
+        }
+        return urlObj;
+    },
+
 };

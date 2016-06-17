@@ -3,19 +3,15 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.radio_select = '全局';
 	//当前表格数据;
 	scope.finalData = null;
-	/*初始化方法*/
-	initPoiTable();
 	/*切换poi列表类型*/
 	scope.changeDataList = function (val) {
 		scope.dataListType = val;
 	};
 	/*选择数据查找poi详情*/
 	scope.selectData = function (data,index) {
-		scope.$emit('changeData');
-		// scope.nowPoi = data;
-		// scope.nowPoiIndex = index;
-		/*如果用户确认，切换poi*/
-		scope.$on('changeDataRes',function(event,d){
+		var listener ;
+		//on监听事件必须写在emit方法前面
+		listener = scope.$on('changeDataRes',function(event,d){
 			scope.$emit('closePopoverTips',false);
 			var param = {
 				dbId:App.Temp.dbId,
@@ -24,7 +20,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			};
 			scope.$emit('getObjectById',param);
 			scope.itemActive = index;
+			if(listener){
+				listener();
+			}
 		});
+		scope.$emit('changeData');
 	};
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
@@ -64,9 +64,17 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				}
 			}
 		}
-	}
-
-
+	};
+	/*获取cols的长度*/
+	scope.getColsLength = function(){
+		scope.colsLength = 0;
+		for(var i=0,len=scope.cols.length;i<len;i++){
+			if(scope.cols[i].show){
+				scope.colsLength++;
+			}
+		}
+		return scope.colsLength;
+	};
 	//重置表格字段显示方法;
 	scope.resetTableField = function(){
 		for(var i=0;i<scope.cols.length;i++){
@@ -95,8 +103,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				// type: [1,2,3],
 				pageNum: params.page(),
 				pageSize: params.count(),
-				// poiName:params.filter().value
+				pidName:params.filter().value,
+				pid:params.filter().value
 			};
+			scope.getColsLength();
 			poiDS.getPoiList(param).then(function (data) {
 				scope.poiList = data.rows;
 				_self.tableParams.total(data.total);
@@ -115,6 +125,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	})
 
 
+	/*初始化方法*/
+	initPoiTable();
 	/*-----------------------------------格式化函数部分----------------------------------*/
 
 	/*采集时间*/

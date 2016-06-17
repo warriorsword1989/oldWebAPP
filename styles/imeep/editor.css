@@ -833,10 +833,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     height: 100%;
-    background-color: #3D3B3B;
+    background-color: #555555;
     opacity: .8;
     margin-left: -20px;
     cursor: pointer;
+    width: 20px;
+    border: 0;
+    cursor: pointer !important;
 }
 
 .preview-left > .glyphicon {
@@ -847,11 +850,14 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     height: 100%;
-    background-color: #3D3B3B;
+    background-color: #555555;
     opacity: .8;
     right: 0;
     margin-right: 0;
     cursor: pointer;
+    width: 20px;
+    border: 0;
+    cursor: pointer !important;
 }
 
 .preview-right > .glyphicon {
@@ -869,6 +875,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .meta-info {
     padding-left: 20px;
+    height:47px;
 }
 
 .full-screen-img-panel {

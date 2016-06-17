@@ -22,6 +22,8 @@ requirejs.config({
 		'dataService': 'apps/imeep/service/dataService',
 		'poiService': 'apps/imeep/service/dataService-poi',
 		'metaService': 'apps/imeep/service/dataService-meta',
+		'fccService': 'apps/imeep/service/dataService-fcc',
+		'roadService': 'apps/imeep/service/dataService-road',
 		'EditorCtl': 'apps/imeep/editor/editorCtl',
 		'layers': "apps/imeep/editor/layerConfig",
 		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
@@ -40,8 +42,10 @@ requirejs.config({
 		'dataService': ['angular', "sweet-alert"],
 		'poiService': ['dataService'],
 		'metaService': ['dataService'],
+		'fccService': ['dataService'],
+		'roadService': ['dataService'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService'],
-		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
+		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
 	}
 });
 // Start the main app logic.

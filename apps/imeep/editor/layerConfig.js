@@ -149,38 +149,94 @@ App.layersConfig = [{
                 requestType: 'POI',
                 showNodeLevel: 15
             }
-        },
-        {
-        url: '',
+        }]
+}, {
+    groupid: 'worklayer',
+    groupname: '作业图层',
+    layers: [{
+        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', '12'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '选中高亮图层',
-            id: 'highlightlayer',
+            layername: '外业线数据',
+            id: 'workLine',
             maxZoom: 20,
             debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 7,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 7,
+            restrictZoom: 10,
+            visible: false,
+            requestType: 12,
+            showNodeLevel: 17
+        }
+    },
+        {
+        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', ""),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: '外业点数据',
+            id: 'workPoint',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
             buffer: 8,
             boolPixelCrs: true,
-            // parse: function(data) {},
+            parse: fastmap.uikit.canvasTips.Tips.transformation,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
             mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
             tileSize: 256,
-            type: 'highlight',
-            zIndex: 18,
+            type: 'Point',
+            zIndex: 9,
             restrictZoom: 10,
-            visible: true
+            visible: true,
+            requestType: "",
+            showNodeLevel: 17
         }
-    }]
-}, {
+    },
+        {
+            url: '',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '选中高亮图层',
+                id: 'highlightlayer',
+                maxZoom: 20,
+                debug: false,
+                buffer: 8,
+                boolPixelCrs: true,
+                // parse: function(data) {},
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                tileSize: 256,
+                type: 'highlight',
+                zIndex: 18,
+                restrictZoom: 10,
+                visible: true
+            }
+        }]
+},{
     groupid: 'editlayer',
     groupname: '编辑图层',
-    layers: [{
-        clazz: fastmap.mapApi.editLayer,
-        url: '',
-        options: {
-            layername: '编辑',
-            id: 'edit',
+    layers: [
+        {
+            clazz: fastmap.mapApi.editLayer,
             url: '',
-            visible: true,
-            zIndex: 0
-        }
-    }]
+            options: {
+                layername: '编辑',
+                id: 'edit',
+                url: '',
+                visible: true,
+                zIndex: 0
+            }
+        }]
 }];
