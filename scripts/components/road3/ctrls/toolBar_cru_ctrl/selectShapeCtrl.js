@@ -280,8 +280,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
 
-                ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'components/road3/ctrls/attr_node_ctrl/rdNodeFromCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road3/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
@@ -600,7 +600,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        dsRoad.getRdObjectById(id, type, function (data) {
+        dsRoad.getRdObjectById(id, type, selectedData.id).then(function (data) {
             if (data.errcode === -1) {
                 return;
             }
@@ -612,6 +612,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyHtml": tpl
             }
             $scope.$emit("transitCtrlAndTpl", options);
-        }, selectedData.id);
+        });
     }
 }])
