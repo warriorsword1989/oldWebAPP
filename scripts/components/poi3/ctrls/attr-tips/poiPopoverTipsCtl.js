@@ -23,11 +23,14 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160311/292520160311135852_42381.jpg?t=0.0009477164371798352',
         originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160311/292520160311135852_42381.jpg?t=0.0009477164371798352'
     }));
-    /*tips图片当前页数*/
-    $scope.tipsPage = 1;
-    /*当前选中图片*/
-    $scope.nowActiveImg = $scope.poi.photos[0];
-    $scope.nowActiveIndex = 0;
+    /*初始化图片相关*/
+    function initPhotos (){
+        /*tips图片当前页数*/
+        $scope.tipsPage = 1;
+        /*当前选中图片*/
+        $scope.nowActiveImg = $scope.poi.photos[0];
+        $scope.nowActiveIndex = 0;
+    }
     initData();
 
     function initData(){
@@ -39,6 +42,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
                 }));
             }
         }
+        initPhotos();
     }
     /*tips图片翻页*/
     $scope.turnTipsPage = function(type){
@@ -87,6 +91,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     };
     /*关闭tips图片事件*/
     $scope.$on('closeTipsImg',function(event,data){
+        initPhotos();
         $scope.showImgModal = false;
     });
 }]).directive('image404', function(){   //图片404时显示默认图片

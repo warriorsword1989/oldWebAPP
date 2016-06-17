@@ -47,7 +47,7 @@
                     <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
                 </td>
             </tr>
-            <tr class="text-center" ng-show="!$data.length"><td colspan="{{colsLength}}" ng-bind="poiListTableMsg">没有一条数据</td></tr>
+            <tr class="text-center" ng-show="!$data.length"><td colspan="{{colsLength}}" ng-bind="poiListTableMsg"></td></tr>
         </table>
     </div>
 </div>

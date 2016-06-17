@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/9/25.
  */
 var filedsModule = angular.module('app');
-filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout','dsFcc','dsRoad','dsMeta',
+filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout','dsFcc','dsRoad','dsMeta',
         function ($rootScope, $scope, $ocLazyLoad, $timeout,dsFcc,dsRoad,dsMeta) {
             var objCtrl = fastmap.uikit.ObjectEditController();
             var layerCtrl = fastmap.uikit.LayerController();
@@ -171,6 +171,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.items = arr;
                     $scope.items.total = data.data.total;
+                    console.log($scope.items,$scope.items.total)
                 })
             });
             var selectCtrl = new fastmap.uikit.SelectController();
