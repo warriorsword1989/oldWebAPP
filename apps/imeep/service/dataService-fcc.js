@@ -12,7 +12,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
             "stage": stage
         };
 
-        ajax.get("/fcc/tip/getStats", {
+        ajax.get("fcc/tip/getStats", {
             parameter: JSON.stringify(params),
             urlType:'general'
         }).success(function(data) {
@@ -31,13 +31,13 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
     this.getTipsListItems = function(stage,type) {
         var defer = $q.defer();
         var params = {
-            "grids": [App.Temp.meshList.toString()],
-            "stage": [stage.toString()],
+            "grids": App.Temp.meshList,
+            "stage": stage,
             "type":type,
             "dbId":App.Temp.dbId
         };
 
-        ajax.get("/fcc/tip/getSnapshot", {
+        ajax.get("fcc/tip/getSnapshot", {
             parameter: JSON.stringify(params),
             urlType:'general'
         }).success(function(data) {
@@ -58,7 +58,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
         var params = {
             "rowkey": rowkey
         };
-        ajax.get("/fcc/tip/getByRowkey", {
+        ajax.get("fcc/tip/getByRowkey", {
             parameter: JSON.stringify(params),
             urlType:'general'
         }).success(function(data) {
