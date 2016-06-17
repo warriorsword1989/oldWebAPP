@@ -2,8 +2,9 @@
  * Created by liuzhaoxia on 2015/12/10.
  */
 //var otherApp=angular.module("lazymodule", []);
-var otherApp=angular.module("mapApp");
+var otherApp=angular.module("app");
 otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
+    alert()
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();

@@ -498,7 +498,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		promises.push(dsMeta.getChainList(param).then(function (chainData) {
 			$scope.metaData.allChain = chainData;
 		}));
-	}
+	};
+	/**
+	 * 接收点击地图上要素的监听事件
+	 */
+	$scope.$on("transitCtrlAndTpl",$scope.controlProperty)
+
+
 	//页面初始化方法调用
 	var initPage = function (){
 		initData();
