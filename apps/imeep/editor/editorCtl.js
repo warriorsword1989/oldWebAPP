@@ -300,6 +300,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		dsPoi.getPoiByPid({"dbId":App.Temp.dbId,"type":"IXPOI","pid":data.pid}).then(function (da) {
 			if(da){
 				showPoiInfo(da);
+				$scope.$broadcast("getObjectByIdRes");
 			}
 		});
 	});
