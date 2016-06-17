@@ -14,6 +14,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var originalFeature = [];
     var selectCount = 0;
+    var selectData = null;
     $scope.toolTipText = "";
     /**
      * 重新设置选择工具
@@ -149,10 +150,10 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     };
 
     /*
-    * 点击选择poi按钮
-    * */
+     * 点击选择poi按钮
+     * */
     $scope.selectPoiShape = function (type, num) {
-        if (map.getZoom() < poi.options.showNodeLevel) {
+        if (map.getZoom() < 17) {
             return;
         }
         map.closePopup();//如果有popup的话清除它
@@ -234,9 +235,29 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
      * @param data
      */
     $scope.selectObjCallback = function (data) {
-        $scope.$emit("changeData", data);
+        selectData = data;
+        var listener;
+        listener = $scope.$on("changeDataRes",function (event) {
+            $scope.selectPoiCallback(data);
+            if(listener){
+                listener();
+            }
+        });
+        $scope.$emit("changeData");
     };
-    $scope.$on("clickSelectedPoi",function (event,data) {
+    $scope.selectPoiCallback = function (data) {
+        var liser;
+        liser =  $scope.$on("getObjectByIdRes",function (event) {
+            $scope.selectPoi(data);
+            if(liser){
+                liser();
+            }
+        });
+        $scope.$emit("getObjectById",{pid:data.id,type:"IXPOI"});
+
+    };
+
+    $scope.selectPoi = function (data) {
         map.closePopup();//如果有popup的话清除它
         //移除上一步中的悬浮按钮
         if (map.floatMenu) {
@@ -256,7 +277,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                         'type': "POILOCMOVE",
                         'class': "feaf",
                         callback: $scope.modifyTools
-                        },
+                    },
                         {
                             'text': "<a class='glyphicon glyphicon-export'></a>",
                             'title': "移动引导坐标",
@@ -296,7 +317,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
-    });
+    }
 
     $scope.clearMap = function () {
         //重置选择工具

@@ -1,30 +1,30 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, dsPoi, dsMeta) {
+angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta','appPath', function($scope, $ocll, $q, dsPoi, dsMeta,appPath) {
 
     /*切换tag按钮*/
     $scope.changeProperty = function (tagName) {
         $scope.propertyType = tagName;
         switch (tagName) {
             case 'base':
-                $ocll.load('scripts/components/poi3/ctrls/attr-base/baseInfoCtl').then(function () {
-                    $scope.baseInfoTpl = '../../../scripts/components/poi3/tpls/attr-base/baseInfoTpl.html';
+                $ocll.load(appPath.poi + 'ctrls/attr-base/baseInfoCtl').then(function () {
+                    $scope.baseInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/baseInfoTpl.html';
                 });
                 break;
             case 'deep':
 
                 break;
             case 'relate':
-                $ocll.load('scripts/components/poi3/ctrls/attr-base/relationInfoCtl').then(function () {
-                    $scope.relationInfoTpl = '../../../scripts/components/poi3/tpls/attr-base/relationInfoTpl.html';
+                $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function () {
+                    $scope.relationInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/relationInfoTpl.html';
                 });
                 break;
             case 'file':
-                $ocll.load('scripts/components/poi3/ctrls/edit-tools/fileUploadCtl').then(function() {
-                    $scope.fileUploadTpl = '../../../scripts/components/poi3/tpls/edit-tools/fileUploadTpl.html';
+                $ocll.load(appPath.poi + 'ctrls/edit-tools/fileUploadCtl').then(function() {
+                    $scope.fileUploadTpl = appPath.root + appPath.poi + 'tpls/edit-tools/fileUploadTpl.html';
                 });
                 break;
             default:
-                $ocll.load('scripts/components/poi3/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi3/tpls/edit-tools/checkResultTpl.html';
+                $ocll.load(appPath.poi + 'edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = appPath.root + appPath.poi + 'tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
         }
@@ -33,13 +33,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     $scope.$on("kindChange", function(event, data) {
         switch (data.extend) {
             case 1: //停车场
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/parkingTpl.html";
+                $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 2: //加油站
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/oilStationCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/oilStationTpl.html";
+                $ocll.load(appPath.poi + "ctrls/attr-deep/oilStationCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/oilStationTpl.html";
                 });
                 break;
             // case 3: //充电站
@@ -48,26 +48,26 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             //     });
             //     break;
             case 4: //宾馆酒店
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/hotelCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/hotelTpl.html";
+                $ocll.load(appPath.poi + "ctrls/attr-deep/hotelCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/hotelTpl.html";
                 });
                 break;
             case 5: //运动场馆
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/sportsVenuesCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/sportsVenuesTpl.html";
+                $ocll.load(appPath.poi + "ctrls/attr-deep/sportsVenuesCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/sportsVenuesTpl.html";
                 });
                 break;
             case 6: //餐馆
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/restaurantCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/restaurantTpl.html";
+                $ocll.load(appPath.poi + "ctrls/attr-deep/restaurantCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/restaurantTpl.html";
                 });
                 dsMeta.queryFoodType($scope.poi.kindCode).then(function(ret){
                     parseFoodType(ret);
                 });
                 break;
             case 7: //加气站
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/gasStationCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/gasStationTpl.html";
+                $ocll.load(appPath.poi + "ctrls/attr-deep/gasStationCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/gasStationTpl.html";
                 });
                 break;
             // case 8: //旅游景点
@@ -76,9 +76,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             //     });
             //     break;
             case 9:
-                $ocll.load("scripts/components/poi3/ctrls/attr-deep/parkingCtl").then(function() {
+                $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
                     // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi3/tpls/attr-deep/parkingTpl.html";
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
                     $scope.$on('$includeContentLoaded', function ($event) {
                         $scope.$broadcast("loaded", data);
                     });
