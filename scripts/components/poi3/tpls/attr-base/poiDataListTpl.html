@@ -17,7 +17,7 @@
         <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
             <li ng-repeat="col in cols">
                 <label class="checkbox-inline">
-                    <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show"/> {{col.title}}
+                    <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-change="getColsLength();" ng-model="col.show"/> {{col.title}}
                 </label>
             </li>
         </ul>
@@ -31,11 +31,11 @@
                 <!--<li role="menuitem" ng-repeat="col in cols">
                     <a href="#" ng-bind="col.title"></a>
                 </li>-->
-                <li ng-model="radio_select" uib-btn-radio="'全局'" role="menuitem"><a href="#" class="dropdown-menu-name">全局搜索</a></li>
-                <li ng-model="radio_select" uib-btn-radio="'名称'" role="menuitem"><a href="#" class="dropdown-menu-name">项目名称</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">名称</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">PID</a></li>
             </ul>
         </div>
-        <input class="fm-search-control" type="text" ng-model="filters['value']" placeholder="搜索"/>
+        <input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
     </div>
     <div class="table-container dark scroll-styled">
         <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
@@ -45,12 +45,13 @@
                 <col width="60px" />
                 <col width="60px" />
                 <col width="130px" />
-                <col width="60px" />
+                <col width="100px" />
                 <col width="60px" />
             </colgroup>
             <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
                 <td ng-repeat="col in $columns" title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]">{{row[col.field]}}</td>
             </tr>
+            <tr class="text-center" ng-show="!$data.length"><td colspan="{{colsLength}}">没有一条数据</td></tr>
         </table>
     </div>
 </div>

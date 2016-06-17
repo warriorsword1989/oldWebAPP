@@ -3,8 +3,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.radio_select = '全局';
 	//当前表格数据;
 	scope.finalData = null;
-	/*初始化方法*/
-	initPoiTable();
 	/*切换poi列表类型*/
 	scope.changeDataList = function (val) {
 		scope.dataListType = val;
@@ -66,9 +64,17 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				}
 			}
 		}
-	}
-
-
+	};
+	/*获取cols的长度*/
+	scope.getColsLength = function(){
+		scope.colsLength = 0;
+		for(var i=0,len=scope.cols.length;i<len;i++){
+			if(scope.cols[i].show){
+				scope.colsLength++;
+			}
+		}
+		return scope.colsLength;
+	};
 	//重置表格字段显示方法;
 	scope.resetTableField = function(){
 		for(var i=0;i<scope.cols.length;i++){
@@ -79,12 +85,24 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	//表格配置搜索;
 	scope.filters = {
-		value:''
+		value:'',
+		name:'',
+		pid:0
+	};
+	scope.searchType = 'name';
+	/*改变搜索类型*/
+	scope.changeSearchType = function(type){
+		scope.searchType = type;
+		scope.filters.value = '';
+		scope.filters.name = '';
+		scope.filters.pid = 0;
 	};
 	//切换搜索条件清空输入;
-	scope.$watch('radio_select',function(newValue,oldValue,scope){
+	/*scope.$watch('radio_select',function(newValue,oldValue,scope){
 		scope.filters.value = '';
-	});
+		scope.filters.name = '';
+		scope.filters.pid = 0;
+	});*/
 	//刷新表格方法;
 	scope.refreshData = function(){
 		_self.tableParams.reload();
@@ -96,9 +114,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				// type: [1,2,3],
 				pageNum: params.page(),
 				pageSize: params.count(),
-				// poiName:params.filter().value
+				pidName:params.filter().name,
+				pid:parseInt(params.filter().pid)
 			};
-			console.log(scope.filters)
+			scope.getColsLength();
 			poiDS.getPoiList(param).then(function (data) {
 				scope.poiList = data.rows;
 				_self.tableParams.total(data.total);
@@ -117,6 +136,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	})
 
 
+	/*初始化方法*/
+	initPoiTable();
 	/*-----------------------------------格式化函数部分----------------------------------*/
 
 	/*采集时间*/
