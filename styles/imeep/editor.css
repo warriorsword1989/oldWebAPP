@@ -58,7 +58,13 @@ a:hover {
 }
 
 .fm-banner .banner-center div {
-    padding: 0px 0px 10px 0;
+    padding: 15px;
+    cursor: pointer;
+}
+.fm-banner .banner-center div a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 
 .fm-banner .banner-center div h4 {

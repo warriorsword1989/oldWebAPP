@@ -20,6 +20,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//$scope.show = true;
 	//$scope.panelFlag = true;
 	$scope.showLoading = true;
+		$scope.showTab = true;
 	$scope.suspendFlag = true;
 	$scope.selectedTool = 1;
 	$scope.dataListType = 1;
@@ -56,11 +57,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.changeEditTool = function (id) {
 		changePoi(function () {
 			if (id === "tipsPanel") {
+				$scope.showTab = true;
 				$scope.selectedTool = 1;
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 					$scope.poiDataListTpl =  appPath.root + appPath.road + 'tpls/layers_switch_tpl/fieldsResult.html';
 				});
 			} else if (id === "scenePanel") {
+				$scope.showTab = false;
 				$scope.selectedTool = 2;
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
 					$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
