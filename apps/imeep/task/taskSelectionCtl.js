@@ -3,7 +3,6 @@
  */
 angular.module('app', ['ui.layout', 'dataService','ngCookies']).controller('TaskSelectionCtl', ['$scope', 'mPoi', '$q','$cookies','$location', function($scope, mPoi ,$q,$cookies,$location) {
     var layerCtrl = new fastmap.uikit.LayerController({config: App.taskSelectionLayersConfig});
-    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
     var eventCtrl = new fastmap.uikit.EventController();
     var gridLayer = new fastmap.mapApi.GridLayer();
@@ -108,7 +107,6 @@ angular.module('app', ['ui.layout', 'dataService','ngCookies']).controller('Task
         var northEast_X = getMaxOrMin(allLatArr.lng,'max');
         var northEast_Y = getMaxOrMin(allLatArr.lat,'max');
         console.log(sourthWest_Y+'----'+sourthWest_X+'  '+northEast_Y+'----'+northEast_X)
-        //聚焦完成后300毫秒再高亮;
         map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
         //判断任务网格是否都加载上的定时器;
         var timer = setInterval(function(){
