@@ -1,6 +1,4 @@
 angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope) {
-    /*tips图片当前页数*/
-    $scope.tipsPage = 1;
     $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
         thumbnailUrl:'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg',
         originUrl:'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg'
@@ -25,6 +23,14 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160311/292520160311135852_42381.jpg?t=0.0009477164371798352',
         originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160311/292520160311135852_42381.jpg?t=0.0009477164371798352'
     }));
+    /*初始化图片相关*/
+    function initPhotos (){
+        /*tips图片当前页数*/
+        $scope.tipsPage = 1;
+        /*当前选中图片*/
+        $scope.nowActiveImg = $scope.poi.photos[0];
+        $scope.nowActiveIndex = 0;
+    }
     initData();
 
     function initData(){
@@ -36,15 +42,17 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
                 }));
             }
         }
+        initPhotos();
     }
     /*tips图片翻页*/
     $scope.turnTipsPage = function(type){
         if(type == 1){  //上一页
-            $scope.tipsPage++;
-        }else{      //下一页
             $scope.tipsPage--;
+        }else{      //下一页
+            $scope.tipsPage++;
         }
-    }
+        $scope.tipsBtnDisabled = $scope.tipsPage == Math.ceil($scope.poi.photos.length/4);
+    };
     /*更新图片数组*/
     $scope.$on('refreshImgsData',function(event,data){
         initData();
@@ -71,13 +79,19 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
             $scope.$broadcast('changeImgShow',temp);
             $scope.showImgModal = true;
     }
+    /*预览active图片的缩略图*/
+    $scope.showPreviewImg = function(img,index){
+        $scope.nowActiveImg = img;
+        $scope.nowActiveIndex = index;
+    };
     /*关闭tips事件*/
     $scope.closeTips = function(){
         $scope.showImgModal = false;
         $scope.$emit('closePopoverTips',false);
-    }
+    };
     /*关闭tips图片事件*/
     $scope.$on('closeTipsImg',function(event,data){
+        initPhotos();
         $scope.showImgModal = false;
     });
 }]).directive('image404', function(){   //图片404时显示默认图片

@@ -45,7 +45,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		}else{      //道路
 			$scope.poiDataListTpl = '';
 			$ocLazyLoad.load( appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-				$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_ctrl/filedsResultTpl.html';
+				$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
 			});
 		}
 		$scope.projectType = type;
@@ -370,7 +370,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 元数据接口联调测试
 	 * @type {Array}
      */
-	metaTest();
+	//metaTest();
 	function metaTest(){
 		// //大分类
 		// dsMeta.getTopKind().then(function (kindData) {
@@ -394,15 +394,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		// });
 	}
 
-
-	var promises = [];
-	promises.push(dsMeta.getKindList().then(function (kindData) {
-		kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
-		initKindFormat(kindData);
-	}));
-	promises.push(dsMeta.getAllBrandList().then(function (chainData) {
-		$scope.metaData.allChain = chainData;
-	}));
 
 	/**
 	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
@@ -483,9 +474,31 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
 		});
 	}
+	var initData = function(){
+		var promises = [];
+		// promises.push(dsMeta.getKindList().then(function (kindData) {
+		// 	kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
+		// 	initKindFormat(kindData);
+		// }));
+
+		var param = {
+			mediumId:"",
+			region:0
+		};
+		promises.push(dsMeta.getKindListNew(param).then(function (kindData) {
+			kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
+			initKindFormat(kindData);
+		}));
+
+		param = {kindCode:""};
+		//promises.push(dsMeta.getAllBrandList().then(function (chainData) {
+		promises.push(dsMeta.getChainList(param).then(function (chainData) {
+			$scope.metaData.allChain = chainData;
+		}));
+	}
 	//页面初始化方法调用
 	var initPage = function (){
-
+		initData();
 		loadMap();
 
 		$ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
