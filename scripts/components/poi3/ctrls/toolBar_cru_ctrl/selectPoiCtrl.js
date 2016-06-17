@@ -248,7 +248,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.selectPoiCallback = function (data) {
         var liser;
         liser =  $scope.$on("getObjectByIdRes",function (event) {
-            $scope.selectPoi(data);
+            $scope.selectPoi(data);//确保父页面查询到poi数据
             if(liser){
                 liser();
             }
