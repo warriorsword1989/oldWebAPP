@@ -109,7 +109,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	};
 	function initPoiTable(){
 		_self.tableParams = new NgTableParams({page:1,count:15,filter: scope.filters}, {counts:[],getData:function($defer, params){
-			alert('1')
 			var param = {
 				dbId: App.Temp.dbId,
 				// type: [1,2,3],
