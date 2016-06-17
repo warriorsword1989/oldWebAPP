@@ -91,7 +91,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
                                                     <label>计划完成时间：</label>
-                                                    <label ng-bind="getDateFormat()"></label>
+                                                    <label ng-bind="currentTaskData?getDateFormat():''"></label>
                                                 </li>
                                                 <li>
                                                     <label>完成进度：</label>
