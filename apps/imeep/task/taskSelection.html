@@ -23,10 +23,10 @@
             <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center" style="margin-top: 0;">
-                    <div><a><h4>任</h4></a></div>
-                    <div><a><h4>务</h4></a></div>
-                    <div><a><h4>设</h4></a></div>
-                    <div><a><h4>置</h4></a></div>
+                    <div><h4>任</h4></div>
+                    <div><h4>务</h4></div>
+                    <div><h4>设</h4></div>
+                    <div><h4>置</h4></div>
                 </div>
                 <div class="banner-bottom">
                     <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -63,6 +63,9 @@
                                             <span style="float:right;">共 <span ng-bind="currentSubTaskList.length"></span> 条</span>
                                         </div>
                                         <div class="content" style="min-height: 217px;">
+                                            <ul ng-if="currentSubTaskList&&!currentSubTaskList.length" class="fm-ul fm-ul-list">
+                                                <li>暂时没有子任务数据</li>
+                                            </ul>
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
                                                     <a href='javascript:void(0);' class="fm-table-long-text" ng-click="highlightGrid(item)" ng-bind="item.descp.length>10?$index+1+'. '+item.descp.substr(0,10)+'...':$index+1+'. '+item.descp"></a>
@@ -88,7 +91,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
                                                     <label>计划完成时间：</label>
-                                                    <label>2016.5.3~2016.5.8</label>
+                                                    <label ng-bind="currentTaskData?getDateFormat():''"></label>
                                                 </li>
                                                 <li>
                                                     <label>完成进度：</label>

@@ -65,8 +65,9 @@ a:hover {
     font-size: 21px;
     font-family: "宋体";
     font-weight: bolder;
-     margin-top: 5px;
-     margin-bottom: 0px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: white;
 }
 
 .fm-banner .banner-bottom {
@@ -110,6 +111,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     text-align: center;
     transition: all 0s;
 }
+
 
 /**************************************nnade***************************************************/
 
@@ -220,7 +222,7 @@ ul.fm-ul {
 
 ul.fm-ul > li {
     border: none;
-    padding: 3px 15px;
+    padding: 3px 5px;
     display: -ms-flex;
     display: -webkit-flex;
     display: flex;
@@ -256,7 +258,7 @@ ul.fm-ul-form > li > div > label {
 ul.fm-ul-list > li > label {
     color: #F3F6FA;
     font-weight: normal;
-    width: 70%;
+    width: 40%;
 }
 
 ul.fm-ul-list > li > div:first-child {
@@ -363,6 +365,7 @@ form input[type='checkbox']:checked.ng-dirty {
     overflow-x: hidden;
 }
 
+
 /************************* 图片资源 ******************************/
 
 .icon_3d {
@@ -382,6 +385,7 @@ form input[type='checkbox']:checked.ng-dirty {
     width: 24px;
     height: 24px;
 }
+
 
 /******************************** 文件上传 **************************************/
 
@@ -481,6 +485,7 @@ form input[type='checkbox']:checked.ng-dirty {
     top: -8px;
     position: relative;
 }
+
 
 /**************************控制台************************/
 
@@ -651,6 +656,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-right: 10px;
 }
 
+
 /**********tips style**********/
 
 .modal-tips-img {
@@ -728,6 +734,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #A9A6A6;
 }
 
+
 /*fadeIn animte*/
 
 .animated-fast {
@@ -736,6 +743,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
 
 /*重写了部分angular-chosen的样式*/
 
@@ -796,6 +804,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border: solid #ff8888 1px !important;
 }
 
+
 /*********************tips**********************/
 
 .tips-title {
@@ -815,7 +824,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     width: 100%;
 }
 
+
 /*tips照片预览*/
+
 .img-preview-container {
     height: 200px;
     margin-bottom: 10px;
@@ -1047,6 +1058,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-right: 5px;
 }
 
+
 /*********************floatMenu**********************/
 
 .floatMenu {
@@ -1078,11 +1090,24 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #FFF;
 }
 
+
 /* ---------------------滚动条-------------------------------------------------- */
 
 .scroll-styled::-webkit-scrollbar {
     width: 6px;
     height: 6px;
+    background: transparent;
+}
+
+.scroll-styled::-webkit-scrollbar:hover {
+    background: transparent;
+}
+
+.scroll-styled::-webkit-scrollbar-track {
+    background: none;
+}
+
+.scroll-styled::-webkit-scrollbar-track:hover {
     background: transparent;
 }
 
@@ -1093,33 +1118,32 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-radius: 3px;
 }
 
-.scroll-styled::-webkit-scrollbar-track {
-    background: none;
-}
-
 .scroll-styled::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, .25);
 }
 
-.scroll-styled::-webkit-scrollbar-track:hover {
+.dark .scroll-styled::-webkit-scrollbar, .dark.scroll-styled::-webkit-scrollbar {
+    width: 6px;
     background: transparent;
 }
 
-.dark.scroll-styled::-webkit-scrollbar-thumb {
+.dark .scroll-styled::-webkit-scrollbar-thumb, .dark.scroll-styled::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, .18);
+    border-color: transparent;
 }
 
-.dark.scroll-styled::-webkit-scrollbar-track {
-    background: rgba(200, 200, 200, .18);
-}
-
-.dark.scroll-styled::-webkit-scrollbar-thumb:hover {
+.dark .scroll-styled::-webkit-scrollbar-thumb:hover, .dark.scroll-styled::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, .25);
 }
 
-.dark.scroll-styled::-webkit-scrollbar-track:hover {
-    background: rgba(200, 200, 200, .25);
+.dark .scroll-styled::-webkit-scrollbar:hover, .dark.scroll-styled::-webkit-scrollbar:hover {
+    background: transparent;
 }
+
+.dark .rounded-toggle {
+    background: rgba(0, 0, 0, .25);
+}
+
 
 /***************************poi-list**********************/
 
@@ -1216,6 +1240,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-right: 1px solid #404040
 }
 
+
 /********************* poiList *****************/
 
 .fm-dropdown-menu {
@@ -1309,6 +1334,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: greenyellow;
 }
 
+
 /*-------------------------------------------------选择同点位popup-----------------------------------------------*/
 
 #layerpopup {
@@ -1322,7 +1348,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
 }
 
+
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
+
 .div_float {
     width: 100px;
     height: 20px;
@@ -1331,7 +1359,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     z-index: 1;
 }
+
+
 /*紫色按钮*/
+
 button.btn-purple {
     background: rgba(138, 138, 203, 0.7);
     color: #FFF;

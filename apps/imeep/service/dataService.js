@@ -66,7 +66,7 @@ angular.module("dataService", [], function ($httpProvider) {
                 // if (canRecover(rejection)) {
                 //     return responseOrNewPromise
                 // }
-                alert("啊呕，服务请求报错，请检查网络后重试！");
+                console.log("啊呕，服务请求报错，请检查网络后重试！");
                 return $q.reject(rejection);
             }
         };

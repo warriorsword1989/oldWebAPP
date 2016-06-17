@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
+var selectApp = angular.module("app", ['oc.lazyLoad']);
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -280,8 +280,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
 
-                ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'components/road3/ctrls/attr_node_ctrl/rdNodeFromCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road3/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
@@ -323,7 +323,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
             case "TIPS":
                 $("#popoverTips").css("display", "block");
-                Application.functions.getTipsResult(data.id, function (result) {
+                dsFcc.getTipsResult(data.id, function (result) {
                     if (result.rowkey === "undefined") {
                         return;
                     }
@@ -405,11 +405,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                     if (result.f.id) {
                                         var obj = {"nodePid": parseInt(result.f.id)};
                                         var param = {
-                                            "projectId": Application.projectid,
+                                            "dbId": App.Temp.dbId,
                                             "type": "RDCROSS",
                                             "data": obj
                                         }
-                                        Application.functions.getByCondition(JSON.stringify(param), function (data) {
+                                        dsRoad.getByCondition(JSON.stringify(param), function (data) {
 
                                             var crossCtrlAndTpl = {
                                                 propertyCtrl: "components/road/ctrls/attr_cross_ctrl/rdCrossCtrl",
@@ -600,7 +600,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        Application.functions.getRdObjectById(id, type, function (data) {
+        dsRoad.getRdObjectById(id, type, selectedData.id).then(function (data) {
             if (data.errcode === -1) {
                 return;
             }
@@ -612,6 +612,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyHtml": tpl
             }
             $scope.$emit("transitCtrlAndTpl", options);
-        }, selectedData.id);
+        });
     }
 }])
