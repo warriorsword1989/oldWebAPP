@@ -1,8 +1,10 @@
 angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce', 'dsPoi','$document',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce, poiDS,$document) {
 	var _self = scope;
-	scope.radio_select = '全局';
+	scope.radio_select = '名称';
 	//当前表格数据;
 	scope.finalData = null;
+	/*初始化显示table提示*/
+	scope.poiListTableMsg = '数据加载中...';
 	/*切换poi列表类型*/
 	scope.changeDataList = function (val) {
 		scope.dataListType = val;
@@ -46,14 +48,14 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	});
 	//初始化ng-table表头;
 	scope.cols = [
-		{field: "num_index", title: "序号", show: true},
-		{field: "name", title: "名称", sortable: "name", show: true},
-		{field: "kindCode", title: "分类", sortable: "kindCode", show: true},
-		{field: "uRecord", title: "更新记录", sortable: "uRecord", show: false},
-		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false,getValue:getCollectTime},
-		{field: "pid", title: "PID", sortable: "pid", show: false},
+		{field: "num_index", title: "序号",width:'35px', show: true},
+		{field: "name", title: "名称",width:'135px', sortable: "name", show: true},
+		{field: "kindCode", title: "分类",width:'60px', sortable: "kindCode", show: true},
+		{field: "uRecord", title: "更新记录",width:'60px', sortable: "uRecord", show: false},
+		{field: "collectTime", title: "采集时间",width:'130px', sortable: "collectTime", show: false,getValue:getCollectTime},
+		{field: "pid", title: "PID",width:'100px', sortable: "pid", show: false},
 		// {field: "geometry", title: "几何", sortable: "geometry", show: false},
-		{field: "freshnessVefication", title: "鲜度验证", sortable: "freshnessVefication", show: false,getValue:getFreshnessVefication}
+		{field: "freshnessVefication", title: "鲜度验证",width:'60px', sortable: "freshnessVefication", show: false,getValue:getFreshnessVefication}
 	];
 	//初始化显示表格字段方法;
 	scope.initShowField = function(params){
@@ -119,6 +121,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			};
 			scope.getColsLength();
 			poiDS.getPoiList(param).then(function (data) {
+				scope.poiListTableMsg = '列表无数据';
 				scope.poiList = data.rows;
 				_self.tableParams.total(data.total);
 				scope.$emit('getPoiList',data.rows);

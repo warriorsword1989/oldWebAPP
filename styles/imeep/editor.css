@@ -819,12 +819,16 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-bottom: 10px;
     background-color: #555555;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .img-preview {
-    height: 200px;
+    max-height: 190px;
+    max-width: 220px;
     left: 0;
     right: 0;
+    top: 0;
+    bottom: 0;
     margin: auto;
     position: absolute;
 }
@@ -871,11 +875,16 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     float: left;
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all .3s;
+}
+
+.tips-img.active {
+    border: 3px solid rgba(73, 164, 246, 0.91);
 }
 
 .meta-info {
     padding-left: 20px;
-    height:47px;
+    height: 47px;
 }
 
 .full-screen-img-panel {
@@ -1159,10 +1168,12 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
 }
 
-.poi-list > tbody > tr > td {
+.poi-list > tbody > tr > td > p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
+    margin: 0;
 }
 
 .poi-list > tbody > tr.active > td {

@@ -6,35 +6,27 @@
     </div>
     <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
     <div class="col-sm-12 img-preview-container">
-        <img ng-if="poi.photos[0].originUrl" image-404="../../../images/road/img/noimg.png" src="{{poi.photos[0].originUrl}}" class="img-preview" alt="">
-        <img ng-if="!poi.photos[0].originUrl" src="../../../images/road/img/noimg.png" class="img-preview" alt="当前无图片">
+        <img ng-if="nowActiveImg.originUrl" ng-click="showImage(nowActiveImg,nowActiveIndex);" image-404="../../../images/road/img/noimg.png" src="{{nowActiveImg.originUrl}}" class="img-preview" alt="">
+        <img ng-if="!nowActiveImg.originUrl" src="../../../images/road/img/noimg.png" class="img-preview" alt="当前无图片">
     </div>
     <div class="meta-info col-sm-12">
         <button class="preview-left" ng-click="turnTipsPage(1);" ng-disabled="tipsPage == 1">
             <span class="glyphicon glyphicon-menu-left"></span>
         </button>
-        <button class="preview-right" ng-click="turnTipsPage(2);" ng-disabled="tipsPage == Math.ceil(poi.photos/4)">
+        <button class="preview-right" ng-click="turnTipsPage(2);" ng-disabled="tipsBtnDisabled">
             <span class="glyphicon glyphicon-menu-right"></span>
         </button>
         <div ng-repeat="item in poi.photos ">
             <img ng-if="poi.photos.length < 4" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
-                 ng-click="showImage(item,$index);" class="tips-img" alt="">
-            <img ng-if="poi.photos.length > 4 && $index < 4*tipsPage" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
-                 ng-click="showImage(item,$index);" class="tips-img" alt="">
+                 ng-click="showPreviewImg(item,$index);" ng-class="{'active':nowActiveIndex == $index,'tips-img':true}" alt="">
+            <img ng-if="poi.photos.length > 4 && $index > 4*(tipsPage-1)-1  && $index < 4*tipsPage" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
+                 ng-click="showPreviewImg(item,$index);" ng-class="{'active':nowActiveIndex == $index,'tips-img':true}" alt="">
         </div>
         <div ng-if="poi.photos.length == 0 ">
-            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
-                 ng-click="showImage(item,$index);" class="tips-img" alt="">
-            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
-                 ng-click="showImage(item,$index);" class="tips-img" alt="">
-            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
-                 ng-click="showImage(item,$index);" class="tips-img" alt="">
-            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
-                 ng-click="showImage(item,$index);" class="tips-img" alt="">
-        </div>
-        <!-- nothing默认图 -->
-        <div ng-repeat="item in tempPhotos ">
-            <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}" class="tips-img" alt="">
+            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}" class="tips-img" alt="">
+            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}" class="tips-img" alt="">
+            <img image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}" class="tips-img" alt="">
         </div>
     </div>
     <div class="tips-middle">
