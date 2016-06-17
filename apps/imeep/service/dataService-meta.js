@@ -13,7 +13,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
-
+    //中分类
     this.getMediumKind = function (){
         var defer = $q.defer();
         ajax.get("metadata/queryMediumKind/", {
@@ -35,6 +35,23 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             parameter: JSON.stringify({
                 region:param.region,
                 mediumId:param.mediumId
+            }),
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取分类出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
+    //获取品牌
+    this.getChainList = function (param){
+        var defer = $q.defer();
+        ajax.get("metadata/queryChain/", {
+            parameter: JSON.stringify({
+                kindCode:param.kindCode,
             }),
             urlType:'general'
         }).success(function(data) {

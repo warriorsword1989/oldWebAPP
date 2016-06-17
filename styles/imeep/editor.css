@@ -65,8 +65,9 @@ a:hover {
     font-size: 21px;
     font-family: "宋体";
     font-weight: bolder;
-     margin-top: 5px;
-     margin-bottom: 0px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: white;
 }
 
 .fm-banner .banner-bottom {
@@ -220,7 +221,7 @@ ul.fm-ul {
 
 ul.fm-ul > li {
     border: none;
-    padding: 3px 15px;
+    padding: 3px 5px;
     display: -ms-flex;
     display: -webkit-flex;
     display: flex;

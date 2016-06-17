@@ -1,9 +1,20 @@
 /**
- * Created by liwanchong on 2016/4/28.
+ * Created by liuyang on 2016/4/28.
+ * 图层各个属性和tips
  */
 (function() {
     var jsFiles = [
         "Feature.js",
+        "RdNode.js",
+        "AdNode.js",
+        "RdRestriction.js",
+        "RdSpeedLimit.js",
+        "RdCross.js",
+        "RdLaneConnexity.js",
+        "AdAdmin.js",
+        "AdLink.js",
+        "AdFace.js",
+        "RwLink.js",
         "RdLink.js",
         "RdBranchPart.js",
         "RdBranch.js",

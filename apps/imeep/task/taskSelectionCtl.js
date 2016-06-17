@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/6/7.
  */
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'ui.bootstrap','ngCookies']).controller('TaskSelectionCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', '$q','$cookies','$location', function($scope, $ocLazyLoad, $rootScope, poiDS ,$q,$cookies,$location) {
+angular.module('app', ['ui.layout', 'dataService','ngCookies']).controller('TaskSelectionCtl', ['$scope', 'mPoi', '$q','$cookies','$location', function($scope, mPoi ,$q,$cookies,$location) {
     var layerCtrl = new fastmap.uikit.LayerController({config: App.taskSelectionLayersConfig});
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
@@ -144,7 +144,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'ui.bootstrap'
     /*加载子任务列表*/
     function loadSubTaskfn(obj){
         if(!obj)return;
-        poiDS.querySubtaskByUser({
+        mPoi.querySubtaskByUser({
             'exeUserId':1,//$cookies.get('FM_USER_ID');
             'stage':obj.classStage,
             'type':obj.classType,

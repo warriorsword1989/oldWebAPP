@@ -219,8 +219,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @private
      */
     _draw: function (ctx, boolPixelCrs, parse) {
-
-        var loader = $.getJSON;
         //
         this.options.zoomlevel = this._map;
 
