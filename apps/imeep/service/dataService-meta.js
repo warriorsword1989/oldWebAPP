@@ -29,10 +29,13 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         return defer.promise;
     };
     //小分类
-    this.getKindListNew = function (){
+    this.getKindListNew = function (param){
         var defer = $q.defer();
         ajax.get("metadata/queryKind/", {
-            region:0,
+            parameter: JSON.stringify({
+                region:param.region,
+                mediumId:param.mediumId
+            }),
             urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
