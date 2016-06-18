@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var pedestrianNaviApp = angular.module("mapApp");
+var pedestrianNaviApp = angular.module("app");
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.naviData =  objCtrl.data;

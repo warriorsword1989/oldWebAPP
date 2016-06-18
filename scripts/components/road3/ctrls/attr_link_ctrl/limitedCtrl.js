@@ -3,7 +3,7 @@
  */
 /*var limitedApp = angular.module("lazymodule", []);
 limitedApp.controller("limitedController",function($scope) {*/
-var limitedApp = angular.module("mapApp");
+var limitedApp = angular.module("app");
 limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkLimitData = objCtrl.data;

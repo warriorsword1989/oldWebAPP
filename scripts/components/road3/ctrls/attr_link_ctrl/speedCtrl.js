@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var realtimeTrafficApp = angular.module("mapApp");
+var realtimeTrafficApp = angular.module("app");
 realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.rticData =  objCtrl.data;
@@ -50,8 +50,8 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
         objCtrl.data["oridiRowId"] = item.rowId;
         var oridinarySpeedObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/speedOfOrdinaryCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/speedOfOrdinaryTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/speedOfOrdinaryCtrl',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/speedOfOrdinaryTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", oridinarySpeedObj);
     }
@@ -61,8 +61,8 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
         objCtrl.data["oridiRowId"] = cItem.rowId;
         var speedlimitInfoObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/speedOfConditionCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/speedOfConditionTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/speedOfConditionCtrl',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/speedOfConditionTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", speedlimitInfoObj);
     }
