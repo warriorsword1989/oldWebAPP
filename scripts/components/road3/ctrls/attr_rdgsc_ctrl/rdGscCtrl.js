@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/4/7.
  */
 
-var rdGscApp = angular.module("mapApp");
+var rdGscApp = angular.module("app");
 rdGscApp.controller("rdGscController",function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();

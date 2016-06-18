@@ -740,18 +740,18 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 /**********tips style**********/
 
 .modal-tips-img {
-    left: 241px;
+    left: 242px;
     position: relative;
     width: 500px;
-    top: -10px;
+    top: -11px;
 }
 
 .popoverTips {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     z-index: 0;
-    width: 250px;
+    width: 252px;
     height: 100%;
     background-color: transparent;
     padding: 42px 0 0px 0;
@@ -763,6 +763,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background-color: #313131;
     /*opacity: 0.9;*/
     padding: 10px;
+    border: 1px solid #555;
 }
 
 .dragAble {
@@ -1226,6 +1227,32 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 
 /***************************poi-list**********************/
+
+.fm-project-switch {
+    background-color: rgb(64, 64, 64);
+}
+
+.fm-project-switch a.tab.active {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, .8);
+    background-color: #313131;
+    transition: all .3s;
+}
+
+.fm-project-switch a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 11px 5px;
+    display: inline-block;
+    height: 41px;
+    text-align: center;
+    background-color: rgb(64, 64, 64);
+}
+
+.fm-left-datalist {
+    width: 250px;
+}
 
 .table-container {
     width: 100%;

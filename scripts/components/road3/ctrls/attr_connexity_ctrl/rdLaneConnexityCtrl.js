@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2015/12/23.
  */
-var otherApp = angular.module('mapApp');
+var otherApp = angular.module('app');
 otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, $document) {
 
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -193,8 +193,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.changeItem = item;
             var changedDirectObj = {
                 "loadType":"subAttrTplContainer",
-                "propertyCtrl":'components/road/ctrls/attr_connexity_components/road/ctrls/changeDirectCtrl',
-                "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/changeDirectTpl.html'
+                "propertyCtrl":'scripts/components/road/ctrls/attr_connexity_components/road3/ctrls/changeDirectCtrl',
+                "propertyHtml":'../../../scripts/components/road3/tpls/attr_connexity_tpl/changeDirectTpl.html'
             };
             $scope.$emit("transitCtrlAndTpl", changedDirectObj);
             map.currentTool = new fastmap.uikit.SelectPath(
@@ -256,8 +256,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.lanesData["index"] = index;
         var showInfoObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_connexity_ctrl/showInfoCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/showInfoTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_connexity_ctrl/showInfoCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_connexity_tpl/showInfoTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", showInfoObj);
     };
@@ -274,8 +274,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.showInfoFlag = false;
         var addDirectObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_connexity_ctrl/addDirectCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/addDirectTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_connexity_ctrl/addDirectCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_connexity_tpl/addDirectTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", addDirectObj);
         layerCtrl.pushLayerFront('edit');
@@ -367,8 +367,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.lanesData["transitFlag"] = true;
             var changedTransitObj = {
                 "loadType":"subAttrTplContainer",
-                "propertyCtrl":'components/road/ctrls/attr_connexity_ctrl/changeDirectCtrl',
-                "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/changeDirectTpl.html'
+                "propertyCtrl":'script/components/road3/ctrls/attr_connexity_ctrl/changeDirectCtrl',
+                "propertyHtml":'../../../scripts/components/road3/tpls/attr_connexity_tpl/changeDirectTpl.html'
             };
             $scope.$emit("transitCtrlAndTpl", changedTransitObj);
         }

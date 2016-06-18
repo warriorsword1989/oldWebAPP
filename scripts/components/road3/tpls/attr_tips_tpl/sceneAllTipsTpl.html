@@ -12,8 +12,8 @@
         margin-bottom: 3px;
         font-size: 12px;
     }
-    .title {
-        height: 20%;
+    .tips-title {
+        /*height: 20%;*/
         width: 100%;
         /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
@@ -112,9 +112,9 @@
         border: none;
         border-radius: 4px;
     }
-    .title img:not(:last-child){
+    .tips-title img:not(:last-child){
     }
-    .title img{
+    .tips-title img{
         border:1px solid rgba(255,255,255,0.3);
     }
 
@@ -122,7 +122,15 @@
         cursor: pointer;
         border:0;
     }
-
+    .tips-voice{
+        background-color: rgb(64, 247, 255);
+    }
+    .tips-form-group{
+        height: 10%;
+        margin-bottom: 3px;
+        color:#fff;
+        border-radius:4px;
+    }
 </style>
 <div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" style="width:100%;">
     <div class="tips-title">
@@ -131,7 +139,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="title">
+    <div class="tips-title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
             <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)" ng-if="number > 0">
             <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="noPic()" ng-if="number == 0">
@@ -140,22 +148,22 @@
             <span ng-if="number > 0" style=" float: right;top: 0px;right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center">{{number}}</span>
         </div>
         <div class="col-sm-12" style="margin-left: 30px; display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
-            <img ng-src="../../../images/road/img/novoice.png" width="60px" height="60px" ng-click="noRad()" ng-if="0 == 0">
+            <img ng-src="../../../images/road/img/novoice.png" class="tips-voice" width="60px" height="60px" ng-click="noRad()" ng-if="0 == 0">
             <img ng-src="../../../images/road/img/voice.png" width="60px" height="60px" ng-click="openVideo(0)"ng-if="0 > 1">
             <!--<span style="color: white">0</span>-->
         <!--    <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:-5px;color: #fff;cursor: pointer;"
                   class="glyphicon glyphicon-remove-sign"></span>-->
-            <span ng-if="0 > 0"style=" float: right;top: 0px; right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center">0</span>
+            <span ng-if="0 > 0" style=" float: right;top: 0px; right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center">0</span>
         </div>
     </div>
     <div class="right" ng-if="allTipsType==1302" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
             <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
                 <div ng-if="item.flag===1" class="out-link-img">
-                    <img ng-src="../../images/road/1302/1302_1_{{item.oInfo}}.svg" ng-click="showOutLink(item)">
+                    <img ng-src="../../../images/road/1302/1302_1_{{item.oInfo}}.svg" ng-click="showOutLink(item)">
                 </div>
                 <div ng-if="item.flag===2" class="out-link-img">
-                    <img ng-src="../../images/road/1302/1302_2_{{item.oInfo}}.svg" ng-click="showOutLink(item)">
+                    <img ng-src="../../../images/road/1302/1302_2_{{item.oInfo}}.svg" ng-click="showOutLink(item)">
                 </div>
             </div>
         </div>
@@ -274,10 +282,10 @@
                                 <div class="pic-show-well-normal-tips">
                                     <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
                                         <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext!=1">
-                                            <img ng-src="../../images/road/1301/1301_0_{{gItem.arwG}}.svg" >
+                                            <img ng-src="../../../images/road/1301/1301_0_{{gItem.arwG}}.svg" >
                                         </div>
                                         <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext==1">
-                                            <img ng-src="../../images/road/1301/1301_2_{{gItem.arwG}}.svg" >
+                                            <img ng-src="../../../images/road/1301/1301_2_{{gItem.arwG}}.svg" >
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +299,7 @@
                                             <img   style="border:0;visibility: hidden;">
                                         </div>
                                         <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null&&bItem.ext!=1">
-                                            <img ng-if="bItem.arwB!=null"  ng-src="../../images/road/1301/1301_1_{{bItem.arwB}}.svg">
+                                            <img ng-if="bItem.arwB!=null"  ng-src="../../../images/road/1301/1301_1_{{bItem.arwB}}.svg">
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +358,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                        <div class="form-group tips-form-group">
                             <label class="col-sm-4 control-label" style="padding: 4px">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;段:</label>
                             <div class="col-sm-8" style="padding: 4px">
                                 <span class="label" ng-bind="dataTipsData.o_array[0].time"></span>
@@ -688,6 +696,67 @@
                         </div>
                     </form>
                 </div>
+                <!-- begin Real Sign tips-->
+                <div  class="panel-body" ng-if="allTipsType==1801">
+                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
+
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label label-info" ng-bind="showContent"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length > 10">
+                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
+                            </div>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length <= 10">
+                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id" title="{{fData.id}}"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-bind="drs"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限速值:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-bind="drs">暂时</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">类型:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-bind="drs">暂时</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">方位:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-bind="drs">暂时</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">配对信息:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-bind="drs">暂时</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end Real Sign tips-->
+                <!-- begin 危险信息-->
+                <!-- end 危险信息-->
             </div>
         </div>
         <div class="both" >
@@ -704,22 +773,22 @@
 
                 </div>
             </div>
-            <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px; text-align: center;">
-                <div class="col-sm-4" >
+            <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;">
+                <div class="col-sm-6" >
                     <button type="button"  ng-click="transBridge($event)" class="btn btn-xs " ng-show="(allTipsType==2001||allTipsType==1201||allTipsType==1302)&&allTipsType!=1301" >
                         <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-wrench"></i> 一键录入</a>
                     </button>
                 </div>
-                <div class="col-sm-4" >
-                    <button type="button"  ng-click="upBridgeStatus(nArrayData[0],$event)" class="btn btn-xs ">
+                <div class="col-sm-6" >
+                    <button type="button"  ng-click="upBridgeStatus(nArrayData[0],$event)" class="btn btn-xs pull-right">
                         <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-saved"></i>标识状态</a>
                     </button>
                 </div>
-                <div class="col-sm-4" >
+                <!--<div class="col-sm-4" >
                     <button type="button"  ng-click="closeTips()" class="btn btn-xs ">
                         <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
                     </button>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
