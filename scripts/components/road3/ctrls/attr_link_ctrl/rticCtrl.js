@@ -72,8 +72,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showRticsInfoObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/rticOfIntCtrl',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/rticOfIntTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
     }
@@ -82,8 +82,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
         var showCarInfoObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfCar',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/rticOfCar',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/rticOfCarTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showCarInfoObj);
     }
@@ -115,8 +115,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         objCtrl.data["oridiRowId"] = $scope.rticData.intRtics[0].rowId;
         var showRticsInfoObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/rticOfIntCtrl',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/rticOfIntTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
         $scope.resetToolAndMap();
