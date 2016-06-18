@@ -13,48 +13,6 @@ var objectEditApp = angular.module("app").controller("normalController", functio
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
 
-    //dsRoad.getByCondition({
-    //    dbId: App.Temp.dbId,
-    //    type: 'RDLINK',
-    //    data: {"nodePid":  $scope.rdNodeData.pid}
-    //}).then(function (data){
-    //    if (data.errcode === -1) {
-    //        return;
-    //    }
-    //    var lines = [];
-    //    $scope.linepids = [];
-    //    for (var index in data.data) {
-    //        var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
-    //        for (var i = 0, len = linkArr.length; i < len; i++) {
-    //            var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-    //            points.push(point);
-    //        }
-    //        lines.push(fastmap.mapApi.lineString(points));
-    //        $scope.linepids.push(data.data[index].pid);
-    //        highlightFeatures.push({
-    //            id:data.data[index].pid.toString(),
-    //            layerid:'referenceLine',
-    //            type:'line',
-    //            style:{}
-    //        })
-    //    }
-    //
-    //    var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
-    //
-    //    selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.rdNodeData.pid});
-    //    $scope.initialForms();
-    //
-    //
-    //    highlightFeatures.push({
-    //        id:$scope.rdNodeData.pid.toString(),
-    //        layerid:'referenceLine',
-    //        type:'node',
-    //        style:{}
-    //    })
-    //    highRenderCtrl.highLightFeatures =highlightFeatures;
-    //    highRenderCtrl.drawHighlight();
-    //});
-
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
@@ -72,8 +30,8 @@ var objectEditApp = angular.module("app").controller("normalController", functio
     $scope.changeLimitType = function(type){
         if(type == 2){
             $timeout(function(){
-                $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-                    $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+                $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+                    $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
                     /*查询数据库取出时间字符串*/
                     var tmpStr = $scope.rdRestrictData.time;
                     $scope.fmdateTimer(tmpStr);
@@ -85,7 +43,6 @@ var objectEditApp = angular.module("app").controller("normalController", functio
     }
     //初始化数据
     $scope.initializeData = function () {
-        alert('12')
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         $scope.flag = 0;
@@ -180,8 +137,8 @@ var objectEditApp = angular.module("app").controller("normalController", functio
     $scope.showAddDirectTepl = function () {
         var addObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_restriction_ctrl/addDirectCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_restrict_tpl/addDitrectTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_restriction_ctrl/addDirectCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_restrict_tpl/addDitrectTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", addObj);
     };
@@ -267,8 +224,8 @@ var objectEditApp = angular.module("app").controller("normalController", functio
 
         //显示时间
         $timeout(function () {
-            $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-                $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
                 $timeout(function(){
                     if($scope.rdSubRestrictData["conditions"][0]) {
                         $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
@@ -362,8 +319,8 @@ var objectEditApp = angular.module("app").controller("normalController", functio
         $scope.rdRestrictData.restricInfo = restrictInfoArr.join(",");
     };
     $timeout(function () {
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
             $timeout(function(){
                 if($scope.rdSubRestrictData["conditions"][0]) {
                     $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
