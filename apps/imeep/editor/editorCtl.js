@@ -62,9 +62,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			if (id === "tipsPanel") {
 				$scope.showTab = true;
 				$scope.selectedTool = 1;
-				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.poiDataListTpl =  appPath.root + appPath.road + 'tpls/layers_switch_tpl/fieldsResult.html';
-				});
+				$scope.changeProject($scope.projectType)
 			} else if (id === "scenePanel") {
 				$scope.showTab = false;
 				$scope.selectedTool = 2;
