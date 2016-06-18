@@ -2,7 +2,7 @@
  * 其他属性中的普通限速
  * Created by liwanchong on 2016/3/3.
  */
-var oridinarySpeedApp = angular.module("mapApp");
+var oridinarySpeedApp = angular.module("app");
 oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
