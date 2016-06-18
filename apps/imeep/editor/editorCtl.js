@@ -21,17 +21,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     //$scope.panelFlag = true;
     $scope.showLoading = true;
     $scope.showTab = true;
-    $scope.suspendFlag = true;
+    $scope.suspendFlag = false;
     $scope.selectedTool = 1;
     $scope.dataListType = 1;
     $scope.projectType = 1;
     $scope.outputType = 1;
-    $scope.hideConsole = true;
-    $scope.hideEditorPanel = false;
+    $scope.hideConsole = false;
+    $scope.hideEditorPanel = 'none';
     $scope.disappearEditorPanel = true;
     $scope.controlFlag = {}; //用于父Scope控制子Scope
     $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
     $scope.outputResult = []; //输出结果
+    var currentFeatureType; // 临时的全局变量，用于标识当前数据是POI还是道路，稍后要统一处理
     /*切换项目平台*/
     $scope.changeProject = function(type) {
         $scope.showLoading = true;
@@ -81,14 +82,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         }
         // if ($scope.panelFlag) {
         //
-        // 	$scope.outErrorArr[3] = true;
-        // 	$scope.outErrorArr[2] = false;
+        //  $scope.outErrorArr[3] = true;
+        //  $scope.outErrorArr[2] = false;
         // }
         // else {
-        // 	$scope.attrTplContainer = "";
-        // 	$scope.suspendFlag = false;
-        // 	$scope.outErrorArr[2] = true;
-        // 	$scope.outErrorArr[3] = false;
+        //  $scope.attrTplContainer = "";
+        //  $scope.suspendFlag = false;
+        //  $scope.outErrorArr[2] = true;
+        //  $scope.outErrorArr[3] = false;
         // }
     };
     //次属性开关逻辑控制
@@ -100,6 +101,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     };
     $scope.changeOutput = function(val) {
         $scope.outputType = val;
+    };
+    $scope.changeSuspendShow = function() {
+        if ($('.lanePic')) {
+            $.each($('.lanePic'), function(i, v) {
+                $(v).removeClass('active');
+            });
+        }
+        $scope.subAttrTplContainerSwitch(false);
     };
     /**
      * 显示poi基本信息，tips信息等
@@ -114,7 +123,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             // $scope.$broadcast('refreshImgsData',$scope.poi.photos);
             // /*查询3DIcon*/
             // dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
-            // 	$scope.poi.poi3DIcon = data;
+            //  $scope.poi.poi3DIcon = data;
             // });
             initOcll();
         }
@@ -176,43 +185,48 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 保存前数据校验及准备
      */
     $scope.save = function() {
-        console.log("poi:", $scope.poi);
-        console.info("poi.getIntegrate", $scope.poi.getIntegrate());
-        console.info("poi.getChanges", $scope.poi.getChanges());
-        //判断电话是否符合规则
-        if ($scope.controlFlag.isTelEmptyArr) {
-            var flag = false;
-            for (var i = 0, len = $scope.controlFlag.isTelEmptyArr.length; i < len; i++) {
-                if ($scope.controlFlag.isTelEmptyArr[i]) {
-                    flag = true;
-                    break;
+        if (currentFeatureType == "POI") {
+            console.log("poi:", $scope.poi);
+            console.info("poi.getIntegrate", $scope.poi.getIntegrate());
+            console.info("poi.getChanges", $scope.poi.getChanges());
+            //判断电话是否符合规则
+            if ($scope.controlFlag.isTelEmptyArr) {
+                var flag = false;
+                for (var i = 0, len = $scope.controlFlag.isTelEmptyArr.length; i < len; i++) {
+                    if ($scope.controlFlag.isTelEmptyArr[i]) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    swal({
+                        title: "电话格式有误，请重新输入!",
+                        type: "warning",
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                    return;
                 }
             }
-            if (flag) {
-                swal({
-                    title: "电话格式有误，请重新输入!",
-                    type: "warning",
-                    timer: 1000,
-                    showConfirmButton: false
-                });
-                return;
-            }
+            var change = $scope.poi.getChanges();
+            savePoi(function(data) {
+                if (FM.Util.isEmptyObject(change)) {
+                    swal("操作成功!", "属性值没有发生变化", "success");
+                } else {
+                    swal("操作成功!", "属性值发生了变化", "success");
+                }
+                data = {
+                    type: 'RDLINK',
+                    pid: 100004343,
+                    childPid: "",
+                    op: "道路link修改成功"
+                };
+                $scope.$broadcast('getConsoleInfo', data); //显示输出结果
+            });
+        } else {
+            $scope.subAttrTplContainerSwitch(false);
+            eventController.fire(eventController.eventTypes.SAVEPROPERTY);
         }
-        var change = $scope.poi.getChanges();
-        savePoi(function(data) {
-            if (FM.Util.isEmptyObject(change)) {
-                swal("操作成功!", "属性值没有发生变化", "success");
-            } else {
-                swal("操作成功!", "属性值发生了变化", "success");
-            }
-            data = {
-                type: 'RDLINK',
-                pid: 100004343,
-                childPid: "",
-                op: "道路link修改成功"
-            };
-            $scope.$broadcast('getConsoleInfo', data); //显示输出结果
-        });
     };
     /*切换POI时进行保存提醒*/
     var changePoi = function(callback) {
@@ -299,6 +313,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         }).then(function(da) {
             if (da) {
                 showPoiInfo(da);
+                currentFeatureType = "POI";
                 $scope.$broadcast("getObjectByIdRes");
             }
         });
@@ -368,11 +383,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     function metaTest() {
         // //大分类
         // dsMeta.getTopKind().then(function (kindData) {
-        // 	console.info("大分类：",kindData);
+        //  console.info("大分类：",kindData);
         // });
         // //中分类
         // dsMeta.getMediumKind().then(function (data) {
-        // 	console.info("中分类：",data);
+        //  console.info("中分类：",data);
         // });
         //小分类
         var param = {
@@ -384,7 +399,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         });
         //
         // dsMeta.getFocus().then(function (data) {
-        // 	console.info("focus:",data);
+        //  console.info("focus:",data);
         // });
     }
     /**
@@ -460,14 +475,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.showPopoverTips = true;
         });
         $ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/generalBaseCtl').then(function() {
-            $scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
+            $scope.attrTplContainer = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
         });
     }
     var initData = function() {
         var promises = [];
         // promises.push(dsMeta.getKindList().then(function (kindData) {
-        // 	kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
-        // 	initKindFormat(kindData);
+        //  kindData.unshift({"id":"0","kindCode":"0","kindName":"--请选择--"});//在数组最前面增加
+        //  initKindFormat(kindData);
         // }));
         var param = {
             mediumId: "",
@@ -493,6 +508,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 接收点击地图上要素的监听事件
      */
     $scope.$on("transitCtrlAndTpl", function(event, data) {
+        currentFeatureType = "ROAD";
         if (data["loadType"] === "subAttrTplContainer") {
             $scope.subAttrTplContainerSwitch(true);
             $scope.subAttrTplContainer = "";
@@ -524,7 +540,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         loadMap();
         //选择道路要素的工具栏
         // $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
-        // 	$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
+        //  $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
         // });
         //选择道路要素的工具栏
         $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
