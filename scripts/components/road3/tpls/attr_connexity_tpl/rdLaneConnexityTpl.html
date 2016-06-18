@@ -21,12 +21,12 @@
                     <img    class="lanePic" ng-if="item.type===0"
                             ng-click="showLanesInfo(item,$index,$event)"
                             ng-mousedown="changeDirect(item,$event,$index)"
-                            ng-src="../../images/road/1301/1301_0_{{item.flag}}.svg"
+                            ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
                             title="{{item}}">
                     <img    class="lanePic" ng-if="item.type===2"
                             ng-click="showLanesInfo(item,$index,$event)"
                             ng-mousedown="changeDirect(item,$event,$index)"
-                            ng-src="../../images/road/1301/1301_2_{{item.flag}}.svg"
+                            ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
                             title="{{item}}">
                 </div>
             </div>
@@ -44,12 +44,12 @@
                          class="lanePic"
                          ng-if="items.flag!=='test'"
                          ng-click="changeTransit(items,$index)"
-                         ng-src="../../images/road/1301/1301_1_{{items.flag}}.svg"
+                         ng-src="../../../images/road/1301/1301_1_{{items.flag}}.svg"
                          title="{{items}}">
                     <img
                          ng-if="items.flag==='test'"
                          ng-click="changeTransit(items,$index)"
-                         ng-src="../../images/road/1301/1301_1_test.svg">
+                         ng-src="../../../images/road/1301/1301_1_test.svg">
                 </div>
             </div>
 

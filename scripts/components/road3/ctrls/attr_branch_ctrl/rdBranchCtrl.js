@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var namesOfBranch = angular.module("mapApp");
+var namesOfBranch = angular.module("app");
 namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -347,11 +347,11 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     $scope.showDetail = function (type) {
         var tempCtr = '', tempTepl = '';
         if (type == 0) {  //名称信息
-            tempCtr = 'components/road/ctrls/attr_branch_ctrl/nameInfoCtrl';
-            tempTepl = '../../scripts/components/road/tpls/attr_branch_Tpl/nameInfoTepl.html';
+            tempCtr = 'scripts/components/road/ctrls/attr_branch_ctrl/nameInfoCtrl';
+            tempTepl = '../../../scripts/components/road3/tpls/attr_branch_Tpl/nameInfoTepl.html';
         } else {  //经过线
-            tempCtr = 'components/road/ctrls/attr_branch_ctrl/passlineCtrl';
-            tempTepl = '../../scripts/components/road/tpls/attr_branch_Tpl/passlineTepl.html';
+            tempCtr = 'scripts/components/road/ctrls/attr_branch_ctrl/passlineCtrl';
+            tempTepl = '../../../scripts/components/road3/tpls/attr_branch_Tpl/passlineTepl.html';
         }
         var detailInfo = {
             "loadType": "subAttrTplContainer",

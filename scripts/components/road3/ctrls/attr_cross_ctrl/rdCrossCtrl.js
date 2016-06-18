@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var selectApp = angular.module("mapApp");
+var selectApp = angular.module("app");
 selectApp.controller("rdCrossController", function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -49,8 +49,8 @@ selectApp.controller("rdCrossController", function ($scope) {
     $scope.showCrossNames=function(nameItem) {
         var crossNamesObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_cross_ctrl/namesCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_cross_tpl/namesTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_cross_ctrl/namesCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_cross_tpl/namesTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", crossNamesObj);
         $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
