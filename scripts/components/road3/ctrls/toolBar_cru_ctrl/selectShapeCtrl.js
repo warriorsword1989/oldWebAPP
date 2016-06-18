@@ -166,7 +166,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             });
             map.currentTool.enable();
             $scope.toolTipText = '请选择tips！';
-            eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
+            eventController.off(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback)
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
@@ -329,55 +329,54 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     }
                     var options11 = {
                         "loadType": 'attrTplContainer',
-                        "propertyCtrl": "scripts/components/road/ctrls/blank_ctrl/blankCtrl",
-                        "propertyHtml": "../../../scripts/components/road/tpls/blank_tpl/blankTpl.html"
+                        "propertyCtrl": appPath.road + "ctrls/blank_ctrl/blankCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/blank_tpl/blankTpl.html"
                     }
                     $scope.$emit("transitCtrlAndTpl", options11);
-                    $scope.$emit("SWITCHCONTAINERSTATE",
-                        {
+                    $scope.$emit("SWITCHCONTAINERSTATE",{
                             "attrContainerTpl": false
-                        });
+                    });
                     eventController.fire(eventController.eventTypes.SELECTBYATTRIBUTE, {feather: result});
                     switch (result.s_sourceType) {
                         case "2001"://测线
-                            $scope.showTipsOrProperty(result, "RDLINK", objCtrl, result.id, "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
+                            $scope.showTipsOrProperty(result, "RDLINK", objCtrl, result.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road +  "tpls/attr_link_tpl/rdLinkTpl.html");
                             break;
                         case "1101"://点限速
-                            $scope.showTipsOrProperty(result, "RDSPEEDLIMIT", objCtrl, result.id, "scripts/components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                            $scope.showTipsOrProperty(result, "RDSPEEDLIMIT", objCtrl, result.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                             break;
                         case "1203"://道路方向
                             var ctrlAndTplOfDirect = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
                                     if (result.f.type == 1) {
-                                        $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                                        $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                     }
                                 }
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                             break;
                         case "1201"://种别
-                            $scope.showTipsOrProperty(result, "RDLINK", objCtrl, result.f.id, "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
+                            $scope.showTipsOrProperty(result, "RDLINK", objCtrl, result.f.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             break;
                         case "1301"://车信
-                            $scope.showTipsOrProperty(result, "RDLANECONNEXITY", objCtrl, result.id, "scripts/components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
+                            $scope.showTipsOrProperty(result, "RDLANECONNEXITY", objCtrl, result.id, appPath.road +"ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", appPath.root + appPath.road + "tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                             break;
                         case "1302"://交限
-                            $scope.showTipsOrProperty(result, "RDRESTRICTION", objCtrl, result.id, "scripts/components/road/ctrls/attr_restriction_ctrl/rdRestriction", "../../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                            $scope.showTipsOrProperty(result, "RDRESTRICTION", objCtrl, result.id, appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                             break;
                         case "1407"://分歧
-                            $scope.showTipsOrProperty(result, "RDBRANCH", objCtrl, result.brID ? result.brID[0].id : '', "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
+                            $scope.showTipsOrProperty(result, "RDBRANCH", objCtrl, result.brID ? result.brID[0].id : '', appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html");
                             break;
                         case "1510"://桥
                             var ctrlAndTplOfBridge = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
                                     $scope.brigeLinkArray = result.f_array;
-                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfBridge);
@@ -385,11 +384,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         case "1514"://施工
                             var ctrlAndTplOfMend = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road +  "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
                                     $scope.brigeLinkArray = result.f_array;
-                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK",  appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfMend);
@@ -399,8 +398,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         case  "1704"://交叉路口
                             var ctrlAndTplOfCross = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
                                     if (result.f.id) {
                                         var obj = {"nodePid": parseInt(result.f.id)};
@@ -412,8 +411,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                         dsRoad.getByCondition(JSON.stringify(param), function (data) {
 
                                             var crossCtrlAndTpl = {
-                                                propertyCtrl: "scripts/components/road/ctrls/attr_cross_ctrl/rdCrossCtrl",
-                                                propertyHtml: "../../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html"
+                                                propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
+                                                propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
                                             }
                                             objCtrl.setCurrentObject("RDCROSS", result.data[0]);
                                             $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
@@ -426,18 +425,18 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         case "1803"://挂接
                             var ctrlAndTplOfOfGJ = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                             break;
                         case "1501"://上下线分离
                             var ctrlAndTplOfUpAndDown = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
-                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndDown);
@@ -445,8 +444,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         case "1901"://道路名
                             var ctrlAndTplOfName = {
                                 "loadType": "tipsTplContainer",
-                                "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                                "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
                             break;
