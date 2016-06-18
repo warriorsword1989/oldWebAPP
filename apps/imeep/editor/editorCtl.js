@@ -191,10 +191,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 		});
 	};
+
 	/**
 	 * 保存前数据校验及准备
 	 */
 	$scope.save = function () {
+		if(true){ //用于调试道路保存，后续需要将poi的保存模式和道路的保存模式做成一样的。
+			$scope.subAttrTplContainerSwitch(false);
+			eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY)
+			return ;
+		}
 		console.log("poi:", $scope.poi);
 		console.info("poi.getIntegrate", $scope.poi.getIntegrate());
 		console.info("poi.getChanges", $scope.poi.getChanges());

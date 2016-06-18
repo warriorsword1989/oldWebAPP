@@ -172,7 +172,7 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
         var param = {
             "command": "UPDATE",
             "type":"RDNODE",
-            "projectId": Application.projectid,
+            "projectId": App.Temp.dbId,
             "data": objectEditCtrl.changedProperty
         }
 
