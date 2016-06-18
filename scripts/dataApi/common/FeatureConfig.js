@@ -1,7 +1,7 @@
 /**
  * Created by wangmingdong on 2016/6/17.
  */
-fastmap.dataApi.TipsType = {
+fastmap.dataApi.FeatureConfig = {
 	1101:{
 		name:'点限速',
 		ctl:'',
