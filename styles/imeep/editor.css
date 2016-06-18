@@ -1168,8 +1168,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #ccc;
     font-weight: bold;
     text-decoration: none;
-    padding: 6px 5px;
+    padding: 11px 5px;
     display: inline-block;
+    height: 41px;
     text-align: center;
     background-color: rgb(64, 64, 64);
 }

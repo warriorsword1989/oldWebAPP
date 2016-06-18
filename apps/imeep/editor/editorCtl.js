@@ -528,7 +528,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				$scope.attrTplContainerSwitch(true);
 			}
 		} else if (data["loadType"] === "tipsTplContainer") {
-
+			$scope.showPopoverTips = true;
 		} else if (data["loadType"] === "tipsPitureContainer") {
 			if ($scope[data["loadType"]]) {
 				$scope.$broadcast("TRANSITTIPSPICTURE", {})
