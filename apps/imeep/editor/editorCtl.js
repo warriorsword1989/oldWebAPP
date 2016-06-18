@@ -512,10 +512,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     dbId: 42,
                     command: 'UPDATE',
                     type: 'IXPOI',
-                    pid: $scope.poi.pid,
+                    objId: $scope.poi.pid,
                     data: change
                 };
-                data.pid = $scope.poi.pid;
                 dsRoad.editGeometryOrProperty(param).then(function(data) {
                     swal("操作成功!", "", "success");
                     $scope.$broadcast('getConsoleInfo', data); //显示输出结果
