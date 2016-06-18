@@ -228,19 +228,19 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "components/road3/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../scripts/components/road3/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "scripts/components/road3/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../../scripts/components/road3/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
                     } else if (pItemId === "1203") {//道路方向
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfDirect={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f.type == 1) {
-                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         };
@@ -248,12 +248,12 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     } else if (pItemId === "1301") {//车信
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "components/road3/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../scripts/components/road3/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
+                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "scripts/components/road3/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../../scripts/components/road3/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                     } else if (pItemId === "1302") {//交限
-                        $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "components/road3/ctrls/attr_restriction_ctrl/rdRestriction", "../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                        $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "scripts/components/road3/ctrls/attr_restriction_ctrl/rdRestriction", "../../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                     } else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                        $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                     } else if (pItemId === "1510") {//桥1510
                         var points = [];
                         var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
@@ -266,12 +266,12 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
                                     $scope.brigeLinkArray = data.f_array;
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         };
@@ -282,11 +282,11 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
                         var ctrlAndTplOfRoad={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length > 0) {
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         };
@@ -296,8 +296,8 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         var ctrlAndTplOfCross={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f.id) {
                                     var obj = {"nodePid": parseInt(data.f.id)};
@@ -324,8 +324,8 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl": "components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
 
@@ -333,13 +333,13 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl": "components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                     } else if (pItemId === "2001") {//测线
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18)
-                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
                         var points = [];
@@ -352,12 +352,12 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.fitBounds(bounds, {"maxZoom": 18});
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
                                     $scope.brigeLinkArray = data.f_array;
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         }
@@ -371,12 +371,12 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
                                     $scope.brigeLinkArray = data.f_array;
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         }
@@ -387,16 +387,16 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfD= {
 
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1801") {//立交
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfOverPass= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                     }
@@ -450,8 +450,8 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
                 var ctrlAndTplParams = {
                     loadType: 'tipsTplContainer',
-                    propertyCtrl: "components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                    propertyHtml: "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                    propertyCtrl: "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                    propertyHtml: "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                     callback: function () {
                         if (data.t_lifecycle === 2) { //修改
                             $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);

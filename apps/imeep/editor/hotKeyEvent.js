@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/12/11.
  */
 
-function bindHotKeys(ocLazyLoad, scope, dsRoad) {
+function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
     $(document).bind('keydown',
         function (event) {
             //取消
@@ -63,7 +63,6 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
                 scope.changeBtnClass("");
-                scope.$apply();
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
@@ -88,20 +87,20 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             id = data.data.pid;
                         }
                         objEditCtrl.setOriginalData(null);
-                        dsRoad.getRdObjectById(id, type, function (data) {
+                        dsRoad.getRdObjectById(id, type, detailId).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data.data);
-                            ocLazyLoad.load('scripts/components/road/ctrls/' + ctrl).then(function () {
-                                scope.attrTplContainer = '../../../scripts/components/road/tpls/' + tpl;
+                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                             })
-                        }, detailId);
+                        });
                     }else{
                         if(shapeCtrl.editType==="pathBreak") {
                                 scope.$emit("SWITCHCONTAINERSTATE", {
                                     "attrContainerTpl": false,
                                     "subAttrContainerTpl": false
                                 });
-                            ocLazyLoad.load('scripts/components/road/ctrls/blank_ctrl/blankCtrl').then(function () {
-                                scope.attrTplContainer = '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html';
+                            ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
+                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
                             });
                                 scope.$apply();
                         }
@@ -166,7 +165,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             ctrl = 'attr_administratives_ctrl/adLinkCtrl';
                             tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
                         }
-                        dsRoad.editGeometryOrProperty(param, function (data) {
+                        dsRoad.editGeometryOrProperty(param).then(function (data) {
                             if (param["type"] === "RDLINK") {
                                 layerCtrl.getLayerById("referenceLine").redraw();
                                 layerCtrl.getLayerById("referenceNode").redraw();
@@ -196,7 +195,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         ,
                         "data": laneInfo
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         map.currentTool.disable();
                         treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功",
@@ -227,7 +226,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         param["type"] = "ADLINK";
                         breakPathContent = "打断adLink成功";
                     }
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         if (param["type"] === "RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                             layerCtrl.getLayerById("referenceNode").redraw();
@@ -256,7 +255,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                                 "dbId": App.Temp.dbId,
                                 "data": directOfLink
                             };
-                            dsRoad.editGeometryOrProperty(param, function (data) {
+                            dsRoad.editGeometryOrProperty(param).then(function (data) {
                                 treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
                                 if (data.errcode === 0) {
                                     layerCtrl.getLayerById("referenceLine").redraw();
@@ -292,7 +291,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "latitude": point.y
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         selectCtrl.selectedFeatures = null;
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         layerCtrl.getLayerById("relationdata").redraw();
@@ -328,7 +327,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             ctrl = 'attr_administratives_ctrl/adLinkCtrl';
                             tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
                         }
-                        dsRoad.editGeometryOrProperty(param, function (data) {
+                        dsRoad.editGeometryOrProperty(param).then(function (data) {
                             if (param["type"] === "RDLINK") {
                                 layerCtrl.getLayerById("referenceLine").redraw();
                                 layerCtrl.getLayerById("referenceNode").redraw();
@@ -354,7 +353,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                     } else if (shapeCtrl.editFeatType === "adLink") {
                         param ["type"] = "ADNODE";
                     }
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         if (param ["type"] === "RDNODE") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                             layerCtrl.getLayerById("referenceNode").redraw();
@@ -376,7 +375,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                     } else if (shapeCtrl.editFeatType === "adLink") {
                         param ["type"] = "ADLINK";
                     }
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         if (param["type"] === "RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                             layerCtrl.getLayerById("referenceNode").redraw();
@@ -393,7 +392,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         "dbId": App.Temp.dbId,
                         "data": featCodeCtrl.getFeatCode()
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
@@ -405,7 +404,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         "dbId": App.Temp.dbId,
                         "data": featCodeCtrl.getFeatCode()
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
@@ -417,7 +416,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         "dbId": App.Temp.dbId,
                         "data": selectCtrl.selectedFeatures
                     }
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDCROSS", "创建RDCROSS成功",
                             'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
@@ -438,7 +437,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         "dbId": App.Temp.dbId,
                         "data": laneInfo
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDLANECONNEXITY", "创建车信成功",
                             'attr_connexity_ctrl/rdLaneConnexityCtrl', 'attr_connexity_tpl/rdLaneConnexityTpl.html');
@@ -454,7 +453,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "geometry": {"type": "LineString", "coordinates": coordinate}
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("adface").redraw();
                         layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
@@ -467,7 +466,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                         "dbId": App.Temp.dbId,
                         "data": selectCtrl.selectedFeatures
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         layerCtrl.getLayerById("referenceLine").redraw();
                         highRenderCtrl._cleanHighLight();
@@ -486,7 +485,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "linkPid": parseInt(selectCtrl.selectedFeatures.id)
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("adAdmin").redraw();
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功",
                             'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
@@ -503,7 +502,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "linkPid": (selectCtrl.selectedFeatures.linkPid==null?0:parseInt(selectCtrl.selectedFeatures.linkPid))
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("adAdmin").redraw();
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功",
                             'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
@@ -523,7 +522,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "linkPids": linkIds
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("referenceLine").redraw();
                         layerCtrl.getLayerById("referenceNode").redraw();
                         treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
@@ -543,7 +542,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "linkPids": adLinksArr
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("adface").redraw();
                         layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
@@ -574,7 +573,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad) {
                             "linkPid": points.linkPid
                         }
                     };
-                    dsRoad.editGeometryOrProperty(param, function (data) {
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("poiPoint").redraw();
                         treatmentOfChanged(data, "poi", "移动poi成功",
                             'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
