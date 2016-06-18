@@ -5,8 +5,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		road : "scripts/components/road3/",
 		poi : "scripts/components/poi3/",
 		tool : "scripts/components/tools/"
-	}).constant('tipsType',fastmap.dataApi.TipsType)
-	.controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
+	}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad','dsFcc', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc,$q, appPath) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -555,7 +554,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					/*默认显示poi作业平台*/
 					$scope.changeProject(2);
 
-					keyEvent($ocLazyLoad, $scope);//注册快捷键
+					bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
 				});
 			});
 		});
