@@ -14,7 +14,6 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
 
     $scope.carSpeedType=false;
     $scope.initializeData = function () {
-        alert('kai')
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;

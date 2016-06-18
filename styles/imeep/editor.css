@@ -530,8 +530,18 @@ form input[type='checkbox']:checked.ng-dirty {
 
 .fm-editor-panel-disappear {
     right: -315px !important;
-}
 
+}
+.fm-panel-object{
+    overflow-y: auto;
+    width: 315px;
+    height: 100%;
+    background-color: #404040;
+    opacity: 0.95;
+    font-size: 12px;
+    padding-bottom: 30px;
+    position: absolute;
+}
 .fm-option-bar {
     width: auto;
     bottom: 202px;
