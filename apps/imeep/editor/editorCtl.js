@@ -5,132 +5,132 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 	poi: "scripts/components/poi3/",
 	tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, $q, appPath) {
-	//属性编辑ctrl(解析对比各个数据类型)
-	var layerCtrl = new fastmap.uikit.LayerController({
-		config: App.layersConfig
-	});
-	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-	var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-	var eventCtrl = new fastmap.uikit.EventController();
-	var objectCtrl = fastmap.uikit.ObjectEditController();
-	//高亮ctrl
-	var highRenderCtrl = fastmap.uikit.HighRenderController();
-	$scope.metaData = {}; //存放元数据
-	$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
-	//$scope.show = true;
-	//$scope.panelFlag = true;
-	$scope.showLoading = true;
-	$scope.showTab = true;
-	$scope.suspendFlag = false;
-	$scope.selectedTool = 1;
-	$scope.dataListType = 1;
-	$scope.projectType = 1;
-	$scope.outputType = 1;
-	$scope.hideConsole = false;
-	$scope.hideEditorPanel = 'none';
-	$scope.disappearEditorPanel = true;
-	$scope.controlFlag = {}; //用于父Scope控制子Scope
-	$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
-	$scope.outputResult = []; //输出结果
-	var currentFeatureType; // 临时的全局变量，用于标识当前数据是POI还是道路，稍后要统一处理
-	/*切换项目平台*/
-	$scope.changeProject = function(type) {
-		$scope.showLoading = true;
-		if (type == 1) { //poi
-			$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function() {
-				$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
-				$scope.showLoading = false;
-			});
-		} else { //道路
-			$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function() {
-				$scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
-				$scope.showLoading = false;
-			});
-		}
-		$scope.projectType = type;
-	};
-	$scope.selectedTool = 1;
-	//切换成果-场景栏中的显示内容
-	$scope.changeEditTool = function(id) {
-		changePoi(function() {
-			if (id === "tipsPanel") {
-				$scope.showTab = true;
-				$scope.selectedTool = 1;
-				$scope.changeProject($scope.projectType);
-			} else if (id === "scenePanel") {
-				$scope.showTab = false;
-				$scope.selectedTool = 2;
-				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function() {
-					$scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
-				});
-			}
-		})
-	};
-	$scope.$on("SWITCHCONTAINERSTATE", function(event, data) {
-		if (data.hasOwnProperty("attrContainerTpl")) {
-			$scope.attrTplContainerSwitch(data["attrContainerTpl"]);
-		} else if (data.hasOwnProperty("subAttrContainerTpl")) {
-			$scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
-		}
-	});
-	//属性栏开关逻辑控制
-	$scope.attrTplContainerSwitch = function(flag) {
-		$scope.objectFlag = flag;
-		if (flag) { //打开右边属性栏
-			$scope.disappearEditorPanel = false;
-			$scope.hideEditorPanel = true;
-		}
-		// if ($scope.panelFlag) {
-		//
-		//  $scope.outErrorArr[3] = true;
-		//  $scope.outErrorArr[2] = false;
-		// }
-		// else {
-		//  $scope.attrTplContainer = "";
-		//  $scope.suspendFlag = false;
-		//  $scope.outErrorArr[2] = true;
-		//  $scope.outErrorArr[3] = false;
-		// }
-	};
-	//次属性开关逻辑控制
-	$scope.subAttrTplContainerSwitch = function(flag) {
-		$scope.suspendFlag = flag;
-	}
-	$scope.changeProperty = function(val) {
-		$scope.propertyType = val;
-	};
-	$scope.changeOutput = function(val) {
-		$scope.outputType = val;
-	};
-	$scope.changeSuspendShow = function() {
-		if ($('.lanePic')) {
-			$.each($('.lanePic'), function(i, v) {
-				$(v).removeClass('active');
-			});
-		}
-		$scope.subAttrTplContainerSwitch(false);
-	};
-	/**
-	 * 显示poi基本信息，tips信息等
-	 */
-	var showPoiInfo = function(data) {
-		$scope.$broadcast("clearBaseInfo"); //清除样式
-		$scope.hideEditorPanel = true; //打开右侧面板
-		specialDetail(data); //名称组和地址组特殊处理
-		$scope.poi = data;
-		$scope.origPoi = angular.copy(data);
-		// $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
-		// $scope.$broadcast('refreshImgsData',$scope.poi.photos);
-		// /*查询3DIcon*/
-		// dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
-		//  $scope.poi.poi3DIcon = data;
-		// });
-		initOcll();
-	}
-	/*获取所选poi信息*/
-	$scope.$on('getPoiList', function(event, data) {
-		$scope.poiList = data;
-	});
+    //属性编辑ctrl(解析对比各个数据类型)
+    var layerCtrl = new fastmap.uikit.LayerController({
+        config: App.layersConfig
+    });
+    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
+    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var eventCtrl = new fastmap.uikit.EventController();
+    var objectCtrl = fastmap.uikit.ObjectEditController();
+    //高亮ctrl
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
+    $scope.metaData = {}; //存放元数据
+    $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+    //$scope.show = true;
+    //$scope.panelFlag = true;
+    $scope.showLoading = true;
+    $scope.showTab = true;
+    $scope.suspendFlag = false;
+    $scope.selectedTool = 1;
+    $scope.dataListType = 1;
+    $scope.projectType = 1;
+    $scope.outputType = 1;
+    $scope.hideConsole = false;
+    $scope.hideEditorPanel = 'none';
+    $scope.disappearEditorPanel = true;
+    $scope.controlFlag = {}; //用于父Scope控制子Scope
+    $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
+    $scope.outputResult = []; //输出结果
+    var currentFeatureType; // 临时的全局变量，用于标识当前数据是POI还是道路，稍后要统一处理
+    /*切换项目平台*/
+    $scope.changeProject = function(type) {
+        $scope.showLoading = true;
+        if (type == 1) { //poi
+            $ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function() {
+                $scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
+                $scope.showLoading = false;
+            });
+        } else { //道路
+            $ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function() {
+                $scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
+                $scope.showLoading = false;
+            });
+        }
+        $scope.projectType = type;
+    };
+    $scope.selectedTool = 1;
+    //切换成果-场景栏中的显示内容
+    $scope.changeEditTool = function(id) {
+        changePoi(function() {
+            if (id === "tipsPanel") {
+                $scope.showTab = true;
+                $scope.selectedTool = 1;
+                $scope.changeProject($scope.projectType);
+            } else if (id === "scenePanel") {
+                $scope.showTab = false;
+                $scope.selectedTool = 2;
+                $ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function() {
+                    $scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
+                });
+            }
+        })
+    };
+    $scope.$on("SWITCHCONTAINERSTATE", function(event, data) {
+        if (data.hasOwnProperty("attrContainerTpl")) {
+            $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+            $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+        }
+    });
+    //属性栏开关逻辑控制
+    $scope.attrTplContainerSwitch = function(flag) {
+        $scope.objectFlag = flag;
+        if (flag) { //打开右边属性栏
+            $scope.disappearEditorPanel = false;
+            $scope.hideEditorPanel = true;
+        }
+        // if ($scope.panelFlag) {
+        //
+        //  $scope.outErrorArr[3] = true;
+        //  $scope.outErrorArr[2] = false;
+        // }
+        // else {
+        //  $scope.attrTplContainer = "";
+        //  $scope.suspendFlag = false;
+        //  $scope.outErrorArr[2] = true;
+        //  $scope.outErrorArr[3] = false;
+        // }
+    };
+    //次属性开关逻辑控制
+    $scope.subAttrTplContainerSwitch = function(flag) {
+        $scope.suspendFlag = flag;
+    }
+    $scope.changeProperty = function(val) {
+        $scope.propertyType = val;
+    };
+    $scope.changeOutput = function(val) {
+        $scope.outputType = val;
+    };
+    $scope.changeSuspendShow = function() {
+        if ($('.lanePic')) {
+            $.each($('.lanePic'), function(i, v) {
+                $(v).removeClass('active');
+            });
+        }
+        $scope.subAttrTplContainerSwitch(false);
+    };
+    /**
+     * 显示poi基本信息，tips信息等
+     */
+    var showPoiInfo = function(data) {
+        $scope.$broadcast("clearBaseInfo"); //清除样式
+        $scope.hideEditorPanel = true; //打开右侧面板
+        specialDetail(data); //名称组和地址组特殊处理
+        $scope.poi = data;
+        $scope.origPoi = angular.copy(data);
+        // $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
+        // $scope.$broadcast('refreshImgsData',$scope.poi.photos);
+        // /*查询3DIcon*/
+        // dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
+        //  $scope.poi.poi3DIcon = data;
+        // });
+        initOcll();
+    }
+    /*获取所选poi信息*/
+    $scope.$on('getPoiList', function(event, data) {
+        $scope.poiList = data;
+    });
 	/*tips*/
 	$scope.$on('closePopoverTips', function(event, data) {
 		if(data && $scope.projectType == 2){
@@ -144,224 +144,224 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 			$scope.poiPopoverTipsTpl = appPath.root + appPath.road + 'tpls/attr_tips_tpl/sceneAllTipsTpl.html';
 		});
 	}
-	/*获取输出结果信息*/
-	$scope.$on('getConsoleInfo', function(event, data) {
-		$scope.outputResult.push(new FM.dataApi.IxOutput(data));
-	});
-	// $scope.checkPageNow = 1;
-	/*高亮检查结果poi点*/
-	$scope.$on('getHighlightData', function(event, data) {
-		$scope.$broadcast('highlightPoiInMap', data);
-	});
-	/*翻页时初始化itemActive*/
-	$scope.$on('initItemActive', function(event, data) {
-		initTableList();
-	});
-	/*全屏显示*/
-	$scope.$on('showFullScreen', function(event, img) {
-		$scope.pImageNow = img;
-		$scope.showFullScreen = true;
-	});
-	/*关闭全屏查看*/
-	$scope.closeFullScreen = function() {
-		$scope.showFullScreen = false;
-	};
-	/*切换POI时进行保存提醒*/
-	var changePoi = function(callback) {
-		if ($scope.poi) {
-			var change = $scope.poi.getChanges();
-			console.info("change:", change);
-			if (!FM.Util.isEmptyObject(change)) {
-				swal({
-					title: "数据发生了修改是否保存？",
-					type: "warning",
-					animation: 'slide-from-top',
-					showCancelButton: true,
-					closeOnConfirm: true,
-					confirmButtonText: "保存",
-					cancelButtonText: "不保存"
-				}, function(f) {
-					if (f) {
-						savePoi(callback);
-					} else {
-						if (callback) {
-							callback();
-						}
-					}
-				});
-			} else {
-				if (callback) {
-					callback();
-				}
-			}
-		} else {
-			if (callback) {
-				callback();
-			}
-		}
-	};
-	/**
-	 * 接收父子关系中点击子事件
-	 */
-	$scope.$on("emitChildren", function(event, childrenPid) {
-		$scope.$broadcast("highlightPoiByPid", childrenPid);
-	});
-	/**
-	 * 接收父子关系中点击父事件
-	 */
-	$scope.$on("emitParent", function(event, parentPid) {
-		$scope.$broadcast("highlightPoiByPid", parentPid);
-	});
-	/**
-	 * 接收其他子片段切换导致数据发生变化之前触发的事件
-	 */
-	$scope.$on("changeData", function(event, data) {
-		$scope.disappearEditorPanel = false; //不隐藏右边的属性面板
-		changePoi(function() {
-			$scope.$broadcast("changeDataRes");
-		});
-	});
-	/**
-	 * 查询POI数据
-	 */
-	$scope.$on("getObjectById", function(event, data) {
-		console.info("getObjectById");
-		dsPoi.getPoiByPid({
-			"dbId": App.Temp.dbId,
-			"type": "IXPOI",
-			"pid": data.pid
-		}).then(function(da) {
-			if (da) {
-				showPoiInfo(da);
-				currentFeatureType = "POI";
-				$scope.$broadcast("getObjectByIdRes");
-			}
-		});
-	});
-	/*弹出/弹入面板*/
-	$scope.changePanelShow = function(type) {
-		switch (type) {
-			case 'bottom':
-				$scope.hideConsole = !$scope.hideConsole;
-				break;
-			case 'left':
-				break;
-			case 'right':
-				if ($scope.hideEditorPanel) {
-					$scope.hideEditorPanel = false;
-					$scope.wholeWidth = true;
-				} else {
-					$scope.hideEditorPanel = true;
-					$scope.wholeWidth = false;
-				}
-				break;
-			default:
-				break;
-		}
-	};
-	/**
-	 * 工具按钮控制
-	 */
-	$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
-	$scope.changeBtnClass = function(id) {
-		for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
-			if (claFlag === id) {
-				$scope.classArr[claFlag] = !$scope.classArr[claFlag];
-			} else {
-				$scope.classArr[claFlag] = false;
-			}
-		}
-	};
-	/*解析分类，组成select-chosen需要的数据格式*/
-	var initKindFormat = function(kindData) {
-		for (var i = 0; i < kindData.length; i++) {
-			/**
-			 * 需要排除充电桩、充电站,中分类需要查询再定
-			 **/
-			$scope.metaData.kindFormat[kindData[i].kindCode] = {
-				kindId: kindData[i].id,
-				kindName: kindData[i].kindName,
-				level: kindData[i].level,
-				extend: kindData[i].extend,
-				parentFlag: kindData[i].parent,
-				chainFlag: kindData[i].chainFlag,
-				dispOnLink: kindData[i].dispOnLink,
-				mediumId: kindData[i].mediumId
-			};
-			$scope.metaData.kindList.push({
-				value: kindData[i].kindCode,
-				text: kindData[i].kindName,
-				mediumId: kindData[i].mediumId
-			});
-		}
-	};
-	/**
-	 * 元数据接口联调测试
-	 * @type {Array}
-	 */
-	//metaTest();
-	function metaTest() {
-		// //大分类
-		// dsMeta.getTopKind().then(function (kindData) {
-		//  console.info("大分类：",kindData);
-		// });
-		// //中分类
-		// dsMeta.getMediumKind().then(function (data) {
-		//  console.info("中分类：",data);
-		// });
-		//小分类
-		var param = {
-			mediumId: "",
-			region: 0
-		};
-		dsMeta.getKindListNew(param).then(function(kindData) {
-			console.info("==============", kindData);
-		});
-		//
-		// dsMeta.getFocus().then(function (data) {
-		//  console.info("focus:",data);
-		// });
-	}
-	/**
-	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
-	 * 将名称组中的21CHI的名称放置在name中，如果不存在21CHI的数据，则给name赋值默认数据
-	 * 将地址组中CHI的地址放置在address中，如果不存在CHI的数据，则给address赋值默认数据
-	 * @param data
-	 */
-	function specialDetail(data) {
-		var flag = true;
-		for (var i = 0, len = data.names.length; i < len; i++) {
-			if (data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI") {
-				flag = false;
-				data.name = data.names[i];
-				break;
-			}
-		}
-		if (flag) {
-			var name = new FM.dataApi.IxPoiName({
-				langCode: "CHI",
-				nameClass: 1,
-				nameType: 2,
-				name: ""
-			});
-			data.name = name;
-		}
-		flag = true;
-		for (var i = 0, len = data.addresses.length; i < len; i++) {
-			if (data.addresses[i].langCode == "CHI") {
-				flag = false;
-				data.address = data.addresses[i];
-				break;
-			}
-		}
-		if (flag) {
-			var address = new FM.dataApi.IxPoiAddress({
-				langCode: "CHI",
-				fullname: ""
-			});
-			data.address = address;
-		}
-	}
+    /*获取输出结果信息*/
+    $scope.$on('getConsoleInfo', function(event, data) {
+        $scope.outputResult.push(new FM.dataApi.IxOutput(data));
+    });
+    // $scope.checkPageNow = 1;
+    /*高亮检查结果poi点*/
+    $scope.$on('getHighlightData', function(event, data) {
+        $scope.$broadcast('highlightPoiInMap', data);
+    });
+    /*翻页时初始化itemActive*/
+    $scope.$on('initItemActive', function(event, data) {
+        initTableList();
+    });
+    /*全屏显示*/
+    $scope.$on('showFullScreen', function(event, img) {
+        $scope.pImageNow = img;
+        $scope.showFullScreen = true;
+    });
+    /*关闭全屏查看*/
+    $scope.closeFullScreen = function() {
+        $scope.showFullScreen = false;
+    };
+    /*切换POI时进行保存提醒*/
+    var changePoi = function(callback) {
+        if ($scope.poi) {
+            var change = $scope.poi.getChanges();
+            console.info("change:", change);
+            if (!FM.Util.isEmptyObject(change)) {
+                swal({
+                    title: "数据发生了修改是否保存？",
+                    type: "warning",
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    confirmButtonText: "保存",
+                    cancelButtonText: "不保存"
+                }, function(f) {
+                    if (f) {
+                        savePoi(callback);
+                    } else {
+                        if (callback) {
+                            callback();
+                        }
+                    }
+                });
+            } else {
+                if (callback) {
+                    callback();
+                }
+            }
+        } else {
+            if (callback) {
+                callback();
+            }
+        }
+    };
+    /**
+     * 接收父子关系中点击子事件
+     */
+    $scope.$on("emitChildren", function(event, childrenPid) {
+        $scope.$broadcast("highlightPoiByPid", childrenPid);
+    });
+    /**
+     * 接收父子关系中点击父事件
+     */
+    $scope.$on("emitParent", function(event, parentPid) {
+        $scope.$broadcast("highlightPoiByPid", parentPid);
+    });
+    /**
+     * 接收其他子片段切换导致数据发生变化之前触发的事件
+     */
+    $scope.$on("changeData", function(event, data) {
+        $scope.disappearEditorPanel = false; //不隐藏右边的属性面板
+        changePoi(function() {
+            $scope.$broadcast("changeDataRes");
+        });
+    });
+    /**
+     * 查询POI数据
+     */
+    $scope.$on("getObjectById", function(event, data) {
+        console.info("getObjectById");
+        dsPoi.getPoiByPid({
+            "dbId": App.Temp.dbId,
+            "type": "IXPOI",
+            "pid": data.pid
+        }).then(function(da) {
+            if (da) {
+                showPoiInfo(da);
+                currentFeatureType = "POI";
+                $scope.$broadcast("getObjectByIdRes");
+            }
+        });
+    });
+    /*弹出/弹入面板*/
+    $scope.changePanelShow = function(type) {
+        switch (type) {
+            case 'bottom':
+                $scope.hideConsole = !$scope.hideConsole;
+                break;
+            case 'left':
+                break;
+            case 'right':
+                if ($scope.hideEditorPanel) {
+                    $scope.hideEditorPanel = false;
+                    $scope.wholeWidth = true;
+                } else {
+                    $scope.hideEditorPanel = true;
+                    $scope.wholeWidth = false;
+                }
+                break;
+            default:
+                break;
+        }
+    };
+    /**
+     * 工具按钮控制
+     */
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
+    $scope.changeBtnClass = function(id) {
+        for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
+            if (claFlag === id) {
+                $scope.classArr[claFlag] = !$scope.classArr[claFlag];
+            } else {
+                $scope.classArr[claFlag] = false;
+            }
+        }
+    };
+    /*解析分类，组成select-chosen需要的数据格式*/
+    var initKindFormat = function(kindData) {
+        for (var i = 0; i < kindData.length; i++) {
+            /**
+             * 需要排除充电桩、充电站,中分类需要查询再定
+             **/
+            $scope.metaData.kindFormat[kindData[i].kindCode] = {
+                kindId: kindData[i].id,
+                kindName: kindData[i].kindName,
+                level: kindData[i].level,
+                extend: kindData[i].extend,
+                parentFlag: kindData[i].parent,
+                chainFlag: kindData[i].chainFlag,
+                dispOnLink: kindData[i].dispOnLink,
+                mediumId: kindData[i].mediumId
+            };
+            $scope.metaData.kindList.push({
+                value: kindData[i].kindCode,
+                text: kindData[i].kindName,
+                mediumId: kindData[i].mediumId
+            });
+        }
+    };
+    /**
+     * 元数据接口联调测试
+     * @type {Array}
+     */
+    //metaTest();
+    function metaTest() {
+        // //大分类
+        // dsMeta.getTopKind().then(function (kindData) {
+        //  console.info("大分类：",kindData);
+        // });
+        // //中分类
+        // dsMeta.getMediumKind().then(function (data) {
+        //  console.info("中分类：",data);
+        // });
+        //小分类
+        var param = {
+            mediumId: "",
+            region: 0
+        };
+        dsMeta.getKindListNew(param).then(function(kindData) {
+            console.info("==============", kindData);
+        });
+        //
+        // dsMeta.getFocus().then(function (data) {
+        //  console.info("focus:",data);
+        // });
+    }
+    /**
+     * 名称组可地址组特殊处理（暂时只做了大陆的控制）
+     * 将名称组中的21CHI的名称放置在name中，如果不存在21CHI的数据，则给name赋值默认数据
+     * 将地址组中CHI的地址放置在address中，如果不存在CHI的数据，则给address赋值默认数据
+     * @param data
+     */
+    function specialDetail(data) {
+        var flag = true;
+        for (var i = 0, len = data.names.length; i < len; i++) {
+            if (data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI") {
+                flag = false;
+                data.name = data.names[i];
+                break;
+            }
+        }
+        if (flag) {
+            var name = new FM.dataApi.IxPoiName({
+                langCode: "CHI",
+                nameClass: 1,
+                nameType: 2,
+                name: ""
+            });
+            data.name = name;
+        }
+        flag = true;
+        for (var i = 0, len = data.addresses.length; i < len; i++) {
+            if (data.addresses[i].langCode == "CHI") {
+                flag = false;
+                data.address = data.addresses[i];
+                break;
+            }
+        }
+        if (flag) {
+            var address = new FM.dataApi.IxPoiAddress({
+                langCode: "CHI",
+                fullname: ""
+            });
+            data.address = address;
+        }
+    }
 
 	function loadMap() {
 		map = L.map('map', {
