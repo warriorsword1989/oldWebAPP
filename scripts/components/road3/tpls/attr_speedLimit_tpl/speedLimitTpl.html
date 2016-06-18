@@ -1,4 +1,8 @@
-
+<style>
+    .panel-default > .panel-heading{
+        background: none!important;
+    }
+</style>
 <div id="speedlimitTeplDiv" ng-controller="speedlimitTeplController" style="overflow-y: auto">
     <div style="height:50px">
         <form class="form-horizontal" method="get">
@@ -145,9 +149,9 @@
                 <span style="color: #F3F6FA;font-weight: normal;">km/h</span>
             </div>
         </li>
-        <li class="list-group-item" style="padding:7px;">
-            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{speedLimitData.timeDomain}}' style="width:100%;padding: 5px;"></div>
-        </li>
+        <!--<li class="list-group-item" style="padding:7px;">-->
+            <!--<div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{speedLimitData.timeDomain}}' style="width:100%;padding: 5px;"></div>-->
+        <!--</li>-->
 
     </ul>
     </form>

@@ -62,9 +62,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			if (id === "tipsPanel") {
 				$scope.showTab = true;
 				$scope.selectedTool = 1;
-				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.poiDataListTpl =  appPath.root + appPath.road + 'tpls/layers_switch_tpl/fieldsResult.html';
-				});
+				$scope.changeProject($scope.projectType)
 			} else if (id === "scenePanel") {
 				$scope.showTab = false;
 				$scope.selectedTool = 2;
@@ -148,7 +146,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*tips控制*/
 	$scope.$on('closePopoverTips',function(event,data){
 		if(data && $scope.projectType == 2){
-			console.log(appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl')
 			$ocLazyLoad.load( appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl.js').then(function () {
 				$scope.poiPopoverTipsTpl = appPath.root + appPath.road + 'tpls/attr_tips_tpl/sceneAllTipsTpl.html';
 				$scope.showPopoverTips = true;
