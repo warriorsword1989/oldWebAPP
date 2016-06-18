@@ -36,7 +36,7 @@ fastmap.uikit.canvasFeature.poiMarker = fastmap.uikit.canvasFeature.Feature.exte
         }else {
             this.properties['markerStyle']["icon"].push(
                 fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/poi/map/dot_info_8.png',
+                    iconName: '../../../images/poi/map/dot_infor_8.png',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates']

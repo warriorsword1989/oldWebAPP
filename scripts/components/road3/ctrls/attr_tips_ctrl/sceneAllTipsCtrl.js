@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2016/1/5.
  */
 var dataTipsApp = angular.module("app");
-dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $ocLazyLoad) {
+dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLoad','dsRoad','dsFcc', function ($scope, $timeout, $ocLazyLoad, dsRoad, dsFcc) {
     //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();
     //输出ctrl
@@ -53,7 +53,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
     $scope.getFeatDataCallback = function ( id, type) {
         $scope.resetToolAndMap();
-        Application.functions.getRdObjectById(id, type, function (data) {
+        dsRoad.getRdObjectById(id, type).then(function (data) {
             if (data.errcode === -1) {
                 swal("", data.errmsg, "提示信息");
                 return;
@@ -389,7 +389,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.photoTipsData =  $scope.dataTipsData.feedback.f_array;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
-                var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
+                var content = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
             } else if ($scope.photoTipsData[i].type === 3) {
                 $scope.remarksContent = $scope.photoTipsData[i].content;
@@ -445,10 +445,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     //监控属性选择
     $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
         $scope.initializeDataTips(event.feather);
+        // $scope.$apply();
     });
     $scope.createRestrictByTips=function() {
         var info = null;
-        Application.functions.getRdObjectById($scope.dataTipsData.in.id, "RDLINK", function (data) {
+        dsRoad.getRdObjectById($scope.dataTipsData.in.id, "RDLINK").then(function (data) {
             var restrictObj = {};
             restrictObj["inLinkPid"] = parseInt($scope.dataTipsData.in.id);
             var dataTipsGeo = $scope.dataTipsData.g_location.coordinates;
@@ -487,10 +488,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var param = {
                 "command": "CREATE",
                 "type": "RDRESTRICTION",
-                "projectId": Application.projectid,
+                "dbId": App.Temp.dbId,
                 "data": restrictObj
             };
-            Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+            dsRoad.editGeometryOrProperty(param).then(function (data) {
                 if (data.errcode === -1) {
                     info = [{
                         "op": data.errcode,
@@ -507,7 +508,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 restrictLayer.redraw();//交限图层刷新
                 workPoint.redraw();//dataTip图层刷新
                 $scope.upBridgeStatus();
-                Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
+                dsRoad.getRdObjectById(pid, "RDRESTRICTION").then(function (data) {
                     objCtrl.setCurrentObject("RDRESTRICTION", data.data);
                     var restrictObj = {
                         "loadType":"attrTplContainer",
@@ -531,7 +532,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
-                "projectId": Application.projectid,
+                "dbId": App.Temp.dbId,
                 "data": {
                     "eNodePid": 0,
                     "sNodePid": 0,
@@ -544,17 +545,17 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
                     $.showPoiMsg('状态已为 【回prj_gdb库】 ，不允许改变状态！',e);
-                    $scope.$apply();
+                    // $scope.$apply();
                 });
                 return;
             }else if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage != 3 && $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage != 1){
                 $timeout(function(){
                     $.showPoiMsg('只有外业采集数据可进行转换',e);
-                    $scope.$apply();
+                    // $scope.$apply();
                 });
                 return;
             }
-            Application.functions.editGeometryOrProperty(JSON.stringify(paramOfLink), function (data) {
+            dsRoad.editGeometryOrProperty(paramOfLink).then(function (data) {
                 var info = null;
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
@@ -572,7 +573,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         rdLink.redraw();
                         swal("操作成功", "测线转换操作成功！", "success");
                         $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                        $scope.$apply();
+                        // $scope.$apply();
                     }
                 } else {
                     info=[{
@@ -597,11 +598,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var param = {
                 "type": "RDLINK",
                 "command": "UPDATE",
-                "projectId": Application.projectid,
+                "dbId": App.Temp.dbId,
                 "data": kindObj
             };
             if (stage === 1) {
-                Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+                dsRoad.editGeometryOrProperty(param).then(function (data) {
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
@@ -651,11 +652,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
                     $.showPoiMsg('状态已改，不允许改变状态！',e);
-                    $scope.$apply();
+                    // $scope.$apply();
                 });
                 return;
             }
-            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+            dsFcc.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
                 var info = [];
                 if (data.errcode === 0) {
@@ -707,4 +708,4 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.closeTips = function () {
         $scope.$emit('closePopoverTips',false);
     }
-});
+}]);

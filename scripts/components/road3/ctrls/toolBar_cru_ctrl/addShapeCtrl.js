@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
-addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+var addShapeApp = angular.module('app', ['oc.lazyLoad']);
+addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad', function ($scope, $ocLazyLoad, dsRoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -253,7 +253,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         $scope.upAndDown = function (event) {
             var type = event.currentTarget.type;
             if (type === 'chooseOver') {
-                Application.functions.getByCondition(JSON.stringify($scope.param), function (data) {
+                dsRoad.getByCondition($scope.param).then(function (data) {
                     var highLightFeatures = [];
                     highRenderCtrl.highLightFeatures.length = 0;
                     highRenderCtrl._cleanHighLight();
@@ -360,13 +360,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool.disable();
 
                 $scope.param1 = {};
-                $scope.param1["projectId"] = Application.projectid;
+                $scope.param1["dbId"] = App.Temp.dbId;
                 $scope.param1["type"] = "RDLINK";
                 $scope.param1["data"] = {
                     "linkPids": $scope.linkMulity
-                }
+                };
 
-                Application.functions.getByCondition(JSON.stringify($scope.param1), function (data) {
+                dsRoad.getByCondition($scope.param1).then(function (data) {
                     var linkArr = data.data, points = [];
                     for (var i = 0, len = linkArr.length; i < len; i++) {
                         var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -498,7 +498,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                     var pro = e.property;
-                    Application.functions.getRdObjectById(pro.id, "RDLINK", function (data) {
+                    dsRoad.getRdObjectById(pro.id, "RDLINK", function (data) {
                         if (data.errcode == 0) {
                             selectCtrl.onSelected({
                                 geometry: data.data.geometry.coordinates,
@@ -1000,7 +1000,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         highRenderCtrl.drawHighlight();
                         $scope.param = {};
                         $scope.param["command"] = "CREATE";
-                        $scope.param["projectId"] = Application.projectid;
+                        $scope.param["dbId"] = App.Temp.dbId;
                         $scope.param["type"] = "RDLINK";
                         $scope.param["data"] = {
                             "linkPid": $scope.limitRelation.inLinkPid,
