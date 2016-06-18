@@ -71,12 +71,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
 					$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
 				});
-			} else if (id === "layerPanel") {
-				$scope.selectedTool = 3;
-				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/referenceLayersCtrl').then(function () {
-						$scope.poiDataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/referenceLayers.html';
-					}
-				);
 			}
 		})
 	};
