@@ -22,7 +22,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
                 "pid":id
             };
         }
-        ajax.get("/edit/getByPid", {
+        ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params),
             urlType:'general'
         }).success(function(data) {
@@ -46,7 +46,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
     this.editGeometryOrProperty = function(param) {
         param = JSON.stringify(param);
         var defer = $q.defer();
-        ajax.get("/edit/run", {
+        ajax.get("edit/run", {
             parameter: param.replace(/\+/g,'%2B'),
             urlType:'general'
         }).success(function(data) {
@@ -65,7 +65,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
     //获取检查结果
     this.getCheckData = function(param) {
         var defer = $q.defer();
-        ajax.get("/edit/check/get", {
+        ajax.get("edit/check/get", {
             parameter: JSON.stringify(param),
             urlType:'general'
         }).success(function(data) {
@@ -84,7 +84,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
     //获取检查结果总数
     this.getCheckCount = function(param) {
         var defer = $q.defer();
-        ajax.get("/edit/check/count", {
+        ajax.get("edit/check/count", {
             parameter: JSON.stringify(param),
             urlType:'general'
         }).success(function(data) {
@@ -103,7 +103,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
     //获取检查状态
     this.updateCheckType = function(param) {
         var defer = $q.defer();
-        ajax.get("/edit/check/update", {
+        ajax.get("edit/check/update", {
             parameter: JSON.stringify(param),
             urlType:'general'
         }).success(function(data) {
@@ -124,7 +124,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
      */
     this.getIntRticRank = function(param) {
         var defer = $q.defer();
-        ajax.get("/edit/applyPid", {
+        ajax.get("edit/applyPid", {
             parameter: JSON.stringify(param),
             urlType:'general'
         }).success(function(data) {
@@ -145,7 +145,7 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
      */
     this.getByCondition = function(param) {
         var defer = $q.defer();
-        ajax.get("/edit/getByCondition", {
+        ajax.get("edit/getByCondition", {
             parameter: JSON.stringify(param),
             urlType:'general'
         }).success(function(data) {
