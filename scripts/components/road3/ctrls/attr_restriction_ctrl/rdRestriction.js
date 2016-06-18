@@ -1,9 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-var objectEditApp = angular.module("mapApp");
-objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
-
+var objectEditApp = angular.module("app").controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var selectCtrl = fastmap.uikit.SelectController();
@@ -14,6 +12,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var rdRestriction = layerCtrl.getLayerById('relationdata');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
+
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
@@ -31,8 +30,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     $scope.changeLimitType = function(type){
         if(type == 2){
             $timeout(function(){
-                $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-                    $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+                $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+                    $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
                     /*查询数据库取出时间字符串*/
                     var tmpStr = $scope.rdRestrictData.time;
                     $scope.fmdateTimer(tmpStr);
@@ -138,8 +137,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     $scope.showAddDirectTepl = function () {
         var addObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_restriction_ctrl/addDirectCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_restrict_tpl/addDitrectTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_restriction_ctrl/addDirectCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_restrict_tpl/addDitrectTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", addObj);
     };
@@ -225,8 +224,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
         //显示时间
         $timeout(function () {
-            $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-                $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
                 $timeout(function(){
                     if($scope.rdSubRestrictData["conditions"][0]) {
                         $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
@@ -320,8 +319,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $scope.rdRestrictData.restricInfo = restrictInfoArr.join(",");
     };
     $timeout(function () {
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
             $timeout(function(){
                 if($scope.rdSubRestrictData["conditions"][0]) {
                     $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
@@ -430,6 +429,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         });
+
         if (selectCtrl.rowkey && selectCtrl.rowkey.rowkey) {
             var stageParam = {
                 "rowkey": selectCtrl.rowkey.rowkey,

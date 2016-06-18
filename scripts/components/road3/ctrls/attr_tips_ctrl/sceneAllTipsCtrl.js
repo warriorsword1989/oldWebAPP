@@ -25,7 +25,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
-
+    //全部要素配置
+    $scope.featureConfig = fastmap.dataApi.FeatureConfig;
     //清除地图数据
     $scope.resetToolAndMap = function () {
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
@@ -402,12 +403,12 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
         $scope.number = $scope.photos.length;
         if ($scope.photos.length != 0 && $scope.photos.length < 4) {
             for (var a = $scope.photos.length; a < 4; a++) {
-                var img = "../../images/road/img/noimg.png";
+                var img = "../../../images/road/img/noimg.png";
                 $scope.photos.push(img);
             }
         } else {
             for (var j = 0; j < 4; j++) {
-                var newImg= "../../images/road/img/noimg.png";
+                var newImg= "../../../images/road/img/noimg.png";
                 $scope.photos.push(newImg);
             }
         }
@@ -445,7 +446,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
     $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
         $scope.initializeDataTips(event.feather);
         // $scope.$apply();
-    })
+    });
     $scope.createRestrictByTips=function() {
         var info = null;
         dsRoad.getRdObjectById($scope.dataTipsData.in.id, "RDLINK").then(function (data) {
@@ -705,6 +706,6 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
 
     //关闭窗口
     $scope.closeTips = function () {
-        $("#popoverTips").css("display", "none");
+        $scope.$emit('closePopoverTips',false);
     }
 }]);

@@ -326,6 +326,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                             "loadType":"tipsTplContainer",
                             "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                            "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
 
@@ -334,7 +335,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                            "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                     } else if (pItemId === "2001") {//测线
@@ -353,7 +354,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
                                     $scope.brigeLinkArray = data.f_array;
@@ -372,7 +373,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
                                     $scope.brigeLinkArray = data.f_array;
@@ -388,7 +389,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1801") {//立交
@@ -396,7 +397,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfOverPass= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                     }
@@ -451,7 +452,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                 var ctrlAndTplParams = {
                     loadType: 'tipsTplContainer',
                     propertyCtrl: "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                    propertyHtml: "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                    propertyHtml: "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                     callback: function () {
                         if (data.t_lifecycle === 2) { //修改
                             $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);

@@ -1,5 +1,3 @@
-
-
 <div  ng-controller="normalController" id="traffiLimitedDiv" oncontextmenu=self.event.returnValue=false>
     <div style="height:50px">
         <form class="form-horizontal" method="get">
@@ -15,9 +13,8 @@
     <ul  class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div ng-repeat="item in rdRestrictData.details" class="inline">
-                <img ng-if="item.flag===1" ng-src="../../images/road/1302/1302_1_{{item.restricInfo}}.svg" class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}" ng-click="showTips(item,$event,$index)" ng-mousedown="deleteDirect(item,$event)">
-                <img  ng-if="item.flag===2||item.flag===0" ng-src="../../images/road/1302/1302_2_{{item.restricInfo}}.svg" data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips" ng-click="showTips(item,$event,$index)" ng-mousedown="deleteDirect(item,$event)">
-
+                <img ng-if="item.flag===1" ng-src="../../../images/road/1302/1302_1_{{item.restricInfo}}.svg" class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}" ng-click="showTips(item,$event,$index)" ng-mousedown="deleteDirect(item,$event)">
+                <img  ng-if="item.flag===2||item.flag===0" ng-src="../../../images/road/1302/1302_2_{{item.restricInfo}}.svg" data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips" ng-click="showTips(item,$event,$index)" ng-mousedown="deleteDirect(item,$event)">
             </div>
             <div class="inline">
                 <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" class="glyphicon glyphicon-plus" ng-click="showAddDirectTepl()"></span>

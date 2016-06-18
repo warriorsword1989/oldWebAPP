@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var namesOfLinkApp = angular.module("mapApp");
+var namesOfLinkApp = angular.module("app");
 namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     $scope.srcFlagOptions = [
         {"id": 0, "label": "0 现场道路名标牌"},
