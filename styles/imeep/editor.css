@@ -1232,6 +1232,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .fm-poiList-btnGroup > div > button:hover {
     background: rgba(164, 164, 229, 0.9);
+    color: #fff;
 }
 
 .fm-poiList-btnGroup > div > button.active {

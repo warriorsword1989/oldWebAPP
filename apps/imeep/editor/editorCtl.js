@@ -148,7 +148,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*tips控制*/
 	$scope.$on('closePopoverTips',function(event,data){
 		if(data && $scope.projectType == 2){
-			console.log(appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl')
 			$ocLazyLoad.load( appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl.js').then(function () {
 				$scope.poiPopoverTipsTpl = appPath.root + appPath.road + 'tpls/attr_tips_tpl/sceneAllTipsTpl.html';
 				$scope.showPopoverTips = true;
