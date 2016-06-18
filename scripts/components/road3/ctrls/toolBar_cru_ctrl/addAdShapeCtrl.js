@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/4/12.
  */
 
-var addAdShapeApp = angular.module('app');
+var addAdShapeApp = angular.module('app', ['oc.lazyLoad']);
 addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
 
     var layerCtrl = fastmap.uikit.LayerController();
