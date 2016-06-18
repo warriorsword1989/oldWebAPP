@@ -27,7 +27,7 @@ requirejs.config({
 		'EditorCtl': 'apps/imeep/editor/editorCtl',
 		//'sceneLayerCtr': 'scripts/components/road3/ctrls/layer_switch_ctr/sceneLayersCtrl',
 		'layers': "apps/imeep/editor/layerConfig",
-		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
+		'keyPressFunctions':'apps/imeep/editor/hotKeyEvent'
 	},
 	shim: {
 		'angular': {exports: 'angular'},
