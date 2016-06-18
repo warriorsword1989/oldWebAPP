@@ -114,20 +114,20 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 显示poi基本信息，tips信息等
      */
     var showPoiInfo = function(data) {
-            $scope.$broadcast("clearBaseInfo"); //清除样式
-            $scope.hideEditorPanel = true; //打开右侧面板
-            specialDetail(data); //名称组和地址组特殊处理
-            $scope.poi = data;
-            $scope.origPoi = angular.copy(data);
-            // $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
-            // $scope.$broadcast('refreshImgsData',$scope.poi.photos);
-            // /*查询3DIcon*/
-            // dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
-            //  $scope.poi.poi3DIcon = data;
-            // });
-            initOcll();
-        }
-        /*获取所选poi信息*/
+        $scope.$broadcast("clearBaseInfo"); //清除样式
+        $scope.hideEditorPanel = true; //打开右侧面板
+        specialDetail(data); //名称组和地址组特殊处理
+        $scope.poi = data;
+        $scope.origPoi = angular.copy(data);
+        // $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
+        // $scope.$broadcast('refreshImgsData',$scope.poi.photos);
+        // /*查询3DIcon*/
+        // dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
+        //  $scope.poi.poi3DIcon = data;
+        // });
+        initOcll();
+    }
+    /*获取所选poi信息*/
     $scope.$on('getPoiList', function(event, data) {
         $scope.poiList = data;
     });
@@ -253,7 +253,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     /**
      * 工具按钮控制
      */
-    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
     $scope.changeBtnClass = function(id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
             if (claFlag === id) {
