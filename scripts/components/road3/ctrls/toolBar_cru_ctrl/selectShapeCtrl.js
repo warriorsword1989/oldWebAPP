@@ -607,8 +607,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             objCtrl.setCurrentObject(type, data.data);
             tooltipsCtrl.onRemoveTooltip();
             var options = {
-                //"loadType": 'attrTplContainer',
-                "loadType": 'generalBaseTpl',
+                "loadType": 'attrTplContainer',
+                //"loadType": 'generalBaseTpl',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             }

@@ -20,8 +20,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//$scope.show = true;
 	//$scope.panelFlag = true;
 	$scope.showLoading = true;
-		$scope.showTab = true;
-	$scope.suspendFlag = true;
+	$scope.showTab = true;
+	$scope.suspendFlag = false;//次属性框显隐控制
 	$scope.selectedTool = 1;
 	$scope.dataListType = 1;
 	$scope.projectType = 1;
@@ -103,7 +103,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//次属性开关逻辑控制
 	$scope.subAttrTplContainerSwitch = function (flag) {
 		$scope.suspendFlag = flag;
-	}
+	};
+	//次属性面板关闭
+	$scope.changeSuspendShow = function () {
+		// if ($('.lanePic')) { //道路这么写，暂时不知道起什么作用，先屏蔽掉
+		// 	$.each($('.lanePic'), function (i, v) {
+		// 		$(v).removeClass('active');
+		// 	});
+		// }
+
+		$scope.subAttrTplContainerSwitch(false);
+	};
 
 	$scope.changeProperty = function (val) {
 		$scope.propertyType = val;
@@ -474,7 +484,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.showPopoverTips = true;
 		});
 		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
+			$scope.attrTplContainer = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	var initData = function(){
@@ -506,7 +516,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		if (data["loadType"] === "subAttrTplContainer") {
 			$scope.subAttrTplContainerSwitch(true);
 			$scope.subAttrTplContainer = "";
-		} else if (data["loadType"] === "generalBaseTpl") { //右边属性面板
+		} else if (data["loadType"] === "attrTplContainer") { //右边属性面板
 			if (!$scope.panelFlag) {
 				$scope.attrTplContainerSwitch(true);
 			}
