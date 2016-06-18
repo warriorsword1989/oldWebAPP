@@ -5,7 +5,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		road : "scripts/components/road3/",
 		poi : "scripts/components/poi3/",
 		tool : "scripts/components/tools/"
-	}).constant('tipsType',fastmap.dataApi.TipsType)
+	}).constant('FeatureConfig',fastmap.dataApi.FeatureConfig)
 	.controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q', 'appPath',function ($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, $q, appPath) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});

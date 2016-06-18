@@ -30,7 +30,7 @@
                 "dataApi/poi-new/IxSamePoiPart.js",
                 "dataApi/poi-new/IxPoiParking.js",
 
-                "dataApi/road/TipsType.js"
+                "dataApi/common/FeatureConfig.js"
 
             ]; // etc.
         var scriptTags = new Array(jsFiles.length);
