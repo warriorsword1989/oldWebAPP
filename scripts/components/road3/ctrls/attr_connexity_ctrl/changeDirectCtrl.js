@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/4.
  */
-var directConnexityApp = angular.module("mapApp");
+var directConnexityApp = angular.module("app");
 directConnexityApp.controller("directOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();

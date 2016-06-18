@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var namesOfBranch = angular.module("mapApp");
+var namesOfBranch = angular.module("app");
 namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();

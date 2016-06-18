@@ -30,10 +30,10 @@
         </li>
         <li class="list-group-item">
             <div class="trafficPic ">
-                <img  ng-repeat="addItem in addLimitedData" ng-if="addItem.flag===false" ng-src="../../images/road/1302/1302_1_{{addItem.id}}.svg" ng-click="selectTip(addItem,$event)">
+                <img  ng-repeat="addItem in addLimitedData" ng-if="addItem.flag===false" ng-src="../images/road/1302/1302_1_{{addItem.id}}.svg" ng-click="selectTip(addItem,$event)">
             </div>
             <div class="trafficPic ">
-                <img  ng-repeat="addItems in addLimitedData" ng-if="addItems.flag===true" ng-src="../../images/road/1302/1302_2_{{addItems.id}}.svg" ng-click="selectTip(addItems,$event)">
+                <img  ng-repeat="addItems in addLimitedData" ng-if="addItems.flag===true" ng-src="../images/road/1302/1302_2_{{addItems.id}}.svg" ng-click="selectTip(addItems,$event)">
             </div>
         </li>
     </ul>
