@@ -1098,3 +1098,22 @@
 .blackTheme .blackTheme .show-val {
     color: #fff;
 }
+
+/*********************次属性栏弹出窗口***********************/
+.suspend{
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    right: 300px;
+    background-color: #404040;
+    padding:0px 5px;
+    border: none;
+    /*opacity: .9;*/
+    overflow-y:hidden;
+    display: block;
+    z-index: 10;
+    padding-top: 20px;
+}
+.suspend_hide{
+    display: none;
+}

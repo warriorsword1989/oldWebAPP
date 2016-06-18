@@ -20,8 +20,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//$scope.show = true;
 	//$scope.panelFlag = true;
 	$scope.showLoading = true;
-		$scope.showTab = true;
-	$scope.suspendFlag = true;
+	$scope.showTab = true;
+	$scope.suspendFlag = false;//次属性框显隐控制
 	$scope.selectedTool = 1;
 	$scope.dataListType = 1;
 	$scope.projectType = 1;
@@ -104,7 +104,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	//次属性开关逻辑控制
 	$scope.subAttrTplContainerSwitch = function (flag) {
 		$scope.suspendFlag = flag;
-	}
+	};
+	//次属性面板关闭
+	$scope.changeSuspendShow = function () {
+		// if ($('.lanePic')) { //道路这么写，暂时不知道起什么作用，先屏蔽掉
+		// 	$.each($('.lanePic'), function (i, v) {
+		// 		$(v).removeClass('active');
+		// 	});
+		// }
+
+		$scope.subAttrTplContainerSwitch(false);
+	};
 
 	$scope.changeProperty = function (val) {
 		$scope.propertyType = val;
@@ -343,7 +353,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/**
 	 * 工具按钮控制
      */
-	$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
+	$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
 	$scope.changeBtnClass = function (id) {
 		for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
 			if (claFlag === id) {
@@ -482,7 +492,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.showPopoverTips = true;
 		});
 		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
+			$scope.attrTplContainer = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	var initData = function(){
@@ -514,7 +524,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		if (data["loadType"] === "subAttrTplContainer") {
 			$scope.subAttrTplContainerSwitch(true);
 			$scope.subAttrTplContainer = "";
-		} else if (data["loadType"] === "generalBaseTpl") { //右边属性面板
+		} else if (data["loadType"] === "attrTplContainer") { //右边属性面板
 			if (!$scope.panelFlag) {
 				$scope.attrTplContainerSwitch(true);
 			}
@@ -541,10 +551,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	});
 
 	//页面初始化方法调用
-	var initPage = function (){
+	var initPage = function () {
 		initData();
 		loadMap();
-
 
 
 		//选择道路要素的工具栏
@@ -559,15 +568,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				$scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
 				$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
 					$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-					/*默认显示poi作业平台*/
-					$scope.changeProject(2);
+					$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function () {
+						$scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
+						$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
+							$scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
+							$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function () {
+								$scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
+								/*默认显示poi作业平台*/
+								$scope.changeProject(2);
 
-					bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
+								bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
+							});
+						});
+					});
 				});
 			});
 		});
-	};
-
+	}
 
 	/**
 	 * 页面初始化方法调用

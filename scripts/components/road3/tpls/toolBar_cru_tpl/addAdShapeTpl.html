@@ -1,47 +1,47 @@
 <style>
     .addAdNode_false {
-        background: url('../../images/road//button/dot_add.png') no-repeat;
+        background: url('../../../images/road//button/dot_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 
     .addAdNode_true {
-        background: url('../../images/road//button/dot_add_selected.png') no-repeat;
+        background: url('../../../images/road//button/dot_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 
     .addAdLink_false {
-        background: url('../../images/road//button/line_add.png') no-repeat;
+        background: url('../../../images/road//button/line_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 
     .addAdLink_true {
-        background: url('../../images/road//button/line_add_selected.png') no-repeat;
+        background: url('../../../images/road//button/line_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 
     .addAdAdmin_false {
-        background: url('../../images/road//button/adAdmin_add.png') no-repeat;
+        background: url('../../../images/road//button/adAdmin_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 
     .addAdAdmin_true {
-        background: url('../../images/road//button/adAdmin_add_selected.png') no-repeat;
+        background: url('../../../images/road//button/adAdmin_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
     .addAdFace_false {
-        background: url('../../images/road//button/adAdFace_add.png') no-repeat;
+        background: url('../../../images/road//button/adAdFace_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 
     .addAdFace_true {
-        background: url('../../images/road//button/adAdFace_add_selected.png') no-repeat;
+        background: url('../../../images/road//button/adAdFace_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
@@ -65,17 +65,17 @@
     }
 </style>
 <div id="fm-addShapContainer" ng-controller="addAdShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn addAdNode_{{classArr[4]}}" id="addNode" ng-click="addShape('adNode',4,$event)"
+    <button type="button" class="btn addAdNode_{{classArr[14]}}" id="addNode" ng-click="addShape('adNode',14,$event)"
             title="新增ADNODE+"></button>
-    <button type="button" class="btn addAdLink_{{classArr[5]}}" id="addAdLink" ng-click="addShape('adLink',5,$event)"
+    <button type="button" class="btn addAdLink_{{classArr[15]}}" id="addAdLink" ng-click="addShape('adLink',15,$event)"
             title="新增ADLINE"></button>
-    <button type="button" class="btn addAdAdmin_{{classArr[6]}} dropdown-toggle"  ng-click="addShape('adAdmin',6,$event)"
+    <button type="button" class="btn addAdAdmin_{{classArr[16]}} dropdown-toggle"  ng-click="addShape('adAdmin',16,$event)"
             title="新增行政区划代表点">
     </button>
     <!--<button type="button" class="btn addAdFace_{{classArr[7]}}" id="addPolygon"  ng-click="addShape('adFace',7,$event)"-->
             <!--title="新增polygon">-->
     <!--</button>-->
-    <button type="button" class="btn addAdFace_{{classArr[7]}} dropdown-toggle" id="addPolygon"
+    <button type="button" class="btn addAdFace_{{classArr[17]}} dropdown-toggle" id="addPolygon"
             data-toggle="dropdown" title="新增polygon">
     </button>
     <ul class="dropdown-menu shape-well" role="menu">
