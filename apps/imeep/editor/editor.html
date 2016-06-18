@@ -40,25 +40,21 @@
                     <div><a><i title="退出" class="glyphicon glyphicon-log-out"></i></a></div>
                 </div>
             </div>
-            <div ui-layout-container class="fm-list-panel">
+            <div ui-layout-container>
                 <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-                    <div class="fm-container fm-col animated fadeInLeft fm-left-datalist dark scroll-styled" ui-layout-container size="250px" min-size="250px">
-                        <div class="fm-project-switch" ng-if="showTab">
-                            <a href="#" ng-class="{'tab col-sm-6': true, 'active': projectType == 1}" ng-click="changeProject(1)">POI作业</a>
-                            <a href="#" ng-class="{'tab col-sm-6': true, 'active': projectType == 2}" ng-click="changeProject(2)">道路作业</a>
+                    <div ui-layout-container class="fm-container fm-col dark scroll-styled animated fadeInLeft" size="250px">
+                        <div class="fm-tabs" ng-if="showTab" style="padding:0px;">
+                            <a href="#" class="tab col-sm-6" ng-class="{1:'active'}[projectType]" ng-click="changeProject(1)">POI作业</a>
+                            <a href="#" class="tab col-sm-6" ng-class="{2:'active'}[projectType]" ng-click="changeProject(2)">道路作业</a>
                         </div>
-                        <!--<div class="title">
-                            <i class="glyphicon glyphicon-list"></i> POI数据
-                        </div>-->
-                        <div class="left-container">
+                        <div class="content">
                             <!--左侧数据列表-->
-                            <div ng-include="poiDataListTpl"></div>
+                            <div ng-include="dataListTpl"></div>
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
                         <div ui-layout="{flow:'row',dividerSize:'0'}">
                             <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;">
-
                             </div>
                             <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
                                 <div class="btn-toolbar" style="margin-left: 0px">
@@ -70,45 +66,39 @@
                             </div>
                             <div id="zoomLevelBar" class="div_float"></div>
                         </div>
-                        <div class="fm-editor-panel" ng-class="{'fm-editor-panel-sm':!hideEditorPanel,'fm-editor-panel-normal':hideEditorPanel,'fm-editor-panel-disappear':disappearEditorPanel}">
-                            <div class="fm-editor-arrow">
-                                <a ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#">
-                                    <span></span>
+                        <div class="fm-foldable fm-col" style="width: 300px;" ng-style="{'right':{true: '0px', false: '-285px', 'none': '-300px'}[hideEditorPanel]}">
+                            <div class="fm-fold-btn">
+                                <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[hideEditorPanel]" ng-click="hideEditorPanel=!hideEditorPanel">
                                 </a>
                             </div>
-                            <div ng-include="generalBaseTpl" class="scroll-styled fm-panel-object blackTheme"></div>
-                            <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;">
-                                <div class="btn-group btn-group-justified">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-xs fm-btn" ng-click="save()">
+                            <div class="fm-container fm-col fm-lvl1" style="width:100%;">
+                                <div ng-include="generalBaseTpl" class="scroll-styled fm-panel-object blackTheme"></div>
+                                <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;">
+                                    <div class="btn-group btn-group-justified">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-xs fm-btn" ng-click="save()">
                                             <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-xs fm-btn" ng-click="delete()">
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-xs fm-btn" ng-click="delete()">
                                             <i class="glyphicon glyphicon-trash"></i> 删 除
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-xs fm-btn" ng-click="cancel()">
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-xs fm-btn" ng-click="cancel()">
                                             <i class="glyphicon glyphicon-floppy-remove"></i> 取 消
-                                        </button>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                         <div ng-class="{'fm-console-panel fm-option-bar':true,'fm-console-hide':hideConsole,'fm-console-whole-width':wholeWidth}">
-                            <div ng-include="consoleDeskTpl"></div>
                         </div>
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[showPopoverTips]">
                             <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
-                            <!--<div class="tipsPanel">
-                                <div ng-include="poiPopoverTipsTpl" style="width:100%;"></div>
-                            </div>-->
                         </div>
-
                     </div>
                     <div id='tooltip' class="tooltipclass"></div>
                 </div>
@@ -116,7 +106,7 @@
             <!--全屏-->
             <div ng-class="{true:'full-screen-img-panel animated-fast zoomIn',false:'full-screen-img-panel animated-fast zoomOut'}[showFullScreen]" ng-show="showFullScreen" ng-click="closeFullScreen();">
                 <span class="pull-right">
-                    <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="closeFullScreen();"></i>
+                <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="closeFullScreen();"></i>
                 </span>
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
