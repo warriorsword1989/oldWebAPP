@@ -22,6 +22,7 @@ requirejs.config({
 		'timepicki':'scripts/libs/timepicki/js/timepicki',
 		'bootstrapDatepicker':'scripts/libs/bootstrap-datepicker/js/bootstrap-datepicker',
 		'bootstrapDatepickerCN':'scripts/libs/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
+		'bootspopover':'scripts/utils/popoverSelect',
 		// app相关
 		'dataService': 'apps/imeep/service/dataService',
 		'poiService': 'apps/imeep/service/dataService-poi',
@@ -53,8 +54,9 @@ requirejs.config({
 		'bootstrapDatepicker':['jquery','bootstrap'],
 		'bootstrapDatepickerCN':['bootstrapDatepicker'],
 		'timepicki':['jquery','angular'],
+		'bootspopover':['jquery'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService','roadService'],
-		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki'],
+		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover'],
 	}
 });
 // Start the main app logic.
