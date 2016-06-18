@@ -36,6 +36,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     /*切换项目平台*/
     $scope.changeProject = function(type) {
         $scope.showLoading = true;
+	    $scope.showPopoverTips = false;
         if (type == 1) { //poi
             $ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function() {
                 $scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
