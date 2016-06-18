@@ -45,7 +45,7 @@ requirejs.config({
 		'metaService': ['dataService'],
 		'fccService': ['dataService'],
 		'roadService': ['dataService'],
-		'keyPressFunctions':['jquery','dataService','poiService','metaService'],
+		'keyPressFunctions':['jquery','dataService','poiService','metaService','roadService'],
 		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
 	}
 });

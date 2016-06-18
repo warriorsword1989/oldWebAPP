@@ -214,6 +214,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                 if ($scope.solvedStyleArr && $scope.solvedStyleArr.length >= 1) {
                     $scope.changeStyleArr($scope.solvedStyleArr, index);
                 }
+                $scope.$emit('closePopoverTips',true);
                 $("#dataTipsOriginModal").css("display", "none");
                 $("#dataTipsVideoModal").css("display", "none");
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
@@ -235,7 +236,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfDirect={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f.type == 1) {
@@ -265,7 +266,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
@@ -281,7 +282,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
                         var ctrlAndTplOfRoad={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length > 0) {
@@ -295,7 +296,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         var ctrlAndTplOfCross={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f.id) {
@@ -323,7 +324,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl": "components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
@@ -332,7 +333,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl": "components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
@@ -351,7 +352,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.fitBounds(bounds, {"maxZoom": 18});
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
@@ -370,7 +371,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f_array.length != 0) {
@@ -386,7 +387,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfD= {
 
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
@@ -394,7 +395,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfOverPass= {
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
@@ -449,7 +450,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
                 var ctrlAndTplParams = {
                     loadType: 'tipsTplContainer',
-                    propertyCtrl: "components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                    propertyCtrl: "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                     propertyHtml: "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                     callback: function () {
                         if (data.t_lifecycle === 2) { //修改

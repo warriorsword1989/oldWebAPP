@@ -66,6 +66,8 @@
                                     <div ng-include="selectPoiURL" style="float: left"></div>
                                     <div ng-include="addShapeURL" style="float: left;"></div>
                                     <div ng-include="modifyToolURL" style="float: left"></div>
+                                    <div ng-include="selectAdShapeURL" style="float: left"></div>
+                                    <div ng-include="addAdShapeURL" style="float: left;"></div>
                                 </div>
                             </div>
                             <div id="zoomLevelBar" class="div_float"></div>
@@ -76,7 +78,7 @@
                                     <span></span>
                                 </a>
                             </div>
-                            <div ng-include="generalBaseTpl" class="scroll-styled fm-panel-object blackTheme"></div>
+                            <div ng-include="attrTplContainer" class="scroll-styled fm-panel-object blackTheme"></div>
                             <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;">
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group" role="group">
@@ -95,6 +97,18 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <!-- 次属性片段 -->
+                        <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
+                            <div id="tkclosediv" style="margin-top: -20px">
+                                <button ng-click="changeSuspendShow()" type="button" class="btn btn-xs ">
+                                    <a href="#" data-toggle="tab" style="font-size: 10px;"><i
+                                            class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
+                                </button>
+                            </div>
+
+                            <div  ng-include="subAttrTplContainer" class="scroll-styled blackTheme" style="overflow-y: auto;height: 100%;">
                             </div>
                         </div>
 
@@ -122,6 +136,12 @@
             </div>
         </div>
         <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
+        <div id="dataTipsOriginModal" style="display:none">
+            <div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
+        </div>
+        <div id="dataTipsVideoModal" style="display:none">
+            <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>
+        </div>
         <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
     </body>
 </html>
