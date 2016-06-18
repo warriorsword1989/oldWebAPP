@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2016/1/5.
  */
-var dataTipsApp = angular.module("mapApp");
+var dataTipsApp = angular.module("app");
 dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $ocLazyLoad) {
     //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();

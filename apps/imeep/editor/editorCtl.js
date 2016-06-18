@@ -39,6 +39,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
 		$scope.showLoading = true;
+		$scope.showPopoverTips = false;
 		if(type == 1){  //poi
 			$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
 				$scope.poiDataListTpl =  appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
@@ -132,7 +133,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.poi = data;
 		$scope.origPoi = angular.copy(data);
 		// $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
-		// $scope.$broadcast('refreshImgsData',$scope.poi.photos);
+		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 		// /*查询3DIcon*/
 		// dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
 		// 	$scope.poi.poi3DIcon = data;
@@ -144,9 +145,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.$on('getPoiList',function(event,data){
 		$scope.poiList = data;
 	});
-	/*关闭tips*/
+	/*tips控制*/
 	$scope.$on('closePopoverTips',function(event,data){
-		$scope.showPopoverTips = false;
+		if(data && $scope.projectType == 2){
+			console.log(appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl')
+			$ocLazyLoad.load( appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl.js').then(function () {
+				$scope.poiPopoverTipsTpl = appPath.root + appPath.road + 'tpls/attr_tips_tpl/sceneAllTipsTpl.html';
+				$scope.showPopoverTips = true;
+			});
+		}
+		$scope.showPopoverTips = data;
 	});
 	/*获取输出结果信息*/
 	$scope.$on('getConsoleInfo',function(event,data){
@@ -552,13 +560,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	var initPage = function () {
 		initData();
 		loadMap();
-
-
-		//选择道路要素的工具栏
-		// $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
-		// 	$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
-		// });
-
 		//选择道路要素的工具栏
 		$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
 			$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
@@ -575,14 +576,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 								/*默认显示poi作业平台*/
 								$scope.changeProject(2);
 
-								bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
+								bindHotKeys($ocLazyLoad, $scope, dsRoad);//注册快捷键
 							});
 						});
 					});
 				});
 			});
 		});
-	}
+	};
 
 	/**
 	 * 页面初始化方法调用

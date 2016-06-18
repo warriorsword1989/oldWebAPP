@@ -44,9 +44,10 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
      * @param func
      */
     this.editGeometryOrProperty = function(param) {
+        param = JSON.stringify(param);
         var defer = $q.defer();
         ajax.get("/edit/run", {
-            parameter: JSON.stringify(param.replace(/\+/g,'%2B')),
+            parameter: param.replace(/\+/g,'%2B'),
             urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {

@@ -214,6 +214,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                 if ($scope.solvedStyleArr && $scope.solvedStyleArr.length >= 1) {
                     $scope.changeStyleArr($scope.solvedStyleArr, index);
                 }
+                $scope.$emit('closePopoverTips',true);
                 $("#dataTipsOriginModal").css("display", "none");
                 $("#dataTipsVideoModal").css("display", "none");
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");

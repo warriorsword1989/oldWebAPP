@@ -247,7 +247,7 @@ App.layersConfig = [{
             zIndex: 20,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'ADFACE',
             showNodeLevel: 13
         }
