@@ -85,8 +85,8 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         $scope.linkData["oridiRowId"] = item.rowId;
         var showOrdinaryObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/limitOfOrdinaryCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/limitOfOrdinaryTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/limitOfOrdinaryCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/limitOfOrdinaryTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
     };
@@ -94,14 +94,14 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         $scope.linkData["truckRowId"] = item.rowId;
         var showTrcukObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/limitOfTruckCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/limitOfTruckTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/limitOfTruckCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/limitOfTruckTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showTrcukObj);
     };
     $timeout(function(){
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components//tools/fmTimeComponent/fmdateTimer.html';
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components//tools/fmTimeComponent/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
             $.each($scope.linkLimitData.limits,function(i,v){
                 $scope.fmdateTimer(v.timeDomain);

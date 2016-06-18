@@ -285,6 +285,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
+                alert('RDRESTRICTION')
                 //if (data.restrictionType === 1) {
                 ctrlAndTmplParams.propertyCtrl = "scripts/components/road3/ctrls/attr_restriction_ctrl/rdRestriction";
                 ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";

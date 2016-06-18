@@ -7,6 +7,7 @@ requirejs.config({
 		// 第三方库
 		'angular': 'scripts/libs/angularjs/1.4.4/angular',
 		'jquery': 'scripts/libs/jquery/2.1.1/jquery-2.1.1',
+		'bootstrap':'scripts/libs/bootstrap-3.3.5/js/bootstrap',
 		'ocLazyLoad': 'scripts/libs/ocLazyLoad/ocLazyLoad.require',
 		'ngLayout': 'scripts/libs/ui-layout/ui-layout',
 		'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
@@ -18,6 +19,10 @@ requirejs.config({
 		"wheelZoom": "scripts/libs/wheelzoom/wheelzoom",
 		'ngTable': 'scripts/libs/ng-table/ng-table',
 		'ngSanitize':'scripts/libs/angularjs/1.4.4/angular-sanitize',
+		'timepicki':'scripts/libs/timepicki/js/timepicki',
+		'bootstrapDatepicker':'scripts/libs/bootstrap-datepicker/js/bootstrap-datepicker',
+		'bootstrapDatepickerCN':'scripts/libs/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
+		'bootspopover':'scripts/utils/popoverSelect',
 		// app相关
 		'dataService': 'apps/imeep/service/dataService',
 		'poiService': 'apps/imeep/service/dataService-poi',
@@ -35,6 +40,7 @@ requirejs.config({
 		'ocLazyLoad': ['angular'],
 		'ngLayout': ['angular'],
 		'uiBootstrap': ['angular'],
+		'bootstrap':['jquery'],
 		'chosenJquery': ['jquery'],
 		'angularChosen': ['angular'],
 		'fileUpload': ['angular'],
@@ -45,8 +51,12 @@ requirejs.config({
 		'metaService': ['dataService'],
 		'fccService': ['dataService'],
 		'roadService': ['dataService'],
+		'bootstrapDatepicker':['jquery','bootstrap'],
+		'bootstrapDatepickerCN':['bootstrapDatepicker'],
+		'timepicki':['jquery','angular'],
+		'bootspopover':['jquery'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService','roadService'],
-		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
+		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover'],
 	}
 });
 // Start the main app logic.

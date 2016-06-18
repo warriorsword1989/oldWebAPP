@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("mapApp");
+var oridinaryInfoApp = angular.module("app");
 oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data;
@@ -185,10 +185,10 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
     }
 
     $timeout(function(){
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/carPopoverCtrl').then(function () {
-                $scope.carPopoverURL = '../../scripts/components/road/tpls/attr_link_tpl/carPopoverTpl.html';
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/carPopoverCtrl').then(function () {
+                $scope.carPopoverURL = '../../../scripts/components/road/tpls/attr_link_tpl/carPopoverTpl.html';
             });
             /*查询数据库取出时间字符串*/
             $timeout(function(){
