@@ -740,18 +740,18 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 /**********tips style**********/
 
 .modal-tips-img {
-    left: 241px;
+    left: 242px;
     position: relative;
     width: 500px;
-    top: -10px;
+    top: -11px;
 }
 
 .popoverTips {
     position: absolute;
-    top: 0px;
-    left: 1px;
+    top: 0;
+    left: 0;
     z-index: 0;
-    width: 250px;
+    width: 252px;
     height: 100%;
     background-color: transparent;
     padding: 42px 0 0px 0;
@@ -763,6 +763,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background-color: #313131;
     /*opacity: 0.9;*/
     padding: 10px;
+    border: 1px solid #555;
 }
 
 .dragAble {

@@ -12,8 +12,8 @@
         margin-bottom: 3px;
         font-size: 12px;
     }
-    .title {
-        height: 20%;
+    .tips-title {
+        /*height: 20%;*/
         width: 100%;
         /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
@@ -112,9 +112,9 @@
         border: none;
         border-radius: 4px;
     }
-    .title img:not(:last-child){
+    .tips-title img:not(:last-child){
     }
-    .title img{
+    .tips-title img{
         border:1px solid rgba(255,255,255,0.3);
     }
 
@@ -139,7 +139,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="title">
+    <div class="tips-title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
             <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)" ng-if="number > 0">
             <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="noPic()" ng-if="number == 0">

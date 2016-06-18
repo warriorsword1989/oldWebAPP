@@ -234,7 +234,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             if (da) {
                 showPoiInfo(da);
                 currentFeatureType = "POI";
-                $scope.$broadcast("getObjectByIdRes");
+	            $scope.$broadcast("getObjectByIdRes");
+	            $scope.$broadcast("refreshImgsData");
             }
         });
     });
