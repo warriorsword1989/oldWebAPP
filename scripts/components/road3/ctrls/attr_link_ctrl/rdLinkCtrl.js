@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("app");
-angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
+angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsRoad",function ($scope, $ocLazyLoad, dsRoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -384,8 +384,8 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
             objectCtrl.setCurrentObject("RDLINK",data.data);
             var linkObj = {
                 "loadType":"attrTplContainer",
-                "propertyCtrl":"components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-                "propertyHtml":"../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+                "propertyCtrl":"scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl",
+                "propertyHtml":"../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html"
             };
             $scope.$emit("transitCtrlAndTpl", linkObj);
         });
