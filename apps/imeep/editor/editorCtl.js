@@ -345,7 +345,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/**
 	 * 工具按钮控制
      */
-	$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
+	$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
 	$scope.changeBtnClass = function (id) {
 		for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
 			if (claFlag === id) {
@@ -543,10 +543,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	});
 
 	//页面初始化方法调用
-	var initPage = function (){
+	var initPage = function () {
 		initData();
 		loadMap();
-
 
 
 		//选择道路要素的工具栏
@@ -563,17 +562,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 					$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function () {
 						$scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
+						$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
+							$scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
+							$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function () {
+								$scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
+								/*默认显示poi作业平台*/
+								$scope.changeProject(2);
 
-					/*默认显示poi作业平台*/
-					$scope.changeProject(2);
-
-					bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
+								bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
+							});
+						});
 					});
 				});
 			});
 		});
-	};
-
+	}
 
 	/**
 	 * 页面初始化方法调用
