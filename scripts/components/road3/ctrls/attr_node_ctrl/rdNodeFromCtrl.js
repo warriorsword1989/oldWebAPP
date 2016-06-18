@@ -70,48 +70,7 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         var highlightFeatures = [];
-        // Application.functions.getByCondition(JSON.stringify({
-        //     projectId: Application.projectid,
-        //     type: 'RDLINK',
-        //     data: {"nodePid":  $scope.rdNodeData.pid}
-        // }), function (data) {
-        //     if (data.errcode === -1) {
-        //         return;
-        //     }
-        //     var lines = [];
-        //     $scope.linepids = [];
-        //     for (var index in data.data) {
-        //         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
-        //         for (var i = 0, len = linkArr.length; i < len; i++) {
-        //             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-        //             points.push(point);
-        //         }
-        //         lines.push(fastmap.mapApi.lineString(points));
-        //         $scope.linepids.push(data.data[index].pid);
-        //         highlightFeatures.push({
-        //             id:data.data[index].pid.toString(),
-        //             layerid:'referenceLine',
-        //             type:'line',
-        //             style:{}
-        //         })
-        //     }
-        //
-        //     var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
-        //
-        //     selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.rdNodeData.pid});
-        //     $scope.initialForms();
-        //
-        //
-        //     highlightFeatures.push({
-        //         id:$scope.rdNodeData.pid.toString(),
-        //         layerid:'referenceLine',
-        //         type:'node',
-        //         style:{}
-        //     })
-        //     highRenderCtrl.highLightFeatures =highlightFeatures;
-        //     highRenderCtrl.drawHighlight();
-        //
-        // });
+
         dsRoad.getByCondition({
             dbId: App.Temp.dbId,
             type: 'RDLINK',
@@ -187,8 +146,8 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
     $scope.showPopover=function(){
         var showPopoverObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_node_ctrl/addDirectCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_node_tpl/addDitrectTpl.html'
+            "propertyCtrl":'scripts/components/road/ctrls/attr_node_ctrl/addDirectCtrl',
+            "propertyHtml":'../../../scripts/components/road/tpls/attr_node_tpl/addDitrectTpl.html'
         };
         $scope.loadJsAndCtrl(showPopoverObj);
     }
