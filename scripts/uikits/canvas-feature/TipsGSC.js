@@ -35,7 +35,6 @@ fastmap.uikit.canvasTips.TipsGSC = fastmap.uikit.canvasTips.Tips.extend({
                     'strokeOpacity': 0.8
                 };
             }
-            this.featArr.push(overPassObj);
         }
     }
 });
