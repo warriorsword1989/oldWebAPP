@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/1.
  */
-var infoOfConnexityApp = angular.module("mapApp");
+var infoOfConnexityApp = angular.module("app");
 infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();

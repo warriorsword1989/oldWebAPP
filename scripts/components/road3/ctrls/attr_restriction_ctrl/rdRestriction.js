@@ -137,8 +137,8 @@ var objectEditApp = angular.module("app").controller("normalController", functio
     $scope.showAddDirectTepl = function () {
         var addObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_restriction_ctrl/addDirectCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_restrict_tpl/addDitrectTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_restriction_ctrl/addDirectCtrl',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_restrict_tpl/addDitrectTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", addObj);
     };
