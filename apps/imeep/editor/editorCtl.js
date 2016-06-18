@@ -484,7 +484,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.showPopoverTips = true;
 		});
 		$ocLazyLoad.load( appPath.poi + 'ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
+			$scope.attrTplContainer = appPath.root + appPath.poi + 'tpls/attr-base/generalBaseTpl.html';
 		});
 	}
 	var initData = function(){
@@ -516,7 +516,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		if (data["loadType"] === "subAttrTplContainer") {
 			$scope.subAttrTplContainerSwitch(true);
 			$scope.subAttrTplContainer = "";
-		} else if (data["loadType"] === "generalBaseTpl") { //右边属性面板
+		} else if (data["loadType"] === "attrTplContainer") { //右边属性面板
 			if (!$scope.panelFlag) {
 				$scope.attrTplContainerSwitch(true);
 			}
