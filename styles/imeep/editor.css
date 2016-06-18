@@ -61,7 +61,8 @@ a:hover {
     padding: 15px;
     cursor: pointer;
 }
-.fm-banner .banner-center div a{
+
+.fm-banner .banner-center div a {
     display: inline-block;
     width: 100%;
     height: 100%;
@@ -118,6 +119,68 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     transition: all 0s;
 }
 
+.fm-foldable {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    transition: all .2s ease-in-out;
+}
+
+.fm-foldable.folded {
+    right: -285px !important;
+}
+
+.fm-foldable.unfold {
+    right: 0px;
+}
+
+.fm-foldable .fm-fold-btn > a {
+    display: block;
+    background-color: #404040 !important;
+    opacity: 0.95;
+}
+
+.fm-foldable.fm-col .fm-fold-btn {
+    width: 15px;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    top: 50%;
+}
+
+.fm-foldable.fm-col .fm-fold-btn > a {
+    width: 100%;
+    height: 50px;
+}
+
+.fm-foldable.fm-row .fm-fold-btn {
+    height: 15px;
+    width: 100%;
+    position: relative;
+    left: 50%;
+}
+
+.fm-foldable.fm-row .fm-fold-btn > a {
+    width: 50px;
+    height: 100%;
+}
+
+.fm-fold-btn a.arrow-left {
+    background: url("../../images/road/img/arrow-left.png") no-repeat center center;
+}
+
+.fm-fold-btn a.arrow-right {
+    background: url("../../images/road/img/arrow-right.png") no-repeat center center;
+}
+
+.fm-fold-btn a.arrow-up {
+    background: url("../../images/road/img/arrow-up.png") no-repeat center center;
+}
+
+.fm-fold-btn a.arrow-down {
+    background: url("../../images/road/img/arrow-down.png") no-repeat center center;
+}
+
 
 /**************************************nnade***************************************************/
 
@@ -125,16 +188,17 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     background-color: #313131;
     font-size: 12px;
     position: absolute;
-    border: 1px solid #555;
+    display: inline;
+    /*border: 1px solid #555;*/
     overflow-y: auto;
     z-index: 1;
 }
 
-.fm-container.fm-col {
+.fm-col {
     height: 100%;
 }
 
-.fm-container.fm-row {
+.fm-row {
     width: 100%;
 }
 
@@ -159,8 +223,8 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 }
 
 .fm-container > div.content {
-    overflow: auto;
-    padding: 5px;
+    /*overflow: auto;*/
+    /*padding: 5px;*/
 }
 
 .left-container {
@@ -168,7 +232,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 }
 
 .fm-tabs {
-    background-color: rgb(64, 64, 64);
+    background-color: #555;
     padding: 0px 10px;
 }
 
@@ -179,7 +243,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     padding: 6px 5px;
     display: inline-block;
     text-align: center;
-    background-color: rgb(64, 64, 64);
+    background-color: #555;
 }
 
 .fm-tabs a.tab:hover {
@@ -203,7 +267,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 
 .fm-panel {
     opacity: 1;
-    margin: 5px 5px 0px;
+    margin: 5px 5px 0px !important;
     color: #fff;
     background-color: #555;
     border-radius: 4px;
@@ -1163,31 +1227,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /***************************poi-list**********************/
 
-.fm-project-switch {
-    background-color: rgb(64, 64, 64);
-}
-
-.fm-project-switch a.tab.active {
-    color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, .8);
-    background-color: #313131;
-    transition: all .3s;
-}
-
-.fm-project-switch a.tab {
-    color: #ccc;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 6px 5px;
-    display: inline-block;
-    text-align: center;
-    background-color: rgb(64, 64, 64);
-}
-
-.fm-left-datalist {
-    width: 250px;
-}
-
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -1323,7 +1362,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-list-filter {
     margin-top: 5px;
     float: left;
-    margin-left:5px;
+    margin-left: 5px;
 }
 
 .pagination > li > a, .pagination > li > span {

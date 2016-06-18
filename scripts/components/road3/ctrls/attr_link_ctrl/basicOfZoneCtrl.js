@@ -15,8 +15,8 @@ zonePeopertyApp.controller("zonePeopertyController", function ($scope, $timeout,
         $scope.linkData["oridiRowId"] = item.rowId;
         var showZoneWinObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/infoOfZoneCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/infoOfZoneTpl.html'
+            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/infoOfZoneCtrl',
+            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/infoOfZoneTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showZoneWinObj);
     }

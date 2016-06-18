@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var truckLimitApp = angular.module("mapApp");
+var truckLimitApp = angular.module("app");
 truckLimitApp.controller("truckLimitInfoController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data;
@@ -23,8 +23,8 @@ truckLimitApp.controller("truckLimitInfoController",function($scope,$timeout,$oc
         }
     }
     $timeout(function(){
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
             $timeout(function(){
                 $scope.fmdateTimer($scope.linkData.limitTrucks[$scope.limitNum].timeDomain);
                 $scope.$broadcast('set-code',$scope.linkData.limitTrucks[$scope.limitNum].timeDomain);

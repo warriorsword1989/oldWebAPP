@@ -29,8 +29,8 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
        $scope.linkData["oridiRowId"] = sidewalkItem.rowId;
        var showSidewalkObj = {
            "loadType":"subAttrTplContainer",
-           "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/pedestrianNaviOfSidewalkCtrl',
-           "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviOfSideWalkTepl.html'
+           "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/pedestrianNaviOfSidewalkCtrl',
+           "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/pedestrianNaviOfSideWalkTepl.html'
        }
        $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
   };
@@ -38,8 +38,8 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
        $scope.linkData["oridiRowId"] = walkstairItem.rowId;
        var showSidewalkObj = {
            "loadType":"subAttrTplContainer",
-           "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/pedestrianNaviOfWalkStairCtrl',
-           "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviOfWalkStairTepl.html'
+           "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/pedestrianNaviOfWalkStairCtrl',
+           "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/pedestrianNaviOfWalkStairTepl.html'
        }
        $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
    };
