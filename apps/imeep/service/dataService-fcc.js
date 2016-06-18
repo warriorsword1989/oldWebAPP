@@ -27,7 +27,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
-
+    /*查询该要素下tips列表信息*/
     this.getTipsListItems = function(stage,type) {
         var defer = $q.defer();
         var params = {
@@ -52,7 +52,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
-
+    /*获取tips信息*/
     this.getTipsResult = function(rowkey) {
         var defer = $q.defer();
         var params = {
