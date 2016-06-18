@@ -1,4 +1,4 @@
-fastmap.uikit.canvasTips.TipsLink = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsRoadName = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function (item) {
         var sidingObj = {};
         sidingObj['geometry'] = {};
@@ -10,7 +10,7 @@ fastmap.uikit.canvasTips.TipsLink = fastmap.uikit.canvasTips.Tips.extend({
         sidingObj['geometry']['type'] = "LineString";
 
         sidingObj['properties']['style'] = {
-            'strokeColor': '#000000',
+            'strokeColor': '#7030A0',
             'strokeWidth': 2,
             'strokeOpacity': 0.8
         };

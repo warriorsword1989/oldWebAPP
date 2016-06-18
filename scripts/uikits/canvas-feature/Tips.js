@@ -1,6 +1,5 @@
 fastmap.uikit.canvasTips = {};
 fastmap.uikit.canvasTips.Tips = L.Class.extend({
-    featArr : [],
     guideLineObj : null,
     linePoint : null,
     transform : null,
@@ -60,7 +59,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsRoadNames(item);
                     break;
                 case 2001://侧线
-                    ret = new fastmap.uikit.canvasTips.TipsLink(item);
+                    ret = new fastmap.uikit.canvasTips.TipsLinks(item);
                     break;
                 case 1203://道路方向
                     ret = new fastmap.uikit.canvasTips.TipsRoadDirection(item);
@@ -69,7 +68,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.Tips3DBranch(item);
                     break;
                 case 1510://桥
-                    ret = new fastmap.uikit.canvasTips.TipsBridge(item);
+                    ret = new fastmap.uikit.canvasTips.TipsBridges(item);
                     break;
                 case 1514://施工维修
                     ret = new fastmap.uikit.canvasTips.TipsMaintenance(item);
@@ -106,9 +105,6 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                         list.concat(tmp);
                     }
                 }
-            }
-            if(fastmap.uikit.canvasTips.Tips.featArr){
-                list.concat(fastmap.uikit.canvasTips.Tips.featArr);
             }
             return list;
         },
