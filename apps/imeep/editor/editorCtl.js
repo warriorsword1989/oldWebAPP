@@ -183,21 +183,47 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 删除poi
 	 */
 	$scope.delete = function (){
+		//删除后清除高亮并赋给默认模版
 		swal({
-			title: "确认删除？",
-			type: "warning",
-			animation:'slide-from-top',
-			showCancelButton: true,
-			closeOnConfirm: true,
-			confirmButtonText: "是的，我要删除",
-			cancelButtonText: "取消"
-		}, function(f) {
-			if (f) {
-				data = {type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"};
-				$scope.$broadcast('getConsoleInfo', data); //显示输出结果
-			}
+			"title": "操作确认",
+			"text": "是否要删除当前要素?",
+			"showCancelButton": true,
+			"cancelButtonText": "取消",
+			"confirmButtonText": "确定"
+		}, function () {
+			$scope.panelFlag = false;
+			$scope.attrTplContainerSwitch(false);
+			$scope.subAttrTplContainerSwitch(false);
+			$ocLazyLoad.load('scripts/components/road3/ctrls/blank_ctrl/blankCtrl').then(function () {
+				$scope.attrTplContainer = '../../../scripts/components/road3/tpls/blank_tpl/blankTpl.html';
+			});
 
-		});
+			objectCtrl.setOriginalData(null);
+			var highRenderCtrl = fastmap.uikit.HighRenderController();
+			highRenderCtrl._cleanHighLight();
+			highRenderCtrl.highLightFeatures.length = 0;
+			if (map.floatMenu) {
+				map.removeLayer(map.floatMenu);
+				map.floatMenu = null;
+			}
+			eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY)
+		}, data.errmsg, "error");
+
+		// swal({
+		// 	title: "确认删除？",
+		// 	type: "warning",
+		// 	animation:'slide-from-top',
+		// 	showCancelButton: true,
+		// 	closeOnConfirm: true,
+		// 	confirmButtonText: "是的，我要删除",
+		// 	cancelButtonText: "取消"
+		// }, function(f) {
+		// 	if (f) {
+		// 		data = {type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"};
+		// 		$scope.$broadcast('getConsoleInfo', data); //显示输出结果
+		// 	}
+        //
+		// });
 	};
 
 	/**
@@ -291,6 +317,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 页面取消功能
 	 */
 	$scope.cancel = function (){
+		if(true){ //用于调试道路保存，后续需要将poi的保存模式和道路的保存模式做成一样的。
+			$scope.attrTplContainer = "";
+			$scope.attrTplContainerSwitch(false);
+			$scope.subAttrTplContainerSwitch(false);
+			eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT);
+
+			$scope.hideEditorPanel = false;
+			return ;
+		}
 		$scope.poi =  angular.copy($scope.origPoi);
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 

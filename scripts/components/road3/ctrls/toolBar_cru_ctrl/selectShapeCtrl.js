@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  */
 var selectApp = angular.module("app", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad) {
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad','appPath', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad,appPath) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -280,8 +280,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
 
-                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_node_ctrl/rdNodeFromCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_node_tpl/rdNodeFromTpl.html";
+                ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_node_ctrl/rdNodeFromCtrl';
+                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
