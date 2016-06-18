@@ -354,6 +354,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             data.address = address;
         }
     }
+>>>>>>> ce19c3b156679b8c9bb95577fd54ce0493f77ee7
 
     function loadMap() {
         map = L.map('map', {

@@ -2,8 +2,8 @@
  * Created by liwanchong on 2015/9/25.
  */
 var filedsModule = angular.module('app');
-filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout','dsFcc','dsRoad','dsMeta',
-        function ($rootScope, $scope, $ocLazyLoad, $timeout,dsFcc,dsRoad,dsMeta) {
+filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout','dsFcc','dsRoad','dsMeta','appPath',
+        function ($rootScope, $scope, $ocLazyLoad, $timeout,dsFcc,dsRoad,dsMeta,appPath) {
             var objCtrl = fastmap.uikit.ObjectEditController();
             var layerCtrl = fastmap.uikit.LayerController();
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
@@ -229,7 +229,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "scripts/components/road3/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../../scripts/components/road3/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
@@ -451,8 +451,8 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
                 var ctrlAndTplParams = {
                     loadType: 'tipsTplContainer',
-                    propertyCtrl: "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                    propertyHtml: "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                    propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                    propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                     callback: function () {
                         if (data.t_lifecycle === 2) { //修改
                             $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
