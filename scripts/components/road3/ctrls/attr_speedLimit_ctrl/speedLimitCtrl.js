@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 
-var selectApp = angular.module("mapApp");
+var selectApp = angular.module("app");
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -11,13 +11,13 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+
     $scope.carSpeedType=false;
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
         highRenderCtrl.highLightFeatures.push({
-
             id:$scope.speedLimitData.linkPid.toString(),
             layerid:'referenceLine',
             type:'line',
@@ -80,11 +80,11 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     ];
     $scope.speedLimitValue=$scope.speedLimitData.speedValue/10;
     $timeout(function(){
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
             var tmpStr = $scope.speedLimitData.timeDomain;
-            $scope.fmdateTimer(tmpStr);
+            //$scope.fmdateTimer(tmpStr);
         });
     });
     /*时间控件*/
@@ -100,6 +100,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             $scope.$apply();
         }, 100);
     }
+
     $scope.save = function () {
         objectEditCtrl.save();
         var param = {

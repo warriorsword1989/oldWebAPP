@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var myApp = angular.module("mapApp");
-myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
+var myApp = angular.module("app");
+angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsRoad",function ($scope, $ocLazyLoad, dsRoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -35,11 +35,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     }
                 }
 
-                $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/rticCtrl').then(function () {
+                $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/rticCtrl').then(function () {
                     if(objectCtrl.updateObject) {
                         objectCtrl.updateObject();
                     }
-                    $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/rticTpl.html";
+                    $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/rticTpl.html";
                 });
 
                 break;
@@ -51,11 +51,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                         $scope.modelArray[i]=false;
                     }
                 }
-                $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/basicCtrl').then(function () {
+                $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/basicCtrl').then(function () {
                     if(objectCtrl.updateObject) {
                         objectCtrl.updateObject();
                     }
-                    $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
+                    $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/basicTpl.html";
                 });
             }
         }
@@ -144,28 +144,28 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
 
         $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         if (url === "basicModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/basicCtrl').then(function () {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
+            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/basicCtrl').then(function () {
+                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/basicTpl.html";
             });
         } else if (url === "paginationModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/pedestrianNaviCtrl').then(function () {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviTepl.html";
+            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/pedestrianNaviCtrl').then(function () {
+                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/rticCtrl').then(function () {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/rticTpl.html";
+            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/rticCtrl').then(function () {
+                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/rticTpl.html";
             });
         } else if (url === "limitedModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/limitedCtrl').then(function () {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/limitTpl.html";
+            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/limitedCtrl').then(function () {
+                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/limitTpl.html";
             });
         } else if (url == "nameModule") {//道路名
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/namesCtrl').then(function () {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/namesTpl.html";
+            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/namesCtrl').then(function () {
+                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/namesTpl.html";
             });
         }else if (url == "speedModule") {//限速
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/speedCtrl').then(function () {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/speedTpl.html";
+            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/speedCtrl').then(function () {
+                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/speedTpl.html";
             });
         }
     }

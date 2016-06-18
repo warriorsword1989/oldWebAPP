@@ -1,9 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-var objectEditApp = angular.module("mapApp");
-objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
-
+var objectEditApp = angular.module("app").controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var selectCtrl = fastmap.uikit.SelectController();
@@ -14,6 +12,49 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var rdRestriction = layerCtrl.getLayerById('relationdata');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
+
+    //dsRoad.getByCondition({
+    //    dbId: App.Temp.dbId,
+    //    type: 'RDLINK',
+    //    data: {"nodePid":  $scope.rdNodeData.pid}
+    //}).then(function (data){
+    //    if (data.errcode === -1) {
+    //        return;
+    //    }
+    //    var lines = [];
+    //    $scope.linepids = [];
+    //    for (var index in data.data) {
+    //        var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
+    //        for (var i = 0, len = linkArr.length; i < len; i++) {
+    //            var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+    //            points.push(point);
+    //        }
+    //        lines.push(fastmap.mapApi.lineString(points));
+    //        $scope.linepids.push(data.data[index].pid);
+    //        highlightFeatures.push({
+    //            id:data.data[index].pid.toString(),
+    //            layerid:'referenceLine',
+    //            type:'line',
+    //            style:{}
+    //        })
+    //    }
+    //
+    //    var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
+    //
+    //    selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.rdNodeData.pid});
+    //    $scope.initialForms();
+    //
+    //
+    //    highlightFeatures.push({
+    //        id:$scope.rdNodeData.pid.toString(),
+    //        layerid:'referenceLine',
+    //        type:'node',
+    //        style:{}
+    //    })
+    //    highRenderCtrl.highLightFeatures =highlightFeatures;
+    //    highRenderCtrl.drawHighlight();
+    //});
+
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
@@ -44,6 +85,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     }
     //初始化数据
     $scope.initializeData = function () {
+        alert('12')
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         $scope.flag = 0;
@@ -430,6 +472,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         });
+
         if (selectCtrl.rowkey && selectCtrl.rowkey.rowkey) {
             var stageParam = {
                 "rowkey": selectCtrl.rowkey.rowkey,

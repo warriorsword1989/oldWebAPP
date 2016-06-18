@@ -247,8 +247,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 selectCtrl.onSelected({
                     point: data.point
                 });
-                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "NODE":
@@ -286,8 +286,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
             case 'RDRESTRICTION':
                 //if (data.restrictionType === 1) {
-                ctrlAndTmplParams.propertyCtrl = "scripts/components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
+                ctrlAndTmplParams.propertyCtrl = "scripts/components/road3/ctrls/attr_restriction_ctrl/rdRestriction";
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
                 //}
                 //else {
                 //    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
@@ -296,29 +296,29 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDLANECONNEXITY':
-                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html";
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDSPEEDLIMIT':
-                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_speedLimit_tpl/speedLimitTpl.html";
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDCROSS':
-                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road/ctrls/attr_cross_ctrl/rdCrossCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_cross_ctrl/rdCrossCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_cross_tpl/rdCrossTpl.html";
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDGSC':
-                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl';
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_gsc_tpl/rdGscTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'scripts/components/road3/ctrls/attr_rdgsc_ctrl/rdGscCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_gsc_tpl/rdGscTpl.html";
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
                 shapeCtrl.editFeatType = 0;
-                ctrlAndTmplParams.propertyCtrl = "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
-                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
+                ctrlAndTmplParams.propertyCtrl = "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl";
+                ctrlAndTmplParams.propertyHtml = "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
@@ -607,8 +607,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             objCtrl.setCurrentObject(type, data.data);
             tooltipsCtrl.onRemoveTooltip();
             var options = {
-                //"loadType": 'attrTplContainer',
-                "loadType": 'generalBaseTpl',
+                "loadType": 'attrTplContainer',
+                //"loadType": 'generalBaseTpl',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             }

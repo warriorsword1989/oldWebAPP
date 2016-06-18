@@ -120,7 +120,7 @@ App.layersConfig = [{
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: false,
+            visible: true,
             requestType: 'ADNODE',
             showNodeLevel: 17
         }
@@ -196,7 +196,7 @@ App.layersConfig = [{
             type: 'adAdminPoint',
             zIndex: 18,
             restrictZoom: 10,
-            visible: false,
+            visible: true,
             requestType: 'ADADMIN',
             showNodeLevel: 17
         }
@@ -221,7 +221,7 @@ App.layersConfig = [{
             type: 'adLink',
             zIndex: 11,
             restrictZoom: 10,
-            visible: false,
+            visible: true,
             requestType: 'ADLINK',
             showNodeLevel: 5
         }
