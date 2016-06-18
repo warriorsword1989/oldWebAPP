@@ -205,6 +205,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
             };
             //点击列表需要的方法
             $scope.showTab = function (item, e, pItemId, index) {
+                $scope.$emit('closePopoverTips',false);
                 if ($scope.allStyleArr && $scope.allStyleArr.length >= 1) {
                     $scope.changeStyleArr($scope.allStyleArr, index);
                 }
@@ -214,7 +215,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                 if ($scope.solvedStyleArr && $scope.solvedStyleArr.length >= 1) {
                     $scope.changeStyleArr($scope.solvedStyleArr, index);
                 }
-                $scope.$emit('closePopoverTips',true);
+                // $scope.$emit('closePopoverTips',true);
                 $("#dataTipsOriginModal").css("display", "none");
                 $("#dataTipsVideoModal").css("display", "none");
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
@@ -400,7 +401,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                     }
-                })
+                });
             };
             //checkbox中的处理方法
             $scope.showLayers = function (item, event) {

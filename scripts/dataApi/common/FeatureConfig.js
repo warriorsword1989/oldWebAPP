@@ -7,6 +7,26 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1105:{
+		name:'危险信息',
+		ctl:'',
+		tpl:''
+	},
+	1107:{
+		name:'收费站',
+		ctl:'',
+		tpl:''
+	},
+	1109:{
+		name:'电子眼',
+		ctl:'',
+		tpl:''
+	},
+	1110:{
+		name:'卡车限制',
+		ctl:'',
+		tpl:''
+	},
 	1201:{
 		name:'道路种别',
 		ctl:'',
@@ -47,8 +67,33 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1403:{
+		name:'3D',
+		ctl:'',
+		tpl:''
+	},
+	1405:{
+		name:'一般道路方面',
+		ctl:'',
+		tpl:''
+	},
+	1406:{
+		name:'实景图',
+		ctl:'',
+		tpl:''
+	},
 	1407:{
 		name:'高速分歧',
+		ctl:'',
+		tpl:''
+	},
+	1409:{
+		name:'普通路口模式图',
+		ctl:'',
+		tpl:''
+	},
+	1501:{
+		name:'上下线分离',
 		ctl:'',
 		tpl:''
 	},
@@ -57,13 +102,33 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1514:{
+		name:'施工',
+		ctl:'',
+		tpl:''
+	},
+	1515:{
+		name:'维修',
+		ctl:'',
+		tpl:''
+	},
 	1604:{
 		name:'区域内道路',
 		ctl:'',
 		tpl:''
 	},
+	1703:{
+		name:'分叉口提示(SE)',
+		ctl:'',
+		tpl:''
+	},
 	1704:{
 		name:'交叉路口名称',
+		ctl:'',
+		tpl:''
+	},
+	1801:{
+		name:'立交',
 		ctl:'',
 		tpl:''
 	},
@@ -84,26 +149,6 @@ fastmap.dataApi.FeatureConfig = {
 	},
 	2001:{
 		name:'测线',
-		ctl:'',
-		tpl:''
-	},
-	1514:{
-		name:'施工',
-		ctl:'',
-		tpl:''
-	},
-	1501:{
-		name:'上下线分离',
-		ctl:'',
-		tpl:''
-	},
-	1403:{
-		name:'3D',
-		ctl:'',
-		tpl:''
-	},
-	1801:{
-		name:'立交',
 		ctl:'',
 		tpl:''
 	}
