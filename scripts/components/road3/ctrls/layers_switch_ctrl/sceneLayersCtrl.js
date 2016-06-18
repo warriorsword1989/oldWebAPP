@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/24.
  */
-var sceneLayersModule = angular.module('mapApp');
+var sceneLayersModule = angular.module('app');
 sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");
@@ -12,6 +12,16 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var alllayers = 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'.split(',');
+    //
+    $scope.layers =layerCtrl.layers;
+    var outLayers=[];
+    for(var i=0;i<layerCtrl.layers.length;i++){
+        if(layerCtrl.layers[i].options.groupid=="backgroundLayers"){
+            outLayers.push(layerCtrl.layers[i]);
+        }
+    }
+    $scope.layers=outLayers;
+    //
     $scope.flag = true;
     $scope.scenceArr = [
         {"id": 1, "label": "线限速场景", "selected": false},

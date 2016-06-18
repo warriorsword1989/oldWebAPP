@@ -25,6 +25,7 @@ requirejs.config({
 		'fccService': 'apps/imeep/service/dataService-fcc',
 		'roadService': 'apps/imeep/service/dataService-road',
 		'EditorCtl': 'apps/imeep/editor/editorCtl',
+		//'sceneLayerCtr': 'scripts/components/road3/ctrls/layer_switch_ctr/sceneLayersCtrl',
 		'layers': "apps/imeep/editor/layerConfig",
 		'keyPressFunctions':'scripts/uikits/road/keyPressFunctions'
 	},

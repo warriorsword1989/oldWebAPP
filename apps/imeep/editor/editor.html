@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor-road.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/animate.min.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
@@ -33,12 +34,6 @@
                     <div ng-class="{2:'selected'}[selectedTool]" ng-click="changeEditTool('scenePanel')">
                         <a><i title="场景" class="glyphicon glyphicon-facetime-video"></i></a>
                     </div>
-                    <div ng-class="{3:'selected'}[selectedTool]" ng-click="changeEditTool('layerPanel')">
-                        <a><i title="图层" class="glyphicon glyphicon-tasks"></i></a>
-                    </div>
-                    <div ng-class="{3:'selected'}[selectedTool]" ng-click="changeEditTool('layerPanel')">
-                        <a href="../../roadnet/editor.html"><i title="道路编辑" class="glyphicon glyphicon-pencil"></i></a>
-                    </div>
                 </div>
                 <div class="banner-bottom">
                     <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -48,7 +43,7 @@
             <div ui-layout-container class="fm-list-panel">
                 <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
                     <div class="fm-container fm-col animated fadeInLeft fm-left-datalist dark scroll-styled" ui-layout-container size="250px" min-size="250px">
-                        <div class="fm-project-switch">
+                        <div class="fm-project-switch" ng-if="showTab">
                             <a href="#" ng-class="{'tab col-sm-6': true, 'active': projectType == 1}" ng-click="changeProject(1)">POI作业</a>
                             <a href="#" ng-class="{'tab col-sm-6': true, 'active': projectType == 2}" ng-click="changeProject(2)">道路作业</a>
                         </div>
@@ -81,7 +76,7 @@
                                     <span></span>
                                 </a>
                             </div>
-                            <div ng-include="generalBaseTpl"></div>
+                            <div ng-include="generalBaseTpl" class="scroll-styled fm-panel-object blackTheme"></div>
                             <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;">
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group" role="group">

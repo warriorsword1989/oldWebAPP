@@ -160,10 +160,10 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             var id = data[item].properties.id;
             if (touched) {
 
-                this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
+                this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
 
                     id: id,
-                    optype: "NODE",
+                    optype: "POI",
 
                     event: event
                 })
