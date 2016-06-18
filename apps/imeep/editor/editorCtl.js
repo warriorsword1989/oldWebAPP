@@ -553,13 +553,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	var initPage = function () {
 		initData();
 		loadMap();
-
-
-		//选择道路要素的工具栏
-		// $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
-		// 	$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
-		// });
-
 		//选择道路要素的工具栏
 		$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
 			$scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
@@ -576,14 +569,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 								/*默认显示poi作业平台*/
 								$scope.changeProject(2);
 
-								bindHotKeys($ocLazyLoad, $scope, dsRoad, dsFcc);//注册快捷键
+								bindHotKeys($ocLazyLoad, $scope, dsRoad);//注册快捷键
 							});
 						});
 					});
 				});
 			});
 		});
-	}
+	};
 
 	/**
 	 * 页面初始化方法调用

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var basicApp = angular.module("mapApp");
+var basicApp = angular.module("app");
 basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
@@ -154,8 +154,8 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     $scope.showNames=function() {
         var showNameObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/namesOfDetailCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/namesOfDetailTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/namesOfDetailCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/namesOfDetailTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showNameObj);
     };
@@ -164,8 +164,8 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     $scope.addFormOfWay = function() {
         var addFormOfWayObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/basicOfFormWayCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/basicOfFormWayTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/basicOfFormWayCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/basicOfFormWayTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", addFormOfWayObj);
     };
@@ -195,8 +195,8 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showZoneWinObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/infoOfZoneCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/infoOfZoneTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/infoOfZoneCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/infoOfZoneTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showZoneWinObj);
     }
@@ -207,8 +207,8 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         }else {
             var showZoneObj={
                 "loadType":"subAttrTplContainer",
-                "propertyCtrl":'components/road/ctrls/attr_link_ctrl/basicOfZoneCtrl',
-                "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/basicOfZoneTpl.html'
+                "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/basicOfZoneCtrl',
+                "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/basicOfZoneTpl.html'
             }
             $scope.$emit("transitCtrlAndTpl", showZoneObj);
         }
@@ -216,8 +216,8 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     $scope.showOther=function(){
         var showOtherObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/basicOfOtherCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/basicOfOtherTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_link_ctrl/basicOfOtherCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_link_tpl/basicOfOtherTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
