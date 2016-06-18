@@ -157,77 +157,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.closeFullScreen = function() {
         $scope.showFullScreen = false;
     };
-    /**
-     * 删除poi
-     */
-    $scope.delete = function() {
-        swal({
-            title: "确认删除？",
-            type: "warning",
-            animation: 'slide-from-top',
-            showCancelButton: true,
-            closeOnConfirm: true,
-            confirmButtonText: "是的，我要删除",
-            cancelButtonText: "取消"
-        }, function(f) {
-            if (f) {
-                data = {
-                    type: 'RDLINK',
-                    pid: 100004343,
-                    childPid: "",
-                    op: "道路link删除成功"
-                };
-                $scope.$broadcast('getConsoleInfo', data); //显示输出结果
-            }
-        });
-    };
-    /**
-     * 保存前数据校验及准备
-     */
-    $scope.save = function() {
-        if (currentFeatureType == "POI") {
-            console.log("poi:", $scope.poi);
-            console.info("poi.getIntegrate", $scope.poi.getIntegrate());
-            console.info("poi.getChanges", $scope.poi.getChanges());
-            //判断电话是否符合规则
-            if ($scope.controlFlag.isTelEmptyArr) {
-                var flag = false;
-                for (var i = 0, len = $scope.controlFlag.isTelEmptyArr.length; i < len; i++) {
-                    if ($scope.controlFlag.isTelEmptyArr[i]) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) {
-                    swal({
-                        title: "电话格式有误，请重新输入!",
-                        type: "warning",
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
-                    return;
-                }
-            }
-            var change = $scope.poi.getChanges();
-            savePoi(function(data) {
-                if (FM.Util.isEmptyObject(change)) {
-                    swal("操作成功!", "属性值没有发生变化", "success");
-                } else {
-                    swal("操作成功!", "属性值发生了变化", "success");
-                }
-                data = {
-                    type: 'RDLINK',
-                    pid: 100004343,
-                    childPid: "",
-                    op: "道路link修改成功"
-                };
-                $scope.$broadcast('getConsoleInfo', data); //显示输出结果
-            });
-        } else {
-            $scope.subAttrTplContainerSwitch(false);
-            eventController.fire(eventController.eventTypes.SAVEPROPERTY);
-        }
-    };
     /*切换POI时进行保存提醒*/
     var changePoi = function(callback) {
         if ($scope.poi) {
@@ -261,24 +190,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 callback();
             }
         }
-    };
-    /**
-     * 调用保存接口
-     * @param callback
-     */
-    var savePoi = function(callback) {
-        //此处调用接口暂时省略
-        if (callback) {
-            callback();
-        }
-    };
-    /**
-     * 页面取消功能
-     */
-    $scope.cancel = function() {
-        $scope.poi = angular.copy($scope.origPoi);
-        $scope.$broadcast('refreshImgsData', $scope.poi.photos);
-        $scope.$broadcast("clearBaseInfo"); //清除样式
     };
     /**
      * 接收父子关系中点击子事件
@@ -512,7 +423,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         if (data["loadType"] === "subAttrTplContainer") {
             $scope.subAttrTplContainerSwitch(true);
             $scope.subAttrTplContainer = "";
-        } else if (data["loadType"] === "generalBaseTpl") { //右边属性面板
+        } else if (data["loadType"] === "attrTplContainer") { //右边属性面板
             if (!$scope.panelFlag) {
                 $scope.attrTplContainerSwitch(true);
             }
@@ -560,4 +471,96 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 页面初始化方法调用
      */
     initPage();
+    /**
+     * 保存数据
+     */
+    $scope.doSave = function() {
+        if (currentFeatureType == "POI") {
+            console.log("poi:", $scope.poi);
+            console.info("poi.getIntegrate", $scope.poi.getIntegrate());
+            console.info("poi.getChanges", $scope.poi.getChanges());
+            //判断电话是否符合规则
+            if ($scope.controlFlag.isTelEmptyArr) {
+                var flag = false;
+                for (var i = 0, len = $scope.controlFlag.isTelEmptyArr.length; i < len; i++) {
+                    if ($scope.controlFlag.isTelEmptyArr[i]) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    swal({
+                        title: "电话格式有误，请重新输入!",
+                        type: "warning",
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            }
+            var change = $scope.poi.getChanges();
+            if (FM.Util.isEmptyObject(change)) {
+                swal("操作成功!", "属性值没有发生变化, 不需要保存！", "success");
+                return;
+            } else {
+                var param = {
+                    dbId: 42,
+                    command: 'UPDATE',
+                    type: 'IXPOI',
+                    pid: $scope.poi.pid,
+                    data: change
+                };
+                data.pid = $scope.poi.pid;
+                dsRoad.editGeometryOrProperty(param).then(function(data) {
+                    swal("操作成功!", "", "success");
+                    $scope.$broadcast('getConsoleInfo', data); //显示输出结果
+                });
+            }
+        } else {
+            $scope.subAttrTplContainerSwitch(false);
+            eventController.fire(eventController.eventTypes.SAVEPROPERTY);
+        }
+    };
+    /**
+     * 保存POI
+     * @param callback
+     */
+    var savePoi = function(callback) {
+        //此处调用接口暂时省略
+        if (callback) {
+            callback();
+        }
+    };
+    /**
+     * 删除数据
+     */
+    $scope.doDelete = function() {
+        swal({
+            title: "确认删除？",
+            type: "warning",
+            animation: 'slide-from-top',
+            showCancelButton: true,
+            closeOnConfirm: true,
+            confirmButtonText: "是的，我要删除",
+            cancelButtonText: "取消"
+        }, function(f) {
+            if (f) {
+                data = {
+                    type: 'RDLINK',
+                    pid: 100004343,
+                    childPid: "",
+                    op: "道路link删除成功"
+                };
+                $scope.$broadcast('getConsoleInfo', data); //显示输出结果
+            }
+        });
+    };
+    /**
+     * 取消编辑
+     */
+    $scope.doCancel = function() {
+        $scope.poi = angular.copy($scope.origPoi);
+        $scope.$broadcast('refreshImgsData', $scope.poi.photos);
+        $scope.$broadcast("clearBaseInfo"); //清除样式
+    };
 }]);

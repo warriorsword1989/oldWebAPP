@@ -46,14 +46,14 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
     this.editGeometryOrProperty = function(param) {
         param = JSON.stringify(param);
         var defer = $q.defer();
-        ajax.get("/edit/run", {
+        ajax.get("edit/run/", {
             parameter: param.replace(/\+/g,'%2B'),
             urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
             } else {
-                swal("查询数据出错：", data.errmsg, "error");
+                swal("保存数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
             }
         }).error(function(rejection) {
