@@ -749,7 +749,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .popoverTips {
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: 1px;
     z-index: 0;
     width: 250px;
     height: 100%;

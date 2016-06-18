@@ -133,8 +133,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 	});
 	/*tips*/
 	$scope.$on('closePopoverTips', function(event, data) {
+		if(data && $scope.projectType == 2){
+			loadRoadTips();
+		}
 		$scope.showPopoverTips = data;
 	});
+	/*加载道路tips方法*/
+	function loadRoadTips(){
+		$ocLazyLoad.load( appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl.js').then(function () {
+			$scope.poiPopoverTipsTpl = appPath.root + appPath.road + 'tpls/attr_tips_tpl/sceneAllTipsTpl.html';
+		});
+	}
 	/*获取输出结果信息*/
 	$scope.$on('getConsoleInfo', function(event, data) {
 		$scope.outputResult.push(new FM.dataApi.IxOutput(data));
@@ -427,7 +436,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 			if (!$scope.panelFlag) {
 				$scope.attrTplContainerSwitch(true);
 			}
-		} else if (data["loadType"] === "tipsTplContainer") {} else if (data["loadType"] === "tipsPitureContainer") {
+		} else if (data["loadType"] === "tipsTplContainer") {
+			loadRoadTips();
+			$scope.showPopoverTips = true;
+		} else if (data["loadType"] === "tipsPitureContainer") {
 			if ($scope[data["loadType"]]) {
 				$scope.$broadcast("TRANSITTIPSPICTURE", {})
 				return;
