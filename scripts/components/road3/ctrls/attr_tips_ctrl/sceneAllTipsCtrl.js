@@ -252,7 +252,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             case "1405"://3D
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
-                /*退出*/
+                /*退出数组*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
                 break;
             case "1407"://高速分歧
@@ -292,6 +292,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     {"type":3,"state":"新增"},
                 ];
                 break;
+            case "1703":
+                $scope.fData = {'id':'121212'};
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
                 break;

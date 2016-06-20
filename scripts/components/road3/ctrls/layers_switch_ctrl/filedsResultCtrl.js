@@ -1,8 +1,7 @@
 /**
  * Created by liwanchong on 2015/9/25.
  */
-var filedsModule = angular.module('app');
-filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout','dsFcc','dsRoad','dsMeta','appPath',
+var filedsModule = angular.module('app').controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout','dsFcc','dsRoad','dsMeta','appPath',
         function ($rootScope, $scope, $ocLazyLoad, $timeout,dsFcc,dsRoad,dsMeta,appPath) {
             var objCtrl = fastmap.uikit.ObjectEditController();
             var layerCtrl = fastmap.uikit.LayerController();
@@ -310,7 +309,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.o_array.length > 0) {
-                                    $scope.(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         };
@@ -395,7 +394,22 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRoad);
 
-                    } else if (pItemId === "1704") {//交叉路口
+                    } else if (pItemId === "1703") {//分叉口提示
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                        var ctrlAndTplOfCross={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f_array.length > 0) {
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
+
+
+                    }  else if (pItemId === "1704") {//交叉路口
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         var ctrlAndTplOfCross={
                             "loadType":"tipsTplContainer",
