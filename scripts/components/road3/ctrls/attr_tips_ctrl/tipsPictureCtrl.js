@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/31.
  */
 
-var tipsPictureApp = angular.module("mapApp");
+var tipsPictureApp = angular.module("app");
 tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.eventController = fastmap.uikit.EventController();
@@ -39,7 +39,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
             $scope.imgPageNow =  id + 1;
             $scope.showLoading = true;
             var originImg = $("#dataTipsOriginImg");
-            originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            originImg.attr("src", App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
             //加载完显示图片,
             // var imgUrl = originImg.attr('src');
             /*imgLoad(imgUrl,function(){
@@ -57,7 +57,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
     /*tips图片全屏*/
     $scope.showFullPic = function () {
         $("#fullScalePic img").attr('src', $("#dataTipsOriginImg").attr('src'));
-        $("#fullScalePic").show();
+        $scope.$emit('showRoadFullScreen',true);
     }
 
     /*图片切换*/
