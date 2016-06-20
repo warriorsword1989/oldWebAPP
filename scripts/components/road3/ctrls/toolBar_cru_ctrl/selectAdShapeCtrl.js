@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/04/12.
  */
 var selectAdApp = angular.module("app", ['oc.lazyLoad']);
-selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
+selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsRoad', function ($scope, $ocLazyLoad, $rootScope,appPath,dsRoad) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -241,7 +241,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     };
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        Application.functions.getRdObjectById(id, type, function (data) {
+
+        dsRoad.getRdObjectById(id,type,selectedData.detailId).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
@@ -253,7 +254,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 "propertyHtml": tpl
             }
             $scope.$emit("transitCtrlAndTpl", options);
-        }, selectedData.detailid);
+        });
     }
     $scope.selectObjCallback = function (data) {
         highRenderCtrl._cleanHighLight();
@@ -274,8 +275,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adNodeCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adNodeTpl.html";
                 $scope.type = "ADNODE";
                 break;
             case "LINK":

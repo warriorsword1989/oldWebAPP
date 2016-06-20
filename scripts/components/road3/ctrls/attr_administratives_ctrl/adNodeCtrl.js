@@ -1,8 +1,8 @@
 /**
  * Created by zhaohang on 2016/4/25.
  */
-var adNodeApp = angular.module("mapApp");
-adNodeApp.controller("adNodeController",function($scope) {
+var adNodeApp = angular.module("app");
+adNodeApp.controller("adNodeController",['$scope','dsRoad',function($scope,dsRoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -33,17 +33,16 @@ adNodeApp.controller("adNodeController",function($scope) {
             $scope.adNodeForm.$setPristine();
         }
 
-
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据
         var highlightFeatures = [];
         /**
          * 根据点去获取多条adlink，再高亮点线
          */
-        Application.functions.getByCondition(JSON.stringify({
-            projectId: Application.projectid,
+        dsRoad.getByCondition({
+            dbId: App.Temp.dbId,
             type: 'ADLINK',
             data: {"nodePid":  $scope.adNodeData.pid}
-        }), function (data) {
+        }).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
@@ -74,11 +73,50 @@ adNodeApp.controller("adNodeController",function($scope) {
                 layerid:'adLink',
                 type:'node',
                 style:{}
-            })
+            });
             highRenderCtrl .highLightFeatures =highlightFeatures;
             highRenderCtrl .drawHighlight();
-
         });
+        // Application.functions.getByCondition(JSON.stringify({
+        //     projectId: Application.projectid,
+        //     type: 'ADLINK',
+        //     data: {"nodePid":  $scope.adNodeData.pid}
+        // }), function (data) {
+        //     if (data.errcode === -1) {
+        //         return;
+        //     }
+        //     var lines = [];
+        //     $scope.linepids = [];
+        //     //获取点连接的线
+        //     for (var index in data.data) {
+        //         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
+        //         for (var i = 0, len = linkArr.length; i < len; i++) {
+        //             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+        //             points.push(point);
+        //         }
+        //         lines.push(fastmap.mapApi.lineString(points));
+        //         $scope.linepids.push(data.data[index].pid);
+        //         highlightFeatures.push({
+        //             id:data.data[index].pid.toString(),
+        //             layerid:'adLink',
+        //             type:'line',
+        //             style:{}
+        //         })
+        //     }
+        //     var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
+        //     //存储选择的数据
+        //     selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.adNodeData.pid});
+        //     //高亮点和线
+        //     highlightFeatures.push({
+        //         id:$scope.adNodeData.pid.toString(),
+        //         layerid:'adLink',
+        //         type:'node',
+        //         style:{}
+        //     })
+        //     highRenderCtrl .highLightFeatures =highlightFeatures;
+        //     highRenderCtrl .drawHighlight();
+        //
+        // });
     };
     if (objCtrl.data) {
         $scope.initializeData();
@@ -188,4 +226,4 @@ adNodeApp.controller("adNodeController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}]);

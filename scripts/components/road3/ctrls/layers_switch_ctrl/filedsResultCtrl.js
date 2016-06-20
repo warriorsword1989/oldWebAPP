@@ -252,9 +252,36 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "scripts/components/road3/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../../scripts/components/road3/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                     } else if (pItemId === "1302") {//交限
                         $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "scripts/components/road3/ctrls/attr_restriction_ctrl/rdRestriction", "../../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                    } else if(pItemId==="1403") {//3D
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfD= {
+
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                    } else if(pItemId==="1501") {//上下线分离
+                        if(data.geo!=null){
+                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
+                        }else{
+                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                        }
+                        var ctrlAndTplOfUpAndLower= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f_array.length != 0) {
+                                    $scope.brigeLinkArray = data.f_array;
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndLower);
                     } else if (pItemId === "1510") {//桥1510
                         var points = [];
                         var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
@@ -278,6 +305,27 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfBridge);
 
+                    } else if(pItemId==="1514") {//施工
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 18});
+                        var ctrlAndTplOfConstruction= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f_array.length != 0) {
+                                    $scope.brigeLinkArray = data.f_array;
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                     } else if (pItemId === "1604") {//区域内道路
 
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
@@ -321,7 +369,24 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
 
 
+                    } else if(pItemId==="1801") {//立交
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfOverPass= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                     } else if (pItemId === "1803") {//挂接
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfOfGJ= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
+
+                    } else if (pItemId === "1806") {//草图
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
@@ -342,64 +407,6 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18)
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
 
-                    }else if(pItemId==="1514") {//施工
-                        var points = [];
-                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
-                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
-                        points.push(endPoint);
-                        points.push(startPoint);
-                        var line = new L.polyline(points);
-                        var bounds = line.getBounds();
-                        map.fitBounds(bounds, {"maxZoom": 18});
-                        var ctrlAndTplOfConstruction= {
-                            "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                            callback:function(){
-                                if (data.f_array.length != 0) {
-                                    $scope.brigeLinkArray = data.f_array;
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
-                                }
-                            }
-                        }
-                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
-                    }
-                    else if(pItemId==="1501") {//上下线分离
-                        if(data.geo!=null){
-                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
-                        }else{
-                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
-                        }
-                        var ctrlAndTplOfUpAndLower= {
-                            "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                            callback:function(){
-                                if (data.f_array.length != 0) {
-                                    $scope.brigeLinkArray = data.f_array;
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
-                                }
-                            }
-                        }
-                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndLower);
-                    }
-                    else if(pItemId==="1403") {//3D
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        var ctrlAndTplOfD= {
-
-                            "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        }
-                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
-                    } else if(pItemId==="1801") {//立交
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                        var ctrlAndTplOfOverPass= {
-                            "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        }
-                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                     }
                 });
             };
