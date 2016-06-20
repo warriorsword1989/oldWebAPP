@@ -257,6 +257,18 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     }
                 });
                 break;
+            case "1409"://普通路口模式图
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
+                /*退出*/
+                $scope.sceneExit = [];
+                $scope.bottomPicture = $scope.dataTipsData.ptn;
+                $.each($scope.dataTipsData.o_array,function(i,v){
+                    if(v.out){
+                        $scope.sceneExit.push(v.out.id);
+                    }
+                });
+                break;
             case "1501"://上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
@@ -270,6 +282,14 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
                 $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
                 $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
+                break;
+            case "1515"://维修
+                $scope.constructionArrayLink = $scope.dataTipsData.f_array;
+
+                var strArray = $scope.dataTipsData.time.split('-');
+                $scope.startTime = strArray[0].substring(5);
+                $scope.endTime = strArray[1].substring(5);
+
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
