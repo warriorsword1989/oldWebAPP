@@ -235,6 +235,14 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
 
                 break;
+            case "1403"://3D
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                /*模式图号*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
+                break;
             case "1407"://高速分歧
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
@@ -249,9 +257,19 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     }
                 });
                 break;
+            case "1501"://上下线分离
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
             case "1510"://桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
 
+                break;
+            case "1514"://施工
+                $scope.constructionArrayLink = $scope.dataTipsData.f_array;
+
+                $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
+                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
+                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
@@ -264,6 +282,9 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 break;
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
+                break;
+            case "1801"://立交
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
             case "1803"://挂接
                 if($scope.dataTipsData.pcd){//有图片时，显示图片
@@ -278,6 +299,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     }
                 }
 
+                break;
+            case "1806":    // 草图
                 break;
             case "1901"://道路名
                 $scope.nArrayData = $scope.dataTipsData.n_array;
@@ -349,27 +372,6 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     /*长度*/
                     $scope.lineLength = $scope.dataTipsData.len;
                 }
-                break;
-            case "1514"://施工
-                $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-
-                $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
-                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
-                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
-                break;
-            case "1501"://上下线分离
-                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
-                break;
-            case "1403"://3D
-                /*进入*/
-                $scope.sceneEnty = $scope.dataTipsData.in;
-                /*退出*/
-                $scope.sceneOut = $scope.dataTipsData.o_array;
-                /*模式图号*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
-                break;
-            case "1801"://立交
-                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
 
         }
