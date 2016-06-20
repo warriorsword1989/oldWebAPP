@@ -37,11 +37,11 @@
                 <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
                     <div ui-layout-container size="35px" style="background-color: #222;padding:5px 10px;">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 1}" ng-click="changeDataList(1)">日 一体化任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 2}" ng-click="changeDataList(2)">日 POI任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 3}" ng-click="changeDataList(3)">日 道路任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 4}" ng-click="changeDataList(4)">月 POI任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{'active': dataListType == 5}" ng-click="changeDataList(5)">专项作业任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)">日 一体化任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)">日 POI任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)">日 道路任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{4: 'active'}[dataListType]" ng-click="changeDataList(4)">月 POI任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{5: 'active'}[dataListType]" ng-click="changeDataList(5)">专项作业任务</button>
                         </div>
                     </div>
                     <div ui-layout-container>
@@ -51,9 +51,9 @@
                                     <div ui-layout-container size="36px" style="padding: 5px 5px;overflow:visible">
                                         <div class="btn-group" role="group">
                                             <div class="btn-group-vertical">
-                                                <button class="btn btn-xs btn-purple" ng-class="{'active': taskStatus == 6}" ng-click="changeTaskStatus(6)" style="padding: 20px 5px;">全<br>部</button>
-                                                <button class="btn btn-xs btn-purple" ng-class="{'active': taskStatus == 7}" ng-click="changeTaskStatus(7)" style="padding: 20px 5px;">开<br>启</button>
-                                                <button class="btn btn-xs btn-purple" ng-class="{'active': taskStatus == 8}" ng-click="changeTaskStatus(8)" style="padding: 20px 5px;">关<br>闭</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{6: 'active'}[taskStatus]" ng-click="changeTaskStatus(6)" style="padding: 20px 5px;">全<br>部</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{7: 'active'}[taskStatus]" ng-click="changeTaskStatus(7)" style="padding: 20px 5px;">开<br>启</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{8: 'active'}[taskStatus]" ng-click="changeTaskStatus(8)" style="padding: 20px 5px;">关<br>闭</button>
                                             </div>
                                         </div>
                                     </div>
