@@ -321,7 +321,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     }
 
     function loadMap() {
-        var map = L.map('map', {
+        map = L.map('map', {
             attributionControl: false,
             doubleClickZoom: false,
             zoomControl: false
