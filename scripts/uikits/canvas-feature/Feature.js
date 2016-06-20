@@ -60,6 +60,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     break;
                 case 18://AdNode
                     ret = new fastmap.uikit.canvasFeature.AdNode(data);
+                    break;
                 case 21: //poi
                     ret = new fastmap.uikit.canvasFeature.poiMarker(data);
                     break;
