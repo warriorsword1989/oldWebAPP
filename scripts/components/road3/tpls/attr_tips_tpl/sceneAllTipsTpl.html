@@ -455,11 +455,11 @@
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="sceneEnty.length > 10">
+                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty.substring(0,6)+'...'" title="{{sceneEnty}}"></span>
                             </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id" title="{{fData.id}}"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="sceneEnty.length <= 10">
+                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty" title="{{sceneEnty}}"></span>
                             </div>
                         </div>
 

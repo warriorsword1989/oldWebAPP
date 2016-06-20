@@ -241,6 +241,15 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
 
                 break;
+            case "1402"://real sign
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
+                if ($scope.dataTipsData.in.type == 1) {
+                    $scope.drs = "双方向";
+                } else {
+                    $scope.drs = "单方向";
+                }
+                break;
             case "1403"://3D
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
