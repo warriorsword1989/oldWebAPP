@@ -233,16 +233,16 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                     } else if (pItemId === "1203") {//道路方向
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfDirect={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f.type == 1) {
-                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK",appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl",appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         };
@@ -305,6 +305,14 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                     } else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                    } else if(pItemId === "1409"){ //普通路口模式图
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfD= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1501") {//上下线分离
                         if(data.geo!=null){
                             map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
@@ -367,7 +375,15 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                             }
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
-                    } else if (pItemId === "1604") {//区域内道路
+                    } else if(pItemId === "1515"){
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfD= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
+                    }  else if (pItemId === "1604") {//区域内道路
 
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
                         var ctrlAndTplOfRoad={

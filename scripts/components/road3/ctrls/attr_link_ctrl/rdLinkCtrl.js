@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("app");
-angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsRoad",function ($scope, $ocLazyLoad, dsRoad) {
+angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsRoad","appPath",function ($scope, $ocLazyLoad, dsRoad,appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -35,11 +35,11 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     }
                 }
 
-                $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/rticCtrl').then(function () {
+                $ocLazyLoad.load(appPath.road + 'ctrls/attr_link_ctrl/rticCtrl').then(function () {
                     if(objectCtrl.updateObject) {
                         objectCtrl.updateObject();
                     }
-                    $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/rticTpl.html";
+                    $scope.currentURL = appPath.root + appPath.road + "tpls/attr_link_tpl/rticTpl.html";
                 });
 
                 break;
@@ -51,11 +51,11 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                         $scope.modelArray[i]=false;
                     }
                 }
-                $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/basicCtrl').then(function () {
+                $ocLazyLoad.load(appPath.road + 'ctrls/attr_link_ctrl/basicCtrl').then(function () {
                     if(objectCtrl.updateObject) {
                         objectCtrl.updateObject();
                     }
-                    $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/basicTpl.html";
+                    $scope.currentURL = appPath.root + appPath.road + "tpls/attr_link_tpl/basicTpl.html";
                 });
             }
         }
