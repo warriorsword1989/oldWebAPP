@@ -38,12 +38,12 @@ fastmap.dataApi.FeatureConfig = {
 		tpl:''
 	},
 	1205:{
-		name:'SA',
+		name:'SA(服务区)',
 		ctl:'',
 		tpl:''
 	},
 	1206:{
-		name:'PA',
+		name:'PA(停车区)',
 		ctl:'',
 		tpl:''
 	},

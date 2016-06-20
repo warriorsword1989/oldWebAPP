@@ -44,7 +44,8 @@
         "TipsBridges.js",
         "TipsMaintenance.js",
         "TipsMaintenances.js",
-        "TipsGSC.js"
+        "TipsGSC.js",
+        "TipsNormalCross.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
