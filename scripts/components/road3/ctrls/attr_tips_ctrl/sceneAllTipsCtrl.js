@@ -243,6 +243,12 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
+            case "1405"://3D
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                break;
             case "1407"://高速分歧
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;

@@ -257,12 +257,25 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         var ctrlAndTplOfD= {
 
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scrgetFeatDataCallbackipts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
-                    } else if (pItemId === "1407") {//高速分歧
+                    } else if(pItemId === "1405"){//一般道路方面;
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfRoadClass={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "callback":function(){
+                                if (data.o_array.length > 0) {
+                                    $scope.(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRoadClass);
+                    }else if (pItemId === "1407") {//高速分歧
+                        map.setViewt([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                     } else if(pItemId==="1501") {//上下线分离
                         if(data.geo!=null){
