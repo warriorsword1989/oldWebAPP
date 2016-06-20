@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var addShapeApp = angular.module('app', ['oc.lazyLoad']);
-addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad', function ($scope, $ocLazyLoad, dsRoad) {
+var addShapeApp = angular.module('app');
+addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','appPath', function ($scope, $ocLazyLoad, dsRoad, appPath) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -440,7 +440,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad', 
             }
 
             if (type === "RDRESTRICTION") {
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true})
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true});
                 var restrictionObj = {};
                 restrictionObj["showTransitData"] = []
                 restrictionObj["showAdditionalData"] = [];
@@ -449,8 +449,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad', 
                 objCtrl.setOriginalData(restrictionObj);
                 var addRestrictionObj = {
                     "loadType": "attrTplContainer",
-                    "propertyCtrl": 'components/road/ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
-                    "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                    "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
                 }
                 $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
             }
@@ -498,7 +498,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad', 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                     var pro = e.property;
-                    dsRoad.getRdObjectById(pro.id, "RDLINK", function (data) {
+                    dsRoad.getRdObjectById(pro.id, "RDLINK").then(function (data) {
                         if (data.errcode == 0) {
                             selectCtrl.onSelected({
                                 geometry: data.data.geometry.coordinates,
@@ -678,8 +678,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad', 
                 objCtrl.setOriginalData(obj);
                 var addLaneObj = {
                     "loadType": "attrTplContainer",
-                    "propertyCtrl": 'components/road/ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
-                    "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
+                    "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
+                    "propertyHtml": appPath.root +appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
                 }
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "RDNODE") {

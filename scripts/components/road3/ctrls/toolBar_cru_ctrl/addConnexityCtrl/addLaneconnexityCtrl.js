@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2016/1/25.
  */
-var laneConnexityApp = angular.module("mapApp");
-laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+var laneConnexityApp = angular.module("app");
+laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad','appPath', function ($scope, $ocLazyLoad, appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -21,8 +21,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
 
     var changedDirectObj = {
         "loadType":"subAttrTplContainer",
-        "propertyCtrl":'components/road/ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
-        "propertyHtml":'../../scripts/components/road/tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
+        "propertyCtrl":appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
+        "propertyHtml":appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
 
