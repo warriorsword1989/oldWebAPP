@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-var adAdminZone = angular.module("mapApp");
+var adAdminZone = angular.module("app");
 adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -82,8 +82,8 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     $scope.otherAdminName=function(){
         var showOtherObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_administratives_ctrl/adAdminNameCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminNameTpl.html'
+            "propertyCtrl":'scripts/components/road3/ctrls/attr_administratives_ctrl/adAdminNameCtrl',
+            "propertyHtml":'../../../scripts/components/road3/tpls/attr_adminstratives_tpl/adAdminNameTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
@@ -97,8 +97,8 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         if($scope.isbase==false){
             var showOrdinaryObj={
                 "loadType":"subAttrTplContainer",
-                "propertyCtrl":'components/road/ctrls/attr_administratives_ctrl/adAdminOfLevelCtrl',
-                "propertyHtml":'../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminOfLevelTpl.html'
+                "propertyCtrl":'scripts/components/road3/ctrls/attr_administratives_ctrl/adAdminOfLevelCtrl',
+                "propertyHtml":'../../../scripts/components/road3/tpls/attr_adminstratives_tpl/adAdminOfLevelTpl.html'
             }
             $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
         }
