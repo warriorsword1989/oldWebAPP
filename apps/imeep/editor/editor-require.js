@@ -60,7 +60,7 @@ requirejs.config({
 		'bootspopover':['jquery'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService','roadService'],
 		'z-tree':['jquery'],
-		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover','e-smart-zoom'],
+		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover','e-smart-zoom','z-tree'],
 	}
 });
 // Start the main app logic.
