@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-var adFaceApp = angular.module("mapApp");
+var adFaceApp = angular.module("app");
 adFaceApp.controller("adFaceController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
