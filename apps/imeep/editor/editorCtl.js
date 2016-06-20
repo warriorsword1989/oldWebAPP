@@ -5,16 +5,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, $q, appPath) {
-    //属性编辑ctrl(解析对比各个数据类型)
-    var layerCtrl = new fastmap.uikit.LayerController({
-        config: App.layersConfig
-    });
-    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-    var eventCtrl = new fastmap.uikit.EventController();
-    var objectCtrl = fastmap.uikit.ObjectEditController();
-    //高亮ctrl
-    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
     //$scope.show = true;
@@ -331,11 +321,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     }
 
     function loadMap() {
-        map = L.map('map', {
+        var map = L.map('map', {
             attributionControl: false,
             doubleClickZoom: false,
             zoomControl: false
-        }).setView([40.012834, 116.476293], 17);
+        });
+        map.on("zoomend", function(e) {
+            document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
+        });
+        map.setView([40.012834, 116.476293], 17);
+        //属性编辑ctrl(解析对比各个数据类型)
+        var layerCtrl = new fastmap.uikit.LayerController({
+            config: App.layersConfig
+        });
+        var shapeCtrl = new fastmap.uikit.ShapeEditorController();
+        var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+        var eventCtrl = new fastmap.uikit.EventController();
         tooltipsCtrl.setMap(map, 'tooltip');
         shapeCtrl.setMap(map);
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function(event) {
@@ -348,10 +349,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         for (var layer in layerCtrl.getVisibleLayers()) {
             map.addLayer(layerCtrl.getVisibleLayers()[layer]);
         }
-        document.getElementById('zoomLevelBar').innerHTML = "缩放等级:17";
-        map.on("zoomend", function(e) {
-            document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
-        });
     }
 
     function initOcll() {
