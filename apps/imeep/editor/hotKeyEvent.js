@@ -83,7 +83,9 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                         if (type === "RDBRANCH") {
                             var detailId = data.data.pid;
                             id = "";
-                        } else {
+                        } else if (type === "ADFACE"){
+                            id = data.data.log[2].pid;
+                        }else {
                             id = data.data.pid;
                         }
                         objEditCtrl.setOriginalData(null);
@@ -102,7 +104,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                             ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
                                 scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
                             });
-                                scope.$apply();
+                                // scope.$apply();
                         }
                     }
                 } else {
