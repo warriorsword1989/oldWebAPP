@@ -95,6 +95,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage, event) {
+                $scope.$emit('closePopoverTips',false);
                 $("#dataTipsOriginModal").css("display", "none");
                 $("#dataTipsVideoModal").css("display", "none");
                 event.stopPropagation();
@@ -247,11 +248,51 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
 
+                    } else if(pItemId==="1205") {//SA
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfSA= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f) {
+                                    console.log(data.f.id)
+                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                }
+                            }
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
+                    } else if(pItemId==="1206") {//PA
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfSA= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f) {
+                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                }
+                            }
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
                     } else if (pItemId === "1301") {//车信
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "scripts/components/road3/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../../scripts/components/road3/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                     } else if (pItemId === "1302") {//交限
                         $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "scripts/components/road3/ctrls/attr_restriction_ctrl/rdRestriction", "../../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                    } else if(pItemId==="1402") {//real sign
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfRealSign= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f) {
+                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                }
+                            }
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRealSign);
                     } else if(pItemId==="1403") {//3D
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfD= {
@@ -259,7 +300,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        }
+                        };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
@@ -447,7 +488,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-                dsRoad.getRdObjectById(id, type, function (data) {
+                dsRoad.getRdObjectById(id, type).then(function (data) {
                     if (data.errcode === -1) {
                         return;
                     }

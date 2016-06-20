@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/04/12.
  */
-var selectAdApp = angular.module("app", ['oc.lazyLoad']);
+var selectAdApp = angular.module("app");
 selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsRoad', function ($scope, $ocLazyLoad, $rootScope,appPath,dsRoad) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -311,8 +311,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adLinkTpl.html";
                 $scope.type = "ADLINK";
                 break;
             case "RDADMINNODE" :
@@ -325,13 +325,13 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adAdminCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adAdminTpl.html";
                 $scope.type = "ADADMIN";
                 break;
             case "ADFACE":
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adFaceCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adFaceTpl.html";
                 $scope.type = "ADFACE";
                 break;
         }
