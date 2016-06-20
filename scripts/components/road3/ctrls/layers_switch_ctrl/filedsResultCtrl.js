@@ -280,6 +280,19 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "scripts/components/road3/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../../scripts/components/road3/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                     } else if (pItemId === "1302") {//交限
                         $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "scripts/components/road3/ctrls/attr_restriction_ctrl/rdRestriction", "../../../scripts/components/road3/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                    } else if(pItemId==="1401") {//方向看板
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfOrientation= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.in) {
+                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                }
+                            }
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOrientation);
                     } else if(pItemId==="1402") {//real sign
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfRealSign= {

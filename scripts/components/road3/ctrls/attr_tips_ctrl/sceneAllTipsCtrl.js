@@ -241,6 +241,14 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
 
                 break;
+            case "1401"://方向看板
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                /*底图代码*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
+                break;
             case "1402"://real sign
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
