@@ -241,6 +241,23 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
 
                 break;
+            case "1401"://方向看板
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                /*底图代码*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
+                break;
+            case "1402"://real sign
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
+                if ($scope.dataTipsData.in.type == 1) {
+                    $scope.drs = "双方向";
+                } else {
+                    $scope.drs = "单方向";
+                }
+                break;
             case "1403"://3D
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
@@ -248,6 +265,12 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 $scope.sceneOut = $scope.dataTipsData.o_array;
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
+                break;
+            case "1405"://3D
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出数组*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
                 break;
             case "1407"://高速分歧
                 /*进入*/
@@ -306,8 +329,11 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     {"type":3,"state":"新增"},
                 ];
                 break;
-            case "1704"://交叉路口
+            case "1703":
                 $scope.fData = $scope.dataTipsData;
+
+            case "1704"://交叉路口
+                //$scope.fData = $scope.dataTipsData;
                 break;
             case "1801"://立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
