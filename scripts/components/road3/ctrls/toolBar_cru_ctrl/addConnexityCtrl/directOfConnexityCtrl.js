@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/9.
  */
-var showDirectApp = angular.module("mapApp");
+var showDirectApp = angular.module("app");
 showDirectApp.controller("showDirectOfConnexity",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.showData = objCtrl.originalData;

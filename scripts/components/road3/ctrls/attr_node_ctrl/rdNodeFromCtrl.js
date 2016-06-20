@@ -3,7 +3,7 @@
  */
 //var otherApp=angular.module("lazymodule", []);
 var otherApp=angular.module("app");
-otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,dsRoad){
+otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad",function($scope,appPath,dsRoad){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -146,8 +146,8 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
     $scope.showPopover=function(){
         var showPopoverObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'scripts/components/road/ctrls/attr_node_ctrl/addDirectCtrl',
-            "propertyHtml":'../../../scripts/components/road/tpls/attr_node_tpl/addDitrectTpl.html'
+            "propertyCtrl":appPath.road +'ctrls/attr_node_ctrl/addDirectCtrl',
+            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_node_tpl/addDitrectTpl.html'
         };
         $scope.loadJsAndCtrl(showPopoverObj);
     }
@@ -172,9 +172,9 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
         var param = {
             "command": "UPDATE",
             "type":"RDNODE",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objectEditCtrl.changedProperty
-        }
+        };
 
         if(!objectEditCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
@@ -193,45 +193,47 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
             });
         }
 
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var restrict = layerCtrl.getLayerById("referenceLine");
-            restrict.redraw();
-            var info = null;
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"修改RDNODE成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info=data.data.log;
-                swal("操作成功",'保存成功！', "success");
-                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            outPutCtrl.pushOutput(info);
-            if(outPutCtrl.updateOutPuts!=="") {
-                outPutCtrl.updateOutPuts();
+        dsRoad.editGeometryOrProperty(param).then(function (data){
+            if(data){
+                var restrict = layerCtrl.getLayerById("referenceLine");
+                restrict.redraw();
+                var info = null;
+                if (data.errcode==0) {
+                    var sinfo={
+                        "op":"修改RDNODE成功",
+                        "type":"",
+                        "pid": ""
+                    };
+                    data.data.log.push(sinfo);
+                    info=data.data.log;
+                    swal("操作成功",'保存成功！', "success");
+                    objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+                }else{
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
+                }
+                outPutCtrl.pushOutput(info);
+                if(outPutCtrl.updateOutPuts!=="") {
+                    outPutCtrl.updateOutPuts();
+                }
             }
         });
-    }
+    };
 
     $scope.delete = function () {
         var pid = parseInt($scope.rdNodeData.pid);
-        var param =
-        {
+        var param ={
             "command": "DELETE",
             "type": "RDNODE",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": pid
         };
         //结束编辑状态
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+
+        dsRoad.editGeometryOrProperty(param).then(function (data){
             rdLink.redraw();
             var info = [];
             if (data.errcode == 0) {
@@ -254,7 +256,7 @@ otherApp.controller("rdNodeFromController",["$scope","dsRoad",function($scope,ds
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
-        })
+        });
     };
     $scope.cancel=function(){
 

@@ -15,7 +15,7 @@ fastmap.uikit.canvasFeature.AdFace = fastmap.uikit.canvasFeature.Feature.extend(
             'fillOpacity': 0.2,
             'strokeColor': '#FBD356',
             'strokeWidth': 1,
-            'backgroundImage': ""
+            // 'backgroundImage': ""
         };
     }
 });
