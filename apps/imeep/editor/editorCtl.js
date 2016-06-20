@@ -144,6 +144,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.closeFullScreen = function() {
         $scope.showFullScreen = false;
     };
+    /*隐藏tips图片*/
+    $scope.hideFullPic = function () {
+        $scope.roadFullScreen = false;
+    };
+    /*接收全屏请求*/
+    $scope.$on('showRoadFullScreen',function(event,data){
+        $scope.roadFullScreen = true;
+        console.log($scope.roadFullScreen)
+    });
     /*切换POI时进行保存提醒*/
     var changePoi = function(callback) {
         if ($scope.poi) {

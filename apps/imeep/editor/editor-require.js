@@ -22,6 +22,7 @@ requirejs.config({
 		'timepicki':'scripts/libs/timepicki/js/timepicki',
 		'bootstrapDatepicker':'scripts/libs/bootstrap-datepicker/js/bootstrap-datepicker',
 		'bootstrapDatepickerCN':'scripts/libs/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
+		'e-smart-zoom':'scripts/libs/e-smart-zoom/js/e-smart-zoom-jquery.min',
 		'bootspopover':'scripts/utils/popoverSelect',
 		// app相关
 		'dataService': 'apps/imeep/service/dataService',
@@ -46,6 +47,7 @@ requirejs.config({
 		'angularChosen': ['angular'],
 		'fileUpload': ['angular'],
 		'ngTable': ['angular'],
+		'e-smart-zoom':['jquery'],
 		'angularDrag': ['angular', 'jquery'],
 		'dataService': ['angular', "sweet-alert"],
 		'poiService': ['dataService'],
@@ -58,7 +60,7 @@ requirejs.config({
 		'bootspopover':['jquery'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService','roadService'],
 		'z-tree':['jquery'],
-		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover'],
+		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover','e-smart-zoom'],
 	}
 });
 // Start the main app logic.
