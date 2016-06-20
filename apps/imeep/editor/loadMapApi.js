@@ -23,7 +23,7 @@
         "layer/MeshLayer.js",
         "LayerRender.js",
         "layer/TileJSONLayer.js",
-        "layer/EditLayer.js",
+        "layer/EditLayer-new.js",
         "layer/GuideLineLayer.js",
         "layer/GridLayer.js",
         "ajaxConstruct.js",
