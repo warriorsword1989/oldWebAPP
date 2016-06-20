@@ -635,7 +635,7 @@ form input[type='checkbox']:checked.ng-dirty {
 }
 
 .fm-console-content {
-    height: 170px;
+    height: 172px;
     overflow-y: auto;
     padding-left: 5px;
     padding-right: 5px;

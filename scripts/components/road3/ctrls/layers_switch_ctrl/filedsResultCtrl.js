@@ -330,6 +330,15 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
 
+                    } else if (pItemId === "1806") {//草图
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfOfGJ= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
+
                     } else if (pItemId === "1901") {//道路名
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {

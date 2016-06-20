@@ -265,6 +265,9 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
                 break;
+            case "1801"://立交
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
             case "1803"://挂接
                 if($scope.dataTipsData.pcd){//有图片时，显示图片
                     $scope.pcd="../../images/road/hook/"+$scope.dataTipsData.pcd.substr(5,4)+".svg";
@@ -278,6 +281,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     }
                 }
 
+                break;
+            case "1806":    // 草图
                 break;
             case "1901"://道路名
                 $scope.nArrayData = $scope.dataTipsData.n_array;
@@ -367,9 +372,6 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 $scope.sceneOut = $scope.dataTipsData.o_array;
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
-                break;
-            case "1801"://立交
-                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
 
         }
