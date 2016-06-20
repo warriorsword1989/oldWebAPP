@@ -82,7 +82,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
     this.changeDataTipsState = function(param) {
         var defer = $q.defer();
         ajax.get("/fcc/tip/edit", {
-            parameter: JSON.stringify(param),
+            parameter: param,
             urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {

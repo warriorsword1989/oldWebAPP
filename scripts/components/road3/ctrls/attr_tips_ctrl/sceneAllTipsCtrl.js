@@ -5,8 +5,6 @@ var dataTipsApp = angular.module("app");
 dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLoad','dsRoad','dsFcc', function ($scope, $timeout, $ocLazyLoad, dsRoad, dsFcc) {
     //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();
-    //输出ctrl
-    var outPutCtrl = fastmap.uikit.OutPutController();
     //图层控制ctrl
     var layerCtrl = fastmap.uikit.LayerController();
     //属性编辑ctrl(解析对比各个数据类型)
@@ -267,6 +265,9 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
                 break;
+            case "1801"://立交
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
             case "1803"://挂接
                 if($scope.dataTipsData.pcd){//有图片时，显示图片
                     $scope.pcd="../../images/road/hook/"+$scope.dataTipsData.pcd.substr(5,4)+".svg";
@@ -280,6 +281,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     }
                 }
 
+                break;
+            case "1806":    // 草图
                 break;
             case "1901"://道路名
                 $scope.nArrayData = $scope.dataTipsData.n_array;
@@ -369,9 +372,6 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 $scope.sceneOut = $scope.dataTipsData.o_array;
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
-                break;
-            case "1801"://立交
-                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
 
         }
@@ -498,10 +498,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                         "type": data.errmsg,
                         "pid": data.errid
                     }];
-                    outPutCtrl.pushOutput(info);
-                    if (outPutCtrl.updateOutPuts !== "") {
-                        outPutCtrl.updateOutPuts();
-                    }
+                    $scope.$emit('getConsoleInfo',info);
                     return;
                 }
                 var pid = data.data.log[0].pid;
@@ -583,10 +580,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     }];
                     swal("操作失败", data.errmsg, "error");
                 }
-                outPutCtrl.pushOutput(info);
-                if (outPutCtrl.updateOutPuts !== "") {
-                    outPutCtrl.updateOutPuts();
-                }
+                $scope.$emit('getConsoleInfo',info);
             });
         } else if ($scope.dataTipsData.s_sourceType === "1201") {//道路种别
             var info=null;
@@ -626,10 +620,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-                    outPutCtrl.pushOutput(info);
-                    if (outPutCtrl.updateOutPuts !== "") {
-                        outPutCtrl.updateOutPuts();
-                    }
+                    $scope.$emit('getConsoleInfo',info);
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
@@ -695,10 +686,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     //弹出提示框
                     swal("操作失败",data.errmsg, "error");
                 }
-                outPutCtrl.pushOutput(info);
-                if (outPutCtrl.updateOutPuts !== "") {
-                    outPutCtrl.updateOutPuts();
-                }
+                $scope.$emit('getConsoleInfo',info);
                 $scope.rowkey = undefined;
             })
         }

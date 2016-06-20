@@ -2,6 +2,7 @@ fastmap.uikit.canvasFeature = {};
 fastmap.uikit.canvasFeature.Feature = L.Class.extend({
     geometry: null,
     properties: null,
+    featArr:[],
     initialize: function(data) {
         this.geometry = {};
         this.properties = {};
@@ -91,6 +92,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                         list.concat(tmp);
                     }
                 }
+            }
+            if(fastmap.uikit.canvasFeature.Feature.featArr){
+                list.concat(fastmap.uikit.canvasFeature.Feature.featArr);
             }
             return list;
         },
