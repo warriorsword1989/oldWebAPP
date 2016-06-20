@@ -32,7 +32,8 @@ requirejs.config({
 		'EditorCtl': 'apps/imeep/editor/editorCtl',
 		//'sceneLayerCtr': 'scripts/components/road3/ctrls/layer_switch_ctr/sceneLayersCtrl',
 		'layers': "apps/imeep/editor/layerConfig",
-		'keyPressFunctions':'apps/imeep/editor/hotKeyEvent'
+		'keyPressFunctions':'apps/imeep/editor/hotKeyEvent',
+		'z-tree':'scripts/libs/z-tree/jquery.ztree.all'
 	},
 	shim: {
 		'angular': {exports: 'angular'},
@@ -56,6 +57,7 @@ requirejs.config({
 		'timepicki':['jquery','angular'],
 		'bootspopover':['jquery'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService','roadService'],
+		'z-tree':['jquery'],
 		'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService','fccService','roadService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','bootspopover'],
 	}
 });
