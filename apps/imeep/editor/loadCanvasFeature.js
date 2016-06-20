@@ -33,11 +33,17 @@
         "TipsNomalRestriction.js",
         "TipsRoadTypes.js",
         "TipsRoadNames.js",
+        "TipsRoadName1.js",
+        "TipsRoadName.js",
         "TipsLink.js",
+        "TipsLink1.js",
+        "TipsLinks.js",
         "TipsRoadDirection.js",
         "Tips3DBranch.js",
         "TipsBridge.js",
+        "TipsBridges.js",
         "TipsMaintenance.js",
+        "TipsMaintenances.js",
         "TipsGSC.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order

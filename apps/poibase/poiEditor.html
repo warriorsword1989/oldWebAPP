@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div ui-layout-container>
-                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
+                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}" class="fm-no-scroll">
                     <div class="fm-container fm-col dark scroll-styled" ui-layout-container size="250px" min-size="250px">
                         <div class="title"><i class="glyphicon glyphicon-list"></i> POI数据</div>
                         <div class="fm-tabs">
@@ -99,11 +99,9 @@
                         </div>
                         <div class="fm-foldable fm-col" style="width: 300px;" ng-style="{'right':{true: '0px', false: '-285px', 'none': '-300px'}[attrPanelOpened]}" ng-init="attrPanelOpened=true">
                             <div class="fm-fold-btn">
-                                <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[attrPanelOpened]" ng-click="attrPanelOpened=!attrPanelOpened">
-
-                                </a>
+                                <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[attrPanelOpened]" ng-click="attrPanelOpened=!attrPanelOpened"></a>
                             </div>
-                            <div class="fm-container fm-col fm-lvl1" style="width:100%;">
+                            <div class="fm-container fm-col fm-lvl1 scroll-styled" style="width:285px;">
                                 <div class="title"><i class="glyphicon glyphicon-edit"></i> POI属性</div>
                                 <div class="fm-tabs">
                                     <a href="#" ng-class="{'tab': true, 'active': propertyType == 'base'}" ng-click="changeProperty('base')">基本属性</a>
@@ -405,17 +403,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fm-foldable fm-row" style="height: 200px;width:auto;" ng-style="{'bottom':{true: '0px', false: '-185px', 'none': '-200px'}[outputPanelOpened], right: {true: '300px', false: '0px', 'none': '0px'}[attrPanelOpened]}" ng-init="outputPanelOpened=true">
+                        <div class="fm-foldable fm-row" style="height: 200px;width: auto;left: 5px;" ng-style="{'bottom':{true: '0px', false: '-185px', 'none': '-200px'}[outputPanelOpened], right: {true: '360px', false: '0px', 'none': '0px'}[attrPanelOpened]}" ng-init="outputPanelOpened=true">
                             <div class="fm-fold-btn">
-                                <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[outputPanelOpened]" ng-click="outputPanelOpened=!outputPanelOpened"></a>
+                                <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[outputPanelOpened]" ng-click="outputPanelOpened=!outputPanelOpened">
+                                </a>
                             </div>
-                            <div class="fm-container fm-row fm-lvl1" style="height:100%;">
+                            <div class="fm-container fm-row fm-lvl1 scroll-styled" style="height:185px;">
                                 <div class="fm-tabs">
                                     <a href="#" ng-class="{'tab': true, 'active': outputType == 1}" ng-click="changeOutput(1)">检查结果</a>
                                     <a href="#" ng-class="{'tab': true, 'active': outputType == 2}" ng-click="changeOutput(2)">冲突检测</a>
                                     <a href="#" ng-class="{'tab': true, 'active': outputType == 3}" ng-click="changeOutput(3)">操作履历</a>
                                 </div>
-                                <div class="content">
+                                <div class="content" style="padding: 5px;">
                                     <div ng-show="outputType==1 || outputType==2">
                                         <table class="table table-bordered table-condensed" style="color:#fff;margin-bottom:0px;">
                                             <thead>

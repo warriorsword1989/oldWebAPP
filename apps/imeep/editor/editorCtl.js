@@ -526,10 +526,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 					dbId: 42,
 					command: 'UPDATE',
 					type: 'IXPOI',
-					pid: $scope.poi.pid,
+					objId: $scope.poi.pid,
 					data: change
 				};
-				data.pid = $scope.poi.pid;
 				dsRoad.editGeometryOrProperty(param).then(function(data) {
 					swal("操作成功!", "", "success");
 					$scope.$broadcast('getConsoleInfo', data); //显示输出结果
@@ -540,16 +539,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 			eventController.fire(eventController.eventTypes.SAVEPROPERTY);
 		}
 	};
-	/**
-	 * 保存POI
-	 * @param callback
-	 */
-	var savePoi = function(callback) {
-		//此处调用接口暂时省略
-		if (callback) {
-			callback();
-		}
-	};
+
 	/**
 	 * 删除数据
 	 */
