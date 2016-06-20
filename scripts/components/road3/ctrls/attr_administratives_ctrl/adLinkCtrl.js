@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-var adLinkApp = angular.module("mapApp");
+var adLinkApp = angular.module("app");
 adLinkApp.controller("adLinkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();

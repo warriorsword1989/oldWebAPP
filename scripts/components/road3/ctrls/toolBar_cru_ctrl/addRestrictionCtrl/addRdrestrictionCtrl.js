@@ -1,8 +1,8 @@
 /**
  * Created by zhaohang on 2016/5/6.
  */
-var rdRestrictionApp = angular.module("mapApp");
-rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+var rdRestrictionApp = angular.module("app");
+rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoad','appPath', function ($scope, $ocLazyLoad, appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -18,8 +18,8 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     $scope.highFeatures = [];
     var changedDirectObj = {
         "loadType": "subAttrTplContainer",
-        "propertyCtrl": 'components/road/ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
-        "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
+        "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
+        "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
 

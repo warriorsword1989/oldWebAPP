@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor-road.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/z-tree/css/zTreeStyle.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
@@ -68,9 +69,10 @@
                             </div>
                             <div id="zoomLevelBar" class="div_float"></div>
                         </div>
-                        <div class="fm-foldable fm-col" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[hideEditorPanel]}">
+                        <!--右侧属性编辑面板-->
+                        <div class="fm-foldable fm-col" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">
                             <div class="fm-fold-btn">
-                                <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[hideEditorPanel]" ng-click="hideEditorPanel=!hideEditorPanel">
+                                <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[editorPanelOpened]" ng-click="editorPanelOpened=!editorPanelOpened">
                                 </a>
                             </div>
                             <div class="fm-container fm-col fm-lvl1" style="width:300px;">
@@ -97,10 +99,10 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- 次属性片段 -->
-                        <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
+                        <!-- 二级属性片段 -->
+                        <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendPanelOpened]">
                             <div id="tkclosediv" style="margin-top: -20px">
-                                <button ng-click="changeSuspendShow()" type="button" class="btn btn-xs ">
+                                <button ng-click="closeSuspendPanel()" type="button" class="btn btn-xs ">
                                 <a href="#" data-toggle="tab" style="font-size: 10px;">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
                                 </a>
@@ -109,8 +111,15 @@
                             <div  ng-include="subAttrTplContainer" class="scroll-styled blackTheme" style="overflow-y: auto;height: 100%;">
                             </div>
                         </div>
-                        <div ng-class="{'fm-console-panel fm-option-bar':true,'fm-console-hide':hideConsole,'fm-console-whole-width':wholeWidth}">
-                            <div ng-include="consoleDeskTpl"></div>
+                        <!--下方输出信息面板-->
+                        <div class="fm-foldable fm-row" style="height: 255px;left: 5px;width: auto;" ng-style="{'bottom':{true: '0px', false: '-240px'}[consolePanelOpened], right: {true: '305px', false: '5px', 'none': '5px'}[editorPanelOpened]}">
+                            <div class="fm-fold-btn">
+                                <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[consolePanelOpened]" ng-click="consolePanelOpened=!consolePanelOpened">
+                                </a>
+                            </div>
+                            <div class="fm-container fm-row fm-lvl2" style="height:240px;">
+                                <div ng-include="consoleDeskTpl"></div>
+                            </div>
                         </div>
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[showPopoverTips]">
                             <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>

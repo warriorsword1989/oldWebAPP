@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/2/29.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
+namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationdata");
@@ -52,8 +52,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     $scope.getArrowPic = function (id) {
         var params = {
             "id": id + ''
-        }
-        return Application.functions.getArrowImg(JSON.stringify(params));
+        };
+        return dsMeta.getArrowImg(JSON.stringify(params));
     }
     /*点击翻页*/
     $scope.goPaging = function () {
@@ -86,7 +86,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             "pageNum": $scope.picPageNum,
             "pageSize": 6
         };
-        Application.functions.getArrowImgGroup(JSON.stringify(params), function (data) {
+        dsMeta.getArrowImgGroup(params).then(function (data) {
             if (data.errcode == 0) {
                 if (data.data.total == 0) {
                     $scope.loadText = '搜不到数据';
@@ -347,11 +347,11 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     $scope.showDetail = function (type) {
         var tempCtr = '', tempTepl = '';
         if (type == 0) {  //名称信息
-            tempCtr = 'scripts/components/road/ctrls/attr_branch_ctrl/nameInfoCtrl';
-            tempTepl = '../../../scripts/components/road3/tpls/attr_branch_Tpl/nameInfoTepl.html';
+            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/nameInfoCtrl';
+            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/nameInfoTepl.html';
         } else {  //经过线
-            tempCtr = 'scripts/components/road/ctrls/attr_branch_ctrl/passlineCtrl';
-            tempTepl = '../../../scripts/components/road3/tpls/attr_branch_Tpl/passlineTepl.html';
+            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
+            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }
         var detailInfo = {
             "loadType": "subAttrTplContainer",
@@ -368,7 +368,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             $scope.initializeData();
             $scope.initDiver();
         } else {
-            Application.functions.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH", function (data) {
+            dsRoad.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH").then(function (data) {
                 if (data.errcode == 0) {
                     $scope.diverObj = data.data;
                     objCtrl.setCurrentObject($scope.diverObj);
@@ -393,7 +393,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
-        param.projectId = Application.projectid;
+        param.dbId = App.Temp.dbId;
         param.data = objCtrl.changedProperty;
         /*解决linkPid报错*/
         if (param.data.details) {
@@ -409,7 +409,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+        dsRoad.editGeometryOrProperty(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
             var info = null;
@@ -447,10 +447,10 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         var param = {
             "command": "DELETE",
             "type": "RDBRANCHDETAIL",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": $scope.diverObj.details[0].pid
         };
-        Application.functions.saveBranchInfo(JSON.stringify(param), function (data) {
+        dsRoad.saveBranchInfo(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
             if (data.errcode == 0) {
@@ -478,4 +478,4 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initDiver);
-})
+}])

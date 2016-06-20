@@ -78,9 +78,9 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             objCtrl.setCurrentObject(type, data.data);
             var options = {
                 "loadType": 'attrTplContainer',
-                "propertyCtrl": "components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-                "propertyHtml": "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-            }
+                "propertyCtrl": "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl",
+                "propertyHtml": "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html"
+            };
             $scope.$emit("transitCtrlAndTpl", options);
         });
     }
@@ -196,6 +196,12 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
                 $scope.fData = $scope.dataTipsData.f;
                 $scope.time = $scope.dataTipsData.time;
+                break;
+            case "1205"://SA
+                $scope.fData = $scope.dataTipsData.f;
+                break;
+            case "1206"://PA
+                $scope.fData = $scope.dataTipsData.f;
                 break;
             case "1301"://车信
                 $scope.oarrayData = $scope.dataTipsData.o_array;
@@ -428,8 +434,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType":"tipsPitureContainer",
-            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/tipsPictureCtrl",
-            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/tipsPictureTpl.html"
+            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/tipsPictureCtrl",
+            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/tipsPictureTpl.html"
         };
         $scope.$emit("transitCtrlAndTpl", openOriginObj);
     };
