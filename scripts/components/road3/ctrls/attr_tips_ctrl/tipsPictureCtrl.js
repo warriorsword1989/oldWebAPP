@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/31.
  */
 
-var tipsPictureApp = angular.module("mapApp");
+var tipsPictureApp = angular.module("app");
 tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.eventController = fastmap.uikit.EventController();
