@@ -151,7 +151,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     /*接收全屏请求*/
     $scope.$on('showRoadFullScreen',function(event,data){
         $scope.roadFullScreen = true;
-        console.log($scope.roadFullScreen)
     });
     /*切换POI时进行保存提醒*/
     var changePoi = function(callback) {
