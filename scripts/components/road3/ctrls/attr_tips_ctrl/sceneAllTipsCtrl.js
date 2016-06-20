@@ -313,9 +313,10 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 ];
                 break;
             case "1703":
-                $scope.fData = {'id':'121212'};
-            case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
+
+            case "1704"://交叉路口
+                //$scope.fData = $scope.dataTipsData;
                 break;
             case "1801"://立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;

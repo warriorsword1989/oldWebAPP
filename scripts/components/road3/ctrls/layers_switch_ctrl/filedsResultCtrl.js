@@ -412,18 +412,17 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
 
                     } else if (pItemId === "1703") {//分叉口提示
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
-                        var ctrlAndTplOfCross={
+                        var ctrlAndTplOfForks={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
-                                if (data.f_array.length > 0) {
-                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                                if (data.id) {
+                                    $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                         }
-                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
-
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfForks);
 
                     }  else if (pItemId === "1704") {//交叉路口
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
