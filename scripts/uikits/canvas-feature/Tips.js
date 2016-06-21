@@ -91,7 +91,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                         if (FM.Util.isObject(tmp)) {
                             list.push(tmp);
                         } else if (FM.Util.isArray(tmp)) {
-                            list.concat(tmp);
+                            list = list.concat(tmp);
                         }
                     }
                 }
@@ -105,7 +105,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     if (FM.Util.isObject(tmp)) {
                         list.push(tmp);
                     } else if (FM.Util.isArray(tmp)) {
-                        list.concat(tmp);
+                        list = list.concat(tmp);
                     }
                 }
             }

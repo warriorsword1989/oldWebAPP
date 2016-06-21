@@ -501,7 +501,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-                dsRoad.getRdObjectById(id, type).then(function (data) {
+                dsRoad.getRdObjectById(id, type, selectedData.detailid).then(function (data) {
                     if (data.errcode === -1) {
                         return;
                     }
@@ -523,7 +523,7 @@ filedsModule.controller('FieldsResultController', ['$rootScope', '$scope', '$ocL
                         "propertyHtml": tpl
                     }
                     $scope.$emit("transitCtrlAndTpl", options);
-                }, selectedData.detailid);
+                });
             }
             $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
                 var ctrlAndTplParams = {
