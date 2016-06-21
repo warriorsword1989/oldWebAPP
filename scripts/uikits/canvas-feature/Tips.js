@@ -46,6 +46,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1402://Real sign
                     ret = new fastmap.uikit.canvasTips.TipsRealSign(item);
                     break;
+                case 1406://实景图
+                    ret = new fastmap.uikit.canvasTips.TipsJVCBranch(item);
+                    break;
                 case 1407://高速分歧
                     ret = new fastmap.uikit.canvasTips.TipsGSBranch(item);
                     break;

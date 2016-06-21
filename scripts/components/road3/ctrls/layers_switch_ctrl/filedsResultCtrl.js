@@ -327,6 +327,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             }
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRoadClass);
+                    }else if (pItemId === "1406") {//实景图
+                        map.setViewt([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                     }else if (pItemId === "1407") {//高速分歧
                         map.setViewt([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
