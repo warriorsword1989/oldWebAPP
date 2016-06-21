@@ -348,7 +348,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         var ctrlAndTplOfD= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.t_lifecycle != 3) { //3表示新增
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH",appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl",appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                                }
+                            }
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1501") {//上下线分离
@@ -440,13 +445,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         var ctrlAndTplOfForks={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                            callback:function(){
-                                if (data.id) {
-                                    $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
-                                }
-                            }
+                            "propertyCtrl":appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            // callback:function(){
+                            //     if (data.id) {
+                            //         $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                            //     }
+                            // }
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfForks);
 

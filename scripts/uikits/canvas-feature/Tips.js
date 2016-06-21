@@ -58,6 +58,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1604://区域内道路
                     ret = new fastmap.uikit.canvasTips.TipsRegionRoad(item);
                     break;
+                case 1703://分叉路口提示
+                    ret = new fastmap.uikit.canvasTips.TipsRoadCrossProm(item);
+                    break;
                 case 1704://交叉路口
                     ret = fastmap.uikit.canvasTips.TipsRoadCross(item);
                     break;
@@ -87,6 +90,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1403://3d分歧
                     ret = new fastmap.uikit.canvasTips.Tips3DBranch(item);
+                    break;
+                case 1405://一般道路方面
+                    ret = new fastmap.uikit.canvasTips.TipsNormalRoadSide(item);
                     break;
                 case 1510://桥
                     ret = new fastmap.uikit.canvasTips.TipsBridges(item);

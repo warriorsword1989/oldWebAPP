@@ -25,7 +25,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.schematics = [];
         if (data["schematics"].length > 0) {
             for (var i = 0; i < data["schematics"].length; i++) {
-                var schemtic = fastmap.dataApi.rdBranchSchematic(data["schematics"][i]);
+                var schemtic = new fastmap.dataApi.RdBranchSchematic(data["schematics"][i]);
                 this.schematics.push(schemtic);
             }
         }
@@ -33,7 +33,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.seriesbranches = [];
         if (data["seriesbranches"].length > 0) {
             for (var i = 0; i < data["seriesbranches"].length; i++) {
-                var seriesBranch = fastmap.dataApi.rdBranchSeriesBranch(data["seriesbranches"][i]);
+                var seriesBranch = new fastmap.dataApi.RdBranchSeriesBranch(data["seriesbranches"][i]);
                 this.seriesbranches.push(seriesBranch);
             }
         }
@@ -41,7 +41,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.signasreals = [];
         if (data["signasreals"].length > 0) {
             for (var i = 0; i < data["signasreals"].length; i++) {
-                var signasReal = fastmap.dataApi.rdBranchSignAsreal(data["signasreals"][i]);
+                var signasReal = fastmap.dataApi.RdBranchSignAsreal(data["signasreals"][i]);
                 this.signasreals.push(signasReal);
             }
         }
@@ -49,7 +49,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.signboards = [];
         if (data["signboards"].length > 0) {
             for (var i = 0; i < data["signboards"].length; i++) {
-                var signBoard = fastmap.dataApi.rdBranchSignBoard(data["signboards"][i]);
+                var signBoard = new fastmap.dataApi.RRdBranchSignBoard(data["signboards"][i]);
                 this.signboards.push(signBoard);
             }
         }
@@ -57,7 +57,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.vias = [];
         if (data["vias"].length > 0) {
             for (var i = 0; i < data["vias"].length; i++) {
-                var via = fastmap.dataApi.rdBranchVia(data["vias"][i]);
+                var via = new fastmap.dataApi.RdBranchVia(data["vias"][i]);
                 this.vias.push(via);
             }
         }
@@ -65,7 +65,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.details = [];
         if (data["details"].length > 0) {
             for (var i = 0; i < data["details"].length; i++) {
-                var detail = fastmap.dataApi.rdBranchDetail(data["details"][i]);
+                var detail = new fastmap.dataApi.RdBranchDetail(data["details"][i]);
                 this.details.push(detail);
             }
         }
