@@ -412,7 +412,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     ctx: ctx,
                                     geo: geom.coordinates,
                                     text: icons[item].text,
-                                    font: 'bold 15px Courier New',
+                                    font: 'bold 13px Courier New',
                                     rotate: icons[item].rotate ? icons[item].rotate : "",
                                     align: 'center',
                                     drawx: icons[item].column * icons[item].dx,

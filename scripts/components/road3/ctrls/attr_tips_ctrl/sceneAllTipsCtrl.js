@@ -153,6 +153,37 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
+            case "1107"://收费站
+                $scope.TollType = [
+                    {"id": 0, "label": "未调查"},
+                    {"id": 1, "label": "领卡"},
+                    {"id": 2, "label": "交卡付费"},
+                    {"id": 3, "label": "固定收费(次费)"},
+                    {"id": 4, "label": "交卡付费后再领卡"},
+                    {"id": 5, "label": "交卡付费并代收固定费用"},
+                    {"id": 6, "label": "验票(无票收费)值先保留"},
+                    {"id": 7, "label": "领卡并代收固定费用"},
+                    {"id": 8, "label": "持卡打标识不收费"},
+                    {"id": 9, "label": "验票领卡"},
+                    {"id": 10, "label": "交卡不收费"}
+                ];
+                for (var i in $scope.TollType) {
+                    if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
+                        $scope.tp = $scope.TollType[i].label;
+                    }
+                }
+                $scope.TollETC = $scope.dataTipsData.etc.join(',');
+                $scope.TollLoc = [
+                    {"id": 0, "label": "未调查"},
+                    {"id": 1, "label": "否"},
+                    {"id": 2, "label": "是"}
+                ];
+                for (var i in $scope.TollLoc) {
+                    if ($scope.TollLoc[i].id == $scope.dataTipsData.loc) {
+                        $scope.loc = $scope.TollLoc[i].label;
+                    }
+                }
+                break;
             case "1201"://道路种别
                 $scope.returnKindType = function (code) {
                     switch (code) {
@@ -253,11 +284,10 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             case "1402"://real sign
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
-                if ($scope.dataTipsData.in.type == 1) {
-                    $scope.drs = "双方向";
-                } else {
-                    $scope.drs = "单方向";
-                }
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                /*底图号码*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
             case "1403"://3D
                 /*进入*/
@@ -276,9 +306,16 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             case "1406"://实景图
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
-                /*模式图号*/
+                /*实景图代码*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
-                $scope.scheName=$scope.dataTipsData.name;
+	            /*实景图类型*/
+	            if($scope.dataTipsData.tp == 1){
+					$scope.schemaType = "普通路口";
+	            }else if ($scope.dataTipsData.tp == 3){
+		            $scope.schemaType = "高速入口";
+	            }else{
+		            $scope.schemaType = "高速出口";
+	            }
                 /*退出*/
                 $scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array,function(i,v){
@@ -345,6 +382,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 ];
                 break;
             case "1703":
+                //$scope.sceneEnty =
                 $scope.fData = $scope.dataTipsData;
 
             case "1704"://交叉路口
