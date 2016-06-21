@@ -26,11 +26,13 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
     setAttribute: function() {},
     statics: {
         create: function(item) {
-            console.info(item.t);
             var ret = null;
             switch (item.t) {
                 case 1101://限速
                     ret = new fastmap.uikit.canvasTips.TipsRestriction(item);
+                    break;
+                case 1107://收费站
+                    ret = new fastmap.uikit.canvasTips.TipsTollGate(item);
                     break;
                 case 1109://电子眼
                     ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
@@ -151,6 +153,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
             icon["dy"] = options.dy || "";
             icon["scalex"] = options.scalex || 1;
             icon["scaley"] = options.scaley || 1;
+            icon["text"] = options.text || "";
             return icon;
         }
     }

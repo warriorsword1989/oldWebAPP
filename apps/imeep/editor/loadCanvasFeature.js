@@ -56,7 +56,8 @@
         "TipsOrientation.js",
         "TipsSketch.js",
         "TipSelectroniceye.js",
-        "TipsJVCBranch.js"
+        "TipsJVCBranch.js",
+        "TipsTollGate.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

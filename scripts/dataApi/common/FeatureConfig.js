@@ -84,8 +84,8 @@ fastmap.dataApi.FeatureConfig = {
 	},
 	1407:{
 		name:'高速分歧',
-		ctl:'',
-		tpl:''
+		ctl:'scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl',
+		tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html'
 	},
 	1409:{
 		name:'普通路口模式图',

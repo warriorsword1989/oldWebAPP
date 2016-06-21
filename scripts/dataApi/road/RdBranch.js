@@ -49,7 +49,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.signboards = [];
         if (data["signboards"].length > 0) {
             for (var i = 0; i < data["signboards"].length; i++) {
-                var signBoard = new fastmap.dataApi.RRdBranchSignBoard(data["signboards"][i]);
+                var signBoard = new fastmap.dataApi.RdBranchSignBoard(data["signboards"][i]);
                 this.signboards.push(signBoard);
             }
         }

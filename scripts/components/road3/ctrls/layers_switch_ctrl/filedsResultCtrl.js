@@ -233,6 +233,15 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                    }else if (pItemId === "1107") {//收费站
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfDirect={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
+
                     } else if (pItemId === "1203") {//道路方向
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfDirect={
@@ -263,7 +272,6 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f) {
-                                    console.log(data.f.id)
                                     $scope.getFeatDataCallback(data,data.f.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
                                 }
                             }
@@ -294,8 +302,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
-                                if (data.in) {
-                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
                         };
