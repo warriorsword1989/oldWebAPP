@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/2/29.
  */
 var namesOfCross = angular.module("app");
-namesOfCross.controller("namesController",function($scope) {
+namesOfCross.controller("namesController",['$scope','dsRoad',function($scope,dsRoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.names = objCtrl.data.names;
     $scope.langCodeOptions = [
@@ -59,18 +59,31 @@ namesOfCross.controller("namesController",function($scope) {
         var param = {
             "word": name
         }
-        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$apply();
-            if (data.errcode == 0) {
-                $.each( $scope.names, function (i, v) {
-                    if (v.nameGroupid == id) {
-                        v.phonetic = data.data.phonetic;
-                    }
-                });
-                $scope.$apply();
-            } else {
-                swal("查找失败", "问题原因：" + data.errmsg, "error");
-            }
+//        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
+//            $scope.$apply();
+//            if (data.errcode == 0) {
+//                $.each( $scope.names, function (i, v) {
+//                    if (v.nameGroupid == id) {
+//                        v.phonetic = data.data.phonetic;
+//                    }
+//                });
+//                $scope.$apply();
+//            } else {
+//                swal("查找失败", "问题原因：" + data.errmsg, "error");
+//            }
+//        });
+        dsRoad.getNamePronunciation(JSON.stringify(param)).then(function(data){
+        	$scope.$apply();
+          if (data.errcode == 0) {
+              $.each( $scope.names, function (i, v) {
+                  if (v.nameGroupid == id) {
+                      v.phonetic = data.data.phonetic;
+                  }
+              });
+              $scope.$apply();
+          } else {
+              swal("查找失败", "问题原因：" + data.errmsg, "error");
+          }
         });
     }
     $scope.minusrdCrossName = function (id) {
@@ -92,4 +105,4 @@ namesOfCross.controller("namesController",function($scope) {
         var newName = fastmap.dataApi.rdCrossName({nameGroupid: maxNum + 1});
         $scope.names.unshift(newName);
     }
-})
+}])
