@@ -599,7 +599,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        if(selectedData.t_lifecycle&&selectedData.t_lifecycle){
+        if (selectedData.t_lifecycle && selectedData.t_lifecycle == 3) {
             return;
         }
         dsRoad.getRdObjectById(id, type, selectedData.id).then(function (data) {
