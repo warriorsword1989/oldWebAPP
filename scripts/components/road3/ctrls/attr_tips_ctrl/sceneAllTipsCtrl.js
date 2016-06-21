@@ -330,6 +330,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 ];
                 break;
             case "1703":
+                //$scope.sceneEnty =
                 $scope.fData = $scope.dataTipsData;
 
             case "1704"://交叉路口
