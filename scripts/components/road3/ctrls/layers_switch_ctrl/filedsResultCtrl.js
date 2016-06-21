@@ -295,21 +295,21 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
-                                if (data.in) {
-                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOrientation);
                     } else if(pItemId==="1402") {//real sign
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                        var ctrlAndTplOfRealSign= {
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                        var ctrlAndTplOfRealSign={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
-                                if (data.in) {
-                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
                         };
@@ -344,15 +344,10 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                    var JCVCtrlAndTpl={
-                                        propertyCtrl:"scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl",
-                                        propertyHtml:"../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html",
-                                    };
-                                    objCtrl.setCurrentObject('RDBRANCH',data.brID?data.brID[0].id:'');
-                                    $scope.$emit("transitCtrlAndTpl", JCVCtrlAndTpl);
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
-                        }
+                        };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfJCV);
                     }else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
@@ -362,7 +357,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         var ctrlAndTplOfD= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.t_lifecycle != 3) { //3表示新增
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH",appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl",appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                                }
+                            }
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1501") {//上下线分离
@@ -454,13 +454,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         var ctrlAndTplOfForks={
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                            callback:function(){
-                                if (data.id) {
-                                    $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
-                                }
-                            }
+                            "propertyCtrl":appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            // callback:function(){
+                            //     if (data.id) {
+                            //         $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                            //     }
+                            // }
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfForks);
 

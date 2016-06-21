@@ -22,7 +22,7 @@ adAdminZone.controller("adAdminLevelController",['$scope','dsRoad',function($sco
     dsRoad.getByCondition({"type":"ADADMINGROUP",
         "dbId": App.Temp.dbId,
         "data": {
-            "dbId":  App.Temp.dbId
+            "subTaskId":  33
         }}).then(function(data){
         	if (data.errcode === -1) {
                 return;

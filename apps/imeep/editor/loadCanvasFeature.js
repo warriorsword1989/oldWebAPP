@@ -45,6 +45,8 @@
         "TipsMaintenance.js",
         "TipsMaintenances.js",
         "TipsGSC.js",
+        "TipsRoadCrossProm.js",
+        "TipsNormalRoadSide.js",
         "TipsGSCPart.js",
         "TipsGSCMarker.js",
         "TipsNormalCross.js",

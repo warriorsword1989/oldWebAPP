@@ -34,4 +34,4 @@ fastmap.dataApi.RdBranchRealImage=fastmap.dataApi.GeoDataModel.extend({
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
-})
+});
