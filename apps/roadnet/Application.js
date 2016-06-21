@@ -3,7 +3,7 @@
  * Class Application
  */
 Application = {};
-Application.url = 'http://192.168.4.188:8000/service';
+Application.url = 'http://192.168.4.188/service';
 Application.tipsServer = "/fcc/tip";//
 Application.editServer = "/edit";
 Application.metaServer = "/metadata";
