@@ -47,7 +47,16 @@
         "TipsGSC.js",
         "TipsGSCPart.js",
         "TipsGSCMarker.js",
-        "TipsNormalCross.js"
+        "TipsNormalCross.js",
+        "TipsRoadSE.js",
+        "TipsRoadPE.js",
+        "TipsRealSign.js",
+        "TipsOrientation.js",
+        "TipsSketch.js",
+        "TipsRoadPE.js",
+        "TipsRoadPE.js",
+        "TipsRoadPE.js",
+        "TipsRoadPE.js",
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

@@ -31,8 +31,20 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1101://限速
                     ret = new fastmap.uikit.canvasTips.TipsRestriction(item);
                     break;
+                case 1205://SE
+                    ret = new fastmap.uikit.canvasTips.TipsRoadSE(item);
+                    break;
+                case 1206://PE
+                    ret = new fastmap.uikit.canvasTips.TipsRoadSE(item);
+                    break;
                 case 1301://车信
                     ret = new fastmap.uikit.canvasTips.TipsLaneConnexity(item);
+                    break;
+                case 1401://方向看板
+                    ret = new fastmap.uikit.canvasTips.TipsOrientation(item);
+                    break;
+                case 1402://Real sign
+                    ret = new fastmap.uikit.canvasTips.TipsRealSign(item);
                     break;
                 case 1407://高速分歧
                     ret = new fastmap.uikit.canvasTips.TipsGSBranch(item);
@@ -48,6 +60,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1803://挂接
                     ret = new fastmap.uikit.canvasTips.TipsConnect(item);
+                    break;
+                case 1806://草图
+                    ret = new fastmap.uikit.canvasTips.TipsSketch(item);
                     break;
                 case 1501://上下线分离
                     ret = new fastmap.uikit.canvasTips.TipsMultiDigitized(item);

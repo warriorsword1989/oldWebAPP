@@ -266,6 +266,12 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
+            case "1405"://3D
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出数组*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                break;
             case "1407"://高速分歧
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
@@ -323,8 +329,11 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                     {"type":3,"state":"新增"},
                 ];
                 break;
-            case "1704"://交叉路口
+            case "1703":
                 $scope.fData = $scope.dataTipsData;
+
+            case "1704"://交叉路口
+                //$scope.fData = $scope.dataTipsData;
                 break;
             case "1801"://立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
