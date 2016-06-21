@@ -17,7 +17,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.realimages = [];
         if (data["realimages"].length > 0) {
             for (var i = 0; i < data["realimages"].length; i++) {
-                var realImage = fastmap.dataApi.rdBranchRealImage(data["realimages"][i]);
+                var realImage = new fastmap.dataApi.RdBranchRealImage(data["realimages"][i]);
                 this.realimages.push(realImage);
             }
         }

@@ -70,7 +70,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             }
             $(".pic-pre").prop('disabled', false);
         }
-        $scope.$apply();
     }
     $scope.picNowNum = 0;
     $scope.getPicsDate = function () {
@@ -91,13 +90,11 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 if (data.data.total == 0) {
                     $scope.loadText = '搜不到数据';
                     $scope.pictures = [];
-                    $scope.$apply();
                 } else {
                     $(".pic-loading").hide();
                     $scope.pictures = data.data.data;
                     $scope.picTotal = Math.ceil(data.data.total / 6);
                     $scope.goPaging();
-                    $scope.$apply();
                 }
             }
         });

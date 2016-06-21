@@ -484,53 +484,29 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
+                                <span  class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
 
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="sceneEnty.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty.substring(0,6)+'...'" title="{{sceneEnty}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="sceneEnty.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty" title="{{sceneEnty}}"></span>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
                             </div>
                         </div>
-
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="drs"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
+                            <div class="col-sm-7">
+                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneExit">
+                                    <span class="label" ng-bind="item"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp;速&nbsp;值:</label>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">底图号码:</label>
 
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="drs">暂时</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="drs">暂时</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">方&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="drs">暂时</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">配对信息:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="drs">暂时</span>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="schemaNo"></span>
                             </div>
                         </div>
                     </form>
@@ -619,9 +595,10 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-
-                            <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label" ng-bind="item"></span>
+                            <div class="col-sm-7">
+                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneExit">
+                                    <span class="label" ng-bind="item"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
@@ -640,8 +617,10 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">出口编号:</label>
-                            <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
+                            <div class="col-sm-7">
+                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneExit">
+                                    <span class="label" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
+                                </div>
                             </div>
                         </div>
                     </form>

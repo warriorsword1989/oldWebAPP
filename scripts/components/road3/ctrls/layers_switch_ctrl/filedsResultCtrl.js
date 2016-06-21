@@ -293,14 +293,14 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOrientation);
                     } else if(pItemId==="1402") {//real sign
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                        var ctrlAndTplOfRealSign= {
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                        var ctrlAndTplOfRealSign={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
-                                if (data.in) {
-                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
                         };
@@ -335,15 +335,10 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                    var JCVCtrlAndTpl={
-                                        propertyCtrl:"scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl",
-                                        propertyHtml:"../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html",
-                                    };
-                                    objCtrl.setCurrentObject('RDBRANCH',data.brID?data.brID[0].id:'');
-                                    $scope.$emit("transitCtrlAndTpl", JCVCtrlAndTpl);
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
-                        }
+                        };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfJCV);
                     }else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
