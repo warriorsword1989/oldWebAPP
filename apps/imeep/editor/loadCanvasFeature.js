@@ -53,7 +53,8 @@
         "TipsRealSign.js",
         "TipsOrientation.js",
         "TipsSketch.js",
-        "TipsJVCBranch.js"
+        "TipsJVCBranch.js",
+        "TipsTollGate.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

@@ -153,6 +153,37 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
+            case "1107"://收费站
+                $scope.TollType = [
+                    {"id": 0, "label": "未调查"},
+                    {"id": 1, "label": "领卡"},
+                    {"id": 2, "label": "交卡付费"},
+                    {"id": 3, "label": "固定收费(次费)"},
+                    {"id": 4, "label": "交卡付费后再领卡"},
+                    {"id": 5, "label": "交卡付费并代收固定费用"},
+                    {"id": 6, "label": "验票(无票收费)值先保留"},
+                    {"id": 7, "label": "领卡并代收固定费用"},
+                    {"id": 8, "label": "持卡打标识不收费"},
+                    {"id": 9, "label": "验票领卡"},
+                    {"id": 10, "label": "交卡不收费"}
+                ];
+                for (var i in $scope.TollType) {
+                    if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
+                        $scope.tp = $scope.TollType[i].label;
+                    }
+                }
+                $scope.TollETC = $scope.dataTipsData.etc.join(',');
+                $scope.TollLoc = [
+                    {"id": 0, "label": "未调查"},
+                    {"id": 1, "label": "本省收费站"},
+                    {"id": 2, "label": "跨省收费站"}
+                ];
+                for (var i in $scope.TollLoc) {
+                    if ($scope.TollLoc[i].id == $scope.dataTipsData.loc) {
+                        $scope.loc = $scope.TollLoc[i].label;
+                    }
+                }
+                break;
             case "1201"://道路种别
                 $scope.returnKindType = function (code) {
                     switch (code) {
