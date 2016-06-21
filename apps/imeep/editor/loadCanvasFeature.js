@@ -55,6 +55,7 @@
         "TipsRealSign.js",
         "TipsOrientation.js",
         "TipsSketch.js",
+        "TipSelectroniceye.js",
         "TipsJVCBranch.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order

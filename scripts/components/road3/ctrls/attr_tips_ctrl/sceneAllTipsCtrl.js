@@ -153,6 +153,14 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
+            case "1109": //电子眼
+                $scope.tipsData = $scope.dataTipsData;
+                var dir = {"2":"顺方向","3":"逆方向"};
+                var type = {"1":"限速摄像头","13":"非机动车道摄像头","15":"公交车道摄像头","16":"禁止左/右转摄像头","20":"区间测速开始","21":"区间测速结束"};
+                $scope.type = type[$scope.dataTipsData.tp];
+                var loc = {"0":"未调查","1":"左","2":"右","4":"上"};
+                $scope.loc = loc[$scope.dataTipsData.loc];
+                break;
             case "1201"://道路种别
                 $scope.returnKindType = function (code) {
                     switch (code) {
@@ -344,9 +352,9 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 ];
                 break;
             case "1703":
-                //$scope.sceneEnty =
-                $scope.fData = $scope.dataTipsData;
-
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                $scope.sceneOut = $scope.dataTipsData.out;
+                break;
             case "1704"://交叉路口
                 //$scope.fData = $scope.dataTipsData;
                 break;
