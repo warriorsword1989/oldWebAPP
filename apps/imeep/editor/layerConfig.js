@@ -356,7 +356,7 @@ App.layersConfig = [{
             restrictZoom: 10,
             visible: true,
             requestType: "",
-            showNodeLevel: 17
+            showNodeLevel: 15
         }
     },
         {
