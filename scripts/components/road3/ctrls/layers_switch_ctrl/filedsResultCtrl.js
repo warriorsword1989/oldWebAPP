@@ -328,8 +328,23 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRoadClass);
                     }else if (pItemId === "1406") {//实景图
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                        var ctrlAndTplOfJCV={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                    var JCVCtrlAndTpl={
+                                        propertyCtrl:"scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl",
+                                        propertyHtml:"../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html",
+                                    };
+                                    objCtrl.setCurrentObject('RDBRANCH',data.brID?data.brID[0].id:'');
+                                    $scope.$emit("transitCtrlAndTpl", JCVCtrlAndTpl);
+                                }
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfJCV);
                     }else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
