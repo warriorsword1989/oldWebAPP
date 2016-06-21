@@ -159,7 +159,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
 
             layerCtrl.pushLayerFront('workPoint');//置顶editLayer
             //初始化选择tips的工具
-            map.currentTool = new fastmap.uikit.SelectDataTips({
+            map.currentTool = new fastmap.uikit.SelectTips({
                 map: map,
                 dataTipsFlag: true,
                 currentEditLayer: workPoint
@@ -323,7 +323,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
             case "TIPS":
                 $("#popoverTips").css("display", "block");
-                dsFcc.getTipsResult(data.id, function (result) {
+                dsFcc.getTipsResult(data.id).then(function (result) {
                     if (result.rowkey === "undefined") {
                         return;
                     }
