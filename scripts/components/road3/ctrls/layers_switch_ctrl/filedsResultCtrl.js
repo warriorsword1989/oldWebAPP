@@ -255,7 +255,6 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.f) {
-                                    console.log(data.f.id)
                                     $scope.getFeatDataCallback(data,data.f.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
                                 }
                             }
