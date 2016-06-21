@@ -306,9 +306,16 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
             case "1406"://实景图
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
-                /*模式图号*/
+                /*实景图代码*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
-                $scope.scheName=$scope.dataTipsData.name;
+	            /*实景图类型*/
+	            if($scope.dataTipsData.tp == 1){
+					$scope.schemaType = "普通路口";
+	            }else if ($scope.dataTipsData.tp == 3){
+		            $scope.schemaType = "高速入口";
+	            }else{
+		            $scope.schemaType = "高速出口";
+	            }
                 /*退出*/
                 $scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array,function(i,v){
