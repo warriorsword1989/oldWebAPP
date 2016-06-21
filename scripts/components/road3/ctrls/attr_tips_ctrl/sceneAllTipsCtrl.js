@@ -151,6 +151,7 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                         $scope.limitSrc = $scope.limitSrcOption[i].label;
                     }
                 }
+                $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
             case "1201"://道路种别
                 $scope.returnKindType = function (code) {
@@ -271,6 +272,20 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 $scope.sceneEnty = $scope.dataTipsData.in;
                 /*退出数组*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
+                break;
+            case "1406"://实景图
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
+                /*模式图号*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
+                $scope.scheName=$scope.dataTipsData.name;
+                /*退出*/
+                $scope.sceneExit = [];
+                $.each($scope.dataTipsData.o_array,function(i,v){
+                    if(v.out){
+                        $scope.sceneExit.push(v.out.id);
+                    }
+                });
                 break;
             case "1407"://高速分歧
                 /*进入*/
