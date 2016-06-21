@@ -45,6 +45,8 @@
         "TipsMaintenance.js",
         "TipsMaintenances.js",
         "TipsGSC.js",
+        "TipsRoadCrossProm.js",
+        "TipsNormalRoadSide.js",
         "TipsNormalCross.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
