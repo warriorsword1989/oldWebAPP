@@ -179,7 +179,8 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
     this.getArrowImgGroup = function(param) {
         var defer = $q.defer();
         ajax.get("metadata/patternImage/search", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
@@ -210,7 +211,8 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
     this.getNamePronunciation = function(param) {
         var defer = $q.defer();
         ajax.get("metadata/pinyin/convert", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify(param),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);

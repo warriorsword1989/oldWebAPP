@@ -16,7 +16,7 @@
         "controller/corectl/ToolTipsController.js",
         "controller/corectl/HighRenderController.js",
         "controller/corectl/EventController.js",
-        "controller/tools/selecttools/SelectDataTips.js",
+        "controller/tools/selecttools/SelectTips.js",
         "controller/tools/selecttools/SelectForRestriction.js",
         "controller/tools/selecttools/SelectNode.js",
         "controller/tools/selecttools/SelectPoi.js",

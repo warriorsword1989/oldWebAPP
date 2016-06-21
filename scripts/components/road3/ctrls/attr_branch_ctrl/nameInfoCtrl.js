@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 var braName = angular.module("app");
-braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
+braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
      $scope.nameGroup = [];
@@ -97,9 +97,8 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     $scope.diverName = function(id,name){
         var param = {
             "word":name
-        }
-        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$apply();
+        };
+        dsMeta.getNamePronunciation(param).then(function (data) {
             if(data.errcode == 0){
                 $.each($scope.details[0].names,function(i,v){
                     if(v.nameGroupid == id){
@@ -107,7 +106,6 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
                         v.voiceFile = data.data.voicefile;
                     }
                 });
-                $scope.$apply();
             }else{
                 swal("查找失败", "问题原因："+data.errmsg, "error");
             }

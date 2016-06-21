@@ -95,6 +95,10 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                                 scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                             })
                         });
+                        scope.$emit("SWITCHCONTAINERSTATE", {
+                            "attrContainerTpl": true,
+                            "subAttrContainerTpl": false
+                        });
                     }else{
                         if(shapeCtrl.editType==="pathBreak") {
                                 scope.$emit("SWITCHCONTAINERSTATE", {

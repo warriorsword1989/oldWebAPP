@@ -33,10 +33,10 @@
         "TipsNomalRestriction.js",
         "TipsRoadTypes.js",
         "TipsRoadNames.js",
-        "TipsRoadName1.js",
+        "TipsRoadNamePart.js",
         "TipsRoadName.js",
+        "TipsLinkPart.js",
         "TipsLink.js",
-        "TipsLink1.js",
         "TipsLinks.js",
         "TipsRoadDirection.js",
         "Tips3DBranch.js",
@@ -47,7 +47,15 @@
         "TipsGSC.js",
         "TipsRoadCrossProm.js",
         "TipsNormalRoadSide.js",
-        "TipsNormalCross.js"
+        "TipsGSCPart.js",
+        "TipsGSCMarker.js",
+        "TipsNormalCross.js",
+        "TipsRoadSE.js",
+        "TipsRoadPE.js",
+        "TipsRealSign.js",
+        "TipsOrientation.js",
+        "TipsSketch.js",
+        "TipsJVCBranch.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
