@@ -18,7 +18,7 @@ fastmap.uikit.canvasTips.TipsTollGate = fastmap.uikit.canvasTips.Tips.extend({
                     column: 3,
                     location: this.geometry['coordinates'],
                     rotate: (item.m.c - 90) * (Math.PI / 180),
-                    dx: 22,
+                    dx: 16,
                     dy: 7
                 }
             )

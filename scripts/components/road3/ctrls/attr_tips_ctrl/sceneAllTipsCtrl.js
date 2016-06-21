@@ -175,8 +175,8 @@ dataTipsApp.controller("sceneAllTipsController",['$scope','$timeout', '$ocLazyLo
                 $scope.TollETC = $scope.dataTipsData.etc.join(',');
                 $scope.TollLoc = [
                     {"id": 0, "label": "未调查"},
-                    {"id": 1, "label": "本省收费站"},
-                    {"id": 2, "label": "跨省收费站"}
+                    {"id": 1, "label": "否"},
+                    {"id": 2, "label": "是"}
                 ];
                 for (var i in $scope.TollLoc) {
                     if ($scope.TollLoc[i].id == $scope.dataTipsData.loc) {
