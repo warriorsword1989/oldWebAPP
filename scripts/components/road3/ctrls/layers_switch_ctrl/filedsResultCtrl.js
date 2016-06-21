@@ -286,8 +286,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
-                                if (data.in) {
-                                    $scope.getFeatDataCallback(data,data.in.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
                                 }
                             }
                         };
