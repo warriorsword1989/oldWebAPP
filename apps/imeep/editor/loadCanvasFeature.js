@@ -55,6 +55,7 @@
         "TipsRealSign.js",
         "TipsOrientation.js",
         "TipsSketch.js",
+        "TipSelectroniceye.js",
         "TipsJVCBranch.js",
         "TipsTollGate.js"
     ]; // etc.

@@ -34,6 +34,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1107://收费站
                     ret = new fastmap.uikit.canvasTips.TipsTollGate(item);
                     break;
+                case 1109://电子眼
+                    ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
+                    break;
                 case 1205://SE
                     ret = new fastmap.uikit.canvasTips.TipsRoadSE(item);
                     break;

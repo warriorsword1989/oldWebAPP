@@ -256,6 +256,14 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
 
+                    } else if (pItemId === "1109") {
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                        var ctrlAndTplOfSA= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        };
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
                     } else if(pItemId==="1205") {//SA
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfSA= {

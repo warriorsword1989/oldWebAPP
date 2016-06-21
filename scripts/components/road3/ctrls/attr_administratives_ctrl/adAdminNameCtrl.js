@@ -3,7 +3,7 @@
  */
 
 var otherApp = angular.module("app");
-otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazyLoad) {
+otherApp.controller("adAdminNameController",['$scope','dsRoad' ,function ($scope, dsRoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     $scope.indexName=0;
@@ -140,8 +140,22 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
         var param = {
             "word":name
         };
-        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$apply();
+//        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
+//            $scope.$apply();
+//            if(data.errcode == 0){
+//                $.each($scope.names,function(i,v){
+//                    if(v.nameGroupId == id){
+//                        v.phonetic = data.data.phonetic;
+//                        v.voiceFile = data.data.voicefile;
+//                    }
+//                });
+//                $scope.$apply();
+//            }else{
+//                swal("查找失败", "问题原因："+data.errmsg, "error");
+//            }
+//        });
+        dsRoad.getNamePronunciation(JSON.stringify(param)).then(function(data){
+        	$scope.$apply();
             if(data.errcode == 0){
                 $.each($scope.names,function(i,v){
                     if(v.nameGroupId == id){
@@ -153,7 +167,7 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
             }else{
                 swal("查找失败", "问题原因："+data.errmsg, "error");
             }
-        });
+        })
     }
     /*名称分类*/
     $scope.nameClassType = [
@@ -213,4 +227,4 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
     objectEditCtrl.updateObject=function() {
 
     }
-});
+}]);
