@@ -8,14 +8,37 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
-    var adLink = layerCtrl.getLayerById('adLink');
-    var adNode = layerCtrl.getLayerById('adnode');
-    var adFace = layerCtrl.getLayerById('adface');
+    var rwLink = layerCtrl.getLayerById('rwLink');
+    var rwNode = layerCtrl.getLayerById('rwNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.toolTipText = "";
+    /**
+     * 重新设置选择工具
+     */
+    $scope.resetToolAndMap = function () {
+        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+            map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+        }
+        //清空高亮
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+        //移除提示信息
+        if (tooltipsCtrl.getCurrentTooltip()) {
+            tooltipsCtrl.onRemoveTooltip();
+        }
+        //清空编辑图层和shapeCtrl
+        editLayer.drawGeometry = null;
+        shapeCtrl.stopEditing();
+        editLayer.bringToBack();
+        $(editLayer.options._div).unbind();
+        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+        editLayer.clear();
+    };
     $scope.selectRwShape = function (type, num) {
         //重置选择工具
         $scope.resetToolAndMap();
@@ -45,7 +68,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
-                    currentEditLayer: RWLINK,
+                    currentEditLayer: rwLink,
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
@@ -79,31 +102,75 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
-    /********************************************************************************************/
-    /**
-     * 重新设置选择工具
-     */
-    $scope.resetToolAndMap = function () {
-        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
-            map.currentTool.cleanHeight();
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-        }
-        //清空高亮
+    $scope.selectObjCallback = function (data) {
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
-        //移除提示信息
-        if (tooltipsCtrl.getCurrentTooltip()) {
-            tooltipsCtrl.onRemoveTooltip();
+        var ctrlAndTplParams = {
+            propertyCtrl: "",
+            propertyHtml: ""
+        }, toolsObj = null;
+        $scope.type = null;
+        switch (data.optype) {
+            case "RWNODE":
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "移动ADNODE点",
+                        'type': "PATHNODEMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_railway_ctrl/rwNodeCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_ctrl/rwNodeTpl.html";
+                $scope.type = "RWNODE";
+                break;
+            case "RWLINK":
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-plus'></a>",
+                        'title': "插入形状点",
+                        'type': 'PATHVERTEXINSERT',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-remove'></a>",
+                        'title': "删除形状点",
+                        'type': 'PATHVERTEXREMOVE',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "修改形状点",
+                        'type': 'PATHVERTEXMOVE',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                        'title': "打断link",
+                        'type': 'PATHBREAK',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_railway_ctrl/rwLinkCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_ctrl/rwLinkTpl.html";
+                $scope.type = "RWLINK";
+                break;
         }
-        //清空编辑图层和shapeCtrl
-        editLayer.drawGeometry = null;
-        shapeCtrl.stopEditing();
-        editLayer.bringToBack();
-        $(editLayer.options._div).unbind();
-        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-        editLayer.clear();
+        $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
+        if (!map.floatMenu && toolsObj) {
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.addLayer(map.floatMenu);
+            map.floatMenu.setVisible(true);
+        }
     };
+    /********************************************************************************************/
+
     /**
      * 悬浮按钮的点击事件方法
      * @param event
@@ -222,91 +289,6 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             $scope.$emit("transitCtrlAndTpl", options);
         });
     }
-    $scope.selectObjCallback = function (data) {
-        highRenderCtrl._cleanHighLight();
-        highRenderCtrl.highLightFeatures.length = 0;
-        var ctrlAndTplParams = {
-            propertyCtrl: "",
-            propertyHtml: ""
-        }, toolsObj = null;
-        $scope.type = null;
-        switch (data.optype) {
-            case "NODE":
-                toolsObj = {
-                    items: [{
-                        'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "移动ADNODE点",
-                        'type': "PATHNODEMOVE",
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }]
-                }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adNodeCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adNodeTpl.html";
-                $scope.type = "ADNODE";
-                break;
-            case "LINK":
-                if (map.floatMenu) {
-                    map.removeLayer(map.floatMenu);
-                    map.floatMenu = null;
-                }
-                toolsObj = {
-                    items: [{
-                        'text': "<a class='glyphicon glyphicon-plus'></a>",
-                        'title': "插入形状点",
-                        'type': 'PATHVERTEXINSERT',
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-remove'></a>",
-                        'title': "删除形状点",
-                        'type': 'PATHVERTEXREMOVE',
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "修改形状点",
-                        'type': 'PATHVERTEXMOVE',
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
-                        'title': "打断link",
-                        'type': 'PATHBREAK',
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }]
-                }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adLinkTpl.html";
-                $scope.type = "ADLINK";
-                break;
-            case "RDADMINNODE" :
-                toolsObj = {
-                    items: [{
-                        'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "移动行政区划代表点",
-                        'type': "ADADMINMOVE",
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }]
-                }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adAdminCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adAdminTpl.html";
-                $scope.type = "ADADMIN";
-                break;
-            case "ADFACE":
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adFaceCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adFaceTpl.html";
-                $scope.type = "ADFACE";
-                break;
-        }
-        $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
-        if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
-            map.addLayer(map.floatMenu);
-            map.floatMenu.setVisible(true);
-        }
-    };
+
 
 }])
