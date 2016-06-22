@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/10.
  */
-var errorCheckModule = angular.module('mapApp');
-errorCheckModule.controller('errorCheckPageController', function ($scope) {
+var errorCheckModule = angular.module('app');
+errorCheckModule.controller('errorCheckPageController', ['$scope','dsRoad',function ($scope,dsRoad) {
     var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
     $scope.itemsByPage = 1;
@@ -15,7 +15,21 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             "pageSize": 5,
             "grids": $scope.meshesId
         };
-        Application.functions.getCheckData(JSON.stringify(param), function (data) {
+//        Application.functions.getCheckData(JSON.stringify(param), function (data) {
+//            if (data.errcode == 0) {
+//                checkResultC.setCheckResult(data.data);
+//                //获取数据并打开页面
+//                var errorCheckObj = {
+//                    "loadType": "errorCheckTab",
+//                    "propertyCtrl": 'components/road/ctrls/log_show_ctrl/errorCheckCtrl',
+//                    "propertyHtml": '../../scripts/components/road/tpls/log_show_tpl/errorCheckTpl.html'
+//                };
+//                $scope.$emit("transitCtrlAndTpl", errorCheckObj);
+//                $scope.goPaging();
+//                $scope.$apply();
+//            }
+//        });
+        dsRoad.getCheckData(JSON.stringify(param)).then(function(data){
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
                 //获取数据并打开页面
@@ -37,8 +51,15 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             "projectId": Application.projectid,
             "grids": $scope.meshesId
         };
-        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
-            if (data.errcode == 0) {
+//        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
+//            if (data.errcode == 0) {
+//                $scope.checkTotalPage = Math.ceil(data.data / 5);
+//                $scope.checkTotal = data.data;
+//                $scope.getCheckDate();
+//            }
+//        });
+        dsRoad.getCheckCount(JSON.stringify(paramsOfCounts)).then(function(data){
+        	if (data.errcode == 0) {
                 $scope.checkTotalPage = Math.ceil(data.data / 5);
                 $scope.checkTotal = data.data;
                 $scope.getCheckDate();
@@ -90,4 +111,4 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     }
 
 
-});
+}]);

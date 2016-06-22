@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 var selectApp = angular.module("app");
-selectApp.controller("rdCrossController", function ($scope) {
+selectApp.controller("rdCrossController", ['$scope','dsRoad','dsFcc',function ($scope,dsRoad,dsFcc) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
@@ -41,10 +41,17 @@ selectApp.controller("rdCrossController", function ($scope) {
         $scope.initializeRdCrossData();
     }
     $scope.refreshData = function () {
-        Application.functions.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS", function (data) {
-            objCtrl.setCurrentObject("RDCROSS", data.data);
-            $scope.initializeRdCrossData();
-        })
+//        Application.functions.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS", function (data) {
+//            objCtrl.setCurrentObject("RDCROSS", data.data);
+//            $scope.initializeRdCrossData();
+//        })
+    	dsRoad.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS").then(function(data){
+    		if (data.errcode === -1) {
+                return;
+            }
+    		objCtrl.setCurrentObject("RDCROSS", data.data);
+    		$scope.initializeRdCrossData();
+    	});
     };
     $scope.showCrossNames=function(nameItem) {
         var crossNamesObj = {
@@ -96,8 +103,31 @@ selectApp.controller("rdCrossController", function ($scope) {
                         "handler": 0
 
                     }
-                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info = null;
+//                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+//                        var info = null;
+//                        if (data.errcode==0) {
+//                            var sinfo={
+//                                "op":"修改RDCROSS状态成功",
+//                                "type":"",
+//                                "pid": ""
+//                            };
+//                            data.data.log.push(sinfo);
+//                            info=data.data.log;
+//                        }else{
+//                            info=[{
+//                                "op":data.errcode,
+//                                "type":data.errmsg,
+//                                "pid": data.errid
+//                            }];
+//                        }
+//                        outPutCtrl.pushOutput(info);
+//                        if (outPutCtrl.updateOutPuts !== "") {
+//                            outPutCtrl.updateOutPuts();
+//                        }
+//                        selectCtrl.rowkey.rowkey = undefined;
+//                    })
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
+                    	var info = null;
                         if (data.errcode==0) {
                             var sinfo={
                                 "op":"修改RDCROSS状态成功",
@@ -118,7 +148,7 @@ selectApp.controller("rdCrossController", function ($scope) {
                             outPutCtrl.updateOutPuts();
                         }
                         selectCtrl.rowkey.rowkey = undefined;
-                    })
+                    });
                 }
                 var sinfo={
                     "op":"修改RDCROSS成功",

@@ -160,5 +160,42 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
-
+    /**
+     *  高速分歧 名称发音和语音
+     * @param param
+     * @param func
+     */
+    this.getNamePronunciation = function(param) {
+        var defer = $q.defer();
+        ajax.get("/pinyin/convert", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+  //根据输入的道路名模糊查询所有道路民
+    this.getNamesbyName = function(param) {
+        var defer = $q.defer();
+        ajax.get(App.Config.metaServer+"/rdname/search", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

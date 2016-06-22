@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-var objectEditApp = angular.module("app").controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
+var objectEditApp = angular.module("app").controller("normalController",['$scope','$timeout','$ocLazyLoad','dsFcc', function ($scope, $timeout, $ocLazyLoad, dsFcc) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var selectCtrl = fastmap.uikit.SelectController();
@@ -437,9 +437,32 @@ var objectEditApp = angular.module("app").controller("normalController", functio
                 "handler": 0
 
             }
-            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-
-                var info = null;
+//            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+//
+//                var info = null;
+//                if (data.errcode == 0) {
+//                    var sinfo = {
+//                        "op": "修改RDRESTICTIONR状态成功",
+//                        "type": "",
+//                        "pid": ""
+//                    };
+//                    data.data.log.push(sinfo);
+//                    info = data.data.log;
+//                } else {
+//                    info = [{
+//                        "op": data.errcode,
+//                        "type": data.errmsg,
+//                        "pid": data.errid
+//                    }];
+//                }
+//                outPutCtrl.pushOutput(info);
+//                if (outPutCtrl.updateOutPuts !== "") {
+//                    outPutCtrl.updateOutPuts();
+//                }
+//                selectCtrl.rowkey.rowkey  = undefined;
+//            })
+            dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
+            	var info = null;
                 if (data.errcode == 0) {
                     var sinfo = {
                         "op": "修改RDRESTICTIONR状态成功",
@@ -460,7 +483,7 @@ var objectEditApp = angular.module("app").controller("normalController", functio
                     outPutCtrl.updateOutPuts();
                 }
                 selectCtrl.rowkey.rowkey  = undefined;
-            })
+            });
         }
     };
     //删除交限
@@ -506,7 +529,33 @@ var objectEditApp = angular.module("app").controller("normalController", functio
                 "handler": 0
 
             }
-            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+//            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+//                var workPoint = layerCtrl.getLayerById("workPoint");
+//                workPoint.redraw();
+//                var info = null;
+//                if (data.errcode == 0) {
+//                    var sinfo = {
+//                        "op": "修改交限状态成功",
+//                        "type": "",
+//                        "pid": ""
+//                    };
+//                    data.data.log.push(sinfo);
+//                    info = data.data.log;
+//                } else {
+//                    info = [{
+//                        "op": data.errcode,
+//                        "type": data.errmsg,
+//                        "pid": data.errid
+//                    }];
+//                }
+//                outPutCtrl.pushOutput(info);
+//                if (outPutCtrl.updateOutPuts !== "") {
+//                    outPutCtrl.updateOutPuts();
+//                }
+//                selectCtrl.rowkey.rowkey = undefined;
+//            })
+            dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(data){
+
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
                 var info = null;
@@ -530,7 +579,7 @@ var objectEditApp = angular.module("app").controller("normalController", functio
                     outPutCtrl.updateOutPuts();
                 }
                 selectCtrl.rowkey.rowkey = undefined;
-            })
+            }
         }
     }
     //取消操作
@@ -542,4 +591,4 @@ var objectEditApp = angular.module("app").controller("normalController", functio
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-});
+}]);

@@ -3,7 +3,7 @@
  */
 
 var rdGscApp = angular.module("app");
-rdGscApp.controller("rdGscController",function($scope) {
+rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope,dsRoad,dsFcc) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -36,10 +36,17 @@ rdGscApp.controller("rdGscController",function($scope) {
     };
     $scope.initializeData();
     $scope.refreshData = function () {
-        Application.functions.getRdObjectById(parseInt($scope.reGscData.pid), "RDGSC", function (data) {
-            objCtrl.setCurrentObject("RDGSC", data.data);
+//        Application.functions.getRdObjectById(parseInt($scope.reGscData.pid), "RDGSC", function (data) {
+//            objCtrl.setCurrentObject("RDGSC", data.data);
+//            $scope.initializeData();
+//        });
+        dsRoad.getRdObjectById(parseInt($scope.reGscData.pid), "RDGSC").then(function(data){
+        	if (data.errcode === -1) {
+                return;
+            }
+        	objCtrl.setCurrentObject("RDGSC", data.data);
             $scope.initializeData();
-        })
+        });
     };
     /*处理标识*/
     $scope.processFlag = [
@@ -87,8 +94,31 @@ rdGscApp.controller("rdGscController",function($scope) {
                         "handler": 0
 
                     }
-                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info = null;
+//                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+//                        var info = null;
+//                        if (data.errcode==0) {
+//                            var sinfo={
+//                                "op":"修改RDGSC状态成功",
+//                                "type":"",
+//                                "pid": ""
+//                            };
+//                            data.data.log.push(sinfo);
+//                            info=data.data.log;
+//                        }else{
+//                            info=[{
+//                                "op":data.errcode,
+//                                "type":data.errmsg,
+//                                "pid": data.errid
+//                            }];
+//                        }
+//                        outPutCtrl.pushOutput(info);
+//                        if (outPutCtrl.updateOutPuts !== "") {
+//                            outPutCtrl.updateOutPuts();
+//                        }
+//                        selectCtrl.rowkey.rowkey = undefined;
+//                    })
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
+                    	var info = null;
                         if (data.errcode==0) {
                             var sinfo={
                                 "op":"修改RDGSC状态成功",
@@ -109,7 +139,7 @@ rdGscApp.controller("rdGscController",function($scope) {
                             outPutCtrl.updateOutPuts();
                         }
                         selectCtrl.rowkey.rowkey = undefined;
-                    })
+                    });
                 }
                 var sinfo={
                     "op":"修改RDGSC成功",
@@ -181,4 +211,4 @@ rdGscApp.controller("rdGscController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}])
