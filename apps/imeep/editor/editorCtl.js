@@ -4,7 +4,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     road: "scripts/components/road3/",
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, $q, appPath) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, $q, appPath) {
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
     //$scope.show = true;
@@ -145,11 +145,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.showFullScreen = false;
     };
     /*隐藏tips图片*/
-    $scope.hideFullPic = function () {
+    $scope.hideFullPic = function() {
         $scope.roadFullScreen = false;
     };
     /*接收全屏请求*/
-    $scope.$on('showRoadFullScreen',function(event,data){
+    $scope.$on('showRoadFullScreen', function(event, data) {
         $scope.roadFullScreen = true;
     });
     /*切换POI时进行保存提醒*/
@@ -227,7 +227,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     /**
      * 工具按钮控制
      */
-    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
     $scope.changeBtnClass = function(id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
             if (claFlag === id) {
@@ -446,9 +446,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                             $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
                                 $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
-                                /*默认显示poi作业平台*/
-                                $scope.changeProject(2);
-                                bindHotKeys($ocLazyLoad, $scope, dsRoad, appPath); //注册快捷键
+                            	$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
+                            		$scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
+                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function(){
+                                        $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
+                                    })
+                                    /*默认显示poi作业平台*/
+                                    $scope.changeProject(2);
+                                    bindHotKeys($ocLazyLoad, $scope, dsRoad, appPath); //注册快捷键
+                                });
                             });
                         });
                     });
