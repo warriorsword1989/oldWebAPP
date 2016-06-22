@@ -446,9 +446,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                             $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
                                 $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
-                                /*默认显示poi作业平台*/
-                                $scope.changeProject(2);
-                                bindHotKeys($ocLazyLoad, $scope, dsRoad, appPath); //注册快捷键
+                            	$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
+                            		$scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
+                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function(){
+                                        $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
+                                    })
+                                    /*默认显示poi作业平台*/
+                                    $scope.changeProject(2);
+                                    bindHotKeys($ocLazyLoad, $scope, dsRoad, appPath); //注册快捷键
+                                });
                             });
                         });
                     });
