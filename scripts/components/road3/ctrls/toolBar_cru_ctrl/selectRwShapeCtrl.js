@@ -16,6 +16,70 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.toolTipText = "";
+    $scope.selectRwShape = function (type, num) {
+        //重置选择工具
+        $scope.resetToolAndMap();
+
+        //移除上一步中的悬浮按钮
+        if (map.floatMenu) {
+            map.removeLayer(map.floatMenu);
+            map.floatMenu = null;
+        }
+        //重置上一步中的属性栏和tips框
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        $("#popoverTips").hide();
+
+        $scope.changeBtnClass(num);
+
+        //连续点击选择按钮的操作
+        if (!$scope.classArr[num]) {
+            map.currentTool.disable();
+            map._container.style.cursor = '';
+            return;
+        }
+
+        if (type === "RWLINK") {
+            layerCtrl.pushLayerFront('edit');//把editlayer置顶
+
+            //初始化选择线工具
+            map.currentTool = new fastmap.uikit.SelectPath(
+                {
+                    map: map,
+                    currentEditLayer: RWLINK,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+
+            //把线图层添加到捕捉工具中
+            map.currentTool.snapHandler.addGuideLayer(rwLink);
+            map.currentTool.enable();
+            //初始化鼠标提示
+            $scope.toolTipText = '请选择RWLINK！';
+            eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+        }
+        else if (type === "RWNODE") {
+            //初始化选择点工具
+            map.currentTool = new fastmap.uikit.SelectNode({
+                map: map,
+                nodesFlag: true,
+                currentEditLayer: adNode,
+                shapeEditor: shapeCtrl
+            });
+            map.currentTool.enable();
+
+            //把点和线图层加到捕捉工具中
+            map.currentTool.snapHandler.addGuideLayer(rwLink);
+            map.currentTool.snapHandler.addGuideLayer(rwNode);
+            //初始化鼠标提示
+            $scope.toolTipText = '请选择RWNODE！';
+
+            eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+        }
+        tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+    };
+    /********************************************************************************************/
     /**
      * 重新设置选择工具
      */
@@ -141,103 +205,6 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             }
         }
     }
-    $scope.selectAddShape = function (type, num) {
-        //重置选择工具
-        $scope.resetToolAndMap();
-
-        //移除上一步中的悬浮按钮
-        if (map.floatMenu) {
-            map.removeLayer(map.floatMenu);
-            map.floatMenu = null;
-        }
-        //重置上一步中的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
-        $("#popoverTips").hide();
-
-        $scope.changeBtnClass(num);
-
-        //连续点击选择按钮的操作
-        if (!$scope.classArr[num]) {
-            map.currentTool.disable();
-            map._container.style.cursor = '';
-            return;
-        }
-
-        if (type === "adLink") {
-            layerCtrl.pushLayerFront('edit');//把editlayer置顶
-
-            //初始化选择线工具
-            map.currentTool = new fastmap.uikit.SelectPath(
-                {
-                    map: map,
-                    currentEditLayer: adLink,
-                    linksFlag: true,
-                    shapeEditor: shapeCtrl
-                });
-
-            //把线图层添加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(adLink);
-            map.currentTool.enable();
-            //初始化鼠标提示
-            $scope.toolTipText = '请选择线！';
-            eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
-            eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
-        }
-        else if (type === "adAdmin") {
-            layerCtrl.pushLayerFront('edit');//把editlayer置顶
-
-            //初始化选择行政区划代表点工具
-            map.currentTool = new fastmap.uikit.SelectNode({
-                map: map,
-                nodesFlag: true,
-                currentEditLayer: adAdmin,
-                shapeEditor: shapeCtrl
-            });
-            map.currentTool.enable()
-
-            //把点图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(adAdmin);
-            //初始化鼠标提示
-            $scope.toolTipText = '请选择行政区划代表点！';
-            eventController.off(eventController.eventTypes.GETADADMINNODEID, $scope.selectObjCallback);
-            eventController.on(eventController.eventTypes.GETADADMINNODEID, $scope.selectObjCallback);
-        }
-        else if (type === "adFace") {
-            //初始化选择面工具
-            map.currentTool = new fastmap.uikit.SelectPolygon(
-                {
-                    map: map,
-                    currentEditLayer: adFace,
-                    shapeEditor: shapeCtrl
-                });
-            map.currentTool.enable();
-
-            editLayer.bringToBack();
-            //初始化鼠标提示
-            $scope.toolTipText = '请选择行政区划面！';
-            eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
-            eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
-        } else if (type === "adNode") {
-            //初始化选择点工具
-            map.currentTool = new fastmap.uikit.SelectNode({
-                map: map,
-                nodesFlag: true,
-                currentEditLayer: adNode,
-                shapeEditor: shapeCtrl
-            });
-            map.currentTool.enable();
-
-            //把点和线图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(adLink);
-            map.currentTool.snapHandler.addGuideLayer(adNode);
-            //初始化鼠标提示
-            $scope.toolTipText = '请选择Adnode！';
-
-            eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
-            eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
-        }
-        tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
-    };
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
 
