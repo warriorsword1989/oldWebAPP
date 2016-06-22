@@ -4,7 +4,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     road: "scripts/components/road3/",
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, $q, appPath) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, $q, appPath) {
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
     //$scope.show = true;
@@ -145,11 +145,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.showFullScreen = false;
     };
     /*隐藏tips图片*/
-    $scope.hideFullPic = function () {
+    $scope.hideFullPic = function() {
         $scope.roadFullScreen = false;
     };
     /*接收全屏请求*/
-    $scope.$on('showRoadFullScreen',function(event,data){
+    $scope.$on('showRoadFullScreen', function(event, data) {
         $scope.roadFullScreen = true;
     });
     /*切换POI时进行保存提醒*/
