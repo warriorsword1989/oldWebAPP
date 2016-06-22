@@ -19,9 +19,9 @@
     </div>
 
     <div id="picMapShow">
-        <img id="picMapImg">
-        <img id="picModalImg" alt="无此模式图">
-        <div id="picMapDesc"></div>
+        <img id="picMapImg" ng-src="{{arrowMapShow}}">
+        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此模式图">
+        <div id="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -64,7 +64,7 @@
                     <div ng-show="diverObj.details[0].branchType == 3">
                         <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
                     </div>
-                    <div class="pic-show">
+                    <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
                                 <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>

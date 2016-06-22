@@ -108,13 +108,11 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             $scope.picNowNum = 1;
             $scope.getPicsDate();
             $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
-            $("#picMapImg").attr('src', $scope.arrowMapShow);
-            $("#picModalImg").attr('src', $scope.getArrowPic($scope.diverObj.details[0].patternCode));
-            $("#picMapDesc").text($scope.diverObj.details[0].arrowCode);
+            $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.details[0].patternCode);
             if ($.trim($scope.diverObj.details[0].arrowCode) == '') {
-                $('.pic-show').hide();
+                $scope.showImgData = false;
             } else {
-                $('.pic-show').show();
+                $scope.showImgData = true;
             }
             $scope.$apply();
         }, 1000);
@@ -138,16 +136,15 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.selectPicCode = function (code, url) {
         $scope.diverObj.details[0].arrowCode = code;
         $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
-        $("#picMapImg").attr('src', url);
-        $("#picModalImg").attr('src', $scope.getArrowPic($scope.diverObj.details[0].patternCode));
-        $("#picMapDesc").text(code);
-        $('.pic-show').hide();
+        $scope.arrowMapShow = url;
+        $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.details[0].patternCode);
+        $scope.showImgData = false;
         oldPatCode = $scope.diverObj.details[0].patternCode;
         $scope.changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
-        $(e.target).parents('.pic-show').hide();
+        $scope.showImgData = false;
     }
     $scope.strClone = function(obj){
         var o, obj;
@@ -275,9 +272,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 if ($scope.diverObj.details[0].arrowCode) {
                     $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
                 }
-                $("#picMapImg").attr('src', $scope.arrowMapShow);
-                $("#picModalImg").attr('src', $scope.getArrowPic($scope.diverObj.details[0].patternCode));
-                $("#picMapDesc").text($scope.diverObj.details[0].arrowCode);
+                $scope.patternCodeSrc =  $scope.getArrowPic($scope.diverObj.details[0].patternCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
                 $scope.changeArrowPosition();
