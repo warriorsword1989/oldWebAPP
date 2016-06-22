@@ -297,11 +297,11 @@
 
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.in.id.length > 10">
+                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" ng-bind="dataTipsData.in.id.substring(0,6)+'...'" title="{{dataTipsData.in.id}}"></span>
                             </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.in.id.length <= 10">
+                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" ng-bind="dataTipsData.in.id" title="{{dataTipsData.in.id}}"></span>
                             </div>
                         </div>
 

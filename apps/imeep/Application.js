@@ -4,10 +4,10 @@ var App = {};
 // web app全局配置信息
 App.Config = {
     appType: "WEB",
-    serviceUrl: "http://192.168.4.189/fos",
+    serviceUrl: 'http://192.168.4.188:8000/service',
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
-    generalUrl: 'http://192.168.4.188:8000/service'
+    specialUrl: "http://192.168.4.189/fos",
 };
 App.Temp = {
     accessToken: "0000029900O8Y2RMC3262B6300BECA23901DFB9D503E2C06",
@@ -34,19 +34,19 @@ App.Util = {
     getHbaseUrl: function(url) {
         return App.Config.hbaseServiceUrl + "/" + url;
     },
-    getGeneralUrl: function(url) {
-        return App.Config.generalUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
+    getSpecUrl: function(url) {
+        return App.Config.specialUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
     },
     createTileRequestObject: function(url, requestType) {
         var reqObj = {};
-        reqObj.url = App.Config.generalUrl + url;
+        reqObj.url = App.Config.serviceUrl + url;
         reqObj.parameter = {
             dbId: App.Temp.dbId,
             gap: 80
         }
         if (requestType) {
             reqObj.parameter['types'] = requestType.split(',');
-            if (requestType == "RDLINK") {//小于17级的时候用hbase渲染道路
+            if (requestType == "RDLINK") { //小于17级的时候用hbase渲染道路
                 reqObj.hbaseUrl = reqObj.url;
             }
         }
@@ -55,29 +55,19 @@ App.Util = {
     createTipsTileRequestObject: function(url, requestType) {
         var urlObj = {};
         if (requestType != "") {
-            urlObj.url = App.Config.generalUrl + url;
+            urlObj.url = App.Config.serviceUrl + url;
             urlObj.parameter = {
                 dbId: App.Temp.dbId,
                 gap: 80,
                 types: requestType
             }
-        }else{
-            urlObj.url = App.Config.generalUrl + url;
+        } else {
+            urlObj.url = App.Config.serviceUrl + url;
             urlObj.parameter = {
                 dbId: App.Temp.dbId,
                 gap: 80
             }
         }
         return urlObj;
-    },
-    dateFormat: function(str) {
-        var ret;
-        if (str.length < 14) {
-            ret = str;
-        } else { // yyyy-mm-dd hh:mi:ss
-            ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
-        }
-        return ret;
     }
-
 };
