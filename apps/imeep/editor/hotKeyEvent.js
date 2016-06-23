@@ -415,6 +415,20 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
+                }else if(shapeCtrl.editType === "BRANCH"){
+                    param = {
+                        "command": "CREATE",
+                        "type": "RDBRANCH",
+                        "dbId": App.Temp.dbId,
+                        "data": featCodeCtrl.getFeatCode()
+                    };
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
+                        layerCtrl.getLayerById("relationdata").redraw();
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
+                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html'
+                            //fastmap.dataApi.FeatureConfig['1406'].ctl, fastmap.dataApi.FeatureConfig['1406'].tpl
+                        );
+                    })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",

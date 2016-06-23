@@ -76,13 +76,20 @@
     </button>
     <ul class="dropdown-menu shape-well" role="menu">
         <div class="btn-group btn-group-sm" style="float: none;">
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDGSC',8,$event)">立交</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('3dBranch',8,$event)">3D分歧</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDRESTRICTION',8,$event)">交限</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDLANECONNEXITY',8,$event)">车信</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDBRANCH',8,$event)">高速分歧</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDSPEEDLIMIT',8,$event)">限速</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('RDCROSS',8,$event)">路口</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('RDGSC',8,$event)">立交</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_3D',8,$event)">3D分歧</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('RDRESTRICTION',8,$event)">交限</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('RDLANECONNEXITY',8,$event)">车信</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_HIGHWAY',8,$event)">高速分歧</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('RDSPEEDLIMIT',8,$event)">限 速</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('RDCROSS',8,$event)">路口</button>
+            <!-- 新增分歧 -->
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_SERIESBRANCH',8,$event)">连续分歧</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_SIGNBOARDNAME',8,$event)">方向看板</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_BIGCROSSSCHEMATIC',8,$event)">大路口点模式图</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_NORMALROAD',8,$event)">普通道路方面分歧</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_REALIMAGE',8,$event)">实景图</button>
+            <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_SIGNASREAL',8,$event)">实景看板</button>
         </div>
 
 
