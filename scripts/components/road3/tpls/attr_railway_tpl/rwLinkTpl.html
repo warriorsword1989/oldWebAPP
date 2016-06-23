@@ -1,10 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div ng-controller="rwLinkController" >
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    铁路线
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adLinkData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="rwLinkForm">
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div ><label class="control-label">铁路种别</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rwLinkData.kind"
+                             ng-options="value.id as value.label for value in kind" >
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">铁路形态</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rwLinkData.form"
+                             ng-options="value.id as value.label for value in form" >
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">比例尺</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="adLinkData.scale"
+                             ng-options="value.id as value.label for value in scale" >
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">区域标示</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="adLinkData.detailFlag"
+                             ng-options="value.id as value.label for value in detailFlag" >
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">Link长度</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="rwLinkData.length" disabled="disabled" style="width: 140px">
+                    <label style="font-size: 16px">&nbsp;m</label>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">LINK长度</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="adLinkData.meshId" disabled="disabled">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">图幅编号</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="adLinkData.meshId" disabled="disabled">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">起点号码</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="adLinkData.sNodePid" disabled="disabled">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">终点号码</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="adLinkData.eNodePid" disabled="disabled">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">线路颜色</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="adLinkData.color" disabled="disabled">
+                </div>
+            </li>
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div ><label class="control-label">铁路种别</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="adLinkData.kind"
+                             ng-options="value.id as value.label for value in kind" >
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ><label class="control-label">铁路形态</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="adLinkData.form"
+                             ng-options="value.id as value.label for value in form" >
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>

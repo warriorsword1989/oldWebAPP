@@ -44,8 +44,7 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
         this.memo = data['memo'];
         this.openHour = data['openHour'];
         this.photoName = data['photoName'];
-        this.uRecord = data['uRecord'] || 0;
-        this.uFields = data['uFields'];
+        this.rowId = data["rowId"];
     },
     getIntegrate: function(){
         var ret = {};
@@ -97,8 +96,7 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
         ret['memo'] = this.memo;
         ret['openHour'] = this.openHour;
         ret['photoName'] = this.photoName;
-        ret['uRecord'] = this.uRecord;
-        ret['uFields'] = this.uFields;
+        ret["rowId"] = this.rowId;
         return ret;
     }
 });

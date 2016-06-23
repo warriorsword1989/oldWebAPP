@@ -63,6 +63,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 21: //poi
                     ret = new fastmap.uikit.canvasFeature.poiMarker(data);
                     break;
+                case 22://rwNode
+                	ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    break;
             }
             return ret;
         },

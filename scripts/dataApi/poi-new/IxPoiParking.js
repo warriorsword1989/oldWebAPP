@@ -40,8 +40,7 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         this.mechanicalGarage = data['mechanicalGarage'] || 0;
         this.vehicle = data['vehicle'] || 0;
         this.photoName = data['photoName'];
-        this.uRecord = data['uRecord'] || 0;
-        this.uFields = data['uFields'];
+        this.rowId = data["rowId"];
     },
     getIntegrate: function(){
         var ret = {};
@@ -83,8 +82,7 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         ret['mechanicalGarage'] = this.mechanicalGarage;
         ret['vehicle'] = this.vehicle;
         ret['photoName'] = this.photoName;
-        ret['uRecord'] = this.uRecord;
-        ret['uFields'] = this.uFields;
+        ret["rowId"] = this.rowId;
         return ret;
     }
 });

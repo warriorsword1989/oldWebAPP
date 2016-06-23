@@ -20,6 +20,7 @@
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-new.js"></script>
+        <script type="text/javascript" src="../../../scripts/utils/Utils.js"></script>
         <script src="loadMapApi.js"></script>
         <script src="loadUikit.js"></script>
         <script src="loadCanvasFeature.js"></script>
@@ -124,7 +125,7 @@
                             </div>
                         </div>
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[showPopoverTips]">
-                            <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
+                            <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
                     </div>
                     <div id='tooltip' class="tooltipclass"></div>

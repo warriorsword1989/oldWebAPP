@@ -1,12 +1,12 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-var rwLinkZone = angular.module("mapApp");
+var rwLinkZone = angular.module("app");
 rwLinkZone.controller("rwLinkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var highLightLayer = fastmap.uikit.HighLightController();
+    //var highLightLayer = fastmap.uikit.HighLightController();
 
 
     var test = {"linkPid":734278,"featurePid":3465,"sNodePid":486548,"eNodePid":897765,"kind":1,"form":0,

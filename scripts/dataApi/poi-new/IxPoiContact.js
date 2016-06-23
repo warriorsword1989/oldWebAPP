@@ -18,6 +18,7 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 			this.code = tmep[0];
 			this.contact = tmep[1];
 		}
+		this.rowId = data["rowId"];
 	},
 	/*
 	 * UI-->DB
@@ -32,6 +33,7 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 		if(this.contactType == 1){
 			ret["contact"] = this.code + "-" +this.contact;
 		}
+		ret["rowId"] = this.rowId;
 		return ret;
 	}
 });
