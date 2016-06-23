@@ -256,7 +256,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 $scope.patternCodeSrc =  $scope.getArrowPic($scope.diverObj.signboards[0].patternCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.signboards[0].branchPid;
-                $scope.changeArrowPosition();
             }
         }
     }
