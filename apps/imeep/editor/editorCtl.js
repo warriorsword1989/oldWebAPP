@@ -328,7 +328,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                                             $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
                                             /*默认显示poi作业平台*/
                                             $scope.changeProject(2);
-                                            bindHotKeys($ocLazyLoad, $scope, dsRoad, dsPoi, appPath); //注册快捷键
+                                            bindHotKeys($ocLazyLoad, $scope, dsRoad, dsEdit, appPath); //注册快捷键
                                         });
                                     });
                                 });
@@ -454,6 +454,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 data["callback"]();
             }
         });
+    });
+    $scope.$on("highLightPoi", function(event, pid) {
+        $scope.$broadcast("highlightPoiByPid", pid);
     });
     // $scope.checkPageNow = 1;
     /*高亮检查结果poi点*/
