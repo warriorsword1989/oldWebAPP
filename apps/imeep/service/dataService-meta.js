@@ -115,7 +115,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
      * @param func
      */
     this.getArrowImg = function(param) {
-        return App.Config.generalUrl + '/metadata/patternImage/getById?parameter=' + param;
+        return App.Config.serviceUrl + '/metadata/patternImage/getById?parameter=' + param;
     };
     /**
      *  高速分歧 名称发音和语音

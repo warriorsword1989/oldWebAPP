@@ -252,6 +252,32 @@ App.layersConfig = [{
             showNodeLevel: 13
         }
     },{
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWNODE'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: '铁路点',
+            id: 'rwNode',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 120,
+            restrictZoom: 10,
+            editable: false,
+            visible: true,
+            requestType: 'RWNODE',
+            showNodeLevel: 12
+        }
+    },{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWLINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -356,7 +382,7 @@ App.layersConfig = [{
             restrictZoom: 10,
             visible: true,
             requestType: "",
-            showNodeLevel: 15
+            showNodeLevel: 17
         }
     },
         {
