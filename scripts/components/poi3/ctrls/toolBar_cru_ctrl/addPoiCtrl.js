@@ -13,7 +13,6 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    $scope.limitRelation = {};
     /**
      * 两点之间的距离
      * @param pointA
@@ -65,7 +64,6 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
 
-        adLink.clearAllEventListeners()
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
@@ -76,7 +74,16 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
         $scope.changeBtnClass(num);
          if (type === "poi") {
             if (shapeCtrl.shapeEditorResult) {
-                shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
+                var feature={};
+                feature.components = [];
+                feature.points = [];
+                feature.components.push(fastmap.mapApi.point(0, 0));
+                feature.components.push(fastmap.mapApi.point(0, 0));
+                feature.points.push(fastmap.mapApi.point(0, 0));
+                feature.points.push(fastmap.mapApi.point(0, 0));
+                feature.type = "Poi";
+
+                shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                 selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                 layerCtrl.pushLayerFront('edit');
             }
@@ -86,12 +93,9 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
             shapeCtrl.editFeatType = "rdLink";
-            map.currentTool.CaptureHandler.addGuideLayer(rdLink);
+            map.currentTool.captureHandler.addGuideLayer(rdLink);
             tooltipsCtrl.setEditEventType('poiAdd');
-            tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-            tooltipsCtrl.setStyleTooltip("color:black;");
-            tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
-            tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+            tooltipsCtrl.setCurrentTooltip('点击空格保存,或者按ESC键取消!');
         }
     }
 }

@@ -105,7 +105,7 @@
                         <!-- 二级属性片段 -->
                         <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendPanelOpened]">
                             <div id="tkclosediv" style="margin-top: -20px">
-                                <button ng-click="closeSuspendPanel()" type="button" class="btn btn-xs ">
+                                <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs ">
                                 <a href="#" data-toggle="tab" style="font-size: 10px;">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
                                 </a>
@@ -124,7 +124,7 @@
                                 <div ng-include="consoleDeskTpl"></div>
                             </div>
                         </div>
-                        <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[showPopoverTips]">
+                        <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
                             <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
                     </div>
