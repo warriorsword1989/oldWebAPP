@@ -33,7 +33,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsRestriction(item);
                     break;
                 case 1105://危险信息
-                    ret = new fastmap.uikit.canvasTips.TipsWarningInfo(item);
+                    ret = new fastmap.uikit.canvasTips.TipsWarningInfos(item);
                     break;
                 case 1107://收费站
                     ret = new fastmap.uikit.canvasTips.TipsTollGate(item);
