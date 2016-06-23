@@ -8,7 +8,6 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var rdBranch = layerCtrl.getLayerById("relationdata");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     var regArr1 = ['a','b','d','e','r','s','t','f','j','h','k'],
         regArr2 = ['0','1','2','3','4','5','6','7','8','9'],
