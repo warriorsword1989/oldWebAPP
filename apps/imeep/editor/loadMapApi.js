@@ -33,6 +33,7 @@
         "tools/adAdminMove.js",
         "tools/poiLocMove.js",
         "tools/poiGuideMove.js",
+        "tools/poiAdd.js",
         "tools/CrossingAdd.js",
         "tools/DrawPath.js",
         "tools/DrawPolygon.js",
@@ -55,6 +56,7 @@
         "tools/ShapeEditorResultFeedback.js",
         "tools/PathBuffer.js",
         "tools/Snap.js",
+        "tools/Capture.js",
         "tools/TransformDirection.js",
         "symbol/Point.js",
         // symbol

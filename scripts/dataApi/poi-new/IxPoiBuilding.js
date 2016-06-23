@@ -11,8 +11,7 @@ FM.dataApi.IxPoiBuilding = FM.dataApi.DataModel.extend({
         this.floorUsed = data['floorUsed'];
         this.floorEmpty = data['floorEmpty'];
         this.memo = data['memo'];
-        this.uRecord = data['uRecord'] || 0;
-        this.uFields = data['uFields'];
+        this.rowId = data["rowId"];
     },
     getIntegrate: function(){
         var ret = {};
@@ -20,8 +19,7 @@ FM.dataApi.IxPoiBuilding = FM.dataApi.DataModel.extend({
         ret['floorUsed'] = this.floorUsed;
         ret['floorEmpty'] = this.floorEmpty;
         ret['memo'] = this.memo;
-        ret['uRecord'] = this.uRecord;
-        ret['uFields'] = this.uFields;
+        ret["rowId"] = this.rowId;
         return ret;
     }
 });

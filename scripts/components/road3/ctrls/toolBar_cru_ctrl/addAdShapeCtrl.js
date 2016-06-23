@@ -15,6 +15,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
     var eventController = fastmap.uikit.EventController();
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.limitRelation = {};
     /**
      * 两点之间的距离
@@ -93,9 +94,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             shapeCtrl.getCurrentTool().snodePid = 0;
             shapeCtrl.getCurrentTool().enodePid = 0;
 
-            //把点和线图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(adLink);
+            //把点和线图层加到捕捉工具中，先加的优先捕捉
             map.currentTool.snapHandler.addGuideLayer(adNode);
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             //提示信息
             tooltipsCtrl.setEditEventType('drawAdLink');
             tooltipsCtrl.setCurrentTooltip('开始画线！');

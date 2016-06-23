@@ -10,14 +10,14 @@ FM.dataApi.IxPoiChildren = FM.dataApi.DataModel.extend({
 		this.groupId = data['groupId'];
 		this.childPoiPid = data['childPoiPid'];
 		this.relationType = data['relationType'] || 0;
-		this.uRecord = data['uRecord'] || 0;
+		this.rowId = data["rowId"];
 	},
 	getIntegrate: function(){
 		var ret = {};
 		ret["groupId"] = this.groupId;
 		ret["childPoiPid"] = this.childPoiPid;
 		ret["relationType"] = this.relationType;
-		ret["uRecord"] = this.uRecord;
+		ret["rowId"] = this.rowId;
 		return ret;
 	}
 });
