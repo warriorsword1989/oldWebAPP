@@ -15,6 +15,7 @@
         "AdLink.js",
         "AdFace.js",
         "RwLink.js",
+        "RwNode.js",
         "RdLink.js",
         "RdBranchPart.js",
         "RdBranch.js",

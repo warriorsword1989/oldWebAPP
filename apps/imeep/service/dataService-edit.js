@@ -10,16 +10,16 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
         var params = {
             "dbId": App.Temp.dbId,
             "type": type,
-            "pid": id
+            "pid": pid
         };
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("根据Pid查询" + type + "数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -46,7 +46,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
                 defer.resolve(data);
             } else {
                 swal("根据DetailId查询" + type + "数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -66,6 +66,23 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             } else {
                 swal("根据条件查询数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*获取poi列表*/
+    this.getPoiList = function(params) {
+        var defer = $q.defer();
+        ajax.get("edit/poi/base/list", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询POI列表出错：", data.errmsg, "error");
+                defer.resolve([]);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -125,10 +142,12 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
     /***
      * 申请Pid
      */
-    this.applyPid = function(param) {
+    this.applyPid = function(type) {
         var defer = $q.defer();
         ajax.get("edit/applyPid", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify({
+                "type": type
+            })
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);

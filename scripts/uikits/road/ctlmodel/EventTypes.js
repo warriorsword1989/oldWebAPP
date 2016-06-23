@@ -43,6 +43,7 @@ L.Mixin.EventTypes={
 
     CHEKCRESULT:'checkresult',//检查刷新事件
     
-    GETPOIID:'getPoiId'
+    GETPOIID:'getPoiId',
+    CAPTURED:'captured'
 
 }
