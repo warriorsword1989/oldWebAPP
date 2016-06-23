@@ -1,5 +1,5 @@
 angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function($http, $q, ajax) {
-    this.getByPid = function(param) {
+    this.getPoiByPid = function(param) {
         var defer = $q.defer();
         var params = {
             "dbId": param.dbId,

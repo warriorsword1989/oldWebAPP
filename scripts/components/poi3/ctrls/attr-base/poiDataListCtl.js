@@ -1,4 +1,4 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsPoi', '$document', function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, poiDS, $document) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsPoi', '$document', function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsPoi, $document) {
     var _self = scope;
     scope.radio_select = '名称';
     //当前表格数据;
@@ -170,7 +170,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     pid: parseInt(params.filter().pid)
                 };
                 scope.getColsLength();
-                poiDS.getPoiList(param).then(function(data) {
+                dsPoi.getPoiList(param).then(function(data) {
                     scope.poiListTableMsg = '列表无数据';
                     scope.poiList = data.rows;
                     _self.tableParams.total(data.total);

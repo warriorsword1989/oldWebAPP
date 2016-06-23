@@ -456,7 +456,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 
                                     /*默认显示poi作业平台*/
                                     $scope.changeProject(2);
-                                    bindHotKeys($ocLazyLoad, $scope, dsRoad, appPath); //注册快捷键
+                                    bindHotKeys($ocLazyLoad, $scope, dsRoad, dsPoi, appPath); //注册快捷键
                                     });
                                     });
                                 });
