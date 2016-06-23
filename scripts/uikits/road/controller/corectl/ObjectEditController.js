@@ -96,6 +96,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "POI":
                         this.data = obj;
                         break;
+                    case "RWLINK":
+                        this.data = fastmap.dataApi.RwLink(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
