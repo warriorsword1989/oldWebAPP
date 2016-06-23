@@ -477,21 +477,6 @@
     color: white;
 }
 
-.blackTheme .pic-loading {
-    min-height: 200px;
-    position: relative;
-    top: -1px;
-    left: 1px;
-    transition: all 0.5s;
-    z-index: 9;
-    background-color: rgba(0, 0, 0, 0.52);
-    min-width: 80%;
-    cursor: not-allowed;
-    text-align: center;
-    color: #fff;
-    padding-top: 60%;
-}
-
 .blackTheme .img-describe {
     /*background-color: #777;*/
     color: #fff;
@@ -991,7 +976,7 @@
 }
 
 .blackTheme .pic-loading {
-    min-height: 270px;
+    min-height: 283px;
     position: absolute;
     top: -1px;
     left: 1px;

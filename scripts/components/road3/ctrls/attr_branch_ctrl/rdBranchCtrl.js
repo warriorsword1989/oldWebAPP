@@ -166,7 +166,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.details[0].patternCode;
+    var oldPatCode = $scope.diverObj.details[0]?$scope.diverObj.details[0].patternCode:'';
     /*修改模式图号*/
     $scope.changePatternCode = function(){
         if($scope.diverObj.details[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
