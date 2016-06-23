@@ -333,7 +333,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         var ctrlAndTplOfD= {
 
                             "loadType":"tipsTplContainer",
-                            "propertyCtrl":"scrgetFeatDataCallbackipts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyCtrl":"scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         };
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
@@ -358,7 +358,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                             callback:function(){
                                 if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                                    $scope.getFeatDataCallback(data,data.brID?data.brID[0].id:'',"RDBRANCH",fastmap.dataApi.FeatureConfig['1406'].ctl,fastmap.dataApi.FeatureConfig['1406'].tpl);
                                 }
                             }
                         };

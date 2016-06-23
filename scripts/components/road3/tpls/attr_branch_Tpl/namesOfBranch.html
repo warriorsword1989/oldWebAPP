@@ -1,49 +1,4 @@
-<style>
-    #nameOfBraDiv input[type="text"] {
-        width: 130px;
-        margin-left: 0px;
-        margin-top: 0px;
-    }
-
-
-    #nameOfBraDiv select {
-        width: 130px;
-        margin-left: 0px;
-        margin-top: 0px;
-    }
-
-    /*高速分歧map上图片显示*/
-    #picMapShow {
-        width: 192px;
-        border: 1px solid #fff;
-        height: 160px;
-        float: left;
-        border-radius: 4px;
-        margin-left: 51px;
-    }
-    #picMapImg {
-         width: 192px;
-        position: absolute;
-        height: 160px;
-        z-index: 99;
-        top: 90px;
-    }
-    #picModalImg{
-        width: 192px;
-        top: 90px;
-        height: 160px;
-        position: absolute;
-        z-index: 9;
-    }
-    #picMapDesc {
-        color: #fff;
-        width: 100%;
-        text-align: center;
-    }
-
-
-</style>
-<div id="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
+<div class="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
    <!--<div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;color: #fff;">-->
         <!--分歧-->
         <!--<div class="btn-group d-radio-btn" data-toggle="buttons">-->
@@ -64,9 +19,9 @@
     </div>
 
     <div id="picMapShow">
-        <img id="picMapImg">
-        <img id="picModalImg" alt="无此模式图">
-        <div id="picMapDesc"></div>
+        <img id="picMapImg" ng-src="{{arrowMapShow}}">
+        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此模式图">
+        <div id="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -109,7 +64,7 @@
                     <div ng-show="diverObj.details[0].branchType == 3">
                         <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
                     </div>
-                    <div class="pic-show">
+                    <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
                                 <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>

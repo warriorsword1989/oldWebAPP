@@ -79,8 +79,8 @@ fastmap.dataApi.FeatureConfig = {
 	},
 	1406:{
 		name:'实景图',
-		ctl:'',
-		tpl:''
+		ctl:'scripts/components/road3/ctrls/attr_branch_ctrl/rdRealImageCtrl',
+		tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/realImageOfBranch.html'
 	},
 	1407:{
 		name:'高速分歧',
