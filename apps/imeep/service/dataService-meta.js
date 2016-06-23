@@ -26,7 +26,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         return defer.promise;
     };
     //小分类
-    this.getKindListNew = function(param) {
+    this.getKindList = function(param) {
         var defer = $q.defer();
         ajax.get("metadata/queryKind/", {
             parameter: JSON.stringify({

@@ -70,6 +70,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 title: "分类",
                 width: '60px',
                 sortable: "kindCode",
+                getValue: getKindName,
                 show: true
             }, {
                 field: "uRecord",
@@ -194,8 +195,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         function getCollectTime(scope, row) {
             var temp = '';
             if (row.collectTime) {
-                //temp = App.Util.dateFormat(row.collectTime);
-                temp = App.Util.dateFormat(row.collectTime);
+                temp = Utils.dateFormat(row.collectTime);
             } else {
                 temp = '无';
             }
@@ -204,6 +204,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*新鲜度验证*/
         function getFreshnessVefication(scope, row) {
             return $sce.trustAsHtml(row.freshnessVefication == 0 ? '否' : '是');
+        }
+        /*新鲜度验证*/
+        function getKindName(scope, row) {
+            return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
         }
     }
 ]);

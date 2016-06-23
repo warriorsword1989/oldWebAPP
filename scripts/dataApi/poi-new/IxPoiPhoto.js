@@ -13,6 +13,7 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
 		this.memo = data['memo'] || 0;
 		this.thumbnailUrl = data['thumbnailUrl'] || App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"thumbnail"}';
 		this.originUrl = data['originUrl'] || App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
+		this.rowId = data["rowId"];
 	},
 	getIntegrate: function(){
 		var ret = {};
@@ -20,6 +21,7 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
 		ret["photoId"] = this.photoId;
 		ret["status"] = this.status;
 		ret["memo"] = this.memo;
+		ret["rowId"] = this.rowId;
 		return ret;
 	}
 });

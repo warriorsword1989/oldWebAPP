@@ -1,9 +1,9 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsPoi, dsMeta, appPath) {
-    var objCtrl = fastmap.uikit.ObjectEditController();
-    var evtCtrl = fastmap.uikit.EventController();
+angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
+    var objectCtrl = fastmap.uikit.ObjectEditController();
+    var eventCtrl = fastmap.uikit.EventController();
 
     function initData() {
-        $scope.poi = objCtrl.data;
+        $scope.poi = objectCtrl.data;
         _retreatData($scope.poi);
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
@@ -161,9 +161,35 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             }
         }
     }
-    // evtCtrl.rebindEvent = evtCtrl.rebindEvent || {};
-    // evtCtrl.rebindEvent["attrTplContainer"] = function() {
-    //     evtCtrl.off(evtCtrl.eventTypes.SELECTEDFEATURECHANGE);
-        evtCtrl.on(evtCtrl.eventTypes.SELECTEDFEATURECHANGE, initData);
-    // };
+    // 表单验证
+    function validateForm() {
+        if (!objectCtrl.changedProperty) {
+            swal("", "属性值没有变化，不需要保存！", "info");
+            return false;
+        }
+        return true;
+    }
+    // 保存数据
+    function save() {
+        objectCtrl.save();
+        if (!validateForm()) {
+            return;
+        }
+        dsEdit.update($scope.poi.pid, "IXPOI", objectCtrl.changedProperty).then(function(data) {
+            if (data) {
+                swal("操作成功", "", "success");
+                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                $scope.outputResult.push(new FM.dataApi.IxOutput(data));
+            } else {
+                $scope.outputResult.push(new FM.dataApi.IxOutput({
+                    "op": "修改POI属性失败",
+                    "type": "IX_POI",
+                    "pid": $scope.poi.pid
+                }));
+            }
+        });
+    }
+    /* start 事件监听 ********************************************************/
+    eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
+    eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, initData); // 数据切换
 }]);

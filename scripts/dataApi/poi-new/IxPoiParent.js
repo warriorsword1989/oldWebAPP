@@ -11,8 +11,7 @@ FM.dataApi.IxPoiParent = FM.dataApi.DataModel.extend({
 		this.parentPoiPid = data['parentPoiPid'];
 		this.tenantFlag = data['tenantFlag'] || 0;
 		this.memo = data['memo'] || null;
-		this.uRecord = data['uRecord'] || 0;
-		this.uFields = data['uFields'] || 0;
+		this.rowId = data["rowId"];
 	},
 	getIntegrate: function(){
 		var ret = {};
@@ -20,8 +19,7 @@ FM.dataApi.IxPoiParent = FM.dataApi.DataModel.extend({
 		ret["parentPoiPid"] = this.parentPoiPid;
 		ret["tenantFlag"] = this.tenantFlag;
 		ret["memo"] = this.memo;
-		ret["uRecord"] = this.uRecord;
-		ret["uFields"] = this.uFields;
+		ret["rowId"] = this.rowId;
 		return ret;
 	}
 });
