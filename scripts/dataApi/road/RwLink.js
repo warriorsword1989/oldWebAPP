@@ -14,6 +14,7 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+        this.pid = data["pid"];
         this.linkPid = data["linkPid"];
         this.featurePid = data["featurePid"] || 0;
         this.sNodePid = data["sNodePid"];
@@ -45,6 +46,7 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
+        data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["featurePid"] = this.featurePid;
         data["sNodePid"] = this.sNodePid;

@@ -1,102 +1,118 @@
 
-<div id="basicDiv" ng-controller="rwLinkController" >
+<div ng-controller="rwLinkController" >
     <div style="height:50px">
         <form class="form-horizontal" method="get">
             <div class="panel panel-default " style="background-color: transparent;border:0;">
                 <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
                     铁路线
-                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rwLinkData.linkPid}}</span>
+                    <span class="label label-info" >{{rwLinkData.pid}}</span>
                 </div>
             </div>
         </form>
     </div>
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div  class="list-name text-left">
-                基础属性
-            </div>
-            <div class="list-line"></div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">要素号码</label></div>
-            <div class="inline"><input type="text" ng-model="rwLinkData.featurePid" />
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div>
-                <label class="control-label">铁路种别</label>
-            </div>
-            <div class="inline">
-                <select  ng-model="rwLinkData.kind"
-                         ng-options="value.id as value.label for value in kind">
+    <form name="rwLinkForm">
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div  class="list-name text-left">
+                    基础属性
+                </div>
+                <div class="list-line"></div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">要素号码</label></div>
+                <div class="inline"><input type="text" ng-model="rwLinkData.featurePid" />
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <label class="control-label">铁路种别</label>
+                </div>
+                <div class="inline">
+                    <select  ng-model="rwLinkData.kind"
+                             ng-options="value.id as value.label for value in kind">
 
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div>
-                <label class="control-label">铁路形态</label>
-            </div>
-            <div class="inline">
-                <select  ng-model="rwLinkData.form"
-                         ng-options="value.id as value.label for value in form">
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <label class="control-label">铁路形态</label>
+                </div>
+                <div class="inline">
+                    <select  ng-model="rwLinkData.form"
+                             ng-options="value.id as value.label for value in form">
 
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div>
-                <label class="control-label">比例尺</label>
-            </div>
-            <div class="inline">
-                <select  ng-model="rwLinkData.scale"
-                         ng-options="value.id as value.label for value in scale">
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <label class="control-label">比例尺</label>
+                </div>
+                <div class="inline">
+                    <select  ng-model="rwLinkData.scale"
+                             ng-options="value.id as value.label for value in scale">
 
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div>
-                <label class="control-label">区域标识</label>
-            </div>
-            <div class="inline">
-                <select  ng-model="rwLinkData.detailFlag"
-                         ng-options="value.id as value.label for value in detailFlag">
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <label class="control-label">区域标识</label>
+                </div>
+                <div class="inline">
+                    <select  ng-model="rwLinkData.detailFlag"
+                             ng-options="value.id as value.label for value in detailFlag">
 
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">Link长度</label></div>
-            <div class="inline"><input type="text" ng-model="rwLinkData.length" />
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">图幅编号</label></div>
-            <div class="inline"><input type="text" ng-model="rwLinkData.meshId" />
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">起点号码</label></div>
-            <div class="inline"><input type="text" ng-model="rwLinkData.sNodePid" />
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">终点号码</label></div>
-            <div class="inline"><input type="text" ng-model="rwLinkData.eNodePid" />
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">线路颜色</label></div>
-            <div class="inline"><input type="text" ng-model="rwLinkData.color" />
-            </div>
-        </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div  class="inline" style="text-align: left;width: 120px;">
-                <a ng-click="rwLinkName()" style="cursor: pointer;color:#FFF;">铁路名称</a>
-            </div>
-        </li>
-    </ul>
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">Link长度</label></div>
+                <div class="inline"><input type="text" ng-model="rwLinkData.length" />
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">图幅编号</label></div>
+                <div class="inline"><input type="text" ng-model="rwLinkData.meshId" />
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">起点号码</label></div>
+                <div class="inline"><input type="text" ng-model="rwLinkData.sNodePid" />
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">终点号码</label></div>
+                <div class="inline"><input type="text" ng-model="rwLinkData.eNodePid" />
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">线路颜色</label></div>
+                <div class="inline"><input type="text" ng-model="rwLinkData.color" />
+                </div>
+            </li>
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <ul class="list-group list-group-lg m-b-none" >
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a ng-click="addRdName()" style="cursor: pointer;color:#FFF;">铁路路名（共<span>{{rwLinkData.names.length}}</span>条）</a>
+                    </div>
+                    <div class='list-line'></div>
+                </li>
+                <li class="list-group-item" ng-repeat="cItem in linkData.names" style="padding-left: 30px">
+                    <div ng-click="showNames(cItem)" style="cursor: pointer;">
+                        <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}
+                            <label ng-if="cItem.nameClass== 1">(官方)</label>
+                            <label ng-if="cItem.nameClass== 2">(别名)</label>
+                            <label ng-if="cItem.nameClass== 3">(曾用名)</label>
+                        </label>
+                        <label ng-if="cItem.name==''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.nameGroupid}}</label>
+                        <span id="nameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minusName($index)"></span>
+                    </div>
+                </li>
+            </ul>
+        </ul>
+    </form>
 </div>
