@@ -12,7 +12,6 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     var rwNode = layerCtrl.getLayerById('rwNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
-    var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.toolTipText = "";
     /**
@@ -86,7 +85,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: adNode,
+                currentEditLayer: rwNode,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
@@ -111,21 +110,21 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
         }, toolsObj = null;
         $scope.type = null;
         switch (data.optype) {
-            case "RWNODE":
+            case "NODE":
                 toolsObj = {
                     items: [{
                         'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "移动ADNODE点",
+                        'title': "移动RWNODE点",
                         'type': "PATHNODEMOVE",
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }]
                 }
                 ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_railway_ctrl/rwNodeCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_ctrl/rwNodeTpl.html";
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_tpl/rwNodeTpl.html";
                 $scope.type = "RWNODE";
                 break;
-            case "RWLINK":
+            case "LINK":
                 if (map.floatMenu) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
@@ -158,7 +157,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                     }]
                 }
                 ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_railway_ctrl/rwLinkCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_ctrl/rwLinkTpl.html";
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_tpl/rwLinkTpl.html";
                 $scope.type = "RWLINK";
                 break;
         }
@@ -198,15 +197,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if (type === "ADADMINMOVE") {
-                if (selectCtrl.selectedFeatures) {
-                    tooltipsCtrl.setEditEventType('moveDot');
-                    tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
-                } else {
-                    tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
-                    return;
-                }
-            } else if (type === "PATHVERTEXINSERT") {
+            if (type === "PATHVERTEXINSERT") {
                 if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('insertDot');
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
