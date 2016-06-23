@@ -55,43 +55,43 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         });
         //初始化ng-table表头;
         scope.cols = [{
-                field: "num_index",
-                title: "序号",
-                width: '35px',
-                show: true
-            }, {
-                field: "name",
-                title: "名称",
-                width: '135px',
-                sortable: "name",
-                show: true
-            }, {
-                field: "kindCode",
-                title: "分类",
-                width: '60px',
-                sortable: "kindCode",
-                getValue: getKindName,
-                show: true
-            }, {
-                field: "uRecord",
-                title: "更新记录",
-                width: '60px',
-                sortable: "uRecord",
-                show: false
-            }, {
-                field: "collectTime",
-                title: "采集时间",
-                width: '130px',
-                sortable: "collectTime",
-                show: false,
-                getValue: getCollectTime
-            }, {
-                field: "pid",
-                title: "PID",
-                width: '100px',
-                sortable: "pid",
-                show: false
-            },
+            field: "num_index",
+            title: "序号",
+            width: '35px',
+            show: true
+        }, {
+            field: "name",
+            title: "名称",
+            width: '135px',
+            sortable: "name",
+            show: true
+        }, {
+            field: "kindCode",
+            title: "分类",
+            width: '60px',
+            sortable: "kindCode",
+            getValue: getKindName,
+            show: true
+        }, {
+            field: "uRecord",
+            title: "更新记录",
+            width: '60px',
+            sortable: "uRecord",
+            show: false
+        }, {
+            field: "collectTime",
+            title: "采集时间",
+            width: '130px',
+            sortable: "collectTime",
+            show: false,
+            getValue: getCollectTime
+        }, {
+            field: "pid",
+            title: "PID",
+            width: '100px',
+            sortable: "pid",
+            show: false
+        },
             // {field: "geometry", title: "几何", sortable: "geometry", show: false},
             {
                 field: "freshnessVefication",
@@ -146,10 +146,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         };
         //切换搜索条件清空输入;
         /*scope.$watch('radio_select',function(newValue,oldValue,scope){
-            scope.filters.value = '';
-            scope.filters.name = '';
-            scope.filters.pid = 0;
-        });*/
+         scope.filters.value = '';
+         scope.filters.name = '';
+         scope.filters.pid = 0;
+         });*/
         //刷新表格方法;
         scope.refreshData = function() {
             _self.tableParams.reload();
@@ -183,12 +183,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         }
         //给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function() {
-                scope.itemActive = -1;
-                angular.forEach(scope.tableParams.data, function(data, index) {
-                    data.num_index = (scope.tableParams.page() - 1) * scope.tableParams.count() + index + 1;
-                })
+            scope.itemActive = -1;
+            angular.forEach(scope.tableParams.data, function(data, index) {
+                data.num_index = (scope.tableParams.page() - 1) * scope.tableParams.count() + index + 1;
             })
-            /*初始化方法*/
+        })
+        /*初始化方法*/
         initPoiTable();
         /*-----------------------------------格式化函数部分----------------------------------*/
         /*采集时间*/
