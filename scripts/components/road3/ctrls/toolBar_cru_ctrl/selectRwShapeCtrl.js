@@ -120,8 +120,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_railway_ctrl/rwNodeCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_tpl/rwNodeTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwNodeCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_ctrl/rwNodeTpl.html";
                 $scope.type = "RWNODE";
                 break;
             case "LINK":
@@ -156,8 +156,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_railway_ctrl/rwLinkCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_railway_tpl/rwLinkTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_ctrl/rwLinkTpl.html";
                 $scope.type = "RWLINK";
                 break;
         }
