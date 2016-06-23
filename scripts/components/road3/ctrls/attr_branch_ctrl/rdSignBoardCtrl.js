@@ -8,16 +8,10 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var rdBranch = layerCtrl.getLayerById("relationdata");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
 
-        //如果是3d分歧则关系类型改为3
-        if(shapeCtrl.editFeatType == 3){
-            objCtrl.data.signboards[0].branchType = 3;
-            $('[data-toggle="tooltip"]').tooltip();
-        }
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());

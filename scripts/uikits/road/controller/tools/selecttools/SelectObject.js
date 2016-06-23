@@ -34,7 +34,9 @@ fastmap.uikit.SelectObject = (function () {
 
                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
                         id: data.properties.id,
-                        optype: type
+                        rowId:data.properties.rowId,
+                        optype: type,
+                        branchType:data.properties.branchType
 
                     })
                 }

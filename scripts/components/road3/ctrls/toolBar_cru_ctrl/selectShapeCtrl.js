@@ -317,6 +317,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
             case 'RDBRANCH':
                 shapeCtrl.editFeatType = 0;
+                shapeCtrl.branchType = data.branchType;
                 ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                 ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -675,7 +676,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         /*if (selectedData.t_lifecycle && selectedData.t_lifecycle == 3) {
             return;
         }*/
-        dsRoad.getRdObjectById(id, type, selectedData.id).then(function (data) {
+        dsRoad.getRdObjectById(id, type, selectedData.id,selectedData).then(function (data) {
             if (data.errcode === -1) {
                 return;
             }
