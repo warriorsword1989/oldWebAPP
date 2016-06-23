@@ -20,6 +20,7 @@
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-new.js"></script>
+        <script type="text/javascript" src="../../../scripts/utils/Utils.js"></script>
         <script src="loadMapApi.js"></script>
         <script src="loadUikit.js"></script>
         <script src="loadCanvasFeature.js"></script>
@@ -104,7 +105,7 @@
                         <!-- 二级属性片段 -->
                         <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendPanelOpened]">
                             <div id="tkclosediv" style="margin-top: -20px">
-                                <button ng-click="closeSuspendPanel()" type="button" class="btn btn-xs ">
+                                <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs ">
                                 <a href="#" data-toggle="tab" style="font-size: 10px;">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
                                 </a>
@@ -123,8 +124,8 @@
                                 <div ng-include="consoleDeskTpl"></div>
                             </div>
                         </div>
-                        <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[showPopoverTips]">
-                            <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
+                        <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
+                            <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
                     </div>
                     <div id='tooltip' class="tooltipclass"></div>

@@ -28,8 +28,7 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
         this.city = data['city'];
         this.photoName = data['photoName'];
         this.travelguideFlag = data['travelguideFlag'] || 0;
-        this.uRecord = data['uRecord'] || 0;
-        this.uFields = data['uFields'];
+        this.rowId = data["rowId"];
     },
     getIntegrate: function(){
         var ret = {};
@@ -54,8 +53,7 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
         ret['city'] = this.city;
         ret['photoName'] = this.photoName;
         ret['travelguideFlag'] = this.travelguideFlag;
-        ret['uRecord'] = this.uRecord;
-        ret['uFields'] = this.uFields;
+        ret["rowId"] = this.rowId;
         return ret;
     }
 });

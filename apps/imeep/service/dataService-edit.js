@@ -10,16 +10,16 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
         var params = {
             "dbId": App.Temp.dbId,
             "type": type,
-            "pid": id
+            "pid": pid
         };
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("根据Pid查询" + type + "数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -46,7 +46,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
                 defer.resolve(data);
             } else {
                 swal("根据DetailId查询" + type + "数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -72,40 +72,133 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
-    /*
-     *几何编辑保存
-     */
-    this.saveGeometry = function(param) {
-        param = JSON.stringify(param);
+    /*获取poi列表*/
+    this.getPoiList = function(params) {
         var defer = $q.defer();
-        ajax.post("edit/run/", {
-            parameter: param.replace(/\+/g, '%2B')
+        ajax.get("edit/poi/base/list", {
+            parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
-                swal("保存数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
+                swal("查询POI列表出错：", data.errmsg, "error");
+                defer.resolve([]);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
         });
         return defer.promise;
     };
-    /*
-     * 保存
+    /***
+     * 创建对象
      */
-    this.save = function(param) {};
-    /*
-     * 删除
+    this.create = function(type, data) {
+        var param = {
+            "command": "CREATE",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "data": data
+        }
+        return this.save(param);
+    };
+    /***
+     * 修改对象属性
      */
-    this.delete = function(param) {};
+    this.update = function(pid, type, data) {
+        var param = {
+            "command": "UPDATE",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        }
+        return this.save(param);
+    };
+    /***
+     * 删除对象
+     */
+    this.delete = function(pid, type) {
+        var param = {
+            "command": "DELETE",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid
+        }
+        return this.save(param);
+    };
+    /***
+     * 移动点要素位置
+     * 适用于rdnode，adnode，poi等
+     */
+    this.move = function(pid, type, data) {
+        var param = {
+            "command": "MOVE",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        }
+        return this.save(param);
+    };
+    /***
+     * 线要素修形
+     * 适用于rdlink、adlink等
+     */
+    this.repair = function(pid, type, data) {
+        var param = {
+            "command": "REPAIR",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        }
+        return this.save(param);
+    };
+    /***
+     * poi要素创建父poi
+     */
+    this.createParent = function(pid, newParentPid) {
+        var param = {
+            "command": "CREATEPARENT",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "parentPid": newParentPid
+        }
+        return this.save(param);
+    };
+    /***
+     * poi要素修改父poi
+     */
+    this.updateParent = function(pid, newParentPid) {
+        var param = {
+            "command": "UPDATEPARENT",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "parentPid": newParentPid
+        }
+        return this.save(param);
+    };
+    /***
+     * poi要素删除父poi
+     */
+    this.deleteParent = function(pid, parentPid) {
+        var param = {
+            "command": "DELETEPARENT",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "parentPid": newParentPid
+        }
+        return this.save(param);
+    };
     /***
      * 属性和几何编辑相关 editGeometryOrProperty
      * @param param
      * @param func
      */
-    this.editGeometryOrProperty = function(param) {
+    this.save = function(param) {
         param = JSON.stringify(param);
         var defer = $q.defer();
         ajax.get("edit/run/", {
@@ -114,8 +207,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             if (data.errcode == 0) {
                 defer.resolve(data);
             } else {
-                swal("保存数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
+                swal("操作出错：", data.errmsg, "error");
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -125,10 +218,12 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
     /***
      * 申请Pid
      */
-    this.applyPid = function(param) {
+    this.applyPid = function(type) {
         var defer = $q.defer();
         ajax.get("edit/applyPid", {
-            parameter: JSON.stringify(param)
+            parameter: JSON.stringify({
+                "type": type
+            })
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
