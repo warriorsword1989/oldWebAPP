@@ -208,11 +208,6 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.picNowNum -= 1;
         $scope.getPicsDate();
     };
-    /*改变当前箭头图的坐标位置*/
-    $scope.changeArrowPosition = function () {
-        var $picMapShow = $("#picMapShow");
-        $picMapShow.show();
-    };
     /*点击选中的图片*/
     $scope.selectPicCode = function (code, url) {
         $scope.diverObj.details[0].realCode = code;
@@ -221,7 +216,6 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.arrowCodeSrc = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.details[0].arrowCode;
-        $scope.changeArrowPosition();
     };
     /*箭头图号码赋值*/
     function setArrowCode(){
@@ -467,6 +461,8 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             "command": "DELETE",
             "type": "RDBRANCHDETAIL",
             "dbId": App.Temp.dbId,
+            "branchType":5,
+            "rowkey":'',
             "objId": $scope.diverObj.details[0].pid
         };
         dsRoad.saveBranchInfo(param).then(function (data) {
