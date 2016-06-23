@@ -73,9 +73,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.changeOutput = function(val) {
         $scope.outputType = val;
     };
-    $scope.closeSuspendPanel = function() {
-        $scope.subAttrTplContainerSwitch(false);
-    };
     /**
      * 显示poi基本信息，tips信息等
      */
@@ -439,7 +436,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 }
             }
             // $scope.attrTplContainer = "";
-            $scope.showPopoverTips = true;
+            $scope.tipsPanelOpened = true;
         } else if (data["loadType"] === "tipsPitureContainer") {
             if ($scope[data["loadType"]]) {
                 $scope.$broadcast("TRANSITTIPSPICTURE", {})
@@ -458,7 +455,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             }
         });
     });
-
     // $scope.checkPageNow = 1;
     /*高亮检查结果poi点*/
     $scope.$on('getHighlightData', function(event, data) {
@@ -467,6 +463,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     /*翻页时初始化itemActive*/
     $scope.$on('initItemActive', function(event, data) {
         initTableList();
+    });
+    /*关闭Tips面板*/
+    $scope.$on('closePopoverTips', function(event, img) {
+        $scope.tipsPanelOpened = false;
     });
     /*全屏显示*/
     $scope.$on('showFullScreen', function(event, img) {
