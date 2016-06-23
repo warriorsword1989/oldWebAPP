@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-var rwLinkZone = angular.module("mapApp");
+var rwLinkZone = angular.module("app");
 rwLinkZone.controller("rwLinkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();

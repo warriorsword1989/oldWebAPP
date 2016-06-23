@@ -2,7 +2,7 @@
  * Created by mali on 2016/6/22.
  */
 angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsRoad', function ($scope, $ocLazyLoad, $rootScope,appPath,dsRoad) {
-    var selectCtrl = new fastmap.uikit.SelectController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
