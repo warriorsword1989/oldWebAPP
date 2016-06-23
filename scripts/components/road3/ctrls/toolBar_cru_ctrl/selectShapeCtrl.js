@@ -433,7 +433,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                 "propertyHtml":"../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback:function(){
                                     if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                        $scope.getFeatDataCallback(result,result.brID?result.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                                        $scope.getFeatDataCallback(result,result.brID?result.brID[0].id:'',"RDBRANCH",appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl',appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html');
                                     }
                                 }
                             };
