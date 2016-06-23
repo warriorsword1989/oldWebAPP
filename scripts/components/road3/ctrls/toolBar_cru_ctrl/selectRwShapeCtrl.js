@@ -120,8 +120,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwNodeCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_tpl/rwNodeTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_node_ctrl/rwNodeCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rwNodeTpl.html";
                 $scope.type = "RWNODE";
                 break;
             case "LINK":
