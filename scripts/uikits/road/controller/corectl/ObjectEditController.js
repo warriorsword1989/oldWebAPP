@@ -93,20 +93,22 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "ADNODE":
                         this.data = fastmap.dataApi.adNode(obj);
                         break;
-                    case "POI":
-                        this.data = obj;
+                    case "IXPOI":
+                        this.data = new fastmap.dataApi.IxPoi(obj);
                         break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
                 }
                 if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
+                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
                     });
                 }
                 if (!this.originalData || (this.originalData.pid != this.data.pid)) {
+                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data

@@ -5,10 +5,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, $q, appPath) {
+    var eventCtrl = new fastmap.uikit.EventController();
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
-    //$scope.show = true;
-    //$scope.panelFlag = true;
     $scope.showLoading = true;
     $scope.showTab = true;
     $scope.selectedTool = 1;
@@ -57,16 +56,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             }
         })
     };
-    $scope.$on("SWITCHCONTAINERSTATE", function(event, data) {
-        if (data.hasOwnProperty("attrContainerTpl")) {
-            $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
-        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
-            $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
-        } else {
-            $scope.suspendPanelOpened = false;
-            $scope.editorPanelOpened = 'none';
-        }
-    });
     //属性栏开关逻辑控制
     $scope.attrTplContainerSwitch = function(flag) {
         if (flag) {
@@ -92,54 +81,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 显示poi基本信息，tips信息等
      */
     var showPoiInfo = function(data) {
-            $scope.$broadcast("clearBaseInfo"); //清除样式
-            $scope.editorPanelOpened = true; //打开右侧面板
-            specialDetail(data); //名称组和地址组特殊处理
-            $scope.poi = data;
-            $scope.origPoi = angular.copy(data);
-            // $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
-            // $scope.$broadcast('refreshImgsData',$scope.poi.photos);
-            // /*查询3DIcon*/
-            // dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
-            //  $scope.poi.poi3DIcon = data;
-            // });
-            initOcll();
-        }
-        /*获取所选poi信息*/
-    $scope.$on('getPoiList', function(event, data) {
-        $scope.poiList = data;
-    });
-    /*tips*/
-    $scope.$on('closePopoverTips', function(event, data) {
-        if (data && $scope.projectType == 2) {
-            loadRoadTips();
-        }
-        $scope.showPopoverTips = data;
-    });
-    /*加载道路tips方法*/
-    function loadRoadTips() {
-        $ocLazyLoad.load(appPath.root + appPath.road + 'ctrls/attr_tips_ctrl/sceneAllTipsCtrl.js').then(function() {
-            $scope.poiPopoverTipsTpl = appPath.root + appPath.road + 'tpls/attr_tips_tpl/sceneAllTipsTpl.html';
-        });
-    }
-    /*获取输出结果信息*/
-    $scope.$on('getConsoleInfo', function(event, data) {
-        $scope.outputResult.push(new FM.dataApi.IxOutput(data));
-    });
-    // $scope.checkPageNow = 1;
-    /*高亮检查结果poi点*/
-    $scope.$on('getHighlightData', function(event, data) {
-        $scope.$broadcast('highlightPoiInMap', data);
-    });
-    /*翻页时初始化itemActive*/
-    $scope.$on('initItemActive', function(event, data) {
-        initTableList();
-    });
-    /*全屏显示*/
-    $scope.$on('showFullScreen', function(event, img) {
-        $scope.pImageNow = img;
-        $scope.showFullScreen = true;
-    });
+        $scope.$broadcast("clearBaseInfo"); //清除样式
+        $scope.editorPanelOpened = true; //打开右侧面板
+        specialDetail(data); //名称组和地址组特殊处理
+        $scope.poi = data;
+        $scope.origPoi = angular.copy(data);
+        // $scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
+        // $scope.$broadcast('refreshImgsData',$scope.poi.photos);
+        // /*查询3DIcon*/
+        // dsMeta.getCiParaIcon(data.poiNum).then(function (data) {
+        //  $scope.poi.poi3DIcon = data;
+        // });
+        initOcll();
+    };
     /*关闭全屏查看*/
     $scope.closeFullScreen = function() {
         $scope.showFullScreen = false;
@@ -186,44 +140,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             }
         }
     };
-    /**
-     * 接收父子关系中点击子事件
-     */
-    $scope.$on("emitChildren", function(event, childrenPid) {
-        $scope.$broadcast("highlightPoiByPid", childrenPid);
-    });
-    /**
-     * 接收父子关系中点击父事件
-     */
-    $scope.$on("emitParent", function(event, parentPid) {
-        $scope.$broadcast("highlightPoiByPid", parentPid);
-    });
-    /**
-     * 接收其他子片段切换导致数据发生变化之前触发的事件
-     */
-    $scope.$on("changeData", function(event, data) {
-        changePoi(function() {
-            $scope.$broadcast("changeDataRes");
-        });
-    });
-    /**
-     * 查询POI数据
-     */
-    $scope.$on("getObjectById", function(event, data) {
-        console.info("getObjectById");
-        dsPoi.getPoiByPid({
-            "dbId": App.Temp.dbId,
-            "type": "IXPOI",
-            "pid": data.pid
-        }).then(function(da) {
-            if (da) {
-                showPoiInfo(da);
-                currentFeatureType = "POI";
-                $scope.$broadcast("getObjectByIdRes");
-                $scope.$broadcast("refreshImgsData");
-            }
-        });
-    });
     /**
      * 工具按钮控制
      */
@@ -344,7 +260,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         });
         var shapeCtrl = new fastmap.uikit.ShapeEditorController();
         var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-        var eventCtrl = new fastmap.uikit.EventController();
         tooltipsCtrl.setMap(map, 'tooltip');
         shapeCtrl.setMap(map);
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function(event) {
@@ -396,39 +311,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.metaData.allChain = chainData;
         }));
     };
-    /**
-     * 接收点击地图上要素的监听事件
-     */
-    $scope.$on("transitCtrlAndTpl", function(event, data) {
-        currentFeatureType = "ROAD";
-        if (data["loadType"] === "subAttrTplContainer") {
-            $scope.subAttrTplContainerSwitch(true);
-            $scope.subAttrTplContainer = "";
-        } else if (data["loadType"] === "attrTplContainer") { //右边属性面板
-            if (!$scope.panelFlag) {
-                $scope.attrTplContainerSwitch(true);
-            }
-        } else if (data["loadType"] === "tipsTplContainer") {
-            loadRoadTips();
-            $scope.showPopoverTips = true;
-        } else if (data["loadType"] === "tipsPitureContainer") {
-            if ($scope[data["loadType"]]) {
-                $scope.$broadcast("TRANSITTIPSPICTURE", {})
-                return;
-            }
-        } else if (data["loadType"] === "tipsVideoContainer") {
-            if ($scope[data["loadType"]]) {
-                $scope.$broadcast("TRANSITTIPSVIDEO", {})
-                return;
-            }
-        }
-        $ocLazyLoad.load(data["propertyCtrl"]).then(function() {
-            $scope[data["loadType"]] = data["propertyHtml"];
-            if (data["callback"]) {
-                data["callback"]();
-            }
-        })
-    });
     //页面初始化方法调用
     var initPage = function() {
         initData();
@@ -446,12 +328,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                             $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
                                 $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
-                            	$ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
-                            		$scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
-                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function(){
-                                        $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
-                                    })
-                                    /*默认显示poi作业平台*/
+                                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
+                                    $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
+                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
+                                            $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
+                                        })
+                                        /*默认显示poi作业平台*/
                                     $scope.changeProject(2);
                                     bindHotKeys($ocLazyLoad, $scope, dsRoad, appPath); //注册快捷键
                                 });
@@ -512,7 +394,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             }
         } else {
             $scope.subAttrTplContainerSwitch(false);
-            eventController.fire(eventController.eventTypes.SAVEPROPERTY);
+            eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
         }
     };
     /**
@@ -547,4 +429,134 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.$broadcast('refreshImgsData', $scope.poi.photos);
         $scope.$broadcast("clearBaseInfo"); //清除样式
     };
+    /*start 事件监听*******************************************************************/
+    //响应选择要素类型变化事件，清除要素页面的监听事件
+    eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURETYPECHANGE, function(data) {
+        if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY]) {
+            for (var i = 0, len = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY].length; i < len; i++) {
+                eventCtrl.off(eventCtrl.eventTypes.SAVEPROPERTY, eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY][i]);
+            }
+        }
+        if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.DELETEPROPERTY]) {
+            for (var j = 0, lenJ = eventCtrl.eventTypesMap[eventCtrl.eventTypes.DELETEPROPERTY].length; j < lenJ; j++) {
+                eventCtrl.off(eventCtrl.eventTypes.DELETEPROPERTY, eventCtrl.eventTypesMap[eventCtrl.eventTypes.DELETEPROPERTY][j]);
+            }
+        }
+        if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.CANCELEVENT]) {
+            for (var k = 0, lenK = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY].length; k < lenK; k++) {
+                eventCtrl.off(eventCtrl.eventTypes.CANCELEVENT, eventCtrl.eventTypesMap[eventCtrl.eventTypes.CANCELEVENT][k]);
+            }
+        }
+        if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTEDFEATURECHANGE]) {
+            for (var k = 0, lenK = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTEDFEATURECHANGE].length; k < lenK; k++) {
+                eventCtrl.off(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTEDFEATURECHANGE][k]);
+            }
+        }
+    });
+    /**
+     * 监听要素类型切换事件
+     */
+    $scope.$on("SWITCHCONTAINERSTATE", function(event, data) {
+        if (data.hasOwnProperty("attrContainerTpl")) {
+            $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+            $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+        } else {
+            $scope.suspendPanelOpened = false;
+            $scope.editorPanelOpened = 'none';
+        }
+    });
+    /**
+     * 监听组件加载请求事件
+     */
+    $scope.$on("transitCtrlAndTpl", function(event, data) {
+        currentFeatureType = "ROAD";
+        if (data["loadType"] === "subAttrTplContainer") {
+            $scope.subAttrTplContainerSwitch(true);
+            // $scope.subAttrTplContainer = "";
+        } else if (data["loadType"] === "attrTplContainer") { //右边属性面板
+            $scope.attrTplContainerSwitch(true);
+            // $scope.attrTplContainer = "";
+        } else if (data["loadType"] === "tipsTplContainer") {
+            if ($scope["tipsTplContainer"] != data["propertyHtml"]) { // tips页面切换，取消原来的SELECTBYATTRIBUTE事件绑定
+                for (var k = 0, lenK = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTBYATTRIBUTE].length; k < lenK; k++) {
+                    eventCtrl.off(eventCtrl.eventTypes.SELECTBYATTRIBUTE, eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTBYATTRIBUTE][k]);
+                }
+            }
+            // $scope.attrTplContainer = "";
+            $scope.showPopoverTips = true;
+        } else if (data["loadType"] === "tipsPitureContainer") {
+            if ($scope[data["loadType"]]) {
+                $scope.$broadcast("TRANSITTIPSPICTURE", {})
+                return;
+            }
+        } else if (data["loadType"] === "tipsVideoContainer") {
+            if ($scope[data["loadType"]]) {
+                $scope.$broadcast("TRANSITTIPSVIDEO", {})
+                return;
+            }
+        }
+        $ocLazyLoad.load(data["propertyCtrl"]).then(function() {
+            $scope[data["loadType"]] = data["propertyHtml"];
+            if (data["callback"]) {
+                data["callback"]();
+            }
+        });
+    });
+    /*获取输出结果信息*/
+    $scope.$on('getConsoleInfo', function(event, data) {
+        $scope.outputResult.push(new FM.dataApi.IxOutput(data));
+    });
+    // $scope.checkPageNow = 1;
+    /*高亮检查结果poi点*/
+    $scope.$on('getHighlightData', function(event, data) {
+        $scope.$broadcast('highlightPoiInMap', data);
+    });
+    /*翻页时初始化itemActive*/
+    $scope.$on('initItemActive', function(event, data) {
+        initTableList();
+    });
+    /*全屏显示*/
+    $scope.$on('showFullScreen', function(event, img) {
+        $scope.pImageNow = img;
+        $scope.showFullScreen = true;
+    });
+    /**
+     * 接收父子关系中点击子事件
+     */
+    $scope.$on("emitChildren", function(event, childrenPid) {
+        $scope.$broadcast("highlightPoiByPid", childrenPid);
+    });
+    /**
+     * 接收父子关系中点击父事件
+     */
+    $scope.$on("emitParent", function(event, parentPid) {
+        $scope.$broadcast("highlightPoiByPid", parentPid);
+    });
+    /**
+     * 接收其他子片段切换导致数据发生变化之前触发的事件
+     */
+    $scope.$on("changeData", function(event, data) {
+        changePoi(function() {
+            $scope.$broadcast("changeDataRes");
+        });
+    });
+    /**
+     * 查询POI数据
+     */
+    $scope.$on("getObjectById", function(event, data) {
+        console.info("getObjectById");
+        dsPoi.getPoiByPid({
+            "dbId": App.Temp.dbId,
+            "type": "IXPOI",
+            "pid": data.pid
+        }).then(function(da) {
+            if (da) {
+                showPoiInfo(da);
+                currentFeatureType = "POI";
+                $scope.$broadcast("getObjectByIdRes");
+                $scope.$broadcast("refreshImgsData");
+            }
+        });
+    });
 }]);
