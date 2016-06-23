@@ -33,6 +33,7 @@ FM.dataApi.IxPoiAddress = FM.dataApi.DataModel.extend({
         this.unit = data['unit'];
         this.room = data['room'];
         this.addons = data['addons'];
+        this.rowId = data["rowId"];
     },
     getIntegrate: function(){
         var ret = {};
@@ -63,6 +64,7 @@ FM.dataApi.IxPoiAddress = FM.dataApi.DataModel.extend({
         ret['unit'] = this.unit;
         ret['room'] = this.room;
         ret['addons'] = this.addons;
+        ret["rowId"] = this.rowId;
         return ret;
     }
 });
