@@ -594,9 +594,9 @@ form input[type='checkbox']:checked.ng-dirty {
 
 .fm-editor-panel-disappear {
     right: -315px !important;
-
 }
-.fm-panel-object{
+
+.fm-panel-object {
     overflow-y: auto;
     width: 315px;
     height: 100%;
@@ -606,6 +606,7 @@ form input[type='checkbox']:checked.ng-dirty {
     padding-bottom: 30px;
     position: absolute;
 }
+
 .fm-option-bar {
     width: auto;
     bottom: 200px;
@@ -1278,6 +1279,14 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
 }
 
+.poi-list > tbody > tr:hover {
+    background-color: rgba(138, 138, 203, 0.3) !important;
+}
+
+.poi-list > tbody > tr:nth-child(odd) {
+    background-color: rgba(138, 138, 203, 0.1);
+}
+
 .poi-list > tbody > tr > td > p {
     white-space: nowrap;
     overflow: hidden;
@@ -1287,8 +1296,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .poi-list > tbody > tr.active > td {
-    background-color: #307BA3;
-    transition: all .3s;
+    background-color: rgba(138, 138, 203, 0.9);
+}
+
+.poi-list > tbody > tr.active:hover > td {
+    background-color: rgba(138, 138, 203, 0.9);
 }
 
 .fm-poiList-btnGroup {

@@ -11,6 +11,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*切换poi列表类型*/
         scope.changeDataList = function(val) {
             scope.dataListType = val;
+            refreshData();
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
@@ -34,20 +35,21 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     });
                 }
             });
+            scope.itemActive = index;
         };
         /*键盘控制poilist切换*/
         $document.bind("keyup", function(event) {
             if (event.keyCode == 34 || event.keyCode == 33) {
                 if (scope.itemActive < scope.poiList.length - 1 && event.keyCode == 34) {
                     scope.itemActive++;
-                    refreshData();
+                    _refreshData();
                 }
                 if (scope.itemActive != 0 && event.keyCode == 33) {
                     scope.itemActive--;
-                    refreshData();
+                    _refreshData();
                 }
                 /*刷新poi，弹出tips*/
-                function refreshData() {
+                function _refreshData() {
                     scope.selectData(scope.poiList[scope.itemActive], scope.itemActive);
                     scope.$apply();
                 }
@@ -112,16 +114,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 }
             }
         };
-        /*获取cols的长度*/
-        scope.getColsLength = function() {
-            scope.colsLength = 0;
-            for (var i = 0, len = scope.cols.length; i < len; i++) {
-                if (scope.cols[i].show) {
-                    scope.colsLength++;
-                }
-            }
-            return scope.colsLength;
-        };
         //重置表格字段显示方法;
         scope.resetTableField = function() {
             for (var i = 0; i < scope.cols.length; i++) {
@@ -151,7 +143,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             scope.filters.pid = 0;
         });*/
         //刷新表格方法;
-        scope.refreshData = function() {
+        var refreshData = function() {
             _self.tableParams.reload();
         };
 
@@ -165,13 +157,13 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 getData: function($defer, params) {
                     var param = {
                         dbId: App.Temp.dbId,
-                        // type: [1,2,3],
+                        subtaskId: App.Temp.subTaskId,
+                        type: scope.dataListType,
                         pageNum: params.page(),
                         pageSize: params.count(),
                         pidName: params.filter().name,
                         pid: parseInt(params.filter().pid)
                     };
-                    scope.getColsLength();
                     dsEdit.getPoiList(param).then(function(data) {
                         scope.poiListTableMsg = '列表无数据';
                         scope.poiList = data.rows;
@@ -180,15 +172,15 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     });
                 }
             });
-        }
+        };
         //给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function() {
-                scope.itemActive = -1;
-                angular.forEach(scope.tableParams.data, function(data, index) {
-                    data.num_index = (scope.tableParams.page() - 1) * scope.tableParams.count() + index + 1;
-                })
+            scope.itemActive = -1;
+            angular.forEach(scope.tableParams.data, function(data, index) {
+                data.num_index = (scope.tableParams.page() - 1) * scope.tableParams.count() + index + 1;
             })
-            /*初始化方法*/
+        });
+        /*初始化方法*/
         initPoiTable();
         /*-----------------------------------格式化函数部分----------------------------------*/
         /*采集时间*/

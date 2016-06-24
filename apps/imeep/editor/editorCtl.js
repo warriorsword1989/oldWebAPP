@@ -460,10 +460,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.$on('getHighlightData', function(event, data) {
         $scope.$broadcast('highlightPoiInMap', data);
     });
-    /*翻页时初始化itemActive*/
-    $scope.$on('initItemActive', function(event, data) {
-        initTableList();
-    });
     /*关闭Tips面板*/
     $scope.$on('closePopoverTips', function(event, img) {
         $scope.tipsPanelOpened = false;
