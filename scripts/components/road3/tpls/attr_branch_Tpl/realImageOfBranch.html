@@ -71,11 +71,11 @@
                         </div>
                         <div class="pic-show-btn pull-right">
                             <div class="pull-right btn-group">
-                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
-                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" ng-disabled="picNowNum == 0 || picNowNum == 1"><<</button>
+                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">>></button>
                             </div>
                         </div>
-                        <div class="pic-loading" ng-bind="loadText">loading...</div>
+                        <div class="pic-loading" ng-bind="loadText" ng-show="showPicLoading">loading...</div>
                     </div>
                 </div>
             </div>
