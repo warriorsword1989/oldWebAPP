@@ -266,7 +266,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
     	  dsEdit.getByPid(id,type,selectedData.detailId).then(function (data){
-        dsRoad.getRdObjectById(id,type,selectedData.detailId).then(function (data){
+//        dsRoad.getRdObjectById(id,type,selectedData.detailId).then(function (data){
             if (data) {
             	objCtrl.setCurrentObject(type, data);
                 tooltipsCtrl.onRemoveTooltip();
