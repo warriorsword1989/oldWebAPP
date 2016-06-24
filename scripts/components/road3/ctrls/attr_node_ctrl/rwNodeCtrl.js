@@ -5,8 +5,8 @@ angular.module("app").controller("rwNodeController",['$scope','dsRoad',function(
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var adLink = layerCtrl.getLayerById("awLink");
-    var adNode = layerCtrl.getLayerById("awnode");
+    var rwLink = layerCtrl.getLayerById("rwLink");
+    var rwNode = layerCtrl.getLayerById("rwNode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();
