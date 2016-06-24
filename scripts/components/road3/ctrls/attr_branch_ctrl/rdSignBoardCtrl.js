@@ -98,7 +98,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.showImgData = false;
         $timeout(function () {
             if ($.trim($scope.diverObj.signboards[0].arrowCode) == '') {
-                $scope.diverObj.signboards[0].patternCode = '';
+                $scope.diverObj.signboards[0].backimageCode = '';
             };
             $scope.diverObj.signboards[0].arrowCode = CtoH($scope.diverObj.signboards[0].arrowCode);
             if(!testRegExp($scope.diverObj.signboards[0].arrowCode)){
@@ -109,11 +109,11 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         });
         $timeout(function () {
             if ($.trim($scope.diverObj.signboards[0].arrowCode).length > 6) {
-                $scope.diverObj.signboards[0].patternCode = '0' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
+                $scope.diverObj.signboards[0].backimageCode = '0' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
                 $scope.picNowNum = 1;
                 $scope.getPicsData();
                 $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.signboards[0].arrowCode);
-                $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.signboards[0].patternCode);
+                $scope.backimageCodeSrc = $scope.getArrowPic($scope.diverObj.signboards[0].backimageCode);
                 if ($.trim($scope.diverObj.signboards[0].arrowCode) == '') {
                     $scope.showImgData = false;
                 } else {
@@ -167,11 +167,11 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     /*点击选中的图片*/
     $scope.selectPicCode = function (code, url) {
         $scope.diverObj.signboards[0].arrowCode = code;
-        $scope.diverObj.signboards[0].patternCode = '8' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
+        $scope.diverObj.signboards[0].backimageCode = '8' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
         $scope.arrowMapShow = url;
-        $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.signboards[0].patternCode);
+        $scope.backimageCodeSrc = $scope.getArrowPic($scope.diverObj.signboards[0].backimageCode);
         $scope.showImgData = false;
-        oldPatCode = $scope.diverObj.signboards[0].patternCode;
+        oldPatCode = $scope.diverObj.signboards[0].backimageCode;
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
@@ -197,13 +197,13 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].patternCode:'';
+    var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
     /*修改模式图号*/
-    $scope.changePatternCode = function(){
-        if($scope.diverObj.signboards[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
-            $scope.diverObj.signboards[0].patternCode.length >  oldPatCode.length ||
-            ($scope.diverObj.signboards[0].patternCode.length+1 <=  oldPatCode.length && $scope.diverObj.signboards[0].patternCode.length+1 !=  oldPatCode.length)){
-            $scope.diverObj.signboards[0].patternCode = oldPatCode;
+    $scope.changeBackimageCode = function(){
+        if($scope.diverObj.signboards[0].backimageCode.charAt(0) == oldPatCode.charAt(0) ||
+            $scope.diverObj.signboards[0].backimageCode.length >  oldPatCode.length ||
+            ($scope.diverObj.signboards[0].backimageCode.length+1 <=  oldPatCode.length && $scope.diverObj.signboards[0].backimageCode.length+1 !=  oldPatCode.length)){
+            $scope.diverObj.signboards[0].backimageCode = oldPatCode;
         }
     }
     /*关系类型*/
@@ -247,7 +247,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 if ($scope.diverObj.signboards[0].arrowCode) {
                     $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.signboards[0].arrowCode);
                 }
-                $scope.patternCodeSrc =  $scope.getArrowPic($scope.diverObj.signboards[0].patternCode);
+                $scope.backimageCodeSrc =  $scope.getArrowPic($scope.diverObj.signboards[0].backimageCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.signboards[0].branchPid;
             }

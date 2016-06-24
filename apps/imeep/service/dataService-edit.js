@@ -3,14 +3,14 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
      * 根据pid获取要素详细属性
      * @param id
      * @param type
-     * @param func
+     * @param detailId
      */
     this.getByPid = function(pid, type) {
         var defer = $q.defer();
         var params = {
             "dbId": App.Temp.dbId,
             "type": type,
-            "pid": pid
+            "pid": id
         };
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
@@ -20,6 +20,64 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             } else {
                 swal("根据Pid查询" + type + "数据出错：", data.errmsg, "error");
                 defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 根据道路id获得分歧的详细属性(branchType = 0、1、2、3、4、6、8、9)
+     * @param id
+     * @param type
+     * @param func
+     */
+    this.getBranchByDetailId = function(detailid,branchType) {
+        var defer = $q.defer();
+        var params = {
+            "dbId": App.Temp.dbId,
+            "type": 'RDBRANCH',
+            "detailId": detailid,
+            "rowId":"",
+            "branchType":branchType
+        };
+        ajax.get("edit/getByPid", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询分歧数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 根据道路id获得分歧的详细属性(branchType = 5、7)
+     * @param id
+     * @param type
+     * @param func
+     */
+    this.getBranchByRowId = function(detailid,branchType) {
+        var defer = $q.defer();
+        var params = {
+            "dbId": App.Temp.dbId,
+            "type": 'RDBRANCH',
+            "detailId": 0,
+            "rowId":detailid,
+            "branchType":branchType
+        };
+        ajax.get("edit/getByPid", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询分歧数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -47,54 +105,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             } else {
                 swal("根据DetailId查询" + type + "数据出错：", data.errmsg, "error");
                 defer.resolve(null);
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    };
-    /**
-     * 根据道路id获得道路的详细属性
-     * @param id
-     * @param type
-     * @param func
-     */
-    this.getRdObjectById = function(id, type, detailid,branchType) {
-        var defer = $q.defer();
-        var params = {};
-        if (!id) {
-            if(branchType == 5 || branchType == 7){
-                params = {
-                    "dbId": App.Temp.dbId,
-                    "type": type,
-                    "detailId": 0,
-                    "rowId":detailid,
-                    "branchType":branchType
-                }
-            }else{
-                params = {
-                    "dbId": App.Temp.dbId,
-                    "type": type,
-                    "detailId": detailid,
-                    "rowId":"",
-                    "branchType":branchType
-                }
-            }
-        } else {
-            params = {
-                "dbId": App.Temp.dbId,
-                "type": type,
-                "pid": id
-            };
-        }
-        ajax.get("edit/getByPid", {
-            parameter: JSON.stringify(params)
-        }).success(function(data) {
-            if (data.errcode == 0) {
-                defer.resolve(data);
-            } else {
-                swal("查询数据出错：", data.errmsg, "error");
-                defer.resolve(-1);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
