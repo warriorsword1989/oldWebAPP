@@ -41,7 +41,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.signasreals = [];
         if (data["signasreals"].length > 0) {
             for (var i = 0; i < data["signasreals"].length; i++) {
-                var signasReal = fastmap.dataApi.RdBranchSignAsreal(data["signasreals"][i]);
+                var signasReal = new fastmap.dataApi.RdBranchSignAsreal(data["signasreals"][i]);
                 this.signasreals.push(signasReal);
             }
         }

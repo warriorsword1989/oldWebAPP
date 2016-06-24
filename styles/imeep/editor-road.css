@@ -1110,7 +1110,7 @@
     top: 90px;
     height: 160px;
     position: absolute;
-    z-index: 100;
+    z-index: 9;
 }
 #picMapDesc {
     color: #fff;
