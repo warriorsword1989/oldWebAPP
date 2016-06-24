@@ -554,7 +554,7 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
 //                }
 //                selectCtrl.rowkey.rowkey = undefined;
 //            })
-            dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(data){
+            dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
 
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
@@ -579,7 +579,7 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
                     outPutCtrl.updateOutPuts();
                 }
                 selectCtrl.rowkey.rowkey = undefined;
-            }
+            })
         }
     }
     //取消操作

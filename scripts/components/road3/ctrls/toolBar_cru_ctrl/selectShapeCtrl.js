@@ -405,7 +405,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                 "propertyHtml":"../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback:function(){
                                     if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                        $scope.getFeatDataCallback(result,result.brID?result.brID[0].id:'',"RDBRANCH","scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl","../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                                        $scope.getFeatDataCallback(result,result.brID?result.brID[0].id:'',"RDBRANCH",appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl",appPath.root + appPath.road + "../../../scripts/components/road3/tpls/attr_branch_Tpl/signBoardOfBranch.html");
                                     }
                                 }
                             };
@@ -718,22 +718,33 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        /*if (selectedData.t_lifecycle && selectedData.t_lifecycle == 3) {
-            return;
-        }*/
-        dsEdit.getRdObjectById(id, type, selectedData.id,selectedData.branchType).then(function (data) {
+        if(type == 'RDBRANCH'){
+            if(selectedData.branchType == 5 || selectedData.branchType == 7){
+                dsEdit.getBranchByRowId(selectedData.id,selectedData.branchType).then(function(data){
+                    getByPidCallback(type,ctrl,tpl,data)
+                });
+            }else{
+                dsEdit.getBranchByDetailId(selectedData.id,selectedData.branchType).then(function(data){
+                    getByPidCallback(type,ctrl,tpl,data)
+                });
+            }
+        }else{
+            dsEdit.getByPid(id, type, selectedData.id,selectedData.branchType).then(function(data){
+                getByPidCallback(type,ctrl,tpl,data)
+            });
+        }
+        function getByPidCallback(type,ctrl,tpl,data){
             if (data.errcode === -1) {
                 return;
             }
-            objCtrl.setCurrentObject(type, data.data);
-            tooltipsCtrl.onRemoveTooltip();
             var options = {
                 "loadType": 'attrTplContainer',
-                //"loadType": 'generalBaseTpl',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
-            }
+            };
             $scope.$emit("transitCtrlAndTpl", options);
-        });
+            objCtrl.setCurrentObject(type, data.data);
+            tooltipsCtrl.onRemoveTooltip();
+        }
     }
 }])

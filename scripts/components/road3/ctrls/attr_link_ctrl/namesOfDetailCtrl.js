@@ -24,7 +24,7 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     ];
     var objCtrl = fastmap.uikit.ObjectEditController();
 
-    $scope.names = objCtrl.data.names;
+    $scope.names = objCtrl.namesInfo;
     $scope.realtimeData = objCtrl.data;
 
 

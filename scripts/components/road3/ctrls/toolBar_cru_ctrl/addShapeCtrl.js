@@ -1118,7 +1118,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
-                        $scope.limitRelation.outLinkPid = data.id;
+                        $scope.limitRelation.outLinkPid = parseInt(data.id);
 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
