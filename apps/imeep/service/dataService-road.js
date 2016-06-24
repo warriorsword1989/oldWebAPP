@@ -30,7 +30,9 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
             params = {
                 "dbId": App.Temp.dbId,
                 "type": type,
-                "pid": id
+                "pid": id,
+                "branchType":branchType,
+                "rowId":rowid
             };
         }
         ajax.get("edit/getByPid", {
