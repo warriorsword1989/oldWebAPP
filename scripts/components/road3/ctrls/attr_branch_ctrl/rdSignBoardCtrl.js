@@ -15,6 +15,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.namesInfo = objCtrl.data.signboards[0].names;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
@@ -165,10 +166,10 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.getPicsData();
     }
     /*点击选中的图片*/
-    $scope.selectPicCode = function (code, url) {
+    $scope.selectPicCode = function (code) {
         $scope.diverObj.signboards[0].arrowCode = code;
-        $scope.diverObj.signboards[0].backimageCode = '8' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
-        $scope.arrowMapShow = url;
+        $scope.diverObj.signboards[0].backimageCode = '0' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
+        $scope.arrowMapShow = $scope.getArrowPic(code);
         $scope.backimageCodeSrc = $scope.getArrowPic($scope.diverObj.signboards[0].backimageCode);
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.signboards[0].backimageCode;
@@ -375,7 +376,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
         dsRoad.editGeometryOrProperty(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
-            $scope.$apply();
             var info = null;
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();

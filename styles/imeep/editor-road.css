@@ -280,12 +280,13 @@
     padding-left: 15px
 }
 
-.blackTheme ul {
+.blackTheme ul.list-group {
     list-style: none;
     overflow: hidden;
     /*width: 97%;*/
-    margin: 5px;
+    /*margin: 5px;*/
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .blackTheme ul > li {
@@ -1071,25 +1072,31 @@
     color: #fff;
 }
 
+
 /*********************次属性栏弹出窗口***********************/
-.suspend{
+
+.suspend {
     width: 300px;
     height: 100%;
     position: absolute;
     right: 300px;
     background-color: #404040;
-    padding:0px 5px;
+    padding: 0px 5px;
     border: none;
     /*opacity: .9;*/
-    overflow-y:hidden;
+    overflow-y: hidden;
     display: block;
     z-index: 10;
     padding-top: 20px;
 }
-.suspend_hide{
+
+.suspend_hide {
     display: none;
 }
+
+
 /*高速分歧map上图片显示*/
+
 #picMapShow {
     width: 192px;
     border: 1px solid #fff;
@@ -1098,6 +1105,7 @@
     border-radius: 4px;
     margin-left: 51px;
 }
+
 #picMapImg {
     width: 192px;
     position: absolute;
@@ -1105,13 +1113,15 @@
     z-index: 99;
     top: 90px;
 }
-#picModalImg{
+
+#picModalImg {
     width: 192px;
     top: 90px;
     height: 160px;
     position: absolute;
-    z-index: 100;
+    z-index: 9;
 }
+
 #picMapDesc {
     color: #fff;
     width: 100%;

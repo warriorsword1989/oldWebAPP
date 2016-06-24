@@ -81,7 +81,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
         $scope.picPageNum = $scope.picNowNum - 1;
         var params = {
-            "name": $scope.diverObj.realimages[0].realCode,
+            "name": $scope.diverObj.realimages[0].arrowCode,
             "pageNum": $scope.picPageNum,
             "pageSize": 6
         };
@@ -103,24 +103,24 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     $scope.showPicSelect = function () {
         $scope.showImgData = false;
         $timeout(function () {
-            if ($.trim($scope.diverObj.realimages[0].realCode) == '') {
-                $scope.diverObj.realimages[0].arrowCode = '';
+            if ($.trim($scope.diverObj.realimages[0].arrowCode) == '') {
+                $scope.diverObj.realimages[0].realCode = '';
             };
-            $scope.diverObj.realimages[0].realCode = CtoH($scope.diverObj.realimages[0].realCode);
-            if(!testRegExp($scope.diverObj.realimages[0].realCode)){
-                $scope.diverObj.realimages[0].realCode = $scope.diverObj.realimages[0].realCode.substring(0, $scope.diverObj.realimages[0].realCode.length - 1);
+            $scope.diverObj.realimages[0].arrowCode = CtoH($scope.diverObj.realimages[0].arrowCode);
+            if(!testRegExp($scope.diverObj.realimages[0].arrowCode)){
+                $scope.diverObj.realimages[0].arrowCode = $scope.diverObj.realimages[0].arrowCode.substring(0, $scope.diverObj.realimages[0].arrowCode.length - 1);
                 $scope.$apply();
                 return false;
             }
         });
         $timeout(function () {
-            if ($.trim($scope.diverObj.realimages[0].realCode).length > 6) {
-                setArrowCode();
+            if ($.trim($scope.diverObj.realimages[0].arrowCode).length > 6) {
                 $scope.picNowNum = 1;
+                // setArrowCode();
                 $scope.getPicsDate();
-                $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.realimages[0].realCode);
-                $scope.arrowCodeSrc = $scope.getArrowPic($scope.diverObj.realimages[0].arrowCode);
-                if ($.trim($scope.diverObj.realimages[0].realCode) == '') {
+                $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.realimages[0].arrowCode);
+                $scope.arrowCodeSrc = $scope.getArrowPic($scope.diverObj.realimages[0].realCode);
+                if ($.trim($scope.diverObj.realimages[0].arrowCode) == '') {
                     $scope.showImgData = false;
                 } else {
                     $scope.showImgData = true;
@@ -208,11 +208,11 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.getPicsDate();
     };
     /*点击选中的图片*/
-    $scope.selectPicCode = function (code, url) {
+    $scope.selectPicCode = function (code) {
         $scope.diverObj.realimages[0].realCode = code;
         setArrowCode();
-        $scope.arrowMapShow = url;
-        $scope.arrowCodeSrc = $scope.getArrowPic($scope.diverObj.realimages[0].arrowCode);
+        $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.realimages[0].arrowCode);
+        $scope.arrowCodeSrc = $scope.getArrowPic(code);
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.realimages[0].arrowCode;
     };
@@ -289,7 +289,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             });
 
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.pid.toString(),
+                id:$scope.diverObj.realimages[0].rowId.toString(),
                 layerid:'relationdata',
                 type:'relationdata',
                 style:{}
@@ -422,7 +422,6 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
         dsRoad.editGeometryOrProperty(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
-            $scope.$apply();
             var info = null;
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();
