@@ -753,7 +753,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 if (data.errcode === -1) {
                     return;
                 }
-                objCtrl.setCurrentObject(type, data.data);
+                objCtrl.setCurrentObject(type, data);
                 tooltipsCtrl.onRemoveTooltip();
                 var options = {
                     "loadType": 'attrTplContainer',
