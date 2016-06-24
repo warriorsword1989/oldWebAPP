@@ -12,9 +12,9 @@
     </div>
 
     <div id="picMapShow">
-        <img id="picMapImg" ng-src="{{arrowMapShow}}">
-        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此模式图">
-        <div id="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
+        <img id="picMapImg" ng-src="{{backimageCodeSrc}}" alt="无此底图">
+        <img id="picModalImg" ng-src="{{arrowMapShow}}">
+        <div id="picMapDesc" ng-bind="diverObj.signboards[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -45,7 +45,7 @@
             <div class="d-group">
                 <div class="d-name">方向看板号：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="方向看板号" ng-model="diverObj.details[0].signboardId">
+                    <div class="show-val" ng-bind="diverObj.signboards[0].pid"></div>
                 </div>
             </div>
             <div class="d-group">
@@ -88,10 +88,10 @@
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
                     <div ng-show="diverObj.signboards[0].branchType != 3">
-                        <div ng-bind="diverObj.signboards[0].patternCode" class="show-val"></div>
+                        <div ng-bind="diverObj.signboards[0].backimageCode" class="show-val"></div>
                     </div>
                     <div ng-show="diverObj.signboards[0].branchType == 3">
-                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.signboards[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.signboards[0].backimageCode" ng-change="changeBackimageCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
                     </div>
                 </div>
             </div>

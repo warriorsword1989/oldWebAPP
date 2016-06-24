@@ -718,22 +718,50 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        /*if (selectedData.t_lifecycle && selectedData.t_lifecycle == 3) {
-            return;
-        }*/
-        dsEdit.getRdObjectById(id, type, selectedData.id,selectedData.branchType).then(function (data) {
-            if (data.errcode === -1) {
-                return;
+        if(type == 'RDBRANCH'){
+            if(selectedData.branchType == 5 || selectedData.branchType == 7){
+                dsEdit.getBranchByRowId(selectedData.id,selectedData.branchType).then(function (data) {
+                    if (data.errcode === -1) {
+                        return;
+                    }
+                    objCtrl.setCurrentObject(type, data.data);
+                    tooltipsCtrl.onRemoveTooltip();
+                    var options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": ctrl,
+                        "propertyHtml": tpl
+                    };
+                    $scope.$emit("transitCtrlAndTpl", options);
+                });
+            }else{
+                dsEdit.getBranchByDetailId(selectedData.id,selectedData.branchType).then(function (data) {
+                    if (data.errcode === -1) {
+                        return;
+                    }
+                    objCtrl.setCurrentObject(type, data.data);
+                    tooltipsCtrl.onRemoveTooltip();
+                    var options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": ctrl,
+                        "propertyHtml": tpl
+                    };
+                    $scope.$emit("transitCtrlAndTpl", options);
+                });
             }
-            objCtrl.setCurrentObject(type, data.data);
-            tooltipsCtrl.onRemoveTooltip();
-            var options = {
-                "loadType": 'attrTplContainer',
-                //"loadType": 'generalBaseTpl',
-                "propertyCtrl": ctrl,
-                "propertyHtml": tpl
-            }
-            $scope.$emit("transitCtrlAndTpl", options);
-        });
+        }else{
+            dsEdit.getByPid(id, type, selectedData.id,selectedData.branchType).then(function (data) {
+                if (data.errcode === -1) {
+                    return;
+                }
+                objCtrl.setCurrentObject(type, data.data);
+                tooltipsCtrl.onRemoveTooltip();
+                var options = {
+                    "loadType": 'attrTplContainer',
+                    "propertyCtrl": ctrl,
+                    "propertyHtml": tpl
+                };
+                $scope.$emit("transitCtrlAndTpl", options);
+            });
+        }
     }
 }])
