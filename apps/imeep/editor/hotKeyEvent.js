@@ -2,14 +2,14 @@
  * Created by liwanchong on 2015/12/11.
  */
 
-function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
+function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
     $(document).bind('keydown',
         function (event) {
             //取消
             var layerCtrl = fastmap.uikit.LayerController();
             var outPutCtrl = fastmap.uikit.OutPutController();
             var featCodeCtrl = fastmap.uikit.FeatCodeController();
-
+            var evtCtrl = fastmap.uikit.EventController();
             var toolTipsCtrl = fastmap.uikit.ToolTipsController();
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var objEditCtrl = fastmap.uikit.ObjectEditController();
@@ -80,25 +80,52 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                     data.data.log.push(sInfo);
                     info = data.data.log;
                     if (ctrl) {
-                        if (type === "RDBRANCH") {
-                            var detailId = data.data.pid;
-                            id = "";
-                        } else if (type === "ADFACE"){
-                            id = data.data.log[2].pid;
+                        if(type != "POI"){
+                            if (type === "RDBRANCH") {
+                                var detailId = data.data.pid;
+                                id = "";
+                            } else if (type === "ADFACE"){
+                                id = data.data.log[2].pid;
+                            }else {
+                                id = data.data.pid;
+                            }
+                            objEditCtrl.setOriginalData(null);
+                            dsRoad.getRdObjectById(id, type, detailId).then(function (data) {
+                                objEditCtrl.setCurrentObject(type, data.data);
+                                ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                })
+                            });
+
+                            scope.$emit("SWITCHCONTAINERSTATE", {
+                                "attrContainerTpl": true,
+                                "subAttrContainerTpl": false
+                            });
                         }else {
-                            id = data.data.pid;
+                            objEditCtrl.setOriginalData(null);
+                            dsEdit.getByPid(data.data.pid,"IXPOI").then(function(rest) {
+                                if (rest) {
+                                    objEditCtrl.setCurrentObject('IXPOI', rest);
+                                    objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                                    evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
+                                        feature: objEditCtrl.data
+                                    });
+                                    scope.$emit("SWITCHCONTAINERSTATE", {});
+                                    scope.$emit("transitCtrlAndTpl", {
+                                        "loadType": "tipsTplContainer",
+                                        "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                                    });
+                                    scope.$emit("transitCtrlAndTpl", {
+                                        "loadType": "attrTplContainer",
+                                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                                    });
+                                    scope.$emit("highLightPoi", rest.pid);
+                                }
+                            });
                         }
-                        objEditCtrl.setOriginalData(null);
-                        dsRoad.getRdObjectById(id, type, detailId).then(function (data) {
-                            objEditCtrl.setCurrentObject(type, data.data);
-                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                            })
-                        });
-                        scope.$emit("SWITCHCONTAINERSTATE", {
-                            "attrContainerTpl": true,
-                            "subAttrContainerTpl": false
-                        });
+
                     }else{
                         if(shapeCtrl.editType==="pathBreak") {
                                 scope.$emit("SWITCHCONTAINERSTATE", {
@@ -554,14 +581,14 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
                             'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
-                } else if(shapeCtrl.editType === "POILOCMOVE" || shapeCtrl.editType === "POIGUIDEMOVE" || shapeCtrl.editType === "POIAUTODRAG"){
+                } else if(shapeCtrl.editType === "poiLocMove" || shapeCtrl.editType === "poiGuideMove" || shapeCtrl.editType === "poiAutoDrag"){
                     var points = selectCtrl.selectedFeatures;
-                    if (points || points.geometry || points.geometry[0] || points.id) {
+                    if (!(points || points.geometry || points.geometry[0] || points.id)) {
                         swal("操作失败", "无法获取poi点数据", "error");
                         return;
                     }
-                    if (point.geometry[1] == undefined) {
-                        point.geometry[1] = point.geometry[0];//将显示坐标赋给引导坐标
+                    if (points.geometry[1] == undefined) {
+                        points.geometry[1] = points.geometry[0];//将显示坐标赋给引导坐标
                     }
                     if (points.linkPid == undefined) {
                         points.linkPid = 0;//将引导link赋默认值
@@ -580,9 +607,38 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, appPath) {
                         }
                     };
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
+                        highRenderCtrl._cleanHighLight();
                         layerCtrl.getLayerById("poiPoint").redraw();
-                        treatmentOfChanged(data, "poi", "移动poi成功",
-                            'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
+                        // treatmentOfChanged(data, "poi", "移动poi成功");
+                    })
+                }else if(shapeCtrl.editType === "poiAdd" ){
+                    var points = selectCtrl.selectedFeatures;
+                    if (!points || !points.geometry) {
+                        swal("操作失败", "无法获取poi点数据", "error");
+                        return;
+                    }
+                    if (points.geometry.components[1] == undefined) {
+                        points.geometry.components[1] = points.geometry.components[0];//将显示坐标赋给引导坐标
+                    }
+                    if (points.geometry.linkPid == undefined) {
+                        points.geometry.linkPid = 0;//将引导link赋默认值
+                    }
+                    param = {
+                        "command": "CREATE",
+                        "type": "IXPOI",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            "longitude": points.geometry.components[0].x,
+                            "latitude": points.geometry.components[0].y,
+                            "x_guide": points.geometry.components[1].x,
+                            "y_guide": points.geometry.components[1].y,
+                            "linkPid": parseInt(points.geometry.linkPid)
+                        }
+                    };
+                    dsRoad.editGeometryOrProperty(param).then(function (data) {
+                        layerCtrl.getLayerById("poiPoint").redraw();
+                        treatmentOfChanged(data, "POI", "保存poi成功",
+                            'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                     })
                 }
             }

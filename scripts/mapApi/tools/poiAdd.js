@@ -27,7 +27,7 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.captureHandler = new fastmap.mapApi.Capture({map:this._map,shapeEditor:this.shapeEditor,selectedCapture:false,captureLine:true});
         this.captureHandler.enable();
-        this.captureHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('poiPoint'));
+        // this.captureHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('poiPoint'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
@@ -50,62 +50,32 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
 
     onMouseMove:function(event){
         this.container.style.cursor = 'pointer';
-        this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':false});
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-    },
+        this.captureHandler.setTargetIndex(0);
 
+        var layerPoint = event.layerPoint;
+        this.targetPoint = this._map.layerPointToLatLng(layerPoint);
+
+        var that = this;
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':true});
+        this.captureHandler.targetIndex = this.targetIndex;
+        // this.selectCtrl.setCaptureObj(this.captureHandler);
+        if(this.captureHandler.captureLatlng){
+            var guide = L.latLng(this.captureHandler.captureLatlng[1],this.captureHandler.captureLatlng[0]);
+            points.components[1].x = guide.lng;
+            points.components[1].y = guide.lat;
+            points.linkPid = this.captureHandler.properties.id;
+        }
+        points.components[0].x = this.targetPoint.lng;
+        points.components[0].y = this.targetPoint.lat;
+        that.shapeEditor.shapeEditorResult.setFinalGeometry(points);
+        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
+    },
 
     onMouseDown: function (event) {
-        var mouseLatlng;
-        if(this.captureHandler.captured == true){
-            mouseLatlng = this.targetPoint
-        }else{
-            mouseLatlng = event.latlng;
-        }
-        this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
-        var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
-        this.drawGeomCanvasHighlight(tileCoordinate, event);
 
     },
-    drawGeomCanvasHighlight: function (tilePoint, event) {
-        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
-            var pixels = null;
-            if(this.captureHandler.captured == true){
 
-                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat,this._map.getZoom());
-            }else{
-                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
-            }
-
-            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
-            var id = null;
-            var transform = new fastmap.mapApi.MecatorTranform();
-
-            var temp = 0;
-            for (var i = 0; i < data.length; i++)
-            {
-                for (var j = 0; j < data.length - i; j++)
-                {
-                    if((j+1)<(data.length - i-1)){
-                        if (this._TouchesPath(data[j].geometry.coordinates, x, y) > this._TouchesPath(data[j+1].geometry.coordinates, x, y))
-                        {
-                            temp = data[j+1];
-                            data[j + 1] = data[j];
-                            data[j] = temp;
-                        }
-                    }
-
-                }
-            }
-            var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
-            point= new fastmap.mapApi.Point(point[0], point[1]);
-            //id = data[0].properties.id;
-            this.selectCtrl.selectedFeatures = data[0].properties;
-        }
-
-
-    },
 
     /***
      *
