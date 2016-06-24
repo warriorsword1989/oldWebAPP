@@ -26,7 +26,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             delete $scope.tipsObj[v.id];
         };
         /*全选、反选事件*/
-        $scope.showAllLayers = function(typeName, typeArr) {
+        $scope.showAllLayers = function(typeName, type) {
             if ($scope[typeName]) {
                 $.each($scope.items, function(i, v) {
                     $scope.clearLayer(v);
@@ -37,31 +37,11 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             } else {
                 $.each($scope.items, function(i, v) {
                     v.flag = true;
-                    $scope.changeList(typeArr);
+                    $scope.changeList(type);
                 });
                 $scope[typeName] = true;
             }
         };
-        dsFcc.getTipsStatics([1, 3]).then(function(data) {
-            var arr = [],
-                transArr = [];
-            transArr = data.data.rows;
-            for (var i = 0, len = transArr.length; i < len; i++) {
-                var obj = {},
-                    objArr = {};
-                obj = transArr[i];
-                for (var item in obj) {
-                    objArr.name = fastmap.dataApi.FeatureConfig[item].name;
-                    objArr.id = item;
-                    objArr.flag = true;
-                    $scope.tipsObj[item] = true;
-                    objArr.total = obj[item];
-                    arr.push(objArr);
-                }
-            }
-            $scope.items = arr;
-            $scope.items.total = data.data.total;
-        });
         var selectCtrl = new fastmap.uikit.SelectController();
         //切换处理 待处理 已处理 页面
         $scope.dataListType = 1;
@@ -100,6 +80,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 $scope.items.total = data.data.total;
             });
         };
+        $scope.changeList(1);
         //点击下拉框的时  显示内容
         $scope.showContent = function(item, arr, stage, event) {
             $scope.$emit('closePopoverTips', false);

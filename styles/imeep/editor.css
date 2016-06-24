@@ -1139,6 +1139,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /* ---------------------滚动条-------------------------------------------------- */
 
+.scroll-styled {
+    overflow: auto;
+}
+
 .scroll-styled::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -1424,11 +1428,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /*按钮组加中间的边框*/
 
-.btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .btn {
+.fm-btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .btn {
     border-left: 1px solid #404040;
 }
 
-.btn-group-vertical .btn:not(:first-child) {
+.fm-btn-group > .btn-group-vertical .btn:not(:first-child) {
     border-left: none;
     border-top: 1px solid #404040;
 }
@@ -1457,4 +1461,14 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
+}
+
+.fm-fitsize {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
 }
