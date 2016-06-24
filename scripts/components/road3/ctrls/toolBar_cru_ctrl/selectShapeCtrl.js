@@ -734,16 +734,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             });
         }
         function getByPidCallback(type,ctrl,tpl,data){
-            if (data.errcode === -1) {
-                return;
-            }
             var options = {
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             };
             $scope.$emit("transitCtrlAndTpl", options);
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
         }
     }

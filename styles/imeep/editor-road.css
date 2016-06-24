@@ -1098,12 +1098,12 @@
 /*高速分歧map上图片显示*/
 
 #picMapShow {
-    width: 192px;
+    width: 194px;
     border: 1px solid #fff;
-    height: 160px;
+    height: 162px;
     float: left;
     border-radius: 4px;
-    margin-left: 51px;
+    margin-left: 50px;
 }
 
 #picMapImg {
@@ -1111,12 +1111,12 @@
     position: absolute;
     height: 160px;
     z-index: 99;
-    top: 90px;
+    top: 51px;
 }
 
 #picModalImg {
     width: 192px;
-    top: 90px;
+    top: 51px;
     height: 160px;
     position: absolute;
     z-index: 9;
