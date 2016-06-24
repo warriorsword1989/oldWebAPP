@@ -67,7 +67,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsPoi, appPath) {
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
             }
-            function treatmentOfChanged(data, type, op, ctrl, tpl) {
+            function treatmentOfChanged(data,branchType, type, op, ctrl, tpl, rowid) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
@@ -84,13 +84,15 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsPoi, appPath) {
                             if (type === "RDBRANCH") {
                                 var detailId = data.data.pid;
                                 id = "";
+                                branchType = branchType
                             } else if (type === "ADFACE"){
                                 id = data.data.log[2].pid;
                             }else {
                                 id = data.data.pid;
                             }
                             objEditCtrl.setOriginalData(null);
-                            dsRoad.getRdObjectById(id, type, detailId).then(function (data) {
+                            dsRoad.getRdObjectById(id, type, detailId, branchType,rowid).then(function (data) {
+                                console.log(data)
                                 objEditCtrl.setCurrentObject(type, data.data);
                                 ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                     scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
@@ -438,9 +440,11 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsPoi, appPath) {
                     };
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
-                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
-                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html'
-                            //fastmap.dataApi.FeatureConfig['1406'].ctl, fastmap.dataApi.FeatureConfig['1406'].tpl
+                        //只有5/7的时候传rowId;
+                        var rowId = '';
+                        if(param.data.branchType==5||param.data.branchType==7){rowId=data.data.log[0].rowId;}
+                        treatmentOfChanged(data,param.data.branchType, "RDBRANCH", "创建RDBRANCH成功",
+                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html',rowId
                         );
                     })
                 } else if (shapeCtrl.editType === "addRdCross") {

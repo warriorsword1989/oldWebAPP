@@ -5,20 +5,24 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
      * @param type
      * @param func
      */
-    this.getRdObjectById = function(id, type, detailid) {
+    this.getRdObjectById = function(id, type, detailid, branchType,rowid) {
         var defer = $q.defer();
         var params = {};
         if (!id) {
             params = {
                 "dbId": App.Temp.dbId,
                 "type": type,
-                "detailId": detailid
+                "detailId": detailid,
+                "branchType":branchType,
+                "rowId":rowid
             };
         } else {
             params = {
                 "dbId": App.Temp.dbId,
                 "type": type,
-                "pid": id
+                "pid": id,
+                "branchType":branchType,
+                "rowId":rowid
             };
         }
         ajax.get("edit/getByPid", {
