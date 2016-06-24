@@ -7,9 +7,10 @@ FM.dataApi.IxPoiAddress = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.nameId = data['nameId'] || 0;
+        this.pid = data["pid"];
+        //this.nameId = data['nameId'] || 0;
         this.poiPid = data['poiPid'] || 0;
-        this.nameGroupId = data['nameGroupId'] || 1;
+        this.nameGroupid = data['nameGroupid'] || 1;
         this.langCode = data['langCode'];
         this.srcFlag = data['srcFlag'];
         this.fullname = data['fullname'];
@@ -37,9 +38,10 @@ FM.dataApi.IxPoiAddress = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
+        ret['pid'] = this.pid;
         ret['audataId'] = this.audataId;
-        ret['nameId'] = this.nameId;
-        ret['nameGroupId'] = this.nameGroupId;
+        //ret['nameId'] = this.nameId;
+        ret['nameGroupid'] = this.nameGroupid;
         ret['poiPid'] = this.poiPid;
         ret['langCode'] = this.langCode;
         ret['srcFlag'] = this.srcFlag;

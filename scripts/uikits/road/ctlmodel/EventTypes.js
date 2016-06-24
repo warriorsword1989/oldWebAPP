@@ -46,6 +46,6 @@ L.Mixin.EventTypes={
     GETPOIID:'getPoiId',
     CAPTURED:'captured',
 
-    CHANGELINKNAME:"changeLinkName" //link编辑名称组时，切换名称事件
+    CHANGELINKNAME:"changeLinkName" //link编辑名称组是
 
 }

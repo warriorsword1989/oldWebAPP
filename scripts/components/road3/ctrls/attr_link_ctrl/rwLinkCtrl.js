@@ -5,6 +5,8 @@ var rwLinkZone = angular.module("app");
 rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,appPath) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
+    var selectCtrl = fastmap.uikit.SelectController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
 
 
     $scope.kind = [
@@ -32,6 +34,52 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,a
     $scope.initializeData = function(){
         $scope.rwLinkData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
+        $scope.dataTipsData = selectCtrl.rowKey;
+        $scope.currentURL = "";
+
+        /*//随着地图的变化 高亮的线不变
+        if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
+            var linksArr = [];
+            var highLightFeatures = [];
+            for(var item in $scope.dataTipsData.f_array){
+                linksArr.push($scope.dataTipsData.f_array[item].id);
+                highLightFeatures.push({
+                    id:$scope.dataTipsData.f_array[item].id,
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
+            }
+
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
+        }else{
+            highRenderCtrl.highLightFeatures.push({
+                id:$scope.rwLinkData.pid.toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
+            });
+            highRenderCtrl.drawHighlight();
+        }
+
+        var linkArr =$scope.rwLinkData.geometry.coordinates, points = [];
+        for (var i = 0, len = linkArr.length; i < len; i++) {
+            var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+            points.push(pointOfLine);
+        }
+        var pointOfSelect = selectCtrl.selectedFeatures["point"];
+        var line = fastmap.mapApi.lineString(points);
+        selectCtrl.onSelected({
+            geometry: line,
+            id: $scope.rwLinkData.pid,
+            type:"Link",
+            direct: $scope.rwLinkData.direct,
+            snode: $scope.rwLinkData.sNodePid,
+            enode: $scope.rwLinkData.eNodePid,
+            point: pointOfSelect
+        });*/
     };
 
 

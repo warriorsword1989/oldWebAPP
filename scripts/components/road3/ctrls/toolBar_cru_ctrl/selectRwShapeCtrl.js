@@ -10,7 +10,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     var eventController = fastmap.uikit.EventController();
     var rwLink = layerCtrl.getLayerById('rwLink');
     var rwNode = layerCtrl.getLayerById('rwNode');
-    var workPoint = layerCtrl.getLayerById('workPoint');
+    //var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.toolTipText = "";

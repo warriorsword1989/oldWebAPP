@@ -121,8 +121,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             //把要捕捉的线图层添加到捕捉工具中
             map.currentTool.snapHandler.addGuideLayer(rdLink);
             rdLink.options.editable = true;
-            eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
-            eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+            //eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+            //eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }
         else if (type === "node") { //选择点
 

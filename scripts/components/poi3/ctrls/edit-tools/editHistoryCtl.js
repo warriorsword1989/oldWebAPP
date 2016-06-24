@@ -27,7 +27,7 @@ angular.module('app').controller('EditHistoryCtl', ['$scope', function($scope) {
             }else{
                 if (attr == "kindCode") {
                     oldVal = kindName(oldContent[kk]);
-                } else if (attr == "open24H") {
+                } else if (attr == "open24h") {
                     oldVal = oldContent[attr] == 2 ? "否" : "是";
                 } else {
                     oldVal = oldContent[attr];
