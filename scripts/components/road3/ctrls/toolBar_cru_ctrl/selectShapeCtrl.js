@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  */
 var selectApp = angular.module("app", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad','appPath', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad,appPath) {
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad','dsEdit','appPath', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad,dsEdit,appPath) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -721,7 +721,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         /*if (selectedData.t_lifecycle && selectedData.t_lifecycle == 3) {
             return;
         }*/
-        dsRoad.getRdObjectById(id, type, selectedData.id,selectedData.branchType).then(function (data) {
+        dsEdit.getRdObjectById(id, type, selectedData.id,selectedData.branchType).then(function (data) {
             if (data.errcode === -1) {
                 return;
             }
