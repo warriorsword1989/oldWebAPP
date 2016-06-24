@@ -724,14 +724,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     if (data.errcode === -1) {
                         return;
                     }
-                    objCtrl.setCurrentObject(type, data.data);
-                    tooltipsCtrl.onRemoveTooltip();
                     var options = {
                         "loadType": 'attrTplContainer',
                         "propertyCtrl": ctrl,
                         "propertyHtml": tpl
                     };
                     $scope.$emit("transitCtrlAndTpl", options);
+                    objCtrl.setCurrentObject(type, data.data);
+                    tooltipsCtrl.onRemoveTooltip();
                 });
             }else{
                 dsEdit.getBranchByDetailId(selectedData.id,selectedData.branchType).then(function (data) {

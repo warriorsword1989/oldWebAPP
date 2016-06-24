@@ -170,6 +170,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.diverObj.signboards[0].backimageCode = '8' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
         $scope.arrowMapShow = url;
         $scope.backimageCodeSrc = $scope.getArrowPic($scope.diverObj.signboards[0].backimageCode);
+        console.log($scope.getArrowPic($scope.diverObj.signboards[0].backimageCode))
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.signboards[0].backimageCode;
     }
@@ -236,7 +237,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             });
 
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.signboards[0].pid.toString(),
+                id:$scope.diverObj.pid.toString(),
                 layerid:'relationdata',
                 type:'relationdata',
                 style:{}
