@@ -9,11 +9,23 @@ angular.module("dataService").service("dsRoad", ["$http", "$q", "ajax", function
         var defer = $q.defer();
         var params = {};
         if (!id) {
-            params = {
-                "dbId": App.Temp.dbId,
-                "type": type,
-                "detailId": detailid
-            };
+            if(branchType == 5 || branchType == 7){
+                params = {
+                    "dbId": App.Temp.dbId,
+                    "type": type,
+                    "detailId": 0,
+                    "rowId":detailid,
+                    "branchType":branchType
+                }
+            }else{
+                params = {
+                    "dbId": App.Temp.dbId,
+                    "type": type,
+                    "detailId": detailid,
+                    "rowId":"",
+                    "branchType":branchType
+                }
+            }
         } else {
             params = {
                 "dbId": App.Temp.dbId,
