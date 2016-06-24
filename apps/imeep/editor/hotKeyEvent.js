@@ -458,6 +458,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         var rowId_detialId = '';
                         rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.data.log[0].rowId:data.data.pid;
                         switch (param.data.branchType){
+                            case 0||3:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
                             case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
                         }
                         treatmentOfChanged(data, param.data.branchType, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, rowId_detialId);
