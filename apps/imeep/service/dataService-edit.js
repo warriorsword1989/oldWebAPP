@@ -205,7 +205,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             parameter: param.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("操作出错：", data.errmsg, "error");
                 defer.resolve(null);

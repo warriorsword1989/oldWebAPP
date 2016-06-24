@@ -65,23 +65,23 @@
     }
 </style>
 <div id="fm-addShapContainer" ng-controller="addAdShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn addAdNode_{{classArr[15]}}" id="addNode" ng-click="addShape('adNode',15,$event)"
+    <button type="button" class="btn addAdNode_{{classArr[4]}}" id="addNode" ng-click="addShape('adNode',4,$event)"
             title="新增ADNODE+"></button>
-    <button type="button" class="btn addAdLink_{{classArr[16]}}" id="addAdLink" ng-click="addShape('adLink',16,$event)"
+    <button type="button" class="btn addAdLink_{{classArr[5]}}" id="addAdLink" ng-click="addShape('adLink',5,$event)"
             title="新增ADLINE"></button>
-    <button type="button" class="btn addAdAdmin_{{classArr[17]}} dropdown-toggle"  ng-click="addShape('adAdmin',17,$event)"
+    <button type="button" class="btn addAdAdmin_{{classArr[6]}} dropdown-toggle"  ng-click="addShape('adAdmin',6,$event)"
             title="新增行政区划代表点">
     </button>
     <!--<button type="button" class="btn addAdFace_{{classArr[7]}}" id="addPolygon"  ng-click="addShape('adFace',7,$event)"-->
             <!--title="新增polygon">-->
     <!--</button>-->
-    <button type="button" class="btn addAdFace_{{classArr[18]}} dropdown-toggle" id="addPolygon"
+    <button type="button" class="btn addAdFace_{{classArr[7]}} dropdown-toggle" id="addPolygon"
             data-toggle="dropdown" title="新增polygon">
     </button>
     <ul class="dropdown-menu shape-well" role="menu">
         <div class="btn-group btn-group-sm" style="float: none;">
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('adFace',18,$event)">新增面</button>
-            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('adFaceLine',18,$event)">线构面</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('adFace',7,$event)">新增面</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('adFaceLine',7,$event)">线构面</button>
         </div>
     </ul>
 
