@@ -67,7 +67,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
             }
-            function treatmentOfChanged(data,branchType, type, op, ctrl, tpl, rowid) {
+            function treatmentOfChanged(data,branchType, type, op, ctrl, tpl, rowid_deatailId) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
@@ -82,7 +82,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                     if (ctrl) {
                         if(type != "POI"){
                             if (type === "RDBRANCH") {
-                                var detailId = data.data.pid;
+                                //var detailId = data.data.pid;
                                 id = "";
                                 branchType = branchType
                             } else if (type === "ADFACE"){
@@ -91,7 +91,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 id = data.data.pid;
                             }
                             objEditCtrl.setOriginalData(null);
-                            dsRoad.getRdObjectById(id, type, detailId, branchType,rowid).then(function (data) {
+                            dsEdit.getRdObjectById(id, type, rowid_deatailId, branchType).then(function (data) {
                                 console.log(data)
                                 objEditCtrl.setCurrentObject(type, data.data);
                                 ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
@@ -454,10 +454,14 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         //只有5/7的时候传rowId;
-                        var rowId = '';
-                        if(param.data.branchType==5||param.data.branchType==7){rowId=data.data.log[0].rowId;}
+                        var rowId_detialId = '';
+                        if(param.data.branchType==5||param.data.branchType==7) {
+                            rowId_detialId=data.data.log[0].rowId;
+                        }else{
+                            rowId_detialId=data.data.pid;
+                        }
                         treatmentOfChanged(data,param.data.branchType, "RDBRANCH", "创建RDBRANCH成功",
-                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html',rowId
+                            'attr_branch_ctrl/rdRealImageCtrl', 'attr_branch_Tpl/realImageOfBranch.html',rowId_detialId
                         );
                     })
                 } else if (shapeCtrl.editType === "addRdCross") {
