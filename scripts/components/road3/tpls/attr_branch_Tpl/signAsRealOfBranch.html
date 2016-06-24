@@ -1,9 +1,9 @@
-<div class="nameOfBraDiv" ng-controller="SignBoardOfBranchCtrl">
+<div class="nameOfBraDiv" ng-controller="RealImageOfBranchCtrl">
     <div style="height:50px">
         <form class="form-horizontal" method="get">
             <div class="panel panel-default " style="background-color: transparent;border:0;">
                 <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
-                    方向看板
+                    实景看板
                     <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
                     </label>
                 </div>
@@ -13,8 +13,8 @@
 
     <div id="picMapShow">
         <img id="picMapImg" ng-src="{{arrowMapShow}}">
-        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此模式图">
-        <div id="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
+        <img id="picModalImg" ng-src="{{arrowCodeSrc}}" alt="无此模式图">
+        <div id="picMapDesc" ng-bind="diverObj.details[0].realCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -43,20 +43,15 @@
                 </div> 
             </div>
             <div class="d-group">
-                <div class="d-name">方向看板号：</div>
+                <div class="d-name">实景图类型：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="方向看板号" ng-model="diverObj.details[0].signboardId">
-                </div>
+                    <select class="rounded d-input" ng-change="changeBranchType();" ng-model="diverObj.details[0].imageType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                </div> 
             </div>
             <div class="d-group">
-                <div class="d-name">箭头图号：</div>
+                <div class="d-name">实景图号：</div>
                 <div class="d-value">
-                    <div ng-show="diverObj.signboards[0].branchType != 3">
-                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.signboards[0].arrowCode" ng-keydown="showPicSelect()">
-                    </div>
-                    <div ng-show="diverObj.signboards[0].branchType == 3">
-                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.signboards[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
-                    </div>
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="实景图号" ng-model="diverObj.details[0].realCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
                     <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -85,31 +80,17 @@
                 </div>
             </div>
             <div class="d-group">
-                <div class="d-name">模式图号：</div>
+                <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <div ng-show="diverObj.signboards[0].branchType != 3">
-                        <div ng-bind="diverObj.signboards[0].patternCode" class="show-val"></div>
-                    </div>
-                    <div ng-show="diverObj.signboards[0].branchType == 3">
-                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.signboards[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
-                    </div>
+                    <div ng-bind="diverObj.details[0].arrowCode" class="show-val"></div>
                 </div>
             </div>
         </div>
     </div>
     </form>
     <!--end 模式图信息-->
-    <!--begin 名称信息-->
-    <div ng-if="diverObj.signboards[0].branchType != 3">
-        <div class="module-box show-detail-title" ng-click="showDetail(0);">
-            <div class="box-head font-bold">
-                名称信息（共 <span ng-bind="diverObj.signboards[0].names.length"></span> 条）
-            </div>
-        </div>
-    </div>
-    <!--end 名称信息-->
     <!--begin 经过线-->
-    <div class="module-box show-detail-title" ng-click="showDetail(1);">
+    <div class="module-box show-detail-title" ng-click="showDetail();">
         <div class="box-head font-bold">
              经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
         </div>

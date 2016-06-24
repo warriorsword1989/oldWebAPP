@@ -1,6 +1,6 @@
 /**
- * Created by liuyang on 2016/6/22.
- * Class PoiAdd
+ * Created by liuyang on 2015/9/16.
+ * Class PpoiAdd
  */
 
 fastmap.mapApi.poiAdd = L.Handler.extend({
@@ -51,8 +51,10 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
     onMouseMove:function(event){
         this.container.style.cursor = 'pointer';
         this.captureHandler.setTargetIndex(0);
+
         var layerPoint = event.layerPoint;
         this.targetPoint = this._map.layerPointToLatLng(layerPoint);
+
         var that = this;
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':true});
@@ -69,6 +71,11 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         that.shapeEditor.shapeEditorResult.setFinalGeometry(points);
         that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
     },
+
+    onMouseDown: function (event) {
+
+    },
+
 
     /***
      *
@@ -170,10 +177,14 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
                             radius: 3
                         }, feature.properties);
                     }
+
+
                 }
             }
 
         }
+
+
     }
     ,
     /***
