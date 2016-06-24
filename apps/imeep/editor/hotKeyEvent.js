@@ -89,14 +89,22 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 id = data.data.pid;
                             }
                             objEditCtrl.setOriginalData(null);
-                            dsEdit.getRdObjectById(id, type, rowid_deatailId, branchType).then(function (data) {
-                                console.log(data)
-                                objEditCtrl.setCurrentObject(type, data.data);
-                                ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                                })
-                            });
-
+                            //根据不同的分歧类型加载数据面板;
+                            if(branchType===5 || branchType===7){
+                                dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
+                                    //objEditCtrl.setCurrentObject(type, data.data);
+                                    //ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                    //    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                    //})
+                                });
+                            }else{
+                                dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
+                                    objEditCtrl.setCurrentObject(type, data.data);
+                                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                    })
+                                });
+                            }
                             scope.$emit("SWITCHCONTAINERSTATE", {
                                 "attrContainerTpl": true,
                                 "subAttrContainerTpl": false
@@ -432,14 +440,14 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         var rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.data.log[0].rowId:data.data.pid;
                         switch (param.data.branchType){
                             case 0:
-                            case 1:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                            case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl';tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
                             case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
                         //
-                            case 1:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                            case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                            case 1:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                            case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                            case 1:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                        //    case 1:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                        //    case 8:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                        //    case 7:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                            case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl';tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
+                            case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl';tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
                         }
                         treatmentOfChanged(data, param.data.branchType, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, rowId_detialId);
                     })
