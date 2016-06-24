@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/6/22.
  */
-angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsRoad', function ($scope, $ocLazyLoad, $rootScope,appPath,dsRoad) {
+angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsEdit', function ($scope, $ocLazyLoad, $rootScope,appPath,dsEdit) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -182,7 +182,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
             })
-        $scope.$apply();
+        // $scope.$apply();
         $("#popoverTips").hide();
 
         //停止shapeCtrl
@@ -266,11 +266,11 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
 
-        dsRoad.getRdObjectById(id,type,selectedData.detailId).then(function (data){
+        dsEdit.getByPid(id,type,selectedData.detailId).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
             var options = {
                 "loadType": 'attrTplContainer',

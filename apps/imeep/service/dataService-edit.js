@@ -10,7 +10,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
         var params = {
             "dbId": App.Temp.dbId,
             "type": type,
-            "pid": id
+            "pid": pid
         };
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
