@@ -87,8 +87,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     };
     //初始化DataTips相关数据
     $scope.initializeDataTips = function(data) {
-        $scope.photoTipsData = [];
         $scope.photos = [];
+        $scope.audios = [];
         $scope.remarksContent = null;
         $scope.dataTipsData = data; //selectCtrl.rowKey;
         $scope.rowkey = $scope.dataTipsData.rowkey;
@@ -179,72 +179,93 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {
-                    "10501":"上陡坡",
-                    "10502":"下陡坡",
-                    "10701":"两侧变窄",
-                    "13401":"事故易发路段",
-                    "13703":"交通意外黑点",
-                    "20301":"会车让行",
-                    "20101":"停车让行",
-                    "11802":"傍山险路(右)",
-                    "11801":"傍山险路(左)",
-                    "20201":"减速让行",
-                    "10901":"双向交通",
-                    "10301":"反向弯路a",
-                    "10702":"右侧变窄",
-                    "13603":"右侧绕行",
-                    "10202":"向右急弯路",
-                    "10201":"向左急弯路",
-                    "11902":"堤坝路(右)",
-                    "11901":"堤坝路(左)",
-                    "10703":"左侧变窄",
-                    "13602":"左侧绕行",
-                    "13601":"左右绕行",
-                    "13702":"文字性警示标牌",
-                    "13101":"斜杠符号a50米",
-                    "13102":"斜杠符号b100米",
-                    "13103":"斜杠符号c150米",
-                    "12901":"无人看守铁路道口",
-                    "11701":"易滑",
-                    "12801":"有人看守铁路道口",
-                    "12001":"村庄",
-                    "11101":"注意儿童",
-                    "13701":"注意危险",
-                    "14402":"注意右侧合流",
-                    "14401":"注意左侧合流",
-                    "11601":"注意横风",
-                    "14101":"注意潮汐车道",
-                    "11201":"注意牲畜",
-                    "11502":"注意落石(右)",
-                    "11501":"注意落石(左)",
-                    "22901":"禁止超车",
-                    "10801":"窄桥",
-                    "23001":"解除禁止超车",
-                    "12401":"路面不平",
-                    "12601":"路面低洼",
-                    "12501":"路面高凸",
-                    "12701":"过水路面",
-                    "10601":"连续下坡",
-                    "10401":"连续弯路",
-                    "14001":"隧道开车灯",
-                    "12301":"驼峰桥",
-                    "31501":"鸣喇叭"
+                    "10501": "上陡坡",
+                    "10502": "下陡坡",
+                    "10701": "两侧变窄",
+                    "13401": "事故易发路段",
+                    "13703": "交通意外黑点",
+                    "20301": "会车让行",
+                    "20101": "停车让行",
+                    "11802": "傍山险路(右)",
+                    "11801": "傍山险路(左)",
+                    "20201": "减速让行",
+                    "10901": "双向交通",
+                    "10301": "反向弯路a",
+                    "10702": "右侧变窄",
+                    "13603": "右侧绕行",
+                    "10202": "向右急弯路",
+                    "10201": "向左急弯路",
+                    "11902": "堤坝路(右)",
+                    "11901": "堤坝路(左)",
+                    "10703": "左侧变窄",
+                    "13602": "左侧绕行",
+                    "13601": "左右绕行",
+                    "13702": "文字性警示标牌",
+                    "13101": "斜杠符号a50米",
+                    "13102": "斜杠符号b100米",
+                    "13103": "斜杠符号c150米",
+                    "12901": "无人看守铁路道口",
+                    "11701": "易滑",
+                    "12801": "有人看守铁路道口",
+                    "12001": "村庄",
+                    "11101": "注意儿童",
+                    "13701": "注意危险",
+                    "14402": "注意右侧合流",
+                    "14401": "注意左侧合流",
+                    "11601": "注意横风",
+                    "14101": "注意潮汐车道",
+                    "11201": "注意牲畜",
+                    "11502": "注意落石(右)",
+                    "11501": "注意落石(左)",
+                    "22901": "禁止超车",
+                    "10801": "窄桥",
+                    "23001": "解除禁止超车",
+                    "12401": "路面不平",
+                    "12601": "路面低洼",
+                    "12501": "路面高凸",
+                    "12701": "过水路面",
+                    "10601": "连续下坡",
+                    "10401": "连续弯路",
+                    "14001": "隧道开车灯",
+                    "12301": "驼峰桥",
+                    "31501": "鸣喇叭"
                 };
                 break;
-            case "1107"://收费站
-                $scope.TollType = [
-                    {"id": 0, "label": "未调查"},
-                    {"id": 1, "label": "领卡"},
-                    {"id": 2, "label": "交卡付费"},
-                    {"id": 3, "label": "固定收费(次费)"},
-                    {"id": 4, "label": "交卡付费后再领卡"},
-                    {"id": 5, "label": "交卡付费并代收固定费用"},
-                    {"id": 6, "label": "验票(无票收费)值先保留"},
-                    {"id": 7, "label": "领卡并代收固定费用"},
-                    {"id": 8, "label": "持卡打标识不收费"},
-                    {"id": 9, "label": "验票领卡"},
-                    {"id": 10, "label": "交卡不收费"}
-                ];
+            case "1107": //收费站
+                $scope.TollType = [{
+                    "id": 0,
+                    "label": "未调查"
+                }, {
+                    "id": 1,
+                    "label": "领卡"
+                }, {
+                    "id": 2,
+                    "label": "交卡付费"
+                }, {
+                    "id": 3,
+                    "label": "固定收费(次费)"
+                }, {
+                    "id": 4,
+                    "label": "交卡付费后再领卡"
+                }, {
+                    "id": 5,
+                    "label": "交卡付费并代收固定费用"
+                }, {
+                    "id": 6,
+                    "label": "验票(无票收费)值先保留"
+                }, {
+                    "id": 7,
+                    "label": "领卡并代收固定费用"
+                }, {
+                    "id": 8,
+                    "label": "持卡打标识不收费"
+                }, {
+                    "id": 9,
+                    "label": "验票领卡"
+                }, {
+                    "id": 10,
+                    "label": "交卡不收费"
+                }];
                 for (var i in $scope.TollType) {
                     if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
                         $scope.tp = $scope.TollType[i].label;
@@ -269,9 +290,19 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1109": //电子眼
                 $scope.tipsData = $scope.dataTipsData;
-                var dir = {"2":"顺方向","3":"逆方向"};
+                var dir = {
+                    "2": "顺方向",
+                    "3": "逆方向"
+                };
                 $scope.rdDir = dir[$scope.dataTipsData.rdDir];
-                var type = {"1":"限速摄像头","13":"非机动车道摄像头","15":"公交车道摄像头","16":"禁止左/右转摄像头","20":"区间测速开始","21":"区间测速结束"};
+                var type = {
+                    "1": "限速摄像头",
+                    "13": "非机动车道摄像头",
+                    "15": "公交车道摄像头",
+                    "16": "禁止左/右转摄像头",
+                    "20": "区间测速开始",
+                    "21": "区间测速结束"
+                };
                 $scope.type = type[$scope.dataTipsData.tp];
                 var loc = {
                     "0": "未调查",
@@ -573,27 +604,26 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         //高亮
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-        //获取数据中的图片数组
-        if (!$scope.photos) {
-            $scope.photos = [];
-        }
         /**
-         * 图片显示
+         * 图片、语音、备注
          */
-        $scope.photoTipsData = $scope.dataTipsData.feedback.f_array;
-        for (var i in $scope.photoTipsData) {
-            if ($scope.photoTipsData[i].type === 1) {
-                var content = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
+        var fArray = $scope.dataTipsData.feedback.f_array;
+        var content;
+        for (var i in fArray) {
+            if (fArray[i].type === 1) {
+                content = App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + fArray[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
-            } else if ($scope.photoTipsData[i].type === 3) {
-                $scope.remarksContent = $scope.photoTipsData[i].content;
+            } else if (fArray[i].type === 2) {
+                content = fArray[i].content;
+                $scope.audios.push(content);
+            } else if (fArray[i].type === 3) {
+                $scope.remarksContent = fArray[i].content;
             }
         }
         /**
          * 图片数量为4个，没有那么多图片是用noimg.png 代替
          * @type {Number}
          */
-        $scope.number = $scope.photos.length;
         if ($scope.photos.length != 0 && $scope.photos.length < 4) {
             for (var a = $scope.photos.length; a < 4; a++) {
                 var img = "../../../images/road/img/noimg.png";
@@ -611,7 +641,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.initializeDataTips(selectCtrl.rowKey);
     }
     //打开图片大图页面
-    $scope.openOrigin = function(id) {
+    $scope.openOriginPic = function(id) {
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",
@@ -623,10 +653,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     $scope.noPic = function() {
         swal("没有照片资料", "", "");
     };
-    $scope.noRad = function() {
-        swal("没有音频资料", "", "");
-    };
-    $scope.openVideo = function(id) {
+    $scope.openAudio = function(id) {
         selectCtrl.rowKey["VideoId"] = id;
         var openVideoObj = {
             "loadType": "tipsVideoContainer",
@@ -634,6 +661,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/tipsVideoTpl.html"
         };
         $scope.$emit("transitCtrlAndTpl", openVideoObj);
+    };
+    $scope.noAudio = function() {
+        swal("没有音频资料", "", "");
     };
     eventController.on(eventController.eventTypes.SELECTBYATTRIBUTE, function(event) {
         if (event.feather) {

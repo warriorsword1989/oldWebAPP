@@ -270,7 +270,16 @@
     font-size: 12px;
 }
 
-.blackTheme .list-group-item {
+.blackTheme ul.list-group {
+    list-style: none;
+    overflow: hidden;
+    /*width: 97%;*/
+    /*margin: 5px;*/
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.blackTheme li.list-group-item {
     position: relative;
     display: block;
     padding: 1px 5px;
@@ -280,12 +289,21 @@
     padding-left: 15px
 }
 
-.blackTheme ul {
-    list-style: none;
-    overflow: hidden;
-    /*width: 97%;*/
-    margin: 5px;
-    border-radius: 4px;
+.blackTheme li.list-group-item1 {
+    padding: 2px 10px;
+    font-weight: bold;
+}
+
+.blackTheme li.list-group-item .list-line {
+    border-top: 1px solid #9E9E9E;
+    margin: 0px -5px 0px -15px;
+    height: 5px;
+}
+
+.blackTheme li.list-group-item1 .list-line {
+    border-top: 1px solid #9E9E9E;
+    margin: 0px -10px;
+    height: 5px;
 }
 
 .blackTheme ul > li {
@@ -320,7 +338,7 @@
 }
 
 .blackTheme .m-b-none {
-    margin-bottom: 0 !important;
+    /*margin-bottom: 0 !important;*/
 }
 
 .blackTheme .form-horizontal .control-label {
@@ -419,11 +437,6 @@
 .blackTheme .list-name {
     color: #FFF;
     margin: 5px 0;
-}
-
-.blackTheme .list-line {
-    border-bottom: 1px solid #9E9E9E;
-    margin: 0 -5px;
 }
 
 
@@ -1071,47 +1084,56 @@
     color: #fff;
 }
 
+
 /*********************次属性栏弹出窗口***********************/
-.suspend{
+
+.suspend {
     width: 300px;
     height: 100%;
     position: absolute;
     right: 300px;
     background-color: #404040;
-    padding:0px 5px;
+    padding: 0px 5px;
     border: none;
     /*opacity: .9;*/
-    overflow-y:hidden;
+    overflow-y: hidden;
     display: block;
     z-index: 10;
     padding-top: 20px;
 }
-.suspend_hide{
+
+.suspend_hide {
     display: none;
 }
+
+
 /*高速分歧map上图片显示*/
+
 #picMapShow {
-    width: 192px;
+    width: 194px;
     border: 1px solid #fff;
-    height: 160px;
+    height: 162px;
     float: left;
     border-radius: 4px;
-    margin-left: 51px;
+    margin-left: 50px;
 }
+
 #picMapImg {
     width: 192px;
     position: absolute;
     height: 160px;
     z-index: 99;
-    top: 90px;
+    top: 51px;
 }
-#picModalImg{
+
+#picModalImg {
     width: 192px;
-    top: 90px;
+    top: 51px;
     height: 160px;
     position: absolute;
-    z-index: 100;
+    z-index: 9;
 }
+
 #picMapDesc {
     color: #fff;
     width: 100%;

@@ -79,23 +79,22 @@
                                 <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[editorPanelOpened]" ng-click="editorPanelOpened=!editorPanelOpened">
                                 </a>
                             </div>
-                            <div class="fm-container fm-col fm-lvl1" style="width:300px;">
-                                <div class="title"><i class="glyphicon glyphicon-edit"></i> 属性编辑</div>
-                                <div ng-include="attrTplContainer" class="scroll-styled blackTheme"></div>
+                            <div class="fm-container fm-col" style="width:300px;">
+                                <div ng-include="attrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="bottom: 25px;"></div>
                                 <div style="bottom: 0px;position:absolute;width: 100%;">
-                                    <div class="btn-group btn-group-justified">
+                                    <div class="btn-group btn-group-justified fm-btn-group">
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-xs fm-btn" ng-click="doSave()">
+                                            <button type="button" class="btn btn-xs" ng-click="doSave()">
                                             <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
                                             </button>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-xs fm-btn" ng-click="doDelete()">
+                                            <button type="button" class="btn btn-xs" ng-click="doDelete()">
                                             <i class="glyphicon glyphicon-trash"></i> 删 除
                                             </button>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-xs fm-btn" ng-click="doCancel()">
+                                            <button type="button" class="btn btn-xs" ng-click="doCancel()">
                                             <i class="glyphicon glyphicon-floppy-remove"></i> 取 消
                                             </button>
                                         </div>
@@ -104,15 +103,13 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendPanelOpened]">
-                            <div id="tkclosediv" style="margin-top: -20px">
-                                <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs ">
-                                <a href="#" data-toggle="tab" style="font-size: 10px;">
+                        <div class="fm-container fm-col" style="width:300px;right:301px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}" ng-class="{true:'suspend',false:'suspend_hide'}[]">
+                            <div style="padding: 5px;">
+                                <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
-                                </a>
                                 </button>
                             </div>
-                            <div  ng-include="subAttrTplContainer" class="scroll-styled blackTheme" style="overflow-y: auto;height: 100%;">
+                            <div  ng-include="subAttrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="top: 32px;padding: 0px 5px;">
                             </div>
                         </div>
                         <!--下方输出信息面板-->
@@ -121,7 +118,7 @@
                                 <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[consolePanelOpened]" ng-click="consolePanelOpened=!consolePanelOpened">
                                 </a>
                             </div>
-                            <div class="fm-container fm-row fm-lvl2" style="height:240px;">
+                            <div class="fm-container fm-row" style="height:240px;">
                                 <div ng-include="consoleDeskTpl"></div>
                             </div>
                         </div>

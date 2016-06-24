@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/23.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
+namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationdata");
@@ -38,9 +38,13 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
     $scope.switchRelType = function (code) {
         $scope.diverObj.relationshipType = code;
     }
+    /*点击声音方向*/
+    $scope.switchVoiceType = function (code) {
+        $scope.diverObj.seriesbranches[0].voiceDir = code;
+    }
     /*点击箭头图标志*/
     $scope.switchArrowType = function (code) {
-        $scope.diverObj.signasreals[0].arrowFlag = code;
+        $scope.diverObj.seriesbranches[0].arrowFlag = code;
     }
     /*根据id获取箭头图图片*/
     $scope.getArrowPic = function (id) {
@@ -75,7 +79,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         }
         $scope.picPageNum = $scope.picNowNum - 1;
         var params = {
-            "name": $scope.diverObj.signasreals[0].arrowCode,
+            "name": $scope.diverObj.seriesbranches[0].arrowCode,
             "pageNum": $scope.picPageNum,
             "pageSize": 6
         };
@@ -97,24 +101,24 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
     $scope.showPicSelect = function () {
         $scope.showImgData = false;
         $timeout(function () {
-            if ($.trim($scope.diverObj.signasreals[0].arrowCode) == '') {
-                $scope.diverObj.signasreals[0].backimageCode = '';
+            if ($.trim($scope.diverObj.seriesbranches[0].arrowCode) == '') {
+                $scope.diverObj.seriesbranches[0].patternCode = '';
             };
-            $scope.diverObj.signasreals[0].arrowCode = CtoH($scope.diverObj.signasreals[0].arrowCode);
-            if(!testRegExp($scope.diverObj.signasreals[0].arrowCode)){
-                $scope.diverObj.signasreals[0].arrowCode = $scope.diverObj.signasreals[0].arrowCode.substring(0, $scope.diverObj.signasreals[0].arrowCode.length - 1);
+            $scope.diverObj.seriesbranches[0].arrowCode = CtoH($scope.diverObj.seriesbranches[0].arrowCode);
+            if(!testRegExp($scope.diverObj.seriesbranches[0].arrowCode)){
+                $scope.diverObj.seriesbranches[0].arrowCode = $scope.diverObj.seriesbranches[0].arrowCode.substring(0, $scope.diverObj.seriesbranches[0].arrowCode.length - 1);
                 $scope.$apply();
                 return false;
             }
         });
         $timeout(function () {
-            if ($.trim($scope.diverObj.signasreals[0].arrowCode).length > 0) {
-                $scope.diverObj.signasreals[0].backimageCode = '0' + $.trim($scope.diverObj.signasreals[0].arrowCode).substr(1);
+            if ($.trim($scope.diverObj.seriesbranches[0].arrowCode).length > 6) {
+                $scope.diverObj.seriesbranches[0].patternCode = '8' + $.trim($scope.diverObj.seriesbranches[0].arrowCode).substr(1);
                 $scope.picNowNum = 1;
                 $scope.getPicsData();
-                $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.signasreals[0].arrowCode);
-                $scope.backimageCodeSrc = $scope.getArrowPic($scope.diverObj.signasreals[0].backimageCode);
-                if ($.trim($scope.diverObj.signasreals[0].arrowCode) == '') {
+                $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.seriesbranches[0].arrowCode);
+                $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.seriesbranches[0].patternCode);
+                if ($.trim($scope.diverObj.seriesbranches[0].arrowCode) == '') {
                     $scope.showImgData = false;
                 } else {
                     $scope.showImgData = true;
@@ -126,7 +130,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
     /*正则检测实景图输入是否正确*/
     function testRegExp(str){
         if(str.length < 12){
-            if(new RegExp('^[a-z0-9|]+$').test(str.substr(-1,1))){
+            if(new RegExp('^[a-f0-9]*$').test(str.substr(-1,1))){
                 return true;
             }else{
                 return false;
@@ -143,8 +147,11 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
                 result+= String.fromCharCode(str.charCodeAt(i)-12256);
                 continue;
             }
-            if (str.charCodeAt(i)>65280 && str.charCodeAt(i)<65375) result+= String.fromCharCode(str.charCodeAt(i)-65248);
-            else result+= String.fromCharCode(str.charCodeAt(i));
+            if (str.charCodeAt(i)>65280 && str.charCodeAt(i)<65375){
+                result+= String.fromCharCode(str.charCodeAt(i)-65248);
+            }else{
+                result+= String.fromCharCode(str.charCodeAt(i));
+            }
         }
         return result;
     }
@@ -160,12 +167,12 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
     }
     /*点击选中的图片*/
     $scope.selectPicCode = function (code) {
-        $scope.diverObj.signasreals[0].arrowCode = code;
-        $scope.diverObj.signasreals[0].backimageCode = '0' + $.trim($scope.diverObj.signasreals[0].arrowCode).substr(1);
+        $scope.diverObj.seriesbranches[0].arrowCode = code;
+        $scope.diverObj.seriesbranches[0].patternCode = '8' + $.trim($scope.diverObj.seriesbranches[0].arrowCode).substr(1);
         $scope.arrowMapShow = $scope.getArrowPic(code);
-        $scope.backimageCodeSrc = $scope.getArrowPic($scope.diverObj.signasreals[0].backimageCode);
+        $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.seriesbranches[0].patternCode);
         $scope.showImgData = false;
-        oldPatCode = $scope.diverObj.signasreals[0].backimageCode;
+        oldPatCode = $scope.diverObj.seriesbranches[0].patternCode;
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
@@ -191,19 +198,30 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.signasreals[0]?$scope.diverObj.signasreals[0].backimageCode:'';
+    var oldPatCode = $scope.diverObj.seriesbranches[0]?$scope.diverObj.seriesbranches[0].patternCode:'';
     /*修改模式图号*/
-    $scope.changeBackimageCode = function(){
-        if($scope.diverObj.signasreals[0].backimageCode.charAt(0) == oldPatCode.charAt(0) ||
-            $scope.diverObj.signasreals[0].backimageCode.length >  oldPatCode.length ||
-            ($scope.diverObj.signasreals[0].backimageCode.length+1 <=  oldPatCode.length && $scope.diverObj.signasreals[0].backimageCode.length+1 !=  oldPatCode.length)){
-            $scope.diverObj.signasreals[0].backimageCode = oldPatCode;
+    $scope.changePatternCode = function(){
+        if($scope.diverObj.seriesbranches[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
+            $scope.diverObj.seriesbranches[0].patternCode.length >  oldPatCode.length ||
+            ($scope.diverObj.seriesbranches[0].patternCode.length+1 <=  oldPatCode.length && $scope.diverObj.seriesbranches[0].patternCode.length+1 !=  oldPatCode.length)){
+            $scope.diverObj.seriesbranches[0].patternCode = oldPatCode;
         }
     }
     /*关系类型*/
     $scope.relationType = [
         {"code": 1, "label": "路口"},
         {"code": 2, "label": "线线"}
+    ];
+    /*声音方向*/
+    $scope.voiceType = [
+        {"code": 0, "label": "无"},
+        {"code": 2, "label": "右"},
+        {"code": 5, "label": "左"}
+    ];
+    /*分歧类型*/
+    $scope.branchTypeOptions = [
+        {"id": 0, "label": "普通连续分歧"},
+        {"id": 1, "label": "特殊连续分歧"}
     ];
     /*初始化信息显示*/
     $scope.initDiver = function () {
@@ -230,20 +248,20 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
             });
 
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.signasreals[0].pid.toString(),
+                id:$scope.diverObj.seriesbranches[0].rowId.toString(),
                 layerid:'relationdata',
                 type:'relationdata',
                 style:{}
             });
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
-            if (dObj.signasreals.length > 0) {
-                if ($scope.diverObj.signasreals[0].arrowCode) {
-                    $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.signasreals[0].arrowCode);
+            if (dObj.seriesbranches.length > 0) {
+                if ($scope.diverObj.seriesbranches[0].arrowCode) {
+                    $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.seriesbranches[0].arrowCode);
                 }
-                $scope.backimageCodeSrc =  $scope.getArrowPic($scope.diverObj.signasreals[0].backimageCode);
+                $scope.patternCodeSrc =  $scope.getArrowPic($scope.diverObj.seriesbranches[0].patternCode);
                 /*分歧号码*/
-                $scope.branchPid = dObj.signasreals[0].branchPid;
+                $scope.branchPid = dObj.seriesbranches[0].branchPid;
             }
         }
     }
@@ -292,7 +310,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         }
         array.splice(dx, 1);
     }
-    /*过滤signasreals[0].names中未修改的名称*/
+    /*过滤seriesbranches[0].names中未修改的名称*/
     $scope.delEmptyNames = function (arr) {
         for (var i = arr.length - 1; i > -1; i--) {
             if (!arr[i].objStatus) {
@@ -354,13 +372,13 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         param.dbId = App.Temp.dbId;
         param.data = objCtrl.changedProperty;
         /*解决linkPid报错*/
-        if (param.data.signasreals) {
-            delete param.data.signasreals[0].linkPid;
-            if (param.data.signasreals[0].names) {
-                $.each(param.data.signasreals[0].names, function (i, v) {
+        if (param.data.seriesbranches) {
+            delete param.data.seriesbranches[0].linkPid;
+            if (param.data.seriesbranches[0].names) {
+                $.each(param.data.seriesbranches[0].names, function (i, v) {
                     delete v.linkPid;
                 });
-                $scope.delEmptyNames(param.data.signasreals[0].names);
+                $scope.delEmptyNames(param.data.seriesbranches[0].names);
             }
         }
         if (!param.data) {
@@ -407,7 +425,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
             "branchType":9,
             "rowkey":"",
             "dbId": App.Temp.dbId,
-            "objId": $scope.diverObj.signasreals[0].pid
+            "objId": $scope.diverObj.seriesbranches[0].pid
         };
         dsRoad.saveBranchInfo(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();

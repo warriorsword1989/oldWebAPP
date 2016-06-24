@@ -21,6 +21,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.namesInfo = objCtrl.data.details[0].names;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
@@ -403,7 +404,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         }
         dsRoad.editGeometryOrProperty(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
-            $scope.$apply();
             var info = null;
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();

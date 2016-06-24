@@ -1,9 +1,9 @@
-<div class="nameOfBraDiv" ng-controller="RealImageOfBranchCtrl">
+<div class="nameOfBraDiv" ng-controller="SeriesOfBranchCtrl">
     <div style="height:50px">
         <form class="form-horizontal" method="get">
             <div class="panel panel-default " style="background-color: transparent;border:0;">
                 <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
-                    实景图
+                    连续分歧
                     <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
                     </label>
                 </div>
@@ -12,9 +12,9 @@
     </div>
 
     <div id="picMapShow">
-        <img id="picMapImg" ng-src="{{arrowCodeSrc}}" alt="无此模式图">
-        <img id="picModalImg" ng-src="{{arrowMapShow}}">
-        <div id="picMapDesc" ng-bind="diverObj.realimages[0].realCode"></div>
+        <img id="picMapImg" ng-src="{{arrowMapShow}}">
+        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此底图">
+        <div id="picMapDesc" ng-bind="diverObj.seriesbranches[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -42,16 +42,26 @@
                     </div>
                 </div> 
             </div>
-            <div class="d-group">
-                <div class="d-name">实景图类型：</div>
+            <div class="d-group info-group">
+                <div class="d-name">声音方向：</div>
                 <div class="d-value">
-                    <select class="rounded d-input" ng-change="changeBranchType();" ng-model="diverObj.realimages[0].imageType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
-                </div> 
+                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                        <label ng-class="{'btn-primary':item.code==diverObj.seriesbranches[0].voiceDir,'btn-default':item.code!=diverObj.seriesbranches[0].voiceDir,'btn btn-sm relation-type':true}" ng-repeat="item in voiceType" ng-click="switchVoiceType(item.code)">
+                            <input type="radio" name="voiceType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="d-group">
-                <div class="d-name">实景图号：</div>
+                <div class="d-name">分歧类型：</div>
                 <div class="d-value">
-                    <input type="text" class="rounded d-input form-pic-input" placeholder="实景图号" ng-model="diverObj.realimages[0].arrowCode" ng-keydown="showPicSelect()">
+                    <select class="rounded d-input" ng-model="diverObj.seriesbranches[0].type" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">箭头图号：</div>
+                <div class="d-value">
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.seriesbranches[0].arrowCode" ng-keydown="showPicSelect()" title="8位16进制数字(0~9、a~f)">
                     <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -80,9 +90,14 @@
                 </div>
             </div>
             <div class="d-group">
-                <div class="d-name">箭头图号：</div>
+                <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-bind="diverObj.realimages[0].realCode" class="show-val"></div>
+                    <div ng-show="diverObj.seriesbranches[0].branchType != 3">
+                        <div ng-bind="diverObj.seriesbranches[0].patternCode" class="show-val"></div>
+                    </div>
+                    <div ng-show="diverObj.seriesbranches[0].branchType == 3">
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.seriesbranches[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,7 +105,7 @@
     </form>
     <!--end 模式图信息-->
     <!--begin 经过线-->
-    <div class="module-box show-detail-title" ng-click="showDetail();">
+    <div class="module-box show-detail-title" ng-click="showDetail(1);">
         <div class="box-head font-bold">
              经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
         </div>
