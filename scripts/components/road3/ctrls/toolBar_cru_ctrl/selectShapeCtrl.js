@@ -559,8 +559,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/signAsRealOfBranch.html";
                     break;
                 case 7:
-                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
-                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdSeriesCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/seriesOfBranch.html";
                     break;
                 case 8:
                     ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
@@ -734,9 +734,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             });
         }
         function getByPidCallback(type,ctrl,tpl,data){
-            if (data.errcode === -1) {
-                return;
-            }
             var options = {
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": ctrl,

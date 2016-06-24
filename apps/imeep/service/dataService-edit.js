@@ -45,7 +45,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
@@ -74,7 +74,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
