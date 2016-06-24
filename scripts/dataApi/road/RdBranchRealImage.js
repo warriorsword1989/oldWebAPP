@@ -13,6 +13,7 @@ fastmap.dataApi.RdBranchRealImage=fastmap.dataApi.GeoDataModel.extend({
         this.imageType = data["imageType"] || 0;
         this.realCode = data["realCode"] || "";
         this.arrowCode = data["arrowCode"] || "";
+        this.rowId = data["rowId"] || "";
     },
 
     getIntegrate:function(){
@@ -22,6 +23,7 @@ fastmap.dataApi.RdBranchRealImage=fastmap.dataApi.GeoDataModel.extend({
         data["realCode"] = this.realCode;
         data["arrowCode"] = this.arrowCode;
         data["geoLiveType"] = this.geoLiveType;
+        data["rowId"] = this.rowId;
         return data;
     },
 

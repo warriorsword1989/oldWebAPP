@@ -53,6 +53,54 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /**
+     * 根据道路id获得道路的详细属性
+     * @param id
+     * @param type
+     * @param func
+     */
+    this.getRdObjectById = function(id, type, detailid,branchType) {
+        var defer = $q.defer();
+        var params = {};
+        if (!id) {
+            if(branchType == 5 || branchType == 7){
+                params = {
+                    "dbId": App.Temp.dbId,
+                    "type": type,
+                    "detailId": 0,
+                    "rowId":detailid,
+                    "branchType":branchType
+                }
+            }else{
+                params = {
+                    "dbId": App.Temp.dbId,
+                    "type": type,
+                    "detailId": detailid,
+                    "rowId":"",
+                    "branchType":branchType
+                }
+            }
+        } else {
+            params = {
+                "dbId": App.Temp.dbId,
+                "type": type,
+                "pid": id
+            };
+        }
+        ajax.get("edit/getByPid", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /***
      * 根据接口getByCondition获取相关数据
      */

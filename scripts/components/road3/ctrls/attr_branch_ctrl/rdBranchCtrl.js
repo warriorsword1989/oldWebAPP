@@ -261,7 +261,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             });
 
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.details[0].pid.toString(),
+                id:$scope.diverObj.realimages[0].pid.toString(),
                 layerid:'relationdata',
                 type:'relationdata',
                 style:{}
