@@ -44,6 +44,8 @@ L.Mixin.EventTypes={
     CHEKCRESULT:'checkresult',//检查刷新事件
     
     GETPOIID:'getPoiId',
-    CAPTURED:'captured'
+    CAPTURED:'captured',
+
+    CHANGELINKNAME:"changeLinkName" //link编辑名称组时，切换名称事件
 
 }

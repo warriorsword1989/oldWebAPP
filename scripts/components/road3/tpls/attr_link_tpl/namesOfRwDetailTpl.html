@@ -1,0 +1,53 @@
+<div ng-controller="namesOfRwLinkController" id="namesOfLinkDiv">
+    <form name="nameRwDetailForm">
+        <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+            <li class="list-group-item">
+                <div><label class="control-label">名称组号</label></div>
+                <div class="inline"><input type="text" ng-model="rwName.nameGroupid" disabled/></div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">道路名称</label></div>
+                <div class="inline">
+                    <input type="text" ng-model="rwName.name" style="width: 150px"/>
+                    <span  class="glyphicon glyphicon-search"
+                            ng-click="searchGroupidByNames($index)">
+                    </span>
+                </div>
+            </li>
+            <li class="list-group-item" id="name" style="display: none;">
+                <div class="pic-show">
+                    <div class="option-hide" style="color: darkgrey">
+                            <span aria-hidden="true" class="glyphicon glyphicon-remove-sign" style="cursor: pointer;" ng-click="hidePicSelect($event)"></span>
+                    </div>
+                    <div class="pic-show-well" style="width: 245px;">
+                        <div class="img-well" ng-repeat="nitem in pictures"
+                             ng-click="selectNmaesId(nitem.nameId,nitem.name,$event)">
+                            <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp;
+                                {{nitem.name}} &nbsp;&nbsp; {{nitem.province}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="pull-left num-well">
+                        第 <span class="pic-num" ng-bind="picNowNum+1">1</span> 页
+                        |
+                        共 <span class="pic-total" ng-bind="picTotal">1</span>
+                        页<br>
+                        <!--每页条数<input style="width:40px;" type="text" id="pagesize"-->
+                                   <!--value="5">-->
+                    </div>
+                    <div class="pic-show-btn pull-right">
+                        <div class="pull-right btn-group">
+                            <a  style="color: #fff;" class="btn  btn-xs pic-pre"
+                                    ng-click="picPre()" disabled><<
+                            </a>
+                            <a style="color: #fff;" class="btn btn-xs pic-next"
+                                    ng-click="picNext()">>>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>

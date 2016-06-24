@@ -47,8 +47,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             map.removeLayer(map.floatMenu);
             map.floatMenu = null;
         }
-        //重置上一步中的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        //重置属性栏和tips框
+        $scope.$emit("SWITCHCONTAINERSTATE", {}); //参数为空对象时，会隐藏属性面板和此属性面板
         $("#popoverTips").hide();
 
         $scope.changeBtnClass(num);

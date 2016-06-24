@@ -58,8 +58,30 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,a
      * 增加铁路名
      */
     $scope.addRdName = function () {
-        var newName = fastmap.dataApi.rwLinkName({"linkPid": $scope.linkData.pid});
-        $scope.linkData.names.unshift(newName)
+        var newName = fastmap.dataApi.rwLinkName({"linkPid": $scope.rwLinkData.pid});
+        $scope.rwLinkData.names.unshift(newName);
+    };
+
+    $scope.minusName = function (id) {
+        $scope.rwLinkData.names.splice(id, 1);
+    };
+    $scope.changeColor = function (ind, ord) {
+        $("#nameSpan" + ind).css("color", "#FFF");
+    };
+    $scope.backColor = function (ind, ord) {
+        $("#nameSpan" + ind).css("color", "darkgray");
+    };
+    $scope.showNames = function (nameItem,index) {
+        objCtrl.data.rwName = objCtrl.data.names[index]; //将需要编辑的name保存在rwName中
+        var showNamesObj = {
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl": appPath.road + 'ctrls/attr_link_ctrl/namesOfRwDetailCtrl',
+            "propertyHtml": appPath.root + appPath.road + 'tpls/attr_link_tpl/namesOfRwDetailTpl.html',
+            callback:function (){
+                eventController.fire('CHANGELINKNAME',{});
+            }
+        };
+        $scope.$emit("transitCtrlAndTpl", showNamesObj);
     };
 
     /**

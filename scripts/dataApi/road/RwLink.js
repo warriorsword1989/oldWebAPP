@@ -29,6 +29,14 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
         this.editFlag = data["editFlag"] || 1;
         this.color = data["color"] || null;
 
+        this.names = [];
+        if (data["names"] && data["names"].length > 0 ){
+            for (var i = 0, len = data["names"].length; i < len; i++) {
+                var name = fastmap.dataApi.rwLinkName(data["names"][i]);
+                this.names.push(name);
+            }
+        }
+
        /* this.links = [];
         if (data["links"]&&data["links"].length > 0) {
             for (var i = 0, len = data["links"].length; i < len; i++) {
@@ -61,6 +69,12 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
         data["editFlag"] = this.editFlag;
         data["color"] = this.color;
         data["geoLiveType"] = this.geoLiveType;
+        var names = [];
+        for (var i = 0, len = this.names.length; i < len; i++){
+            names.push(this.links[i].getIntegrate());
+        }
+        data["names"] = names;
+
       /*  var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
             links.push(this.links[i].getIntegrate());
