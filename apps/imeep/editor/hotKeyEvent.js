@@ -451,18 +451,16 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         "dbId": App.Temp.dbId,
                         "data": featCodeCtrl.getFeatCode()
                     };
+                    var ctrl = tpl = ''
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         //只有5/7的时候传rowId;
                         var rowId_detialId = '';
-                        if(param.data.branchType==5||param.data.branchType==7) {
-                            rowId_detialId=data.data.log[0].rowId;
-                        }else{
-                            rowId_detialId=data.data.pid;
+                        rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.data.log[0].rowId:data.data.pid;
+                        switch (param.data.branchType){
+                            case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
                         }
-                        treatmentOfChanged(data,param.data.branchType, "RDBRANCH", "创建RDBRANCH成功",
-                            'attr_branch_ctrl/rdRealImageCtrl', 'attr_branch_Tpl/realImageOfBranch.html',rowId_detialId
-                        );
+                        treatmentOfChanged(data, param.data.branchType, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, rowId_detialId);
                     })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
