@@ -3,10 +3,11 @@ fastmap.uikit.canvasFeature.RwLink = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['featType'] = "RWLINK";
         this.geometry['type'] = 'LineString';
         this.properties['name'] = item.m.a;
-        var color = 'black';
-        if(item.m.a){
-            color = '#' + this.properties['color'];
-        }
+        // var color = 'black';
+        // if(item.m.a){
+        //     color = '#' + this.properties['color'];
+        // }
+        var color = '#' + this.properties['color'];
         this.properties['color'] = item.m.b;
 
         var symbolData = {
