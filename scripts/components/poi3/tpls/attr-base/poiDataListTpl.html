@@ -1,14 +1,8 @@
 <div ng-controller="PoiDataListCtl">
     <div class="btn-group btn-group-justified" role="group" style="padding:5px;">
-        <div class="btn-group" role="group">
-            <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)">待作业</button>
-        </div>
-        <div class="btn-group" role="group">
-            <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)">待提交</button>
-        </div>
-        <div class="btn-group" role="group">
-            <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)">已提交</button>
-        </div>
+        <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)">待作业</button>
+        <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)">待提交</button>
+        <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)">已提交</button>
     </div>
     <div>
         <div>
