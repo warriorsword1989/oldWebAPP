@@ -27,7 +27,7 @@
         <label class="brige-line" ng-click="changeLink($index,item.id)">{{item.id}}</label>
         </span>
     </div>
-    <div class="content">
+    <div class="content scroll-styled dark" style="height:90%;">
         <div id="fm-link-tabControl" class="btn-group" role="group" style="margin-bottom:5px;">
             <a title="基础属性" ng-class="{'btn glyphicon glyphicon-star selected':modelArray[0]==true,'btn glyphicon glyphicon-star':modelArray[0]==false}"   ng-click="changeModule('basicModule',0)"></a>
             <a title="道路名" ng-class="{'btn glyphicon glyphicon-tag selected':modelArray[1]==true,'btn glyphicon glyphicon-tag':modelArray[1]==false}"  ng-click="changeModule('nameModule',1)"></a>

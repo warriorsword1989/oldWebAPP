@@ -743,7 +743,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyHtml": tpl
             };
             $scope.$emit("transitCtrlAndTpl", options);
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
         }
     }
