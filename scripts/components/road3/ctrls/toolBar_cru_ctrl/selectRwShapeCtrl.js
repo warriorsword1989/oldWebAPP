@@ -119,7 +119,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }]
-                }
+                };
                 ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_node_ctrl/rwNodeCtrl';
                 ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rwNodeTpl.html";
                 $scope.type = "RWNODE";
@@ -163,7 +163,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
         }
         $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
@@ -265,7 +265,6 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     }
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-
         dsEdit.getByPid(id,type,selectedData.detailId).then(function (data){
             if (data.errcode === -1) {
                 return;
@@ -276,10 +275,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
-            }
-            $scope.$emit("transitCtrlAndTpl", options);
+                }
+                $scope.$emit("transitCtrlAndTpl", options);
         });
     }
-
-
 }])
