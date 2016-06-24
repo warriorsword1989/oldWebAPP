@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  */
 var selectApp = angular.module("app", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad','appPath', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad,appPath) {
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope','dsFcc','dsRoad','dsEdit','appPath', function ($scope, $ocLazyLoad, $rootScope,dsFcc,dsRoad,dsEdit,appPath) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -317,8 +317,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
             case 'RDBRANCH':
                 shapeCtrl.editFeatType = 0;
-                ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
-                ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                shapeCtrl.branchType = data.branchType;
+                locllBranchCtlAndTpl(data.branchType);
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
@@ -526,6 +526,52 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 })
                 break;
         }
+        /*判断分歧类型*/
+        function locllBranchCtlAndTpl(branchType){
+
+            switch(branchType){
+                case 0:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 1:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 2:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 3:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 4:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 5:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdRealImageCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/realImageOfBranch.html";
+                    break;
+                case 6:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdSignAsRealCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/signAsRealOfBranch.html";
+                    break;
+                case 7:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 8:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    break;
+                case 9:
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/signBoardOfBranch.html";
+                    break;
+            }
+        }
         if (!map.floatMenu && toolsObj) {
             map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
             map.addLayer(map.floatMenu);
@@ -675,7 +721,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         /*if (selectedData.t_lifecycle && selectedData.t_lifecycle == 3) {
             return;
         }*/
-        dsRoad.getRdObjectById(id, type, selectedData.id).then(function (data) {
+        dsEdit.getRdObjectById(id, type, selectedData.id,selectedData.branchType).then(function (data) {
             if (data.errcode === -1) {
                 return;
             }

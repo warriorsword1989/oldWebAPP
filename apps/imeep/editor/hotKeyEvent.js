@@ -2,14 +2,14 @@
  * Created by liwanchong on 2015/12/11.
  */
 
-function bindHotKeys(ocLazyLoad, scope, dsRoad, dsPoi, appPath) {
+function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
     $(document).bind('keydown',
         function (event) {
             //取消
             var layerCtrl = fastmap.uikit.LayerController();
             var outPutCtrl = fastmap.uikit.OutPutController();
             var featCodeCtrl = fastmap.uikit.FeatCodeController();
-
+            var evtCtrl = fastmap.uikit.EventController();
             var toolTipsCtrl = fastmap.uikit.ToolTipsController();
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var objEditCtrl = fastmap.uikit.ObjectEditController();
@@ -98,23 +98,36 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsPoi, appPath) {
                                     scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                                 })
                             });
+
+                            scope.$emit("SWITCHCONTAINERSTATE", {
+                                "attrContainerTpl": true,
+                                "subAttrContainerTpl": false
+                            });
                         }else {
                             objEditCtrl.setOriginalData(null);
-                            dsPoi.getPoiByPid({
-                                "dbId": App.Temp.dbId,
-                                "type": "IXPOI",
-                                "pid": data.data.pid
-                            }).then(function(da) {
-                                if (da) {
-                                    objEditCtrl.setCurrentObject(type, data.data);
+                            dsEdit.getByPid(data.data.pid,"IXPOI").then(function(rest) {
+                                if (rest) {
+                                    objEditCtrl.setCurrentObject('IXPOI', rest);
+                                    objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                                    evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
+                                        feature: objEditCtrl.data
+                                    });
+                                    scope.$emit("SWITCHCONTAINERSTATE", {});
+                                    scope.$emit("transitCtrlAndTpl", {
+                                        "loadType": "tipsTplContainer",
+                                        "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                                    });
+                                    scope.$emit("transitCtrlAndTpl", {
+                                        "loadType": "attrTplContainer",
+                                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                                    });
+                                    scope.$emit("highLightPoi", rest.pid);
                                 }
                             });
                         }
 
-                        scope.$emit("SWITCHCONTAINERSTATE", {
-                            "attrContainerTpl": true,
-                            "subAttrContainerTpl": false
-                        });
                     }else{
                         if(shapeCtrl.editType==="pathBreak") {
                                 scope.$emit("SWITCHCONTAINERSTATE", {
@@ -612,8 +625,9 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsPoi, appPath) {
                         }
                     };
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
+                        highRenderCtrl._cleanHighLight();
                         layerCtrl.getLayerById("poiPoint").redraw();
-                        treatmentOfChanged(data, "poi", "移动poi成功");
+                        // treatmentOfChanged(data, "poi", "移动poi成功");
                     })
                 }else if(shapeCtrl.editType === "poiAdd" ){
                     var points = selectCtrl.selectedFeatures;
