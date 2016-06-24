@@ -109,11 +109,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['fieldVerification'] = this.fieldVerification;
         ret['sourceFlags'] = this.sourceFlags;
         ret['website'] = this.website;
-        ret['open24H'] = this.open24H;
-         if (this.open24H) {
-             ret['open24H'] = 1;
+        ret['open24h'] = this.open24h;
+         if (this.open24h) {
+             ret['open24h'] = 1;
          } else {
-             ret['open24H'] = 2;
+             ret['open24h'] = 2;
          }
         ret['evaluateComment'] = this.evaluateComment;
         ret['latestBatchDate'] = this.latestBatchDate;
@@ -276,9 +276,9 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.sourceFlags = data['sourceFlags'] || null;
         this.website = data['website'] || null;
         // 
-        this.open24H = false;
-        if (data["open24H"] == 1) {
-            this.open24H = true
+        this.open24h = false;
+        if (data["open24h"] == 1) {
+            this.open24h = true
         }
         this.evaluateComment = data["evaluateComment"] || null;
         this.latestBatchDate = data["latestBatchDate"] || null;

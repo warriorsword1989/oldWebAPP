@@ -82,11 +82,11 @@ fastmap.uikit.HighRenderController = (function () {
                                     var hightlightfeature = this.currentEditLayer.tiles[tile].data[feature];
                                     var id = this.highLightFeatures[item].id;
                                     var style = this.highLightFeatures[item].style;
-                                    if (this.highLightFeatures[item].type == 'line') {
+                                    if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RWLINK' && this.highLightFeatures[item].type == 'line') {
+                                        this.drawRwLink(id, hightlightfeature, ctx);
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                                         this.drawOfLink(id, hightlightfeature, ctx, style);
-
-                                    }
-                                    else if (this.highLightFeatures[item].type == 'node') {
+                                    } else if (this.highLightFeatures[item].type == 'node') {
                                         var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                                         //this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
                                         this.layer._drawPoint({
@@ -96,8 +96,7 @@ fastmap.uikit.HighRenderController = (function () {
                                             radius: 3,
                                             geom: geo
                                         })
-                                    }
-                                    else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
 
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
 
@@ -114,7 +113,7 @@ fastmap.uikit.HighRenderController = (function () {
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDBRANCH') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
-                                    }  else if (this.highLightFeatures[item].type == 'workPoint') {
+                                    } else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, feature, ctx);
                                     } else if (this.highLightFeatures[item].type == 'RDGSC') {
@@ -131,6 +130,8 @@ fastmap.uikit.HighRenderController = (function () {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
                                     }
+
+
                                 } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                                     var ctxOfSNode = {
                                         canvas: this.layer._tiles[tile],
@@ -202,6 +203,38 @@ fastmap.uikit.HighRenderController = (function () {
                             radius: 3
                         }, feature.properties);
                     }
+
+                } else {
+                    this.layer._drawLineString(ctx, geom, true, style, {
+                        color: '#696969',
+                        radius: 3
+                    }, feature.properties);
+                }
+            },
+            /**
+             * 高亮rwlink
+             * @param id
+             * @param feature
+             * @param ctx
+             */
+            drawRwLink: function (id, feature, ctx) {
+                var color = null;
+                if (feature.hasOwnProperty('properties')) {
+                    color = feature.properties.style.strokeColor;
+                }
+                var style = feature.properties.style;
+                var symbol = feature.properties.symbol.symbols;
+                symbol[0].color = '#00F5FF';
+                symbol[2].color = '#00F5FF';
+                var geom = feature.geometry.coordinates;
+                if (feature.properties.id === id) {
+                    this.layer._drawLineString(ctx, geom, true, {
+                        strokeWidth: 3,
+                        strokeColor: '#00F5FF'
+                    }, {
+                        color: '#00F5FF',
+                        radius: 3
+                    }, feature.properties);
 
                 } else {
                     this.layer._drawLineString(ctx, geom, true, style, {

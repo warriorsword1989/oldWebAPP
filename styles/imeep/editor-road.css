@@ -270,7 +270,16 @@
     font-size: 12px;
 }
 
-.blackTheme .list-group-item {
+.blackTheme ul.list-group {
+    list-style: none;
+    overflow: hidden;
+    /*width: 97%;*/
+    /*margin: 5px;*/
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.blackTheme li.list-group-item {
     position: relative;
     display: block;
     padding: 1px 5px;
@@ -280,13 +289,21 @@
     padding-left: 15px
 }
 
-.blackTheme ul.list-group {
-    list-style: none;
-    overflow: hidden;
-    /*width: 97%;*/
-    /*margin: 5px;*/
-    border-radius: 4px;
-    margin-bottom: 10px;
+.blackTheme li.list-group-item1 {
+    padding: 2px 10px;
+    font-weight: bold;
+}
+
+.blackTheme li.list-group-item .list-line {
+    border-top: 1px solid #9E9E9E;
+    margin: 0px -5px 0px -15px;
+    height: 5px;
+}
+
+.blackTheme li.list-group-item1 .list-line {
+    border-top: 1px solid #9E9E9E;
+    margin: 0px -10px;
+    height: 5px;
 }
 
 .blackTheme ul > li {
@@ -321,7 +338,7 @@
 }
 
 .blackTheme .m-b-none {
-    margin-bottom: 0 !important;
+    /*margin-bottom: 0 !important;*/
 }
 
 .blackTheme .form-horizontal .control-label {
@@ -425,6 +442,39 @@
 .blackTheme .list-line {
     border-bottom: 1px solid #9E9E9E;
     margin: 0 -5px;
+
+/*输入查询图片*/
+
+.blackTheme .pic-show {
+    /*position: absolute;*/
+    border: 1px solid #ddd;
+    z-index: 999;
+    padding-left: 4px;
+    padding-top: 6px;
+    padding-bottom: 7px;
+    /*background-color: #fff;*/
+    /*display: none;*/
+    box-shadow: 4px 4px 7px 0px #777;
+    min-width: 100%;
+    min-height: 193px;
+}
+
+.blackTheme .pic-show-well {
+    min-width: 100%;
+    min-height: 246px;
+}
+
+.blackTheme .img-well {
+    float: left;
+    padding: 3px;
+    /*border: 1px solid #ddd;*/
+    margin: 4px;
+    cursor: pointer;
+}
+
+.blackTheme .show-img {
+    width: 60px;
+    height: 49px;
 }
 
 .num-well {

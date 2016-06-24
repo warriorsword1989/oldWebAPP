@@ -80,9 +80,9 @@
                                 </a>
                             </div>
                             <div class="fm-container fm-col" style="width:300px;">
-                                <div ng-include="attrTplContainer" class="scroll-styled blackTheme"></div>
+                                <div ng-include="attrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="bottom: 25px;"></div>
                                 <div style="bottom: 0px;position:absolute;width: 100%;">
-                                    <div class="btn-group btn-group-justified">
+                                    <div class="btn-group btn-group-justified fm-btn-group">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-xs" ng-click="doSave()">
                                             <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
@@ -103,15 +103,13 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendPanelOpened]">
-                            <div id="tkclosediv" style="margin-top: -20px">
+                        <div class="fm-container fm-col" style="width:300px;right:301px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                            <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
-                                <a href="#" data-toggle="tab" style="font-size: 10px;">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
-                                </a>
                                 </button>
                             </div>
-                            <div  ng-include="subAttrTplContainer" class="scroll-styled blackTheme" style="overflow-y: auto;height: 100%;">
+                            <div  ng-include="subAttrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="top: 32px;padding: 0px 5px;">
                             </div>
                         </div>
                         <!--下方输出信息面板-->
