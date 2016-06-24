@@ -46,6 +46,7 @@
                 "dataApi/road/RdGscLink.js",
                 "dataApi/road/AdFace.js",
                 "dataApi/road/RwLink.js",
+                "dataApi/road/RwLinkName.js",
                 "dataApi/road/RwNode.js",
                 "dataApi/road/AdNode.js"
             ]; // etc.

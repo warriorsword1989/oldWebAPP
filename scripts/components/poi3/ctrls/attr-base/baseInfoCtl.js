@@ -39,7 +39,11 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                 }
             }
         }
-    }
+    };
+
+    $scope.chagePoiLevel = function (level){
+        $scope.poi.level = level;
+    };
 
     var checkLevel = function (level){
         //$scope.poi.level = "";//清空等级
