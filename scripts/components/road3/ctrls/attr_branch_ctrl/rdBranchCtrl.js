@@ -14,8 +14,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.initializeData = function () {
 
         //如果是3d分歧则关系类型改为3
-        if(shapeCtrl.editFeatType == 3){
-            objCtrl.data.details[0].branchType = 3;
+        if(shapeCtrl.editFeatType == 1 || shapeCtrl.editFeatType == 3){
+            // objCtrl.data.details[0].branchType = 3;
             $('[data-toggle="tooltip"]').tooltip();
         }
         $scope.divergenceIds = objCtrl.data;
@@ -56,26 +56,11 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         };
         return dsMeta.getArrowImg(JSON.stringify(params));
     }
-    /*点击翻页*/
-    $scope.goPaging = function () {
-        if ($scope.picNowNum == 1) {
-            if ($scope.picTotal == 0 || $scope.picTotal == 1) {
-                $(".pic-next").prop('disabled', 'disabled');
-            } else {
-                $(".pic-next").prop('disabled', false);
-            }
-            $(".pic-pre").prop('disabled', 'disabled');
-        } else {
-            if ($scope.picTotal - $scope.picNowNum == 0) {
-                $(".pic-next").prop('disabled', 'disabled');
-            }
-            $(".pic-pre").prop('disabled', false);
-        }
-    }
+
     $scope.picNowNum = 0;
     $scope.getPicsDate = function () {
         $scope.loadText = 'loading...';
-        $(".pic-loading").show();
+        $scope.showPicLoading = true;
         $scope.picPageNum = 0;
         if ($scope.picNowNum == 0) {
             $scope.picNowNum = 1;
@@ -92,16 +77,27 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     $scope.loadText = '搜不到数据';
                     $scope.pictures = [];
                 } else {
-                    $(".pic-loading").hide();
+                    $scope.showPicLoading = false;
                     $scope.pictures = data.data.data;
                     $scope.picTotal = Math.ceil(data.data.total / 6);
-                    $scope.goPaging();
                 }
             }
         });
     }
     /*输入箭头图代码显示选择图片界面*/
     $scope.showPicSelect = function () {
+        $scope.showImgData = false;
+        $timeout(function () {
+            if ($.trim($scope.diverObj.details[0].arrowCode) == '') {
+                $scope.diverObj.details[0].patternCode = '';
+            };
+            $scope.diverObj.details[0].arrowCode = CtoH($scope.diverObj.details[0].arrowCode);
+            if($scope.diverObj.details[0].branchType != 3 && !testRegExp($scope.diverObj.details[0].arrowCode)){
+                $scope.diverObj.details[0].arrowCode = $scope.diverObj.details[0].arrowCode.substring(0, $scope.diverObj.details[0].arrowCode.length - 1);
+                $scope.$apply();
+                return false;
+            }
+        });
         $timeout(function () {
             if ($.trim($scope.diverObj.details[0].arrowCode).length > 0) {
                 $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
@@ -117,6 +113,34 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             }
             $scope.$apply();
         }, 1000);
+    }
+    /*正则检测实景图输入是否正确*/
+    function testRegExp(str){
+        if(str.length < 12){
+            if(new RegExp('^[a-f0-9]*$').test(str.substr(-1,1))){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    /*全角转半角*/
+    function CtoH(str){
+        var result="";
+        for (var i = 0; i < str.length; i++){
+            if (str.charCodeAt(i)==12288){
+                result+= String.fromCharCode(str.charCodeAt(i)-12256);
+                continue;
+            }
+            if (str.charCodeAt(i)>65280 && str.charCodeAt(i)<65375){
+                result+= String.fromCharCode(str.charCodeAt(i)-65248);
+            }else{
+                result+= String.fromCharCode(str.charCodeAt(i));
+            }
+        }
+        return result;
     }
     /*箭头图代码点击下一页*/
     $scope.picNext = function () {
@@ -175,11 +199,47 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             ($scope.diverObj.details[0].patternCode.length+1 <=  oldPatCode.length && $scope.diverObj.details[0].patternCode.length+1 !=  oldPatCode.length)){
             $scope.diverObj.details[0].patternCode = oldPatCode;
         }
+        if($scope.diverObj.details[0].branchType == 1){
+            if($scope.diverObj.details[0].patternCode.charAt(0)!=5 &&$scope.diverObj.details[0].patternCode.charAt(0)!=7 && $scope.diverObj.details[0].patternCode.charAt(0)!=8){
+                $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
+            }
+        }else if($scope.diverObj.details[0].branchType == 3){
+            if($scope.diverObj.details[0].patternCode.charAt(0)!=5 && $scope.diverObj.details[0].patternCode.charAt(0)!=8){
+                $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
+            }
+        }
+    }
+    /*检测模式图输入是否合法*/
+    function testParttenCodeReg(str){
+        if(str.length < 12){
+            if(new RegExp('^[a-f0-9]*$').test(str.substr(-1,1))){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
     /*当分歧类型变更时*/
     $scope.changeBranchType = function(type){
-        if(type == 3){
+        if(type == 1 || type == 3){
             $('[data-toggle="tooltip"]').tooltip();
+        }
+        if($scope.diverObj.details[0].patternCode.length == oldPatCode.length){
+            if(type == 0){
+                if($scope.diverObj.details[0].patternCode.charAt(0) != 8){
+                    $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
+                }
+            }else if(type == 1){
+                if($scope.diverObj.details[0].patternCode.charAt(0) != 5 ||$scope.diverObj.details[0].patternCode.charAt(0) != 7 ||$scope.diverObj.details[0].patternCode.charAt(0) != 8){
+                    $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
+                }
+            }else if(type == 3){
+                if($scope.diverObj.details[0].patternCode.charAt(0) != 5 ||$scope.diverObj.details[0].patternCode.charAt(0) != 8){
+                    $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
+                }
+            }
         }
     }
     /*关系类型*/
@@ -277,8 +337,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
                 $scope.changeArrowPosition();
-            } else {
-                $("#picMapShow").hide();
             }
         }
     }
