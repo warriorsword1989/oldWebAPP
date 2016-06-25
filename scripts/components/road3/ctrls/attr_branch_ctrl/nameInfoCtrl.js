@@ -4,8 +4,12 @@
 var braName = angular.module("app");
 braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-     $scope.details = objCtrl.data.details?objCtrl.data.details:0;
+     $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
      $scope.nameGroup = [];
+    if (objCtrl.data) {
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
+        $scope.nameGroup = [];
+    }
     //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
     if($scope.branchNameForm) {
         $scope.branchNameForm.$setPristine();
