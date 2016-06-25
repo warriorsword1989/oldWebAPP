@@ -71,7 +71,7 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
         data["geoLiveType"] = this.geoLiveType;
         var names = [];
         for (var i = 0, len = this.names.length; i < len; i++){
-            names.push(this.links[i].getIntegrate());
+            names.push(this.names[i].getIntegrate());
         }
         data["names"] = names;
 
