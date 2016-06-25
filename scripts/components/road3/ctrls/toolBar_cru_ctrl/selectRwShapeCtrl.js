@@ -255,12 +255,13 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);//设置编辑的类型
             shapeCtrl.startEditing();// 开始编辑
             map.currentTool = shapeCtrl.getCurrentTool();
-            if (type === "ADADMINMOVE") {
-                shapeCtrl.editFeatType = "adAdmin";
-                map.currentTool.snapHandler.addGuideLayer(adAdmin);//把点图层放到捕捉工具中
+
+            if (type === "PATHNODEMOVE") {
+                shapeCtrl.editFeatType = "rwNode";
+                map.currentTool.snapHandler.addGuideLayer(rwNode);//把点图层放到捕捉工具中
             } else {
-                shapeCtrl.editFeatType = "adLink";
-                map.currentTool.snapHandler.addGuideLayer(adLink); //把线图层放到捕捉工具中
+                shapeCtrl.editFeatType = "rwLink";
+                map.currentTool.snapHandler.addGuideLayer(rwLink); //把线图层放到捕捉工具中
             }
         }
     }

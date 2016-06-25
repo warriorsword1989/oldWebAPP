@@ -175,28 +175,15 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if (!validateForm()) {
             return;
         }
-        dsEdit.update($scope.poi.pid, "IXPOI", objectCtrl.changedProperty).then(function(data) {
-            if (data) {
-                swal("操作成功", "", "success");
-                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-                $scope.outputResult.push(new FM.dataApi.IxOutput({
-                    "op": "修改POI属性成功",
-                    "type": "IXPOI",
-                    "pid": $scope.poi.pid
-                }));
-                for (var i = 0; i < data.log.length; i++) {
-                    $scope.outputResult.push(new FM.dataApi.IxOutput(data.log[i]));
-                }
-            } else {
-                $scope.outputResult.push(new FM.dataApi.IxOutput({
-                    "op": "修改POI属性失败",
-                    "type": "IXPOI",
-                    "pid": $scope.poi.pid
-                }));
-            }
-        });
+        dsEdit.update($scope.poi.pid, "IXPOI", objectCtrl.changedProperty).then(function(data) {});
+    }
+    // 删除数据
+    function del() {
+        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {});
     }
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
+    eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, del); // 删除
+    eventCtrl.on(eventCtrl.eventTypes.CANCELEVENT, $scope.cancel); // 取消
     eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, initData); // 数据切换
 }]);

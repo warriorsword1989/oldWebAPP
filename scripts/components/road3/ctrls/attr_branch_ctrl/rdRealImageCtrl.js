@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/22.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
+namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','dsRoad','dsMeta','appPath', function ($scope, $timeout, $ocLazyLoad,dsEdit,dsRoad,dsMeta,appPath) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationdata");
@@ -193,14 +193,13 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     /*点击选中的图片*/
     $scope.selectPicCode = function (code) {
         $scope.diverObj.realimages[0].realCode = code;
-        setArrowCode();
-        $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.realimages[0].arrowCode);
+        setArrowCode(code);
+        $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.realimages[0].realCode);
         $scope.arrowCodeSrc = $scope.getArrowPic(code);
         $scope.showImgData = false;
-        oldPatCode = $scope.diverObj.realimages[0].arrowCode;
     };
     /*箭头图号码赋值*/
-    function setArrowCode(){
+    function setArrowCode(code){
         var firstCode = 0;
         if($scope.diverObj.realimages[0].imageType == 0){
             if(regArr5.indexOf($.trim($scope.diverObj.realimages[0].realCode).substring(0,1))){
@@ -211,7 +210,8 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }else{
             firstCode = 0;
         }
-        $scope.diverObj.realimages[0].arrowCode = firstCode + $.trim($scope.diverObj.realimages[0].realCode).substr(1);
+        $scope.diverObj.realimages[0].arrowCode = code;
+        $scope.diverObj.realimages[0].realCode = firstCode + $.trim($scope.diverObj.realimages[0].realCode).substr(1);
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
@@ -445,25 +445,27 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             "rowkey":'',
             "objId": $scope.diverObj.realimages[0].pid
         };
-        dsRoad.saveBranchInfo(param).then(function (data) {
-            var outPutCtrl = fastmap.uikit.OutPutController();
-            $scope.$apply();
-            if (data.errcode == 0) {
-                //if (highLightLayer.highLightLayersArr.length !== 0) {
-                //    highLightLayer.removeHighLightLayers();
-                //}
-                rdBranch.redraw();
-                hLayer._cleanHightlight();
-                $timeout(function () {
-                    swal("删除成功", "分歧数据删除成功！", "success");
-                }, 500)
-                outPutCtrl.pushOutput(data.errmsg);
-            } else {
-                $timeout(function () {
-                    swal("删除失败", "问题原因：" + data.errmsg, "error");
-                })
-                outPutCtrl.pushOutput(data.errmsg);
-            }
+        console.log($scope.diverObj)
+        dsEdit.deleteByDetailId(param).then(function (data) {
+            console.log(data)
+            //var outPutCtrl = fastmap.uikit.OutPutController();
+            //$scope.$apply();
+            //if (data.errcode == 0) {
+            //    //if (highLightLayer.highLightLayersArr.length !== 0) {
+            //    //    highLightLayer.removeHighLightLayers();
+            //    //}
+            //    rdBranch.redraw();
+            //    hLayer._cleanHightlight();
+            //    $timeout(function () {
+            //        swal("删除成功", "分歧数据删除成功！", "success");
+            //    }, 500)
+            //    outPutCtrl.pushOutput(data.errmsg);
+            //} else {
+            //    $timeout(function () {
+            //        swal("删除失败", "问题原因：" + data.errmsg, "error");
+            //    })
+            //    outPutCtrl.pushOutput(data.errmsg);
+            //}
         });
     }
     /*取消属性编辑*/

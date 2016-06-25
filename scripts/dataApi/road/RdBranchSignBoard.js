@@ -13,6 +13,7 @@ fastmap.dataApi.RdBranchSignBoard=fastmap.dataApi.GeoDataModel.extend({
         this.branchPid = data["branchPid"];
         this.backimageCode = data["backimageCode"] || "";
         this.arrowCode = data["arrowCode"] || "";
+        this.names = data["names"] || [];
     },
 
     getIntegrate:function(){
@@ -22,6 +23,7 @@ fastmap.dataApi.RdBranchSignBoard=fastmap.dataApi.GeoDataModel.extend({
         data["backimageCode"] = this.backimageCode;
         data["arrowCode"] = this.arrowCode;
         data["geoLiveType"] = this.geoLiveType;
+        data["names"] = this.names;
         return data;
     },
 
@@ -32,6 +34,7 @@ fastmap.dataApi.RdBranchSignBoard=fastmap.dataApi.GeoDataModel.extend({
         data["backimageCode"] = this.backimageCode;
         data["arrowCode"] = this.arrowCode;
         data["geoLiveType"] = this.geoLiveType;
+        data["names"] = this.names;
         return data;
     }
 })

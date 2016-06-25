@@ -4,7 +4,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     road: "scripts/components/road3/",
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, $q, appPath) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsOutput', '$q', 'appPath', function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsOutput, $q, appPath) {
     var eventCtrl = new fastmap.uikit.EventController();
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
@@ -20,7 +20,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.consolePanelOpened = false;
     $scope.controlFlag = {}; //用于父Scope控制子Scope
     $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
-    $scope.outputResult = []; //输出结果
+    // $scope.outputResult = []; //输出结果
+    $scope.outputResult = dsOutput.output; //输出结果
     /*切换项目平台*/
     $scope.changeProject = function(type) {
         $scope.showLoading = true;
@@ -304,24 +305,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         }));
     };
     //页面初始化方法调用
-    var initPage = function () {
+    var initPage = function() {
         initData();
         loadMap();
         //选择道路要素的工具栏
-        $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
+        $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
             $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
-            $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+            $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function() {
                 $scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-                $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/addPoiCtrl').then(function () {
+                $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/addPoiCtrl').then(function() {
                     $scope.addPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/addPoiTpl.html';
-                    $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
+                    $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
                         $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-                        $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function () {
+                        $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function() {
                             $scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
-
-                            $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function () {
+                            $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
                                 $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
-                                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function () {
+                                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
                                     $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
                                     /*默认显示poi作业平台*/
                                     $scope.changeProject(2);
@@ -342,7 +342,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 保存数据
      */
     $scope.doSave = function() {
-        $scope.subAttrTplContainerSwitch(false);
         eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
     };
     /**
@@ -358,15 +357,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             confirmButtonText: "是的，我要删除",
             cancelButtonText: "取消"
         }, function(f) {
-            if (f) {
-                data = {
-                    type: 'RDLINK',
-                    pid: 100004343,
-                    childPid: "",
-                    op: "道路link删除成功"
-                };
-                $scope.$broadcast('getConsoleInfo', data); //显示输出结果
-            }
+            eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
         });
     };
     /**
@@ -407,11 +398,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.$on("SWITCHCONTAINERSTATE", function(event, data) {
         if (data.hasOwnProperty("attrContainerTpl")) {
             $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
-        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+        }
+        if (data.hasOwnProperty("subAttrContainerTpl")) {
             $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
-        } else {
-            $scope.suspendPanelOpened = false;
-            $scope.editorPanelOpened = 'none';
         }
     });
     /**

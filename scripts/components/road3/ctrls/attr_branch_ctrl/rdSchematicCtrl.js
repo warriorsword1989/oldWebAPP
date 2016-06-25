@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/23.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
+namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationdata");
@@ -38,13 +38,9 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     $scope.switchRelType = function (code) {
         $scope.diverObj.relationshipType = code;
     }
-    /*点击声音方向*/
-    $scope.switchVoiceType = function (code) {
-        $scope.diverObj.seriesbranches[0].voiceDir = code;
-    }
     /*点击箭头图标志*/
     $scope.switchArrowType = function (code) {
-        $scope.diverObj.seriesbranches[0].arrowFlag = code;
+        $scope.diverObj.schematics[0].arrowFlag = code;
     }
     /*根据id获取箭头图图片*/
     $scope.getArrowPic = function (id) {
@@ -63,7 +59,7 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         }
         $scope.picPageNum = $scope.picNowNum - 1;
         var params = {
-            "name": $scope.diverObj.seriesbranches[0].arrowCode,
+            "name": $scope.diverObj.schematics[0].arrowCode,
             "pageNum": $scope.picPageNum,
             "pageSize": 6
         };
@@ -84,24 +80,24 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     $scope.showPicSelect = function () {
         $scope.showImgData = false;
         $timeout(function () {
-            if ($.trim($scope.diverObj.seriesbranches[0].arrowCode) == '') {
-                $scope.diverObj.seriesbranches[0].patternCode = '';
+            if ($.trim($scope.diverObj.schematics[0].arrowCode) == '') {
+                $scope.diverObj.schematics[0].schematicCode = '';
             };
-            $scope.diverObj.seriesbranches[0].arrowCode = CtoH($scope.diverObj.seriesbranches[0].arrowCode);
-            if(!testRegExp($scope.diverObj.seriesbranches[0].arrowCode)){
-                $scope.diverObj.seriesbranches[0].arrowCode = $scope.diverObj.seriesbranches[0].arrowCode.substring(0, $scope.diverObj.seriesbranches[0].arrowCode.length - 1);
+            $scope.diverObj.schematics[0].arrowCode = CtoH($scope.diverObj.schematics[0].arrowCode);
+            if(!testRegExp($scope.diverObj.schematics[0].arrowCode)){
+                $scope.diverObj.schematics[0].arrowCode = $scope.diverObj.schematics[0].arrowCode.substring(0, $scope.diverObj.schematics[0].arrowCode.length - 1);
                 $scope.$apply();
                 return false;
             }
         });
         $timeout(function () {
-            if ($.trim($scope.diverObj.seriesbranches[0].arrowCode).length > 6) {
-                $scope.diverObj.seriesbranches[0].patternCode = '8' + $.trim($scope.diverObj.seriesbranches[0].arrowCode).substr(1);
+            if ($.trim($scope.diverObj.schematics[0].arrowCode).length > 0) {
+                $scope.diverObj.schematics[0].schematicCode = '8' + $.trim($scope.diverObj.schematics[0].arrowCode).substr(1);
                 $scope.picNowNum = 1;
                 $scope.getPicsData();
-                $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.seriesbranches[0].arrowCode);
-                $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.seriesbranches[0].patternCode);
-                if ($.trim($scope.diverObj.seriesbranches[0].arrowCode) == '') {
+                $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.schematics[0].arrowCode);
+                $scope.schematicCodeSrc = $scope.getArrowPic($scope.diverObj.schematics[0].schematicCode);
+                if ($.trim($scope.diverObj.schematics[0].arrowCode) == '') {
                     $scope.showImgData = false;
                 } else {
                     $scope.showImgData = true;
@@ -112,8 +108,14 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     }
     /*正则检测实景图输入是否正确*/
     function testRegExp(str){
-        if(str.length < 12){
-            if(new RegExp('^[a-f0-9]*$').test(str.substr(-1,1))){
+        if(str.length == 1){
+            if(new RegExp('^[0-4]*$').test(str.substr(-1,1))){
+                return true;
+            }else{
+                return false;
+            }
+        }else if(str.length == 2){
+            if(str.substr(-1,1) == 'e'){
                 return true;
             }else{
                 return false;
@@ -150,12 +152,11 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     }
     /*点击选中的图片*/
     $scope.selectPicCode = function (code) {
-        $scope.diverObj.seriesbranches[0].arrowCode = code;
-        $scope.diverObj.seriesbranches[0].patternCode = '8' + $.trim($scope.diverObj.seriesbranches[0].arrowCode).substr(1);
+        $scope.diverObj.schematics[0].arrowCode = code;
+        $scope.diverObj.schematics[0].schematicCode = '8' + $.trim($scope.diverObj.schematics[0].arrowCode).substr(1);
         $scope.arrowMapShow = $scope.getArrowPic(code);
-        $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.seriesbranches[0].patternCode);
+        $scope.schematicCodeSrc = $scope.getArrowPic($scope.diverObj.schematics[0].schematicCode);
         $scope.showImgData = false;
-        oldPatCode = $scope.diverObj.seriesbranches[0].patternCode;
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
@@ -181,15 +182,7 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.seriesbranches[0]?$scope.diverObj.seriesbranches[0].patternCode:'';
-    /*修改模式图号*/
-    $scope.changePatternCode = function(){
-        if($scope.diverObj.seriesbranches[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
-            $scope.diverObj.seriesbranches[0].patternCode.length >  oldPatCode.length ||
-            ($scope.diverObj.seriesbranches[0].patternCode.length+1 <=  oldPatCode.length && $scope.diverObj.seriesbranches[0].patternCode.length+1 !=  oldPatCode.length)){
-            $scope.diverObj.seriesbranches[0].patternCode = oldPatCode;
-        }
-    }
+
     /*关系类型*/
     $scope.relationType = [
         {"code": 1, "label": "路口"},
@@ -200,11 +193,6 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         {"code": 0, "label": "无"},
         {"code": 2, "label": "右"},
         {"code": 5, "label": "左"}
-    ];
-    /*分歧类型*/
-    $scope.branchTypeOptions = [
-        {"id": 0, "label": "普通连续分歧"},
-        {"id": 1, "label": "特殊连续分歧"}
     ];
     /*初始化信息显示*/
     $scope.initDiver = function () {
@@ -231,20 +219,20 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
             });
 
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.seriesbranches[0].rowId.toString(),
+                id:$scope.diverObj.schematics[0].pid.toString(),
                 layerid:'relationdata',
                 type:'relationdata',
                 style:{}
             });
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
-            if (dObj.seriesbranches.length > 0) {
-                if ($scope.diverObj.seriesbranches[0].arrowCode) {
-                    $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.seriesbranches[0].arrowCode);
+            if (dObj.schematics.length > 0) {
+                if ($scope.diverObj.schematics[0].arrowCode) {
+                    $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.schematics[0].arrowCode);
                 }
-                $scope.patternCodeSrc =  $scope.getArrowPic($scope.diverObj.seriesbranches[0].patternCode);
+                $scope.schematicCodeSrc =  $scope.getArrowPic($scope.diverObj.schematics[0].schematicCode);
                 /*分歧号码*/
-                $scope.branchPid = dObj.seriesbranches[0].branchPid;
+                $scope.branchPid = dObj.schematics[0].branchPid;
             }
         }
     }
@@ -293,7 +281,7 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         }
         array.splice(dx, 1);
     }
-    /*过滤seriesbranches[0].names中未修改的名称*/
+    /*过滤schematics[0].names中未修改的名称*/
     $scope.delEmptyNames = function (arr) {
         for (var i = arr.length - 1; i > -1; i--) {
             if (!arr[i].objStatus) {
@@ -355,13 +343,13 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         param.dbId = App.Temp.dbId;
         param.data = objCtrl.changedProperty;
         /*解决linkPid报错*/
-        if (param.data.seriesbranches) {
-            delete param.data.seriesbranches[0].linkPid;
-            if (param.data.seriesbranches[0].names) {
-                $.each(param.data.seriesbranches[0].names, function (i, v) {
+        if (param.data.schematics) {
+            delete param.data.schematics[0].linkPid;
+            if (param.data.schematics[0].names) {
+                $.each(param.data.schematics[0].names, function (i, v) {
                     delete v.linkPid;
                 });
-                $scope.delEmptyNames(param.data.seriesbranches[0].names);
+                $scope.delEmptyNames(param.data.schematics[0].names);
             }
         }
         if (!param.data) {
@@ -408,7 +396,7 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
             "branchType":9,
             "rowkey":"",
             "dbId": App.Temp.dbId,
-            "objId": $scope.diverObj.seriesbranches[0].pid
+            "objId": $scope.diverObj.schematics[0].pid
         };
         dsRoad.saveBranchInfo(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
