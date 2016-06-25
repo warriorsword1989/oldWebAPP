@@ -439,10 +439,7 @@
     margin: 5px 0;
 }
 
-.blackTheme .list-line {
-    border-bottom: 1px solid #9E9E9E;
-    margin: 0 -5px;
-}
+
 /*输入查询图片*/
 
 .blackTheme .pic-show {
@@ -718,6 +715,7 @@
 
 
 /*********************************属性栏修改后特殊样式**********************************/
+
 
 /*.blackTheme select.ng-dirty {
     background-color: #307BA3;
