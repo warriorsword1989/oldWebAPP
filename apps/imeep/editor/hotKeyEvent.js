@@ -393,6 +393,8 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         param ["type"] = "RDNODE";
                     } else if (shapeCtrl.editFeatType === "adLink") {
                         param ["type"] = "ADNODE";
+                    } else if(shapeCtrl.editFeatType == "rwLink") {
+                    	param ["type"] = "RWNODE";
                     }
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
                         if (param ["type"] === "RDNODE") {
@@ -402,6 +404,9 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
                             layerCtrl.getLayerById("adface").redraw();
+                        } else if(param ["type"] === "RWNODE") {
+                        	layerCtrl.getLayerById("rwLink").redraw();
+                            layerCtrl.getLayerById("rwNode").redraw();
                         }
                         treatmentOfChanged(data, param ["type"], "移动link成功");
                     })

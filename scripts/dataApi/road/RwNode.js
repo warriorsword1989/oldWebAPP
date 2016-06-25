@@ -35,6 +35,7 @@ fastmap.dataApi.RwNode = fastmap.dataApi.GeoDataModel.extend({
         data["form"] = this.form;
         data["meshId"] = this.meshId;
         data["geometry"] = this.geometry;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -46,6 +47,7 @@ fastmap.dataApi.RwNode = fastmap.dataApi.GeoDataModel.extend({
         data["form"] = this.form;
         data["meshId"] = this.meshId;
         data["geometry"] = this.geometry;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
