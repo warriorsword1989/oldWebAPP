@@ -31,9 +31,50 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,a
         {"id": 3, "label": "存在于详细和广域区域"}
     ];
 
+    var index = 0 ;
+
     $scope.initializeData = function(){
+        // if(index > 0 ){
+        //     return ;
+        // }
+        index ++;
         $scope.rwLinkData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
+        var linkArr = $scope.rwLinkData.geometry.coordinates,points = [];
+        for (var i = 0, len = linkArr.length; i < len; i++){
+            var pointOfLine = fastmap.mapApi.point(linkArr[i][0],linkArr[i][1]);
+            points.push(pointOfLine);
+        }
+        var line = fastmap.mapApi.lineString(points);
+        selectCtrl.onSelected({
+            geometry:line,
+            id:$scope.rwLinkData.pid
+        });
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id:$scope.rwLinkData.pid.toString(),
+            layerid:'rwLink',
+            type:'line',
+            style:{}
+        });
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
+
+
+
+
+        // var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
+        // for (var i = 0, len = linkArr.length; i < len; i++) {
+        //     var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+        //     points.push(pointOfLine);
+        // }
+        // var line = fastmap.mapApi.lineString(points);
+        // selectCtrl.onSelected({//存储选择数据信息
+        //     geometry: line,
+        //     id: $scope.adLinkData.pid
+        // });
+
 
         $scope.dataTipsData = selectCtrl.rowKey;
         $scope.currentURL = "";
