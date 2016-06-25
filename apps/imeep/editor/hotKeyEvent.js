@@ -393,7 +393,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         param ["type"] = "RDNODE";
                     } else if (shapeCtrl.editFeatType === "adLink") {
                         param ["type"] = "ADNODE";
-                    } else if(shapeCtrl.editFeatType == "rwLink") {
+                    } else if(shapeCtrl.editFeatType == "rwNode") {
                     	param ["type"] = "RWNODE";
                     }
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
