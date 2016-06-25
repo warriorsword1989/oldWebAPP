@@ -67,7 +67,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
             }
-            function treatmentOfChanged(data,branchType, type, op, ctrl, tpl, rowid_deatailId) {
+            function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
@@ -99,7 +99,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 });
                             }else{
                                 dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
-                                    objEditCtrl.setCurrentObject(type, data.data);
+                                    objEditCtrl.setCurrentObject(type, data);
                                     ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                         scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                                     })
@@ -445,16 +445,15 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         var rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.data.log[0].rowId:data.data.pid;
                         switch (param.data.branchType){
                             case 0:
-                            case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl';tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
-                            case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                        //
-                        //    case 1:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                        //    case 8:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                        //    case 7:ctrl = 'attr_branch_ctrl/rdRealImageCtrl';tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                            case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl';tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
-                            case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl';tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
+                            case 1:
+                            case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl'; tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
+                            case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                            case 8:ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
+                            case 7:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                            case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
+                            case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
                         }
-                        treatmentOfChanged(data, param.data.branchType, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, rowId_detialId);
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
                     })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {

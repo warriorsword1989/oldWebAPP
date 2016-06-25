@@ -563,8 +563,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/seriesOfBranch.html";
                     break;
                 case 8:
-                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
-                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdSchematicCtrl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/schematicOfBranch.html";
                     break;
                 case 9:
                     ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl";

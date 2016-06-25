@@ -1,20 +1,14 @@
-<div class="nameOfBraDiv" ng-controller="RealImageOfBranchCtrl">
-    <div style="height:50px">
-        <form class="form-horizontal" method="get">
-            <div class="panel panel-default " style="background-color: transparent;border:0;">
-                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
-                    实景图
-                    <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-                    </label>
-                </div>
-            </div>
-        </form>
+<div class="nameOfBraDiv fm-component" ng-controller="RealImageOfBranchCtrl">
+    <div class="title">
+        实景图
+        <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
+        </label>
     </div>
 
-    <div id="picMapShow">
-        <img id="picMapImg" ng-src="{{arrowCodeSrc}}" alt="无此模式图">
-        <img id="picModalImg" ng-src="{{arrowMapShow}}">
-        <div id="picMapDesc" ng-bind="diverObj.realimages[0].realCode"></div>
+    <div class="picMapShow">
+        <img class="picMapImg" ng-src="{{arrowCodeSrc}}" alt="无此模式图">
+        <img class="picModalImg" ng-src="{{arrowMapShow}}">
+        <div class="picMapDesc" ng-bind="diverObj.realimages[0].realCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
