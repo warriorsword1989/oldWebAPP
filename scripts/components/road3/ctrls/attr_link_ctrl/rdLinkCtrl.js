@@ -289,49 +289,16 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         })
     };
     $scope.delete = function() {
-        var objId = parseInt($scope.linkData.pid);
-        var param = {
-            "command": "DELETE",
-            "type": "RDLINK",
-            "projectId": Application.projectid,
-            "objId": objId
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function(data) {
-            var info = null;
-            rdLink.redraw();
-            referenceNode.redraw();
-            rdCross.redraw();
-            if (data.errcode == 0) {
-                var sinfo = {
-                    "op": "删除道路link成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
-            if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
+        dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
+            if (data) {
+                rdLink.redraw();
+                referenceNode.redraw();
+                rdCross.redraw();
                 $scope.linkData = null;
                 var editorLayer = layerCtrl.getLayerById("edit")
                 editorLayer.clear();
-            } else {
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
             }
-        })
+        });
     }
     $scope.changeLink = function(ind, linkId) {
         $scope.brigeIndex = ind;

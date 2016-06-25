@@ -189,15 +189,15 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @param detailid
      * @param branchType
      */
-    this.deleteBranchByRowId = function(detailid,branchType) {
+    this.deleteBranchByRowId = function(detailid, branchType) {
         var defer = $q.defer();
         var params = {
-            "command":"DELETE",
+            "command": "DELETE",
             "dbId": App.Temp.dbId,
             "type": 'RDBRANCH',
             "detailId": 0,
-            "rowId":detailid,
-            "branchType":branchType
+            "rowId": detailid,
+            "branchType": branchType
         };
         return this.save(param);
     };
@@ -206,19 +206,18 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @param detailid
      * @param branchType
      */
-    this.deleteBranchByDetailId = function(detailid,branchType) {
+    this.deleteBranchByDetailId = function(detailid, branchType) {
         var defer = $q.defer();
         var params = {
-            "command":"DELETE",
+            "command": "DELETE",
             "dbId": App.Temp.dbId,
             "type": 'RDBRANCH',
             "detailId": detailid,
-            "rowId":"",
-            "branchType":branchType
+            "rowId": "",
+            "branchType": branchType
         };
         return this.save(params);
     };
-
     /***
      * 移动点要素位置
      * 适用于rdnode，adnode，poi等
@@ -292,6 +291,16 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @param func
      */
     this.save = function(param) {
+        var opDesc = {
+            "CREATE": "创建" + [param.type],
+            "UPDATE": "更新" + [param.type] + "属性",
+            "DELETE": "删除" + [param.type],
+            "MOVE": "移动" + [param.type] + "点位",
+            "REPAIR": [param.type] + "修形",
+            "CREATEPARENT": "POI增加父",
+            "UPDATEPARENT": "POI更新父",
+            "DELETEPARENT": "POI解除父",
+        }[param.command];
         param = JSON.stringify(param);
         var defer = $q.defer();
         ajax.get("edit/run/", {
@@ -299,20 +308,22 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }).success(function(data) {
             if (data.errcode == 0) {
                 dsOutput.push({
-                    "op": "数据保存操作成功",
+                    "op": opDesc + "操作成功",
                     "type": "succ",
-                    "pid": ""
+                    "pid": "0",
+                    "childPid": ""
                 });
                 dsOutput.pushAll(data.data.log);
-                swal("操作成功", "", "success");
+                swal(opDesc + "操作成功", "", "success");
                 defer.resolve(data.data);
             } else {
                 dsOutput.push({
-                    "op": "数据保存操作失败：" + data.errmsg,
-                    "type": data.errcode,
-                    "pid": ""
+                    "op": opDesc + "操作出错：" + data.errmsg,
+                    "type": "fail",
+                    "pid": data.errcode,
+                    "childPid": ""
                 });
-                swal("操作出错：", data.errmsg, "error");
+                swal(opDesc + "操作出错：", data.errmsg, "error");
                 defer.resolve(null);
             }
         }).error(function(rejection) {
