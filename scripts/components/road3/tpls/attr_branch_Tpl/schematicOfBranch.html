@@ -1,14 +1,14 @@
-<div class="nameOfBraDiv fm-component" ng-controller="SeriesOfBranchCtrl">
-    <div class=title>
-        连续分歧
+<div class="nameOfBraDiv fm-component" ng-controller="SchematicOfBranchCtrl">
+    <div class="title">
+        大规模交叉点
         <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
         </label>
     </div>
 
     <div class="picMapShow">
         <img class="picMapImg" ng-src="{{arrowMapShow}}">
-        <img class="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此底图">
-        <div class="picMapDesc" ng-bind="diverObj.seriesbranches[0].arrowCode"></div>
+        <img class="picModalImg" ng-src="{{schematicCodeSrc}}" alt="无此底图">
+        <div class="picMapDesc" ng-bind="diverObj.schematics[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -36,26 +36,10 @@
                     </div>
                 </div> 
             </div>
-            <div class="d-group info-group">
-                <div class="d-name">声音方向：</div>
-                <div class="d-value">
-                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                        <label ng-class="{'btn-primary':item.code==diverObj.seriesbranches[0].voiceDir,'btn-default':item.code!=diverObj.seriesbranches[0].voiceDir,'btn btn-sm relation-type':true}" ng-repeat="item in voiceType" ng-click="switchVoiceType(item.code)">
-                            <input type="radio" name="voiceType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="d-group">
-                <div class="d-name">分歧类型：</div>
-                <div class="d-value">
-                    <select class="rounded d-input" ng-model="diverObj.seriesbranches[0].type" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
-                </div>
-            </div>
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.seriesbranches[0].arrowCode" ng-keydown="showPicSelect()" title="8位16进制数字(0~9、a~f)">
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.schematics[0].arrowCode" ng-keydown="showPicSelect()" title="8位16进制数字(0~9、a~f)">
                     <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -75,8 +59,8 @@
                         </div>
                         <div class="pic-show-btn pull-right">
                             <div class="pull-right btn-group">
-                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
-                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" ng-disabled="picNowNum == 1"><<</button>
+                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">>></button>
                             </div>
                         </div>
                         <div class="pic-loading" ng-bind="loadText">loading...</div>
@@ -86,7 +70,19 @@
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-bind="diverObj.seriesbranches[0].patternCode" class="show-val"></div>
+                    <div ng-bind="diverObj.schematics[0].schematicCode" class="show-val"></div>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">图形号码：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="图形号码" ng-model="diverObj.pid">
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">备注信息：</div>
+                <div class="d-value">
+                    <textarea class="d-input rounded" cols="30" rows="3" placeholder="备注信息" ng-model="diverObj.memo"></textarea>
                 </div>
             </div>
         </div>
