@@ -90,9 +90,16 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             }
                             objEditCtrl.setOriginalData(null);
                             //根据不同的分歧类型加载数据面板;
-                            if(branchType===5 || branchType===7){
+                            if(typeof branchType==='undefined'){
+                                dsEdit.getByPid(id,type).then(function (data) {
+                                    objEditCtrl.setCurrentObject(type, data);
+                                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                    })
+                                });
+                            } else if(branchType===5 || branchType===7){
                                 dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
-                                    objEditCtrl.setCurrentObject(type, data.data);
+                                    objEditCtrl.setCurrentObject(type, data);
                                     ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                         scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                                     })
