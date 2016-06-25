@@ -67,7 +67,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
             }
-            function treatmentOfChanged(data,branchType, type, op, ctrl, tpl, rowid_deatailId) {
+            function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
@@ -448,7 +448,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
                             case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
                         }
-                        treatmentOfChanged(data, param.data.branchType, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, rowId_detialId);
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
                     })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
