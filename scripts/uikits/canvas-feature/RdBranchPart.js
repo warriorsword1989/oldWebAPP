@@ -1,9 +1,9 @@
 fastmap.uikit.canvasFeature.RdBranchPart = fastmap.uikit.canvasFeature.Feature.extend({
     geometry: {},
     properties: {},
-    setAttribute: function(data, key, index, count) {
+    setAttribute: function(data, key, index) {
         this.geometry['type'] = 'Point';
-        this.geometry['coordinates'] = [data.g[0] + count * 30, data.g[1]];
+        this.geometry['coordinates'] = [data.g[0] + key * 30, data.g[1]];
         this.properties['id'] = data.m.a[key].ids[index].detailId;
         this.properties['rowId'] = data.m.a[key].ids[index].rowId;
         this.properties["featType"] = "RDBRANCH";
@@ -99,5 +99,5 @@ fastmap.uikit.canvasFeature.RdBranchPart = fastmap.uikit.canvasFeature.Feature.e
                 rotate: (data.m.c) * (Math.PI / 180)
             }));
         }*/
-    },
+    }
 });

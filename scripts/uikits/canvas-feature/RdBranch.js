@@ -1,12 +1,13 @@
-fastmap.uikit.canvasFeature.RdBranch = function(data) {
-    var parts = [],
-        cnt = 0,
-        key, idx;
-    for (key in data.m.a) {
-        for (idx in data.m.a[key].ids) {
-            parts.push(new fastmap.uikit.canvasFeature.RdBranchPart(data, key, idx, cnt));
-            cnt++;
+fastmap.uikit.canvasFeature.RdBranch = function (data) {
+    var parts = [];
+    for (var key = 0; key < data.m.a.length; key++) {
+        for (var cnt = 0; cnt < data.m.a[key].ids.length; cnt++) {
+            var branchPart = new fastmap.uikit.canvasFeature.RdBranchPart(data, key, cnt);
+            if (cnt > 0) {
+                branchPart.properties['markerStyle']["icon"] = [];
+            }
+            parts.push(branchPart);
         }
     }
     return parts;
-}
+};
