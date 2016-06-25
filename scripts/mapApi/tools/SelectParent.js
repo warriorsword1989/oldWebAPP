@@ -1,51 +1,63 @@
 /**
- * Created by liuyang on 2016/6/24
+ * Created by liuyang on 2016/6/25.
  */
 fastmap.mapApi.SelectParent = L.Handler.extend({
-    /**
-     * 参数
-     */
-    options: {
-        shapeOptions: {
-            stroke: true,
-            color: '#f06eaa',
-            weight: 4,
-            opacity: 0.5,
-            fill: true,
-            fillColor: null, //same as color by default
-            fillOpacity: 0.2,
-            clickable: true
-        },
-        metric: true, // Whether to use the metric meaurement system or imperial
-        repeatMode: true
-    },
     /***
      *
      * @param {Object}options
      */
     initialize: function (options) {
-        this.type = options.type;
-        this._map = options.map;
-        this.boxLayer = options.layer;
-        this._container = this._map._container;
+        this.options = options || {};
+        L.setOptions(this, options);
+        this.shapeEditor = this.options.shapeEditor;
         this.eventController = fastmap.uikit.EventController();
+        this._map = this.options.shapeEditor.map;
+        this.container = this._map._container;
+        this._mapDraggable = this._map.dragging.enabled();
+        this.targetPoint = null;
+        this.targetIndex = null;
+        this.catches = [];
+        this.insertPoint = null;
+        this.clickcount = 1;
+        this.boxLayer = new fastmap.uikit.LayerController({}).getLayerById('poiPoint')
+        this.targetGeoIndex = 0;
+        this.snapHandler = new fastmap.mapApi.Snap({
+            map: this._map,
+            shapeEditor: this.shapeEditor,
+            snapLine: true,
+            snapNode: true,
+            snapVertex: true
+        });
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        this.options.shapeOptions = {
+                stroke: true,
+                    color: '#f06eaa',
+                    weight: 4,
+                    opacity: 0.5,
+                    fill: true,
+                    fillColor: null, //same as color by default
+                    fillOpacity: 0.2,
+                    clickable: true
+            },
+            this.options.metric = true, // Whether to use the metric meaurement system or imperial
+            this.options.repeatMode = true
     },
 
     /***
      * 添加事件处理
      */
     addHooks: function () {
-        if (this._map) {
-            this._mapDraggable = this._map.dragging.enabled();
+        this._mapDraggable = this._map.dragging.enabled();
 
-            if (this._mapDraggable) {
-                this._map.dragging.disable();
-            }
-            this._container.style.cursor = 'crosshair';
-            this._map
-                .on('mousedown', this.onMouseDown, this)
-                .on('mousemove', this.onMouseMove, this);
+        if (this._mapDraggable) {
+            this._map.dragging.disable();
         }
+        this.container.style.cursor = 'crosshair';
+        this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('mousemove', this.onMouseMove, this);
+
     },
 
     /***
@@ -58,7 +70,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             }
 
             //TODO refactor: move cursor to styles
-            this._map._container.style.cursor = '';
+            this.container.style.cursor = '';
 
             this._map
                 .off('mousedown', this.onMouseDown, this)
@@ -67,22 +79,16 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
 
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
-            if (this._shape) {
-                this._map.removeLayer(this._shape);
-                this._map.getPanes().overlayPane.style.zIndex = "1";
-                delete this._shape;
-            }
+            // if (this._shape) {
+            //     this._map.removeLayer(this._shape);
+            //     this._map.getPanes().overlayPane.style.zIndex = "1";
+            //     delete this._shape;
+            // }
         }
         this._isDrawing = false;
+
     },
-    disable: function () {
-        if (!this._enabled) {
-            return;
-        }
-        this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
-    },
+
 
     onMouseDown: function (e) {
         this._isDrawing = true;
@@ -109,136 +115,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         var latlng = e.latlng;
         if (this._isDrawing) {
             this._drawShape(latlng);
-
         }
-    },
-    _fireCreatedEvent: function () {
-        var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
-        //var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
-        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
-
-        this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
-            {data: dataOfRectangle, layerType: this.type,border:rectangle});
-    },
-    _arrayToWeigh: function (arr) {
-        var hash = {},
-            len = arr.length,
-            re = [];
-        for (var i = 0; i < len; i++) {
-            if (!hash[arr[i]]) {
-                hash[[arr[i]]] = true;
-                re.push(arr[i]);
-            }
-        }
-        return re;
-    },
-    _getDataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, dataOfRectangle = [];
-        var transform = new fastmap.mapApi.MecatorTranform();
-        var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
-            endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
-        var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
-        var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
-        var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
-        var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
-        var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
-        var polygon = new fastmap.mapApi.Polygon([lineString]);
-        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
-            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-
-                if (tiles[i + ":" + j]) {
-                    var data = tiles[i + ":" + j].data;
-                    for (var item in data) {
-                        var pointsLen = data[item].geometry.coordinates.length;
-                        var linePoints = [];
-                        for(var n=0;n<pointsLen;n++) {
-                            var linePoint = data[item].geometry.coordinates[n];
-                            linePoint = transform.PixelToLonlat(i * 256 + linePoint[0], j * 256 + linePoint[1], map.getZoom());
-                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
-                            linePoints.push(linePoint);
-                        }
-                        var line = new fastmap.mapApi.LineString(linePoints);
-                        if(polygon.intersects(line)) {
-                            var result = {};
-                            result["data"] = data[item];
-                            result["line"] = line;
-                            dataOfRectangle.push(result);
-                        }
-                    }
-                }
-            }
-        }
-
-        return dataOfRectangle;
-    },
-    _dataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, linkArr = [], nodeArr = [], dataOfRectangle = null;
-        var transform = new fastmap.mapApi.MecatorTranform();
-        var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
-            endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
-        var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
-        var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
-        var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
-        var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
-        var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
-        var polygon = new fastmap.mapApi.Polygon([lineString]);
-        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
-            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-                var data = tiles[i + ":" + j].data.features;
-                if (data) {
-                    for (var item in data) {
-                        var pointsLen = data[item].geometry.coordinates.length;
-                            var startPoint = data[item].geometry.coordinates[0][0],
-                                endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
-                            startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
-                            startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
-                            endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
-                            endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
-                            if (polygon.containsPoint(startPoint)) {
-                                if (polygon.containsPoint(endPoint)) {
-                                    linkArr.push({
-                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
-                                        "link": parseInt(data[item].properties.id)
-                                    });
-
-                                } else {
-                                    var sObj = {
-                                        "node": parseInt(data[item].properties.snode),
-                                        "link": parseInt(data[item].properties.id)
-                                    }
-                                    nodeArr.push(sObj);
-                                }
-
-
-                            } else if (polygon.containsPoint(endPoint)) {
-
-                                if (polygon.containsPoint(startPoint)) {
-                                    linkArr.push({
-                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
-                                        "link": parseInt(data[item].properties.id)
-                                    });
-                                } else {
-                                    var eObj = {
-                                        "node": parseInt(data[item].properties.enode),
-                                        "link": parseInt(data[item].properties.id)
-                                    };
-                                    nodeArr.push(eObj);
-                                }
-
-                            }
-
-                            dataOfRectangle = {
-                                links: linkArr,
-                                nodes: nodeArr
-                            };
-
-
-                    }
-                }
-            }
-        }
-
-        return dataOfRectangle;
     },
     _drawShape: function (latlng) {
         if (!this._shape) {
@@ -248,9 +125,52 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             this._shape.setBounds(new L.LatLngBounds(this._startLatLng, latlng));
         }
     },
-    //两点之间的距离
-    distance: function (pointA, pointB) {
-        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
-        return Math.sqrt(len);
+    disable: function () {
+        if (!this._enabled) {
+            return;
+        }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
+    _fireCreatedEvent: function () {
+        var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
+        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
+
+        this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
+            {data: dataOfRectangle, layerType: this.type,border:rectangle});
+    },
+    _getDataOfRectangle: function (layer, tiles) {
+        var points = layer._latlngs, dataOfRectangle = [];
+        if(points.length < 4){
+            return;
+        }
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
+            endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
+        var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
+        var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
+        var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
+        var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
+        var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
+        var polygon = new fastmap.mapApi.Polygon([lineString]);
+        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
+            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
+                if (tiles[i + ":" + j]) {
+                    var data = tiles[i + ":" + j].data;
+                    for (var item in data) {
+                        var pointsLen = data[item].geometry.coordinates;
+                        var linePoint = transform.PixelToLonlat(i * 256 + pointsLen[0], j * 256 + pointsLen[1], map.getZoom());
+                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
+                        if(polygon.containsPoint(linePoint)) {
+                            data[item].point = linePoint;
+                            dataOfRectangle.push(data[item]);
+                        }
+                    }
+                }
+            }
+        }
+        return dataOfRectangle;
     }
-})
+
+});

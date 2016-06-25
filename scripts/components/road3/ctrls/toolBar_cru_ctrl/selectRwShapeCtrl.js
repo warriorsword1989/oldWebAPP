@@ -81,6 +81,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }
         else if (type === "RWNODE") {
+            layerCtrl.pushLayerFront('edit');//把editlayer置顶
             //初始化选择点工具
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
@@ -91,8 +92,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             map.currentTool.enable();
 
             //把点和线图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(rwLink);
             map.currentTool.snapHandler.addGuideLayer(rwNode);
+            map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择RWNODE！';
 

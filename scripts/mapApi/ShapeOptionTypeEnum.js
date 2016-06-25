@@ -11,6 +11,10 @@ fastmap.mapApi.ShapeOptionType={
      */
     'DRAWADLINK': "drawAdLink",
     /*
+     画矩形操作
+     */
+    'SELECTPARENT': "SelectParent",
+    /*
       画面操作
      */
     'DRAWPOLYGON': "drawPolygon",
