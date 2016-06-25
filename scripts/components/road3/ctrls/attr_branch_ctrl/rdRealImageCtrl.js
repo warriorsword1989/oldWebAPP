@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/22.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
+namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','dsRoad','dsMeta','appPath', function ($scope, $timeout, $ocLazyLoad,dsEdit,dsRoad,dsMeta,appPath) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationdata");
