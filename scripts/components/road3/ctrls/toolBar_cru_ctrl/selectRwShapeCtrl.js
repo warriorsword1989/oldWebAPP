@@ -269,14 +269,14 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             if (data.errcode === -1) {
                 return;
             }
+            var options = {
+                    "loadType": 'attrTplContainer',
+                    "propertyCtrl": ctrl,
+                    "propertyHtml": tpl
+                    }
+            $scope.$emit("transitCtrlAndTpl", options);
             objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
-            var options = {
-                "loadType": 'attrTplContainer',
-                "propertyCtrl": ctrl,
-                "propertyHtml": tpl
-                }
-                $scope.$emit("transitCtrlAndTpl", options);
         });
     }
 }])
