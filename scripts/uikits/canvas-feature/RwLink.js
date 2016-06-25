@@ -4,7 +4,12 @@ fastmap.uikit.canvasFeature.RwLink = fastmap.uikit.canvasFeature.Feature.extend(
         this.geometry['type'] = 'LineString';
         this.properties['name'] = item.m.a;
         this.properties['color'] = item.m.b;
-        var color = '#' + this.properties['color'];
+        this.properties['snode'] = item.m.c;
+        this.properties['enode'] = item.m.d;
+        var color = 'black';
+        if(item.m.b){
+            color = '#' + this.properties['color'];
+        }
         var symbolData = {
             type: 'CompositeLineSymbol',
             symbols: [

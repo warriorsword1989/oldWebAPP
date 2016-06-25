@@ -32,20 +32,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
      * @param type
      * @param func
      */
-    this.getBranchByDetailId = function(detailid,branchType) {
+    this.getBranchByDetailId = function(detailId, branchType) {
         var defer = $q.defer();
         var params = {
             "dbId": App.Temp.dbId,
             "type": 'RDBRANCH',
-            "detailId": detailid,
-            "rowId":"",
-            "branchType":branchType
+            "detailId": detailId,
+            "rowId": "",
+            "branchType": branchType
         };
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
@@ -61,20 +61,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
      * @param type
      * @param func
      */
-    this.getBranchByRowId = function(detailid,branchType) {
+    this.getBranchByRowId = function(rowId, branchType) {
         var defer = $q.defer();
         var params = {
             "dbId": App.Temp.dbId,
             "type": 'RDBRANCH',
             "detailId": 0,
-            "rowId":detailid,
-            "branchType":branchType
+            "rowId": rowId,
+            "branchType": branchType
         };
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
                 defer.resolve(-1);

@@ -40,6 +40,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor}),
                     'poiLocMove':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:false}),
                     'poiAutoDrag':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:true}),
+                    // 'ParentRalation':new fastmap.mapApi.SelectParent({shapeEditor:shapeEditor}),
                     'poiAdd':new fastmap.mapApi.poiAdd({shapeEditor:shapeEditor}),
                     'poiGuideMove':new fastmap.mapApi.poiGuideMove({shapeEditor:shapeEditor}),
                     'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor})

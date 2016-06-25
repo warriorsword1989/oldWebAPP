@@ -55,26 +55,10 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         };
         return dsMeta.getArrowImg(JSON.stringify(params));
     };
-    /*点击翻页*/
-    $scope.goPaging = function () {
-        if ($scope.picNowNum == 1) {
-            if ($scope.picTotal == 0 || $scope.picTotal == 1) {
-                $(".pic-next").prop('disabled', 'disabled');
-            } else {
-                $(".pic-next").prop('disabled', false);
-            }
-            $(".pic-pre").prop('disabled', 'disabled');
-        } else {
-            if ($scope.picTotal - $scope.picNowNum == 0) {
-                $(".pic-next").prop('disabled', 'disabled');
-            }
-            $(".pic-pre").prop('disabled', false);
-        }
-    };
     $scope.picNowNum = 0;
     $scope.getPicsDate = function () {
         $scope.loadText = 'loading...';
-        $(".pic-loading").show();
+        $scope.showPicLoading = true;
         $scope.picPageNum = 0;
         if ($scope.picNowNum == 0) {
             $scope.picNowNum = 1;
@@ -91,10 +75,9 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                     $scope.loadText = '搜不到数据';
                     $scope.pictures = [];
                 } else {
-                    $(".pic-loading").hide();
+                    $scope.showPicLoading = false;
                     $scope.pictures = data.data.data;
                     $scope.picTotal = Math.ceil(data.data.total / 6);
-                    $scope.goPaging();
                 }
             }
         });
@@ -114,7 +97,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             }
         });
         $timeout(function () {
-            if ($.trim($scope.diverObj.realimages[0].arrowCode).length > 6) {
+            if ($.trim($scope.diverObj.realimages[0].arrowCode).length > 0) {
                 $scope.picNowNum = 1;
                 // setArrowCode();
                 $scope.getPicsDate();

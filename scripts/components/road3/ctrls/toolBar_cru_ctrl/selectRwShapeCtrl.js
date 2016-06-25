@@ -10,7 +10,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     var eventController = fastmap.uikit.EventController();
     var rwLink = layerCtrl.getLayerById('rwLink');
     var rwNode = layerCtrl.getLayerById('rwNode');
-    var workPoint = layerCtrl.getLayerById('workPoint');
+    //var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.toolTipText = "";
@@ -47,8 +47,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             map.removeLayer(map.floatMenu);
             map.floatMenu = null;
         }
-        //重置上一步中的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        //重置属性栏和tips框
+        $scope.$emit("SWITCHCONTAINERSTATE", {}); //参数为空对象时，会隐藏属性面板和此属性面板
         $("#popoverTips").hide();
 
         $scope.changeBtnClass(num);
@@ -269,14 +269,14 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             if (data.errcode === -1) {
                 return;
             }
+            var options = {
+                    "loadType": 'attrTplContainer',
+                    "propertyCtrl": ctrl,
+                    "propertyHtml": tpl
+                    }
+            $scope.$emit("transitCtrlAndTpl", options);
             objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
-            var options = {
-                "loadType": 'attrTplContainer',
-                "propertyCtrl": ctrl,
-                "propertyHtml": tpl
-                }
-                $scope.$emit("transitCtrlAndTpl", options);
         });
     }
 }])

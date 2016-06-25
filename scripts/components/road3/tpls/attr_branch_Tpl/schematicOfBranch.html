@@ -1,14 +1,14 @@
-<div class="nameOfBraDiv fm-component" ng-controller="SignBoardOfBranchCtrl">
+<div class="nameOfBraDiv fm-component" ng-controller="SchematicOfBranchCtrl">
     <div class="title">
-        方向看板
+        大规模交叉点
         <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
         </label>
     </div>
 
     <div class="picMapShow">
         <img class="picMapImg" ng-src="{{arrowMapShow}}">
-        <img class="picModalImg" ng-src="{{backimageCodeSrc}}" alt="无此底图">
-        <div class="picMapDesc" ng-bind="diverObj.signboards[0].arrowCode"></div>
+        <img class="picModalImg" ng-src="{{schematicCodeSrc}}" alt="无此底图">
+        <div class="picMapDesc" ng-bind="diverObj.schematics[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -37,20 +37,9 @@
                 </div> 
             </div>
             <div class="d-group">
-                <div class="d-name">方向看板号：</div>
-                <div class="d-value">
-                    <div class="show-val" ng-bind="diverObj.signboards[0].pid"></div>
-                </div>
-            </div>
-            <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <div ng-show="diverObj.signboards[0].branchType != 3">
-                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.signboards[0].arrowCode" ng-keydown="showPicSelect()">
-                    </div>
-                    <div ng-show="diverObj.signboards[0].branchType == 3">
-                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.signboards[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
-                    </div>
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.schematics[0].arrowCode" ng-keydown="showPicSelect()" title="8位16进制数字(0~9、a~f)">
                     <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -81,27 +70,25 @@
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-show="diverObj.signboards[0].branchType != 3">
-                        <div ng-bind="diverObj.signboards[0].backimageCode" class="show-val"></div>
-                    </div>
-                    <div ng-show="diverObj.signboards[0].branchType == 3">
-                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.signboards[0].backimageCode" ng-change="changeBackimageCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
-                    </div>
+                    <div ng-bind="diverObj.schematics[0].schematicCode" class="show-val"></div>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">图形号码：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="图形号码" ng-model="diverObj.pid">
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">备注信息：</div>
+                <div class="d-value">
+                    <textarea class="d-input rounded" cols="30" rows="3" placeholder="备注信息" ng-model="diverObj.memo"></textarea>
                 </div>
             </div>
         </div>
     </div>
     </form>
     <!--end 模式图信息-->
-    <!--begin 名称信息-->
-    <div ng-if="diverObj.signboards[0].branchType != 3">
-        <div class="module-box show-detail-title" ng-click="showDetail(0);">
-            <div class="box-head font-bold">
-                名称信息（共 <span ng-bind="diverObj.signboards[0].names.length"></span> 条）
-            </div>
-        </div>
-    </div>
-    <!--end 名称信息-->
     <!--begin 经过线-->
     <div class="module-box show-detail-title" ng-click="showDetail(1);">
         <div class="box-head font-bold">
