@@ -296,9 +296,9 @@ input.fm-control {
     background-color: #333;
 }
 
-input.fm-control.ng-dirty {
+/*input.fm-control.ng-dirty {
     background-color: #307BA3;
-}
+}*/
 
 select.fm-control {
     width: 100%;
@@ -309,14 +309,14 @@ select.fm-control {
     background-color: #333;
 }
 
-select.fm-control.ng-dirty {
+/*select.fm-control.ng-dirty {
     background-color: #307BA3;
 }
 
 select.fm-control.ng-dirty + div.chosen-container > a.chosen-single {
     border: solid white 1px;
     background-image: linear-gradient(#307BA3 100%, #307BA3 100%);
-}
+}*/
 
 textarea.fm-control {
     width: 100%;
@@ -327,9 +327,9 @@ textarea.fm-control {
     background-color: #333;
 }
 
-textarea.fm-control.ng-dirty {
+/* textarea.fm-control.ng-dirty {
     background-color: #307BA3;
-}
+} */
 
 label.fm-control {
     margin: 2px 5px;
@@ -341,7 +341,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     line-height: 12px;
 }
 
-form input[type='radio']:checked.ng-dirty {
+/*form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
     background: #307BA3;
     width: 12px;
@@ -354,7 +354,7 @@ form input[type='checkbox']:checked.ng-dirty {
     background: #307BA3;
     width: 12px;
     height: 12px;
-}
+}*/
 
 .fm-inline > * {
     display: inline-block;
