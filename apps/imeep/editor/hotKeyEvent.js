@@ -355,7 +355,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             "geometry": {"type": "LineString", "coordinates": coordinate},
                             "interLinks": interLinks,
                             "interNodes": interNodes
-                        }
+                        };
 
                         if (shapeCtrl.editFeatType === "rdLink") {
                             repairContent = "修改道路rdLink成功";
@@ -367,6 +367,11 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             param["type"] = "ADLINK";
                             ctrl = 'attr_administratives_ctrl/adLinkCtrl';
                             tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
+                        } else if(shapeCtrl.editFeatType === "rwLink"){
+                            repairContent = "修改铁路rwLink成功";
+                            param["type"] = "RWLINK";
+                            ctrl = 'attr_link_ctrl/rdLinkCtrl';
+                            tpl = 'attr_link_tpl/rdLinkTpl.html';
                         }
                         dsRoad.editGeometryOrProperty(param).then(function (data) {
                             if (param["type"] === "RDLINK") {
@@ -376,6 +381,8 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 layerCtrl.getLayerById("adLink").redraw();
                                 layerCtrl.getLayerById("adface").redraw();
                                 layerCtrl.getLayerById("adnode").redraw();
+                            } else if(param["type"] === "RWLINK"){
+                                layerCtrl.getLayerById("rwLink").redraw();
                             }
                             treatmentOfChanged(data, param["type"], repairContent, ctrl, tpl);
 

@@ -109,10 +109,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                             event:event
                         });
                         this.currentEditLayer.selectedid = id;
-                        if (this.redrawTiles.length != 0) {
-                            this._cleanHeight();
-                        }
-                        this._drawHeight(id);
+                        // 注释掉下面三行的原因：1 高亮是通过高亮图层来高亮，2 渲染铁路的时候this._cleanHeight()会使已经清除的高亮的铁路又重新高亮
+                        // if (this.redrawTiles.length != 0) {
+                        //     this._cleanHeight();
+                        // }
+                        // this._drawHeight(id);
                     } else {
                         this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id,event:event});
                     }
