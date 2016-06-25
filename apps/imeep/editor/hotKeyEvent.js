@@ -420,15 +420,22 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         param ["type"] = "RDLINK";
                     } else if (shapeCtrl.editFeatType === "adLink") {
                         param ["type"] = "ADLINK";
+                    } else if (shapeCtrl.editFeatType === "rwLink") {
+                    	param ["type"] = "RWLINK";
+                    } else if (shapeCtrl.editFeatType === "rwNode") {
+                    	param ["type"] = "RWNODE";
                     }
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
                         if (param["type"] === "RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                             layerCtrl.getLayerById("referenceNode").redraw();
-                        } else {
+                        } else if(param["type"] === "RWNODE"){
+                        	layerCtrl.getLayerById("rwLink").redraw();
+                            layerCtrl.getLayerById("rwNode").redraw();
+                        }else {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
-                        }
+                        } 
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     })
                 }else if(shapeCtrl.editType === "BRANCH"){
