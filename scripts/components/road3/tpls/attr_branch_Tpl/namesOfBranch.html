@@ -1,27 +1,14 @@
-<div class="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
-   <!--<div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;color: #fff;">-->
-        <!--分歧-->
-        <!--<div class="btn-group d-radio-btn" data-toggle="buttons">-->
-          <!--<label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">-->
-          <!--</label>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div style="height:50px">
-        <form class="form-horizontal" method="get">
-            <div class="panel panel-default " style="background-color: transparent;border:0;">
-                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
-                    分歧
-                    <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-                    </label>
-                </div>
-            </div>
-        </form>
+<div class="nameOfBraDiv fm-component" ng-controller="namesOfBranchCtrl">
+    <div class="title">
+        分歧
+        <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
+        </label>
     </div>
 
-    <div id="picMapShow">
-        <img id="picMapImg" ng-src="{{arrowMapShow}}">
-        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此模式图">
-        <div id="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
+    <div class="picMapShow">
+        <img class="picMapImg" ng-src="{{arrowMapShow}}">
+        <img class="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此模式图">
+        <div class="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->

@@ -442,7 +442,7 @@
 .blackTheme .list-line {
     border-bottom: 1px solid #9E9E9E;
     margin: 0 -5px;
-
+}
 /*输入查询图片*/
 
 .blackTheme .pic-show {
@@ -1109,7 +1109,7 @@
 
 /*高速分歧map上图片显示*/
 
-#picMapShow {
+.picMapShow {
     width: 194px;
     border: 1px solid #fff;
     height: 162px;
@@ -1118,7 +1118,7 @@
     margin-left: 50px;
 }
 
-#picMapImg {
+.picMapImg {
     width: 192px;
     position: absolute;
     height: 160px;
@@ -1126,7 +1126,7 @@
     top: 51px;
 }
 
-#picModalImg {
+.picModalImg {
     width: 192px;
     top: 51px;
     height: 160px;
@@ -1134,7 +1134,7 @@
     z-index: 9;
 }
 
-#picMapDesc {
+.picMapDesc {
     color: #fff;
     width: 100%;
     text-align: center;

@@ -1,20 +1,14 @@
-<div class="nameOfBraDiv" ng-controller="SeriesOfBranchCtrl">
-    <div style="height:50px">
-        <form class="form-horizontal" method="get">
-            <div class="panel panel-default " style="background-color: transparent;border:0;">
-                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
-                    连续分歧
-                    <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-                    </label>
-                </div>
-            </div>
-        </form>
+<div class="nameOfBraDiv fm-component" ng-controller="SeriesOfBranchCtrl">
+    <div class=title>
+        连续分歧
+        <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
+        </label>
     </div>
 
-    <div id="picMapShow">
-        <img id="picMapImg" ng-src="{{arrowMapShow}}">
-        <img id="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此底图">
-        <div id="picMapDesc" ng-bind="diverObj.seriesbranches[0].arrowCode"></div>
+    <div class="picMapShow">
+        <img class="picMapImg" ng-src="{{arrowMapShow}}">
+        <img class="picModalImg" ng-src="{{patternCodeSrc}}" alt="无此底图">
+        <div class="picMapDesc" ng-bind="diverObj.seriesbranches[0].arrowCode"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -81,23 +75,18 @@
                         </div>
                         <div class="pic-show-btn pull-right">
                             <div class="pull-right btn-group">
-                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
-                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" ng-disabled="picNowNum == 1"><<</button>
+                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">>></button>
                             </div>
                         </div>
-                        <div class="pic-loading" ng-bind="loadText">loading...</div>
+                        <div class="pic-loading" ng-show="showPicLoading" ng-bind="loadText">loading...</div>
                     </div>
                 </div>
             </div>
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-show="diverObj.seriesbranches[0].branchType != 3">
-                        <div ng-bind="diverObj.seriesbranches[0].patternCode" class="show-val"></div>
-                    </div>
-                    <div ng-show="diverObj.seriesbranches[0].branchType == 3">
-                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.seriesbranches[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
-                    </div>
+                    <div ng-bind="diverObj.seriesbranches[0].patternCode" class="show-val"></div>
                 </div>
             </div>
         </div>
