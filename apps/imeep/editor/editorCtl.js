@@ -404,11 +404,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     $scope.$on("SWITCHCONTAINERSTATE", function(event, data) {
         if (data.hasOwnProperty("attrContainerTpl")) {
             $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
-        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+        }
+        if (data.hasOwnProperty("subAttrContainerTpl")) {
             $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
-        } else {
-            $scope.suspendPanelOpened = false;
-            $scope.editorPanelOpened = 'none';
         }
     });
     /**

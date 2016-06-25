@@ -54,8 +54,7 @@ angular.module('app').controller("addRwShapeController", ['$scope', '$ocLazyLoad
             highRenderCtrl.highLightFeatures.length = 0;
         }
         //收回上一步中打开的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE",
-            {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
 
         //清空编辑图层
@@ -94,7 +93,7 @@ angular.module('app').controller("addRwShapeController", ['$scope', '$ocLazyLoad
             map.currentTool.snapHandler.addGuideLayer(rwLink);
             map.currentTool.snapHandler.addGuideLayer(rwNode);
             //提示信息
-            tooltipsCtrl.setEditEventType('drawRwLink');
+            tooltipsCtrl.setEditEventType('drawPath');
             tooltipsCtrl.setCurrentTooltip('开始画线！');
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
