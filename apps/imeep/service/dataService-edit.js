@@ -184,6 +184,41 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         return this.save(param);
     };
+    /**
+     * 根据道路rowId获得分歧的详细属性(branchType = 5、7)
+     * @param detailid
+     * @param branchType
+     */
+    this.deleteBranchByRowId = function(detailid,branchType) {
+        var defer = $q.defer();
+        var params = {
+            "command":"DELETE",
+            "dbId": App.Temp.dbId,
+            "type": 'RDBRANCH',
+            "detailId": 0,
+            "rowId":detailid,
+            "branchType":branchType
+        };
+        return this.save(param);
+    };
+    /**
+     * 根据道路detailId获得分歧的详细属性(branchType = 除了5、7)
+     * @param detailid
+     * @param branchType
+     */
+    this.deleteBranchByDetailId = function(detailid,branchType) {
+        var defer = $q.defer();
+        var params = {
+            "command":"DELETE",
+            "dbId": App.Temp.dbId,
+            "type": 'RDBRANCH',
+            "detailId": detailid,
+            "rowId":"",
+            "branchType":branchType
+        };
+        return this.save(params);
+    };
+
     /***
      * 移动点要素位置
      * 适用于rdnode，adnode，poi等

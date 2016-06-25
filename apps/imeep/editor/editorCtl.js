@@ -342,7 +342,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
      * 保存数据
      */
     $scope.doSave = function() {
-        $scope.subAttrTplContainerSwitch(false);
+        $scope.subAttrTplContainerSwitch(true);
         eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
     };
     /**
@@ -357,15 +357,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             closeOnConfirm: true,
             confirmButtonText: "是的，我要删除",
             cancelButtonText: "取消"
-        }, function(f) {
-            if (f) {
-                data = {
-                    type: 'RDLINK',
-                    pid: 100004343,
-                    childPid: "",
-                    op: "道路link删除成功"
-                };
+        },function(f) {
+            if(f){
                 $scope.$broadcast('getConsoleInfo', data); //显示输出结果
+                eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
+            }else{
+                //取消高亮，收起数据面板;
             }
         });
     };

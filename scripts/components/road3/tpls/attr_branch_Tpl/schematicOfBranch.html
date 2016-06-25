@@ -63,7 +63,7 @@
                                 <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">>></button>
                             </div>
                         </div>
-                        <div class="pic-loading" ng-bind="loadText">loading...</div>
+                        <div class="pic-loading" ng-show="showPicLoading" ng-bind="loadText">loading...</div>
                     </div>
                 </div>
             </div>

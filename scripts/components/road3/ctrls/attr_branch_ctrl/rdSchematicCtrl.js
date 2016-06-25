@@ -52,7 +52,7 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     $scope.picNowNum = 0;
     $scope.getPicsData = function () {
         $scope.loadText = 'loading...';
-        $(".pic-loading").show();
+        $scope.showPicLoading = true;
         $scope.picPageNum = 0;
         if ($scope.picNowNum == 0) {
             $scope.picNowNum = 1;
@@ -69,7 +69,7 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                     $scope.loadText = '搜不到数据';
                     $scope.pictures = [];
                 } else {
-                    $(".pic-loading").hide();
+                    $scope.showPicLoading = false;
                     $scope.pictures = data.data.data;
                     $scope.picTotal = Math.ceil(data.data.total / 6);
                 }
