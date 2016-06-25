@@ -90,9 +90,16 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             }
                             objEditCtrl.setOriginalData(null);
                             //根据不同的分歧类型加载数据面板;
-                            if(branchType===5 || branchType===7){
+                            if(typeof branchType==='undefined'){
+                                dsEdit.getByPid(id,type).then(function (data) {
+                                    objEditCtrl.setCurrentObject(type, data);
+                                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                    })
+                                });
+                            } else if(branchType===5 || branchType===7){
                                 dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
-                                    objEditCtrl.setCurrentObject(type, data.data);
+                                    objEditCtrl.setCurrentObject(type, data);
                                     ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                         scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                                     })
@@ -407,6 +414,8 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         param ["type"] = "RDNODE";
                     } else if (shapeCtrl.editFeatType === "adLink") {
                         param ["type"] = "ADNODE";
+                    } else if(shapeCtrl.editFeatType == "rwNode") {
+                    	param ["type"] = "RWNODE";
                     }
                     dsRoad.editGeometryOrProperty(param).then(function (data) {
                         if (param ["type"] === "RDNODE") {
@@ -416,6 +425,9 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
                             layerCtrl.getLayerById("adface").redraw();
+                        } else if(param ["type"] === "RWNODE") {
+                        	layerCtrl.getLayerById("rwLink").redraw();
+                            layerCtrl.getLayerById("rwNode").redraw();
                         }
                         treatmentOfChanged(data, param ["type"], "移动link成功");
                     })

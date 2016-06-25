@@ -255,8 +255,13 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             shapeCtrl.startEditing();// 开始编辑
             map.currentTool = shapeCtrl.getCurrentTool();
 
-            shapeCtrl.editFeatType = "rwLink";
-            map.currentTool.snapHandler.addGuideLayer(rwLink); //把线图层放到捕捉工具中
+            if (type === "PATHNODEMOVE") {
+                shapeCtrl.editFeatType = "rwNode";
+                map.currentTool.snapHandler.addGuideLayer(rwNode);//把点图层放到捕捉工具中
+            } else {
+                shapeCtrl.editFeatType = "rwLink";
+                map.currentTool.snapHandler.addGuideLayer(rwLink); //把线图层放到捕捉工具中
+            }
         }
     }
 
