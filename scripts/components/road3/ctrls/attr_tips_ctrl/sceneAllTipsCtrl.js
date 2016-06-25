@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2016/1/5.
  */
 var dataTipsApp = angular.module("app");
-dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazyLoad', 'dsRoad', 'dsFcc', function($scope, $timeout, $ocLazyLoad, dsRoad, dsFcc) {
+dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazyLoad', 'dsEdit', 'dsFcc', function($scope, $timeout, $ocLazyLoad, dsEdit, dsFcc) {
     //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();
     //图层控制ctrl
@@ -47,7 +47,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     };
     $scope.getFeatDataCallback = function(id, type) {
         $scope.resetToolAndMap();
-        dsRoad.getRdObjectById(id, type).then(function(data) {
+        dsEdit.getByPid(id, type).then(function(data) {
             if (data.errcode === -1) {
                 swal("", data.errmsg, "提示信息");
                 return;
@@ -673,7 +673,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     });
     $scope.createRestrictByTips = function() {
         var info = null;
-        dsRoad.getRdObjectById($scope.dataTipsData.in.id, "RDLINK").then(function(data) {
+        dsEdit.getByPid($scope.dataTipsData.in.id, "RDLINK").then(function(data) {
             var restrictObj = {};
             restrictObj["inLinkPid"] = parseInt($scope.dataTipsData.in.id);
             var dataTipsGeo = $scope.dataTipsData.g_location.coordinates;
@@ -707,13 +707,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
             };
             restrictObj["nodePid"] = inNode;
-            var param = {
-                "command": "CREATE",
-                "type": "RDRESTRICTION",
-                "dbId": App.Temp.dbId,
-                "data": restrictObj
-            };
-            dsRoad.editGeometryOrProperty(param).then(function(data) {
+            dsEdit.create("RDRESTRICTION", restrictObj).then(function(data) {
                 if (data.errcode === -1) {
                     info = [{
                         "op": data.errcode,
@@ -727,7 +721,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 restrictLayer.redraw(); //交限图层刷新
                 workPoint.redraw(); //dataTip图层刷新
                 $scope.upBridgeStatus();
-                dsRoad.getRdObjectById(pid, "RDRESTRICTION").then(function(data) {
+                dsEdit.getByPid(pid, "RDRESTRICTION").then(function(data) {
                     objCtrl.setCurrentObject("RDRESTRICTION", data.data);
                     var restrictObj = {
                         "loadType": "attrTplContainer",
@@ -746,21 +740,16 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         if ($scope.dataTipsData.s_sourceType === "2001") { //测线
             //修改测线的数据格式
             var paramOfLink = {
-                    "command": "CREATE",
-                    "type": "RDLINK",
-                    "dbId": App.Temp.dbId,
-                    "data": {
-                        "eNodePid": 0,
-                        "sNodePid": 0,
-                        "kind": $scope.dataTipsData.kind,
-                        "laneNum": $scope.dataTipsData.ln,
-                        "geometry": {
-                            "type": "LineString",
-                            "coordinates": $scope.dataTipsData.g_location.coordinates
-                        }
-                    }
+                "eNodePid": 0,
+                "sNodePid": 0,
+                "kind": $scope.dataTipsData.kind,
+                "laneNum": $scope.dataTipsData.ln,
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": $scope.dataTipsData.g_location.coordinates
                 }
-                //等于3时不允许修改
+            };
+            //等于3时不允许修改
             if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 3) {
                 $timeout(function() {
                     $.showPoiMsg('状态已为 【回prj_gdb库】 ，不允许改变状态！', e);
@@ -774,7 +763,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 });
                 return;
             }
-            dsRoad.editGeometryOrProperty(paramOfLink).then(function(data) {
+            dsEdit.create("RDLINK", paramOfLink).then(function(data) {
                 var info = null;
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
@@ -816,7 +805,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 "data": kindObj
             };
             if (stage === 1) {
-                dsRoad.editGeometryOrProperty(param).then(function(data) {
+                dsEdit.update(parseInt($scope.dataTipsData.f.id), "RDLINK", kindObj).then(function(data) {
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
                         objCtrl.data["kind"] = $scope.dataTipsData.kind;

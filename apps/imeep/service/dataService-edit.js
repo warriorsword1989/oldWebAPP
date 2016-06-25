@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function($http, $q, ajax) {
+angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutput", function($http, $q, ajax, dsOutput) {
     /**
      * 根据pid获取要素详细属性
      * @param id
@@ -263,8 +263,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", function
             parameter: param.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
+                dsOutput.push({
+                    "op": "数据保存操作成功",
+                    "type": "succ",
+                    "pid": ""
+                });
+                dsOutput.pushAll(data.data.log);
+                swal("操作成功", "", "success");
                 defer.resolve(data.data);
             } else {
+                dsOutput.push({
+                    "op": "数据保存操作失败：" + data.errmsg,
+                    "type": data.errcode,
+                    "pid": ""
+                });
                 swal("操作出错：", data.errmsg, "error");
                 defer.resolve(null);
             }

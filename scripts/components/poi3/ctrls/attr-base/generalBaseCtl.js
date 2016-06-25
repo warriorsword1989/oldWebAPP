@@ -176,24 +176,24 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             return;
         }
         dsEdit.update($scope.poi.pid, "IXPOI", objectCtrl.changedProperty).then(function(data) {
-            if (data) {
-                swal("操作成功", "", "success");
-                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-                $scope.outputResult.push(new FM.dataApi.IxOutput({
-                    "op": "修改POI属性成功",
-                    "type": "IXPOI",
-                    "pid": $scope.poi.pid
-                }));
-                for (var i = 0; i < data.log.length; i++) {
-                    $scope.outputResult.push(new FM.dataApi.IxOutput(data.log[i]));
-                }
-            } else {
-                $scope.outputResult.push(new FM.dataApi.IxOutput({
-                    "op": "修改POI属性失败",
-                    "type": "IXPOI",
-                    "pid": $scope.poi.pid
-                }));
-            }
+            // if (data) {
+            //     swal("操作成功", "", "success");
+            //     objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+            //     $scope.outputResult.push(new FM.dataApi.IxOutput({
+            //         "op": "修改POI属性成功",
+            //         "type": "IXPOI",
+            //         "pid": $scope.poi.pid
+            //     }));
+            //     for (var i = 0; i < data.log.length; i++) {
+            //         $scope.outputResult.push(new FM.dataApi.IxOutput(data.log[i]));
+            //     }
+            // } else {
+            //     $scope.outputResult.push(new FM.dataApi.IxOutput({
+            //         "op": "修改POI属性失败",
+            //         "type": "IXPOI",
+            //         "pid": $scope.poi.pid
+            //     }));
+            // }
         });
     }
     /* start 事件监听 ********************************************************/
