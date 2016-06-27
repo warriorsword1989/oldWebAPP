@@ -203,6 +203,23 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 		        };
 		        $scope.traffDirection = directionObj[$scope.dataTipsData.loc];
 		        break;
+	        case "1104":    //大门
+		        $scope.inLinkPid = $scope.dataTipsData.in.id;
+		        $scope.outLinkPid = $scope.dataTipsData.out.id;
+		        var gateTypeObj = {
+			        0: 'EG',
+			        1: 'KG',
+			        2: 'PG'
+		        };
+		        var gateDirObj = {
+			        0:'EG',
+			        1:'KG',
+			        2:'PG'
+		        };
+		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
+		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
+		        $scope.passTime = $scope.dataTipsData.time;
+		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {
