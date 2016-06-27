@@ -176,9 +176,33 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
-            case "1102":
-                
-                break;
+	        case "1102":    //红绿灯
+		        var fArray = $scope.dataTipsData.f_array;
+		        $scope.inCt = $scope.dataTipsData.inCt;
+		        $scope.enableCtl = [];
+		        $scope.disableCtl = [];
+		        for(var i=0,len=fArray.length;i<len;i++){
+			        if(fArray[i].ctrl == 1){
+				        $scope.enableCtl.push(fArray[i]);
+			        }else{
+				        $scope.disableCtl.push(fArray[i]);
+			        }
+		        }
+		        break;
+	        case "1103":    //红绿灯方向
+		        $scope.linkPid = $scope.dataTipsData.in.id;
+		        var directionObj = {
+			        0:'未调查',
+			        1:'左',
+			        2:'右',
+			        3:'左右',
+			        4:'上',
+			        5:'左上',
+			        6:'右上',
+			        7:'左上右'
+		        };
+		        $scope.traffDirection = directionObj[$scope.dataTipsData.loc];
+		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {

@@ -29,13 +29,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
 
     }
     if (objCtrl.data) {
-        $scope.initializeData();
+        $scope.initDiver();
     }
     objCtrl.updateRdBranch = function () {
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = {};
         $scope.getObjectById(true);
-        $scope.initializeData();
+        $scope.initDiver();
     };
 
     $scope.setOriginalDataFunc = function () {

@@ -16,7 +16,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data.data);
+                defer.resolve(data);
             } else {
                 swal("根据Pid查询" + type + "数据出错：", data.errmsg, "error");
                 defer.resolve(null);
