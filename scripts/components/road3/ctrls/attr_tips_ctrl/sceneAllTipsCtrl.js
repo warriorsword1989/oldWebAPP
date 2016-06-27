@@ -275,6 +275,20 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "31501": "鸣喇叭"
                 };
                 break;
+	        case "1106":    //坡度
+		        var slopeTypeObj = {
+			        0: '未调查',
+			        1: '水平',
+			        2: '上坡',
+			        3: '下坡'
+		        };
+		        var endSlopeFlagObj = {
+			        0:'否',
+			        1:'是'
+		        };
+		        $scope.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
+		        $scope.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+		        break;
             case "1107": //收费站
                 $scope.TollType = [{
                     "id": 0,
