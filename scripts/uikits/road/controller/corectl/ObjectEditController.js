@@ -106,7 +106,7 @@ fastmap.uikit.ObjectEditController = (function() {
                         throw "无法解析当前选择的类型!";
                         break;
                 }
-                if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
+                if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType) || this.originalData.geoLiveType == 'RDBRANCH') {
                     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,

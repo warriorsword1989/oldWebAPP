@@ -94,4 +94,20 @@ angular.module("dataService", [], function($httpProvider) {
     this.getLocalJson = function(url) {
         return $http.get(url, {});
     };
+}]).service("dsOutput", [function() {
+    this.output = [];
+    this.push = function(data) {
+        this.output.push(data);
+    };
+    this.pushAll = function(dataArray) {
+        for (var i = 0; i < dataArray.length; i++) {
+            this.output.push(dataArray[i]);
+        }
+    };
+    this.pop = function() {
+        return this.output.pop();
+    };
+    this.clear = function() {
+        this.output.length = 0;
+    };
 }]);

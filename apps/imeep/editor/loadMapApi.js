@@ -34,7 +34,7 @@
         "tools/poiLocMove.js",
         "tools/poiGuideMove.js",
         "tools/poiAdd.js",
-        // "tools/SelectParent.js",
+        "tools/SelectParent.js",
         "tools/CrossingAdd.js",
         "tools/DrawPath.js",
         "tools/DrawPolygon.js",

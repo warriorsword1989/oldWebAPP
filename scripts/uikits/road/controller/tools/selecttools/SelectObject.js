@@ -30,13 +30,14 @@ fastmap.uikit.SelectObject = (function () {
                  * @param data tile中缓存的data
                  * @param type 当前高亮的图层类型
                  */
-                drawGeomCanvasHighlight: function (data, type) {
+                drawGeomCanvasHighlight: function (data, type, event) {
 
                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
                         id: data.properties.id,
                         rowId:data.properties.rowId,
                         optype: type,
-                        branchType:data.properties.branchType
+                        branchType:data.properties.branchType,
+                        event:event
 
                     })
                 }

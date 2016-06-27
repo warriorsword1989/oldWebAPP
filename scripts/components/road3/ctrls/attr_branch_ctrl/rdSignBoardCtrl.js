@@ -15,7 +15,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        objCtrl.namesInfo = objCtrl.data.signboards[0].names;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();

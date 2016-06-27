@@ -81,6 +81,7 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }
         else if (type === "RWNODE") {
+            layerCtrl.pushLayerFront('edit');//把editlayer置顶
             //初始化选择点工具
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
@@ -91,8 +92,8 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             map.currentTool.enable();
 
             //把点和线图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(rwLink);
             map.currentTool.snapHandler.addGuideLayer(rwNode);
+            map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择RWNODE！';
 
@@ -254,12 +255,13 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);//设置编辑的类型
             shapeCtrl.startEditing();// 开始编辑
             map.currentTool = shapeCtrl.getCurrentTool();
+
             if (type === "PATHNODEMOVE") {
                 shapeCtrl.editFeatType = "rwNode";
                 map.currentTool.snapHandler.addGuideLayer(rwNode);//把点图层放到捕捉工具中
             } else {
-                shapeCtrl.editFeatType = "rdLink";
-                map.currentTool.snapHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
+                shapeCtrl.editFeatType = "rwLink";
+                map.currentTool.snapHandler.addGuideLayer(rwLink); //把线图层放到捕捉工具中
             }
         }
     }
