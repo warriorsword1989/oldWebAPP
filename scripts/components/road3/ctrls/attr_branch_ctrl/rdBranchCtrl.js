@@ -510,5 +510,5 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initDiver);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, objCtrl.updateRdBranch);
 }])

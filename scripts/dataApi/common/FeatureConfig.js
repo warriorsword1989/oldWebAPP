@@ -7,8 +7,28 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1102:{
+		name:'红绿灯',
+		ctl:'',
+		tpl:''
+	},
+	1103:{
+		name:'红绿灯方位',
+		ctl:'',
+		tpl:''
+	},
+	1104:{
+		name:'大门',
+		ctl:'',
+		tpl:''
+	},
 	1105:{
 		name:'危险信息',
+		ctl:'',
+		tpl:''
+	},
+	1106:{
+		name:'坡度',
 		ctl:'',
 		tpl:''
 	},
@@ -27,8 +47,23 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1111:{
+		name:'条件限速',
+		ctl:'',
+		tpl:''
+	},
+	1113:{
+		name:'车道限速',
+		ctl:'',
+		tpl:''
+	},
 	1201:{
 		name:'道路种别',
+		ctl:'',
+		tpl:''
+	},
+	1202:{
+		name:'车道数',
 		ctl:'',
 		tpl:''
 	},
@@ -47,6 +82,16 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1207:{
+		name:'匝道',
+		ctl:'',
+		tpl:''
+	},
+	1208:{
+		name:'停车场出入口Link',
+		ctl:'',
+		tpl:''
+	},
 	1301:{
 		name:'车信',
 		ctl:'',
@@ -54,6 +99,16 @@ fastmap.dataApi.FeatureConfig = {
 	},
 	1302:{
 		name:'交限',
+		ctl:'',
+		tpl:''
+	},
+	1304:{
+		name:'禁止穿行',
+		ctl:'',
+		tpl:''
+	},
+	1305:{
+		name:'禁止驶入',
 		ctl:'',
 		tpl:''
 	},
@@ -69,6 +124,11 @@ fastmap.dataApi.FeatureConfig = {
 	},
 	1403:{
 		name:'3D',
+		ctl:'',
+		tpl:''
+	},
+	1404:{
+		name:'提左提右',
 		ctl:'',
 		tpl:''
 	},
@@ -94,6 +154,11 @@ fastmap.dataApi.FeatureConfig = {
 	},
 	1501:{
 		name:'上下线分离',
+		ctl:'',
+		tpl:''
+	},
+	1502:{
+		name:'路面覆盖',
 		ctl:'',
 		tpl:''
 	},
