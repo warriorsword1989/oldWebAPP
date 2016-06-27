@@ -58,7 +58,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.tiles = [];
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
-
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
 

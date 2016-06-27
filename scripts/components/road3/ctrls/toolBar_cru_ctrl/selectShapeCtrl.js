@@ -117,7 +117,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-
             //把要捕捉的线图层添加到捕捉工具中
             map.currentTool.snapHandler.addGuideLayer(rdLink);
             rdLink.options.editable = true;
@@ -125,9 +124,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }
         else if (type === "node") { //选择点
-
             layerCtrl.pushLayerFront('edit'); //置顶editLayer
-
             //初始化选择点工具
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
@@ -149,7 +146,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 relationFlag: true
             });
             map.currentTool.enable();
-
             editLayer.bringToBack();
             $scope.toolTipText = '请选择关系！';
             eventController.off(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
@@ -316,9 +312,38 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
-                shapeCtrl.editFeatType = 0;
-                shapeCtrl.branchType = data.branchType;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "移动端点",
+                        'type': "PATHNODEMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                //当在移动端进行编辑时,弹出此按钮
+                if (L.Browser.touch) {
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function () {
+                            var e = $.Event("keydown");
+                            e.keyCode = 32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+                //shapeCtrl.editFeatType = 0;
+                //shapeCtrl.branchType = data.branchType;
                 locllBranchCtlAndTpl(data.branchType);
+                //ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl';
+                //ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
