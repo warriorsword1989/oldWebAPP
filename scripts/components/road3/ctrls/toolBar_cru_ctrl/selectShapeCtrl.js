@@ -319,11 +319,17 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 toolsObj = {
                     items: [{
                         'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "移动端点",
-                        'type': "PATHNODEMOVE",
+                        'title': "改退出线",
+                        'type': "MODIFYBRANCH_OUT",
                         'class': "feaf",
                         callback: $scope.modifyTools
-                    }]
+                    }, {
+                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'title': "改经过线",
+                            'type': "MODIFYBRANCH_THROUGH",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
                 }
                 //当在移动端进行编辑时,弹出此按钮
                 if (L.Browser.touch) {
@@ -339,11 +345,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         }
                     })
                 }
-                //shapeCtrl.editFeatType = 0;
-                //shapeCtrl.branchType = data.branchType;
                 locllBranchCtlAndTpl(data.branchType);
-                //ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl';
-                //ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
@@ -702,6 +704,36 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                     return;
                 }
+            } else if(type.split('_').length===2){
+                map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, createBranchFlag: true, currentEditLayer: rdLink});
+                map.currentTool.enable();
+                if(type.split('_')[1]==='OUT'){
+                    tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
+                    //tooltipsCtrl.setEditEventType('modifyoutline');
+
+                }else if(type.split('_')[1]==='THROUGH'){
+                    tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
+                    return;
+                }
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                    console.log(data)
+                    //highRenderCtrl.highLightFeatures = [{
+                    //    id: objCtrl.data.outLinkPid,
+                    //    layerid: 'referenceLine',
+                    //    type: 'line',
+                    //    style: {}
+                    //}]
+                    //highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures = [{
+                        id: data.id,
+                        layerid: 'referenceLine',
+                        type: 'line',
+                        style: {}
+                    }];
+
+                    highRenderCtrl.drawHighlight();
+                    console.log(objCtrl.data)
+                })
             }
             if (!selectCtrl.selectedFeatures) {
                 return;
