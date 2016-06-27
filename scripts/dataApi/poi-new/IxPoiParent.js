@@ -7,7 +7,6 @@ FM.dataApi.IxPoiParent = FM.dataApi.DataModel.extend({
 	 * 返回参数赋值
 	 */
 	setAttributes: function(data) {
-		this.pid = data['pid'];
 		this.groupId = data['groupId'];
 		this.parentPoiPid = data['parentPoiPid'];
 		this.tenantFlag = data['tenantFlag'] || 0;
@@ -16,7 +15,6 @@ FM.dataApi.IxPoiParent = FM.dataApi.DataModel.extend({
 	},
 	getIntegrate: function(){
 		var ret = {};
-		ret["pid"] = this.pid;
 		ret["groupId"] = this.groupId;
 		ret["parentPoiPid"] = this.parentPoiPid;
 		ret["tenantFlag"] = this.tenantFlag;

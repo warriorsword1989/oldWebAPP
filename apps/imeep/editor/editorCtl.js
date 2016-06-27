@@ -215,7 +215,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 break;
             }
         }
-        if (flag) {
+        if (flag) { 
             var name = new FM.dataApi.IxPoiName({
                 langCode: "CHI",
                 nameClass: 1,
