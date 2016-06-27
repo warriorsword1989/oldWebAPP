@@ -176,7 +176,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
-            case "1102":
+            case "1102":    //红绿灯
                 
                 break;
             case "1105":

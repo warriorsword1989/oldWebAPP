@@ -874,7 +874,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/
                         for (var linkMark = 0; linkMark < data.length; linkMark++) {
-                            var tempObj = {'pid': data[linkMark].data.properties.id, 'level_index': linkMark};
+                            var tempObj = {'pid': data[linkMark].data.properties.id, 'level_index': linkMark,'type':'RDLINK'};
                             jsonData.linkObjs.push(tempObj);
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
