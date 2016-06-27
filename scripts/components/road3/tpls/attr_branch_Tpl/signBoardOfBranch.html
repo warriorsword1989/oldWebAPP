@@ -94,11 +94,9 @@
     </form>
     <!--end 模式图信息-->
     <!--begin 名称信息-->
-    <div ng-if="diverObj.signboards[0].branchType != 3">
-        <div class="module-box show-detail-title" ng-click="showDetail(0);">
-            <div class="box-head font-bold">
-                名称信息（共 <span ng-bind="diverObj.signboards[0].names.length"></span> 条）
-            </div>
+    <div class="module-box show-detail-title" ng-click="showDetail(0);">
+        <div class="box-head font-bold">
+            名称信息（共 <span ng-bind="diverObj.signboards[0].names.length"></span> 条）
         </div>
     </div>
     <!--end 名称信息-->
