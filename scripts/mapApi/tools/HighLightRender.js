@@ -384,7 +384,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 strokeWidth: 6,
                 strokeColor: cusColor
             }, {
-                color: cusColor,
+                color: cusColor,;
                 radius: 3
             }, feature.properties);
         } else {
