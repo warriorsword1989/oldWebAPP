@@ -10,7 +10,7 @@ App.Config = {
     specialUrl: "http://192.168.4.189/fos",
 };
 App.Temp = {
-    accessToken: "0000029900O8Y2RMC3262B6300BECA23901DFB9D503E2C06",
+    accessToken: null,
     dbId: 42,
     subTaskId: 117,
     meshList: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
@@ -70,5 +70,18 @@ App.Util = {
             }
         }
         return urlObj;
+    },
+    getUrlParam: function(paramName) {
+        var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    },
+    logout: function() {
+        window.location.href = App.Util.getAppPath() + "/apps/imeep/login.html";
     }
 };
+//从url请求中获取token
+App.Temp.accessToken = App.Util.getUrlParam("access_token");

@@ -94,6 +94,21 @@ angular.module("dataService", [], function($httpProvider) {
     this.getLocalJson = function(url) {
         return $http.get(url, {});
     };
+    this.tokenExpired = function() {
+        swal({
+            title: "Token已失效，请重新登陆！",
+            type: "error",
+            animation: 'slide-from-top',
+            closeOnConfirm: true,
+            confirmButtonText: "重新登陆"
+        }, function() {
+            App.Util.logout();
+        });
+    };
+    this.error = function(defer, rejection) {
+        swal("啊呕，服务请求报错，请检查网络后重试！", rejection, "error");
+        defer.reject(rejection);
+    };
 }]).service("dsOutput", [function() {
     this.output = [];
     this.push = function(data) {
