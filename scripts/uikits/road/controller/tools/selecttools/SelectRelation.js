@@ -119,7 +119,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         if (this.overlays.length == 1) {
             frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
             frs.tiles = this.tiles;
-            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType);
+            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType,event);
         } else if (this.overlays.length > 1) {
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
@@ -147,7 +147,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
                         frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
                         frs.tiles = that.tiles;
-                        frs.drawGeomCanvasHighlight(d, layertype);
+                        frs.drawGeomCanvasHighlight(d, layertype, event);
                     }
                 }
             });

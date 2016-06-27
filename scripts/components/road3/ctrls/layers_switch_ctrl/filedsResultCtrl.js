@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/9/25.
  */
-var filedsModule = angular.module('app').controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout', 'dsFcc', 'dsRoad', 'dsMeta', 'appPath',
-    function($rootScope, $scope, $ocLazyLoad, $timeout, dsFcc, dsRoad, dsMeta, appPath) {
+var filedsModule = angular.module('app').controller('FieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout', 'dsFcc', 'dsEdit', 'dsMeta', 'appPath',
+    function($rootScope, $scope, $ocLazyLoad, $timeout, dsFcc, dsEdit, dsMeta, appPath) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
         $scope.workPoint = layerCtrl.getLayerById("workPoint");
@@ -476,7 +476,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                     "type": "RDCROSS",
                                     "data": obj
                                 }
-                                dsRoad.getByCondition(JSON.stringify(param), function(data) {
+                                dsEdit.getByCondition(JSON.stringify(param), function(data) {
                                     var crossCtrlAndTpl = {
                                         propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
                                         propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html",
@@ -545,7 +545,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             //$scope.guideLayer._redraw();
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl) {
-            dsRoad.getRdObjectById(id, type, selectedData.detailid).then(function(data) {
+            dsEdit.getByPid(id, type, selectedData.detailid).then(function(data) {
                 if (data.errcode === -1) {
                     return;
                 }
