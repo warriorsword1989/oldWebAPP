@@ -176,6 +176,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
+            case "1102":
+                
+                break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {
