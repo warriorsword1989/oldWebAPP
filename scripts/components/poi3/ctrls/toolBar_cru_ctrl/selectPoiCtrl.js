@@ -15,6 +15,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var originalFeature = [];
     var selectCount = 0;
+    var popup = L.popup();
      $scope.toolTipText = "";
     /**
      * 重新设置选择工具
@@ -89,15 +90,8 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 shapeCtrl.shapeEditorResult.setFinalGeometry(oFeature);
                 return;
             }
-        } else if (type ==="PARENTRALATION"){
-            tooltipsCtrl.setEditEventType('parentRalation');
-            tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-            shapeCtrl.selectParents("selectParent", {
-                map: map,
-                layer: poi,
-                type: "rectangle"
-            });
-            map.currentTool = shapeCtrl.getCurrentTool();
+        } else if (type ==="SELECTPARENT"){
+            tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
             eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                 var data = event.data, highlightFeatures = [],
                     rectangleData = {       //矩形框信息geoJson
@@ -109,7 +103,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 for (var i = 0; i < data.length; i++) {
                     for (var j = 0; j < data.length; j++) {
                         if (i != j && data[i]) {
-                            if (data[i].data.properties.id == data[j].data.properties.id) {
+                            if (data[i].properties.id == data[j].properties.id || data[i].properties.id == objCtrl.data.pid) {
                                 data.splice(i, 1);
                             }
                         }
@@ -127,149 +121,55 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 /*高亮link*/
                 for (var i = 0, lenI = data.length; i < lenI; i++) {
                     highlightFeatures.push({
-                        id: data[i].data.properties.id.toString(),
-                        layerid: 'referenceLine',
-                        type: 'RDGSC',
-                        index: i,
-                        style: {
-                            size: 5
-                        }
+                        id: data[i].properties.id.toString(),
+                        layerid:'poiPoint',
+                        type:'poi'
                     })
                 }
                 highRenderCtrl.highLightFeatures = highlightFeatures;
                 highRenderCtrl.drawHighlight();
-                /*运算两条线的交点坐标*/
-                $scope.segmentsIntr = function (a, b) {    //([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
-                    var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
-                    var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
-                    // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
-                    if (area_abc * area_abd >= 0) {
-                        return false;
-                    }
 
-                    var area_cda = (b[0].x - a[0].x) * (b[1].y - a[0].y) - (b[0].y - a[0].y) * (b[1].x - a[0].x);
-                    var area_cdb = area_cda + area_abc - area_abd;
-                    if (area_cda * area_cdb >= 0) {
-                        return false;
-                    }
-
-                    //计算交点坐标
-                    var t = area_cda / ( area_abd - area_abc );
-                    var dx = t * (a[1].x - a[0].x),
-                        dy = t * (a[1].y - a[0].y);
-                    return {x: (a[0].x + dx).toFixed(5), y: (a[0].y + dy).toFixed(5)};//保留小数点后5位
-                }
-                /*去除重复的坐标点，保留一个*/
-                var ArrUnique = function (arr) {
-                    for (var i = 0; i < arr.length; i++) {
-                        for (var j = 0; j < arr.length; j++) {
-                            if (i != j) {
-                                if (arr[i].x == arr[j].x && arr[i].y == arr[j].y) {
-                                    arr.splice(j, 1);
-                                }
-                            }
-                        }
-                    }
-                    /*清除空数组*/
-                    arr.filter(function (v) {
-                        if (v.length > 0) {
-                            return v;
-                        }
-                    })
-                    return arr;
-                }
-                /*当坐标数组拆分组合完成后*/
-                var crossGeos = [],
-                    loopTime = (data.length * data.length - 1) / 2,   //循环次数C(n,2)
-                    jsonData = {
-                        'geometry': rectangleData,
-                        'linkObjs': []
-                    };
-                if (data.length > 1) {
-                    for (var i = 0; i < loopTime - 1; i++) {
-                        for (var j = i + 1; j < data.length; j++) {
-                            if (i != j) {
-                                var lineGeoArr = function (mark) {
-                                    return [data[mark].line.points[0], data[mark].line.points[1]];
-                                }
-                                crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
-                            }
-                        }
-                    }
-                    crossGeos = ArrUnique(crossGeos);
-                }
-                /*点击调整link层级高低*/
-                $scope.changeLevel = function () {
-                    editLayer.drawGeometry = null;
-                    map.currentTool.options.repeatMode = false;
-                    shapeCtrl.stopEditing();
-                    editLayer.bringToBack();
-                    $(editLayer.options._div).unbind();
-                    $scope.changeBtnClass("");
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                    shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                    editLayer.clear();
-                    $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
-                    map._container.style.cursor = '';
-                    map.currentTool = new fastmap.uikit.SelectPath(
-                        {
-                            map: map,
-                            currentEditLayer: rdLink,
-                            linksFlag: true,
-                            shapeEditor: shapeCtrl
-                        });
-                    map.currentTool.enable();
-                    rdLink.options.selectType = 'link';
-                    rdLink.options.editable = true;
-                    eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                        /*把当前link的level_index升高一级*/
-                        for (var i = 0, lenI = jsonData.linkObjs.length; i < lenI; i++) {
-                            if (jsonData.linkObjs[i].pid == data.id) {
-                                for (var j = 0, lenJ = jsonData.linkObjs.length; j < lenJ; j++) {
-                                    if (jsonData.linkObjs[j].level_index == jsonData.linkObjs[i].level_index + 1) {
-                                        jsonData.linkObjs[j].level_index--;
-                                    }
-                                }
-                                jsonData.linkObjs[i].level_index = +1;
-                            }
-                        }
-                        /*重绘link颜f色*/
-                        for (var i = 0; i < jsonData.linkObjs.length; i++) {
-                            highlightFeatures.push({
-                                id: jsonData.linkObjs[i].pid.toString(),
-                                layerid: 'referenceLine',
-                                type: 'RDGSC',
-                                index: jsonData.linkObjs[i].level_index,
-                                style: {
-                                    size: 5
-                                }
-                            });
-                            highRenderCtrl.highLightFeatures = highlightFeatures;
-                            highRenderCtrl.drawHighlight();
-                        }
-                    })
-                }
                 //判断相交点数
-                if (crossGeos.length == 0) {
-                    tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
-                } else if (crossGeos.length > 1) {
-                    tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
-                } else {
-                    //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                    /*重组linkData格式*/
-                    for (var linkMark = 0; linkMark < data.length; linkMark++) {
-                        var tempObj = {'pid': data[linkMark].data.properties.id, 'level_index': linkMark};
-                        jsonData.linkObjs.push(tempObj);
+                if (data.length == 0) {
+                    tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
+                }else {
+                    map.currentTool.disable();
+                    console.log(data);
+                    console.log($scope.metaData.kindFormat);
+
+                    var html = '<ul id="layerpopup">';
+                    //this.overlays = this.unique(this.overlays);
+                    for (var item in data) {
+                        var index = parseInt(item) + 1;
+                        html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+  '</a></li>';
+                        // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';
                     }
-                    tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
-                    $scope.changeLevel();
-                    selectCtrl.onSelected(jsonData);
+                    html += '</ul>';
+                    popup
+                        .setLatLng([data[item].point.y,data[item].point.x])
+                        .setContent(html);
+                    // map.on('popupopen', function () {
+                    //     document.getElementById('layerpopup').onclick = function (e) {
+                    //         eventController.fire(eventController.eventTypes.GETPOIID, {
+                    //             id: e.target.id,
+                    //             optype: "POIPOINT",
+                    //             event: event
+                    //         });
+                    //         map.closePopup(popup);
+                    //     }
+                    // });
+
+                    if (data && data.length >= 1) {
+                        setTimeout(function () {
+                            map.openPopup(popup);
+                        }, 200)
+                    }
+
+
                 }
             });
-
-
-
         }
+
         if (!selectCtrl.selectedFeatures) {
             return;
         }
@@ -325,6 +225,8 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.snapHandler._guides.length = 0;
             map.currentTool.snapHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
         } else if(type === "POIRESET"){
+            map.currentTool.snapHandler._guides.length = 0;
+        } else if (type === "SELECTPARENT"){
             map.currentTool.snapHandler._guides.length = 0;
         }
     };
@@ -501,7 +403,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                                 {
                                     'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
                                     'title': "编辑父",
-                                    'type': "PARENTRALATION",
+                                    'type': "SELECTPARENT",
                                     'class': "feaf",
                                     callback: $scope.modifyTools
                                 }]
