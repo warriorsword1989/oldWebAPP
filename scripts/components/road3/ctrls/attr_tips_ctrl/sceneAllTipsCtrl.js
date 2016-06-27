@@ -203,6 +203,23 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 		        };
 		        $scope.traffDirection = directionObj[$scope.dataTipsData.loc];
 		        break;
+	        case "1104":    //大门
+		        $scope.inLinkPid = $scope.dataTipsData.in.id;
+		        $scope.outLinkPid = $scope.dataTipsData.out.id;
+		        var gateTypeObj = {
+			        0: 'EG',
+			        1: 'KG',
+			        2: 'PG'
+		        };
+		        var gateDirObj = {
+			        0:'EG',
+			        1:'KG',
+			        2:'PG'
+		        };
+		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
+		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
+		        $scope.passTime = $scope.dataTipsData.time;
+		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {
@@ -258,6 +275,20 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "31501": "鸣喇叭"
                 };
                 break;
+	        case "1106":    //坡度
+		        var slopeTypeObj = {
+			        0: '未调查',
+			        1: '水平',
+			        2: '上坡',
+			        3: '下坡'
+		        };
+		        var endSlopeFlagObj = {
+			        0:'否',
+			        1:'是'
+		        };
+		        $scope.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
+		        $scope.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+		        break;
             case "1107": //收费站
                 $scope.TollType = [{
                     "id": 0,
