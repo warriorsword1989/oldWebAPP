@@ -12,7 +12,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         //当前高亮的格网数组;
         $scope.currentHighLight = [];
         //编辑开关;
-        $scope.editorDisabled = true;
+        $scope.startBtnDisabled = true;
         //顶标签初始状态;
         $scope.dataListType = 1;
         //侧标签初始状态;
@@ -21,16 +21,14 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         $scope.requestParams = {
             classType: 2
         };
-        //当前作业类型;
-        $scope.currentWorkType = 'road';
         //当前选中子任务对象;
         $scope.currentTaskData = null;
-        //是否显示箭头;
-        $scope.showArrow = false;
+        //是否信息面板;
+        $scope.infoPanelOpened = 'none';
         //控制页面tab页切换;
         $scope.changeDataList = function(val) {
             $scope.requestParams = {};
-            $scope.editorDisabled = true;
+            $scope.startBtnDisabled = true;
             $scope.dataListType = val;
             $scope.taskStatus = 6;
             //构建过滤请求参数;
@@ -57,7 +55,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             loadSubTaskfn($scope.requestParams)
         };
         $scope.changeTaskStatus = function(val) {
-                $scope.editorDisabled = true;
+                $scope.startBtnDisabled = true;
                 $scope.taskStatus = val;
                 switch ($scope.taskStatus) {
                     case 6:
@@ -100,14 +98,13 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                 param.push("dbId=" + $scope.currentTaskData.dbId);
                 param.push("type=" + $scope.currentTaskData.type);
                 param.push("stage=" + $scope.currentTaskData.stage);
-                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + param.join("&");
+                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
             }
         };
         //高亮显示网格并聚焦;
         $scope.highlightGrid = function(params) {
-            $scope.showArrow = true;
             $scope.currentTaskData = params;
-            $scope.hideEditorPanel = true;
+            $scope.infoPanelOpened = true;
             //防止重绘高亮;
             if ($scope.currentHighLight.length) {
                 for (var i = 0; i < $scope.currentHighLight.length; i++) {
@@ -129,7 +126,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             //东北角坐标;
             var northEast_X = getMaxOrMin(allLatArr.lng, 'max');
             var northEast_Y = getMaxOrMin(allLatArr.lat, 'max');
-            console.log(sourthWest_Y + '----' + sourthWest_X + '  ' + northEast_Y + '----' + northEast_X)
             map.fitBounds([
                 [sourthWest_Y, sourthWest_X],
                 [northEast_Y, northEast_X]
@@ -146,7 +142,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             }, 100)
 
             function addHighlight() {
-                console.log(gridid)
                 for (var i = 0; i < layerCtrl.getLayerById('grid').gridArr.length; i++) {
                     for (var j = 0; j < gridid.length; j++) {
                         if (layerCtrl.getLayerById('grid').gridArr[i].options.gridId === gridid[j]) {
@@ -163,23 +158,14 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             ctrlEditorSwitch(params);
         }
         $scope.getDateFormat = function() {
-                var startTime = $scope.currentTaskData.planStartDate.split(' ')[0].split('-').join('.');
-                var endTime = $scope.currentTaskData.planEndDate.split(' ')[0].split('-').join('.');
-                return startTime + '~' + endTime;
-            }
-            //退出登录;
-        $scope.logout = function() {
-            //$cookies.remove('FM_USER_ID');
-            //$cookies.remove('FM_USER_NAME');
-            //$cookies.remove('FM_USER_TYPE');
-            //$cookies.remove('FM_USER_ROLES');
-            //$cookies.remove('FM_USER_GROUPS');
-            window.location.href = "../newlogin.html";
+            var startTime = $scope.currentTaskData.planStartDate.split(' ')[0].split('-').join('.');
+            var endTime = $scope.currentTaskData.planEndDate.split(' ')[0].split('-').join('.');
+            return startTime + '~' + endTime;
         };
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
             if (!obj) return;
-            dsManage.querySubtaskByUser({
+            dsManage.getSubtaskListByUser({
                 'exeUserId': 1, //$cookies.get('FM_USER_ID');
                 'stage': obj.classStage,
                 'type': obj.classType,
@@ -194,9 +180,9 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         //控制编辑按钮是否可用函数;
         function ctrlEditorSwitch(params) {
             if (params.status) {
-                $scope.editorDisabled = false
+                $scope.startBtnDisabled = false
             } else {
-                $scope.editorDisabled = true
+                $scope.startBtnDisabled = true
             }
         }
         //去除数组中重复的值;

@@ -296,6 +296,7 @@ input.fm-control {
     background-color: #333;
 }
 
+
 /*input.fm-control.ng-dirty {
     background-color: #307BA3;
 }*/
@@ -308,6 +309,7 @@ select.fm-control {
     border: 1px ridge #FFFFFF;
     background-color: #333;
 }
+
 
 /*select.fm-control.ng-dirty {
     background-color: #307BA3;
@@ -327,6 +329,7 @@ textarea.fm-control {
     background-color: #333;
 }
 
+
 /* textarea.fm-control.ng-dirty {
     background-color: #307BA3;
 } */
@@ -340,6 +343,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
+
 
 /*form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
@@ -593,7 +597,7 @@ form input[type='checkbox']:checked.ng-dirty {
     white-space: nowrap;
 }
 
-.fm-table-long-text {
+.text-ellipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
