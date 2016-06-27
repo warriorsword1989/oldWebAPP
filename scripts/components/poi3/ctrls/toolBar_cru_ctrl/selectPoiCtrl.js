@@ -141,7 +141,10 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                     //this.overlays = this.unique(this.overlays);
                     for (var item in data) {
                         var index = parseInt(item) + 1;
-                        html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+  '</a></li>';
+                        if(data[item].properties.id == objCtrl.data.parents[0].pid){//当前父
+
+                        }
+                        html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '&nbsp;&nbsp;'+ '<label class="label label-default">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+  '</a></li>';
                         // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';
                     }
                     html += '</ul>';
