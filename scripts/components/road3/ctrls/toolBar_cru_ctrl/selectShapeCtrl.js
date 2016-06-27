@@ -705,7 +705,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     return;
                 }
             } else if(type.split('_').length===2){
-                map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, createBranchFlag: true, currentEditLayer: rdLink});
+                map.currentTool = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
                 map.currentTool.enable();
                 if(type.split('_')[1]==='OUT'){
                     tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
@@ -716,14 +721,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     return;
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                    console.log(data)
+                    console.log(data);
                     //highRenderCtrl.highLightFeatures = [{
                     //    id: objCtrl.data.outLinkPid,
                     //    layerid: 'referenceLine',
                     //    type: 'line',
                     //    style: {}
                     //}]
-                    //highRenderCtrl._cleanHighLight();
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [{
                         id: data.id,
                         layerid: 'referenceLine',
