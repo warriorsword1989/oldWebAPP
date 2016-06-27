@@ -113,11 +113,6 @@ fastmap.uikit.ShapeEditorController=(function() {
                 this.currentTool = new fastmap.mapApi.CrossingAdd(options);
                 this.currentTool.enable();
              },
-            selectParents: function (type, options) {
-                this.editType = type;
-                this.currentTool = new fastmap.mapApi.SelectParent(options);
-                this.currentTool.enable();
-            },
             /***
              * 当前工具类型
              * @param {String}type

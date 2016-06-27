@@ -17,6 +17,24 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var selectCount = 0;
     var popup = L.popup();
      $scope.toolTipText = "";
+
+
+    /*
+     获取地图上的指定图层
+     */
+    $scope.getLayerById = function(layerId) {
+        var layer;
+        for (var item in map._layers) {
+            if (map._layers[item].options.id) {
+                if (map._layers[item].options.id === layerId) {
+                    layer=map._layers[item];
+                    break;
+                }
+            }
+        }
+        return layer;
+    }
+
     /**
      * 重新设置选择工具
      */
@@ -40,6 +58,65 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
+    };
+    /**
+     * 查找poi
+     */
+    $scope.getPoi = function (pid) {
+        dsEdit.getByPid(pid, "IXPOI").then(function (rest) {
+            if (rest) {
+                objCtrl.setCurrentObject('IXPOI', rest);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                $scope.$emit("SWITCHCONTAINERSTATE", {});
+                $scope.$emit("transitCtrlAndTpl", {
+                    "loadType": "tipsTplContainer",
+                    "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                    "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                });
+                $scope.$emit("transitCtrlAndTpl", {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                    "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                });
+            }
+        });
+    };
+    /*
+    变更父子关系
+    */
+    changeParent = function (parentId) {
+        var myPid = objCtrl.data.pid;
+        var myParent = objCtrl.data.parents;
+        if (myParent.length > 0) {
+            if (myParent[0].parentPoiPid == parentId) {//解除
+                dsEdit.deleteParent(myPid).then(function (data) {
+                    if(data){
+                        map.closePopup();
+                        $scope.clearMap();
+                        map.removeLayer($scope.getLayerById('parentLayer'));
+                        $scope.getPoi(myPid);
+                    }
+                });
+            } else {//更新
+                dsEdit.updateParent(myPid, parentId).then(function (data) {
+                    if(data){
+                        map.closePopup();
+                        $scope.clearMap();
+                        map.removeLayer($scope.getLayerById('parentLayer'));
+                        $scope.getPoi(myPid);
+                    }
+                });
+            }
+        } else {//新增
+            dsEdit.createParent(myPid, parentId).then(function (data) {
+                if(data){
+                    map.closePopup();
+                    $scope.clearMap();
+                    map.removeLayer($scope.getLayerById('parentLayer'));
+                    $scope.getPoi(myPid);
+                }
+            });
+        }
     };
 
     /**
@@ -102,7 +179,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 /*过滤框选后的数组，去重*/
                 for (var i = 0; i < data.length; i++) {
                     for (var j = 0; j < data.length; j++) {
-                        if (i != j && data[i]) {
+                        if(i!=j){
                             if (data[i].properties.id == data[j].properties.id || data[i].properties.id == objCtrl.data.pid) {
                                 data.splice(i, 1);
                             }
@@ -141,27 +218,17 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                     //this.overlays = this.unique(this.overlays);
                     for (var item in data) {
                         var index = parseInt(item) + 1;
-                        if(data[item].properties.id == objCtrl.data.parents[0].pid){//当前父
-
+                        if(objCtrl.data.parents.length>0 && data[item].properties.id == objCtrl.data.parents[0].parentPoiPid){//当前父
+                            html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' + data[item].properties.name + '</a>' + '&nbsp;&nbsp;'+ '<label class="label label-primary">'+ $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;'+ '<label class="label label-default">'+ '当前父'+ '</label>' + '&nbsp;&nbsp;'+ '<input class="btn btn-warning btn-xs" type="button" onclick="changeParent('+data[item].properties.id+')" value="解除父">' +  '</li>';
+                        } else if($scope.metaData.kindFormat[data[item].properties.kindCode].parent != 0){
+                            html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' + data[item].properties.name + '</a>'+ '&nbsp;&nbsp;'+ '<label class="label label-primary">'+ $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;'+ '<label class="label label-info">'+ '可为父'+ '</label>' + '&nbsp;&nbsp;'+ '<input class="btn btn-success btn-xs" type="button" onclick="changeParent('+data[item].properties.id+')" value="作为父">' +  '</li>';
                         }
-                        html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '&nbsp;&nbsp;'+ '<label class="label label-default">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+  '</a></li>';
                         // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';
                     }
                     html += '</ul>';
                     popup
                         .setLatLng([data[item].point.y,data[item].point.x])
                         .setContent(html);
-                    // map.on('popupopen', function () {
-                    //     document.getElementById('layerpopup').onclick = function (e) {
-                    //         eventController.fire(eventController.eventTypes.GETPOIID, {
-                    //             id: e.target.id,
-                    //             optype: "POIPOINT",
-                    //             event: event
-                    //         });
-                    //         map.closePopup(popup);
-                    //     }
-                    // });
-
                     if (data && data.length >= 1) {
                         setTimeout(function () {
                             map.openPopup(popup);
@@ -177,7 +244,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             return;
         }
         if(!selectCount){
-            $scope.$apply();
+            // $scope.$apply();
             //停止shapeCtrl
             if (shapeCtrl.getCurrentTool()['options']) {
                 shapeCtrl.stopEditing();
@@ -346,10 +413,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             if (rest) {
                 objCtrl.setCurrentObject('IXPOI', rest);
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                eventController.fire(eventController.eventTypes.SELECTBYATTRIBUTE, {
-                    feature: objCtrl.data
-                });
-                $scope.$emit("SWITCHCONTAINERSTATE", {});
                 $scope.$emit("transitCtrlAndTpl", {
                     "loadType": "tipsTplContainer",
                     "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",

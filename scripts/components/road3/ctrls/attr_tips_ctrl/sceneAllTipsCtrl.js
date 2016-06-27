@@ -176,9 +176,50 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
-            case "1102":    //红绿灯
-                
-                break;
+	        case "1102":    //红绿灯
+		        var fArray = $scope.dataTipsData.f_array;
+		        $scope.inCt = $scope.dataTipsData.inCt;
+		        $scope.enableCtl = [];
+		        $scope.disableCtl = [];
+		        for(var i=0,len=fArray.length;i<len;i++){
+			        if(fArray[i].ctrl == 1){
+				        $scope.enableCtl.push(fArray[i]);
+			        }else{
+				        $scope.disableCtl.push(fArray[i]);
+			        }
+		        }
+		        break;
+	        case "1103":    //红绿灯方向
+		        $scope.linkPid = $scope.dataTipsData.in.id;
+		        var directionObj = {
+			        0:'未调查',
+			        1:'左',
+			        2:'右',
+			        3:'左右',
+			        4:'上',
+			        5:'左上',
+			        6:'右上',
+			        7:'左上右'
+		        };
+		        $scope.traffDirection = directionObj[$scope.dataTipsData.loc];
+		        break;
+	        case "1104":    //大门
+		        $scope.inLinkPid = $scope.dataTipsData.in.id;
+		        $scope.outLinkPid = $scope.dataTipsData.out.id;
+		        var gateTypeObj = {
+			        0: 'EG',
+			        1: 'KG',
+			        2: 'PG'
+		        };
+		        var gateDirObj = {
+			        0:'EG',
+			        1:'KG',
+			        2:'PG'
+		        };
+		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
+		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
+		        $scope.passTime = $scope.dataTipsData.time;
+		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {
@@ -234,6 +275,20 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "31501": "鸣喇叭"
                 };
                 break;
+	        case "1106":    //坡度
+		        var slopeTypeObj = {
+			        0: '未调查',
+			        1: '水平',
+			        2: '上坡',
+			        3: '下坡'
+		        };
+		        var endSlopeFlagObj = {
+			        0:'否',
+			        1:'是'
+		        };
+		        $scope.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
+		        $scope.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+		        break;
             case "1107": //收费站
                 $scope.TollType = [{
                     "id": 0,
