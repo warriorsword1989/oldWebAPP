@@ -535,13 +535,32 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 break;
             case "1304": //禁止穿行
-                var commandObj = {
-                    0:'不应用',
-                    1:'删除',
-                    2:'修改',
-                    3:'新增'
+                var dir = {
+                    "0":"不应用",
+                    "2": "顺方向",
+                    "3": "逆方向"
                 };
-                $scope.commandData = commandObj[$scope.dataTipsData.t_commandObj];
+                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                break;
+            case "1305": //禁止驶入
+                var dir = {
+                    "0":"不应用",
+                    "2": "顺方向",
+                    "3": "逆方向"
+                };
+                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                $scope.eliminateCarObj = [
+                    {"id":1,"label":'客车'},
+                    {"id":2,"label":'配送卡车'},
+                    {"id":3,"label":'运输卡车'},
+                    {"id":4,"label":'急救车'},
+                    {"id":5,"label":'出租车'}
+                ];
+                for(var i=0,len=$scope.eliminateCarObj.length;i<len;i++){
+                    if($scope.eliminateCarObj[i].id == $scope.dataTipsData.vt[i]){
+                        $scope.eliminateCarObj[i].checked = true;
+                    }
+                }
                 break;
             case "1401": //方向看板
                 /*进入*/
