@@ -275,7 +275,7 @@ App.layersConfig = [{
             editable: false,
             visible: true,
             requestType: 'RWNODE',
-            showNodeLevel: 12
+            showNodeLevel: 17
         }
     },{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWLINK'),
