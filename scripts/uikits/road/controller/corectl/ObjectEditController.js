@@ -121,7 +121,7 @@ fastmap.uikit.ObjectEditController = (function() {
                     });
                 }
                 //为poi父子关系重新加载poi做的特殊处理
-                if (!this.originalData || ((this.originalData.pid == this.data.pid) && this.originalData.geoLiveType == 'IXPOI')) {
+                if (!this.originalData || ((this.originalData.pid == this.data.pid) && this.originalData.geoLiveType == 'IX_POI')) {
                     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                         "originalData": this.originalData,
