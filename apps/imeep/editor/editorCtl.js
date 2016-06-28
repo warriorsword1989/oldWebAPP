@@ -4,8 +4,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     road: "scripts/components/road3/",
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', 'dsOutput', '$q', 'appPath',
-    function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, dsOutput, $q, appPath) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath',
+    function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath) {
         var eventCtrl = new fastmap.uikit.EventController();
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -24,7 +24,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
         // $scope.outputResult = []; //输出结果
-        $scope.outputResult = dsOutput.output; //输出结果
         /*切换项目平台*/
         $scope.changeProject = function(type) {
             $scope.showLoading = true;
