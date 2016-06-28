@@ -77,6 +77,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     };
     //接收分类改变后出发的事件
     $scope.$on("kindChange", function(event, data) {
+        if(!data){ //为了解决新增POI时种别为空的情况
+            return ;
+        }
         switch (data.extend) {
             case 1: //停车场
                 $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {

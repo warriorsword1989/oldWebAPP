@@ -7,7 +7,8 @@ FM.dataApi.IxPoiName = FM.dataApi.DataModel.extend({
      * DB-->UI
      */
     setAttributes: function(data) {
-        this.nameId = data['nameId'] || 0;
+        //this.nameId = data['nameId'] || 0;
+        this.pid = data['pid'] || 0;
         this.poiPid = data['poiPid'] || 0;
         this.nameGroupid = data['nameGroupid'] || 1;
         this.langCode = data['langCode'];
@@ -18,17 +19,18 @@ FM.dataApi.IxPoiName = FM.dataApi.DataModel.extend({
         if (this.name.length > 10) {
             this.shortInfo = this.name.substring(0, 10) + '...';
         }
-        this.namePhonetic = data['namePhonetic'] || null;
-        this.keywords = data['keywords'] || null;
-        this.nidbPid = data['nidbPid'] || null;
-        this.rowId = data["rowId"];
+        this.namePhonetic = data['namePhonetic'] || "";
+        this.keywords = data['keywords'] || "";
+        this.nidbPid = data['nidbPid'] || "";
+        this.rowId = data["rowId"] || "";
     },
     /*
      * UI-->DB
      */
     getIntegrate: function() {
         var ret = {};
-        ret["nameId"] = this.nameId;
+        //ret["nameId"] = this.nameId;
+        ret["pid"] = this.pid;
         ret["poiPid"] = this.poiPid;
         ret["nameGroupid"] = this.nameGroupid;
         ret["langCode"] = this.langCode;

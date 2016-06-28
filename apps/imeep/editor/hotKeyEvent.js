@@ -85,7 +85,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 id = "";
                             } else if (type === "ADFACE"){
                                 id = data.data.log[2].pid;
-                            }else {
+                            } else {
                                 id = data.data.pid;
                             }
                             objEditCtrl.setOriginalData(null);
@@ -117,7 +117,6 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 "subAttrContainerTpl": false
                             });
                         }else {
-                            objEditCtrl.setOriginalData(null);
                             dsEdit.getByPid(data.data.pid,"IXPOI").then(function(rest) {
                                 if (rest) {
                                     objEditCtrl.setCurrentObject('IXPOI', rest);
