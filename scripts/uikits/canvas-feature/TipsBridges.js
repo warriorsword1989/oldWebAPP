@@ -5,4 +5,4 @@ fastmap.uikit.canvasTips.TipsBridges = function(data) {
         parts.push(new fastmap.uikit.canvasTips.TipsBridge(data,i));
     }
     return parts;
-}
+};

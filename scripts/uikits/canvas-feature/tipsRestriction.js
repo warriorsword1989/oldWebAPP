@@ -2,14 +2,28 @@ fastmap.uikit.canvasTips.TipsRestriction = fastmap.uikit.canvasTips.Tips.extend(
     setAttribute: function(item) {
         this.geometry['coordinates'] = item.g;
         this.properties['rotate'] = item.m.c;
-        this.properties['markerStyle']["icon"].push(
-            fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1101/0.svg',
-                row: 0,
-                column: 1,
-                location: this.geometry['coordinates']
-            })
-        );
+        if(item.m.a == "0"){
+            this.properties['markerStyle']["icon"].push(
+                fastmap.uikit.canvasTips.Tips.getIconStyle({
+                    iconName: '../../../images/road/tips/1101/0.svg',
+                    row: 0,
+                    column: 1,
+                    location: this.geometry['coordinates'],
+                    fillStyle:this.redFill
+                })
+            );
+        }else {
+            this.properties['markerStyle']["icon"].push(
+                fastmap.uikit.canvasTips.Tips.getIconStyle({
+                    iconName: '../../../images/road/tips/1101/0.svg',
+                    row: 0,
+                    column: 1,
+                    location: this.geometry['coordinates'],
+                    fillStyle:this.greenFill
+                })
+            );
+        }
+
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
                     iconName: '../../../images/road/1101/1101_1_1_s.svg',

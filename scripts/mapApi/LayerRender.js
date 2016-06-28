@@ -113,8 +113,8 @@ fastmap.mapApi.LayerRender = {
                 g.strokeStyle = options.fillStyle.lineColor;  //边框颜色
                 g.fillStyle = options.fillStyle.fillColor;
                 g.linewidth = options.fillStyle.lineWidth;  //边框宽
-                g.fillRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充颜色 x y坐标 宽 高
-                g.strokeRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充边框 x y坐标 宽 高
+                g.fillRect(drawx, drawy , image.width, image.height);  //填充颜色 x y坐标 宽 高
+                g.strokeRect(drawx, drawy , image.width, image.height);  //填充边框 x y坐标 宽 高
             }
 
             if (rotate) {
