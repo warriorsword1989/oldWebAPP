@@ -10,6 +10,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var rwLink = layerCtrl.getLayerById('rwLink');
         var rdnode = layerCtrl.getLayerById('referenceNode');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -658,7 +659,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 shapeCtrl.toolsSeparateOfEditor("addRdGsc", {
                     map: map,
-                    layer: rdLink,
+                    layer: [rdLink,rwLink],
+//                    layer:rdLink,
                     type: "rectangle"
                 });
                 map.currentTool = shapeCtrl.getCurrentTool();
@@ -690,15 +692,27 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                     }
                     /*高亮link*/
                     for (var i = 0, lenI = data.length; i < lenI; i++) {
-                        highlightFeatures.push({
-                            id: data[i].data.properties.id.toString(),
-                            layerid: 'referenceLine',
-                            type: 'RDGSC',
-                            index: i,
-                            style: {
-                                size: 5
-                            }
-                        })
+                    	if(data[i].data.properties.featType == "RDLINK"){
+                    		highlightFeatures.push({
+                                id: data[i].data.properties.id.toString(),
+                                layerid: 'referenceLine',
+                                type: 'RDGSC',
+                                index: i,
+                                style: {
+                                    size: 5
+                                }
+                            })
+                    	}else if(data[i].data.properties.featType == "RWLINK"){
+                    		highlightFeatures.push({
+                                id: data[i].data.properties.id.toString(),
+                                layerid: 'rwLink',
+                                type: 'RDGSC',
+                                index: i,
+                                style: {
+                                    size: 5
+                                }
+                            })
+                    	}
                     }
                     highRenderCtrl.highLightFeatures = highlightFeatures;
                     highRenderCtrl.drawHighlight();
@@ -822,7 +836,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/
                         for (var linkMark = 0; linkMark < data.length; linkMark++) {
-                            var tempObj = {'pid': data[linkMark].data.properties.id, 'level_index': linkMark,'type':'RDLINK'};
+                            var tempObj = {'pid': data[linkMark].data.properties.id, 'level_index': linkMark};
                             jsonData.linkObjs.push(tempObj);
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");

@@ -7,7 +7,8 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.restaurantId = data['restaurantId'] || 0;
+        this.pid = data['pid'] || 0;
+        //this.restaurantId = data['restaurantId'] || 0;
         this.poiPid = data['poiPid'] || 0;
         var foodTypeArr = (data["foodType"] || "").split("|");
         this.foodType1 = {};
@@ -36,7 +37,8 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
-        ret['restaurantId'] = this.restaurantId;
+        ret['pid'] = this.pid;
+        //ret['restaurantId'] = this.restaurantId;
         ret['poiPid'] = this.poiPid;
         // ret['foodType'] = this.foodType;
         var foodType1Code = "";

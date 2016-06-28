@@ -196,7 +196,7 @@ App.layersConfig = [{
             type: 'adAdminPoint',
             zIndex: 18,
             restrictZoom: 10,
-            visible: false,
+            visible: true,
             requestType: 'ADADMIN',
             showNodeLevel: 17
         }
@@ -221,7 +221,7 @@ App.layersConfig = [{
             type: 'adLink',
             zIndex: 11,
             restrictZoom: 10,
-            visible: false,
+            visible: true,
             requestType: 'ADLINK',
             showNodeLevel: 5
         }
@@ -247,7 +247,7 @@ App.layersConfig = [{
             zIndex: 20,
             restrictZoom: 10,
             editable: false,
-            visible: false,
+            visible: true,
             requestType: 'ADFACE',
             showNodeLevel: 13
         }
@@ -275,7 +275,7 @@ App.layersConfig = [{
             editable: false,
             visible: true,
             requestType: 'RWNODE',
-            showNodeLevel: 12
+            showNodeLevel: 17
         }
     },{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWLINK'),

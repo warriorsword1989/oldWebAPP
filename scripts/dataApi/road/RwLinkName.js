@@ -14,11 +14,12 @@ fastmap.dataApi.RwLinkName = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+        this.rowId = data["rowId"];
         this.pid = data["pid"];
         this.linkPid = data["linkPid"] || 0;
         this.nameGroupid = data["nameGroupid"] || 0;
         this.name = data["name"] || "";
-        this.uFields = data["uFields"];
+        //this.uFields = data["uFields"];
 
 
     },
@@ -28,22 +29,24 @@ fastmap.dataApi.RwLinkName = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
+        data["rowId"] = this.rowId;
         data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["nameGroupid"] = this.nameGroupid;
-        data["uFields"] = this.uFields;
-        data["name"] = this.name;
+        //data["uFields"] = this.uFields;
+        //ata["name"] = this.name;
         return data;
 
     },
 
     getSnapShot: function () {
         var data = {};
+        data["rowId"] = this.rowId;
         data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["nameGroupid"] = this.nameGroupid;
-        data["uFields"] = this.uFields;
-        data["name"] = this.name;
+        //data["uFields"] = this.uFields;
+        //data["name"] = this.name;
         return data;
     },
 

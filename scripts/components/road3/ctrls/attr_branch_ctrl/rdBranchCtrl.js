@@ -34,13 +34,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
 
     }
     if (objCtrl.data) {
-        $scope.initDiver();
+        initDiver();
     }
     objCtrl.updateRdBranch = function () {
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = {};
         $scope.getObjectById(true);
-        $scope.initDiver();
+        initDiver();
     };
 
     $scope.setOriginalDataFunc = function () {
@@ -55,7 +55,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.diverObj.details[0].arrowFlag = code;
     }
     /*根据id获取箭头图图片*/
-    $scope.getArrowPic = function (id) {
+     function getArrowPic(id) {
         var params = {
             "id": id + ''
         };
@@ -109,8 +109,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             }
             $scope.picNowNum = 1;
             $scope.getPicsDate();
-            $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
-            $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.details[0].patternCode);
+            $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
+            $scope.patternCodeSrc = getArrowPic($scope.diverObj.details[0].patternCode);
             if ($.trim($scope.diverObj.details[0].arrowCode) == '') {
                 $scope.showImgData = false;
             } else {
@@ -158,7 +158,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.getPicsDate();
     }
     /*改变当前箭头图的坐标位置*/
-    $scope.changeArrowPosition = function () {
+    function changeArrowPosition() {
         var $picMapShow = $("#picMapShow");
         $picMapShow.show();
     }
@@ -167,10 +167,10 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.diverObj.details[0].arrowCode = code;
         $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
         $scope.arrowMapShow = url;
-        $scope.patternCodeSrc = $scope.getArrowPic($scope.diverObj.details[0].patternCode);
+        $scope.patternCodeSrc = getArrowPic($scope.diverObj.details[0].patternCode);
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.details[0].patternCode;
-        $scope.changeArrowPosition();
+        changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
@@ -303,7 +303,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         {"id": 9, "label": "9 不应用"}
     ];
     /*初始化信息显示*/
-    $scope.initDiver = function () {
+     function initDiver() {
         $scope.initializeData();
         var dObj = $scope.diverObj;
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
@@ -336,12 +336,12 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
                 if ($scope.diverObj.details[0].arrowCode) {
-                    $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
+                    $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
                 }
-                $scope.patternCodeSrc =  $scope.getArrowPic($scope.diverObj.details[0].patternCode);
+                $scope.patternCodeSrc =  getArrowPic($scope.diverObj.details[0].patternCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
-                $scope.changeArrowPosition();
+                changeArrowPosition();
             }
         }
     }
@@ -422,13 +422,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if (type) {
             $scope.diverObj = $scope.divergenceIds;
             $scope.initializeData();
-            $scope.initDiver();
+            initDiver();
         } else {
             dsRoad.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH").then(function (data) {
                 if (data.errcode == 0) {
                     $scope.diverObj = data.data;
                     objCtrl.setCurrentObject($scope.diverObj);
-                    $scope.initDiver();
+                    initDiver();
                     $scope.initializeData();
                     $scope.$apply();
                 } else {

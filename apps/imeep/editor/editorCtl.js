@@ -278,7 +278,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 confirmButtonText: "是的，我要删除",
                 cancelButtonText: "取消"
             }, function(f) {
-                eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
+                if(f){
+                    eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
+                }
             });
         };
         /**

@@ -9,8 +9,8 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this.poiPid = data['poiPid'];
         this.photoId = data['photoId'] || 0;
-        this.status = data['status'] || null;
-        this.memo = data['memo'] || 0;
+        this.status = data['status'] || "";
+        this.memo = data['memo'] || "";
         this.thumbnailUrl = data['thumbnailUrl'] || App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"thumbnail"}';
         this.originUrl = data['originUrl'] || App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
         this.rowId = data["rowId"];
