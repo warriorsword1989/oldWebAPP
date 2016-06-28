@@ -323,7 +323,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var icons = feature.properties.markerStyle.icon;
                         for (var item in icons) {
                             if (icons[item].iconName) {
-                                this._drawImg({
+                                this. _drawImg({
                                     ctx: ctx,
                                     geo: icons[item].location,
                                     style: {
@@ -334,7 +334,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     drawx: icons[item].column * icons[item].dx,
                                     drawy: icons[item].row * icons[item].dy,
                                     scalex: icons[item].scalex ? icons[item].scalex : 1,
-                                    scaley: icons[item].scaley ? icons[item].scaley : 1
+                                    scaley: icons[item].scaley ? icons[item].scaley : 1,
+                                    fillStyle:icons[item].fillStyle ?icons[item].fillStyle : ""
                                 });
                             } else {
                                 var coords = geom.coordinates;
