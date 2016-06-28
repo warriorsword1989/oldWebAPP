@@ -60,7 +60,8 @@
         "TipsJVCBranch.js",
         "TipsWarningInfo.js",
         "TipsWarningInfos.js",
-        "TipsTollGate.js"
+        "TipsTollGate.js",
+        "TipsTrafficSignal.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

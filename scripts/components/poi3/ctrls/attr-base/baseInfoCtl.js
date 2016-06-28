@@ -66,6 +66,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     }
 
     $scope.addContact = function() {
+        $scope.poi.contacts.reverse(); //反转
         $scope.poi.contacts.push(
             new FM.dataApi.IxPoiContact({
                 contactType: 1,
@@ -73,7 +74,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                 contact: ""
             })
         );
-
+        $scope.poi.contacts.reverse();
     };
     $scope.deleteContact = function(index) {
         $scope.poi.contacts.splice(index, 1);

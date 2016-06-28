@@ -586,6 +586,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
+            case "1401": //提左提右
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
+                /*底图代码*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
+                break;
             case "1405": //3D
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
@@ -641,6 +649,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1501": //上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case "1502": //路面覆盖
+                $scope.roadArrayLink = $scope.dataTipsData.f_array;
                 break;
             case "1510": //桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
