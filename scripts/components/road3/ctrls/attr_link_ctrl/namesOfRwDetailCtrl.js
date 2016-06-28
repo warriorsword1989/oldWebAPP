@@ -56,7 +56,7 @@ namesOfLinkApp.controller("namesOfRwLinkController",["$scope","$timeout","dsMeta
     }
 
     $scope.selectNmaesId=function(nameid,name,e){
-        $scope.rwName.nameId = nameid;
+        $scope.rwName.nameGroupid = nameid;
         $scope.rwName.name = name;
         $scope.hidePicSelect(e);
     }
@@ -76,7 +76,7 @@ namesOfLinkApp.controller("namesOfRwLinkController",["$scope","$timeout","dsMeta
         $(e.target).parents('.pic-show').hide();
         $("#name").css({"height":'0px'});
         //$scope.hidePicSelect();
-    }
+    };
 
 
     $scope.initializeData = function (){

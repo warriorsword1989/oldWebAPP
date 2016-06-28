@@ -8,6 +8,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
      */
     setAttributes: function(data) {
         this.pid = data['pid'] || 0;
+        this.rowId = data['rowId'] || "";
         this.kindCode = data['kindCode'] || null;
         this.geometry = data['geometry'];
         this.xGuide = data['xGuide'] || 0;
@@ -188,6 +189,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     getIntegrate: function() {
         var ret = {};
         ret["pid"] = this.pid;
+        ret["rowId"] = this.rowId;
         ret["kindCode"] = this.kindCode;
         //ret["geometry"] = this.geometry;
         //ret["xGuide"] = this.xGuide;

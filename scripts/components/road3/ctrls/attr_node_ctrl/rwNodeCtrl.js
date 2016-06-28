@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/6/23.
  */
-angular.module("app").controller("rwNodeController",['$scope','dsRoad',function($scope,dsRoad) {
+angular.module("app").controller("rwNodeController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -33,7 +33,7 @@ angular.module("app").controller("rwNodeController",['$scope','dsRoad',function(
         /**
          * 根据点去获取多条adlink，再高亮点线
          */
-        dsRoad.getByCondition({
+        dsEdit.getByCondition({
             dbId: App.Temp.dbId,
             type: 'RWLINK',
             data: {"nodePid":  $scope.rwNodeData.pid}
@@ -86,7 +86,7 @@ angular.module("app").controller("rwNodeController",['$scope','dsRoad',function(
             "data": objCtrl.changedProperty
         }
         if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
+            swal("操作成功",'属性值没有变化，不需要保存', "info");
             return;
         }
         if(objCtrl.changedProperty && objCtrl.changedProperty.forms && objCtrl.changedProperty.forms.length > 0){
@@ -101,76 +101,105 @@ angular.module("app").controller("rwNodeController",['$scope','dsRoad',function(
             });
         }
 
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
-                swal("操作成功",'保存成功！', "success");
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                var sInfo={
-                    "op":"修改AWNODE成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-                adLink.redraw();
-                adNode.redraw();
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            //数据解析后展示到输出框
-            if(info!=null){
-                outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
-                    outputCtrl.updateOutPuts();
+//        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+//            var info = null;
+//            if (data.errcode==0) {
+//                swal("操作成功",'保存成功！', "success");
+//                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+//                var sInfo={
+//                    "op":"修改AWNODE成功",
+//                    "type":"",
+//                    "pid": ""
+//                };
+//                data.data.log.push(sInfo);
+//                info=data.data.log;
+//
+//                adLink.redraw();
+//                adNode.redraw();
+//            }else{
+//                info=[{
+//                    "op":data.errcode,
+//                    "type":data.errmsg,
+//                    "pid": data.errid
+//                }];
+//            }
+//            //数据解析后展示到输出框
+//            if(info!=null){
+//                outputCtrl.pushOutput(info);
+//                if(outputCtrl.updateOutPuts!=="") {
+//                    outputCtrl.updateOutPuts();
+//                }
+//            }
+//
+//        });
+        dsEdit.update($scope.rwNodeData.pid, "AWNODE", objectCtrl.changedProperty).then(function(data) {
+            if (data) {
+            	rwLink.redraw();
+                rwNode.redraw();
+                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
                 }
+                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
             }
-
-        });
+        })
     };
     //删除
     $scope.delete = function(){
-        var pid = parseInt($scope.rwNodeData.pid);
-        var param =
-        {
-            "command": "DELETE",
-            "type": "AWNODE",
-            "projectId": Application.projectid,
-            "objId": pid
-        };
-        //结束编辑状态
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.errcode == 0) {
-                swal("操作成功",'删除成功！', "success");
-                var sinfo = {
-                    "op": "删除AWNODE成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-                adLink.redraw();
-                adNode.redraw();
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("删除失败", data.errmsg, "error");
+//        var pid = parseInt($scope.rwNodeData.pid);
+//        var param =
+//        {
+//            "command": "DELETE",
+//            "type": "AWNODE",
+//            "projectId": Application.projectid,
+//            "objId": pid
+//        };
+//        //结束编辑状态
+//        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+//            var info = [];
+//            if (data.errcode == 0) {
+//                swal("操作成功",'删除成功！', "success");
+//                var sinfo = {
+//                    "op": "删除AWNODE成功",
+//                    "type": "",
+//                    "pid": ""
+//                };
+//                data.data.log.push(sinfo);
+//                info = data.data.log;
+//                adLink.redraw();
+//                adNode.redraw();
+//            } else {
+//                info = [{
+//                    "op": data.errcode,
+//                    "type": data.errmsg,
+//                    "pid": data.errid
+//                }];
+//                swal("删除失败", data.errmsg, "error");
+//            }
+//            //返回数据显示到输出框
+//            outputCtrl.pushOutput(info);
+//            if (outputCtrl.updateOutPuts !== "") {
+//                outputCtrl.updateOutPuts();
+//            }
+//        })
+    	dsEdit.delete($scope.rwNodeData.pid, "AWNODE").then(function(data) {
+            if (data) {
+            	rwLink.redraw();
+                rwNode.redraw();
+                $scope.rwNodeData = null;
+                var editorLayer = layerCtrl.getLayerById("edit")
+                editorLayer.clear();
             }
-            //返回数据显示到输出框
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
-            }
-        })
+        });
     };
     $scope.cancel = function(){
 

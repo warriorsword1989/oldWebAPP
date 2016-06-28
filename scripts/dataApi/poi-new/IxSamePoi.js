@@ -7,13 +7,15 @@ FM.dataApi.IxSamepoi = FM.dataApi.DataModel.extend({
 	 * 返回参数赋值
 	 */
 	setAttributes: function(data) {
-		this.groupId = data['groupId'] || 0;
+		this.pid = data['pid'] || 0;
+		//this.groupId = data['groupId'] || 0;
 		this.relationType = data['relationType'] || 1;
 		this.rowId = data["rowId"];
 	},
 	getIntegrate: function(){
 		var ret = {};
-		ret["groupId"] = this.groupId;
+		ret["pid"] = this.pid;
+		//ret["groupId"] = this.groupId;
 		ret["relationType"] = this.relationType;
 		ret["rowId"] = this.rowId;
 		return ret;

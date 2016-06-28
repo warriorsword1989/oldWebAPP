@@ -11,7 +11,7 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 		this.contactType = data['contactType'] || 1;
 		this.contact = data['contact'] || null;
 		this.contactDepart = data['contactDepart'] || 0;
-		this.priopity = data['priopity'] || 1;
+		this.priority = data['priority'] || 1;
 		this.code = data['code'] || "";
 		if(this.contactType == 1 && this.contact && this.contact.indexOf("-") > -1){
 			var tmep = this.contact.split("-");
@@ -29,7 +29,7 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 		ret["contactType"] = this.contactType;
 		ret["contact"] = this.contact;
 		ret["contactDepart"] = this.contactDepart;
-		ret["priopity"] = this.priopity;
+		ret["priority"] = this.priority;
 		if(this.contactType == 1){
 			ret["contact"] = this.code + "-" +this.contact;
 		}

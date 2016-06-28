@@ -8,7 +8,8 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.parkingId = data['parkingId'];
+        this.pid = data['pid'];
+        //this.parkingId = data['parkingId'];
         this.poiPid = data['poiPid'] || 0;
         var parkingTypeArr = (data["parkingType"] || "").split("|");
         this.parkingType = {};
