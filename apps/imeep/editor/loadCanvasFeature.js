@@ -51,8 +51,8 @@
         "TipsGSCPart.js",
         "TipsGSCMarker.js",
         "TipsNormalCross.js",
-        "TipsRoadSE.js",
-        "TipsRoadPE.js",
+        "TipsRoadSA.js",
+        "TipsRoadPA.js",
         "TipsRealSign.js",
         "TipsOrientation.js",
         "TipsSketch.js",
@@ -60,7 +60,8 @@
         "TipsJVCBranch.js",
         "TipsWarningInfo.js",
         "TipsWarningInfos.js",
-        "TipsTollGate.js"
+        "TipsTollGate.js",
+        "TipsTrafficSignal.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
