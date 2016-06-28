@@ -1,4 +1,4 @@
-angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', function($scope, $ocll,dsPoi) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', 'dsOutput', function($scope, $ocll,dsPoi, dsOutput) {
     /*翻页事件*/
     $scope.turnPage = function(type){
         if(type == 'prev'){     //上一页
@@ -44,7 +44,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     /*清空数据*/
     $scope.emptyTableResult = function(type){
         if(type == 'outputResult'){     //输出结果
-            $scope.outputResult = [];
+            dsOutput.clear();
         }else{      //搜索结果
 
         }
@@ -73,6 +73,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     function initCheckResultData(){
         $scope.checkPageNow = 1;//检查结果当前页
         getCheckResultData(1);
+        $scope.outputResult = dsOutput.output; //输出结果
     }
     /*检查结果翻页*/
     $scope.$on('trunPaging',function(event,type){

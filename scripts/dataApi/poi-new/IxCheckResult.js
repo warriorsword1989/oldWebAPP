@@ -18,16 +18,17 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 		/*是否是poi检查项*/
 		this.poiCheck = false;
 		/*poi检查项数组*/
-		this.poiListCheck = [];
+		this.mutiListCheck = [];
 		this.targets = data['targets'];
-		if(data['targets'] && data['targets'].indexOf('IX_POI') > -1){
-			var poiCheckArr = data['targets'].split('][');
-			this.poiCheck = true;
-			for(var i=0,len=poiCheckArr.length;i<len;i++){
+		if(data['targets'] && data['targets'].split(';').length > 0){
+			var mutiCheckArr = data['targets'].split('];[');
+			this.mutiCheck = true;
+			this.featureType = mutiCheckArr[0].split(',')[0].substring(1);
+			for(var i=0,len=mutiCheckArr.length;i<len;i++){
 				if(i<len-1){
-					this.poiListCheck.push(poiCheckArr[i].split(',')[1]);
+					this.mutiListCheck.push(mutiCheckArr[i].split(',')[1]);
 				}else{
-					this.poiListCheck.push(poiCheckArr[i].split(',')[1].substring(0,poiCheckArr[i].split(',')[1].length-1));
+					this.mutiListCheck.push(mutiCheckArr[i].split(',')[1].substring(0,mutiCheckArr[i].split(',')[1].length-1));
 				}
 			}
 		}
