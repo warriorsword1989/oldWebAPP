@@ -186,13 +186,14 @@ fastmap.uikit.ObjectEditController = (function() {
                                             }
                                         }
                                     }
-                                    if (!obj["linkPid"]) {
-                                        if (data["rowId"]) {
-                                            obj["rowId"] = data["rowId"];
-                                        } else if (data["pid"]) {
-                                            obj["pid"] = data["pid"];
-                                        }
-                                    }
+                                    //由于保存的时候接口需要传递的参数rowId和pid需要保持默认值,注销到如下7行代码
+                                    // if (!obj["linkPid"]) {
+                                    //     if (data["rowId"]) {
+                                    //         obj["rowId"] = data["rowId"];
+                                    //     } else if (data["pid"]) {
+                                    //         obj["pid"] = data["pid"];
+                                    //     }
+                                    // }
                                     delete obj["geoLiveType"];
                                     obj["objStatus"] = "INSERT";
                                     objArr.push(obj);
@@ -212,7 +213,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                 }
                             }
                             for (var j = oriData[item].length - 1; j >= 0; j--) {
-                                var obj = this.compareJson(oriData[item][j], data[item][j + 1], "UPDATE");
+                                var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
                                 if (obj) {
                                     if (oriData[item][j]["linkPid"]) {
                                         obj["linkPid"] = oriData[item][j]["linkPid"];
@@ -335,6 +336,7 @@ fastmap.uikit.ObjectEditController = (function() {
              * @param {Object}data
              */
             onSaved: function(orignalData, data) {
+                console.info("onSaved-------------");
                 this.changedProperty = this.compareJson(orignalData["pid"], orignalData, data.getIntegrate(), "UPDATE");
             }
         });

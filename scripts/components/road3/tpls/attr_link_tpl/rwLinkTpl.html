@@ -12,12 +12,6 @@
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
-                            <label>名 称</label>
-                            <div >
-                                <input type="text" class="fm-control" ng-model="poi.name.name"/>
-                            </div>
-                        </li>
-                        <li>
                             <label>要素号码</label>
                             <div>
                                 <input type="text" class="fm-control" ng-model="rwLinkData.featurePid" />
@@ -58,7 +52,7 @@
                         <li>
                             <label>Link长度</label>
                             <div>
-                                <input type="text" ng-model="rwLinkData.length" />
+                                <input type="text" disabled ng-model="rwLinkData.length" />
                             </div>
                         </li>
                         <li>
@@ -70,13 +64,13 @@
                         <li>
                             <label>起点号码</label>
                             <div>
-                                <input type="text" ng-model="rwLinkData.sNodePid" />
+                                <input type="text" disabled ng-model="rwLinkData.sNodePid" />
                             </div>
                         </li>
                         <li>
                             <label>终点号码</label>
                             <div>
-                                <input type="text" ng-model="rwLinkData.eNodePid" />
+                                <input type="text" disabled ng-model="rwLinkData.eNodePid" />
                             </div>
                         </li>
                         <li>

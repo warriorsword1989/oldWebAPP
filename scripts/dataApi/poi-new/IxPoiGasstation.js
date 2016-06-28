@@ -7,7 +7,8 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.gasstationId = data['gasstationId'] || 0;
+        this.pid = data['pid'] || 0;
+        //this.gasstationId = data['gasstationId'] || 0;
         this.poiPid = data['poiPid'];
         this.serviceProv = data['serviceProv'];
         var fuelTypeArr = (data["fuelType"] || "").split("|");
@@ -48,7 +49,8 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
-        ret['gasstationId'] = this.gasstationId;
+        ret['pid'] = this.pid;
+        //ret['gasstationId'] = this.gasstationId;
         ret['poiPid'] = this.poiPid;
         ret['serviceProv'] = this.serviceProv;
         var checkedFuelTypeArr = [];

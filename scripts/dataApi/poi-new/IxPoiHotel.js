@@ -7,7 +7,8 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.hotelId = data['hotelId'] || 0;
+        this.pid = data['pid'] || 0;
+        //this.hotelId = data['hotelId'] || 0;
         this.poiPid = data['poiPid'] || 0;
         this.creditCard = data['creditCard'];
         this.rating = data['rating'] || 0;
@@ -32,7 +33,8 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
-        ret['hotelId'] = this.hotelId;
+        ret['pid'] = this.pid;
+        //ret['hotelId'] = this.hotelId;
         ret['poiPid'] = this.poiPid;
         ret['creditCard'] = this.creditCard;
         ret['rating'] = this.rating;

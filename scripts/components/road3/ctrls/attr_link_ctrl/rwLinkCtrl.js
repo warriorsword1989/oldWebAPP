@@ -1,12 +1,18 @@
 /**
- * Created by zhaohang on 2016/4/7.
+ * Created by wuz on 2016/6/24.
  */
 var rwLinkZone = angular.module("app");
-rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,appPath) {
+rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function($scope,appPath,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var layerCtrl = fastmap.uikit.LayerController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+    var editLayer = layerCtrl.getLayerById('edit');
+    var rwLink = layerCtrl.getLayerById("rwLink");
+    var rwNode = layerCtrl.getLayerById("rwNode");
 
 
     $scope.kind = [
@@ -31,13 +37,8 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,a
         {"id": 3, "label": "存在于详细和广域区域"}
     ];
 
-    var index = 0 ;
 
     $scope.initializeData = function(){
-        // if(index > 0 ){
-        //     return ;
-        // }
-        index ++;
         $scope.rwLinkData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 
@@ -60,89 +61,59 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath",function($scope,a
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-
-
-
-
-        // var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
-        // for (var i = 0, len = linkArr.length; i < len; i++) {
-        //     var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-        //     points.push(pointOfLine);
-        // }
-        // var line = fastmap.mapApi.lineString(points);
-        // selectCtrl.onSelected({//存储选择数据信息
-        //     geometry: line,
-        //     id: $scope.adLinkData.pid
-        // });
-
-
-        $scope.dataTipsData = selectCtrl.rowKey;
-        $scope.currentURL = "";
-
-        /*//随着地图的变化 高亮的线不变
-        if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
-            var linksArr = [];
-            var highLightFeatures = [];
-            for(var item in $scope.dataTipsData.f_array){
-                linksArr.push($scope.dataTipsData.f_array[item].id);
-                highLightFeatures.push({
-                    id:$scope.dataTipsData.f_array[item].id,
-                    layerid:'referenceLine',
-                    type:'line',
-                    style:{}
-                })
-            }
-
-            highRenderCtrl.highLightFeatures = highLightFeatures;
-            highRenderCtrl.drawHighlight();
-        }else{
-            highRenderCtrl.highLightFeatures.push({
-                id:$scope.rwLinkData.pid.toString(),
-                layerid:'referenceLine',
-                type:'line',
-                style:{}
-            });
-            highRenderCtrl.drawHighlight();
-        }
-
-        var linkArr =$scope.rwLinkData.geometry.coordinates, points = [];
-        for (var i = 0, len = linkArr.length; i < len; i++) {
-            var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-            points.push(pointOfLine);
-        }
-        var pointOfSelect = selectCtrl.selectedFeatures["point"];
-        var line = fastmap.mapApi.lineString(points);
-        selectCtrl.onSelected({
-            geometry: line,
-            id: $scope.rwLinkData.pid,
-            type:"Link",
-            direct: $scope.rwLinkData.direct,
-            snode: $scope.rwLinkData.sNodePid,
-            enode: $scope.rwLinkData.eNodePid,
-            point: pointOfSelect
-        });*/
     };
 
 
     $scope.save = function(){
-
+        objCtrl.save();
+        console.info(objCtrl.changedProperty);
+        dsEdit.update($scope.rwLinkData.pid, "RWLINK", objCtrl.changedProperty).then(function(data) {
+            if (data) {
+                rwLink.redraw();
+                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+            }
+        })
     };
 
     $scope.delete = function(){
-
+        dsEdit.delete($scope.rwLinkData.pid, "RWLINK").then(function(data) {
+            if (data) {
+                rwLink.redraw();
+                rwNode.redraw();
+                $scope.rwLinkData = null;
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                var editorLayer = layerCtrl.getLayerById("edit");
+                editorLayer.clear();
+                //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+            }
+        });
     };
     $scope.cancel = function(){
 
     };
 
-    $scope.rwLinkName=function(){
-        var showOtherObj={
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl": appPath.road + 'ctrls/attr_administratives_ctrl/adAdminNameCtrl',
-            "propertyHtml": appPath.root + appPath.road + 'tpls/attr_adminstratives_tpl/adAdminNameTpl.html'
-        }
-        $scope.$emit("transitCtrlAndTpl", showOtherObj);
-    };
+    // $scope.rwLinkName=function(){
+    //     var showOtherObj={
+    //         "loadType":"subAttrTplContainer",
+    //         "propertyCtrl": appPath.road + 'ctrls/attr_administratives_ctrl/adAdminNameCtrl',
+    //         "propertyHtml": appPath.root + appPath.road + 'tpls/attr_adminstratives_tpl/adAdminNameTpl.html'
+    //     }
+    //     $scope.$emit("transitCtrlAndTpl", showOtherObj);
+    // };
     /**
      * 增加铁路名
      */

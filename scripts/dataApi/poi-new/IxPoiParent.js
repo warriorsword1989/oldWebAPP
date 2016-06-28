@@ -8,7 +8,7 @@ FM.dataApi.IxPoiParent = FM.dataApi.DataModel.extend({
 	 */
 	setAttributes: function(data) {
 		this.pid = data['pid'];
-		this.groupId = data['groupId'];
+		//this.groupId = data['groupId'];
 		this.parentPoiPid = data['parentPoiPid'];
 		this.tenantFlag = data['tenantFlag'] || 0;
 		this.memo = data['memo'] || null;
@@ -17,7 +17,7 @@ FM.dataApi.IxPoiParent = FM.dataApi.DataModel.extend({
 	getIntegrate: function(){
 		var ret = {};
 		ret["pid"] = this.pid;
-		ret["groupId"] = this.groupId;
+		//ret["groupId"] = this.groupId;
 		ret["parentPoiPid"] = this.parentPoiPid;
 		ret["tenantFlag"] = this.tenantFlag;
 		ret["memo"] = this.memo;
