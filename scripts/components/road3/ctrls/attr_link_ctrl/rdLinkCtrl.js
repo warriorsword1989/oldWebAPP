@@ -14,7 +14,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
-    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.speedAndDirect = shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex = 0;

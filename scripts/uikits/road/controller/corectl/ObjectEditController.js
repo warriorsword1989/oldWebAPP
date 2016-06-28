@@ -106,7 +106,7 @@ fastmap.uikit.ObjectEditController = (function() {
                         throw "无法解析当前选择的类型!";
                         break;
                 }
-                if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType) || this.originalData.geoLiveType == 'RDBRANCH') {
+                if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
                     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
@@ -114,6 +114,22 @@ fastmap.uikit.ObjectEditController = (function() {
                     });
                 }
                 if (!this.originalData || (this.originalData.pid != this.data.pid)) {
+                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
+                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
+                        "originalData": this.originalData,
+                        "currentData": this.data
+                    });
+                }
+                //为poi父子关系重新加载poi做的特殊处理
+                if (!this.originalData || ((this.originalData.pid == this.data.pid) && this.originalData.geoLiveType == 'IX_POI')) {
+                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
+                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
+                        "originalData": this.originalData,
+                        "currentData": this.data
+                    });
+                }
+                //为分歧同种类和不同种类切换做的特殊处理
+                if (!this.originalData || (this.originalData.pid != this.data.pid) || (this.originalData.geoLiveType == 'RDBRANCH'&&this.originalData.relationshipType!==this.data.relationshipType)) {
                     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                         "originalData": this.originalData,

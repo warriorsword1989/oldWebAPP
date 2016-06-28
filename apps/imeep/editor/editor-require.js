@@ -31,6 +31,7 @@ requirejs.config({
         'fccService': 'apps/imeep/service/dataService-fcc',
         'roadService': 'apps/imeep/service/dataService-road',
         'editService': 'apps/imeep/service/dataService-edit',
+        'manService': 'apps/imeep/service/dataService-manage',
         'EditorCtl': 'apps/imeep/editor/editorCtl',
         //'sceneLayerCtr': 'scripts/components/road3/ctrls/layer_switch_ctr/sceneLayersCtrl',
         'layers': "apps/imeep/editor/layerConfig",
@@ -58,13 +59,14 @@ requirejs.config({
         'fccService': ['dataService'],
         'roadService': ['dataService'],
         'editService': ['dataService'],
+        'manService': ['dataService'],
         'bootstrapDatepicker': ['jquery', 'bootstrap'],
         'bootstrapDatepickerCN': ['bootstrapDatepicker'],
         'timepicki': ['jquery', 'angular'],
         'bootspopover': ['jquery'],
         'keyPressFunctions': ['jquery', 'dataService', 'poiService', 'metaService', 'roadService'],
         'z-tree': ['jquery'],
-        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'fccService', 'roadService', 'editService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree'],
+        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'fccService', 'roadService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree'],
     }
 });
 // Start the main app logic.

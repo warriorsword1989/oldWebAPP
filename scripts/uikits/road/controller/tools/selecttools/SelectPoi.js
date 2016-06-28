@@ -97,7 +97,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
         this.samePois = [];
         //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
-        var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256
+        var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256;
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]].data === undefined) {
             return;
         }
@@ -139,6 +139,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
                         event: event
                     });
                     that._map.closePopup(that.popup);
+                    that._map.off('popupopen');
                 }
             });
 
@@ -149,6 +150,14 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
                 }, 200)
             }
         }
+    },
+    showPoi:function (e) {
+        this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
+            id: e.target.id,
+            optype: "POIPOINT",
+            event: event
+        });
+        this._map.closePopup(this.popup);
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());

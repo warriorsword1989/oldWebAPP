@@ -7,7 +7,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
     this.getTipsStatics = function(stage) {
         var defer = $q.defer();
         var params = {
-            "grids": App.Temp.meshList,
+            "grids": App.Temp.gridList,
             "stage": stage
         };
         ajax.get("fcc/tip/getStats", {
@@ -28,7 +28,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
     this.getTipsListItems = function(stage, type) {
         var defer = $q.defer();
         var params = {
-            "grids": App.Temp.meshList,
+            "grids": App.Temp.gridList,
             "stage": stage,
             "type": type,
             "dbId": App.Temp.dbId
