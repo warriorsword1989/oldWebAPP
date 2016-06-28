@@ -43,19 +43,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.selectedTool = 1;
         //切换成果-场景栏中的显示内容
         $scope.changeEditTool = function(id) {
-            changePoi(function() {
-                if (id === "tipsPanel") {
-                    $scope.showTab = true;
-                    $scope.selectedTool = 1;
-                    $scope.changeProject($scope.projectType);
-                } else if (id === "scenePanel") {
-                    $scope.showTab = false;
-                    $scope.selectedTool = 2;
-                    $ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function() {
-                        $scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
-                    });
-                }
-            })
+            if (id === "tipsPanel") {
+                $scope.showTab = true;
+                $scope.selectedTool = 1;
+                $scope.changeProject($scope.projectType);
+            } else if (id === "scenePanel") {
+                $scope.showTab = false;
+                $scope.selectedTool = 2;
+                $ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function() {
+                    $scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
+                });
+            }
         };
         //属性栏开关逻辑控制
         $scope.attrTplContainerSwitch = function(flag) {

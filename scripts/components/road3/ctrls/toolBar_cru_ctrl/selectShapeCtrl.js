@@ -722,21 +722,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     console.log(data);
-                    //highRenderCtrl.highLightFeatures = [{
-                    //    id: objCtrl.data.outLinkPid,
-                    //    layerid: 'referenceLine',
-                    //    type: 'line',
-                    //    style: {}
-                    //}]
+                    console.log($scope.globalData);
+                    highRenderCtrl.highLightFeatures = [];
                     highRenderCtrl._cleanHighLight();
-                    highRenderCtrl.highLightFeatures = [{
-                        id: data.id,
+                    $scope.globalData.outLinkPid = data.id;
+                    highRenderCtrl.highLightFeatures.push({
+                        id: $scope.globalData.inLinkPid,
                         layerid: 'referenceLine',
                         type: 'line',
                         style: {}
-                    }];
+                    });
+                    //highRenderCtrl.highLightFeatures.push({
+                    //    id: data.id,
+                    //    layerid: 'referenceLine',
+                    //    type: 'line',
+                    //    style: {}
+                    //});
+                    console.log(highRenderCtrl.highLightFeatures)
                     highRenderCtrl.drawHighlight();
-                    //console.log(objCtrl.data)
+                    console.log(objCtrl.data)
                     //layerCtrl.getLayerById("relationdata").redraw();
                     //$scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 })
@@ -776,9 +780,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     tooltipsCtrl.setStyleTooltip("color:black;");
                     tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
                 }
-
             }
-
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
@@ -804,6 +806,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyHtml": tpl
             };
             $scope.globalData = data;
+            $scope.globalType = type;
             $scope.$emit("transitCtrlAndTpl", options);
             objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
