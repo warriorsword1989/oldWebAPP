@@ -284,6 +284,16 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         return this.save(param);
     };
+    this.updateTopo = function(pid, type, data){
+        var param = {
+            "command": "UPDATETOPO",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        }
+        return this.save(param);
+    }
     /***
      * 属性和几何编辑相关 editGeometryOrProperty
      * @param param
@@ -299,7 +309,11 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "CREATEPARENT": "POI增加父",
             "UPDATEPARENT": "POI更新父",
             "DELETEPARENT": "POI解除父",
+            "UPDATETOPO":"更新"+[param.type]+"拓扑"
         }[param.command];
+        if(param.command==='UPDATETOPO'){
+            param.command='UPDATE'
+        }
         param = JSON.stringify(param);
         var defer = $q.defer();
         ajax.get("edit/run/", {

@@ -259,7 +259,8 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#5FCD3A'
+                    color: '#21ed25',
+                    strokeWidth:50
                 }
             });
             highRenderCtrl.highLightFeatures.push({
@@ -270,13 +271,20 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                     color: '#CD0011'
                 }
             });
-
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.realimages[0].rowId.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
-                style:{}
+                id: $scope.diverObj.nodePid.toString(),
+                layerid: 'referenceLine',
+                type: 'rdnode',
+                style: {color:'yellow'}
             });
+            for(var i=0;i<$scope.diverObj.vias.length;i++){
+                highRenderCtrl.highLightFeatures.push({
+                    id:$scope.diverObj.vias[i].linkPid.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{color:'blue'}
+                })
+            }
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.realimages.length > 0) {
