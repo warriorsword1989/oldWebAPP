@@ -210,10 +210,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 if (data.length == 0) {
                     tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
                 }else {
-                    map.currentTool.disable();
-                    console.log(data);
-                    console.log($scope.metaData.kindFormat);
-
                     var html = '<ul id="layerpopup">';
                     //this.overlays = this.unique(this.overlays);
                     for (var item in data) {
@@ -386,29 +382,18 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
      * 传给父页面，判断下当前poi是否发生改变，然后父页面将结果再反馈回来，执行点击操作
      * @param data
      */
-    $scope.selectObjCallback = function (data) {
-        var listener;
-        listener = $scope.$on("changeDataRes",function (event) {
-            $scope.selectPoi(data);
-            if(listener){
-                listener();
-            }
-        });
-        $scope.$emit("changeData");
-    };
-    // $scope.selectPoiCallback = function (data) {
-    //     var liser;
-    //     liser =  $scope.$on("getObjectByIdRes",function (event) {
-    //         $scope.selectPoi(data);//确保父页面查询到poi数据
-    //         if(liser){
-    //             liser();
+    // $scope.selectObjCallback = function (data) {
+    //     var listener;
+    //     listener = $scope.$on("changeDataRes",function (event) {
+    //         $scope.selectPoi(data);
+    //         if(listener){
+    //             listener();
     //         }
     //     });
-    //     $scope.$emit("getObjectById",{pid:data.id,type:"IXPOI"});
-    //
+    //     $scope.$emit("changeData");
     // };
 
-    $scope.selectPoi = function (data) {
+    $scope.selectObjCallback = function (data) {
         dsEdit.getByPid(data.id, "IXPOI").then(function(rest) {
             if (rest) {
                 objCtrl.setCurrentObject('IXPOI', rest);

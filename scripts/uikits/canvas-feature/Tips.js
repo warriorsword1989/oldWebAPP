@@ -114,6 +114,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);
                     break;
             }
+            if (ret) {
+
+            }
             return ret;
         },
         transformation: function(data) {
