@@ -251,9 +251,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      */
     this.createParent = function(pid, newParentPid) {
         var param = {
-            "command": "CREATEPARENT",
+            "command": "CREATE",
             "dbId": App.Temp.dbId,
-            "type": type,
+            "type": "IXPOIPARENT",
             "objId": pid,
             "parentPid": newParentPid
         }
@@ -264,9 +264,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      */
     this.updateParent = function(pid, newParentPid) {
         var param = {
-            "command": "UPDATEPARENT",
+            "command": "UPDATE",
             "dbId": App.Temp.dbId,
-            "type": type,
+            "type": "IXPOIPARENT",
             "objId": pid,
             "parentPid": newParentPid
         }
@@ -275,13 +275,12 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     /***
      * poi要素删除父poi
      */
-    this.deleteParent = function(pid, parentPid) {
+    this.deleteParent = function(pid) {
         var param = {
-            "command": "DELETEPARENT",
+            "command": "DELETE",
             "dbId": App.Temp.dbId,
-            "type": type,
-            "objId": pid,
-            "parentPid": newParentPid
+            "type": "IXPOIPARENT",
+            "objId": pid
         }
         return this.save(param);
     };

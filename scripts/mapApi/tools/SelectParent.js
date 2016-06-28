@@ -32,6 +32,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.options.shapeOptions = {
+                id:'parentLayer',
                 stroke: true,
                     color: '#f06eaa',
                     weight: 4,

@@ -24,7 +24,7 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
         return defer.promise;
     };
     //根据用户名查找子任务列表;
-    this.querySubtaskByUser = function(paramObj) {
+    this.getSubtaskListByUser = function(paramObj) {
         var defer = $q.defer();
         ajax.get("man/subtask/listByUser", {
             parameter: JSON.stringify(paramObj)
@@ -36,6 +36,27 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
             } else {
                 swal("查询子任务列表出错", data.errmsg, "error");
                 defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            ajax.error(defer, rejection);
+        });
+        return defer.promise;
+    };
+    //根据用户名查找子任务列表;
+    this.getSubtaskById = function(subtaskId) {
+        var defer = $q.defer();
+        ajax.get("man/subtask/query/", {
+            parameter: JSON.stringify({
+                "subtaskId": subtaskId
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else if (data.errcode == -100) {
+                ajax.tokenExpired(defer);
+            } else {
+                swal("查询子任务信息出错", data.errmsg, "error");
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             ajax.error(defer, rejection);

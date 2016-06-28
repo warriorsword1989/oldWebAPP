@@ -94,7 +94,7 @@ angular.module("dataService", [], function($httpProvider) {
     this.getLocalJson = function(url) {
         return $http.get(url, {});
     };
-    this.tokenExpired = function() {
+    this.tokenExpired = function(defer) {
         swal({
             title: "Token已失效，请重新登陆！",
             type: "error",
@@ -104,6 +104,7 @@ angular.module("dataService", [], function($httpProvider) {
         }, function() {
             App.Util.logout();
         });
+        defer.reject(null);
     };
     this.error = function(defer, rejection) {
         swal("啊呕，服务请求报错，请检查网络后重试！", rejection, "error");
