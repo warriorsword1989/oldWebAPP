@@ -112,11 +112,14 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                 }
             }
             //得到当前格网;
-            var gridid = ['605603_01', '605603_12', '595672_02']; //params.gridIds?params.gridIds:['605603_01','605603_12','595672_02'];
+            var gridList = params.gridIds;
             //获取所有图幅;
             var meshArr = [];
-            for (var i = 0; i < gridid.length; i++) {
-                meshArr.push(layerCtrl.getLayerById('mesh').Calculate25TMeshBorder(gridid[i].substr(0, 6)))
+            var meshId;
+            for (var i = 0; i < gridList.length; i++) {
+                meshId = gridList[i].toString();
+                meshId = ("000000" + meshId.substr(0, meshId.length - 2)).substr(-6); // 图幅号不够6位左补0
+                meshArr.push(layerCtrl.getLayerById('mesh').Calculate25TMeshBorder(meshId))
             }
             //根据图幅号获取聚焦的范围;
             var allLatArr = getAllLatLng(meshArr);
@@ -134,7 +137,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             var timer = setInterval(function() {
                 var gridLayers = layerCtrl.getLayerById('grid').gridArr;
                 for (var i = 0; i < gridLayers.length; i++) {
-                    if (gridLayers[i].options.gridId == gridid[gridid.length - 1]) {
+                    if (gridLayers[i].options.gridId == gridList[gridList.length - 1]) {
                         clearInterval(timer);
                         addHighlight()
                     }
@@ -143,8 +146,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
 
             function addHighlight() {
                 for (var i = 0; i < layerCtrl.getLayerById('grid').gridArr.length; i++) {
-                    for (var j = 0; j < gridid.length; j++) {
-                        if (layerCtrl.getLayerById('grid').gridArr[i].options.gridId === gridid[j]) {
+                    for (var j = 0; j < gridList.length; j++) {
+                        if (layerCtrl.getLayerById('grid').gridArr[i].options.gridList === gridList[j]) {
                             $scope.currentHighLight.push(L.rectangle(layerCtrl.getLayerById('grid').gridArr[i].getBounds(), {
                                 fillColor: "#FF6699",
                                 weight: 0,
@@ -166,7 +169,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         function loadSubTaskfn(obj) {
             if (!obj) return;
             dsManage.getSubtaskListByUser({
-                'exeUserId': 1, //$cookies.get('FM_USER_ID');
+                'exeUserId': 1,
+                // 'exeUserId': $cookies.get('FM_USER_ID'),
                 'stage': obj.classStage,
                 'type': obj.classType,
                 'status': obj.currentStatus,
