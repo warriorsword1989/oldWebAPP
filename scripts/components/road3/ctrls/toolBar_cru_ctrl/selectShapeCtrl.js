@@ -727,21 +727,19 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     highRenderCtrl._cleanHighLight();
                     $scope.globalData.outLinkPid = data.id;
                     highRenderCtrl.highLightFeatures.push({
-                        id: $scope.globalData.inLinkPid,
+                        id: objCtrl.data.inLinkPid.toString(),
                         layerid: 'referenceLine',
                         type: 'line',
                         style: {}
                     });
-                    //highRenderCtrl.highLightFeatures.push({
-                    //    id: data.id,
-                    //    layerid: 'referenceLine',
-                    //    type: 'line',
-                    //    style: {}
-                    //});
-                    console.log(highRenderCtrl.highLightFeatures)
+                    highRenderCtrl.highLightFeatures.push({
+                        id: data.id,
+                        layerid: 'referenceLine',
+                        type: 'line',
+                        style: {}
+                    });
                     highRenderCtrl.drawHighlight();
                     console.log(objCtrl.data)
-                    //layerCtrl.getLayerById("relationdata").redraw();
                     //$scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 })
 
