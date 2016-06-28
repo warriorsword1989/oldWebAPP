@@ -370,6 +370,40 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 };
                 $scope.loc = loc[$scope.dataTipsData.loc];
                 break;
+            case "1111": //条件限速
+                var dir = {
+                    "2": "顺方向",
+                    "3": "逆方向"
+                };
+                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                $scope.limitValue = $scope.dataTipsData.value;
+                var limitFlagObj = {
+                    "0": "限速开始",
+                    "1": "限速解除"
+                };
+                $scope.limitFlag = limitFlagObj($scope.dataTipsData.se);
+                $scope.time = type[$scope.dataTipsData.time];
+                var loc = {
+                    "0": "未调查",
+                    "1": "左",
+                    "2": "右",
+                    "4": "上"
+                };
+                $scope.loc = loc[$scope.dataTipsData.loc];
+                $scope.limitConditionObj = [
+                    {"id":1,"label":'雨天'},
+                    {"id":2,"label":'雪天'},
+                    {"id":3,"label":'雾天'},
+                    {"id":6,"label":'学校'},
+                    {"id":10,"label":'时间限制'},
+                    {"id":12,"label":'季节时段'}
+                ];
+                for(var i=0,len=$scope.limitConditionObj.length;i<len;i++){
+                    if($scope.limitConditionObj[i].id == $scope.dataTipsData.dpnd[i]){
+                        $scope.limitConditionObj[i].checked = true;
+                    }
+                }
+                break;
             case "1201": //道路种别
                 $scope.returnKindType = function(code) {
                     switch (code) {
