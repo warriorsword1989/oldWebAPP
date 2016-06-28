@@ -314,7 +314,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.floatMenu = null;
         }
         //重置上一步中的属性栏和tips框
-        originalFeature = []
+        originalFeature = [];
         selectCount = 0;
 
         $scope.changeBtnClass(num);
@@ -372,9 +372,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        if($scope.adAdminForm) {
-            $scope.adAdminForm.$setPristine();
-        }
     };
 
     /**
@@ -463,6 +460,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                         break;
                 }
                 $scope.initializeData();
+                map.currentTool.enable();
                 tooltipsCtrl.onRemoveTooltip();
                 if (!map.floatMenu && toolsObj) {
                     map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
@@ -471,8 +469,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 }
             }
         });
-
-    }
+    };
 
     $scope.clearMap = function () {
         //重置选择工具
