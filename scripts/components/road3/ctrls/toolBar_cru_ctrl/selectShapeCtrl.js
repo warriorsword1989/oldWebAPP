@@ -716,24 +716,19 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     return;
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                    console.log(data)
-                    //highRenderCtrl.highLightFeatures = [{
-                    //    id: objCtrl.data.outLinkPid,
-                    //    layerid: 'referenceLine',
-                    //    type: 'line',
-                    //    style: {}
-                    //}]
-                    //highRenderCtrl._cleanHighLight();
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [{
                         id: data.id,
                         layerid: 'referenceLine',
                         type: 'line',
                         style: {}
                     }];
-
                     highRenderCtrl.drawHighlight();
-                    console.log(objCtrl.data)
+                    //console.log(objCtrl.data)
+                    //layerCtrl.getLayerById("relationdata").redraw();
+                    //$scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 })
+
             }
             if (!selectCtrl.selectedFeatures) {
                 return;
@@ -796,6 +791,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             };
+            $scope.globalData = data;
             $scope.$emit("transitCtrlAndTpl", options);
             objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();
