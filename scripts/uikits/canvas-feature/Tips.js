@@ -8,6 +8,14 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
     geometry: null,
     properties: null,
     guideLineArr : [],
+    redFill: {
+        lineColor: 'red',
+        fillColor: 'rgba(225,225,225,0.5)'
+    },
+    greenFill: {
+        lineColor: 'blue',
+        fillColor: 'rgba(225,225,225,0.5)'
+    },
     initialize: function(item) {
         this.geometry = {};
         this.properties = {};
@@ -42,10 +50,10 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
                     break;
                 case 1205://SE
-                    ret = new fastmap.uikit.canvasTips.TipsRoadSE(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRoadSA(item);
                     break;
                 case 1206://PE
-                    ret = new fastmap.uikit.canvasTips.TipsRoadSE(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRoadPA(item);
                     break;
                 case 1301://车信
                     ret = new fastmap.uikit.canvasTips.TipsLaneConnexity(item);
@@ -114,9 +122,6 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);
                     break;
             }
-            if (ret) {
-
-            }
             return ret;
         },
         transformation: function(data) {
@@ -161,6 +166,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
             icon["scalex"] = options.scalex || 1;
             icon["scaley"] = options.scaley || 1;
             icon["text"] = options.text || "";
+            icon["fillStyle"] = options.fillStyle || "";
             return icon;
         }
     }
