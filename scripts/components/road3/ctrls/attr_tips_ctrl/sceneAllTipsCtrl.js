@@ -404,6 +404,24 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 break;
+            case "1113":
+                var dir = {
+                    "2": "顺方向",
+                    "3": "逆方向"
+                };
+                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                var limitValue = $scope.dataTipsData.value;
+                limitValue.sort(function(a,b){
+                    return a<b?1:-1;
+                });
+                for(var i=0,len=limitValue.length;i<len;i++){
+                    if(i!=len-1){
+                        $scope.limitValue = limitValue[i]+'|';
+                    }else{
+                        $scope.limitValue = limitValue[i];
+                    }
+                }
+                break;
             case "1201": //道路种别
                 $scope.returnKindType = function(code) {
                     switch (code) {
