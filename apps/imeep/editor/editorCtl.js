@@ -6,9 +6,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath',
     function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath) {
+        var layerCtrl = new fastmap.uikit.LayerController({
+            config: App.layersConfig
+        });
         var eventCtrl = new fastmap.uikit.EventController();
-        var highRenderCtrl = fastmap.uikit.HighRenderController();
-        var layerCtrl = fastmap.uikit.LayerController();
+        var highRenderCtrl = new fastmap.uikit.HighRenderController();
         $scope.metaData = {}; //存放元数据
         $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
         $scope.showLoading = true;
@@ -107,9 +109,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             });
             map.setView([40.012834, 116.476293], 17);
             //属性编辑ctrl(解析对比各个数据类型)
-            var layerCtrl = new fastmap.uikit.LayerController({
-                config: App.layersConfig
-            });
+
             var shapeCtrl = new fastmap.uikit.ShapeEditorController();
             var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
             tooltipsCtrl.setMap(map, 'tooltip');
@@ -124,6 +124,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             for (var layer in layerCtrl.getVisibleLayers()) {
                 map.addLayer(layerCtrl.getVisibleLayers()[layer]);
             }
+
         }
         // 加载元数据
         var loadMetaData = function() {
@@ -404,7 +405,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 highRenderCtrl.highLightFeatures.length = 0;
             }
             var highlightFeatures = [];
-           dsEdit.getById(id,type).then(function (data) {
+           dsEdit.getByPid(id,type).then(function (data) {
                if(data){
                     switch (type){
                         case "RDLINK":
