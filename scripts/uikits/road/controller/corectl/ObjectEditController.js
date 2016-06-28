@@ -165,10 +165,15 @@ fastmap.uikit.ObjectEditController = (function() {
                     if (typeof oriData[item] === "string") {
                         if (oriData[item] !== data[item]) {
                             retObj[item] = data[item];
-                            if (oriData["rowId"]) {
-                                retObj["rowId"] = oriData["rowId"];
-                            } else if (oriData["pid"]) {
+                            // if (oriData["rowId"]) {
+                            //     retObj["rowId"] = oriData["rowId"];
+                            // } else if (oriData["pid"]) {
+                            //     retObj["pid"] = oriData["pid"];
+                            // }
+                            if (oriData["pid"]) {
                                 retObj["pid"] = oriData["pid"];
+                            } else if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
                             }
                             retObj["objStatus"] = type;
                         }
@@ -270,7 +275,7 @@ fastmap.uikit.ObjectEditController = (function() {
                             }
                             for (var k = 0, lenK = oriData[item].length; k < lenK; k++) {
                                 if (indexOfData[oriData[item][k][key]]) {
-                                    var obj = this.compareJson(oriData[item][k], data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
+                                    var obj = this.compareJson(pids,oriData[item][k], data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
                                     objArr.push(obj);
                                 } else {
                                     obj = oriData[item][k];
@@ -292,20 +297,30 @@ fastmap.uikit.ObjectEditController = (function() {
                     } else if (!isNaN(oriData[item])) {
                         if (oriData[item] !== data[item]) {
                             retObj[item] = data[item];
-                            if (oriData["rowId"]) {
-                                retObj["rowId"] = oriData["rowId"];
-                            } else if (oriData["pid"]) {
+                            // if (oriData["rowId"]) {
+                            //     retObj["rowId"] = oriData["rowId"];
+                            // } else if (oriData["pid"]) {
+                            //     retObj["pid"] = oriData["pid"];
+                            // }
+                            if (oriData["pid"]) {
                                 retObj["pid"] = oriData["pid"];
+                            } else if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
                             }
                             retObj["objStatus"] = type;
                         }
                     } else {
                         if (oriData[item] !== data[item]) {
                             retObj[item] = data[item];
-                            if (oriData["rowId"]) {
-                                retObj["rowId"] = oriData["rowId"];
-                            } else if (oriData["pid"]) {
+                            // if (oriData["rowId"]) {
+                            //     retObj["rowId"] = oriData["rowId"];
+                            // } else if (oriData["pid"]) {
+                            //     retObj["pid"] = oriData["pid"];
+                            // }
+                            if (oriData["pid"]) {
                                 retObj["pid"] = oriData["pid"];
+                            } else if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
                             }
                             retObj["objStatus"] = type;
                         }
@@ -313,10 +328,15 @@ fastmap.uikit.ObjectEditController = (function() {
                 }
                 if (!this.isEmptyObject(retObj)) {
                     if (arrFlag) {
-                        if (oriData["rowId"]) {
-                            retObj["rowId"] = oriData["rowId"];
-                        } else if (oriData["pid"]) {
+                        // if (oriData["rowId"]) {
+                        //     retObj["rowId"] = oriData["rowId"];
+                        // } else if (oriData["pid"]) {
+                        //     retObj["pid"] = oriData["pid"];
+                        // }
+                        if (oriData["pid"]) {
                             retObj["pid"] = oriData["pid"];
+                        } else if (oriData["rowId"]) {
+                            retObj["rowId"] = oriData["rowId"];
                         }
                         arrFlag = false;
                     }
@@ -352,7 +372,6 @@ fastmap.uikit.ObjectEditController = (function() {
              * @param {Object}data
              */
             onSaved: function(orignalData, data) {
-                console.info("onSaved-------------");
                 this.changedProperty = this.compareJson(orignalData["pid"], orignalData, data.getIntegrate(), "UPDATE");
             }
         });
