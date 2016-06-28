@@ -53,7 +53,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 return;
             }
             if (type === "RDLINK") {
-                var linkArr = data.data.geometry.coordinates,
+                var linkArr = data.geometry.coordinates,
                     points = [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -69,14 +69,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     id: $scope.dataId
                 });
                 highRenderCtrl.highLightFeatures.push({
-                    id: data.data.pid.toString(),
+                    id: data.pid.toString(),
                     layerid: 'referenceLine',
                     type: 'line',
                     style: {}
                 });
                 highRenderCtrl.drawHighlight();
             }
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
             var options = {
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl",
@@ -176,9 +176,50 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
-            case "1102":    //红绿灯
-                
-                break;
+	        case "1102":    //红绿灯
+		        var fArray = $scope.dataTipsData.f_array;
+		        $scope.inCt = $scope.dataTipsData.inCt;
+		        $scope.enableCtl = [];
+		        $scope.disableCtl = [];
+		        for(var i=0,len=fArray.length;i<len;i++){
+			        if(fArray[i].ctrl == 1){
+				        $scope.enableCtl.push(fArray[i]);
+			        }else{
+				        $scope.disableCtl.push(fArray[i]);
+			        }
+		        }
+		        break;
+	        case "1103":    //红绿灯方向
+		        $scope.linkPid = $scope.dataTipsData.in.id;
+		        var directionObj = {
+			        0:'未调查',
+			        1:'左',
+			        2:'右',
+			        3:'左右',
+			        4:'上',
+			        5:'左上',
+			        6:'右上',
+			        7:'左上右'
+		        };
+		        $scope.traffDirection = directionObj[$scope.dataTipsData.loc];
+		        break;
+	        case "1104":    //大门
+		        $scope.inLinkPid = $scope.dataTipsData.in.id;
+		        $scope.outLinkPid = $scope.dataTipsData.out.id;
+		        var gateTypeObj = {
+			        0: 'EG',
+			        1: 'KG',
+			        2: 'PG'
+		        };
+		        var gateDirObj = {
+			        0:'EG',
+			        1:'KG',
+			        2:'PG'
+		        };
+		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
+		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
+		        $scope.passTime = $scope.dataTipsData.time;
+		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
                 $scope.type = {
@@ -234,6 +275,20 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "31501": "鸣喇叭"
                 };
                 break;
+	        case "1106":    //坡度
+		        var slopeTypeObj = {
+			        0: '未调查',
+			        1: '水平',
+			        2: '上坡',
+			        3: '下坡'
+		        };
+		        var endSlopeFlagObj = {
+			        0:'否',
+			        1:'是'
+		        };
+		        $scope.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
+		        $scope.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+		        break;
             case "1107": //收费站
                 $scope.TollType = [{
                     "id": 0,
@@ -314,6 +369,58 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "4": "上"
                 };
                 $scope.loc = loc[$scope.dataTipsData.loc];
+                break;
+            case "1111": //条件限速
+                var dir = {
+                    "2": "顺方向",
+                    "3": "逆方向"
+                };
+                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                $scope.limitValue = $scope.dataTipsData.value;
+                var limitFlagObj = {
+                    "0": "限速开始",
+                    "1": "限速解除"
+                };
+                $scope.limitFlag = limitFlagObj($scope.dataTipsData.se);
+                $scope.time = type[$scope.dataTipsData.time];
+                var loc = {
+                    "0": "未调查",
+                    "1": "左",
+                    "2": "右",
+                    "4": "上"
+                };
+                $scope.loc = loc[$scope.dataTipsData.loc];
+                $scope.limitConditionObj = [
+                    {"id":1,"label":'雨天'},
+                    {"id":2,"label":'雪天'},
+                    {"id":3,"label":'雾天'},
+                    {"id":6,"label":'学校'},
+                    {"id":10,"label":'时间限制'},
+                    {"id":12,"label":'季节时段'}
+                ];
+                for(var i=0,len=$scope.limitConditionObj.length;i<len;i++){
+                    if($scope.limitConditionObj[i].id == $scope.dataTipsData.dpnd[i]){
+                        $scope.limitConditionObj[i].checked = true;
+                    }
+                }
+                break;
+            case "1113":
+                var dir = {
+                    "2": "顺方向",
+                    "3": "逆方向"
+                };
+                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                var limitValue = $scope.dataTipsData.value;
+                limitValue.sort(function(a,b){
+                    return a<b?1:-1;
+                });
+                for(var i=0,len=limitValue.length;i<len;i++){
+                    if(i!=len-1){
+                        $scope.limitValue = limitValue[i]+'|';
+                    }else{
+                        $scope.limitValue = limitValue[i];
+                    }
+                }
                 break;
             case "1201": //道路种别
                 $scope.returnKindType = function(code) {
@@ -692,21 +799,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
             }
             restrictObj["outLinkPids"] = outLinkPids;
-            var inLinkGeo = data.data.geometry.coordinates,
+            var inLinkGeo = data.geometry.coordinates,
                 inNode;
-            if (data.data.direct === 1) {
+            if (data.direct === 1) {
                 var dataTipsToStart = Math.abs(dataTipsGeo[0] - inLinkGeo[0][0]) + Math.abs(dataTipsGeo[1] - inLinkGeo[0][1]);
                 var dataTipsToEnd = Math.abs(dataTipsGeo[0] - inLinkGeo[inLinkGeo.length - 1][0]) + Math.abs(dataTipsGeo[1] - inLinkGeo[inLinkGeo.length - 1][1]);
                 if (dataTipsToStart - dataTipsToEnd) {
-                    inNode = parseInt(data.data.eNodePid)
+                    inNode = parseInt(data.eNodePid)
                 } else {
-                    inNode = parseInt(data.data.sNodePid);
+                    inNode = parseInt(data.sNodePid);
                 }
             } else {
-                if (data.data.direct === 2) {
-                    inNode = parseInt(data.data.eNodePid);
-                } else if (data.data.direct === 3) {
-                    inNode = parseInt(data.data.sNodePid);
+                if (data.direct === 2) {
+                    inNode = parseInt(data.eNodePid);
+                } else if (data.direct === 3) {
+                    inNode = parseInt(data.sNodePid);
                 }
             };
             restrictObj["nodePid"] = inNode;
@@ -720,12 +827,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     $scope.$emit('getConsoleInfo', info);
                     return;
                 }
-                var pid = data.data.log[0].pid;
+                var pid = data.log[0].pid;
                 restrictLayer.redraw(); //交限图层刷新
                 workPoint.redraw(); //dataTip图层刷新
                 $scope.upBridgeStatus();
                 dsEdit.getByPid(pid, "RDRESTRICTION").then(function(data) {
-                    objCtrl.setCurrentObject("RDRESTRICTION", data.data);
+                    objCtrl.setCurrentObject("RDRESTRICTION", data);
                     var restrictObj = {
                         "loadType": "attrTplContainer",
                         "propertyCtrl": "components/road/ctrls/attr_restriction_ctrl/rdRestriction",

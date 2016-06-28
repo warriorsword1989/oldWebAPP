@@ -259,7 +259,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#3A5FCD'
+                    color: '#5FCD3A'
                 }
             });
             highRenderCtrl.highLightFeatures.push({
@@ -267,7 +267,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#CD0000'
+                    color: '#CD0011'
                 }
             });
 

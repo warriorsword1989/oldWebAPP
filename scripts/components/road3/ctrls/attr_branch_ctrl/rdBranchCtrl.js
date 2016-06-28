@@ -9,6 +9,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var selectCtrl = fastmap.uikit.SelectController();
 
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
@@ -26,16 +27,20 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
         }
+        selectCtrl.onSelected({//记录选中点信息
+            geometry: objCtrl.data,
+            id: objCtrl.data.pid,
+        });
 
     }
     if (objCtrl.data) {
-        $scope.initializeData();
+        $scope.initDiver();
     }
     objCtrl.updateRdBranch = function () {
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = {};
         $scope.getObjectById(true);
-        $scope.initializeData();
+        $scope.initDiver();
     };
 
     $scope.setOriginalDataFunc = function () {

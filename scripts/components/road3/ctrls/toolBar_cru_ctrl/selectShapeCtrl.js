@@ -117,7 +117,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-
             //把要捕捉的线图层添加到捕捉工具中
             map.currentTool.snapHandler.addGuideLayer(rdLink);
             rdLink.options.editable = true;
@@ -125,9 +124,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }
         else if (type === "node") { //选择点
-
             layerCtrl.pushLayerFront('edit'); //置顶editLayer
-
             //初始化选择点工具
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
@@ -149,7 +146,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 relationFlag: true
             });
             map.currentTool.enable();
-
             editLayer.bringToBack();
             $scope.toolTipText = '请选择关系！';
             eventController.off(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
@@ -316,8 +312,39 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
-                shapeCtrl.editFeatType = 0;
-                shapeCtrl.branchType = data.branchType;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "改退出线",
+                        'type': "MODIFYBRANCH_OUT",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'title': "改经过线",
+                            'type': "MODIFYBRANCH_THROUGH",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                }
+                //当在移动端进行编辑时,弹出此按钮
+                if (L.Browser.touch) {
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function () {
+                            var e = $.Event("keydown");
+                            e.keyCode = 32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
                 locllBranchCtlAndTpl(data.branchType);
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
@@ -677,6 +704,47 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                     return;
                 }
+            } else if(type.split('_').length===2){
+                map.currentTool = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.enable();
+                if(type.split('_')[1]==='OUT'){
+                    tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
+                    //tooltipsCtrl.setEditEventType('modifyoutline');
+
+                }else if(type.split('_')[1]==='THROUGH'){
+                    tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
+                    return;
+                }
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                    console.log(data);
+                    console.log($scope.globalData);
+                    highRenderCtrl.highLightFeatures = [];
+                    highRenderCtrl._cleanHighLight();
+                    $scope.globalData.outLinkPid = data.id;
+                    highRenderCtrl.highLightFeatures.push({
+                        id: $scope.globalData.inLinkPid,
+                        layerid: 'referenceLine',
+                        type: 'line',
+                        style: {}
+                    });
+                    //highRenderCtrl.highLightFeatures.push({
+                    //    id: data.id,
+                    //    layerid: 'referenceLine',
+                    //    type: 'line',
+                    //    style: {}
+                    //});
+                    console.log(highRenderCtrl.highLightFeatures)
+                    highRenderCtrl.drawHighlight();
+                    console.log(objCtrl.data)
+                    //layerCtrl.getLayerById("relationdata").redraw();
+                    //$scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                })
+
             }
             if (!selectCtrl.selectedFeatures) {
                 return;
@@ -712,9 +780,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     tooltipsCtrl.setStyleTooltip("color:black;");
                     tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
                 }
-
             }
-
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
@@ -739,6 +805,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             };
+            $scope.globalData = data;
+            $scope.globalType = type;
             $scope.$emit("transitCtrlAndTpl", options);
             objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();

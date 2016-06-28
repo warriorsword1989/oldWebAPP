@@ -68,7 +68,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             dbId: App.Temp.dbId,
             pageNum: num,
             pageSize: 5,
-            grids: App.Temp.meshList
+            grids: App.Temp.gridList
         };
         ajax.get("edit/check/get", {
             parameter: JSON.stringify(params)
@@ -88,7 +88,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         var defer = $q.defer();
         var params = {
             dbId: App.Temp.dbId,
-            grids: App.Temp.meshList
+            grids: App.Temp.gridList
         };
         ajax.get("edit/check/count", {
             parameter: JSON.stringify(params)
