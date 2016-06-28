@@ -619,7 +619,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             }else{
                 dsEdit.getByPid(id, type).then(function(data){
                     if (type === "RDLINK") {
-                        var linkArr = data.data.geometry.coordinates,
+                        var linkArr = data.geometry.coordinates,
                             points = [];
                         for (var i = 0, len = linkArr.length; i < len; i++) {
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -632,7 +632,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             id: id
                         });
                     }
-                    getByPidCallback(type,ctrl,tpl,data.data);
+                    getByPidCallback(type,ctrl,tpl,data);
                 });
             }
             function getByPidCallback(type,ctrl,tpl,data){
