@@ -9,8 +9,8 @@ fastmap.uikit.canvasFeature.RwNode = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['style']['strokeColor'] = '#4F4F2F';
         this.properties['style']['strokeWidth'] = 1;
         this.properties['style']['strokeOpacity'] = 1;
-        this.properties['style']['radius'] = 5;
+        this.properties['style']['radius'] = 3;
         this.properties['style']['fillColor'] = '#4F4F2F';
-        this.properties['style']['fillOpacity'] = 0.2;
+        this.properties['style']['fillOpacity'] = 0;
     }
 });
