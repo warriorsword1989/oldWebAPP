@@ -55,42 +55,22 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             loadSubTaskfn($scope.requestParams)
         };
         $scope.changeTaskStatus = function(val) {
-                $scope.startBtnDisabled = true;
-                $scope.taskStatus = val;
-                switch ($scope.taskStatus) {
-                    case 6:
-                        delete $scope.requestParams.currentStatus;
-                        break;
-                    case 7:
-                        $scope.requestParams.currentStatus = 1;
-                        break;
-                    case 8:
-                        $scope.requestParams.currentStatus = 0;
-                        break;
-                }
-                loadSubTaskfn($scope.requestParams)
+            $scope.startBtnDisabled = true;
+            $scope.taskStatus = val;
+            switch ($scope.taskStatus) {
+                case 6:
+                    delete $scope.requestParams.currentStatus;
+                    break;
+                case 7:
+                    $scope.requestParams.currentStatus = 1;
+                    break;
+                case 8:
+                    $scope.requestParams.currentStatus = 0;
+                    break;
             }
-            //var promises = [];
-            //$q.all(promises).then(function(){
-            //
-            //});
-            /*弹出/弹入任务信息面板*/
-        $scope.hideEditorPanel = false;
-        $scope.changePanelShow = function(type) {
-                switch (type) {
-                    case 'bottom':
-                        $scope.hideConsole = !$scope.hideConsole;
-                        break;
-                    case 'left':
-                        break;
-                    case 'right':
-                        $scope.hideEditorPanel = !$scope.hideEditorPanel;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            //开始编辑跳转;
+            loadSubTaskfn($scope.requestParams)
+        };
+        //开始编辑跳转;
         $scope.startEdit = function() {
             if ($scope.currentTaskData) {
                 var param = [];
@@ -101,64 +81,88 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                 window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
             }
         };
-        //高亮显示网格并聚焦;
-        $scope.highlightGrid = function(params) {
-            $scope.currentTaskData = params;
+        // 选中子任务，高亮子任务对应的网格
+        $scope.selectSubtask = function(subtask) {
+            $scope.currentTaskData = subtask;
             $scope.infoPanelOpened = true;
-            //防止重绘高亮;
+            // 清除原有高亮;
             if ($scope.currentHighLight.length) {
                 for (var i = 0; i < $scope.currentHighLight.length; i++) {
                     map.removeLayer($scope.currentHighLight[i])
                 }
             }
-            //得到当前格网;
-            var gridList = params.gridIds;
-            //获取所有图幅;
-            var meshArr = [];
-            var meshId;
-            for (var i = 0; i < gridList.length; i++) {
-                meshId = gridList[i].toString();
-                meshId = ("000000" + meshId.substr(0, meshId.length - 2)).substr(-6); // 图幅号不够6位左补0
-                meshArr.push(layerCtrl.getLayerById('mesh').Calculate25TMeshBorder(meshId))
-            }
-            //根据图幅号获取聚焦的范围;
-            var allLatArr = getAllLatLng(meshArr);
-            //西南角坐标;
-            var sourthWest_X = getMaxOrMin(allLatArr.lng, 'min');
-            var sourthWest_Y = getMaxOrMin(allLatArr.lat, 'min');
-            //东北角坐标;
-            var northEast_X = getMaxOrMin(allLatArr.lng, 'max');
-            var northEast_Y = getMaxOrMin(allLatArr.lat, 'max');
-            map.fitBounds([
-                [sourthWest_Y, sourthWest_X],
-                [northEast_Y, northEast_X]
-            ]);
-            //判断任务网格是否都加载上的定时器;
-            var timer = setInterval(function() {
-                var gridLayers = layerCtrl.getLayerById('grid').gridArr;
-                for (var i = 0; i < gridLayers.length; i++) {
-                    if (gridLayers[i].options.gridId == gridList[gridList.length - 1]) {
-                        clearInterval(timer);
-                        addHighlight()
+            if (subtask.gridIds.length > 0) {
+                var gridIdArray = []; // 网格ID数组;
+                var meshArray = [], // 图幅坐标数组
+                    meshIdArray = []; // 图幅ID数组;
+                var meshId, gridNum;
+                for (var i = 0; i < subtask.gridIds.length; i++) {
+                    meshId = subtask.gridIds[i].toString();
+                    gridNum = meshId.substr(-2);
+                    meshId = ("000000" + meshId.substr(0, meshId.length - 2)).substr(-6); // 图幅号不够6位左补0
+                    if (meshIdArray.indexOf(meshId) < 0) {
+                        meshIdArray.push(meshId);
                     }
+                    gridIdArray.push(meshId + "_" + gridNum); // 网格号变换
                 }
-            }, 100)
-
-            function addHighlight() {
-                for (var i = 0; i < layerCtrl.getLayerById('grid').gridArr.length; i++) {
-                    for (var j = 0; j < gridList.length; j++) {
-                        if (layerCtrl.getLayerById('grid').gridArr[i].options.gridList === gridList[j]) {
-                            $scope.currentHighLight.push(L.rectangle(layerCtrl.getLayerById('grid').gridArr[i].getBounds(), {
-                                fillColor: "#FF6699",
-                                weight: 0,
-                                fillOpacity: 0.5
-                            }).addTo(map));
+                //根据图幅号获取聚焦的范围;
+                map.fitBounds(getBounds(meshIdArray));
+                //判断任务网格是否都加载上的定时器;
+                var selectedGrids = [];
+                var timer = setInterval(function() {
+                    var allGrids = layerCtrl.getLayerById('grid').gridArr;
+                    for (var i = 0; i < allGrids.length; i++) {
+                        for (var j = gridIdArray.length - 1; j >= 0; j--) {
+                            if (allGrids[i].options.gridId == gridIdArray[j]) {
+                                selectedGrids.push(allGrids[i]);
+                                gridIdArray.splice(j, 1);
+                                if (gridIdArray.length == 0) {
+                                    clearInterval(timer);
+                                    addHighlight(selectedGrids)
+                                }
+                            }
                         }
                     }
+                }, 100);
+            }
+            // 根据图幅编号获取图幅的外包矩形bounds
+            function getBounds(meshIds) {
+                var mesh;
+                var meshLayer = layerCtrl.getLayerById('mesh');
+                var maxLat = 0,
+                    maxLon = 0,
+                    minLat = 180,
+                    minLon = 180;
+                for (var i = 0; i < meshIds.length; i++) {
+                    mesh = meshLayer.Calculate25TMeshBorder(meshIds[i]);
+                    if (mesh.maxLat > maxLat) {
+                        maxLat = mesh.maxLat;
+                    }
+                    if (mesh.maxLon > maxLon) {
+                        maxLon = mesh.maxLon;
+                    }
+                    if (mesh.minLat < minLat) {
+                        minLat = mesh.minLat;
+                    }
+                    if (mesh.minLon < minLon) {
+                        minLon = mesh.minLon;
+                    }
+                }
+                return [
+                    [minLat, minLon],
+                    [maxLat, maxLon]
+                ];
+            }
+            // 高亮网格
+            function addHighlight(gridArray) {
+                for (var i = 0; i < gridArray.length; i++) {
+                    $scope.currentHighLight.push(L.rectangle(gridArray[i].getBounds(), {
+                        fillColor: "#FF6699",
+                        weight: 0,
+                        fillOpacity: 0.5
+                    }).addTo(map));
                 }
             }
-            //控制编辑按钮是否可用;
-            ctrlEditorSwitch(params);
         }
         $scope.getDateFormat = function() {
             var startTime = $scope.currentTaskData.planStartDate.split(' ')[0].split('-').join('.');
@@ -169,8 +173,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         function loadSubTaskfn(obj) {
             if (!obj) return;
             dsManage.getSubtaskListByUser({
-                'exeUserId': 1,
-                // 'exeUserId': $cookies.get('FM_USER_ID'),
+                // 'exeUserId': 1,
+                'exeUserId': $cookies.get('FM_USER_ID'),
                 'stage': obj.classStage,
                 'type': obj.classType,
                 'status': obj.currentStatus,
@@ -180,57 +184,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             }).then(function(data) {
                 $scope.currentSubTaskList = data;
             });
-        }
-        //控制编辑按钮是否可用函数;
-        function ctrlEditorSwitch(params) {
-            if (params.status) {
-                $scope.startBtnDisabled = false
-            } else {
-                $scope.startBtnDisabled = true
-            }
-        }
-        //去除数组中重复的值;
-        function removeSameValue(arr) {
-            var n = []; //一个新的临时数组
-            for (var i = 0; i < arr.length; i++) //遍历当前数组
-            {
-                //如果当前数组的第i已经保存进了临时数组，那么跳过，
-                //否则把当前项push到临时数组里面
-                if (n.indexOf(arr[i]) == -1) n.push(arr[i]);
-            }
-            return n;
-        }
-        //将高亮的所有网格的精度维度分别获取组成数组;
-        function getAllLatLng(obj) {
-            var arr = {
-                lat: [],
-                lng: []
-            }
-            for (var i = 0; i < obj.length; i++) {
-                arr.lat.push(obj[i].maxLat);
-                arr.lat.push(obj[i].minLat);
-                arr.lng.push(obj[i].maxLon);
-                arr.lng.push(obj[i].minLon);
-            }
-            return arr;
-        }
-        //获取一个数组中的最大或最小值;
-        function getMaxOrMin(dataAttr, flag) {
-            var temp = dataAttr[0];
-            if (flag === 'max') {
-                for (var i = 0; i < dataAttr.length; i++) {
-                    if (temp < dataAttr[i]) {
-                        temp = dataAttr[i]
-                    }
-                }
-            } else if (flag === 'min') {
-                for (var i = 0; i < dataAttr.length; i++) {
-                    if (temp > dataAttr[i]) {
-                        temp = dataAttr[i]
-                    }
-                }
-            }
-            return temp;
         }
 
         function loadMap() {
