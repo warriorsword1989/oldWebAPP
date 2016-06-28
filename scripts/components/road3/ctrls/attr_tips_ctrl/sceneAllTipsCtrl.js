@@ -53,7 +53,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 return;
             }
             if (type === "RDLINK") {
-                var linkArr = data.data.geometry.coordinates,
+                var linkArr = data.geometry.coordinates,
                     points = [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -69,14 +69,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     id: $scope.dataId
                 });
                 highRenderCtrl.highLightFeatures.push({
-                    id: data.data.pid.toString(),
+                    id: data.pid.toString(),
                     layerid: 'referenceLine',
                     type: 'line',
                     style: {}
                 });
                 highRenderCtrl.drawHighlight();
             }
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
             var options = {
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl",
@@ -747,21 +747,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
             }
             restrictObj["outLinkPids"] = outLinkPids;
-            var inLinkGeo = data.data.geometry.coordinates,
+            var inLinkGeo = data.geometry.coordinates,
                 inNode;
-            if (data.data.direct === 1) {
+            if (data.direct === 1) {
                 var dataTipsToStart = Math.abs(dataTipsGeo[0] - inLinkGeo[0][0]) + Math.abs(dataTipsGeo[1] - inLinkGeo[0][1]);
                 var dataTipsToEnd = Math.abs(dataTipsGeo[0] - inLinkGeo[inLinkGeo.length - 1][0]) + Math.abs(dataTipsGeo[1] - inLinkGeo[inLinkGeo.length - 1][1]);
                 if (dataTipsToStart - dataTipsToEnd) {
-                    inNode = parseInt(data.data.eNodePid)
+                    inNode = parseInt(data.eNodePid)
                 } else {
-                    inNode = parseInt(data.data.sNodePid);
+                    inNode = parseInt(data.sNodePid);
                 }
             } else {
-                if (data.data.direct === 2) {
-                    inNode = parseInt(data.data.eNodePid);
-                } else if (data.data.direct === 3) {
-                    inNode = parseInt(data.data.sNodePid);
+                if (data.direct === 2) {
+                    inNode = parseInt(data.eNodePid);
+                } else if (data.direct === 3) {
+                    inNode = parseInt(data.sNodePid);
                 }
             };
             restrictObj["nodePid"] = inNode;
@@ -775,12 +775,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     $scope.$emit('getConsoleInfo', info);
                     return;
                 }
-                var pid = data.data.log[0].pid;
+                var pid = data.log[0].pid;
                 restrictLayer.redraw(); //交限图层刷新
                 workPoint.redraw(); //dataTip图层刷新
                 $scope.upBridgeStatus();
                 dsEdit.getByPid(pid, "RDRESTRICTION").then(function(data) {
-                    objCtrl.setCurrentObject("RDRESTRICTION", data.data);
+                    objCtrl.setCurrentObject("RDRESTRICTION", data);
                     var restrictObj = {
                         "loadType": "attrTplContainer",
                         "propertyCtrl": "components/road/ctrls/attr_restriction_ctrl/rdRestriction",
