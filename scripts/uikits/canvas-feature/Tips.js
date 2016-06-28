@@ -40,6 +40,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1101://限速
                     ret = new fastmap.uikit.canvasTips.TipsRestriction(item);
                     break;
+                case 1102://红绿灯
+                    ret = new fastmap.uikit.canvasTips.TipsTrafficSignal(item);
+                    break;
                 case 1105://危险信息
                     ret = new fastmap.uikit.canvasTips.TipsWarningInfos(item);
                     break;
