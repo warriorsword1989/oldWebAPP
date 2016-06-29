@@ -1,9 +1,9 @@
-fastmap.uikit.canvasTips.TipsTrafficSignal = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsParkinglot = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function (item) {
         this.geometry['coordinates'] = item.g;
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1102/1102_'+item.m.c+'_0.svg',
+                iconName: '../../../images/road/tips/1208/1208_1_0.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],

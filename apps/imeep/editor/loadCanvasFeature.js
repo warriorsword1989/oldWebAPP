@@ -63,6 +63,18 @@
         "TipsTollGate.js",
         "TipsTrafficSignal.js",
         "TipsTrafficSignalDir.js",
+        "TipsGate.js",
+        "TipsSlope.js",
+        "TipsSpeedlimit.js",
+        "TipsDrivewayLimit.js",
+        "TipsDrivewayMount.js",
+        "TipsRamp.js",
+        "TipsParkinglot.js",
+        "TipsNoCrossing.js",
+        "TipsNoEntry.js",
+        "TipsLeftToRight.js",
+        "TipsPavementCover.js",
+        "TipsRepair.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
