@@ -317,8 +317,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
-                //var diyData = JSON.stringify(data);
-                $scope.curentSelectData = data;
                 toolsObj = {
                     items: [{
                         'text': "<a class='glyphicon glyphicon-move'></a>",
@@ -349,6 +347,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
                 locllBranchCtlAndTpl(data.branchType);
+                //获取当前数据和要加载的tpl和ctrl
+                $scope.curentSelectData = data;
+                $scope.curentTpl = ctrlAndTmplParams.propertyHtml;
+                $scope.curentCtrl = ctrlAndTmplParams.propertyCtrl;
+                //
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
@@ -737,18 +740,26 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         type: 'line',
                         style: {}
                     });
+                    //绘制当前的退出线和原来的进入线;
                     highRenderCtrl.drawHighlight();
+                    //设置热键修改时的监听类型;
                     shapeCtrl.setEditingType("UPDATEBRANCH");
+                    //退出线选完后的鼠标提示;
                     tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                    //设置修改确认的数据;
+                    console.log($scope)
                     featCodeCtrl.setFeatCode({
                         "nodePid":objCtrl.data.nodePid.toString(),
                         "inLinkPid":objCtrl.data.inLinkPid.toString(),
                         "outLinkPid":data.id.toString(),
                         "pid":objCtrl.data.pid.toString(),
                         "objStatus": "UPDATE",
+                        //"branchType":$scope.globaltype,
+                        //'childId':$scope.curentSelectData.id
                     });
                 })
             }
+
             if (!selectCtrl.selectedFeatures) {
                 return;
             }
@@ -788,6 +799,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
         $scope.globaldata = selectedData;
+        $scope.globaltype = selectedData.branchType;
         if(type == 'RDBRANCH'){
             if(selectedData.branchType == 5 || selectedData.branchType == 7){
                 dsEdit.getBranchByRowId(selectedData.id,selectedData.branchType).then(function(data){

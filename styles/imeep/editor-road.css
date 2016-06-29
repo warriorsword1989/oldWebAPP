@@ -1109,7 +1109,7 @@
 
 .picMapShow {
     width: 194px;
-    border: 1px solid #fff;
+    /*border: 1px solid #fff;*/
     height: 162px;
     float: left;
     border-radius: 4px;
