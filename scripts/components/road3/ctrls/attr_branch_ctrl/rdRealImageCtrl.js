@@ -35,6 +35,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.diverObj = {};
         $scope.getObjectById(true);
         $scope.initializeData();
+        initDiver();
     };
 
     $scope.setOriginalDataFunc = function () {

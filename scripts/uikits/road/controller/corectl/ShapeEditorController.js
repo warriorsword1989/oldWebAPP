@@ -52,6 +52,14 @@ fastmap.uikit.ShapeEditorController=(function() {
             },
 
             /***
+             * 设置当前编辑的要素类型
+             * @param {String}type
+             */
+            setEditFeatType: function (type) {
+                this.editFeatType = type;
+            },
+
+            /***
              * 当前编辑工具
              */
             getCurrentTool: function () {

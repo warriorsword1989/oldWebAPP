@@ -69,6 +69,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
                 this.details.push(detail);
             }
         }
+        this.branchType = data['branchType'];
     },
 
     getSnapShot: function () {
@@ -159,7 +160,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         for (var i = 0; i < this.details.length; i++) {
             data["details"].push(this.details[i].getIntegrate());
         }
-
+        data.brachType = this['branchType'];
         return data;
     }
 });

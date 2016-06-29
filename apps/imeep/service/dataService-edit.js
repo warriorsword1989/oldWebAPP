@@ -45,6 +45,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
+                data.data['branchType'] = branchType;
                 defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
@@ -74,6 +75,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
+                data.data['branchType'] = branchType;
                 defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
