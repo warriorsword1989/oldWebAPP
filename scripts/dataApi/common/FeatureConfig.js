@@ -202,6 +202,11 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1805:{
+		name:'复合路口',
+		ctl:'',
+		tpl:''
+	},
 	1806:{
 		name:'草图',
 		ctl:'',

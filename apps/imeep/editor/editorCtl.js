@@ -257,7 +257,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                             } else { // 一体化、道路、专项任务
                                 $scope.changeProject(2);
                             }
-                            bindHotKeys($ocLazyLoad, $scope, dsRoad, dsEdit, appPath); //注册快捷键
+                            bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
                         });
                     });
                 }
