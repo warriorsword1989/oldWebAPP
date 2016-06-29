@@ -8,7 +8,9 @@ fastmap.uikit.canvasTips.TipsOrientation = fastmap.uikit.canvasTips.Tips.extend(
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates'],
-                    fillStyle:this.redFill
+                    fillStyle:this.redFill,
+                    scalex:5,
+                    scaley:5
                 })
             );
         } else {
@@ -18,7 +20,9 @@ fastmap.uikit.canvasTips.TipsOrientation = fastmap.uikit.canvasTips.Tips.extend(
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates'],
-                    fillStyle:this.greenFill
+                    fillStyle:this.greenFill,
+                    scalex:5,
+                    scaley:5
                 })
             );
         }

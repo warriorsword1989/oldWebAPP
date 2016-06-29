@@ -174,7 +174,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         $scope.limitSrc = $scope.limitSrcOption[i].label;
                     }
                 }
-                $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
 	        case "1102":    //红绿灯
 		        var fArray = $scope.dataTipsData.f_array;
