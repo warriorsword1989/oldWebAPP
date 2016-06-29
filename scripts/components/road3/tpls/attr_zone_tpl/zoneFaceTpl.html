@@ -1,43 +1,50 @@
-
-<div id="rdNodediv"  ng-controller="zoneFaceController" >
-    <div style="height:50px">
-        <form class="form-horizontal" method="get">
-            <div class="panel panel-default " style="background-color: transparent;border:0;">
-                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
-                    Zone面
-                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{zoneFaceData.pid}}</span>
+<div class="fm-component" ng-controller="zoneFaceController">
+    <div class="title">
+        Zone面
+        <span class="label label-info">{{zoneFaceData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="zoneFaceForm">
+            <div class="fm-panel">
+                <div class="title">
+                    <div>基础属性</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <div><label>区划号码</label></div>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="zoneFaceData.regionId"
+                                       disabled="disabled">
+                            </div>
+                        </li>
+                        <li>
+                            <div><label>图幅号</label></div>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="zoneFaceData.meshId"
+                                       disabled="disabled">
+                            </div>
+                        </li>
+                        <li>
+                            <div><label>面积</label></div>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="zoneFaceData.area" disabled="disabled"
+                                       >㎡
+                                <!--<label style="font-size: 18px">&nbsp;㎡</label>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div><label>周长</label></div>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="zoneFaceData.perimeter"
+                                       disabled="disabled">m
+                                <!--<label style="font-size: 16px"></label>-->
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </form>
     </div>
-    <form name="zoneFaceForm">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div ><label class="control-label">区划号码</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="zoneFaceData.regionId" disabled="disabled">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ><label class="control-label">图幅号</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="zoneFaceData.meshId" disabled="disabled">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ><label class="control-label">面积</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="zoneFaceData.area" disabled="disabled" style="width: 140px">
-                <label style="font-size: 18px">&nbsp;㎡</label>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ><label class="control-label">周长</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="zoneFaceData.perimeter" disabled="disabled"style="width: 140px">
-                <label style="font-size: 16px">&nbsp;m</label>
-            </div>
-        </li>
-    </ul>
-    </form>
 </div>
+
