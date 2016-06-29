@@ -129,7 +129,7 @@ fastmap.uikit.ObjectEditController = (function() {
                     });
                 }
                 //为分歧同种类和不同种类切换做的特殊处理
-                if (!this.originalData || (this.originalData.pid != this.data.pid) || (this.originalData.geoLiveType == 'RDBRANCH'&&this.originalData.relationshipType!==this.data.relationshipType)) {
+                if (!this.originalData || (this.originalData.pid != this.data.pid) || (this.originalData.geoLiveType == 'RDBRANCH'&&this.originalData.branchType!==this.data.branchType)) {
                     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                         "originalData": this.originalData,
