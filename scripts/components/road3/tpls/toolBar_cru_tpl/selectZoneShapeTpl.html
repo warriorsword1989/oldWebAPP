@@ -1,0 +1,51 @@
+<style>
+    .node_false{
+        background: url('../../../images/road//button/dot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .node_true{
+        background: url('../../../images/road//button/dot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adLink_false{
+        background: url('../../../images/road//button/line.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adLink_true{
+        background: url('../../../images/road//button/line_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adAdmin_false{
+        background: url('../../../images/road//button/adAdmin.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adAdmin_true{
+        background: url('../../../images/road//button/adAdmin_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adFace_false{
+        background: url('../../../images/road//button/adFace.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adFace_true{
+        background: url('../../../images/road//button/adFace_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #fm-selectZoneShapeContainer>button:focus{
+        outline: none;
+    }
+</style>
+<div id="fm-selectZoneShapeContainer" ng-controller="selectZoneShapeController" class="btn-group btn-group-sm" style="width: 100%;">
+    <button type="button" class="btn node_{{classArr[22]}}"  id="node" ng-click="selectZoneShape('zoneNode',22)" title="选择ZONENODE"></button>
+    <button type="button" class="btn adLink_{{classArr[23]}}" id="adLink" ng-click="selectZoneShape('zoneLink',23)" title="选择ZONELINK"></button>
+    <button type="button" class="btn adFace_{{classArr[24]}}" id="adFace" ng-click="selectZoneShape('zoneFace',24)" title="选择ZONEFACE"></button>
+
+</div>
