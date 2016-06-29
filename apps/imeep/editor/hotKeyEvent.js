@@ -73,6 +73,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
+
                 var sInfo = {
                     "op": op,
                     "type": "",
@@ -84,7 +85,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                     if(type != "POI"){
                         if (type === "RDBRANCH") {
                             id = "";
-                        } else if (type === "ADFACE"){
+                        } else if (type === "ADFACE"|| type === "ZONEFACE"){
                             id = data.log[2].pid;
                         } else {
                             id = data.pid;
@@ -147,6 +148,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                                 "attrContainerTpl": false,
                                 "subAttrContainerTpl": false
                             });
+
                         ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
                             scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
                         });
@@ -559,20 +561,38 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
 
                 } else if (shapeCtrl.editType === 'drawPolygon') {
                     coordinate.push([geo.components[0].x, geo.components[0].y]);
-                    param = {
-                        "command": "CREATE",
-                        "type": "ADFACE",
-                        "dbId": App.Temp.dbId,
-                        "data": {
-                            "geometry": {"type": "LineString", "coordinates": coordinate}
-                        }
-                    };
-                    dsRoad.editGeometryOrProperty(param).then(function (data) {
-                        layerCtrl.getLayerById("adface").redraw();
-                        layerCtrl.getLayerById("adLink").redraw();
-                        treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
-                            'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
-                    })
+                    if(shapeCtrl.editFeatType == 'adFace'){
+                        param = {
+                            "command": "CREATE",
+                            "type": "ADFACE",
+                            "dbId": App.Temp.dbId,
+                            "data": {
+                                "geometry": {"type": "LineString", "coordinates": coordinate}
+                            }
+                        };
+                        dsRoad.editGeometryOrProperty(param).then(function (data) {
+                            layerCtrl.getLayerById("adface").redraw();
+                            layerCtrl.getLayerById("adLink").redraw();
+                            treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
+                                'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
+                        });
+                    } else if (shapeCtrl.editFeatType == 'zoneFace'){
+                        param = {
+                            "command": "CREATE",
+                            "type": "ZONEFACE",
+                            "dbId": App.Temp.dbId,
+                            "data": {
+                                "geometry": {"type": "LineString", "coordinates": coordinate}
+                            }
+                        };
+                        dsRoad.editGeometryOrProperty(param).then(function (data) {
+                            layerCtrl.getLayerById("zoneFace").redraw();
+                            layerCtrl.getLayerById("zoneLink").redraw();
+                            treatmentOfChanged(data, "ZONEFACE", "创建行政区划面成功",
+                                'attr_zone_ctrl/adFaceCtrl', 'attr_zone_tpl/zoneFaceTpl.html');
+                        });
+                    }
+
                 } else if (shapeCtrl.editType === "addRdGsc") {
                     param = {
                         "command": "CREATE",
