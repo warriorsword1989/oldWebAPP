@@ -66,7 +66,7 @@ angular.module('app').controller("addZoneShapeController", ['$scope', '$ocLazyLo
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
 
-        adLink.clearAllEventListeners()
+        zoneLink.clearAllEventListeners()
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
