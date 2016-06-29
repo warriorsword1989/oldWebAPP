@@ -1,4 +1,4 @@
-fastmap.uikit.canvasTips.TipsTrafficSignal = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsTrafficSignalDir = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function (item) {
         this.geometry['coordinates'] = item.g;
         console.log(this)
