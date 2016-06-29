@@ -467,14 +467,8 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     })
                 }else if(shapeCtrl.editType === "BRANCH"){
-                    param = {
-                        "command": "CREATE",
-                        "type": "RDBRANCH",
-                        "dbId": App.Temp.dbId,
-                        "data": featCodeCtrl.getFeatCode()
-                    };
                     var ctrl = tpl = ''
-                    dsRoad.editGeometryOrProperty(param).then(function (data) {
+                    dsEdit.create("RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         //只有5（实景图）或7（连续分歧）的时候传rowId;
                         var rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.data.log[0].rowId:data.data.pid;
@@ -484,11 +478,53 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                             case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl'; tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
                             case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
                             case 8:ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
-                            case 7:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                            case 7:ctrl = 'attr_branch_ctrl/rdSeriesCtrl'; tpl = 'attr_branch_Tpl/seriesOfBranch.html';break;
                             case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
                             case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
                         }
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
+                    });
+                }else if(shapeCtrl.editType === "UPDATEBRANCH"){
+                    dsEdit.updateTopo(featCodeCtrl.getFeatCode().nodePid,"RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
+                        layerCtrl.getLayerById("relationdata").redraw();
+                        dsEdit.getByPid(data.log[0].pid.toString(),'RDBRANCH').then(function(data){
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures.push({
+                                id:data.inLinkPid.toString(),
+                                layerid:'referenceLine',
+                                type:'line',
+                                style:{
+                                    color: '#21ed25',
+                                    strokeWidth:50
+                                }
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id:data.outLinkPid.toString(),
+                                layerid:'referenceLine',
+                                type:'line',
+                                style:{
+                                    color: '#CD0011'
+                                }
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: data.nodePid.toString(),
+                                layerid: 'referenceLine',
+                                type: 'rdnode',
+                                style: {color:'yellow'}
+                            });
+                            for(var i=0;i<data.vias.length;i++){
+                                highRenderCtrl.highLightFeatures.push({
+                                    id:data.vias[i].linkPid.toString(),
+                                    layerid:'referenceLine',
+                                    type:'line',
+                                    style:{color:'blue'}
+                                })
+                            }
+                            highRenderCtrl.drawHighlight();
+                            if (toolTipsCtrl.getCurrentTooltip()) {
+                                toolTipsCtrl.onRemoveTooltip();
+                            }
+                        });
                     })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
