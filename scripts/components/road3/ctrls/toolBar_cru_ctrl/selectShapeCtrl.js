@@ -14,6 +14,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
     $scope.toolTipText = "";
     //重新设置选择工具
     $scope.resetToolAndMap = function () {
@@ -323,13 +324,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'type': "MODIFYBRANCH_OUT",
                         'class': "feaf",
                         callback: $scope.modifyTools
-                    }, {
-                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                            'title': "改经过线",
-                            'type': "MODIFYBRANCH_THROUGH",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }]
+                    },{
+                        'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                        'title': "改经过线",
+                        'type': "MODIFYBRANCH_THROUGH",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
                 }
                 //当在移动端进行编辑时,弹出此按钮
                 if (L.Browser.touch) {
@@ -346,6 +347,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
                 locllBranchCtlAndTpl(data.branchType);
+                //获取当前数据和要加载的tpl和ctrl
+                $scope.curentSelectData = data;
+                $scope.curentTpl = ctrlAndTmplParams.propertyHtml;
+                $scope.curentCtrl = ctrlAndTmplParams.propertyCtrl;
+                //
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
@@ -714,38 +720,46 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 map.currentTool.enable();
                 if(type.split('_')[1]==='OUT'){
                     tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
-                    //tooltipsCtrl.setEditEventType('modifyoutline');
-
                 }else if(type.split('_')[1]==='THROUGH'){
-                    tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
-                    return;
+                    alert('待定!')
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                    console.log(data);
-                    console.log($scope.globalData);
-                    highRenderCtrl.highLightFeatures = [];
                     highRenderCtrl._cleanHighLight();
-                    $scope.globalData.outLinkPid = data.id;
+                    highRenderCtrl.highLightFeatures = [];
+                    //进入线;
                     highRenderCtrl.highLightFeatures.push({
-                        id: $scope.globalData.inLinkPid,
+                        id: objCtrl.data.inLinkPid.toString(),
+                        layerid: 'referenceLine',
+                        type: 'line',
+                        style: {color: '#5FCD3A'}
+                    });
+                    //退出线;
+                    highRenderCtrl.highLightFeatures.push({
+                        id: data.id,
                         layerid: 'referenceLine',
                         type: 'line',
                         style: {}
                     });
-                    //highRenderCtrl.highLightFeatures.push({
-                    //    id: data.id,
-                    //    layerid: 'referenceLine',
-                    //    type: 'line',
-                    //    style: {}
-                    //});
-                    console.log(highRenderCtrl.highLightFeatures)
+                    //绘制当前的退出线和原来的进入线;
                     highRenderCtrl.drawHighlight();
-                    console.log(objCtrl.data)
-                    //layerCtrl.getLayerById("relationdata").redraw();
-                    //$scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    //设置热键修改时的监听类型;
+                    shapeCtrl.setEditingType("UPDATEBRANCH");
+                    //退出线选完后的鼠标提示;
+                    tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                    //设置修改确认的数据;
+                    console.log($scope)
+                    featCodeCtrl.setFeatCode({
+                        "nodePid":objCtrl.data.nodePid.toString(),
+                        "inLinkPid":objCtrl.data.inLinkPid.toString(),
+                        "outLinkPid":data.id.toString(),
+                        "pid":objCtrl.data.pid.toString(),
+                        "objStatus": "UPDATE",
+                        //"branchType":$scope.globaltype,
+                        //'childId':$scope.curentSelectData.id
+                    });
                 })
-
             }
+
             if (!selectCtrl.selectedFeatures) {
                 return;
             }
@@ -784,6 +798,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
+        $scope.globaldata = selectedData;
+        $scope.globaltype = selectedData.branchType;
         if(type == 'RDBRANCH'){
             if(selectedData.branchType == 5 || selectedData.branchType == 7){
                 dsEdit.getBranchByRowId(selectedData.id,selectedData.branchType).then(function(data){
@@ -805,8 +821,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             };
-            $scope.globalData = data;
-            $scope.globalType = type;
             $scope.$emit("transitCtrlAndTpl", options);
             objCtrl.setCurrentObject(type, data);
             tooltipsCtrl.onRemoveTooltip();

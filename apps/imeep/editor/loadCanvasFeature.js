@@ -61,7 +61,8 @@
         "TipsWarningInfo.js",
         "TipsWarningInfos.js",
         "TipsTollGate.js",
-        "TipsTrafficSignal.js"
+        "TipsTrafficSignal.js",
+        "TipsTrafficSignalDir.js",
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

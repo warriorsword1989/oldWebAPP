@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/04/12.
  */
 var selectAdApp = angular.module("app");
-selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsRoad', function ($scope, $ocLazyLoad, $rootScope,appPath,dsRoad) {
+selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsEdit', function ($scope, $ocLazyLoad, $rootScope,appPath,dsEdit) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -241,12 +241,12 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     };
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-
-        dsRoad.getRdObjectById(id,type,selectedData.detailId).then(function (data){
+        dsEdit.getByPid(id,type).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
+            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             tooltipsCtrl.onRemoveTooltip();
             var options = {
                 "loadType": 'attrTplContainer',

@@ -57,7 +57,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 16://RDNODE
                     ret = new fastmap.uikit.canvasFeature.RdNode(data);
                     break;
-                case 18://AdNode
+                case 17://AdNode
                     ret = new fastmap.uikit.canvasFeature.AdNode(data);
                     break;
                 case 21: //poi
@@ -65,6 +65,15 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     break;
                 case 22://rwNode
                 	ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    break;
+                case 19://zoneFace
+                    ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    break;
+                case 18://zoneLink
+                    ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    break;
+                case 20://zoneNode
+                    ret = new fastmap.uikit.canvasFeature.RwNode(data);
                     break;
             }
             return ret;

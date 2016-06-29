@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/23.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,appPath,dsMeta) {
+namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,dsEdit,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationdata");
@@ -400,36 +400,16 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     }
 
 
-    /*删除pid*/
+    /*删除连续分歧*/
     $scope.delete = function () {
-        var param = {
-            "command": "DELETE",
-            "type": "RDBRANCHDETAIL",
-            "branchType":9,
-            "rowkey":"",
-            "dbId": App.Temp.dbId,
-            "objId": $scope.diverObj.seriesbranches[0].pid
-        };
-        dsRoad.saveBranchInfo(param).then(function (data) {
-            var outPutCtrl = fastmap.uikit.OutPutController();
-            $scope.$apply();
-            if (data.errcode == 0) {
-                //if (highLightLayer.highLightLayersArr.length !== 0) {
-                //    highLightLayer.removeHighLightLayers();
-                //}
-                rdBranch.redraw();
-                hLayer._cleanHightlight();
-                $timeout(function () {
-                    swal("删除成功", "分歧数据删除成功！", "success");
-                }, 500)
-                outPutCtrl.pushOutput(data.errmsg);
-            } else {
-                $timeout(function () {
-                    swal("删除失败", "问题原因：" + data.errmsg, "error");
-                })
-                outPutCtrl.pushOutput(data.errmsg);
+        var detailId = $scope.diverObj.seriesbranches[0].rowId
+        dsEdit.deleteBranchByRowId(detailId,7).then(
+            function(){
+                swal("删除成功", "分歧数据删除成功！", "success");
+            },function(){
+                swal("删除失败", "问题原因：", "error");
             }
-        });
+        );
     }
     /*取消属性编辑*/
     $scope.cancel = function () {
