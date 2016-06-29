@@ -403,7 +403,7 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     /*删除连续分歧*/
     $scope.delete = function () {
         var detailId = $scope.diverObj.seriesbranches[0].rowId
-        dsEdit.deleteBranchByDetailId(detailId,7).then(
+        dsEdit.deleteBranchByRowId(detailId,7).then(
             function(){
                 swal("删除成功", "分歧数据删除成功！", "success");
             },function(){

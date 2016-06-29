@@ -199,7 +199,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "rowId": detailid,
             "branchType": branchType
         };
-        return this.save(param);
+        return this.save(params);
     };
     /**
      * 根据道路detailId获得分歧的详细属性(branchType = 除了5、7)

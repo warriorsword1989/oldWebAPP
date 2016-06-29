@@ -445,8 +445,8 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 
     /*删除连续分歧*/
     $scope.delete = function () {
-        var detailId = $scope.diverObj.realimages[0].rowId
-        dsEdit.deleteBranchByDetailId(detailId,5).then(
+        var detailId = $scope.diverObj.realimages[0].rowId;
+        dsEdit.deleteBranchByRowId(detailId,5).then(
             function(){
                 swal("删除成功", "分歧数据删除成功！", "success");
             },function(){
