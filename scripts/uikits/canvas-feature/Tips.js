@@ -38,7 +38,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
             var ret = null;
             switch (item.t) {
                 case 1101://限速
-                    ret = new fastmap.uikit.canvasTips.TipsRestriction(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRestrictions(item);
                     break;
                 case 1102://红绿灯 *
                     ret = new fastmap.uikit.canvasTips.TipsTrafficSignal(item);
@@ -83,7 +83,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsParkinglot(item);
                     break;
                 case 1301://车信
-                    ret = new fastmap.uikit.canvasTips.TipsLaneConnexity(item);
+                    ret = new fastmap.uikit.canvasTips.TipsLane_Connexity(item);
                     break;
                 case 1304://禁止穿行 *
                     ret = new fastmap.uikit.canvasTips.TipsNoCrossing(item);

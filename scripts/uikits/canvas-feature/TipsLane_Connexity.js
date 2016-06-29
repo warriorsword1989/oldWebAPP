@@ -1,4 +1,4 @@
-fastmap.uikit.canvasTips.TipsLaneConnexity = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsLane_Connexity = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function(item) {
         this.geometry['coordinates'] = item.g;
         if(item.m.a == "0"){

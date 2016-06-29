@@ -1,4 +1,4 @@
-fastmap.uikit.canvasFeature.poiMarker = fastmap.uikit.canvasFeature.Feature.extend({
+fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
     setAttribute: function(data) {
         this.geometry['type'] = 'Point';
         this.properties["featType"] = "poi";

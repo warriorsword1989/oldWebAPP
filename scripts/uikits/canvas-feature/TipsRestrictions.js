@@ -1,4 +1,4 @@
-fastmap.uikit.canvasTips.TipsRestriction = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsRestrictions = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function(item) {
         this.geometry['coordinates'] = item.g;
         this.properties['rotate'] = item.m.c;
