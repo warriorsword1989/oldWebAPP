@@ -69,11 +69,25 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
             }
+            //获取当前的控制器级对应的模板;
+            function getCtrlAndTpl(type){
+                var obj = {};
+                switch (type){
+                    case 0:
+                    case 1:
+                    case 3:obj.ctrl = 'attr_branch_ctrl/rdBranchCtrl'; obj.tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
+                    case 5:obj.ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; obj.tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                    case 8:obj.ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; obj.tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
+                    case 7:obj.ctrl = 'attr_branch_ctrl/rdSeriesCtrl'; obj.tpl = 'attr_branch_Tpl/seriesOfBranch.html';break;
+                    case 6:obj.ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; obj.tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
+                    case 9:obj.ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; obj.tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
+                }
+                return obj;
+            }
             function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
-
                 var sInfo = {
                     "op": op,
                     "type": "",
@@ -85,12 +99,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if(type != "POI"){
                         if (type === "RDBRANCH") {
                             id = "";
-                        } else if (type === "ADFACE"|| type === "ZONEFACE"){
+                        } else if (type === "ADFACE"){
                             id = data.log[2].pid;
                         } else {
                             id = data.pid;
                         }
-                        objEditCtrl.setOriginalData(null);
+                        //objEditCtrl.setOriginalData(null);
                         //根据不同的分歧类型加载数据面板;
                         if(typeof branchType==='undefined'){
                             dsEdit.getByPid(id,type).then(function (data) {
@@ -148,7 +162,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 "attrContainerTpl": false,
                                 "subAttrContainerTpl": false
                             });
-
                         ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
                             scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
                         });
@@ -485,6 +498,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }else if(param["type"] === "ADNODE") {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
+
                         } else {
                             layerCtrl.getLayerById("zoneLink").redraw();
                             layerCtrl.getLayerById("zoneNode").redraw();
@@ -492,6 +506,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     })
                 }else if(shapeCtrl.editType === "BRANCH"){
+
                     var param = {
                         "data": featCodeCtrl.getFeatCode()
                     };
@@ -500,61 +515,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         //只有5（实景图）或7（连续分歧）的时候传rowId;
                         var rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.log[0].rowId:data.pid;
-                        switch (param.data.branchType){
-                            case 0:
-                            case 1:
-                            case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl'; tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
-                            case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                            case 8:ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
-                            case 7:ctrl = 'attr_branch_ctrl/rdSeriesCtrl'; tpl = 'attr_branch_Tpl/seriesOfBranch.html';break;
-                            case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
-                            case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
-                        }
-                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
+                        //获取当前的ctrl和tpl的对象
+                        var ctrlAndtplObj = getCtrlAndTpl(param.data.branchType);
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrlAndtplObj.ctrl, ctrlAndtplObj.tpl, param.data.branchType, rowId_detialId);
                     });
+
                 }else if(shapeCtrl.editType === "UPDATEBRANCH"){
+
+                    //当前修改的分歧的类型;
+                    var tempType = featCodeCtrl.getFeatCode().branchType;
+                    //当前分歧的pid;
+                    var currentDataId = featCodeCtrl.getFeatCode().childId;
+                    //删除编辑不需要的数据;
+                    delete featCodeCtrl.getFeatCode().branchType;
+                    delete featCodeCtrl.getFeatCode().childId;
+                    //调用编辑接口;
                     dsEdit.updateTopo(featCodeCtrl.getFeatCode().nodePid,"RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
-                        dsEdit.getByPid(data.log[0].pid.toString(),'RDBRANCH').then(function(data){
-                            highRenderCtrl._cleanHighLight();
-                            highRenderCtrl.highLightFeatures.push({
-                                id:data.inLinkPid.toString(),
-                                layerid:'referenceLine',
-                                type:'line',
-                                style:{
-                                    color: '#21ed25',
-                                    strokeWidth:50
-                                }
-                            });
-                            highRenderCtrl.highLightFeatures.push({
-                                id:data.outLinkPid.toString(),
-                                layerid:'referenceLine',
-                                type:'line',
-                                style:{
-                                    color: '#CD0011'
-                                }
-                            });
-                            highRenderCtrl.highLightFeatures.push({
-                                id: data.nodePid.toString(),
-                                layerid: 'referenceLine',
-                                type: 'rdnode',
-                                style: {color:'yellow'}
-                            });
-                            for(var i=0;i<data.vias.length;i++){
-                                highRenderCtrl.highLightFeatures.push({
-                                    id:data.vias[i].linkPid.toString(),
-                                    layerid:'referenceLine',
-                                    type:'line',
-                                    style:{color:'blue'}
-                                })
-                            }
-                            highRenderCtrl.drawHighlight();
-                            if (toolTipsCtrl.getCurrentTooltip()) {
-                                toolTipsCtrl.onRemoveTooltip();
-                            }
-                        });
+                        //获取当前的ctrl和tpl的对象
+                        var ctrlAndtplObj = getCtrlAndTpl(tempType);
+                        treatmentOfChanged(data, "RDBRANCH", "编辑RDBRANCH成功", ctrlAndtplObj.ctrl, ctrlAndtplObj.tpl, tempType, currentDataId);
                     })
-                } else if (shapeCtrl.editType === "addRdCross") {
+
+                }else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",
                         "type": "RDCROSS",
@@ -621,7 +604,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 'attr_zone_ctrl/zoneFaceCtrl', 'attr_zone_tpl/zoneFaceTpl.html');
                         });
                     }
-
                 } else if (shapeCtrl.editType === "addRdGsc") {
                     param = {
                         "command": "CREATE",

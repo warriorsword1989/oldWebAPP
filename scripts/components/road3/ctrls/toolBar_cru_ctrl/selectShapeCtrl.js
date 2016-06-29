@@ -926,13 +926,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     //退出线选完后的鼠标提示;
                     tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
                     //设置修改确认的数据;
-                    console.log($scope)
                     featCodeCtrl.setFeatCode({
                         "nodePid":objCtrl.data.nodePid.toString(),
                         "inLinkPid":objCtrl.data.inLinkPid.toString(),
                         "outLinkPid":data.id.toString(),
                         "pid":objCtrl.data.pid.toString(),
-                        "objStatus": "UPDATE"
+                        "objStatus": "UPDATE",
+                        "branchType":$scope.globaltype,
+                        'childId':$scope.curentSelectData.id
                     });
                 })
             }
