@@ -484,10 +484,6 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
                     });
                 }else if(shapeCtrl.editType === "UPDATEBRANCH"){
-                    //var tempType = featCodeCtrl.getFeatCode().branchType;
-                    //var tempId = featCodeCtrl.getFeatCode().childId;
-                    //delete featCodeCtrl.getFeatCode().branchType;
-                    //delete featCodeCtrl.getFeatCode().childId;
                     dsEdit.updateTopo(featCodeCtrl.getFeatCode().nodePid,"RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         dsEdit.getByPid(data.log[0].pid.toString(),'RDBRANCH').then(function(data){
