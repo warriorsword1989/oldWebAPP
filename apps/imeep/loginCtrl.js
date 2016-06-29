@@ -8,7 +8,8 @@ angular.module('loginApp', ['fastmap.uikit', 'ngCookies', 'dataService']).contro
                 if (rest) {
                     if (rest.access_token) {
                         $cookies.put('FM_USER_ID', rest.userId);
-                        $cookies.put('FM_USER_NAME', rest.realName);
+                        $cookies.put('FM_USER_NAME', data.userName);
+                        $cookies.put('FM_REAL_NAME', rest.userRealName);
                         window.location.href = "./task/taskSelection.html?access_token=" + rest.access_token;
                     } else {
                         swal("登陆出错", data, "error");

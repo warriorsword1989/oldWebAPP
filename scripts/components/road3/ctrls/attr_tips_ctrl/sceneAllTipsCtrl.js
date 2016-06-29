@@ -663,7 +663,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1515": //维修
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                var strArray = $scope.dataTipsData.time.split('-');
+                var strArray = $scope.dataTipsData.time?$scope.dataTipsData.time.split('-'):'';
                 $scope.startTime = strArray[0].substring(5);
                 $scope.endTime = strArray[1].substring(5);
                 break;

@@ -98,7 +98,7 @@ App.layersConfig = [{
             requestType: 'RDNODE',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADNODE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -124,7 +124,7 @@ App.layersConfig = [{
             requestType: 'ADNODE',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -175,7 +175,7 @@ App.layersConfig = [{
             requestType: 'RDLINK',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADADMIN'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -200,7 +200,7 @@ App.layersConfig = [{
             requestType: 'ADADMIN',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADLINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -225,7 +225,7 @@ App.layersConfig = [{
             requestType: 'ADLINK',
             showNodeLevel: 5
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADFACE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -251,7 +251,7 @@ App.layersConfig = [{
             requestType: 'ADFACE',
             showNodeLevel: 13
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWNODE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -277,7 +277,7 @@ App.layersConfig = [{
             requestType: 'RWNODE',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWLINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -303,7 +303,7 @@ App.layersConfig = [{
             requestType: 'RWLINK',
             showNodeLevel: 12
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONELINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -329,7 +329,7 @@ App.layersConfig = [{
             requestType: 'ZONELINK',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONENODE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -355,7 +355,7 @@ App.layersConfig = [{
             requestType: 'ZONENODE',
             showNodeLevel: 17
         }
-    },{
+    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONEFACE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
@@ -381,38 +381,37 @@ App.layersConfig = [{
             requestType: 'ZONEFACE',
             showNodeLevel: 17
         }
-    },
-        {
-            url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                layername: 'POI点数据',
-                id: 'poiPoint',
-                maxZoom: 20,
-                debug: false,
-                // this value should be equal to 'radius' of your points
-                buffer: 10,
-                boolPixelCrs: true,
-                parse: fastmap.uikit.canvasFeature.Feature.transform,
-                boundsArr: [],
-                unloadInvisibleTiles: true,
-                reuseTiles: false,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                updateWhenIdle: true,
-                tileSize: 256,
-                type: 'poiPoint',
-                zIndex: 18,
-                restrictZoom: 10,
-                visible: true,
-                requestType: 'POI',
-                showNodeLevel: 15
-            }
-        }]
+    }, {
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: 'POI点数据',
+            id: 'poiPoint',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'poiPoint',
+            zIndex: 18,
+            restrictZoom: 10,
+            visible: true,
+            requestType: 'POI',
+            showNodeLevel: 15
+        }
+    }]
 }, {
     groupid: 'worklayer',
     groupname: '作业图层',
     layers: [{
-        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', '12'),//暂时未用到此图层
+        url: App.Util.createTileRequestObjectForTips('/render/tip/getByTileWithGap?', '12'), //暂时未用到此图层
         clazz: fastmap.mapApi.tileJSON,
         options: {
             layername: '外业线数据',
@@ -436,9 +435,8 @@ App.layersConfig = [{
             requestType: 12,
             showNodeLevel: 17
         }
-    },
-        {
-        url: App.Util.createTipsTileRequestObject('/render/tip/getByTileWithGap?', ""),
+    }, {
+        url: App.Util.createTileRequestObjectForTips('/render/tip/getByTileWithGap?', ""),
         clazz: fastmap.mapApi.tileJSON,
         options: {
             layername: '外业点数据',
@@ -462,58 +460,56 @@ App.layersConfig = [{
             requestType: "",
             showNodeLevel: 17
         }
-    },
-        {
-            url: '',
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                layername: '选中高亮图层',
-                id: 'highlightlayer',
-                maxZoom: 20,
-                debug: false,
-                buffer: 8,
-                boolPixelCrs: true,
-                // parse: function(data) {},
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                tileSize: 256,
-                type: 'highlight',
-                zIndex: 19,
-                restrictZoom: 10,
-                visible: true
-            },
-            requestType: "uuuuu"//未用
-        }, {
-            url: '',
-            clazz: fastmap.mapApi.guideLineLayer,
-            options: {
-                layername: '引导线',
-                id: 'guideLineLayer',
-                maxZoom: 20,
-                debug: false,
-                buffer: 8,
-                boolPixelCrs: true,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                tileSize: 256,
-                type: 'guideLine',
-                zIndex: 9,
-                restrictZoom: 10,
-                visible: true
-            },
-            requestType: "uuuuu"
-        }]
-},{
+    }, {
+        url: '',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: '选中高亮图层',
+            id: 'highlightlayer',
+            maxZoom: 20,
+            debug: false,
+            buffer: 8,
+            boolPixelCrs: true,
+            // parse: function(data) {},
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            tileSize: 256,
+            type: 'highlight',
+            zIndex: 19,
+            restrictZoom: 10,
+            visible: true
+        },
+        requestType: "uuuuu" //未用
+    }, {
+        url: '',
+        clazz: fastmap.mapApi.guideLineLayer,
+        options: {
+            layername: '引导线',
+            id: 'guideLineLayer',
+            maxZoom: 20,
+            debug: false,
+            buffer: 8,
+            boolPixelCrs: true,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            tileSize: 256,
+            type: 'guideLine',
+            zIndex: 9,
+            restrictZoom: 10,
+            visible: true
+        },
+        requestType: "uuuuu"
+    }]
+}, {
     groupid: 'editlayer',
     groupname: '编辑图层',
-    layers: [
-        {
-            clazz: fastmap.mapApi.editLayer,
+    layers: [{
+        clazz: fastmap.mapApi.editLayer,
+        url: '',
+        options: {
+            layername: '编辑',
+            id: 'edit',
             url: '',
-            options: {
-                layername: '编辑',
-                id: 'edit',
-                url: '',
-                visible: true,
-                zIndex: 0
-            }
-        }]
+            visible: true,
+            zIndex: 0
+        }
+    }]
 }];

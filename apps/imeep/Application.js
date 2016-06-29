@@ -13,6 +13,7 @@ App.Temp = {
     accessToken: null,
     dbId: 42,
     subTaskId: 168,
+    mdFlag: 'd',
     gridList: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
     relationNameObj: {
         RDRESTRICTION: '交限',
@@ -53,23 +54,17 @@ App.Util = {
         }
         return reqObj;
     },
-    createTipsTileRequestObject: function(url, requestType) {
-        var urlObj = {};
-        if (requestType != "") {
-            urlObj.url = App.Config.serviceUrl + url;
-            urlObj.parameter = {
-                dbId: App.Temp.dbId,
-                gap: 80,
-                types: requestType
-            }
-        } else {
-            urlObj.url = App.Config.serviceUrl + url;
-            urlObj.parameter = {
-                dbId: App.Temp.dbId,
-                gap: 80
-            }
+    createTileRequestObjectForTips: function(url, requestType) {
+        var reqObj = {};
+        reqObj.url = App.Config.serviceUrl + url;
+        reqObj.parameter = {
+            gap: 80,
+            mdFlag: App.Temp.mdFlag,
         }
-        return urlObj;
+        if (requestType) {
+            reqObj.parameter['types'] = requestType.split(',');
+        }
+        return reqObj;
     },
     getUrlParam: function(paramName) {
         var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");
