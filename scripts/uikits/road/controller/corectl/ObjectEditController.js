@@ -102,6 +102,15 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RWNODE":
                     	this.data = fastmap.dataApi.rwNode(obj);
                     	break;
+                    case "ZONELINK":
+                        this.data = fastmap.dataApi.zoneLink(obj);
+                        break;
+                    case "ZONENODE":
+                        this.data = fastmap.dataApi.zoneNode(obj);
+                        break;
+                    case "ZONEFACE":
+                        this.data = fastmap.dataApi.zoneFace(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

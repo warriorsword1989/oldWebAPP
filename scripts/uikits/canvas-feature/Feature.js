@@ -61,7 +61,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     ret = new fastmap.uikit.canvasFeature.AdNode(data);
                     break;
                 case 18://zoneLink
-                    ret = new fastmap.uikit.canvasFeature.ZoneNode(data);
+                    ret = new fastmap.uikit.canvasFeature.ZoneLink(data);
                     break;
                 case 19://zoneFace
                     ret = new fastmap.uikit.canvasFeature.ZoneFace(data);
