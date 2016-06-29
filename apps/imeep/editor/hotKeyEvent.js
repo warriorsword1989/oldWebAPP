@@ -22,7 +22,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 resetPage();
                 map._container.style.cursor = '';
             }
-            //是否包含点
+            //是否包含点;
             function _contains(point, components) {
                 var boolExit = false;
                 for (var i in components) {
@@ -32,10 +32,12 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 }
                 return boolExit;
             }
+            //返回两点之间的距离;
             function distance(pointA, pointB) {
                 var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
                 return Math.sqrt(len);
             }
+
             function resetPage(data) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
@@ -71,94 +73,85 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                 var info = null, id;
                 //结束编辑状态
                 shapeCtrl.stopEditing();
-                if (data.errcode == 0) {
-                    var sInfo = {
-                        "op": op,
-                        "type": "",
-                        "pid": ""
-                    };
-                    data.data.log.push(sInfo);
-                    info = data.data.log;
-                    if (ctrl) {
-                        if(type != "POI"){
-                            if (type === "RDBRANCH") {
-                                id = "";
-                            } else if (type === "ADFACE"){
-                                id = data.data.log[2].pid;
-                            } else {
-                                id = data.data.pid;
+                var sInfo = {
+                    "op": op,
+                    "type": "",
+                    "pid": ""
+                };
+                data.log.push(sInfo);
+                info = data.log;
+                if (ctrl) {
+                    if(type != "POI"){
+                        if (type === "RDBRANCH") {
+                            id = "";
+                        } else if (type === "ADFACE"){
+                            id = data.log[2].pid;
+                        } else {
+                            id = data.pid;
+                        }
+                        objEditCtrl.setOriginalData(null);
+                        //根据不同的分歧类型加载数据面板;
+                        if(typeof branchType==='undefined'){
+                            dsEdit.getByPid(id,type).then(function (data) {
+                                objEditCtrl.setCurrentObject(type, data);
+                                ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                })
+                            });
+                        } else if(branchType===5 || branchType===7){
+                            dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
+                                objEditCtrl.setCurrentObject(type, data);
+                                ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                })
+                            });
+                        }else{
+                            dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
+                                objEditCtrl.setCurrentObject(type, data);
+                                ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                                })
+                            });
+                        }
+                        scope.$emit("SWITCHCONTAINERSTATE", {
+                            "attrContainerTpl": true,
+                            "subAttrContainerTpl": false
+                        });
+                    }else {
+                        dsEdit.getByPid(data.pid,"IXPOI").then(function(rest) {
+                            if (rest) {
+                                objEditCtrl.setCurrentObject('IXPOI', rest);
+                                objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                                evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
+                                    feature: objEditCtrl.data
+                                });
+                                scope.$emit("SWITCHCONTAINERSTATE", {});
+                                scope.$emit("transitCtrlAndTpl", {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                                    "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                                });
+                                scope.$emit("transitCtrlAndTpl", {
+                                    "loadType": "attrTplContainer",
+                                    "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                                    "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                                });
+                                scope.$emit("highLightPoi", rest.pid);
                             }
-                            objEditCtrl.setOriginalData(null);
-                            //根据不同的分歧类型加载数据面板;
-                            if(typeof branchType==='undefined'){
-                                dsEdit.getByPid(id,type).then(function (data) {
-                                    objEditCtrl.setCurrentObject(type, data);
-                                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                                    })
-                                });
-                            } else if(branchType===5 || branchType===7){
-                                dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
-                                    objEditCtrl.setCurrentObject(type, data);
-                                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                                    })
-                                });
-                            }else{
-                                dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
-                                    objEditCtrl.setCurrentObject(type, data);
-                                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                                    })
-                                });
-                            }
+                        });
+                    }
+
+                }else{
+                    if(shapeCtrl.editType==="pathBreak") {
                             scope.$emit("SWITCHCONTAINERSTATE", {
-                                "attrContainerTpl": true,
+                                "attrContainerTpl": false,
                                 "subAttrContainerTpl": false
                             });
-                        }else {
-                            dsEdit.getByPid(data.data.pid,"IXPOI").then(function(rest) {
-                                if (rest) {
-                                    objEditCtrl.setCurrentObject('IXPOI', rest);
-                                    objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
-                                    evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
-                                        feature: objEditCtrl.data
-                                    });
-                                    scope.$emit("SWITCHCONTAINERSTATE", {});
-                                    scope.$emit("transitCtrlAndTpl", {
-                                        "loadType": "tipsTplContainer",
-                                        "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
-                                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
-                                    });
-                                    scope.$emit("transitCtrlAndTpl", {
-                                        "loadType": "attrTplContainer",
-                                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
-                                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
-                                    });
-                                    scope.$emit("highLightPoi", rest.pid);
-                                }
-                            });
-                        }
-
-                    }else{
-                        if(shapeCtrl.editType==="pathBreak") {
-                                scope.$emit("SWITCHCONTAINERSTATE", {
-                                    "attrContainerTpl": false,
-                                    "subAttrContainerTpl": false
-                                });
-                            ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
-                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
-                            });
-                                 scope.$apply();
-                        }
+                        ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
+                            scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
+                        });
+                             scope.$apply();
                     }
-                } else {
-                    info = [{
-                        "op": data.errcode,
-                        "type": data.errmsg,
-                        "pid": data.errid
-                    }];
-                    swal("操作失败", data.errmsg, "error");
                 }
                 resetPage(info);
                 outPutCtrl.pushOutput(info);
@@ -166,6 +159,7 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                     outPutCtrl.updateOutPuts();
                 }
             }
+
             if (event.keyCode == 32) {
                 if (coordinate.length !== 0) {
                     coordinate.length = 0;
@@ -467,11 +461,14 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     })
                 }else if(shapeCtrl.editType === "BRANCH"){
+                    var param = {
+                        "data": featCodeCtrl.getFeatCode()
+                    };
                     var ctrl = tpl = ''
-                    dsEdit.create("RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
+                    dsEdit.create("RDBRANCH",param.data).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
                         //只有5（实景图）或7（连续分歧）的时候传rowId;
-                        var rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.data.log[0].rowId:data.data.pid;
+                        var rowId_detialId = (param.data.branchType==5||param.data.branchType==7)?data.log[0].rowId:data.pid;
                         switch (param.data.branchType){
                             case 0:
                             case 1:
@@ -485,8 +482,28 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
                     });
                 }else if(shapeCtrl.editType === "UPDATEBRANCH"){
+                    var tempType = featCodeCtrl.getFeatCode().branchType;
+                    var tempId = featCodeCtrl.getFeatCode().childId;
+                    delete featCodeCtrl.getFeatCode().branchType;
+                    delete featCodeCtrl.getFeatCode().childId;
                     dsEdit.updateTopo(featCodeCtrl.getFeatCode().nodePid,"RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
+                        //
+                        //var param = {
+                        //    "data": featCodeCtrl.getFeatCode()
+                        //};
+                        //var rowId_detialId = tempId //(tempType==5||tempType==7)?data.log[0].rowId:data.log[0].pid;
+                        //switch (tempType){
+                        //    case 0:
+                        //    case 1:
+                        //    case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl'; tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
+                        //    case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                        //    case 8:ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
+                        //    case 7:ctrl = 'attr_branch_ctrl/rdSeriesCtrl'; tpl = 'attr_branch_Tpl/seriesOfBranch.html';break;
+                        //    case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
+                        //    case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
+                        //}
+                        //treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, tempType, rowId_detialId);
                         dsEdit.getByPid(data.log[0].pid.toString(),'RDBRANCH').then(function(data){
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.highLightFeatures.push({

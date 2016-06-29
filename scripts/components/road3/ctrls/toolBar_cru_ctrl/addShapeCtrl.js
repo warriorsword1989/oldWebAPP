@@ -938,7 +938,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                 var currentActiveBranch = '';
                 //保存所有需要高亮的图层数组;
                 var highLightFeatures = [],linkDirect = 0;
-                //设置快捷键保存的事件类型;
+                //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
                 shapeCtrl.setEditingType(typeArr[0]);
                 //根据不同的分歧种类构建limitRelation的参数;
                 switch (typeArr[1]){
