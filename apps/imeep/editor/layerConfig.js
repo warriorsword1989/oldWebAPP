@@ -303,6 +303,84 @@ App.layersConfig = [{
             requestType: 'RWLINK',
             showNodeLevel: 12
         }
+    },{
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONELINK'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: 'ZONELINK',
+            id: 'zoneLink',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: true,
+            requestType: 'ZONELINK',
+            showNodeLevel: 17
+        }
+    },{
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONENODE'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: 'ZONENODE',
+            id: 'zoneNode',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: true,
+            requestType: 'ZONENODE',
+            showNodeLevel: 17
+        }
+    },{
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONEFACE'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            layername: 'ZONEFACE',
+            id: 'zoneFace',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: true,
+            requestType: 'ZONEFACE',
+            showNodeLevel: 17
+        }
     },
         {
             url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
