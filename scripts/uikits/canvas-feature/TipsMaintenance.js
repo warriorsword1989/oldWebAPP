@@ -14,26 +14,14 @@ fastmap.uikit.canvasTips.TipsMaintenance = fastmap.uikit.canvasTips.Tips.extend(
         } else {
             this.geometry['coordinates'] = item.m.d;
         }
-        if(item.m.a == "0"){
-            this.properties['markerStyle']["icon"].push(
-                fastmap.uikit.canvasTips.Tips. getIconStyle({
-                    iconName: '../../../images/road/tips/1504/0.svg',
-                    row: 0,
-                    column: 1,
-                    location: this.geometry['coordinates'],
-                    fillStyle:this.redFill
-                })
-            );
-        }else {
-            this.properties['markerStyle']["icon"].push(
-                fastmap.uikit.canvasTips.Tips. getIconStyle({
-                    iconName: '../../../images/road/tips/1504/0.svg',
-                    row: 0,
-                    column: 1,
-                    location: this.geometry['coordinates'],
-                    fillStyle:this.greenFill
-                })
-            );
-        }
+        this.properties['markerStyle']["icon"].push(
+            fastmap.uikit.canvasTips.Tips. getIconStyle({
+                iconName: '../../../images/road/tips/1504/0.svg',
+                row: 0,
+                column: 1,
+                location: this.geometry['coordinates'],
+                fillStyle:item.m.a == "0"?this.redFill:this.greenFill
+            })
+        );
     }
 });

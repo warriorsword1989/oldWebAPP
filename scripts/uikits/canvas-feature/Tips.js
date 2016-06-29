@@ -154,8 +154,11 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1510://桥
                     ret = new fastmap.uikit.canvasTips.TipsBridges(item);
                     break;
-                case 1514://施工维修
+                case 1514://施工
                     ret = new fastmap.uikit.canvasTips.TipsMaintenance(item);
+                    break;
+                case 1515://维修
+                    ret = new fastmap.uikit.canvasTips.TipsRepair(item);
                     break;
                 case 1801://立交
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);

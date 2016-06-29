@@ -1,8 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/24.
  */
-var sceneLayersModule = angular.module('app');
-sceneLayersModule.controller('sceneLayersController', function ($scope) {
+angular.module('app').controller('sceneLayersController', function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");
     var eventController = fastmap.uikit.EventController();
@@ -13,49 +12,127 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var alllayers = 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'.split(',');
     //
-    $scope.layers =layerCtrl.layers;
-    var outLayers=[];
-    for(var i=0;i<layerCtrl.layers.length;i++){
-        if(layerCtrl.layers[i].options.groupid=="backgroundLayers"){
-            outLayers.push(layerCtrl.layers[i]);
-        }
-    }
-    $scope.layers=outLayers;
-    //
-    $scope.flag = true;
-    $scope.scenceArr = [
-        {"id": 1, "label": "线限速场景", "selected": false},
-        {"id": 2, "label": "条件限速", "selected": false},
-        {"id": 3, "label": "互联网RTIC场景", "selected": false},
-        {"id": 4, "label": "行政区划场景", "selected": false},
-        {"id": 5, "label": "复杂要素", "selected": false},
-        {"id": 6, "label": "常规场景", "selected": false},
-        {"id": 7, "label": "车场RTIC场景", "selected": false},
-        {"id": 8, "label": "TMC", "selected": false},
-        {"id": 9, "label": "自然语音场景", "selected": false},
-        {"id": 10, "label": "13cy-HW场景", "selected": false},
-        {"id": 11, "label": "NBT高速出入口场景", "selected": false},
-        {"id": 12, "label": "CRF场景", "selected": false},
-        {"id": 13, "label": "同一关系场景", "selected": false}
-    ]
+    $scope.layers = layerCtrl.layers;
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
-        if (layerCtrl.layers[i].options.groupid == "dataLayers"&&layerCtrl.layers[i].options.id!='relationdata') {
+        if (layerCtrl.layers[i].options.groupid == "backgroundLayers") {
             outLayers.push(layerCtrl.layers[i]);
         }
     }
-
-    outLayers =outLayers.concat( [
-        {options:{relationdata:true,visible:true, layername:'交限',id:'RDRESTRICTION'}},
-        {options:{relationdata:true,visible:true, layername:'分歧',id:'RDBRANCH'}},
-        {options:{relationdata:true,visible:true, layername:'限速',id:'RDSPEEDLIMIT'}},
-        {options:{relationdata:true,visible:true, layername:'路口',id:'RDCROSS'}},
-        {options:{relationdata:true,visible:true, layername:'车信',id:'RDLANECONNEXITY'}},
-        {options:{relationdata:true,visible:true, layername:'立交',id:'RDGSC'}},
-        {options:{relationdata:true,visible:true, layername:'互联网RTIC',id:'RDLINKINTRTIC'}}
-    ])
+    $scope.layers = outLayers;
+    //
+    $scope.flag = true;
+    $scope.scenceArr = [{
+        "id": 1,
+        "label": "线限速场景",
+        "selected": false
+    }, {
+        "id": 2,
+        "label": "条件限速",
+        "selected": false
+    }, {
+        "id": 3,
+        "label": "互联网RTIC场景",
+        "selected": false
+    }, {
+        "id": 4,
+        "label": "行政区划场景",
+        "selected": false
+    }, {
+        "id": 5,
+        "label": "复杂要素",
+        "selected": false
+    }, {
+        "id": 6,
+        "label": "常规场景",
+        "selected": false
+    }, {
+        "id": 7,
+        "label": "车场RTIC场景",
+        "selected": false
+    }, {
+        "id": 8,
+        "label": "TMC",
+        "selected": false
+    }, {
+        "id": 9,
+        "label": "自然语音场景",
+        "selected": false
+    }, {
+        "id": 10,
+        "label": "13cy-HW场景",
+        "selected": false
+    }, {
+        "id": 11,
+        "label": "NBT高速出入口场景",
+        "selected": false
+    }, {
+        "id": 12,
+        "label": "CRF场景",
+        "selected": false
+    }, {
+        "id": 13,
+        "label": "同一关系场景",
+        "selected": false
+    }];
+    var outLayers = [];
+    for (var i = 0; i < layerCtrl.layers.length; i++) {
+        if (layerCtrl.layers[i].options.groupid == "dataLayers" && layerCtrl.layers[i].options.id != 'relationdata') {
+            outLayers.push(layerCtrl.layers[i]);
+        }
+    }
+    outLayers = outLayers.concat([{
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '交限',
+            id: 'RDRESTRICTION'
+        }
+    }, {
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '分歧',
+            id: 'RDBRANCH'
+        }
+    }, {
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '限速',
+            id: 'RDSPEEDLIMIT'
+        }
+    }, {
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '路口',
+            id: 'RDCROSS'
+        }
+    }, {
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '车信',
+            id: 'RDLANECONNEXITY'
+        }
+    }, {
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '立交',
+            id: 'RDGSC'
+        }
+    }, {
+        options: {
+            relationdata: true,
+            visible: true,
+            layername: '互联网RTIC',
+            id: 'RDLINKINTRTIC'
+        }
+    }])
     $scope.items = outLayers;
-    $scope.resetLayers = function () {
+    $scope.resetLayers = function() {
         $scope.changeBtnClass("");
         for (var i = 0; i < layerCtrl.layers.length; i++) {
             if (layerCtrl.layers[i].options.groupid == "dataLayers") {
@@ -69,31 +146,32 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                 }
             }
         }
-        $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
+        $scope.$emit("SWITCHTOOLS", {
+            "type": "rdTools"
+        })
     };
-    $scope.showLayers = function (item) {
-
+    $scope.showLayers = function(item) {
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
-        if(item.options.relationdata == true ){
-            if(item.options.visible){
+        if (item.options.relationdata == true) {
+            if (item.options.visible) {
                 alllayers.push(item.options.id);
-            }else{
-                for(var i in alllayers){
-                    if(alllayers[i] ==item.options.id){
-                        alllayers.splice(i,1);
+            } else {
+                for (var i in alllayers) {
+                    if (alllayers[i] == item.options.id) {
+                        alllayers.splice(i, 1);
                     }
                 }
             }
             relationlayer.url.parameter["types"] = alllayers;
             relationlayer.redraw();
-        }else{
-            eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
-
+        } else {
+            eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                layerArr: layerCtrl.layers
+            });
         }
-
     };
-    $scope.ordSpeedScene = function () {
+    $scope.ordSpeedScene = function() {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].options.id === "speedlimit") {
@@ -109,9 +187,11 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             }
         }
         $scope.flag = true;
-        $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
+        $scope.$emit("SWITCHTOOLS", {
+            "type": "rdTools"
+        })
     };
-    $scope.conditionSpeedScene = function () {
+    $scope.conditionSpeedScene = function() {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].options.id === "speedlimit") {
@@ -126,15 +206,15 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                 $scope.items[i].options.visible = false;
             }
         }
-
-
         $scope.flag = true;
-        $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
+        $scope.$emit("SWITCHTOOLS", {
+            "type": "rdTools"
+        })
     };
-    $scope.rticSecne = function () {
+    $scope.rticSecne = function() {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
-            if ($scope.items[i].options.id === "rdrtic" || $scope.items[i].options.id === "referenceLine" ||  $scope.items[i].options.id ==="rdcross") {
+            if ($scope.items[i].options.id === "rdrtic" || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "rdcross") {
                 $scope.items[i].options.visible = true;
             } else {
                 $scope.items[i].options.visible = false;
@@ -142,32 +222,29 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         }
         relationlayer.url.parameter["types"] = ['RDLINKINTRTIC'];
         relationlayer.redraw();
-
         $scope.flag = false;
-        $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
-
+        $scope.$emit("SWITCHTOOLS", {
+            "type": "rdTools"
+        })
     };
-    $scope.zoneRegionSecne = function () {
+    $scope.zoneRegionSecne = function() {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
-            if ($scope.items[i].options.id === "adLink" || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin"||$scope.items[i].options.id === "adnode") {
+            if ($scope.items[i].options.id === "adLink" || $scope.items[i].options.id === "adface" || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin" || $scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = true;
             } else {
                 $scope.items[i].options.visible = false;
             }
         }
         $scope.flag = false;
-        $scope.$emit("SWITCHTOOLS", {"type": "adTools"})
+        $scope.$emit("SWITCHTOOLS", {
+            "type": "adTools"
+        })
     };
-    $scope.resetSecne = function () {
+    $scope.resetSecne = function() {
         $scope.changeBtnClass("");
         for (var i = 0; i < $scope.items.length; i++) {
-            if ($scope.items[i].options.id === "rdrtic"
-                || $scope.items[i].options.id === "adLink"
-                || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "adAdmin"
-                || $scope.items[i].options.id === "adnode") {
+            if ($scope.items[i].options.id === "rdrtic" || $scope.items[i].options.id === "adLink" || $scope.items[i].options.id === "adface" || $scope.items[i].options.id === "adAdmin" || $scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = false;
             } else if (layerCtrl.layers[i].options.id === "speedlimit") {
                 $scope.items[i].options.showType = 1;
@@ -175,19 +252,17 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             } else {
                 $scope.items[i].options.visible = true;
             }
-
         }
-
-        relationlayer.url.parameter["types"] =alllayers;
+        relationlayer.url.parameter["types"] = alllayers;
         relationlayer.redraw();
-
-        $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
+        $scope.$emit("SWITCHTOOLS", {
+            "type": "rdTools"
+        })
     };
-
-    $scope.resetToolAndMap = function () {
+    $scope.resetToolAndMap = function() {
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
         }
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
@@ -203,19 +278,16 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
     };
-
-    $scope.showScene = function (item, event) {
+    $scope.showScene = function(item, event) {
         $scope.resetToolAndMap();
-        $scope.$emit("SWITCHCONTAINERSTATE",
-            {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
-            })
+        $scope.$emit("SWITCHCONTAINERSTATE", {
+            "attrContainerTpl": false,
+            "subAttrContainerTpl": false
+        })
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
             map.floatMenu = null;
         }
-
         for (var scene in $scope.scenceArr) {
             if (item['selected'] != true) {
                 $scope.scenceArr[scene]['selected'] = false
@@ -224,28 +296,29 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         item['selected'] = !item['selected'];
         if (item['selected']) {
             switch (item["id"]) {
-                case 1://普通限速
+                case 1: //普通限速
                     $scope.ordSpeedScene();
                     break;
-                case 2://条件限速
+                case 2: //条件限速
                     $scope.conditionSpeedScene();
                     break;
-                case 3://互联网rtic
+                case 3: //互联网rtic
                     $scope.rticSecne();
                     break;
-                case 4://行政区划
+                case 4: //行政区划
                     $scope.zoneRegionSecne();
                     break;
-                case 6://恢复到以前
+                case 6: //恢复到以前
                     $scope.resetSecne();
                     break;
             }
         } else {
             $scope.resetLayers();
         }
-        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+            layerArr: layerCtrl.layers
+        });
     };
-
 });
 /*
  sceneLayersModule.controller('sceneLayersController', function ($scope) {
