@@ -754,8 +754,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         "outLinkPid":data.id.toString(),
                         "pid":objCtrl.data.pid.toString(),
                         "objStatus": "UPDATE",
-                        "branchType":$scope.globaltype,
-                        'childId':$scope.curentSelectData.id
+                        //"branchType":$scope.globaltype,
+                        //'childId':$scope.curentSelectData.id
                     });
                 })
             }

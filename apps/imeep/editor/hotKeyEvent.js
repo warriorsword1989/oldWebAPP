@@ -482,28 +482,12 @@ function bindHotKeys(ocLazyLoad, scope, dsRoad, dsEdit, appPath) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, param.data.branchType, rowId_detialId);
                     });
                 }else if(shapeCtrl.editType === "UPDATEBRANCH"){
-                    var tempType = featCodeCtrl.getFeatCode().branchType;
-                    var tempId = featCodeCtrl.getFeatCode().childId;
-                    delete featCodeCtrl.getFeatCode().branchType;
-                    delete featCodeCtrl.getFeatCode().childId;
+                    //var tempType = featCodeCtrl.getFeatCode().branchType;
+                    //var tempId = featCodeCtrl.getFeatCode().childId;
+                    //delete featCodeCtrl.getFeatCode().branchType;
+                    //delete featCodeCtrl.getFeatCode().childId;
                     dsEdit.updateTopo(featCodeCtrl.getFeatCode().nodePid,"RDBRANCH",featCodeCtrl.getFeatCode()).then(function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
-                        //
-                        //var param = {
-                        //    "data": featCodeCtrl.getFeatCode()
-                        //};
-                        //var rowId_detialId = tempId //(tempType==5||tempType==7)?data.log[0].rowId:data.log[0].pid;
-                        //switch (tempType){
-                        //    case 0:
-                        //    case 1:
-                        //    case 3:ctrl = 'attr_branch_ctrl/rdBranchCtrl'; tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
-                        //    case 5:ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
-                        //    case 8:ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
-                        //    case 7:ctrl = 'attr_branch_ctrl/rdSeriesCtrl'; tpl = 'attr_branch_Tpl/seriesOfBranch.html';break;
-                        //    case 6:ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
-                        //    case 9:ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
-                        //}
-                        //treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrl, tpl, tempType, rowId_detialId);
                         dsEdit.getByPid(data.log[0].pid.toString(),'RDBRANCH').then(function(data){
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.highLightFeatures.push({
