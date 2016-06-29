@@ -96,7 +96,7 @@
                             </div>
                             <div style="position:absolute;z-index:1;background-color:black;top:0px;left:250px;padding:5px;">
                                 <div class="btn-group" ng-init="chosenBtnOpened=false">
-                                    <button type="button" class="btn btn-xs btn-default" ng-click="chosenBtnOpened=!chosenBtnOpened" ng-bind="chosenBtnOpened?'收起《':'选择》'"></button>
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[chosenBtnOpened]" ng-click="chosenBtnOpened=!chosenBtnOpened;addBtnOpened=false;advanceBtnOpened=false;" ng-bind="chosenBtnOpened?'收起《':'选择》'"></button>
                                     <div class="btn-group" ng-if="chosenBtnOpened">
                                         <button type="button" class="btn btn-xs btn-default">点</button>
                                         <button type="button" class="btn btn-xs btn-default">线</button>
@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
                                 <div class="btn-group" ng-init="addBtnOpened=false">
-                                    <button type="button" class="btn btn-xs btn-default" ng-click="addBtnOpened=!addBtnOpened" ng-bind="addBtnOpened?'收起《':'新增》'"></button>
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[addBtnOpened]" ng-click="addBtnOpened=!addBtnOpened;chosenBtnOpened=false;advanceBtnOpened=false;" ng-bind="addBtnOpened?'收起《':'新增》'"></button>
                                     <div class="btn-group" ng-if="addBtnOpened">
                                         <button type="button" class="btn btn-xs btn-default">点</button>
                                         <button type="button" class="btn btn-xs btn-default">线</button>
@@ -117,15 +117,12 @@
                                         <button type="button" class="btn btn-xs btn-default">点要素</button>
                                     </div>
                                 </div>
-                                <div class="btn-group" ng-init="addBtnOpened=false">
-                                    <button type="button" class="btn btn-xs btn-default" ng-click="addBtnOpened=!addBtnOpened" ng-bind="addBtnOpened?'收起《':'新增》'"></button>
-                                    <div class="btn-group" ng-if="addBtnOpened">
-                                        <button type="button" class="btn btn-xs btn-default">点</button>
-                                        <button type="button" class="btn btn-xs btn-default">线</button>
-                                        <button type="button" class="btn btn-xs btn-default">面</button>
-                                        <button type="button" class="btn btn-xs btn-default">关系</button>
-                                        <button type="button" class="btn btn-xs btn-default">Tips</button>
-                                        <button type="button" class="btn btn-xs btn-default">点要素</button>
+                                <div class="btn-group" ng-init="advanceBtnOpened=false">
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[advanceBtnOpened]" ng-click="advanceBtnOpened=!advanceBtnOpened;chosenBtnOpened=false;addBtnOpened=false;" ng-bind="advanceBtnOpened?'收起《':'高级》'"></button>
+                                    <div class="btn-group" ng-if="advanceBtnOpened">
+                                        <button type="button" class="btn btn-xs btn-default">上下线分离</button>
+                                        <button type="button" class="btn btn-xs btn-default">制作辅路</button>
+                                        <button type="button" class="btn btn-xs btn-default">追踪选择</button>
                                     </div>
                                 </div>
                             </div>
