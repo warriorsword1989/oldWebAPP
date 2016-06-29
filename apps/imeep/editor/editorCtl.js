@@ -221,9 +221,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
                                                 $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
                                                 $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectZoneShapeCtrl').then(function() {
-                                                    $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectZoneShapeTpl.html';
+                                                    $scope.selectZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectZoneShapeTpl.html';
                                                     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addZoneShapeCtrl').then(function() {
-                                                        $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addZoneShapeTpl.html';
+                                                        $scope.addZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addZoneShapeTpl.html';
                                                         if (callback) {
                                                             callback();
                                                         }
