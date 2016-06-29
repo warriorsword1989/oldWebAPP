@@ -44,7 +44,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
         }
         return angle;
     };
-    $scope.addShape = function (type, num, event) {
+    $scope.addAdShape = function (type, num, event) {
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
             map.floatMenu = null;
@@ -112,6 +112,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             }
             //设置添加类型
             shapeCtrl.setEditingType('drawPolygon');
+            shapeCtrl.setEditFeatType('adFace');
             shapeCtrl.startEditing();
 
             //把工具添加到map中
@@ -137,7 +138,8 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             map.currentTool.enable();
             shapeCtrl.editType = "addAdFaceLine";
             //初始化鼠标提示
-            $scope.toolTipText = '请选择线！';
+            // $scope.toolTipText = '请选择线！';
+            tooltipsCtrl.setCurrentTooltip('请选择行政区划线！');
             adLink.options.editable = true;
             var selectCount = 0, linksArr = [], sNode, eNode;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {

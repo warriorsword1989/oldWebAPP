@@ -14,6 +14,7 @@
         "AdAdmin.js",
         "AdLink.js",
         "AdFace.js",
+        "ZoneFace.js",
         "RwLink.js",
         "RwNode.js",
         "RdLink.js",
