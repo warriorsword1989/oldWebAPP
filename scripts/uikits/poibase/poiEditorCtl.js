@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService','ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -98,6 +98,38 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('P
     $scope.changeParkingFee = function(data) {
         mutex($scope.selectedPoi.parkingFee, ["3"], data);
     };
+    /*----------------------linglong----------------------*/
+    $scope.toolModal = false;
+    $scope.showToolbox = function(param){
+        $scope.one = $scope.two = $scope.three = false;
+        $scope.toolModal = false;
+        if(param==='search'){
+            $scope.one = true;
+            $scope.toolModal = true;
+            $scope.htmltext = '搜索';
+            $scope.tplUrl = 'test/search.html';
+        }else if(param==='auto'){
+            $scope.two = true;
+            $scope.toolModal = true;
+            $scope.htmltext = '自动';
+            $scope.tplUrl = 'test/auto.html';
+        }else{
+            $scope.three= true;
+            $scope.toolModal = true;
+            $scope.htmltext = '批处理';
+            $scope.tplUrl = 'test/batch.html';
+        }
+    }
+    $scope.closeToolwindow = function(){
+        $scope.toolModal = false;
+    }
+    $scope.toggleDropdown = function($event) {
+        alert('1212')
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
+    };
+    /*----------------------linglong----------------------*/
     var mutex = function(obj, mutexArray, val) {
         if (obj[val]) {
             for (var k in obj) {
