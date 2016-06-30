@@ -295,9 +295,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
          * 取消编辑
          */
         $scope.doCancel = function() {
-            $scope.poi = angular.copy($scope.origPoi);
-            $scope.$broadcast('refreshImgsData', $scope.poi.photos);
-            $scope.$broadcast("clearBaseInfo"); //清除样式
+            $scope.attrTplContainer = "";
+            $scope.attrTplContainerSwitch(false);
+            $scope.subAttrTplContainerSwitch(false);
+            eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
         };
         /*start 事件监听*******************************************************************/
         //响应选择要素类型变化事件，清除要素页面的监听事件
