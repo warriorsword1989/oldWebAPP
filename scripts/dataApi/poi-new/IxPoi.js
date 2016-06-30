@@ -133,7 +133,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.gasstations = [];
         if (data['gasstations']) {
             if (data['gasstations'].length == 0) {
-                this.gasstations = [new FM.dataApi.IxPoiGasstation({})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+                this.gasstations = [new FM.dataApi.IxPoiGasstation({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
             } else {
                 for (var i = 0, len = data['gasstations'].length; i < len; i++) {
                     this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
@@ -143,7 +143,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.hotels = [];
         if (data["hotels"]) {
             if (data["hotels"].length == 0) {
-                this.hotels = [new FM.dataApi.IxPoiHotel({})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+                this.hotels = [new FM.dataApi.IxPoiHotel({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
             } else {
                 for (var i = 0, len = data["hotels"].length; i < len; i++) {
                     this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
@@ -153,7 +153,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.restaurants = [];
         if (data["restaurants"]) {
             if (data["restaurants"].length == 0) {
-                this.restaurants = [new FM.dataApi.IxPoiRestaurant({})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
+                this.restaurants = [new FM.dataApi.IxPoiRestaurant({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
             } else {
                 for (var i = 0, len = data["restaurants"].length; i < len; i++) {
                     this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
@@ -163,8 +163,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.parkings = [];
         if (data["parkings"]) {
             if (data["parkings"].length == 0) {
-                //this.parkings = [new FM.dataApi.IxPoiParking({})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象
-                this.parkings = [{}];
+                this.parkings = [new FM.dataApi.IxPoiParking({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
             } else {
                 for (var i = 0, len = data["parkings"].length; i < len; i++) {
                     this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
@@ -190,7 +189,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     getIntegrate: function() {
         var ret = {};
         ret["pid"] = this.pid;
-        
+        ret["rowId"] = this.rowId;
         ret["kindCode"] = this.kindCode;
         //ret["geometry"] = this.geometry;
         //ret["xGuide"] = this.xGuide;
@@ -355,24 +354,24 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         }
         ret["parkings"] = [];
         if (this.parkings) {
-            // if (this.parkings.length == 1 && FM.Util.isEmptyObject(this.parkings[0])) {
-            //     ret["parkings"] = [];
-            // } else {
-            //     for (var i = 0, len = this.parkings.length; i < len; i++) {
-            //         ret["parkings"].push(this.parkings[i].getIntegrate());
-            //     }
-            // }
             if (this.parkings.length == 1 && FM.Util.isEmptyObject(this.parkings[0])) {
                 ret["parkings"] = [];
-            } else if(this.parkings[0] instanceof FM.Class){
+            } else {
                 for (var i = 0, len = this.parkings.length; i < len; i++) {
                     ret["parkings"].push(this.parkings[i].getIntegrate());
                 }
-            } else {
-                for (var i = 0, len = this.parkings.length; i < len; i++) {
-                    ret["parkings"].push(this.parkings[i]);
-                }
             }
+            // if (this.parkings.length == 1 && FM.Util.isEmptyObject(this.parkings[0])) {
+            //     ret["parkings"] = [];
+            // } else if(this.parkings[0] instanceof FM.Class){
+            //     for (var i = 0, len = this.parkings.length; i < len; i++) {
+            //         ret["parkings"].push(this.parkings[i].getIntegrate());
+            //     }
+            // } else {
+            //     for (var i = 0, len = this.parkings.length; i < len; i++) {
+            //         ret["parkings"].push(this.parkings[i]);
+            //     }
+            // }
         }
         ret["samePois"] = [];
         if (this.samePois) {

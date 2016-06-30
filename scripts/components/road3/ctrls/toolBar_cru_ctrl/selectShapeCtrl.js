@@ -942,6 +942,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'childId':$scope.curentSelectData.id
                     });
                 })
+                return;
             }
 
             if (!selectCtrl.selectedFeatures) {
