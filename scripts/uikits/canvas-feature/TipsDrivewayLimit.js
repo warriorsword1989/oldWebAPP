@@ -10,7 +10,7 @@ fastmap.uikit.canvasTips.TipsDrivewayLimit = fastmap.uikit.canvasTips.Tips.exten
                 scalex: 0.7,
                 scaley: 0.7,
                 rotate: (item.m.c - 180) * (Math.PI / 180),
-                fillStyle: item.m.a == "0"?this.redFill:this.greenFill
+                fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
         this.properties['markerStyle']["icon"].push(
