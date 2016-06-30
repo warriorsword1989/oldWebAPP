@@ -55,7 +55,7 @@
                             <label ng-repeat="(key, value) in fuelTypeML" ng-if="true">
                                 <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]"> {{value}}
                             </label>
-                            <label ng-repeat="(key, value) in fuelTypeHM" ng-if="">
+                            <label ng-repeat="(key, value) in fuelTypeHM" ng-if="false">
                                 <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]"> {{value}}
                             </label>
                         </div>
