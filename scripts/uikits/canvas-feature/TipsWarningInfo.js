@@ -11,7 +11,7 @@ fastmap.uikit.canvasTips.TipsWarningInfo = fastmap.uikit.canvasTips.Tips.extend(
                     rotate: (item.m.c - 180) * (Math.PI / 180),
                     dx: 0,
                     dy: 0,
-                    fillStyle:item.m.a == "0"?this.redFill:this.greenFill
+                    fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                 })
             );
             this.properties['markerStyle']["icon"].push(
@@ -36,7 +36,7 @@ fastmap.uikit.canvasTips.TipsWarningInfo = fastmap.uikit.canvasTips.Tips.extend(
                     rotate: (item.m.c - 180) * (Math.PI / 180),
                     dx: 0,
                     dy: 0,
-                    fillStyle:item.m.a == "0"?this.redFill:this.greenFill
+                    fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                 })
             );
             this.properties['markerStyle']["icon"].push(

@@ -12,7 +12,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
         lineColor: 'red',
         fillColor: 'rgba(225,225,225,0.5)'
     },
-    greenFill: {
+    blueFill: {
         lineColor: 'blue',
         fillColor: 'rgba(225,225,225,0.5)'
     },

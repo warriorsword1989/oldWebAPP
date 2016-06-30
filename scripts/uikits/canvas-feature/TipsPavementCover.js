@@ -7,7 +7,7 @@ fastmap.uikit.canvasTips.TipsPavementCover = fastmap.uikit.canvasTips.Tips.exten
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
-                fillStyle:item.m.a == "0"?this.redFill:this.greenFill
+                fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
     }
