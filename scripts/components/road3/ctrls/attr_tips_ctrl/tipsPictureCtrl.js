@@ -49,10 +49,54 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
             document.getElementById("dataTipsOriginModal").style.display = 'block';
         }
     }
+    var getCoordInDocumentExample = function(canvasObj){
+        canvasObj.onmousemove = function(e){
+            var pointer = getCoordInDocument(e);
+            $scope.pointX = pointer.x - e.target.getBoundingClientRect().left;
+            $scope.pointY = pointer.y - e.target.getBoundingClientRect().top;
+            if($scope.pointX < 210){
+                if($scope.imgPageNow == 0 || $scope.imgPageNow == 1){
+                    $scope.imgSwitchCondition = 0;
+                    $scope.switchArrowTitle = '已是第一页';
+                }else{
+                    $scope.imgSwitchCondition = -1;
+                    $scope.switchArrowTitle = '上一张';
+                }
+            }else{
+                if($scope.imgPageNow == $scope.imgAllPage){
+                    $scope.imgSwitchCondition = 0;
+                    $scope.switchArrowTitle = '已是最后一页';
+                }else{
+                    $scope.imgSwitchCondition = 1;
+                    $scope.switchArrowTitle = '下一张';
+                }
+            }
+            $scope.$apply()
+        }
+    }
+    var getCoordInDocument = function(e) {
+        e = e || window.event;
+        var x = e.pageX || (e.clientX +
+            (document.documentElement.scrollLeft
+            || document.body.scrollLeft));
+        var y= e.pageY || (e.clientY +
+            (document.documentElement.scrollTop
+            || document.body.scrollTop));
+        return {'x':x,'y':y};
+    }
+    getCoordInDocumentExample(document.getElementById("imgContainer"));
     if (selectCtrl.rowKey) {
         $scope.picData = selectCtrl.rowKey.feedback.f_array;
         $scope.openOrigin(selectCtrl.rowKey["pictureId"]);
         $scope.imgAllPage =  $scope.getPicNum();
+    }
+    /*翻页图片*/
+    $scope.switchImg = function(){
+        if($scope.imgSwitchCondition == -1){
+            switchPic(0);
+        }else if($scope.imgSwitchCondition == 1){
+            switchPic(1);
+        }
     }
     /*tips图片全屏*/
     $scope.showFullPic = function () {
@@ -61,12 +105,14 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
     }
 
     /*图片切换*/
-    $scope.switchPic = function (type) {
+    function switchPic(type) {
         if (type == 0) {
+            console.log('←')
             if ($scope.photoId - 1 >= 0) {
                 $scope.openOrigin($scope.photoId - 1);
             }
         } else {
+            console.log('→')
             if ($scope.photoId + 2 <= $scope.imgAllPage) {
                 $scope.openOrigin($scope.photoId + 1);
             }
