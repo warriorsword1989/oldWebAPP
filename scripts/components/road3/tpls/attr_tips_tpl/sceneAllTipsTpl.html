@@ -157,6 +157,13 @@
             </div>
         </div>
     </div>
+    <div class="right" ng-if="allTipsType==1105" >
+        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
+            <div class="col-sm-2" ng-repeat="item in dataTipsData.w_array">
+                <img ng-src="../../../images/road/tips/1105/1105_{{item.tp}}_0.svg" style="cursor: pointer" ng-click="showItem($index)">
+            </div>
+        </div>
+    </div>
     <div class="middle">
         <div class="tip-left">
             <div class="panel panel-default" style="background-color: #555;margin-bottom: 0px;" >
@@ -332,36 +339,34 @@
                                 <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(tipsData.in.id,'RDLINK')" ng-bind="tipsData.in.id" title="{{tipsData.in.id}}"></span>
                             </div>
                         </div>
-                        <div ng-repeat="item in tipsData.w_array">
-                            <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding: 4px">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                                <div class="col-sm-7" style="padding: 4px">
-                                    <span class="label">{{item.sq}}</span>
-                                </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">标牌类型:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label ">{{type[wArrayitem.tp]}}</span>
                             </div>
-                            <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding: 4px">标牌类型:</label>
-                                <div class="col-sm-7" style="padding: 4px">
-                                    <span class="label ">{{type[item.tp]}}</span>
-                                </div>
+                        </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">有效距离:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " >{{wArrayitem.vDis}} m</span>
                             </div>
-                            <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding: 4px">有效距离:</label>
-                                <div class="col-sm-7" style="padding: 4px">
-                                    <span class="label " >{{item.vDis}} m</span>
-                                </div>
+                        </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">预告距离:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " >{{wArrayitem.wDis}} m</span>
                             </div>
-                            <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding: 4px">预告距离:</label>
-                                <div class="col-sm-7" style="padding: 4px">
-                                    <span class="label " >{{item.wDis}} m</span>
-                                </div>
+                        </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " >{{wArrayitem.time}}</span>
                             </div>
-                            <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
-                                <div class="col-sm-7" style="padding: 4px">
-                                    <span class="label " >{{item.time}}</span>
-                                </div>
+                        </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">文字说明:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label" >{{wArrayitem.desc}}</span>
                             </div>
                         </div>
                     </form>

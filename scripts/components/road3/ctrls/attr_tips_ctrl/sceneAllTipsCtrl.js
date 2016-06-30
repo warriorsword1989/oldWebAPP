@@ -85,6 +85,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             $scope.$emit("transitCtrlAndTpl", options);
         });
     };
+
+    $scope.showItem = function (index){
+        $scope.wArrayitem = $scope.dataTipsData.w_array[index];
+    };
+
     //初始化DataTips相关数据
     $scope.initializeDataTips = function(data) {
         $scope.photos = [];
@@ -222,6 +227,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
+                $scope.wArrayitem = $scope.tipsData.w_array[0];
                 $scope.type = {
                     "10501": "上陡坡",
                     "10502": "下陡坡",
