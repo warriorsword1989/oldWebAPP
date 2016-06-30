@@ -30,6 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.changeProject = function(type) {
             $scope.showLoading = true;
             $scope.showPopoverTips = false;
+            $scope.tipsPanelOpened = false;
             if (type == 1) { //poi
                 $ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function() {
                     $scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';

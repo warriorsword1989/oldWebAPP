@@ -12,7 +12,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
         lineColor: 'red',
         fillColor: 'rgba(225,225,225,0.5)'
     },
-    greenFill: {
+    blueFill: {
         lineColor: 'blue',
         fillColor: 'rgba(225,225,225,0.5)'
     },
@@ -62,7 +62,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
                     break;
                 case 1111://条件限速 *
-                    ret = new fastmap.uikit.canvasTips.TipSpeedlimit(item);
+                    ret = new fastmap.uikit.canvasTips.TipsSpeedlimit(item);
                     break;
                 case 1113://车道限速 *
                     ret = new fastmap.uikit.canvasTips.TipsDrivewayLimit(item);
