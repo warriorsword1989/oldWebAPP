@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/6/29.
  */
 var zoneLinkApp = angular.module("app");
-zoneLinkApp.controller("zoneLinkController",["$scope" , "appPath" , "dsEdit" , function($scope,appPath,dsEdit) {
+zoneLinkApp.controller("zoneLinkController",["$scope","dsEdit" , function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -64,20 +64,6 @@ zoneLinkApp.controller("zoneLinkController",["$scope" , "appPath" , "dsEdit" , f
     //保存
     $scope.save = function(){
         objCtrl.save();
-        if(objCtrl.changedProperty.limits){
-            if(objCtrl.changedProperty.limits.length > 0){
-                $.each(objCtrl.changedProperty.limits,function(i,v){
-                    delete v.pid;
-                });
-            }
-        }
-        if(objCtrl.changedProperty.limitTrucks){
-            if(objCtrl.changedProperty.limitTrucks.length > 0){
-                $.each(objCtrl.changedProperty.limitTrucks,function(i,v){
-                    delete v.pid;
-                });
-            }
-        }
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;

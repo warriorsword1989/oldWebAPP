@@ -50,7 +50,7 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
             {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
         $scope.$apply();
         $("#popoverTips").hide();
 
@@ -66,15 +66,7 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if (type === "ADADMINMOVE") {
-                if (selectCtrl.selectedFeatures) {
-                    tooltipsCtrl.setEditEventType('moveDot');
-                    tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
-                } else {
-                    tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
-                    return;
-                }
-            } else if (type === "PATHVERTEXINSERT") {
+            if (type === "PATHVERTEXINSERT") {
                 if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('insertDot');
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
@@ -131,15 +123,11 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);//设置编辑的类型
             shapeCtrl.startEditing();// 开始编辑
             map.currentTool = shapeCtrl.getCurrentTool();
-            if (type === "ADADMINMOVE") {
-                shapeCtrl.editFeatType = "adAdmin";
-                map.currentTool.snapHandler.addGuideLayer(adAdmin);//把点图层放到捕捉工具中
-            } else {
-                shapeCtrl.editFeatType = "adLink";
-                map.currentTool.snapHandler.addGuideLayer(adLink); //把线图层放到捕捉工具中
-            }
+            shapeCtrl.editFeatType = "zoneLink";
+            map.currentTool.snapHandler.addGuideLayer(zoneLink); //把线图层放到捕捉工具中
+
         }
-    }
+    };
     $scope.selectZoneShape = function (type, num) {
         //重置选择工具
         $scope.resetToolAndMap();
@@ -150,7 +138,7 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
             map.floatMenu = null;
         }
         //重置上一步中的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
         $("#popoverTips").hide();
 
         $scope.changeBtnClass(num);
@@ -221,7 +209,7 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
         dsEdit.getByPid(id,type).then(function (data){
-            if (data.errcode === -1) {
+            if (!data) {
                 return;
             }
             objCtrl.setCurrentObject(type, data);
@@ -231,10 +219,10 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
-            }
+            };
             $scope.$emit("transitCtrlAndTpl", options);
         });
-    }
+    };
     $scope.selectObjCallback = function (data) {
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
@@ -248,15 +236,15 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
                 toolsObj = {
                     items: [{
                         'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "移动ADNODE点",
+                        'title': "移动ZONENODE点",
                         'type': "PATHNODEMOVE",
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }]
-                }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adNodeCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adNodeTpl.html";
-                $scope.type = "ADNODE";
+                };
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneNodeCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneNodeTpl.html";
+                $scope.type = "ZONENODE";
                 break;
             case "LINK":
                 if (map.floatMenu) {
@@ -289,37 +277,23 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }]
-                }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adLinkTpl.html";
-                $scope.type = "ADLINK";
+                };
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneLinkCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneLinkTpl.html";
+                $scope.type = "ZONELINK";
                 break;
-            case "RDADMINNODE" :
-                toolsObj = {
-                    items: [{
-                        'text': "<a class='glyphicon glyphicon-move'></a>",
-                        'title': "移动行政区划代表点",
-                        'type': "ADADMINMOVE",
-                        'class': "feaf",
-                        callback: $scope.modifyTools
-                    }]
-                }
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adAdminCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adAdminTpl.html";
-                $scope.type = "ADADMIN";
-                break;
-            case "ADFACE":
-                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adFaceCtrl';
-                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adFaceTpl.html";
-                $scope.type = "ADFACE";
+            case "ZONEFACE":
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneFaceCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneFaceTpl.html";
+                $scope.type = "ZONEFACE";
                 break;
         }
         $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
     };
 
-}])
+}]);
