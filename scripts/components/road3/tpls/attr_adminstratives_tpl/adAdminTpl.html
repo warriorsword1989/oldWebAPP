@@ -12,7 +12,7 @@
                             <div class="btn-group btn-group-justified" style="width: 150px" role="group"
                                  aria-label="">
                                 <div class="btn-group" role="group">
-                                    <button id="liout" type="button"
+                                    <button id="liout" type="button" class="btn btn-shape"
                                             ng-class="{'btn btn-xs selected':isbase==true,'btn btn-xs ':isbase==false}"
                                             ng-click="clickBasic(true)">
                                         基础属性
@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="btn-group" role="group"
                                      style="border-left: 1px solid #404040;border-right: 1px solid #404040">
-                                    <button id="lierror" type="button"
+                                    <button id="lierror" type="button" class="btn btn-shape"
                                             ng-class="{'btn btn-xs':isbase==true,'btn btn-xs selected':isbase==false}"
                                             ng-click="clickBasic(false)"> 层级关系
                                     </button>
@@ -29,19 +29,17 @@
                             <div class="list-line"></div>
                         </li>
                         <li>
-                            <div><label>行政代码</label></div>
+                            <label>行政代码</label>
                             <div><input type="text" ng-model="adAdminData.adminId" maxlength="6"/>
                             </div>
                         </li>
                         <li>
-                            <div><label>扩展代码</label></div>
+                            <label>扩展代码</label>
                             <div><input type="text" ng-model="adAdminData.extendId" maxlength="4"/>
                             </div>
                         </li>
                         <li>
-                            <div>
-                                <label>行政类型</label>
-                            </div>
+                            <label>行政类型</label>
                             <div>
                                 <select ng-model="adAdminData.adminType"
                                         ng-options="value.id as value.label for value in adminType">
@@ -50,9 +48,7 @@
                             </div>
                         </li>
                         <li>
-                            <div>
-                                <label>代表点标识</label>
-                            </div>
+                            <label>代表点标识</label>
                             <div>
                                 <select ng-model="adAdminData.capital"
                                         ng-options="value.id as value.label for value in capital">
@@ -61,15 +57,14 @@
                             </div>
                         </li>
                         <li>
-                            <div><label>图符号码</label></div>
+                            <label>图符号码</label>
                             <div><input type="text" ng-model="adAdminData.meshId"/>
                             </div>
                         </li>
                         <li>
-                            <div><label>人口数量</label></div>
+                            <label>人口数量</label>
                             <div>
-                                <input type="text" ng-model="adAdminData.population"/>
-                                <label>万人</label>
+                                <input type="text" ng-model="adAdminData.population" style="width: 85%"/>万人
                             </div>
                         </li>
                     </ul>

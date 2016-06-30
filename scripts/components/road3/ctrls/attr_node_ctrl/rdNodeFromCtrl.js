@@ -308,6 +308,7 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
                 // editorLayer.clear();
                 highRenderCtrl._cleanHighLight(); //清空高亮
             }
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         });
     };
     $scope.cancel=function(){
