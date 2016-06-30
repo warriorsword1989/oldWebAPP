@@ -3,14 +3,18 @@
  */
 //var otherApp=angular.module("lazymodule", []);
 var otherApp=angular.module("app");
-otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad",function($scope,appPath,dsRoad){
+otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit",function($scope,appPath,dsRoad,dsEdit){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
+    var rdNode = layerCtrl.getLayerById("referenceNode");
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+    var editLayer = layerCtrl.getLayerById('edit');
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
@@ -167,20 +171,11 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad",function
         objectEditCtrl.selectNodeRefresh();
     }
     $scope.save = function () {
-        $scope.nodeForm.$setPristine();
         objectEditCtrl.save();
-        var param = {
-            "command": "UPDATE",
-            "type":"RDNODE",
-            "dbId": App.Temp.dbId,
-            "data": objectEditCtrl.changedProperty
-        };
-
         if(!objectEditCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
-
         if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
             $.each(objectEditCtrl.changedProperty.forms,function(i,v){
                 if(v.linkPid || v.pid){
@@ -192,69 +187,126 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad",function
                 return v;
             });
         }
-
-        dsRoad.editGeometryOrProperty(param).then(function (data){
-            if(data){
-                var restrict = layerCtrl.getLayerById("referenceLine");
-                restrict.redraw();
-                var info = null;
-                if (data.errcode==0) {
-                    var sinfo={
-                        "op":"修改RDNODE成功",
-                        "type":"",
-                        "pid": ""
-                    };
-                    data.data.log.push(sinfo);
-                    info=data.data.log;
-                    swal("操作成功",'保存成功！', "success");
-                    objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-                }else{
-                    info=[{
-                        "op":data.errcode,
-                        "type":data.errmsg,
-                        "pid": data.errid
-                    }];
+        dsEdit.update($scope.rdNodeData.pid, "RDNODE", objectEditCtrl.changedProperty).then(function(data) {
+            if (data) {
+                //rdLink.redraw();
+                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
                 }
-                outPutCtrl.pushOutput(info);
-                if(outPutCtrl.updateOutPuts!=="") {
-                    outPutCtrl.updateOutPuts();
-                }
+                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             }
         });
+
+        // $scope.nodeForm.$setPristine();
+        // objectEditCtrl.save();
+        // var param = {
+        //     "command": "UPDATE",
+        //     "type":"RDNODE",
+        //     "dbId": App.Temp.dbId,
+        //     "data": objectEditCtrl.changedProperty
+        // };
+        //
+        // if(!objectEditCtrl.changedProperty){
+        //     swal("操作成功",'属性值没有变化！', "success");
+        //     return;
+        // }
+        //
+        // if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
+        //     $.each(objectEditCtrl.changedProperty.forms,function(i,v){
+        //         if(v.linkPid || v.pid){
+        //             delete v.linkPid;
+        //             delete v.pid;
+        //         }
+        //     });
+        //     objectEditCtrl.changedProperty.forms.filter(function(v){
+        //         return v;
+        //     });
+        // }
+        //
+        // dsRoad.editGeometryOrProperty(param).then(function (data){
+        //     if(data){
+        //         var restrict = layerCtrl.getLayerById("referenceLine");
+        //         restrict.redraw();
+        //         var info = null;
+        //         if (data.errcode==0) {
+        //             var sinfo={
+        //                 "op":"修改RDNODE成功",
+        //                 "type":"",
+        //                 "pid": ""
+        //             };
+        //             data.data.log.push(sinfo);
+        //             info=data.data.log;
+        //             swal("操作成功",'保存成功！', "success");
+        //             objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        //         }else{
+        //             info=[{
+        //                 "op":data.errcode,
+        //                 "type":data.errmsg,
+        //                 "pid": data.errid
+        //             }];
+        //         }
+        //         outPutCtrl.pushOutput(info);
+        //         if(outPutCtrl.updateOutPuts!=="") {
+        //             outPutCtrl.updateOutPuts();
+        //         }
+        //     }
+        // });
     };
 
     $scope.delete = function () {
-        var pid = parseInt($scope.rdNodeData.pid);
-        var param ={
-            "command": "DELETE",
-            "type": "RDNODE",
-            "dbId": App.Temp.dbId,
-            "objId": pid
-        };
-        //结束编辑状态
+        // var pid = parseInt($scope.rdNodeData.pid);
+        // var param ={
+        //     "command": "DELETE",
+        //     "type": "RDNODE",
+        //     "dbId": App.Temp.dbId,
+        //     "objId": pid
+        // };
+        // //结束编辑状态
+        //
+        // dsRoad.editGeometryOrProperty(param).then(function (data){
+        //     rdLink.redraw();
+        //     rdNode.redraw();
+        //     var info = [];
+        //     if (data.errcode == 0) {
+        //         var sinfo = {
+        //             "op": "删除RDNODE成功",
+        //             "type": "",
+        //             "pid": ""
+        //         };
+        //         data.data.log.push(sinfo);
+        //         info = data.data.log;
+        //     } else {
+        //         info = [{
+        //             "op": data.errcode,
+        //             "type": data.errmsg,
+        //             "pid": data.errid
+        //         }];
+        //         swal("删除失败", data.errmsg, "error");
+        //     }
+        //     outPutCtrl.pushOutput(info);
+        //     if (outPutCtrl.updateOutPuts !== "") {
+        //         outPutCtrl.updateOutPuts();
+        //     }
+        // });
 
-        dsRoad.editGeometryOrProperty(param).then(function (data){
-            rdLink.redraw();
-            var info = [];
-            if (data.errcode == 0) {
-                var sinfo = {
-                    "op": "删除RDNODE成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("删除失败", data.errmsg, "error");
-            }
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
+        dsEdit.delete($scope.rdNodeData.pid, "RDNODE").then(function(data) {
+            if (data) {
+                rdLink.redraw();
+                rdNode.redraw();
+                $scope.rdNodeData = null;
+                // var editorLayer = layerCtrl.getLayerById("edit");
+                // editorLayer.clear();
+                highRenderCtrl._cleanHighLight(); //清空高亮
             }
         });
     };
