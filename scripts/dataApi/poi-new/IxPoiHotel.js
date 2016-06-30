@@ -8,6 +8,7 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
      */
     setAttributes: function(data) {
         this.pid = data['pid'] || 0;
+        this._flag_ = data["_flag_"] || false; //深度信息特殊字段,用于控制深度信息的保存
         //this.hotelId = data['hotelId'] || 0;
         this.poiPid = data['poiPid'] || 0;
         this.creditCard = data['creditCard'];
@@ -33,6 +34,7 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
+        ret['_flag_'] = this._flag_;
         ret['pid'] = this.pid;
         //ret['hotelId'] = this.hotelId;
         ret['poiPid'] = this.poiPid;

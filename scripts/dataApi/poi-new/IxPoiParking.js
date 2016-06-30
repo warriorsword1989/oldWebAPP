@@ -8,48 +8,50 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.pid = data['pid'];
-        //this.parkingId = data['parkingId'];
-        this.poiPid = data['poiPid'] || 0;
-        var parkingTypeArr = (data["parkingType"] || "").split("|");
+        this._flag_ = data["_flag_"] || false; //深度信息特殊字段,用于控制深度信息的保存
+        this.pid = data['pid'] || 0;
+        var parkingTypeArr = data["parkingType"] ? data["parkingType"].split("|") : [] ;
         this.parkingType = {};
         for(var i=0;i<parkingTypeArr.length;i++) {
             this.parkingType[parkingTypeArr[i]] = true;
         }
-        var tollStdArr = (data["tollStd"] || "").split("|");
+        var tollStdArr = data["tollStd"] ? data["tollStd"].split("|") : [] ;
         this.tollStd = {};
         for(var i=0;i<tollStdArr.length;i++) {
             this.tollStd[tollStdArr[i]] = true;
         }
         this.tollDes = data['tollDes'];
-        var tollWayArr = (data["tollWay"] || "").split("|");
+        var tollWayArr = data["tollWay"] ? data["tollWay"].split("|") : [] ;
         this.tollWay = {};
         for(var i=0;i<tollWayArr.length;i++) {
             this.tollWay[tollWayArr[i]] = true;
         }
         this.payment = data['payment'];
-        this.remark = data['remark'];
+
+        var remarkArr = data["remark"] ? data["remark"].split("|") : [];
+        this.remark = {};
+        for(var i=0;i<remarkArr.length;i++) {
+            this.remark[remarkArr[i]] = true;
+        }
         this.source = data['source'];
         this.openTiime = data['openTiime'];
         this.totalNum = data['totalNum'];
         this.workTime = data['workTime'];
-        this.accessType = data['accessType'] || 2;
         this.resHigh = data['resHigh'] || 0;
         this.resWidth = data['resWidth'] || 0;
         this.resWeigh = data['resWeigh'] || 0;
         this.certificate = data['certificate'] || 0;
-        this.mechanicalGarage = data['mechanicalGarage'] || 0;
         this.vehicle = data['vehicle'] || 0;
         this.photoName = data['photoName'];
-        this.rowId = data["rowId"];
+        this.rowId = data["rowId"] || "";
     },
     getIntegrate: function(){
         var ret = {};
-        ret['parkingId'] = this.parkingId;
-        ret['poiPid'] = this.poiPid;
+        ret['_flag_'] = this._flag_;
+        ret['pid'] = this.pid;
         var checkedParkingTypeArr = [];
         for(var key in this.parkingType){
-            if(this.parkingType[key] == true){
+            if(this.parkingType[key]){
                 checkedParkingTypeArr.push(key);
             }
         }
@@ -70,17 +72,22 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         }
         ret["tollWay"] = checkedTollWayArr.join("|");
         ret['payment'] = this.payment;
-        ret['remark'] = this.remark;
+
+        var checkedRemark = [];
+        for(var key in this.remark){
+            if(this.remark[key]){
+                checkedRemark.push(key);
+            }
+        }
+        ret['remark'] = checkedRemark.join("|");
         ret['source'] = this.source;
         ret['openTiime'] = this.openTiime;
         ret['totalNum'] = this.totalNum;
         ret['workTime'] = this.workTime;
-        ret['accessType'] = this.accessType;
         ret['resHigh'] = this.resHigh;
         ret['resWidth'] = this.resWidth;
         ret['resWeigh'] = this.resWeigh;
         ret['certificate'] = this.certificate;
-        ret['mechanicalGarage'] = this.mechanicalGarage;
         ret['vehicle'] = this.vehicle;
         ret['photoName'] = this.photoName;
         ret["rowId"] = this.rowId;

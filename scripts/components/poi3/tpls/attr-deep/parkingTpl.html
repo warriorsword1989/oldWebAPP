@@ -7,7 +7,7 @@
                         <label>类 型</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in parkingBuildingType">
-                                <input type="radio" value="{{key}}" ng-model="poi.parkings[0].buildingType"> {{value}}
+                                <input type="radio" value="{{key}}" ng-model="poi.parkings[0].parkingType[key]"> {{value}}
                             </label>
                         </div>
                     </li>
