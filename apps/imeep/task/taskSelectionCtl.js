@@ -42,7 +42,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                     break;
                 case 3:
                     $scope.requestParams.classType = 1;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classStage = 2;
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;

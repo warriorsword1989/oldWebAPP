@@ -75,7 +75,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 break;
         }
     };
-    //接收分类改变后出发的事件
+    //接收分类改变后触发的事件
     $scope.$on("kindChange", function(event, data) {
         if(!data){ //为了解决新增POI时种别为空的情况
             return ;
@@ -139,6 +139,81 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 break;
         }
     });
+    /**
+     * 由于POI模型中对深度信息为空的情况做了赋默认值的处理，所以保存的时候也需要进行清理深度信息的处理
+     */
+    function clearDeepInfo(){
+        var poi = objectCtrl.data;
+        var kindCode = poi.kindCode ;
+        var data = $scope.metaData.kindFormat[kindCode];
+        //分类切换后需要将其它的深度信息的_flag_字段设置为ignore，这样保存的时候就不会将
+        if(data){
+            switch (data.extend) {
+                case 1: //停车场
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 2: //加油站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 4: //宾馆酒店
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 5: //运动场馆
+                    break;
+                case 6: //餐馆
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    break;
+                case 7: //加气站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                default:
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+            }
+        }
+
+
+        var originKindCode = objectCtrl.data.originJson.kindCode;
+        var originData = $scope.metaData.kindFormat[originKindCode];
+        //当切换了分类需要将原来的深度信息置为空数组
+        if(kindCode != originKindCode && originKindCode){
+            switch (originData.extend) {
+                case 1: //停车场
+                    poi.parkings = [];
+                    break;
+                case 2: //加油站
+                    poi.gasstations = [];
+                    break;
+                case 4: //宾馆酒店
+                    poi.hotels = [];
+                    break;
+                case 5: //运动场馆
+                    break;
+                case 6: //餐馆
+                    poi.restaurants = [];
+                    break;
+                case 7: //加气站
+                    poi.gasstations = [];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     /*默认显示baseInfo的tab页*/
     function initShowTag() {
         $scope.propertyType = "base";
@@ -174,10 +249,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 保存数据
     function save() {
+        clearDeepInfo();//清除不使用的深度信息
         objectCtrl.save();
         if (!validateForm()) {
             return;
         }
+        console.info(objectCtrl.changedProperty);
         dsEdit.update($scope.poi.pid, "IXPOI", objectCtrl.changedProperty).then(function(data) {});
     }
     // 删除数据
