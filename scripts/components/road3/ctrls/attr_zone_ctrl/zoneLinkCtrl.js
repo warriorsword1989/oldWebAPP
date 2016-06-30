@@ -64,15 +64,16 @@ zoneLinkApp.controller("zoneLinkController",["$scope","dsEdit" , function($scope
     //保存
     $scope.save = function(){
         objCtrl.save();
-        if(!objCtrl.changedProperty){
+        var changed = objCtrl.changedProperty;
+        if(!changed){
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
         //保存调用方法
-        dsEdit.update($scope.zoneLinkData.pid, "ZONELINK", objCtrl.changedProperty).then(function(data) {
+        dsEdit.update($scope.zoneLinkData.pid, "ZONELINK", changed).then(function(data) {
             if (data) {
-                zoneLink.redraw();//线重绘
-                zoneNode.redraw();//点重绘
+                // zoneLink.redraw();//线重绘
+                // zoneNode.redraw();//点重绘
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();

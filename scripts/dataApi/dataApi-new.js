@@ -51,6 +51,7 @@
                 "dataApi/road/AdNode.js",
                 "dataApi/road/ZoneNode.js",
                 "dataApi/road/ZoneLink.js",
+                "dataApi/road/ZoneLinkKind.js",
                 "dataApi/road/ZoneFace.js"
             ]; // etc.
 

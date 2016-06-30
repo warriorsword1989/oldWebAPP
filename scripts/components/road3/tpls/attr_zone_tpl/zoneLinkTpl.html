@@ -14,7 +14,7 @@
                         <li>
                             <label>种别</label>
                             <div>
-                                <select ng-model="zoneLinkData.kind"
+                                <select ng-model="zoneLinkData.kinds[0].kind"
                                         ng-options="value.id as value.label for value in kind">
                                 </select>
                             </div>
@@ -22,7 +22,7 @@
                         <li>
                             <label>形态</label>
                             <div>
-                                <select ng-model="zoneLinkData.form"
+                                <select ng-model="zoneLinkData.kinds[0].form"
                                         ng-options="value.id as value.label for value in form">
                                 </select>
                             </div>

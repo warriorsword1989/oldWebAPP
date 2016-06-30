@@ -18,8 +18,12 @@ fastmap.dataApi.ZoneLink = fastmap.dataApi.GeoDataModel.extend({
         this.rowId = data["rowId"];
         this.sNodePid = data["sNodePid"];
         this.eNodePid = data["eNodePid"];
-        this.kind = data["kind"] || 1;
-        this.form = data["form"] || 1;
+        this.kinds = [];
+        if (data["kinds"]) {
+            for (var i = 0, len = data["kinds"].length; i < len; i++) {
+                this.kinds.push(fastmap.dataApi.zoneLinkKind(data["kinds"][i]));
+            }
+        }
         this.geometry = data["geometry"];
         this.length = data["length"] || 0;
         this.scale = data["scale"] || 0;
@@ -40,14 +44,17 @@ fastmap.dataApi.ZoneLink = fastmap.dataApi.GeoDataModel.extend({
         data["rowId"] = this.rowId;
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
-        data["kind"] = this.kind;
-        data["form"] = this.form;
+        data["kinds"] = [];
+        if (this.kinds) {
+            for (var i = 0, len = this.kinds.length; i < len; i++) {
+                data["kinds"].push(this.kinds[i].getIntegrate());
+            }
+        }
         data["geometry"] = this.geometry;
         data["length"] = this.length;
         data["scale"] = this.scale;
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
-        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -58,22 +65,25 @@ fastmap.dataApi.ZoneLink = fastmap.dataApi.GeoDataModel.extend({
         data["rowId"] = this.rowId;
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
-        data["kind"] = this.kind;
-        data["form"] = this.form;
+        data["kinds"] = [];
+        if (this.kinds) {
+            for (var i = 0, len = this.kinds.length; i < len; i++) {
+                data["kinds"].push(this.kinds[i].getIntegrate());
+            }
+        }
         data["geometry"] = this.geometry;
         data["length"] = this.length;
         data["scale"] = this.scale;
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
-        data["geoLiveType"] = this.geoLiveType;
         return data;
-    },
+    }
 
 });
 
-    fastmap.dataApi.zoneLink = function (data, options) {
-        return new fastmap.dataApi.ZoneLink(data, options);
-    }
+fastmap.dataApi.zoneLink = function (data, options) {
+    return new fastmap.dataApi.ZoneLink(data, options);
+};
 
 
 
