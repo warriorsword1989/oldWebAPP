@@ -11,9 +11,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var selectCtrl = fastmap.uikit.SelectController();
 
+
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
-
         //如果是3d分歧则关系类型改为3
         if(shapeCtrl.editFeatType == 1 || shapeCtrl.editFeatType == 3){
             // objCtrl.data.details[0].branchType = 3;
