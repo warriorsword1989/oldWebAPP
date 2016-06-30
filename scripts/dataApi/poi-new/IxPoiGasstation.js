@@ -8,36 +8,37 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
      */
     setAttributes: function(data) {
         this.pid = data['pid'] || 0;
+        this._flag_ = data["_flag_"] || false; //深度信息特殊字段,用于控制深度信息的保存
         //this.gasstationId = data['gasstationId'] || 0;
         this.poiPid = data['poiPid'];
         this.serviceProv = data['serviceProv'];
-        var fuelTypeArr = (data["fuelType"] || "").split("|");
+        var fuelTypeArr = data["fuelType"] ? data["fuelType"].split("|") : [];
         this.fuelType = {};
         for(var i=0;i<fuelTypeArr.length;i++) {
             this.fuelType[fuelTypeArr[i]] = true;
         }
-        var oilTypeArr = (data["oilType"] || "").split("|");
+        var oilTypeArr = data["oilType"] ? data["oilType"].split("|") : [];
         this.oilType = {};
         for(var i=0;i<oilTypeArr.length;i++) {
             this.oilType[oilTypeArr[i]] = true;
         }
-        var egTypeArr = (data["egType"] || "").split("|");
+        var egTypeArr = data["egType"] ? data["egType"].split("|") : [];
         this.egType = {};
         for(var i=0;i<egTypeArr.length;i++) {
             this.egType[egTypeArr[i]] = true;
         }
-        var mgTypeArr = (data["mgType"] || "").split("|");
+        var mgTypeArr = data["mgType"] ? data["mgType"].split("|") : [];
         this.mgType = {};
         for(var i=0;i<mgTypeArr.length;i++) {
             this.mgType[mgTypeArr[i]] = true;
         }
 
-        var paymentArr = (data["payment"] || "").split("|");
+        var paymentArr =  data["payment"] ? data["payment"].split("|") : [];
         this.payment = {};
         for(var i=0;i<paymentArr.length;i++) {
             this.payment[paymentArr[i]] = true;
         }
-        var serviceArr = (data["service"] || "").split("|");
+        var serviceArr = data["service"] ? data["service"].split("|") : [];
         this.service = {};
         for(var i=0;i<serviceArr.length;i++) {
             this.service[serviceArr[i]] = true;
@@ -49,6 +50,7 @@ FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
+        ret['_flag_'] = this._flag_;
         ret['pid'] = this.pid;
         //ret['gasstationId'] = this.gasstationId;
         ret['poiPid'] = this.poiPid;
