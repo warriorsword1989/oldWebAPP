@@ -2,37 +2,26 @@
  * Created by liuyang on 2016/6/29.
  */
 var zoneLinkApp = angular.module("app");
-zoneLinkApp.controller("zoneLinkController",function($scope) {
+zoneLinkApp.controller("zoneLinkController",["$scope" , "appPath" , "dsEdit" , function($scope,appPath,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var zoneLink = layerCtrl.getLayerById("zoneLink");
     var zoneNode=layerCtrl.getLayerById("zoneNode");
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var editLayer = layerCtrl.getLayerById('edit');
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.kind = [
         {"id": 0, "label": "假想线"},
-        {"id": 1, "label": "省,直辖市边界"},
-        {"id": 2, "label": "市行政区界"},
-        {"id": 3, "label": "区县边界"},
-        {"id": 4, "label": "乡镇边界"},
-        {"id": 5, "label": "村边界"},
-        {"id": 6, "label": "国界"},
-        {"id": 7, "label": "百万产品范围框"}
-
+        {"id": 1, "label": "AOIZONE边界线"},
+        {"id": 2, "label": "KDZONE边界线"}
     ];
     $scope.form = [
         {"id": 0, "label": "未调查"},
-        {"id": 1, "label": "无属性"},
-        {"id": 2, "label": "海岸线"},
-        {"id": 6, "label": "特别行政区界(K)"},
-        {"id": 7, "label": "特别行政区界(G)"},
-        {"id": 8, "label": "未定行政区划界"},
-        {"id": 9, "label": "南海诸岛范围线"}
-
+        {"id": 1, "label": "无属性"}
     ];
     $scope.scale = [
         {"id": 0, "label": "2.5w"},
@@ -59,6 +48,15 @@ zoneLinkApp.controller("zoneLinkController",function($scope) {
             geometry: line,
             id: $scope.zoneLinkData.pid
         });
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id:$scope.zoneLinkData.pid.toString(),
+            layerid:'zoneLink',
+            type:'line',
+            style:{}
+        });
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
     };
     if (objCtrl.data) {
         $scope.initializeData();
@@ -80,25 +78,16 @@ zoneLinkApp.controller("zoneLinkController",function($scope) {
                 });
             }
         }
-        var param = {
-            "command": "UPDATE",
-            "type":"ZONELINK",
-            "projectId": Application.projectid,
-            "data": objCtrl.changedProperty
-        };
-
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
         //保存调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            zoneLink.redraw();//线重绘
-            zoneNode.redraw();//点重绘
-            if (data.errcode==0) {
-                //清除数据清除高亮
-                if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
+        dsEdit.update($scope.zoneLinkData.pid, "ZONELINK", objCtrl.changedProperty).then(function(data) {
+            if (data) {
+                zoneLink.redraw();//线重绘
+                zoneNode.redraw();//点重绘
+                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
                     }
@@ -111,75 +100,25 @@ zoneLinkApp.controller("zoneLinkController",function($scope) {
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                swal("操作成功",'保存成功！', "success");
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-
-                //返回数据解析
-                var sInfo={
-                    "op":"修改zoneLink成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                for(var i=0; i<data.data.log.length-1;i++){
-                    if(data.data.log[i].rowId){
-                        data.data.log[i].rowId=$scope.linkData.pid;
-                    }
-                }
-
-                info=data.data.log;
-
-            } else {
-                swal("操作失败", data.errmsg, "error");
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            //显示到output输出窗口
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
             }
         })
     };
 
     //删除
     $scope.delete = function(){
-        var objId = parseInt($scope.zoneLinkData.pid);
-        var param = {
-            "command": "DELETE",
-            "type":"ZONELINK",
-            "projectId": Application.projectid,
-            "objId": objId
-        }
-        //删除调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            zoneLink.redraw();
-            zoneNode.redraw();
-            if (data.errcode==0) {
-                var sInfo={
-                    "op":"删除zone线成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
+        dsEdit.delete($scope.zoneLinkData.pid, "ZONELINK").then(function(data) {
+            if (data) {
+                zoneLink.redraw();//线重绘
+                zoneNode.redraw();//点重绘
+                $scope.zoneLinkData = null;
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                var editorLayer = layerCtrl.getLayerById("edit");
+                editorLayer.clear();
+                //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
-            }
-        })
+        });
     };
     $scope.cancel = function(){
 
@@ -190,4 +129,4 @@ zoneLinkApp.controller("zoneLinkController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}]);
