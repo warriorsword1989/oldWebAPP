@@ -116,7 +116,7 @@ zoneLinkApp.controller("zoneLinkController",["$scope" , "appPath" , "dsEdit" , f
                 highRenderCtrl.highLightFeatures.length = 0;
                 var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
-                //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });
     };
