@@ -102,6 +102,15 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RWNODE":
                     	this.data = fastmap.dataApi.rwNode(obj);
                     	break;
+                    case "ZONELINK":
+                        this.data = fastmap.dataApi.zoneLink(obj);
+                        break;
+                    case "ZONENODE":
+                        this.data = fastmap.dataApi.zoneNode(obj);
+                        break;
+                    case "ZONEFACE":
+                        this.data = fastmap.dataApi.zoneFace(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
@@ -113,29 +122,17 @@ fastmap.uikit.ObjectEditController = (function() {
                         "currentData": this.data
                     });
                 }
-                if (!this.originalData || (this.originalData.pid != this.data.pid)) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
-                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
-                        "originalData": this.originalData,
-                        "currentData": this.data
-                    });
-                }
-                //为poi父子关系重新加载poi做的特殊处理
-                if (!this.originalData || ((this.originalData.pid == this.data.pid) && this.originalData.geoLiveType == 'IX_POI')) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
-                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
-                        "originalData": this.originalData,
-                        "currentData": this.data
-                    });
-                }
-                //为分歧同种类和不同种类切换做的特殊处理
-                if (!this.originalData || (this.originalData.pid != this.data.pid) || (this.originalData.geoLiveType == 'RDBRANCH'&&this.originalData.relationshipType!==this.data.relationshipType)) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
-                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
-                        "originalData": this.originalData,
-                        "currentData": this.data
-                    });
-                }
+                this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
+                    "originalData": this.originalData,
+                    "currentData": this.data
+                });
+                // if (!this.originalData || (this.originalData.pid != this.data.pid)) {
+                //     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
+                //     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
+                //         "originalData": this.originalData,
+                //         "currentData": this.data
+                //     });
+                // }
             },
             /**
              *

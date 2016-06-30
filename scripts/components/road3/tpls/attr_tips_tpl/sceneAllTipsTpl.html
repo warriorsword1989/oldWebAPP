@@ -132,7 +132,7 @@
             </div>
             <div ng-if="photos.length > 0">
                 <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOriginPic(0)">
-                <span style=" float: right;top: 0px;right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center">{{photos.length}}</span>
+                <span style=" float: right;top: 0px;right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center" ng-if="dataTipsData.feedback.f_array.length!=0">{{dataTipsData.feedback.f_array.length}}</span>
             </div>
         </div>
         <div class="col-sm-12" style="margin-left: 30px; display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
@@ -206,7 +206,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">文字说明:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="limitSrc"></span>
+                                <span class="label " ng-bind="dataTipsData.desc"></span>
                             </div>
                         </div>
                     </form>
@@ -1062,19 +1062,19 @@
                 <div class="panel-body" ng-if="allTipsType==1406" style="border-radius: 4px;background-color: #555;">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span  class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label blank-text" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
                                 <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneExit">
                                     <span class="label blank-text" ng-click="getFeatDataCallback(item,'RDLINK')" ng-bind="item"></span>
@@ -1083,9 +1083,7 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">实景图代码:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaNo"></span>
-                            </div>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 3px" ng-bind="schemaNo" title="{{schemaNo}}"></div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">实景图类型:</label>

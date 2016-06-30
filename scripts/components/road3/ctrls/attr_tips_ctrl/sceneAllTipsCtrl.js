@@ -174,7 +174,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         $scope.limitSrc = $scope.limitSrcOption[i].label;
                     }
                 }
-                $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
 	        case "1102":    //红绿灯
 		        var fArray = $scope.dataTipsData.f_array;
@@ -212,9 +211,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 			        2: 'PG'
 		        };
 		        var gateDirObj = {
-			        0:'EG',
-			        1:'KG',
-			        2:'PG'
+			        0:'未调查',
+			        1:'单向',
+			        2:'双向'
 		        };
 		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
 		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
@@ -664,7 +663,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1515": //维修
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                var strArray = $scope.dataTipsData.time.split('-');
+                var strArray = $scope.dataTipsData.time?$scope.dataTipsData.time.split('-'):'';
                 $scope.startTime = strArray[0].substring(5);
                 $scope.endTime = strArray[1].substring(5);
                 break;
@@ -816,6 +815,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     }
     //打开图片大图页面
     $scope.openOriginPic = function(id) {
+        if($scope.dataTipsData.feedback.f_array.length == 0){
+            return false;
+        }
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",

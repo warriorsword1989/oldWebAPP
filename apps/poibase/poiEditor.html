@@ -11,10 +11,75 @@
         <link rel="stylesheet" type="text/css" href="../../scripts/libs/sweet-alert/css/sweet-alert.css">
         <link rel="stylesheet" type="text/css" href="../../styles/imeep/editor.css">
         <link rel="stylesheet" type="text/css" href="../../styles/imeep/editor-road.css">
+        <script type="text/javascript" src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script><!--//不能require-->
+        <script type="text/javascript" src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.js"></script><!--//不能require-->
         <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
+        <style>
+                .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+                    border-radius: 0!important;
+                    border-radius: 0!important;
+                }
+                .addNode_false {
+                    background: url('../../../images/road/button/dot_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addNode_true {
+                    background: url('../../../images/road//button/dot_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addLink_false {
+                    background: url('../../../images/road//button/line_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addLink_true {
+                    background: url('../../../images/road//button/line_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRelation_false {
+                    background: url('../../../images/road//button/relation_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRelation_true {
+                    background: url('../../../images/road//button/relation_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRdMultidDgitized_false {
+                    background: url('../../../images/road//button/multidDgitized_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRdMultidDgitized_true {
+                    background: url('../../../images/road/button/multidDgitized_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                #fm-addShapeContainer>button:focus{
+                    outline: none;
+                }
+                .btn-shape{
+                    color: #fff;
+                    background-color: #7F7F7F;
+                    border: 1px solid #494949;
+                }
+                .btn-shape:hover{
+                    border: 1px solid #494949;
+                }
+                .shape-well{
+                    max-width: 367px;
+                    background-color: #494949;
+                    text-align: center;
+                    opacity: .9;
+                }
+        </style>
     </head>
     <body ng-controller="PoiEditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
@@ -87,13 +152,69 @@
                         </div>
                     </div>
                     <div ui-layout-container>
-                        <div ui-layout="{flow:'row',dividerSize:'0'}">
+                        <div ui-layout="{flow:'row',dividerSize:'0'}" class="blackTheme">
                             <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
-                            <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
-                                <div class="btn-toolbar" style="margin-left: 0px">
-                                    <div ng-include="selectShapeURL" style="float: left"></div>
-                                    <div ng-include="addShapeURL" style="float: left;"></div>
-                                    <div ng-include="modifyToolURL" style="float: left"></div>
+                            <div style="position:absolute;z-index:1;background-color:black;top:0px;left:50px;padding:5px;">
+                                <button type="button" class="btn btn-shape">搜 索</button>
+                                <button type="button" class="btn btn-xs btn-default">自动录入</button>
+                                <button type="button" class="btn btn-xs btn-default">批处理</button>
+                            </div>
+                            <div style="position:absolute;z-index:1;background:black;top:0px;left:250px;padding:5px;">
+                                <div class="btn-group" ng-init="chosenBtnOpened=false">
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[chosenBtnOpened]" ng-click="chosenBtnOpened=!chosenBtnOpened;addBtnOpened=false;advanceBtnOpened=false;" ng-bind="chosenBtnOpened?'收起《':'选择 》'"></button>
+                                    <div class="btn-group" ng-if="chosenBtnOpened">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">点 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu shape-well" role="menu">
+                                                <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('RDGSC', $event)">RDNODE</button>
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('BRANCH_3D', $event)">RWNODE</button>
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('RDRESTRICTION', $event)">ADNODE</button>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">线 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu shape-well" role="menu">
+                                                <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('RDGSC', $event)">RDLINK</button>
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('BRANCH_3D', $event)">RWLINK</button>
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('RDRESTRICTION', $event)">ADLINK</button>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">面 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu shape-well" role="menu">
+                                                <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('RDGSC', $event)">ADFACE</button>
+                                                    <button type="button" class="btn btn-shape" ng-click="selectNode('BRANCH_3D', $event)">ZONEFACE</button>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        <button type="button" class="btn btn-xs btn-default">关系</button>
+                                        <button type="button" class="btn btn-xs btn-default">Tips</button>
+                                        <button type="button" class="btn btn-xs btn-default">点要素</button>
+                                    </div>
+                                </div>
+                                <div class="btn-group" ng-init="addBtnOpened=false">
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[addBtnOpened]" ng-click="addBtnOpened=!addBtnOpened;chosenBtnOpened=false;advanceBtnOpened=false;" ng-bind="addBtnOpened?'收起《':'新增 》'"></button>
+                                    <div class="btn-group" ng-if="addBtnOpened">
+                                        <button type="button" class="btn btn-xs btn-default">点</button>
+                                        <button type="button" class="btn btn-xs btn-default">线</button>
+                                        <button type="button" class="btn btn-xs btn-default">面</button>
+                                        <button type="button" class="btn btn-xs btn-default">关系</button>
+                                        <button type="button" class="btn btn-xs btn-default">Tips</button>
+                                        <button type="button" class="btn btn-xs btn-default">点要素</button>
+                                    </div>
+                                </div>
+                                <div class="btn-group" ng-init="advanceBtnOpened=false">
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[advanceBtnOpened]" ng-click="advanceBtnOpened=!advanceBtnOpened;chosenBtnOpened=false;addBtnOpened=false;" ng-bind="advanceBtnOpened?'收起《':'高级 》'"></button>
+                                    <div class="btn-group" ng-if="advanceBtnOpened">
+                                        <button type="button" class="btn btn-xs btn-default">上下线分离</button>
+                                        <button type="button" class="btn btn-xs btn-default">制作辅路</button>
+                                        <button type="button" class="btn btn-xs btn-default">追踪选择</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -403,7 +524,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fm-foldable fm-row" style="height: 200px;width: auto;left: 5px;" ng-style="{'bottom':{true: '0px', false: '-185px', 'none': '-200px'}[outputPanelOpened], right: {true: '360px', false: '0px', 'none': '0px'}[attrPanelOpened]}" ng-init="outputPanelOpened=true">
+                        <div class="fm-foldable fm-row" style="height: 200px;width: auto;left: 5px;" ng-style="{'bottom':{true: '0px', false: '-185px', 'none': '-200px'}[outputPanelOpened], right: {true: '290px', false: '5px', 'none': '5px'}[attrPanelOpened]}" ng-init="outputPanelOpened=true">
                             <div class="fm-fold-btn">
                                 <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[outputPanelOpened]" ng-click="outputPanelOpened=!outputPanelOpened">
                                 </a>

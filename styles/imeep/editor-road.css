@@ -1109,7 +1109,7 @@
 
 .picMapShow {
     width: 194px;
-    border: 1px solid #fff;
+    /*border: 1px solid #fff;*/
     height: 162px;
     float: left;
     border-radius: 4px;
@@ -1136,4 +1136,9 @@
     color: #fff;
     width: 100%;
     text-align: center;
+}
+.text-ellipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

@@ -11,9 +11,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var selectCtrl = fastmap.uikit.SelectController();
 
+
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
-
         //如果是3d分歧则关系类型改为3
         if(shapeCtrl.editFeatType == 1 || shapeCtrl.editFeatType == 3){
             // objCtrl.data.details[0].branchType = 3;
@@ -314,7 +314,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#3A5FCD'
+                    color: '#21ed25',
+                    strokeWidth:50
                 }
             });
             highRenderCtrl.highLightFeatures.push({
@@ -322,16 +323,23 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#CD0000'
+                    color: '#CD0011'
                 }
             });
-
             highRenderCtrl.highLightFeatures.push({
-                id:$scope.diverObj.details[0].pid.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
-                style:{}
+                id: $scope.diverObj.nodePid.toString(),
+                layerid: 'referenceLine',
+                type: 'rdnode',
+                style: {color:'yellow'}
             });
+            for(var i=0;i<$scope.diverObj.vias.length;i++){
+                highRenderCtrl.highLightFeatures.push({
+                    id:$scope.diverObj.vias[i].linkPid.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{color:'blue'}
+                })
+            }
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {

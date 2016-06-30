@@ -87,7 +87,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         /**
          * 工具按钮控制
          */
-        $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
+        $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
         $scope.changeBtnClass = function(id) {
             for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
                 if (claFlag === id) {
@@ -220,9 +220,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                                             $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
                                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
                                                 $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
-                                                if (callback) {
-                                                    callback();
-                                                }
+                                                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectZoneShapeCtrl').then(function() {
+                                                    $scope.selectZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectZoneShapeTpl.html';
+                                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addZoneShapeCtrl').then(function() {
+                                                        $scope.addZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addZoneShapeTpl.html';
+                                                        if (callback) {
+                                                            callback();
+                                                        }
+                                                    });
+                                                });
                                             });
                                         });
                                     });
@@ -251,7 +257,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                             } else { // 一体化、道路、专项任务
                                 $scope.changeProject(2);
                             }
-                            bindHotKeys($ocLazyLoad, $scope, dsRoad, dsEdit, appPath); //注册快捷键
+                            bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
                         });
                     });
                 }
@@ -399,83 +405,83 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         });
 
         //点击数据在地图上高亮
-        // $scope.showOnMap = function (id,type) {
-        //     highRenderCtrl._cleanHighLight();
-        //     if(highRenderCtrl.highLightFeatures!=undefined){
-        //         highRenderCtrl.highLightFeatures.length = 0;
-        //     }
-        //     var highlightFeatures = [];
-        //    dsEdit.getById(id,type).then(function (data) {
-        //        if(data){
-        //             switch (type){
-        //                 case "RDLINK":
-        //                     var linkArr = data.geometry.coordinates, points = [];
-        //                     for (var i = 0, len = linkArr.length; i < len; i++) {
-        //                         var point = L.latLng(linkArr[i][1], linkArr[i][0]);
-        //                         points.push(point);
-        //                     }
-        //                     var line = new L.polyline(points);
-        //                     var bounds = line.getBounds();
-        //                     map.fitBounds(bounds, {"maxZoom": 19});
-        //                     highlightFeatures.push({
-        //                         id:id.toString(),
-        //                         layerid:'referenceLine',
-        //                         type:'line',
-        //                         style:{}
-        //                     });
-        //                     map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-        //                     break;
-        //                 case "IX_POI":
-        //                     highLightFeatures.push({
-        //                         id:id.toString(),
-        //                         layerid:'poiPoint',
-        //                         type:'poi',
-        //                         style:{}
-        //                     });
-        //                     map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-        //                     break;
-        //                 case "RDRESTRICTION":
-        //                     var limitPicArr = [];
-        //                     layerCtrll.pushLayerFront('referencePoint');
-        //                     highlightFeatures.push({
-        //                         id: data.pid.toString(),
-        //                         layerid:'restriction',
-        //                         type:'restriction',
-        //                         style:{}
-        //                     });
-        //                     highlightFeatures.push({
-        //                         id: data["inLinkPid"].toString(),
-        //                         layerid:'referenceLine',
-        //                         type:'line',
-        //                         style:{}
-        //                     });
-        //                     for (var i = 0, len = (data.details).length; i < len; i++) {
-        //                         highlightFeatures.push({
-        //                             id: data.details[i].outLinkPid.toString(),
-        //                             layerid:'referenceLine',
-        //                             type:'line',
-        //                             style:{}
-        //                         })
-        //                     }
-        //                     map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-        //                     break;
-        //                 default :
-        //                     layerCtrll.pushLayerFront("workPoint");
-        //                     highlightFeatures.push({
-        //                         id:data.rowkey,
-        //                         layerid:'workPoint',
-        //                         type:'workPoint',
-        //                         style:{}
-        //                     });
-        //                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-        //                     break;
-        //                     highRenderCtrl.highLightFeatures = highLightFeatures;
-        //                     highRenderCtrl.drawHighlight();
-        //
-        //             }
-        //        }
-        //    })
-        // }
+        $scope.showOnMap = function (id,type) {
+            highRenderCtrl._cleanHighLight();
+            if(highRenderCtrl.highLightFeatures!=undefined){
+                highRenderCtrl.highLightFeatures.length = 0;
+            }
+            var highlightFeatures = [];
+           dsEdit.getByPid(id,type).then(function (data) {
+               if(data){
+                    switch (type){
+                        case "RDLINK":
+                            var linkArr = data.geometry.coordinates, points = [];
+                            for (var i = 0, len = linkArr.length; i < len; i++) {
+                                var point = L.latLng(linkArr[i][1], linkArr[i][0]);
+                                points.push(point);
+                            }
+                            var line = new L.polyline(points);
+                            var bounds = line.getBounds();
+                            map.fitBounds(bounds, {"maxZoom": 19});
+                            highlightFeatures.push({
+                                id:id.toString(),
+                                layerid:'referenceLine',
+                                type:'line',
+                                style:{}
+                            });
+                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+                            break;
+                        case "IX_POI":
+                            highLightFeatures.push({
+                                id:id.toString(),
+                                layerid:'poiPoint',
+                                type:'poi',
+                                style:{}
+                            });
+                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+                            break;
+                        case "RDRESTRICTION":
+                            var limitPicArr = [];
+                            layerCtrl.pushLayerFront('referencePoint');
+                            highlightFeatures.push({
+                                id: data.pid.toString(),
+                                layerid:'restriction',
+                                type:'restriction',
+                                style:{}
+                            });
+                            highlightFeatures.push({
+                                id: data["inLinkPid"].toString(),
+                                layerid:'referenceLine',
+                                type:'line',
+                                style:{}
+                            });
+                            for (var i = 0, len = (data.details).length; i < len; i++) {
+                                highlightFeatures.push({
+                                    id: data.details[i].outLinkPid.toString(),
+                                    layerid:'referenceLine',
+                                    type:'line',
+                                    style:{}
+                                })
+                            }
+                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+                            break;
+                        default :
+                            layerCtrl.pushLayerFront("workPoint");
+                            highlightFeatures.push({
+                                id:data.rowkey,
+                                layerid:'workPoint',
+                                type:'workPoint',
+                                style:{}
+                            });
+                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                            break;
+                            highRenderCtrl.highLightFeatures = highLightFeatures;
+                            highRenderCtrl.drawHighlight();
+
+                    }
+               }
+           })
+        }
 
     }
 ]);
