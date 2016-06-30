@@ -2,13 +2,7 @@ angular.module('app').controller('relationInfoCtl', ['$scope','dsEdit', function
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
-
-    $scope.showChildrenPoisInMap = function (pid){
-        //$scope.$emit('emitChildren', pid);
-    }
-    $scope.showParentPoiInMap = function(pid) {
-        //$scope.$emit('emitParent', pid);
-
+    $scope.showPoiInMap = function(pid) {
         dsEdit.getByPid(pid,"IXPOI").then(function (data){
             if(data){
                 var highLightFeatures = [];
