@@ -34,7 +34,7 @@ zoneFaceApp.controller("zoneFaceController",["$scope","dsEdit" , function($scope
         $scope.initializeData();
     }
     $scope.save = function(){
-
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };
 
     //删除
