@@ -389,18 +389,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.pImageNow = img;
             $scope.showFullScreen = true;
         });
-        /**
-         * 接收父子关系中点击子事件
-         */
-        $scope.$on("emitChildren", function(event, childrenPid) {
-            $scope.$broadcast("highlightPoiByPid", childrenPid);
-        });
-        /**
-         * 接收父子关系中点击父事件
-         */
-        $scope.$on("emitParent", function(event, parentPid) {
-            $scope.$broadcast("highlightPoiByPid", parentPid);
-        });
+        
         /*接收全屏请求*/
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;
