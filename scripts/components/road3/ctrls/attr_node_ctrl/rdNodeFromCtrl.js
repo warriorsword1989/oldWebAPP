@@ -207,60 +207,60 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
             }
         });
 
-        $scope.nodeForm.$setPristine();
-        objectEditCtrl.save();
-        var param = {
-            "command": "UPDATE",
-            "type":"RDNODE",
-            "dbId": App.Temp.dbId,
-            "data": objectEditCtrl.changedProperty
-        };
-
-        if(!objectEditCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
-            return;
-        }
-
-        if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
-            $.each(objectEditCtrl.changedProperty.forms,function(i,v){
-                if(v.linkPid || v.pid){
-                    delete v.linkPid;
-                    delete v.pid;
-                }
-            });
-            objectEditCtrl.changedProperty.forms.filter(function(v){
-                return v;
-            });
-        }
-
-        dsRoad.editGeometryOrProperty(param).then(function (data){
-            if(data){
-                var restrict = layerCtrl.getLayerById("referenceLine");
-                restrict.redraw();
-                var info = null;
-                if (data.errcode==0) {
-                    var sinfo={
-                        "op":"修改RDNODE成功",
-                        "type":"",
-                        "pid": ""
-                    };
-                    data.data.log.push(sinfo);
-                    info=data.data.log;
-                    swal("操作成功",'保存成功！', "success");
-                    objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-                }else{
-                    info=[{
-                        "op":data.errcode,
-                        "type":data.errmsg,
-                        "pid": data.errid
-                    }];
-                }
-                outPutCtrl.pushOutput(info);
-                if(outPutCtrl.updateOutPuts!=="") {
-                    outPutCtrl.updateOutPuts();
-                }
-            }
-        });
+        // $scope.nodeForm.$setPristine();
+        // objectEditCtrl.save();
+        // var param = {
+        //     "command": "UPDATE",
+        //     "type":"RDNODE",
+        //     "dbId": App.Temp.dbId,
+        //     "data": objectEditCtrl.changedProperty
+        // };
+        //
+        // if(!objectEditCtrl.changedProperty){
+        //     swal("操作成功",'属性值没有变化！', "success");
+        //     return;
+        // }
+        //
+        // if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
+        //     $.each(objectEditCtrl.changedProperty.forms,function(i,v){
+        //         if(v.linkPid || v.pid){
+        //             delete v.linkPid;
+        //             delete v.pid;
+        //         }
+        //     });
+        //     objectEditCtrl.changedProperty.forms.filter(function(v){
+        //         return v;
+        //     });
+        // }
+        //
+        // dsRoad.editGeometryOrProperty(param).then(function (data){
+        //     if(data){
+        //         var restrict = layerCtrl.getLayerById("referenceLine");
+        //         restrict.redraw();
+        //         var info = null;
+        //         if (data.errcode==0) {
+        //             var sinfo={
+        //                 "op":"修改RDNODE成功",
+        //                 "type":"",
+        //                 "pid": ""
+        //             };
+        //             data.data.log.push(sinfo);
+        //             info=data.data.log;
+        //             swal("操作成功",'保存成功！', "success");
+        //             objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        //         }else{
+        //             info=[{
+        //                 "op":data.errcode,
+        //                 "type":data.errmsg,
+        //                 "pid": data.errid
+        //             }];
+        //         }
+        //         outPutCtrl.pushOutput(info);
+        //         if(outPutCtrl.updateOutPuts!=="") {
+        //             outPutCtrl.updateOutPuts();
+        //         }
+        //     }
+        // });
     };
 
     $scope.delete = function () {
