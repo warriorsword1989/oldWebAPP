@@ -39,8 +39,12 @@
                 搜 索 项 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">名称</a></li>
-                <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">PID</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">道路名称</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">POI名称</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">道路种别</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">功能等级</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">道路PID</a></li>
+                <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">AD - PID</a></li>
             </ul>
         </div>
         <input style="width: 170px;height: 25px" placeholder="　搜索" />
