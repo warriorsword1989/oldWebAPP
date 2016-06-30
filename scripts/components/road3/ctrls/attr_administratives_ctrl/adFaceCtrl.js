@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/4/7.
  */
 var adFaceApp = angular.module("app");
-adFaceApp.controller("adFaceController",function($scope) {
+adFaceApp.controller("adFaceController",["$scope","dsEdit" , function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -34,48 +34,22 @@ adFaceApp.controller("adFaceController",function($scope) {
         $scope.initializeData();
     }
     $scope.save = function(){
-
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };
 
     //删除
     $scope.delete = function(){
-        var objId = parseInt($scope.adFaceData.pid);
-        var param = {
-            "command": "DELETE",
-            "type":"ADFACE",
-            "projectId": Application.projectid,
-            "objId": objId
-        }
-        //删除调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            adFace.redraw();//重绘
-            //返回正确时解析数据
-            if (data.errcode==0) {
-                var sInfo={
-                    "op":"删除行政区划面成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
+        dsEdit.delete($scope.adFaceData.pid, "ADFACE").then(function(data) {
+            if (data) {
+                adFace.redraw();//重绘
+                $scope.adFaceData = null;
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                var editorLayer = layerCtrl.getLayerById("edit");
+                editorLayer.clear();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
-            if(info!=null){
-                //显示到output输出窗口
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
-            }
-
-        })
+        });
     };
     $scope.cancel = function(){
 
@@ -85,4 +59,4 @@ adFaceApp.controller("adFaceController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}])
