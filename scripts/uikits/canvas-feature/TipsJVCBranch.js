@@ -7,7 +7,7 @@ fastmap.uikit.canvasTips.TipsJVCBranch = fastmap.uikit.canvasTips.Tips.extend({
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
-                fillStyle:item.m.a == "0"?this.redFill:this.greenFill
+                fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
     }

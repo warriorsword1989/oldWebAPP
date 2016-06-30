@@ -109,7 +109,7 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     /*正则检测实景图输入是否正确*/
     function testRegExp(str){
         if(str.length == 1){
-            if(new RegExp('^[0-4]*$').test(str.substr(-1,1))){
+            if(new RegExp('^[0-4]+$').test(str.substr(-1,1))){
                 return true;
             }else{
                 return false;
@@ -120,6 +120,8 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             }else{
                 return false;
             }
+        }else if(str.length < 9){
+            return true;
         }else{
             return false;
         }

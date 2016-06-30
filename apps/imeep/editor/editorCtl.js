@@ -30,6 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.changeProject = function(type) {
             $scope.showLoading = true;
             $scope.showPopoverTips = false;
+            $scope.tipsPanelOpened = false;
             if (type == 1) { //poi
                 $ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function() {
                     $scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
@@ -295,9 +296,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
          * 取消编辑
          */
         $scope.doCancel = function() {
-            $scope.poi = angular.copy($scope.origPoi);
-            $scope.$broadcast('refreshImgsData', $scope.poi.photos);
-            $scope.$broadcast("clearBaseInfo"); //清除样式
+            $scope.attrTplContainer = "";
+            $scope.attrTplContainerSwitch(false);
+            $scope.subAttrTplContainerSwitch(false);
+            eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
         };
         /*start 事件监听*******************************************************************/
         //响应选择要素类型变化事件，清除要素页面的监听事件
@@ -387,18 +389,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.pImageNow = img;
             $scope.showFullScreen = true;
         });
-        /**
-         * 接收父子关系中点击子事件
-         */
-        $scope.$on("emitChildren", function(event, childrenPid) {
-            $scope.$broadcast("highlightPoiByPid", childrenPid);
-        });
-        /**
-         * 接收父子关系中点击父事件
-         */
-        $scope.$on("emitParent", function(event, parentPid) {
-            $scope.$broadcast("highlightPoiByPid", parentPid);
-        });
+        
         /*接收全屏请求*/
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;

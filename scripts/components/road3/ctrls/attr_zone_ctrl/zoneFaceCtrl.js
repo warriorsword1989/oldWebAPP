@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/6/29.
  */
 var zoneFaceApp = angular.module("app");
-zoneFaceApp.controller("zoneFaceController",function($scope) {
+zoneFaceApp.controller("zoneFaceController",["$scope","dsEdit" , function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -39,43 +39,17 @@ zoneFaceApp.controller("zoneFaceController",function($scope) {
 
     //删除
     $scope.delete = function(){
-        var objId = parseInt($scope.zoneFaceData.pid);
-        var param = {
-            "command": "DELETE",
-            "type":"ZONEFACE",
-            "projectId": Application.projectid,
-            "objId": objId
-        }
-        //删除调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            zoneFace.redraw();//重绘
-            //返回正确时解析数据
-            if (data.errcode==0) {
-                var sInfo={
-                    "op":"删除Zone面成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
+        dsEdit.delete($scope.zoneFaceData.pid, "ZONEFACE").then(function(data) {
+            if (data) {
+                zoneFace.redraw();//重绘
+                $scope.zoneFaceData = null;
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                var editorLayer = layerCtrl.getLayerById("edit");
+                editorLayer.clear();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
-            if(info!=null){
-                //显示到output输出窗口
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
-            }
-
-        })
+        });
     };
     $scope.cancel = function(){
 
@@ -85,4 +59,4 @@ zoneFaceApp.controller("zoneFaceController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}])

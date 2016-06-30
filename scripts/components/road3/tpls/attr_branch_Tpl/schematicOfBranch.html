@@ -39,7 +39,7 @@
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.schematics[0].arrowCode" ng-keydown="showPicSelect()" title="8位16进制数字(0~9、a~f)">
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.schematics[0].arrowCode" ng-keydown="showPicSelect()" title="第一位只允许输入0、1、2、3、4，第二位只允许输入e">
                     <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">

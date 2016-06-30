@@ -12,7 +12,7 @@
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
-                            <div><label>种别</label></div>
+                            <label>种别</label>
                             <div>
                                 <select ng-model="zoneLinkData.kind"
                                         ng-options="value.id as value.label for value in kind">
@@ -20,7 +20,7 @@
                             </div>
                         </li>
                         <li>
-                            <div><label>形态</label></div>
+                            <label>形态</label>
                             <div>
                                 <select ng-model="zoneLinkData.form"
                                         ng-options="value.id as value.label for value in form">
@@ -28,7 +28,7 @@
                             </div>
                         </li>
                         <li>
-                            <div><label>比例尺</label></div>
+                            <label>比例尺</label>
                             <div>
                                 <select ng-model="zoneLinkData.scale"
                                         ng-options="value.id as value.label for value in scale" disabled="disabled">
@@ -36,16 +36,15 @@
                             </div>
                         </li>
                         <li>
-                            <div><label>图幅号</label></div>
+                            <label>图幅号</label>
                             <div>
                                 <input type="text" ng-model="zoneLinkData.meshId" disabled="disabled">
                             </div>
                         </li>
                         <li>
-                            <div><label>Link长度</label></div>
+                            <label>Link长度</label>
                             <div class="form-inline">
-                                <input type="text" ng-model="zoneLinkData.length" disabled="disabled">m
-                                <!--<label>&nbsp;m</label>-->
+                                <input type="text" ng-model="zoneLinkData.length" disabled="disabled">&nbsp;m
                             </div>
                         </li>
                     </ul>
