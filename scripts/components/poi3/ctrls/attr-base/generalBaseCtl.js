@@ -147,46 +147,49 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         var kindCode = poi.kindCode ;
         var data = $scope.metaData.kindFormat[kindCode];
         //分类切换后需要将其它的深度信息的_flag_字段设置为ignore，这样保存的时候就不会将
-        switch (data.extend) {
-            case 1: //停车场
-                poi.gasstations[0]._flag_ = "ignore";
-                poi.hotels[0]._flag_ = "ignore";
-                poi.restaurants[0]._flag_ = "ignore";
-                break;
-            case 2: //加油站
-                poi.parkings[0]._flag_ = "ignore";
-                poi.hotels[0]._flag_ = "ignore";
-                poi.restaurants[0]._flag_ = "ignore";
-                break;
-            case 4: //宾馆酒店
-                poi.parkings[0]._flag_ = "ignore";
-                poi.gasstations[0]._flag_ = "ignore";
-                poi.restaurants[0]._flag_ = "ignore";
-                break;
-            case 5: //运动场馆
-                break;
-            case 6: //餐馆
-                poi.parkings[0]._flag_ = "ignore";
-                poi.gasstations[0]._flag_ = "ignore";
-                poi.hotels[0]._flag_ = "ignore";
-                break;
-            case 7: //加气站
-                poi.parkings[0]._flag_ = "ignore";
-                poi.hotels[0]._flag_ = "ignore";
-                poi.restaurants[0]._flag_ = "ignore";
-                break;
-            default:
-                poi.parkings[0]._flag_ = "ignore";
-                poi.gasstations[0]._flag_ = "ignore";
-                poi.hotels[0]._flag_ = "ignore";
-                poi.restaurants[0]._flag_ = "ignore";
-                break;
+        if(data){
+            switch (data.extend) {
+                case 1: //停车场
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 2: //加油站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 4: //宾馆酒店
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 5: //运动场馆
+                    break;
+                case 6: //餐馆
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    break;
+                case 7: //加气站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                default:
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+            }
         }
+
 
         var originKindCode = objectCtrl.data.originJson.kindCode;
         var originData = $scope.metaData.kindFormat[originKindCode];
         //当切换了分类需要将原来的深度信息置为空数组
-        if(kindCode != originKindCode){
+        if(kindCode != originKindCode && originKindCode){
             switch (originData.extend) {
                 case 1: //停车场
                     poi.parkings = [];
