@@ -99,8 +99,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if(type != "POI"){
                         if (type === "RDBRANCH") {
                             id = "";
-                        } else if (type === "ADFACE"){
-                            id = data.log[2].pid;
+                        } else if (type === "ADFACE"|| type === "ZONEFACE"){
+                            for(var i = 0;i<data.log.length;i++){
+                                if(data.log[i].type == "ADFACE"||data.log[i].type == "ZONEFACE"){
+                                    id = data.log[i].pid;
+                                    break;
+                                }
+                            }
                         } else {
                             id = data.pid;
                         }
@@ -693,7 +698,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
                             'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
-                } else if(shapeCtrl.editType === "poiLocMove" || shapeCtrl.editType === "poiGuideMove" || shapeCtrl.editType === "poiAutoDrag"){
+                } else if (shapeCtrl.editType === "addZoneFaceLine") {
+                    var zoneLinksArr = selectCtrl.selectedFeatures.zoneLinks;
+                    if(zoneLinksArr.length < 2) {
+                        swal("操作失败", "请双击结束增加线段", "error");
+                        return;
+                    }
+                    param = {
+                        "command": "CREATE",
+                        "type": "ZONEFACE",
+                        "linkType": "ZONELINK",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            "linkPids": zoneLinksArr
+                        }
+                    };
+                    dsEdit.save(param).then(function (data) {
+                        layerCtrl.getLayerById("zoneFace").redraw();
+                        layerCtrl.getLayerById("zoneLink").redraw();
+                        treatmentOfChanged(data, "ZONEFACE", "创建行政区划面成功",
+                            'attr_zone_ctrl/zoneFaceCtrl', 'attr_zone_tpl/zoneFaceTpl.html');
+                    })
+                }else if(shapeCtrl.editType === "poiLocMove" || shapeCtrl.editType === "poiGuideMove" || shapeCtrl.editType === "poiAutoDrag"){
                     var points = selectCtrl.selectedFeatures;
                     if (!(points || points.geometry || points.geometry[0] || points.id)) {
                         swal("操作失败", "无法获取poi点数据", "error");
