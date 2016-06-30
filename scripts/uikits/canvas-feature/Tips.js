@@ -158,7 +158,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsMaintenance(item);
                     break;
                 case 1515://维修
-                    ret = new fastmap.uikit.canvasTips.TipsRepair(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRepairs(item);
                     break;
                 case 1801://立交
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);
