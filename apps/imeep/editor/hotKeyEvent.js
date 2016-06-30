@@ -412,6 +412,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             param["type"] = "RWLINK";
                             ctrl = 'attr_link_ctrl/rwLinkCtrl';
                             tpl = 'attr_link_tpl/rwLinkTpl.html';
+                        } else if(shapeCtrl.editFeatType === "zoneLink"){
+                            repairContent = "修改zoneLink成功";
+                            param["type"] = "ZONELINK";
+                            ctrl = 'attr_zone_ctrl/zoneLinkCtrl';
+                            tpl = 'attr_zone_tpl/zoneLinkTpl.html';
                         }
                         dsEdit.save(param).then(function (data) {
                             if (param["type"] === "RDLINK") {
