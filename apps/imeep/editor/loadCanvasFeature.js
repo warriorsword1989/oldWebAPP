@@ -77,6 +77,7 @@
         "TipsNoEntry.js",
         "TipsLeftToRight.js",
         "TipsPavementCover.js",
+        "TipsRepairs.js",
         "TipsRepair.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
