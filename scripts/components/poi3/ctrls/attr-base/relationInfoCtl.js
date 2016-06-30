@@ -1,12 +1,29 @@
 angular.module('app').controller('relationInfoCtl', ['$scope','dsEdit', function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
 
 
     $scope.showChildrenPoisInMap = function (pid){
-        $scope.$emit('emitChildren', pid);
+        //$scope.$emit('emitChildren', pid);
     }
     $scope.showParentPoiInMap = function(pid) {
-        $scope.$emit('emitParent', pid);
+        //$scope.$emit('emitParent', pid);
+
+        dsEdit.getByPid(pid,"IXPOI").then(function (data){
+            if(data){
+                var highLightFeatures = [];
+                highLightFeatures.push({
+                    id:data.pid,
+                    layerid:'poiPoint',
+                    type:'poi',
+                    style:{}
+                });
+                //高亮
+                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.drawHighlight();
+                map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 20);
+            }
+        });
     };
 
     $scope.deleteParent = function (poi){
