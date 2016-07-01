@@ -6,6 +6,7 @@
     </div>
     <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
     <div class="col-sm-12 img-preview-container">
+        <span class="glyphicon glyphicon-trash remove-preview-img" title="删除"></span>
         <img ng-if="nowActiveImg.thumbnailUrl" ng-click="showImage(nowActiveImg,nowActiveIndex);" image-404="../../../images/road/img/noimg.png" ng-src="{{nowActiveImg.originUrl}}" class="img-preview" alt="">
         <img ng-if="!nowActiveImg.thumbnailUrl" src="../../../images/road/img/noimg.png" class="img-preview" alt="当前无图片">
     </div>

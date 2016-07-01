@@ -422,6 +422,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             "propertyCtrl": tempCtr,
             "propertyHtml": tempTepl
         };
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.namesInfo = objCtrl.data.details[0].names;
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
