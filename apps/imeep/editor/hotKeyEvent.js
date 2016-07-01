@@ -49,6 +49,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 }
                 map.currentTool._enabled = true;
                 map.currentTool.disable();
+                if(map.currentTool.rwEvent) {
+                    map.currentTool.rwEvent.disable();
+                }
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
