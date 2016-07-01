@@ -309,6 +309,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         /*经过线*/
         if (dObj) {
+            //高亮进入线
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
                 layerid:'referenceLine',
@@ -318,20 +319,30 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     strokeWidth:50
                 }
             });
+            //高亮退出线;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#CD0011'
+                    color: '#21ed25'
                 }
             });
+            //高亮进入点;
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
                 layerid: 'referenceLine',
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
+            //高亮分歧图标;
+            highRenderCtrl.highLightFeatures.push({
+                id:$scope.diverObj.details[0].pid.toString(),
+                layerid:'relationdata',
+                type:'relationdata',
+                style:{}
+            });
+            //高亮经过线;
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),
