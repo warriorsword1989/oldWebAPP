@@ -11,14 +11,14 @@ fastmap.uikit.canvasFeature.RdBranchPart = fastmap.uikit.canvasFeature.Feature.e
         this.properties['branchType'] = data.m.a[key].type;
         this.properties['markerStyle'] = {};
         this.properties['markerStyle']["icon"] = [];
-        /*this.properties['markerStyle']["icon"].push(fastmap.uikit.canvasFeature.Feature.getIconStyle({
+        this.properties['markerStyle']["icon"].push(fastmap.uikit.canvasFeature.Feature.getIconStyle({
             iconName: '../../../images/road/1407/' + data.m.a[key].type + '.svg',
             row: 0,
             column: 1,
             location: this.geometry['coordinates'],
             rotate: (data.m.c) * (Math.PI / 180)
-        }));*/
-        if (data.m.a[key].type == 0) {
+        }));
+        /*if (data.m.a[key].type == 0) {
             this.properties['markerStyle']["icon"].push(fastmap.uikit.canvasFeature.Feature.getIconStyle({
                 iconName: '../../../images/road/1407/' + data.m.a[key].type + '.svg',
                 row: 0,
@@ -28,7 +28,7 @@ fastmap.uikit.canvasFeature.RdBranchPart = fastmap.uikit.canvasFeature.Feature.e
             }));
         } else if (data.m.a[key].type == 1) {   //方面
             this.properties['markerStyle']["icon"].push(fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                iconName: '../../../images/road/tips/1405/0.svg',
+                iconName: '../../../images/road/1407/' + data.m.a[key].type + '.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
@@ -92,12 +92,12 @@ fastmap.uikit.canvasFeature.RdBranchPart = fastmap.uikit.canvasFeature.Feature.e
             }));
         } else if (data.m.a[key].type == 9) {   //方向看板
             this.properties['markerStyle']["icon"].push(fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                iconName: '../../../images/road/tips/1401/1401_0_0.svg',
+                iconName: '../../../images/road/1407/' + data.m.a[key].type + '.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
                 rotate: (data.m.c) * (Math.PI / 180)
             }));
-        }
+        }*/
     }
 });

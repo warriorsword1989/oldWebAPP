@@ -9,7 +9,7 @@ fastmap.uikit.canvasTips.TipsTrafficSignal = fastmap.uikit.canvasTips.Tips.exten
                 location: this.geometry['coordinates'],
                 scalex: 0.7,
                 scaley: 0.7,
-                fillStyle: item.m.a == "0"?this.redFill:this.greenFill
+                fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
     }

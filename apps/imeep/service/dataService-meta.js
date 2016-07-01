@@ -58,6 +58,23 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    //根据分类和品牌获取等级
+    this.getChainLevel = function(kindCode,chainCode) {
+        var defer = $q.defer();
+        ajax.get("metadata/chainLevel/", {
+            parameter: JSON.stringify({
+                kindCode:kindCode,
+                chainCode:chainCode
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取等级出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
     this.getFocus = function() {
         var defer = $q.defer();
         ajax.get("metadata/queryFocus/", {}).success(function(data) {

@@ -600,11 +600,28 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                 } else if (pItemId === "1515") {
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var point = [];
+                    var endPoint = L.latLng(data.gELoc.coordinates[1],data.gELoc.coordinates[0]);
+                    var startPoint = L.latLng(data.gSLoc.coordinates[1],data.gSLoc.coordinates[0]);
+                    point.push(endPoint);
+                    point.push(startPoint);
+                    var line = new L.polyline(point);
+                    var bounds = line.getBounds();
+                    map.fitBounds(bounds,{
+                        "maxZoom": 18
+                    });
+
+                    //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTplOfD = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.f_array.length != 0) {
+                                $scope.brigeLinkArray = data.f_array;
+                                $scope.getFeatDataCallback(data, data.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                            }
+                        }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                 } else if (pItemId === "1604") { //区域内道路
@@ -634,7 +651,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfForks);
                 } else if (pItemId === "1704") { //交叉路口
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                    /*map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                     var ctrlAndTplOfCross = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -649,7 +666,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                     "type": "RDCROSS",
                                     "data": obj
                                 }
-                                dsEdit.getByCondition(JSON.stringify(param), function(data) {
+                                dsEdit.getByCondition(param, function(data) {
                                     var crossCtrlAndTpl = {
                                         propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
                                         propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html",
@@ -660,7 +677,20 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             }
                         }
                     }
-                    $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);*/
+
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                    var crossCtrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.data ? data.data[0] : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                 } else if (pItemId === "1801") { //立交
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                     var ctrlAndTplOfOverPass = {

@@ -12,7 +12,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
         lineColor: 'red',
         fillColor: 'rgba(225,225,225,0.5)'
     },
-    greenFill: {
+    blueFill: {
         lineColor: 'blue',
         fillColor: 'rgba(225,225,225,0.5)'
     },
@@ -62,7 +62,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
                     break;
                 case 1111://条件限速 *
-                    ret = new fastmap.uikit.canvasTips.TipSpeedlimit(item);
+                    ret = new fastmap.uikit.canvasTips.TipsSpeedlimit(item);
                     break;
                 case 1113://车道限速 *
                     ret = new fastmap.uikit.canvasTips.TipsDrivewayLimit(item);
@@ -158,7 +158,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsMaintenance(item);
                     break;
                 case 1515://维修
-                    ret = new fastmap.uikit.canvasTips.TipsRepair(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRepairs(item);
                     break;
                 case 1801://立交
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);

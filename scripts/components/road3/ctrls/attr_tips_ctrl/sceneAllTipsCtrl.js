@@ -85,6 +85,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             $scope.$emit("transitCtrlAndTpl", options);
         });
     };
+
+    $scope.showItem = function (index){
+        $scope.wArrayitem = $scope.dataTipsData.w_array[index];
+    };
+
     //初始化DataTips相关数据
     $scope.initializeDataTips = function(data) {
         $scope.photos = [];
@@ -174,6 +179,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         $scope.limitSrc = $scope.limitSrcOption[i].label;
                     }
                 }
+                $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
 	        case "1102":    //红绿灯
 		        var fArray = $scope.dataTipsData.f_array;
@@ -211,9 +217,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 			        2: 'PG'
 		        };
 		        var gateDirObj = {
-			        0:'未调查',
-			        1:'单向',
-			        2:'双向'
+			        0:'EG',
+			        1:'KG',
+			        2:'PG'
 		        };
 		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
 		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
@@ -221,6 +227,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 		        break;
             case "1105":
                 $scope.tipsData = $scope.dataTipsData;
+                $scope.wArrayitem = $scope.tipsData.w_array[0];
                 $scope.type = {
                     "10501": "上陡坡",
                     "10502": "下陡坡",
@@ -663,9 +670,16 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1515": //维修
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                var strArray = $scope.dataTipsData.time?$scope.dataTipsData.time.split('-'):'';
-                $scope.startTime = strArray[0].substring(5);
-                $scope.endTime = strArray[1].substring(5);
+                var strArray = [];
+                $scope.startTime = "";
+                $scope.endTime = "";
+                if($scope.dataTipsData.time){
+                    strArray = $scope.dataTipsData.time.split('-');
+                    if(strArray.length > 1){
+                        $scope.startTime = strArray[0].substring(5);
+                        $scope.endTime = strArray[1].substring(5);
+                    }
+                }
                 break;
             case "1604": //区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
@@ -688,7 +702,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.sceneOut = $scope.dataTipsData.out;
                 break;
             case "1704": //交叉路口
-                //$scope.fData = $scope.dataTipsData;
+                $scope.fData = $scope.dataTipsData;
                 break;
             case "1801": //立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
@@ -815,9 +829,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     }
     //打开图片大图页面
     $scope.openOriginPic = function(id) {
-        if($scope.dataTipsData.feedback.f_array.length == 0){
-            return false;
-        }
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",

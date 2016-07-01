@@ -675,6 +675,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                 "loadType": "tipsTplContainer",
                                 "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                 "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                callback: function () {
+                                    $scope.brigeLinkArray = result.f_array;
+                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK",  appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
                             };
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                             break;
@@ -942,6 +946,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'childId':$scope.curentSelectData.id
                     });
                 })
+                return;
             }
 
             if (!selectCtrl.selectedFeatures) {

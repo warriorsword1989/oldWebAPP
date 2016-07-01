@@ -66,7 +66,7 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
 
     $scope.save = function(){
         objCtrl.save();
-        console.info(objCtrl.changedProperty);
+        //console.info(objCtrl.changedProperty);
         dsEdit.update($scope.rwLinkData.pid, "RWLINK", objCtrl.changedProperty).then(function(data) {
             if (data) {
                 rwLink.redraw();

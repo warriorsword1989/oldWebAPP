@@ -18,67 +18,81 @@
         <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
         <style>
-                        .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-                            border-radius: 0!important;
-                            border-radius: 0!important;
-                        }
-                        .addNode_false {
-                            background: url('../../../images/road/button/dot_add.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addNode_true {
-                            background: url('../../../images/road//button/dot_add_selected.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addLink_false {
-                            background: url('../../../images/road//button/line_add.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addLink_true {
-                            background: url('../../../images/road//button/line_add_selected.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addRelation_false {
-                            background: url('../../../images/road//button/relation_add.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addRelation_true {
-                            background: url('../../../images/road//button/relation_add_selected.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addRdMultidDgitized_false {
-                            background: url('../../../images/road//button/multidDgitized_add.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        .addRdMultidDgitized_true {
-                            background: url('../../../images/road/button/multidDgitized_add_selected.png') no-repeat;
-                            width: 32px;
-                            height: 32px;
-                        }
-                        #fm-addShapeContainer>button:focus{
-                            outline: none;
-                        }
-                        .btn-shape{
-                            color: #fff;
-                            background-color: #7F7F7F;
-                            border: 1px solid #494949;
-                        }
-                        .btn-shape:hover{
-                            border: 1px solid #494949;
-                        }
-                        .shape-well{
-                            max-width: 367px;
-                            background-color: #494949;
-                            text-align: center;
-                            opacity: .9;
-                        }
+                .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+                    border-radius: 0!important;
+                    border-radius: 0!important;
+                }
+                .addNode_false {
+                    background: url('../../../images/road/button/dot_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addNode_true {
+                    background: url('../../../images/road//button/dot_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addLink_false {
+                    background: url('../../../images/road//button/line_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addLink_true {
+                    background: url('../../../images/road//button/line_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRelation_false {
+                    background: url('../../../images/road//button/relation_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRelation_true {
+                    background: url('../../../images/road//button/relation_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRdMultidDgitized_false {
+                    background: url('../../../images/road//button/multidDgitized_add.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                .addRdMultidDgitized_true {
+                    background: url('../../../images/road/button/multidDgitized_add_selected.png') no-repeat;
+                    width: 32px;
+                    height: 32px;
+                }
+                #fm-addShapeContainer>button:focus{
+                    outline: none;
+                }
+                /**/
+                .btn{
+                    position: relative;
+                }
+                .left{
+                    left: 0;
+                }
+                .left50{
+                    left: 70px;
+                }
+                .left100{
+                    left: 130px;
+                }
+                /**/
+                .btn-shape{
+                    color: #fff;
+                    background-color: #7F7F7F;
+                    border: 1px solid #494949;
+                }
+                .btn-shape:hover{
+                    border: 1px solid #494949;
+                }
+                .shape-well{
+                    max-width: 367px;
+                    background-color: #494949;
+                    text-align: center;
+                    opacity: .9;
+                }
         </style>
     </head>
     <body ng-controller="PoiEditorCtl">
@@ -116,7 +130,7 @@
                         <div class="content">
                             <div class="table-toolbar">
                                 <div class="table-search fm-inline">
-                                    <button>名称</button><input class="fm-ctl" placeholder="搜索"></input>
+                                    <button>名称</button><input class="fm-ctl" placeholder="搜索" />
                                 </div>
                             </div>
                             <table class="table table-bordered table-condensed" style="color:#fff;margin-top:8px;margin-bottom:0px;">
@@ -155,25 +169,17 @@
                         <div ui-layout="{flow:'row',dividerSize:'0'}" class="blackTheme">
                             <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
                             <div style="position:absolute;z-index:1;background-color:black;top:0px;left:50px;padding:5px;">
-                                <button type="button" class="btn btn-xs btn-shape">搜 索</button>
-                                <button type="button" class="btn btn-xs btn-shape">自动录入</button>
-                                <button type="button" class="btn btn-xs btn-shape">批处理</button>
+                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('search')">搜　 索</button>
+                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('auto')">自动录入</button>
+                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('batch')">批处理</button>
+                                <div ng-if="toolModal" ng-class="{'left': one, 'left50': two, 'left100':three}" style="min-width:300px;min-height: 180px;opacity: 0.9;background: #313131;z-index: 100;position: absolute;top:50px;left:toolLeft;border-radius: 4px;color: #fff">
+                                    <div ng-include="tplUrl"></div>
+                                </div>
                             </div>
                             <div style="position:absolute;z-index:1;background:black;top:0px;left:250px;padding:5px;">
                                 <div class="btn-group" ng-init="chosenBtnOpened=false">
                                     <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[chosenBtnOpened]" ng-click="chosenBtnOpened=!chosenBtnOpened;addBtnOpened=false;advanceBtnOpened=false;" ng-bind="chosenBtnOpened?'收起《':'选择 》'"></button>
                                     <div class="btn-group" ng-if="chosenBtnOpened">
-                                        <button type="button" class="btn btn-xs btn-default">点</button>
-                                        <button type="button" class="btn btn-xs btn-default">线</button>
-                                        <button type="button" class="btn btn-xs btn-default">面</button>
-                                        <button type="button" class="btn btn-xs btn-default active">关系</button>
-                                        <button type="button" class="btn btn-xs btn-default">Tips</button>
-                                        <button type="button" class="btn btn-xs btn-default">点要素</button>
-                                    </div>
-                                </div>
-                                <div class="btn-group" ng-init="addBtnOpened=false">
-                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[addBtnOpened]" ng-click="addBtnOpened=!addBtnOpened;chosenBtnOpened=false;advanceBtnOpened=false;" ng-bind="addBtnOpened?'收起《':'新增 》'"></button>
-                                    <div class="btn-group" ng-if="addBtnOpened">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">点 <span class="caret"></span></button>
                                             <ul class="dropdown-menu shape-well" role="menu">
@@ -203,6 +209,17 @@
                                                 </div>
                                             </ul>
                                         </div>
+                                        <button type="button" class="btn btn-xs btn-default">关系</button>
+                                        <button type="button" class="btn btn-xs btn-default">Tips</button>
+                                        <button type="button" class="btn btn-xs btn-default">点要素</button>
+                                    </div>
+                                </div>
+                                <div class="btn-group" ng-init="addBtnOpened=false">
+                                    <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[addBtnOpened]" ng-click="addBtnOpened=!addBtnOpened;chosenBtnOpened=false;advanceBtnOpened=false;" ng-bind="addBtnOpened?'收起《':'新增 》'"></button>
+                                    <div class="btn-group" ng-if="addBtnOpened">
+                                        <button type="button" class="btn btn-xs btn-default">点</button>
+                                        <button type="button" class="btn btn-xs btn-default">线</button>
+                                        <button type="button" class="btn btn-xs btn-default">面</button>
                                         <button type="button" class="btn btn-xs btn-default">关系</button>
                                         <button type="button" class="btn btn-xs btn-default">Tips</button>
                                         <button type="button" class="btn btn-xs btn-default">点要素</button>
