@@ -6,15 +6,12 @@
     <div class="content scroll-styled dark" style="height:90%;">
         <form name="zoneLinkForm">
             <div class="fm-panel">
-                <div class="title">
-                    <div>基础属性</div>
-                </div>
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
                             <label>种别</label>
                             <div>
-                                <select ng-model="zoneLinkData.kind"
+                                <select ng-model="zoneLinkData.kinds[0].kind"
                                         ng-options="value.id as value.label for value in kind">
                                 </select>
                             </div>
@@ -22,7 +19,7 @@
                         <li>
                             <label>形态</label>
                             <div>
-                                <select ng-model="zoneLinkData.form"
+                                <select ng-model="zoneLinkData.kinds[0].form"
                                         ng-options="value.id as value.label for value in form">
                                 </select>
                             </div>

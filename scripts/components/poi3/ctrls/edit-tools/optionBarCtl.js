@@ -1,4 +1,4 @@
-angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', 'dsOutput', function($scope, $ocll,dsPoi, dsOutput) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', 'dsOutput','dsEdit', function($scope, $ocll,dsPoi, dsOutput,dsEdit) {
     /*翻页事件*/
     $scope.turnPage = function(type){
         if(type == 'prev'){     //上一页
@@ -54,6 +54,23 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
         initCheckResultData();
     };
 
+    /**
+     * 在线检查
+     */
+    $scope.checkUpResult = function(){
+        var projectType = $scope.projectType; //poi或者道路,$scope.projectType字段来自于editroCtl.js中.
+        var checkType;
+        if(projectType == 1){
+            checkType = 0; //poi行编
+        } else {
+            checkType = 2; //道路
+        }
+        dsEdit.runCheck(checkType).then(function(data){
+           if(data){
+               initCheckResultData();
+           }
+        });
+    };
     /*查找检查结果*/
     function getCheckResultData(num){
         dsPoi.getCheckData(num).then(function(data){

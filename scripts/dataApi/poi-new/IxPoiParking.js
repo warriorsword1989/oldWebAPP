@@ -10,11 +10,12 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this._flag_ = data["_flag_"] || false; //深度信息特殊字段,用于控制深度信息的保存
         this.pid = data['pid'] || 0;
-        var parkingTypeArr = data["parkingType"] ? data["parkingType"].split("|") : [] ;
-        this.parkingType = {};
-        for(var i=0;i<parkingTypeArr.length;i++) {
-            this.parkingType[parkingTypeArr[i]] = true;
-        }
+        // var parkingTypeArr = data["parkingType"] ? data["parkingType"].split("|") : [] ;
+        // this.parkingType = {};
+        // for(var i=0;i<parkingTypeArr.length;i++) {
+        //     this.parkingType[parkingTypeArr[i]] = true;
+        // }
+        this.parkingType = data["parkingType"];
         var tollStdArr = data["tollStd"] ? data["tollStd"].split("|") : [] ;
         this.tollStd = {};
         for(var i=0;i<tollStdArr.length;i++) {
@@ -49,13 +50,14 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         var ret = {};
         ret['_flag_'] = this._flag_;
         ret['pid'] = this.pid;
-        var checkedParkingTypeArr = [];
-        for(var key in this.parkingType){
-            if(this.parkingType[key]){
-                checkedParkingTypeArr.push(key);
-            }
-        }
-        ret["parkingType"] = checkedParkingTypeArr.join("|");
+        // var checkedParkingTypeArr = [];
+        // for(var key in this.parkingType){
+        //     if(this.parkingType[key]){
+        //         checkedParkingTypeArr.push(key);
+        //     }
+        // }
+        // ret["parkingType"] = checkedParkingTypeArr.join("|");
+        ret["parkingType"] = this.parkingType;
         var checkedTollStdArr = [];
         for(var key in this.tollStd){
             if(this.tollStd[key] == true){
