@@ -325,7 +325,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#21ed25'
+                    color: '#CD0011'
                 }
             });
             //高亮进入点;
