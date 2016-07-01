@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService','ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService','ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', '$uibModal', function($scope, $ocLazyLoad, $rootScope, poiDS, $uibModal) {
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -100,7 +100,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService','ui.bootstrap']
     };
     /*----------------------linglong----------------------*/
     $scope.toolModal = false;
+    $scope.showProcess = false;
+    $scope.processValue = 0;
+    //显示对应工具面板的方法;
     $scope.showToolbox = function(param){
+        //数据初始化;
+        $scope.processValue = 0;
+        //
         $scope.one = $scope.two = $scope.three = false;
         $scope.toolModal = false;
         if(param==='search'){
@@ -120,15 +126,30 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService','ui.bootstrap']
             $scope.tplUrl = 'test/batch.html';
         }
     }
+    //处理执行任务;
+    $scope.handleMethod = function(type){
+        $scope.processValue = 0;
+        $scope.showProcess = true;
+        var temptimer = setInterval(function(){
+            $scope.$apply(function(){
+                if($scope.processValue==100){
+                    clearInterval(temptimer);
+                    $scope.handleobj = 'undefined';
+                }
+                $scope.processValue+=10;
+            })
+        },500)
+        if(type=='search'){
+            $scope.handleobj = 'search';
+        }else if(type=='auto'){
+            $scope.handleobj = 'auto';
+        }else if(type=='batch'){
+            $scope.handleobj = 'batch';
+        }
+    }
     $scope.closeToolwindow = function(){
         $scope.toolModal = false;
     }
-    $scope.toggleDropdown = function($event) {
-        alert('1212')
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.status.isopen = !$scope.status.isopen;
-    };
     /*----------------------linglong----------------------*/
     var mutex = function(obj, mutexArray, val) {
         if (obj[val]) {

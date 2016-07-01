@@ -1046,12 +1046,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                 //选择分歧监听事件;
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
+                        //进入线;
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.limitRelation.inLinkPid.toString(),
                             layerid: 'referenceLine',
                             type: 'line',
-                            style: {}
+                            style: {color:'#21ed25'}
                         });
                         highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
@@ -1075,6 +1076,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                         }
                         else {
                             $scope.limitRelation.nodePid = parseInt(data.id);
+                            highLightFeatures.push({
+                                id: $scope.limitRelation.nodePid.toString(),
+                                layerid: 'referenceLine',
+                                type: 'rdnode',
+                                style: {color:'yellow'}
+                            });
+                            highRenderCtrl.drawHighlight();
                             tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                         }
                     } else if (data.index > 1) {
