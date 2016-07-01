@@ -368,4 +368,27 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+    /**
+     * 执行检查信息
+     * @returns {Promise}
+     */
+    this.runCheck = function(checkType) {
+        var defer = $q.defer();
+        var params = {
+            subtaskId:App.Temp.subTaskId,
+            checkType : checkType //0 poi行编，1poi精编, 2道路
+        };
+        ajax.get("edit/check/run", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("执行检查信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);
