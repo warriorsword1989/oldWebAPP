@@ -89,9 +89,10 @@ angular.module('app').controller("addRwShapeController", ['$scope', '$ocLazyLoad
             shapeCtrl.getCurrentTool().snodePid = 0;
             shapeCtrl.getCurrentTool().enodePid = 0;
 
-            //把点和线图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(rwLink);
+            //把点和线图层加到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
             map.currentTool.snapHandler.addGuideLayer(rwNode);
+            map.currentTool.snapHandler.addGuideLayer(rwLink);
+
             //提示信息
             tooltipsCtrl.setEditEventType('drawPath');
             tooltipsCtrl.setCurrentTooltip('开始画线！');
