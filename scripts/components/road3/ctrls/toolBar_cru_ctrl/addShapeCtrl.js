@@ -11,7 +11,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
         var rwLink = layerCtrl.getLayerById('rwLink');
-        var rdnode = layerCtrl.getLayerById('referenceNode');
+        var rdnode = layerCtrl.getLayerById('rdNode');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();

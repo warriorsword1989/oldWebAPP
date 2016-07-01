@@ -1,56 +1,48 @@
 /**
  * Created by zhongxiaoming on 2015/08/07.
+ * Rebuild by chenxiao on 2016-06-30
  */
 App.layersConfig = [{
-    groupid: "backgroundLayers",
-    groupname: "参考",
+    // 第三方的背景地图，以及图幅、网格和照片图层
+    groupId: "backgroundLayers",
+    groupName: "背景",
     layers: [{
         clazz: L.tileLayer.wms,
         url: "http://zs.navinfo.com:7090/rest/wms",
         options: {
-            layername: "资三",
+            id: 'zisan',
+            name: "资三",
             layers: 'GCJ02',
             crs: L.CRS.EPSG4326,
             version: '1.1.1',
             selected: false,
-            id: 'zisan',
             visible: false,
-            maxZoom: 20,
             editable: false,
-            zIndex: 1,
-            singleselect: true
+            singleSelect: true,
+            maxZoom: 20,
+            zIndex: 1
         }
     }, {
         clazz: L.tileLayer,
         url: 'http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0',
         options: {
-            layername: '腾讯',
+            id: 'tencent',
+            name: '腾讯',
             subdomains: ["rt0", "rt1", "rt2", "rt3"],
             tms: true,
-            maxZoom: 20,
             selected: false,
-            id: 'tencent',
             visible: false,
             added: true,
-            singleselect: true,
+            singleSelect: true,
+            maxZoom: 20,
             zIndex: 2
-        }
-    }, {
-        url: '',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '照片',
-            id: 'photo',
-            url: '',
-            visible: false,
-            zIndex: 4
         }
     }, {
         url: '',
         clazz: fastmap.mapApi.meshLayer,
         options: {
-            layername: '图幅',
             id: 'mesh',
+            name: '图幅',
             url: '',
             visible: false,
             zIndex: 3
@@ -59,8 +51,8 @@ App.layersConfig = [{
         url: '',
         clazz: fastmap.mapApi.gridLayer,
         options: {
-            layername: '格网',
             id: 'grid',
+            name: '格网',
             gridInfo: null,
             url: '',
             divideX: 4,
@@ -68,20 +60,35 @@ App.layersConfig = [{
             visible: false,
             zIndex: 3
         }
+    }, {
+        url: '',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            name: '照片',
+            id: 'photo',
+            url: '',
+            visible: false,
+            zIndex: 4
+        }
     }]
 }, {
-    groupid: "dataLayers",
-    groupname: "作业参考",
+    // 主要用于加载17级以下的从hadoop库中取的路网数据
+    groupId: "referenceLayers",
+    groupName: "参考",
+    layers: []
+}, {
+    groupId: "dataLayers",
+    groupName: "数据",
     layers: [{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDNODE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: 'Node',
-            id: 'referenceNode',
+            id: 'rdNode',
+            // id: 'rdNode',
+            name: '道路点',
             maxZoom: 20,
             debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 5,
+            buffer: 5, // this value should be equal to 'radius' of your points
             boolPixelCrs: true,
             parse: fastmap.uikit.canvasFeature.Feature.transform,
             boundsArr: [],
@@ -99,62 +106,12 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADNODE'),
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: 'AdNode',
-            id: 'adnode',
-            maxZoom: 20,
-            debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 5,
-            boolPixelCrs: true,
-            parse: fastmap.uikit.canvasFeature.Feature.transform,
-            boundsArr: [],
-            unloadInvisibleTiles: true,
-            reuseTiles: false,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            updateWhenIdle: true,
-            tileSize: 256,
-            type: 'Point',
-            zIndex: 17,
-            restrictZoom: 10,
-            editable: false,
-            visible: true,
-            requestType: 'ADNODE',
-            showNodeLevel: 17
-        }
-    }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'),
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '关系数据',
-            id: 'relationdata',
-            maxZoom: 20,
-            debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 10,
-            boolPixelCrs: true,
-            parse: fastmap.uikit.canvasFeature.Feature.transform,
-            boundsArr: [],
-            unloadInvisibleTiles: true,
-            reuseTiles: false,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            updateWhenIdle: true,
-            tileSize: 256,
-            type: 'Marker',
-            zIndex: 6,
-            restrictZoom: 10,
-            visible: true,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
-            showNodeLevel: 17
-        }
-    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDLINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: 'Link',
-            id: 'referenceLine',
+            id: 'rdLink',
+            name: '道路线',
+            // id: 'rdLink',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -176,11 +133,11 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADADMIN'),
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '行政区划代表点',
-            id: 'adAdmin',
+            id: 'relationData',
+            name: '关系',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -193,19 +150,70 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'adAdminPoint',
-            zIndex: 18,
+            type: 'Marker',
+            zIndex: 6,
             restrictZoom: 10,
             visible: true,
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
+            showNodeLevel: 17
+        }
+    }, {
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADADMIN'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'adAdmin',
+            name: '行政区划代表点',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'PointFeature',
+            zIndex: 18,
+            restrictZoom: 10,
+            visible: false,
             requestType: 'ADADMIN',
+            showNodeLevel: 17
+        }
+    }, {
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADNODE'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'adNode',
+            name: '行政区划组成点',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Point',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'ADNODE',
             showNodeLevel: 17
         }
     }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADLINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '行政区划线',
             id: 'adLink',
+            name: '行政区划组成线',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -218,10 +226,10 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'adLink',
+            type: 'LineString',
             zIndex: 11,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: 'ADLINK',
             showNodeLevel: 5
         }
@@ -229,8 +237,8 @@ App.layersConfig = [{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADFACE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '行政区划面',
-            id: 'adface',
+            id: 'adFace',
+            name: '行政区划面',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -247,7 +255,7 @@ App.layersConfig = [{
             zIndex: 20,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'ADFACE',
             showNodeLevel: 13
         }
@@ -255,8 +263,8 @@ App.layersConfig = [{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWNODE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '铁路点',
             id: 'rwNode',
+            name: '铁路点',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -269,7 +277,7 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'LineString',
+            type: 'Point',
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
@@ -281,8 +289,8 @@ App.layersConfig = [{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWLINK'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '铁路线',
             id: 'rwLink',
+            name: '铁路线',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -304,37 +312,37 @@ App.layersConfig = [{
             showNodeLevel: 12
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONELINK'),
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: 'ZONELINK',
-            id: 'zoneLink',
-            maxZoom: 20,
-            debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 5,
-            boolPixelCrs: true,
-            parse: fastmap.uikit.canvasFeature.Feature.transform,
-            boundsArr: [],
-            unloadInvisibleTiles: true,
-            reuseTiles: false,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            updateWhenIdle: true,
-            tileSize: 256,
-            type: 'LineString',
-            zIndex: 17,
-            restrictZoom: 10,
-            editable: false,
-            visible: true,
-            requestType: 'ZONELINK',
-            showNodeLevel: 17
-        }
-    }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONENODE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: 'ZONENODE',
             id: 'zoneNode',
+            name: 'ZONE组成点',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Point',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'ZONENODE',
+            showNodeLevel: 17
+        }
+    }, {
+        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONELINK'),
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'zoneLink',
+            name: 'ZONE组成线',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -351,16 +359,16 @@ App.layersConfig = [{
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: true,
-            requestType: 'ZONENODE',
+            visible: false,
+            requestType: 'ZONELINK',
             showNodeLevel: 17
         }
     }, {
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONEFACE'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: 'ZONEFACE',
             id: 'zoneFace',
+            name: 'ZONE面',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -373,11 +381,11 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'LineString',
+            type: 'Polygon',
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'ZONEFACE',
             showNodeLevel: 17
         }
@@ -385,8 +393,8 @@ App.layersConfig = [{
         url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: 'POI点数据',
-            id: 'poiPoint',
+            name: '兴趣点（POI）',
+            id: 'poi',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -399,48 +407,48 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'poiPoint',
+            type: 'PointFeature',
             zIndex: 18,
             restrictZoom: 10,
             visible: true,
-            requestType: 'POI',
-            showNodeLevel: 15
+            requestType: 'IXPOI',
+            showNodeLevel: 17
         }
     }]
 }, {
-    groupid: 'worklayer',
-    groupname: '作业图层',
+    groupId: 'worklayer',
+    groupName: '作业图层',
     layers: [{
         url: App.Util.createTileRequestObjectForTips('/render/tip/getByTileWithGap?', '12'), //暂时未用到此图层
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '外业线数据',
             id: 'workLine',
+            name: '外业线数据',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
             buffer: 7,
             boolPixelCrs: true,
-            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            parse: fastmap.uikit.canvasTips.Tips.transformation,
             boundsArr: [],
             unloadInvisibleTiles: true,
             reuseTiles: false,
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'LineString',
+            type: 'TipLineString',
             zIndex: 7,
             restrictZoom: 10,
             visible: false,
-            requestType: 12,
+            requestType: "12",
             showNodeLevel: 17
         }
     }, {
         url: App.Util.createTileRequestObjectForTips('/render/tip/getByTileWithGap?', ""),
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '外业点数据',
             id: 'workPoint',
+            name: '外业点数据',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -453,24 +461,27 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'Point',
+            type: 'TipPoint',
             zIndex: 9,
             restrictZoom: 10,
             visible: true,
             requestType: "",
             showNodeLevel: 17
         }
-    }, {
+    }]
+}, {
+    groupId: 'editLayers',
+    groupName: '编辑图层',
+    layers: [{
         url: '',
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            layername: '选中高亮图层',
-            id: 'highlightlayer',
+            id: 'highlightLayer',
+            name: '高亮图层',
             maxZoom: 20,
             debug: false,
             buffer: 8,
             boolPixelCrs: true,
-            // parse: function(data) {},
             mecator: new fastmap.mapApi.MecatorTranform(),
             tileSize: 256,
             type: 'highlight',
@@ -483,8 +494,8 @@ App.layersConfig = [{
         url: '',
         clazz: fastmap.mapApi.guideLineLayer,
         options: {
-            layername: '引导线',
             id: 'guideLineLayer',
+            name: '引导线',
             maxZoom: 20,
             debug: false,
             buffer: 8,
@@ -497,19 +508,14 @@ App.layersConfig = [{
             visible: true
         },
         requestType: "uuuuu"
-    }]
-}, {
-    groupid: 'editlayer',
-    groupname: '编辑图层',
-    layers: [{
+    }, {
         clazz: fastmap.mapApi.editLayer,
         url: '',
         options: {
-            layername: '编辑',
             id: 'edit',
-            url: '',
+            name: '编辑',
             visible: true,
             zIndex: 0
         }
-    }]
+    }, ]
 }];

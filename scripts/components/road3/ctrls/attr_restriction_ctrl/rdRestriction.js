@@ -9,7 +9,7 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
-    var rdRestriction = layerCtrl.getLayerById('relationdata');
+    var rdRestriction = layerCtrl.getLayerById('relationData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
 
@@ -67,8 +67,8 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
         }
         highLightFeatures.push({
             id:$scope.rdRestrictData.pid.toString(),
-            layerid:'relationdata',
-            type:'relationdata',
+            layerid:'relationData',
+            type:'relationData',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;

@@ -8,7 +8,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var ly = fastmap.uikit.LayerController();
     var rdLink=ly.getLayerById("referenceLine");
-    var adNode = ly.getLayerById('referenceNode');
+    var adNode = ly.getLayerById('rdNode');
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLyer = ly.getLayerById('edit');
     $scope.type = "";

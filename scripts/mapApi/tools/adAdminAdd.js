@@ -11,7 +11,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
      */
     initialize: function (options) {
         var layerCtrl = fastmap.uikit.LayerController();
-        this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
+        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
         this.tiles = this.currentEditLayer.tiles;
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.options = options || {};

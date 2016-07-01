@@ -261,8 +261,8 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id: id.toString(),
-                    layerid: 'adface',
-                    type: 'adface',
+                    layerid: 'adFace',
+                    type: 'adFace',
                     style: {}
                 })
                 highRenderCtrl.highLightFeatures = highLightFeatures;

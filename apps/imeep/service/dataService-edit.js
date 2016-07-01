@@ -222,7 +222,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     /***
      * 移动点要素位置
-     * 适用于rdnode，adnode，poi等
+     * 适用于rdnode，adNode，poi等
      */
     this.move = function(pid, type, data) {
         var param = {

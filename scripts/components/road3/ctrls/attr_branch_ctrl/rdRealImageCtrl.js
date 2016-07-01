@@ -5,7 +5,7 @@ var namesOfBranch = angular.module("app");
 namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','dsRoad','dsMeta','appPath', function ($scope, $timeout, $ocLazyLoad,dsEdit,dsRoad,dsMeta,appPath) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdBranch = layerCtrl.getLayerById("relationdata");
+    var rdBranch = layerCtrl.getLayerById("relationData");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 

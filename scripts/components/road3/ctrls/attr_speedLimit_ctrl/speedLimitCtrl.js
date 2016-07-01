@@ -25,8 +25,8 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         });
         highRenderCtrl.highLightFeatures.push({
             id:$scope.speedLimitData.pid,
-            layerid:'relationdata',
-            type:'relationdata',
+            layerid:'relationData',
+            type:'relationData',
             style:{}
         })
         highRenderCtrl.drawHighlight();

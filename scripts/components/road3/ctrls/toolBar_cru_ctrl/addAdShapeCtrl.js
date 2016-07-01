@@ -11,7 +11,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
     var selectCtrl = fastmap.uikit.SelectController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var adLink = layerCtrl.getLayerById('adLink');
-    var adNode = layerCtrl.getLayerById('adnode');
+    var adNode = layerCtrl.getLayerById('adNode');
     var eventController = fastmap.uikit.EventController();
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();

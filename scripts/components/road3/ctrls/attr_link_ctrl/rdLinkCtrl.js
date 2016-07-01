@@ -7,9 +7,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
-    var referenceNode = layerCtrl.getLayerById("referenceNode");
+    var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
-    var rdCross = layerCtrl.getLayerById("relationdata");
+    var rdCross = layerCtrl.getLayerById("relationData");
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -291,7 +291,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
             if (data) {
                 rdLink.redraw();
-                referenceNode.redraw();
+                rdNode.redraw();
                 rdCross.redraw();
                 $scope.linkData = null;
                 var editorLayer = layerCtrl.getLayerById("edit")
