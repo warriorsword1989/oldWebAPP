@@ -23,7 +23,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.editorPanelOpened = 'none';
         $scope.suspendPanelOpened = false;
         $scope.consolePanelOpened = false;
-        $scope.controlFlag = {}; //用于父Scope控制子Scope
+        //$scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
         // $scope.outputResult = []; //输出结果
         /*切换项目平台*/

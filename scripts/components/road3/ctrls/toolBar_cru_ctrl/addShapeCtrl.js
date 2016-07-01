@@ -617,9 +617,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                 map.currentTool.enable();
                 shapeCtrl.editFeatType = "rdLink";
 
-                //把点和线图层放到捕捉工具中
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                //把点和线图层放到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
