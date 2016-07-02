@@ -132,11 +132,31 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         }
         return result;
     }
+    /*输入svg图号过滤*/
+    $scope.changeSVGCode = function(){
+        if(!testSVGReg($scope.diverObj.signasreals[0].svgfileCode)){
+            $scope.diverObj.signasreals[0].svgfileCode = $scope.diverObj.signasreals[0].svgfileCode.substring(0, $scope.diverObj.signasreals[0].svgfileCode.length - 1);
+        }
+    };
+    /*svg图号校验*/
+    function testSVGReg(str){
+        if(str.length == 1){
+            if(new RegExp('^[S]+$').test(str)){
+                return true;
+            }else{
+                return false;
+            }
+        }else if(str.length < 13){
+            return true;
+        }else{
+            return false;
+        }
+    }
     /*箭头图代码点击下一页*/
     $scope.picNext = function () {
         $scope.picNowNum += 1;
         $scope.getPicsData();
-    }
+    };
     /*箭头图代码点击上一页*/
     $scope.picPre = function () {
         $scope.picNowNum -= 1;
