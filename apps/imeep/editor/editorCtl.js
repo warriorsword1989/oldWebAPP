@@ -291,6 +291,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
                 }
             });
+
         };
         /**
          * 取消编辑
