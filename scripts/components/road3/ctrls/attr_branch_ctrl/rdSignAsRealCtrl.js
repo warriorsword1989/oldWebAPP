@@ -219,6 +219,13 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
+            //高亮分歧图标;
+            highRenderCtrl.highLightFeatures.push({
+                id:$scope.diverObj.signasreals[0].pid.toString(),
+                layerid:'relationdata',
+                type:'relationdata',
+                style:{}
+            });
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),

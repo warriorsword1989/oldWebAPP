@@ -41,7 +41,7 @@ requirejs.config({
 		'poiService': ['dataService'],
 		'metaService': ['dataService'],
 		'keyPressFunctions':['jquery','dataService','poiService','metaService'],
-		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions'],
+		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize','keyPressFunctions','ngAnimate'],
 	}
 });
 // Start the main app logic.

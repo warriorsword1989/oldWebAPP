@@ -23,7 +23,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.editorPanelOpened = 'none';
         $scope.suspendPanelOpened = false;
         $scope.consolePanelOpened = false;
-        $scope.controlFlag = {}; //用于父Scope控制子Scope
+        //$scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
         // $scope.outputResult = []; //输出结果
         /*切换项目平台*/
@@ -372,8 +372,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 }
             });
         });
+        $scope.$on("refreshPhoto",function(event,data){
+            $scope.$broadcast('refreshImgsData',true);
+        });
         $scope.$on("highLightPoi", function(event, pid) {
             $scope.$broadcast("highlightPoiByPid", pid);
+            $scope.selectPoi = pid;
         });
         // $scope.checkPageNow = 1;
         /*高亮检查结果poi点*/

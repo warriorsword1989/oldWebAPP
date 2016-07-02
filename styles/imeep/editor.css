@@ -1108,7 +1108,15 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-right: 5px;
 }
 
-
+.remove-preview-img{
+    color: #BCBBBB;
+    float: right;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+.remove-preview-img:hover{
+    color: #fff;
+}
 /*********************floatMenu**********************/
 
 .floatMenu {

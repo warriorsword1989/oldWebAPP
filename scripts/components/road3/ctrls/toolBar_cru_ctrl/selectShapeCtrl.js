@@ -894,15 +894,18 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     return;
                 }
             } else if(type.split('_').length===2){
-                map.currentTool = new fastmap.uikit.SelectPath({
-                    map: map,
-                    currentEditLayer: rdLink,
-                    linksFlag: true,
-                    shapeEditor: shapeCtrl
-                });
-                map.currentTool.enable();
                 if(type.split('_')[1]==='OUT'){
                     tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
+                    //初始化选择线的工具
+                    map.currentTool = new fastmap.uikit.SelectPath(
+                        {
+                            map: map,
+                            currentEditLayer: rdLink,
+                            linksFlag: true,
+                            shapeEditor: shapeCtrl
+                        });
+                    map.currentTool.enable();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
                 }else if(type.split('_')[1]==='THROUGH'){
                     alert('待定!')
                 }
@@ -914,7 +917,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         id: objCtrl.data.inLinkPid.toString(),
                         layerid: 'referenceLine',
                         type: 'line',
-                        style: {color: '#5FCD3A'}
+                        style: {color: '#21ed25'}
                     });
                     highRenderCtrl.highLightFeatures.push({
                         id: objCtrl.data.nodePid.toString(),

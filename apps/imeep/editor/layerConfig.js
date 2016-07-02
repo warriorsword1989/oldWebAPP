@@ -37,16 +37,6 @@ App.layersConfig = [{
         }
     }, {
         url: '',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '照片',
-            id: 'photo',
-            url: '',
-            visible: false,
-            zIndex: 4
-        }
-    }, {
-        url: '',
         clazz: fastmap.mapApi.meshLayer,
         options: {
             layername: '图幅',

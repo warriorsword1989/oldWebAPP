@@ -4,6 +4,7 @@
 var braName = angular.module("app");
 braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var eventController = fastmap.uikit.EventController();
      $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
      $scope.nameGroup = [];
     if (objCtrl.data) {
@@ -218,4 +219,5 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
         protoArr.unshift(newName);
         $scope.sortNameGroup(protoArr);
     }
+    // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
 });

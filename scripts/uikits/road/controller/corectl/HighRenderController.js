@@ -81,7 +81,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     var id = this.highLightFeatures[item].id;
                                     var style = this.highLightFeatures[item].style;
                                     if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RWLINK' && this.highLightFeatures[item].type == 'line') {
-                                        this.drawRwLink(id, hightlightfeature, ctx);
+                                        this.drawRwLink(id, hightlightfeature, ctx,style);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                                         this.drawOfLink(id, hightlightfeature, ctx, style);
                                     } else if (this.highLightFeatures[item].type == 'node') {
@@ -164,6 +164,7 @@ fastmap.uikit.HighRenderController = (function() {
              * @param id
              * @param feature
              * @param ctx
+             * @param inOutStyle
              */
             drawOfLink: function(id, feature, ctx, inOutStyle) {
                 var color = null;
@@ -202,8 +203,9 @@ fastmap.uikit.HighRenderController = (function() {
              * @param id
              * @param feature
              * @param ctx
+             * @param inOutStyle
              */
-            drawRwLink: function(id, feature, ctx) {
+            drawRwLink: function(id, feature, ctx,inOutStyle) {
                 var color = null;
                 if (feature.hasOwnProperty('properties')) {
                     color = feature.properties.style.strokeColor;
@@ -216,7 +218,7 @@ fastmap.uikit.HighRenderController = (function() {
                 if (feature.properties.id === id) {
                     this.layer._drawLineString(ctx, geom, true, {
                         strokeWidth: 3,
-                        strokeColor: '#00F5FF'
+                        strokeColor: inOutStyle.color?inOutStyle.color:'#00F5FF'
                     }, {
                         color: '#00F5FF',
                         radius: 3
