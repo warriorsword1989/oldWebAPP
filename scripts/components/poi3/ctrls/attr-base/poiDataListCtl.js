@@ -2,6 +2,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
     function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
+        var layerCtrl = fastmap.uikit.LayerController();
+        var poiLayer = layerCtrl.getLayerById('poiPoint');
         var _self = scope;
         scope.radio_select = '名称';
         //当前表格数据;
@@ -202,6 +204,25 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*新鲜度验证*/
         function getKindName(scope, row) {
             return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+        }
+        /**
+         * POI提交
+         * 返回成功后刷新POI列表，重新绘制POI图层
+         */
+        scope.doSubmitData = function (){
+            scope.$emit("SWITCHCONTAINERSTATE",{ attrContainerTpl:false,subAttrContainerTpl:false });
+            scope.$parent.$parent.showLoading = true;
+            var param = {
+                dbId:App.Temp.dbId,
+                gridIds:App.Temp.gridList
+            };
+            dsEdit.submitData(param).then(function (jobId){
+                scope.$parent.$parent.showLoading = false;
+                if(jobId){
+                    refreshData();
+                    poiLayer.redraw();
+                }
+            });
         }
     }
 ]);

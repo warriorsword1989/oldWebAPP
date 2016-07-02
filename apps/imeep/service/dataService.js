@@ -113,11 +113,11 @@ angular.module("dataService", [], function($httpProvider) {
 }]).service("dsOutput", [function() {
     this.output = [];
     this.push = function(data) {
-        this.output.push(data);
+        this.output.unshift(data);
     };
     this.pushAll = function(dataArray) {
         for (var i = 0; i < dataArray.length; i++) {
-            this.output.push(dataArray[i]);
+            this.output.unshift(dataArray[i]);
         }
     };
     this.pop = function() {

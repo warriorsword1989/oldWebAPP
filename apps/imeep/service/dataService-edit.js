@@ -323,13 +323,13 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: param.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
+                dsOutput.pushAll(data.data.log);
                 dsOutput.push({
                     "op": opDesc + "操作成功",
                     "type": "succ",
                     "pid": "0",
                     "childPid": ""
                 });
-                dsOutput.pushAll(data.data.log);
                 swal(opDesc + "操作成功", "", "success");
                 defer.resolve(data.data);
             } else {
@@ -391,4 +391,46 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+
+    /**
+     * POI提交接口
+     * @param param
+     * @returns {Promise}
+     */
+    this.submitData = function (param){
+        var defer = $q.defer();
+        ajax.get("edit/poi/base/release", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("提交POI出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 查询后台任务进度
+     * @param jobId
+     * @returns {Promise}
+     */
+    this.queryByJobId = function (jobId){
+        var defer = $q.defer();
+        ajax.get("job/get/", {
+            parameter:JSON.stringify({jobId:jobId})
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查看后台任务进度失败：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    }
+    
 }]);
