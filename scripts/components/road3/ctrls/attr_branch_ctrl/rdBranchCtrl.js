@@ -524,6 +524,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         dsEdit.deleteBranchByDetailId(detailId,branchType).then(
             function(){
                 swal("删除成功", "分歧数据删除成功！", "success");
+                highRenderCtrl._cleanHighLight();
+                //rdBranch.redraw();
             },function(){
                 swal("删除失败", "问题原因：", "error");
             }
