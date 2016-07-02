@@ -57,7 +57,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
             if($scope.pointX < 210){
                 if($scope.imgPageNow == 0 || $scope.imgPageNow == 1){
                     $scope.imgSwitchCondition = 0;
-                    $scope.switchArrowTitle = '已是第一页';
+                    $scope.switchArrowTitle = '没有上一张了';
                 }else{
                     $scope.imgSwitchCondition = -1;
                     $scope.switchArrowTitle = '上一张';
@@ -65,7 +65,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
             }else{
                 if($scope.imgPageNow == $scope.imgAllPage){
                     $scope.imgSwitchCondition = 0;
-                    $scope.switchArrowTitle = '已是最后一页';
+                    $scope.switchArrowTitle = '没有下一张了';
                 }else{
                     $scope.imgSwitchCondition = 1;
                     $scope.switchArrowTitle = '下一张';
