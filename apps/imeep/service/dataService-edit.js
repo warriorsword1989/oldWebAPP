@@ -323,13 +323,13 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: param.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
+                dsOutput.pushAll(data.data.log);
                 dsOutput.push({
                     "op": opDesc + "操作成功",
                     "type": "succ",
                     "pid": "0",
                     "childPid": ""
                 });
-                dsOutput.pushAll(data.data.log);
                 swal(opDesc + "操作成功", "", "success");
                 defer.resolve(data.data);
             } else {
