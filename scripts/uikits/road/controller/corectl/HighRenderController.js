@@ -14,7 +14,9 @@ fastmap.uikit.HighRenderController = (function() {
             initialize: function(options) {
                 this.options = options || {};
                 this.layerCtrl = fastmap.uikit.LayerController();
+                this.objCtrl = fastmap.uikit.ObjectEditController();
                 this.layer = this.layerCtrl.getLayerById('highlightlayer');
+                this.guideLayer = this.layerCtrl.getLayerById('guideLineLayer');
                 this.currentEditLayer = null;
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
@@ -404,39 +406,62 @@ fastmap.uikit.HighRenderController = (function() {
                 }
             },
             drawPoi: function(id, feature, ctx) {
+                var transform = new fastmap.mapApi.MecatorTranform();
+                var data = this.objCtrl.data;
+                var guideTilePoint = transform.lonlat2Tile(data.xGuide,data.yGuide, map.getZoom());
+
+                var guidePixel = transform.lonlat2Pixel(data.xGuide,data.yGuide,map.getZoom());
+                guidePixel[0] = Math.ceil(guidePixel[0]);
+                guidePixel[1] = Math.ceil(guidePixel[1]);
+
+                var a = guidePixel[0] - 256*guideTilePoint[0];
+                var b = guidePixel[1] - 256*guideTilePoint[1];
+                var point_guide = [];
+                point_guide.push(a);
+                point_guide.push(b);
+
+                var point_loc =feature.geometry.coordinates;
+
+                var geo = {
+                    id:feature.properties.id,
+                    coordinates:data.geometry.coordinates,
+                    guidePoint:[data.xGuide,data.yGuide]
+                };
+
+                // geo.push(point_loc);
+                // geo.push(point_guide);
+
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
-                    var geo = [];
-                    geo.push(feature.geometry.coordinates);
-                    geo.push(feature.properties.guide);
+
                     this.layer._drawImg({
                         ctx: ctx,
-                        geo: feature.geometry.coordinates,
+                        geo: point_loc,
                         style: {
                             src: '../../../images/poi/map/marker_red_16.png'
                         },
                         boolPixelCrs: true,
                         drawy: -31
                     });
-                    // this.layer._drawPoint({
-                    //     boolPixelCrs: true,
-                    //     ctx: ctx,
-                    //     fillColor: 'red',
-                    //     radius: 3,
-                    //     geom: feature.geometry.coordinates
-                    // });
+
                     var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
                     feature.properties['symbol'] = symbolFactory.dataToSymbol({
                         type: 'SampleLineSymbol',
                         style: 'dash',
                         color: 'red'
                     });
-                    this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+                    this.guideLayer.clear();
+                    this.guideLayer.draw(geo);
+                    // this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+                    ctx .canvas = this.layer._tiles[guideTilePoint[0]+":"+guideTilePoint[1]];
+                    ctx .tile = L.point(guideTilePoint[0], guideTilePoint[1]);
+
                     this.layer._drawImg({
                         ctx: ctx,
-                        geo: feature.properties.guide,
+                        // geo: feature.properties.guide,
+                        geo: point_guide,
                         style: {
                             src: '../../../images/poi/map/marker_circle.png'
                         },
@@ -445,6 +470,48 @@ fastmap.uikit.HighRenderController = (function() {
                     });
                 }
             },
+            // drawPoi: function(id, feature, ctx) {
+            //     if (feature.properties.id == id) {
+            //         if (feature.properties.id === undefined) {
+            //             return;
+            //         }
+            //         var geo = [];
+            //         geo.push(feature.geometry.coordinates);
+            //         geo.push(feature.properties.guide);
+            //         this.layer._drawImg({
+            //             ctx: ctx,
+            //             geo: feature.geometry.coordinates,
+            //             style: {
+            //                 src: '../../../images/poi/map/marker_red_16.png'
+            //             },
+            //             boolPixelCrs: true,
+            //             drawy: -31
+            //         });
+            //         // this.layer._drawPoint({
+            //         //     boolPixelCrs: true,
+            //         //     ctx: ctx,
+            //         //     fillColor: 'red',
+            //         //     radius: 3,
+            //         //     geom: feature.geometry.coordinates
+            //         // });
+            //         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+            //         feature.properties['symbol'] = symbolFactory.dataToSymbol({
+            //             type: 'SampleLineSymbol',
+            //             style: 'dash',
+            //             color: 'red'
+            //         });
+            //         this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+            //         this.layer._drawImg({
+            //             ctx: ctx,
+            //             geo: feature.properties.guide,
+            //             style: {
+            //                 src: '../../../images/poi/map/marker_circle.png'
+            //             },
+            //             boolPixelCrs: true,
+            //             drawy: 0
+            //         });
+            //     }
+            // },
             drawPolygon: function(id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {

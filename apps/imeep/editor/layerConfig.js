@@ -485,14 +485,14 @@ App.layersConfig = [{
         options: {
             layername: '引导线',
             id: 'guideLineLayer',
-            maxZoom: 20,
+            maxZoom: 22,
             debug: false,
             buffer: 8,
             boolPixelCrs: true,
             mecator: new fastmap.mapApi.MecatorTranform(),
             tileSize: 256,
             type: 'guideLine',
-            zIndex: 9,
+            zIndex: 20,
             restrictZoom: 10,
             visible: true
         },
