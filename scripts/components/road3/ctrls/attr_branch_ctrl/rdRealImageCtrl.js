@@ -278,6 +278,13 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
+            //高亮分歧图标;
+            highRenderCtrl.highLightFeatures.push({
+                id:$scope.diverObj.realimages[0].rowId.toString(),
+                layerid:'relationdata',
+                type:'relationdata',
+                style:{}
+            });
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),
