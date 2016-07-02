@@ -372,8 +372,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 }
             });
         });
+        $scope.$on("refreshPhoto",function(event,data){
+            $scope.$broadcast('refreshImgsData',true);
+        });
         $scope.$on("highLightPoi", function(event, pid) {
             $scope.$broadcast("highlightPoiByPid", pid);
+            $scope.selectPoi = pid;
         });
         // $scope.checkPageNow = 1;
         /*高亮检查结果poi点*/
