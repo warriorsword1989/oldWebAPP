@@ -19,7 +19,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
         highRenderCtrl.highLightFeatures.push({
             id:$scope.speedLimitData.linkPid.toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         });

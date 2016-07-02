@@ -6,7 +6,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var rdLink = layerCtrl.getLayerById("referenceLine");
+    var rdLink = layerCtrl.getLayerById("rdLink");
     var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("relationData");
@@ -68,7 +68,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 linksArr.push($scope.dataTipsData.f_array[item].id);
                 highLightFeatures.push({
                     id: $scope.dataTipsData.f_array[item].id,
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 })
@@ -78,7 +78,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         } else {
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.linkData.pid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });

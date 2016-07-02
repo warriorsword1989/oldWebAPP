@@ -9,7 +9,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-        var rdLink = layerCtrl.getLayerById('referenceLine');
+        var rdLink = layerCtrl.getLayerById('rdLink');
         var rwLink = layerCtrl.getLayerById('rwLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -265,7 +265,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         if (i == 0) {
                             highLightFeatures.push({
                                 id: $scope.links[i].pid.toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {
                                     color: 'red'
@@ -274,7 +274,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         } else if (i == $scope.links.length - 1) {
                             highLightFeatures.push({
                                 id: $scope.links[i].pid.toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {
                                     color: 'green'
@@ -284,7 +284,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         else {
                             highLightFeatures.push({
                                 id: $scope.links[i].pid.toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {}
                             });
@@ -319,7 +319,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         if (i == 0) {
                             highLightFeatures1.push({
                                 id: links[i].toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {
                                     color: 'red'
@@ -328,7 +328,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         } else if (i == links.length - 1) {
                             highLightFeatures1.push({
                                 id: links[i].toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {
                                     color: 'green'
@@ -338,7 +338,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         else {
                             highLightFeatures1.push({
                                 id: links[i].toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {}
                             });
@@ -600,7 +600,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
 
                         highlightFeatures.push({
                             id: linksArr[i].toString(),
-                            layerid: 'referenceLine',
+                            layerid: 'rdLink',
                             type: 'line',
                             style: {}
                         })
@@ -608,7 +608,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                     for (var j = 0, lenJ = nodesArr.length; j < lenJ; j++) {
                         highlightFeatures.push({
                             id: nodesArr[j].toString(),
-                            layerid: 'referenceLine',
+                            layerid: 'rdLink',
                             type: 'node',
                             style: {}
                         })
@@ -695,7 +695,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                     	if(data[i].data.properties.featType == "RDLINK"){
                     		highlightFeatures.push({
                                 id: data[i].data.properties.id.toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'RDGSC',
                                 index: i,
                                 style: {
@@ -815,7 +815,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                             for (var i = 0; i < jsonData.linkObjs.length; i++) {
                                 highlightFeatures.push({
                                     id: jsonData.linkObjs[i].pid.toString(),
-                                    layerid: 'referenceLine',
+                                    layerid: 'rdLink',
                                     type: 'RDGSC',
                                     index: jsonData.linkObjs[i].level_index,
                                     style: {
@@ -864,7 +864,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.limitRelation.inLinkPid.toString(),
-                            layerid: 'referenceLine',
+                            layerid: 'rdLink',
                             type: 'line',
                             style: {}
                         });
@@ -889,7 +889,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         }
                         highLightFeatures.push({
                             id: $scope.limitRelation.nodePid.toString(),
-                            layerid: 'referenceLine',
+                            layerid: 'rdLink',
                             type: 'node',
                             style: {}
                         });
@@ -965,7 +965,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                     highRenderCtrl._cleanHighLight();
                     highLightFeatures.push({
                         id: $scope.limitRelation.outLinkPid.toString(),
-                        layerid: 'referenceLine',
+                        layerid: 'rdLink',
                         type: 'line',
                         style: {}
                     });
@@ -978,7 +978,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.limitRelation.inLinkPid.toString(),
-                            layerid: 'referenceLine',
+                            layerid: 'rdLink',
                             type: 'line',
                             style: {}
                         });
@@ -990,7 +990,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad','dsRoad','
                             $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'rdnode',
                                 style: {color:'yellow'}
                             });

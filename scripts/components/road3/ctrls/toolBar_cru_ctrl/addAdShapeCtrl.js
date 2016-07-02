@@ -15,7 +15,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
     var eventController = fastmap.uikit.EventController();
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.limitRelation = {};
     /**
      * 两点之间的距离

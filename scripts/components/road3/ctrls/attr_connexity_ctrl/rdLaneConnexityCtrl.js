@@ -9,7 +9,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var rdConnexity = layerCtrl.getLayerById("relationData");
 
@@ -88,7 +88,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var highLightFeatures = [];
         highLightFeatures.push({
             id:objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{
                 color: '#3A5FCD'
@@ -98,7 +98,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
             highLightFeatures.push({
                 id:objCtrl.data.topos[i].outLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#CD0000'
@@ -212,7 +212,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
                     highLightFeatures.push({
                         id: objCtrl.data["inLinkPid"].toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     });
@@ -223,7 +223,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                         if (lenOfInfo === index) {
                             highLightFeatures.push({
                                 id:data.id,
-                                layerid:'referenceLine',
+                                layerid:'rdLink',
                                 type:'line',
                                 style:{}
                             });
@@ -298,7 +298,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     if (lenOfInfo === index) {
                         highLightFeatures.push({
                             id:data.id,
-                            layerid:'referenceLine',
+                            layerid:'rdLink',
                             type:'line',
                             style:{}
                         })
@@ -308,7 +308,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
                 highLightFeatures.push({
                     id:objCtrl.data["inLinkPid"].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });

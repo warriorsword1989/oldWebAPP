@@ -18,7 +18,7 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'rdgsc',
                 index:links[i].zlevel,
                 style:{

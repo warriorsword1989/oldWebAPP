@@ -257,7 +257,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         if (dObj) {
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#21ed25',
@@ -266,7 +266,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             });
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#CD0011'
@@ -274,14 +274,14 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             });
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{color:'blue'}
                 })

@@ -80,7 +80,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })

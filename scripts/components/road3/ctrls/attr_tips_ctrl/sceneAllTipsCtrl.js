@@ -10,7 +10,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
     //线图层
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     //交限图层
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
@@ -70,7 +70,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 });
                 highRenderCtrl.highLightFeatures.push({
                     id: data.pid.toString(),
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 });
@@ -522,7 +522,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 var detailsOfHigh = $scope.dataTipsData.o_array;
                 highLightFeatures.push({
                     id: $scope.dataTipsData.in.id,
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 });
@@ -532,7 +532,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
                             highLightFeatures.push({
                                 id: outLinksOfHigh[outNum].id,
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {}
                             });

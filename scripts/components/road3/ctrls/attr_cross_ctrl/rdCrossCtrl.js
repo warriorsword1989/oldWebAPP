@@ -18,7 +18,7 @@ selectApp.controller("rdCrossController", ['$scope','dsRoad','dsFcc',function ($
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{}
             })

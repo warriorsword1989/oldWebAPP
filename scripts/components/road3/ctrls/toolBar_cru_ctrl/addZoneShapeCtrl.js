@@ -13,7 +13,7 @@ angular.module('app').controller("addZoneShapeController", ['$scope', '$ocLazyLo
     var zoneFace = layerCtrl.getLayerById('zoneFace');
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.limitRelation = {};
     /**
      * 两点之间的距离

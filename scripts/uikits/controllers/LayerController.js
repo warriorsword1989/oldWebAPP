@@ -175,8 +175,17 @@ fastmap.uikit.LayerController = (function() {
                 }
                 return layer;
             },
+            highLightLayers: function(highLayer) {
+                this.highLightLayersArr.push(highLayer);
+            },
+            removeHighLightLayer: function() {
+                for (var i = 0, len = this.highLightLayersArr.length; i < len; i++) {
+                    this.highLightLayersArr(i).cleanHighLight();
+                }
+                this.highLightLayersArr.length = 0;
+            },
             /**
-             * 获取选择的图层
+             * 获取可选择的图层
              * @method getSelectableLayers
              * @returns {Array}
              */
@@ -188,15 +197,6 @@ fastmap.uikit.LayerController = (function() {
                     }
                 }
                 return layers;
-            },
-            highLightLayers: function(highLayer) {
-                this.highLightLayersArr.push(highLayer);
-            },
-            removeHighLightLayer: function() {
-                for (var i = 0, len = this.highLightLayersArr.length; i < len; i++) {
-                    this.highLightLayersArr(i).cleanHighLight();
-                }
-                this.highLightLayersArr.length = 0;
             },
             /**
              * 获取可编辑的图层
@@ -211,7 +211,19 @@ fastmap.uikit.LayerController = (function() {
                     }
                 }
                 return layers;
-            }
+            },
+            /**
+             * 根据要素类型获取所在的图层
+             * @author chenx
+             * @returns {Object}
+             */
+            getLayerByFeatureType: function(type) {
+                for (var item in this.layers) {
+                    if (this.layers[item].options.requestType && this.layers[item].options.requestType.split(",").indexOf(type) >= 0) {
+                        return this.layers[item];
+                    }
+                }
+            },
         });
         return new layerController(options);
     }
