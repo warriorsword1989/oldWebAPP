@@ -41,7 +41,7 @@
                     <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">PID</a></li>
                 </ul>
             </div>
-            <input class="fm-search-control" type="text" ng-style="{'width':{true: '96px', false: '130px'}[dataListType==2]}" style="width:96px;" ng-model="filters[searchType]" placeholder="搜索"/>
+            <input class="fm-search-control" type="text" ng-style="{'width':{true: '96px', false: '130px'}[dataListType==2]}" ng-model="filters[searchType]" placeholder="搜索"/>
             <button class="btn btn-xs btn-purple" ng-style="{'display':{true:'inline',false:'none'}[dataListType==2]}" ng-click="doSubmitData();">数据提交</button>
         </div>
     </div>
