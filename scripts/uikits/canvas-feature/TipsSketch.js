@@ -1,7 +1,6 @@
 fastmap.uikit.canvasTips.TipsSketch = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function (item) {
         this.geometry['coordinates'] = item.g;
-        console.log(item)
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
                 iconName: '../../../images/road/tips/1806/1806_0_0.svg',
