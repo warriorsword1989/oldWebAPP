@@ -6,6 +6,7 @@ fastmap.mapApi.ShapeOptionType={
        画线操作
      */
     'DRAWPATH': "drawPath",
+    'DRAWRWLINK':'drawRwLink',
     /*
       画AdLink操作
      */

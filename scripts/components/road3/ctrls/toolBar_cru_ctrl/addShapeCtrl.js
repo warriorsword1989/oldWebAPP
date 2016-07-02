@@ -200,7 +200,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
         rdLink.options.selectType = 'link';
         rdLink.options.editable = true;
         eventController.off(eventController.eventTypes.GETLINKID,$scope.changeIndexCallback)
-        eventController.on(eventController.eventTypes.GETLINKID,$scope.changeIndexCallback)
+        eventController.on(eventController.eventTypes.GETLINKID,$scope.callback)
     }
         /**
          *  路口创建中的方法 根据node删除对象中的重复
