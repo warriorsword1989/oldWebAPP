@@ -101,6 +101,16 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         initPhotos();
         $scope.showImgModal = false;
     });
+    /*删除照片*/
+    $scope.deletePhoto = function(activePhoto){
+        for (var i = 0, len = $scope.poi.photos.length; i < len; i++) {
+            if($scope.poi.photos[i] == activePhoto){
+                $scope.poi.photos.splice(i,1);
+                initData();
+                return;
+            }
+        }
+    };
     // evtCtrl.rebindEvent = evtCtrl.rebindEvent || {};
     // evtCtrl.rebindEvent["tipsTplContainer"] = function() {
     //     evtCtrl.off(evtCtrl.eventTypes.SELECTBYATTRIBUTE);

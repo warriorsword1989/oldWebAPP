@@ -19,7 +19,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         this.catches = [];
         this.insertPoint = null;
         this.clickcount = 1;
-        this.boxLayer = new fastmap.uikit.LayerController({}).getLayerById('poiPoint')
+        this.boxLayer = new fastmap.uikit.LayerController().getLayerById('poiPoint')
         this.targetGeoIndex = 0;
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
@@ -29,7 +29,7 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             snapVertex: true
         });
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('referenceLine'));
         this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.options.shapeOptions = {
                 id:'parentLayer',

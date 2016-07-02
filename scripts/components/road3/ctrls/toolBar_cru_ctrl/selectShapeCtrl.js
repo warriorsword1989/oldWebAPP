@@ -917,7 +917,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         id: objCtrl.data.inLinkPid.toString(),
                         layerid: 'referenceLine',
                         type: 'line',
-                        style: {color: '#5FCD3A'}
+                        style: {color: '#21ed25'}
                     });
                     highRenderCtrl.highLightFeatures.push({
                         id: objCtrl.data.nodePid.toString(),
