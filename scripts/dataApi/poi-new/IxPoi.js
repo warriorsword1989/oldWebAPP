@@ -31,12 +31,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.editFlag = data['editFlag'] || 1;
         this.state = data['state'] || 0;
         this.fieldState = data['fieldState'] || null;
-        var labelArr = (data["label"]).split("|");
+        var labelArr =  data["label"] ? data["label"].split("|") : [];
         this.label = {};
         for (var i = 0; i < labelArr.length; i++) {
             this.label[labelArr[i]] = true;
         }
-        this.label = data['label'] || null;
+        //this.label = data['label'] || null;
         this.type = data['type'] || 0;
         this.addressFlag = data['addressFlag'] || 0;
         this.exPriority = data['exPriority'] || null;
@@ -218,7 +218,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 checkedLabelArr.push(key);
             }
         }
-        ret["label"] = checkedLabelArr.join("|");
+        ret["label"] = checkedLabelArr.join("|").substr(0,3);
         ret["type"] = this.type;
         ret["addressFlag"] = this.addressFlag;
         ret["exPriority"] = this.exPriority;

@@ -309,6 +309,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         /*经过线*/
         if (dObj) {
+            //高亮进入线
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
                 layerid:'rdLink',
@@ -318,6 +319,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     strokeWidth:50
                 }
             });
+            //高亮退出线;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
                 layerid:'rdLink',
@@ -326,12 +328,21 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     color: '#CD0011'
                 }
             });
+            //高亮进入点;
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
                 layerid: 'rdLink',
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
+            //高亮分歧图标;
+            highRenderCtrl.highLightFeatures.push({
+                id:$scope.diverObj.details[0].pid.toString(),
+                layerid:'relationdata',
+                type:'relationdata',
+                style:{}
+            });
+            //高亮经过线;
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),
@@ -422,6 +433,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             "propertyCtrl": tempCtr,
             "propertyHtml": tempTepl
         };
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.namesInfo = objCtrl.data.details[0].names;
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
@@ -509,10 +522,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         var detailId = $scope.diverObj.details[0].pid;
         var branchType = $scope.diverObj.details[0].branchType;
         dsEdit.deleteBranchByDetailId(detailId,branchType).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }

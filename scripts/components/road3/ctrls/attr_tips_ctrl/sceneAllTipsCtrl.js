@@ -795,11 +795,13 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
          * 图片、语音、备注
          */
         var fArray = $scope.dataTipsData.feedback.f_array;
+        $scope.tipsPhotos = [];
         var content;
         for (var i in fArray) {
             if (fArray[i].type === 1) {
                 content = App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + fArray[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
+                $scope.tipsPhotos.push(content);
             } else if (fArray[i].type === 2) {
                 content = fArray[i].content;
                 $scope.audios.push(content);

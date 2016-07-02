@@ -256,7 +256,7 @@ Application.layersConfig =
                     zIndex: 0,
                     restrictZoom: 10,
                     editable: false,
-                    visible: false,
+                    visible: true,
                     requestType: 'ADFACE',
                     showNodeLevel: 13
                 }

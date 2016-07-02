@@ -1112,4 +1112,4 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
             }
         }
     }
-])
+]);

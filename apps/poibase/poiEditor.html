@@ -78,6 +78,60 @@
                 .left100{
                     left: 130px;
                 }
+
+                @-webkit-keyframes rotate {
+                    0%,
+                    100% {
+                        -webkit-transform: rotate(0deg);
+                    }
+                    100% {
+                        -webkit-transform: rotate(360deg);
+                    }
+                }
+                @-moz-keyframes rotate {
+                    0%,
+                    100% {
+                        -moz-transform: rotate(0deg);
+                    }
+                    100% {
+                        -moz-transform: rotate(360deg);
+                    }
+                }
+                @-o-keyframes rotate {
+                    0%,
+                    100% {
+                        -o-transform: rotate(0deg);
+                    }
+                    100% {
+                        -o-transform: rotate(360deg);
+                    }
+                }
+                @-ms-keyframes rotate {
+                    0%,
+                    100% {
+                        -ms-transform: rotate(0deg);
+                    }
+                    100% {
+                        -ms-transform: rotate(360deg);
+                    }
+                }
+                @keyframes rotate {
+                    0%,
+                    100% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+                .hourglass{//为了尽可能兼容各个浏览器
+                -moz-animation: rotate 2s linear infinite;
+                    -webkit-animation: rotate 2s linear infinite;
+                    -o-animation: rotate 2s linear infinite;
+                    -ms-animation: rotate 2s linear infinite;
+                    animation: rotate 2s linear infinite;
+                }
+
                 /**/
                 .btn-shape{
                     color: #fff;
@@ -169,14 +223,14 @@
                         <div ui-layout="{flow:'row',dividerSize:'0'}" class="blackTheme">
                             <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
                             <div style="position:absolute;z-index:1;background-color:black;top:0px;left:50px;padding:5px;">
-                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('search')">搜　 索</button>
-                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('auto')">自动录入</button>
-                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('batch')">批处理</button>
+                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('search')">搜　 索 <span ng-show="handleobj=='search'" class="glyphicon glyphicon-hourglass hourglass"  aria-hidden="true"></span></button>
+                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('auto')">自动录入 <span ng-show="handleobj=='auto'" class="glyphicon glyphicon-hourglass hourglass"  aria-hidden="true"></span></button>
+                                <button type="button" class="btn btn-xs btn-default" ng-click="showToolbox('batch')">批处理 <span ng-show="handleobj=='batch'" class="glyphicon glyphicon-hourglass hourglass"  aria-hidden="true"></span></button>
                                 <div ng-if="toolModal" ng-class="{'left': one, 'left50': two, 'left100':three}" style="min-width:300px;min-height: 180px;opacity: 0.9;background: #313131;z-index: 100;position: absolute;top:50px;left:toolLeft;border-radius: 4px;color: #fff">
                                     <div ng-include="tplUrl"></div>
                                 </div>
                             </div>
-                            <div style="position:absolute;z-index:1;background:black;top:0px;left:250px;padding:5px;">
+                            <div style="position:absolute;z-index:1;background:black;top:0px;left:290px;padding:5px;">
                                 <div class="btn-group" ng-init="chosenBtnOpened=false">
                                     <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[chosenBtnOpened]" ng-click="chosenBtnOpened=!chosenBtnOpened;addBtnOpened=false;advanceBtnOpened=false;" ng-bind="chosenBtnOpened?'收起《':'选择 》'"></button>
                                     <div class="btn-group" ng-if="chosenBtnOpened">
