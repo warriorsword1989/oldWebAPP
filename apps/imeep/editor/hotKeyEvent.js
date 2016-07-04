@@ -511,7 +511,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             layerCtrl.getLayerById("rwNode").redraw();
                         }else if(param["type"] === "ADNODE") {
                             layerCtrl.getLayerById("adLink").redraw();
-                            layerCtrl.getLayerById("adnode").redraw();
+                            layerCtrl.getLayerById("adNode").redraw();
                         } else if (param["type"] === "ZONENODE"){
                             layerCtrl.getLayerById("zoneLink").redraw();
                             layerCtrl.getLayerById("zoneNode").redraw();
