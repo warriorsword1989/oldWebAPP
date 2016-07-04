@@ -81,8 +81,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             });
         };
         $scope.changeList(1);
+        var dataLoadind = true; //此变量用于控制菜单点击速度过快导致异常
         //点击下拉框的时  显示内容
         $scope.showContent = function(item, arr, stage, event) {
+            if(!dataLoadind){
+                return ;
+            }
+            dataLoadind = false;
             $scope.$emit('closePopoverTips', false);
             $("#dataTipsOriginModal").css("display", "none");
             $("#dataTipsVideoModal").css("display", "none");
@@ -132,6 +137,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             }
             //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
             dsFcc.getTipsListItems(arr, item.id).then(function(data) {
+                dataLoadind = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;
                     if ($("#" + $scope.showOrHideId).hasClass("selected")) {
