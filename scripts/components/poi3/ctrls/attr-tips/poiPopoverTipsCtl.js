@@ -63,6 +63,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         {id:7,label:'产品全貌'},
         {id:100,label:'其他'}
     ];
+    $scope.photoTagType = 1;
     /*查看图片*/
     $scope.showImage = function(img, index) {
             var temp = {
