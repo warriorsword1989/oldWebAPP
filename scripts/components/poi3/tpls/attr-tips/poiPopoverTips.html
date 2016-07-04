@@ -12,7 +12,7 @@
     </div>
     <div class="col-sm-12 task-box">
         <div class="col-sm-6 text-control">
-            <select class="fm-control" ng-model="nowActiveImg.tag" ng-options="item.id as item.label for item in photoTagOptions"></select>
+            <select class="fm-control" ng-model="photoTagType" ng-options="item.id as item.label for item in photoTagOptions"></select>
         </div>
         <div class="col-sm-6 text-right">
             <label class="col-sm-8 text-control">
@@ -30,10 +30,10 @@
         <button class="preview-right" ng-click="turnTipsPage(2);" ng-disabled="tipsBtnDisabled">
             <span class="glyphicon glyphicon-menu-right"></span>
         </button>
-        <div ng-repeat="item in poi.photos ">
-            <img ng-if="poi.photos.length < 5" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
+        <div ng-repeat="item in poi.photos">
+            <img ng-if="poi.photos.length < 5 && item.tag == photoTagType" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
                  ng-click="showPreviewImg(item,$index);" ng-class="{'active':nowActiveIndex == $index,'tips-img':true}" alt="">
-            <img ng-if="poi.photos.length > 4 && $index > 4*(tipsPage-1)-1  && $index < 4*tipsPage" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
+            <img ng-if="poi.photos.length > 4 && $index > 4*(tipsPage-1)-1  && $index < 4*tipsPage && item.tag == photoTagType" image-404="../../../images/road/img/noimg.png" ng-src="{{item.thumbnailUrl}}"
                  ng-click="showPreviewImg(item,$index);" ng-class="{'active':nowActiveIndex == $index,'tips-img':true}" alt="">
         </div>
         <div ng-if="poi.photos.length == 0 ">
