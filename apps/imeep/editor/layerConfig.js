@@ -475,7 +475,7 @@ App.layersConfig = [{
         options: {
             layername: '引导线',
             id: 'guideLineLayer',
-            maxZoom: 22,
+            maxZoom: 20,
             debug: false,
             buffer: 8,
             boolPixelCrs: true,
