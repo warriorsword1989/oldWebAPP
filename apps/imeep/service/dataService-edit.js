@@ -149,6 +149,40 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+    //获取检查状态
+    this.updateCheckType = function(id, type) {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            type: type,
+            id: id
+        };
+        ajax.get("edit/check/update", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+                dsOutput.push({
+                    "op": "修改 pid 为 "+id+" 的数据状态操作成功",
+                    "type": "succ",
+                    "pid": "0",
+                    "childPid": ""
+                });
+            } else {
+                dsOutput.push({
+                    "op": "修改 pid 为 "+id+" 的数据状态操作失败，失败原因："+data.errmsg,
+                    "type": "fail",
+                    "pid": "0",
+                    "childPid": ""
+                });
+                swal("获取检查状态出错：", data.errmsg, "error");
+                defer.resolve("获取检查状态出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /***
      * 创建对象
      */
