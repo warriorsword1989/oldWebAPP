@@ -596,6 +596,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             }
                         };
                         dsEdit.save(param).then(function (data) {
+                            layerCtrl.getLayerById("adnode").redraw();
                             layerCtrl.getLayerById("adface").redraw();
                             layerCtrl.getLayerById("adLink").redraw();
                             treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
@@ -611,6 +612,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             }
                         };
                         dsEdit.save(param).then(function (data) {
+                            layerCtrl.getLayerById("zoneNode").redraw();
                             layerCtrl.getLayerById("zoneFace").redraw();
                             layerCtrl.getLayerById("zoneLink").redraw();
                             treatmentOfChanged(data, "ZONEFACE", "创建行政区划面成功",
