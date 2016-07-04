@@ -74,7 +74,7 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
                     tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                     return;
                 }
-            } else if (type === "PATHVERTEXREMOVE") {
+            } else if (type === "PATHVERTEXREMOVE") { 
                 if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('deleteDot');
                     tooltipsCtrl.setCurrentTooltip('删除此形状点！');
@@ -218,7 +218,10 @@ angular.module("app").controller("selectZoneShapeController", ["$scope", '$ocLaz
             var options = {
                 "loadType": 'attrTplContainer',
                 "propertyCtrl": ctrl,
-                "propertyHtml": tpl
+                "propertyHtml": tpl,
+                // callback:function (){
+                //     eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
+                // }
             };
             $scope.$emit("transitCtrlAndTpl", options);
         });
