@@ -10,7 +10,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             config: App.layersConfig
         });
         var eventCtrl = new fastmap.uikit.EventController();
-        var highRenderCtrl = new fastmap.uikit.HighRenderController();
         $scope.metaData = {}; //存放元数据
         $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
         $scope.showLoading = true;
@@ -399,85 +398,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;
         });
-
-        //点击数据在地图上高亮
-        $scope.showOnMap = function (id,type) {
-            highRenderCtrl._cleanHighLight();
-            if(highRenderCtrl.highLightFeatures!=undefined){
-                highRenderCtrl.highLightFeatures.length = 0;
-            }
-            var highlightFeatures = [];
-           dsEdit.getByPid(id,type).then(function (data) {
-               if(data){
-                    switch (type){
-                        case "RDLINK":
-                            var linkArr = data.geometry.coordinates, points = [];
-                            for (var i = 0, len = linkArr.length; i < len; i++) {
-                                var point = L.latLng(linkArr[i][1], linkArr[i][0]);
-                                points.push(point);
-                            }
-                            var line = new L.polyline(points);
-                            var bounds = line.getBounds();
-                            map.fitBounds(bounds, {"maxZoom": 19});
-                            highlightFeatures.push({
-                                id:id.toString(),
-                                layerid:'referenceLine',
-                                type:'line',
-                                style:{}
-                            });
-                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-                            break;
-                        case "IX_POI":
-                            highLightFeatures.push({
-                                id:id.toString(),
-                                layerid:'poiPoint',
-                                type:'poi',
-                                style:{}
-                            });
-                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-                            break;
-                        case "RDRESTRICTION":
-                            var limitPicArr = [];
-                            layerCtrl.pushLayerFront('referencePoint');
-                            highlightFeatures.push({
-                                id: data.pid.toString(),
-                                layerid:'restriction',
-                                type:'restriction',
-                                style:{}
-                            });
-                            highlightFeatures.push({
-                                id: data["inLinkPid"].toString(),
-                                layerid:'referenceLine',
-                                type:'line',
-                                style:{}
-                            });
-                            for (var i = 0, len = (data.details).length; i < len; i++) {
-                                highlightFeatures.push({
-                                    id: data.details[i].outLinkPid.toString(),
-                                    layerid:'referenceLine',
-                                    type:'line',
-                                    style:{}
-                                })
-                            }
-                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-                            break;
-                        default :
-                            layerCtrl.pushLayerFront("workPoint");
-                            highlightFeatures.push({
-                                id:data.rowkey,
-                                layerid:'workPoint',
-                                type:'workPoint',
-                                style:{}
-                            });
-                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                            break;
-                            highRenderCtrl.highLightFeatures = highLightFeatures;
-                            highRenderCtrl.drawHighlight();
-
-                    }
-               }
-           })
-        }
 
     }
 ]);
