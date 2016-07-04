@@ -443,6 +443,30 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
                                 $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/signBoardOfBranch.html",9);
                             }
+                            //高亮进入线
+                            if(data.in){
+                                highCtrl.highLightFeatures.push({
+                                    id:data.in.id.toString(),
+                                    layerid:'referenceLine',
+                                    type:'line',
+                                    style:{
+                                        color: '#21ed25',
+                                        strokeWidth:50
+                                    }
+                                });
+                            }
+                            //高亮退出线;
+                            if(data.out){
+                                highCtrl.highLightFeatures.push({
+                                    id:data.out.id.toString(),
+                                    layerid:'referenceLine',
+                                    type:'line',
+                                    style:{
+                                        color: '#CD0011'
+                                    }
+                                });
+                            }
+                            highCtrl.drawHighlight();
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOrientation);
