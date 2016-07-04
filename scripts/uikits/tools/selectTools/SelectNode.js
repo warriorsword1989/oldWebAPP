@@ -174,6 +174,9 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             y = pixels[1] - tilePoint[1] * 256;
         var data, touchedObjects = [];
         for (var i = 0; i < this.workLayers.length; i++) {
+            if (this.workLayers[i].options.showNodeLevel > this._map.getZoom()) {
+                continue;
+            }
             data = this.workLayers[i].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             for (var item in data) {
                 if (data[item].geometry.type == "Point") {
@@ -181,7 +184,8 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                         touchedObjects.push({
                             id: data[item].properties.id,
                             optype: data[item].properties.featType,
-                            event: event
+                            event: event,
+                            layer: this.workLayers[i]
                         });
                     }
                 }
@@ -190,6 +194,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         if (touchedObjects.length == 1) {
             this.eventController.fire(this.eventController.eventTypes.GETNODEID, touchedObjects[0]);
             this.selectCtrl.selectedFeatures = touchedObjects[0];
+            touchedObjects[0].layer.selectedid = touchedObjects[0].id;
         } else if (touchedObjects.length > 1) {
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
@@ -203,6 +208,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 document.getElementById('layerpopup').onclick = function(e) {
                     that.selectCtrl.selectedFeatures = touchedObjects[e.target.id];
                     that.eventController.fire(that.eventController.eventTypes.GETNODEID, touchedObjects[e.target.id]);
+                    touchedObjects[e.target.id].layer.selectedid = touchedObjects[e.target.id].id;
                     that._map.closePopup(that.popup);
                     that._map.off('popupopen');
                 }

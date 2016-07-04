@@ -338,8 +338,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             //高亮分歧图标;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.details[0].pid.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
+                layerid:'relationData',
+                type:'relationData',
                 style:{}
             });
             //高亮经过线;

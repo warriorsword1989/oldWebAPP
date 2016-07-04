@@ -114,7 +114,7 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                 map.currentTool.enable();
                 //需要捕捉的图层
                 // map.currentTool.snapHandler.addGuideLayer(rdNode);
-                $scope.toolTipText = '请选择node！';
+                $scope.toolTipText = '请选择点！';
                 eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             } else if (type === "link") { // 选择线
@@ -130,8 +130,9 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                 //初始化鼠标提示
                 $scope.toolTipText = '请选择线！';
                 //把要捕捉的线图层添加到捕捉工具中
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
-                rdLink.options.editable = true;
+                // commented by chenx
+                // map.currentTool.snapHandler.addGuideLayer(rdLink);
+                // rdLink.options.editable = true;
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
             } else if (type === "face") {
@@ -167,7 +168,7 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                     currentEditLayer: workPoint
                 });
                 map.currentTool.enable();
-                $scope.toolTipText = '请选择tips！';
+                $scope.toolTipText = '请选择Tips！';
                 eventController.off(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback)
             } else if (type === "point") { // 点要素：poi，adadmin
@@ -182,7 +183,7 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                 map.currentTool.enable();
                 //需要捕捉的图层
                 // map.currentTool.snapHandler.addGuideLayer(rdNode);
-                $scope.toolTipText = '请选择node！';
+                $scope.toolTipText = '请选择点要素！';
                 eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             }
@@ -370,6 +371,56 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                     locllBranchCtlAndTpl(data.branchType);
                     $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
+                case "RWNODE":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "移动端点",
+                            'type': "PATHNODEMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_node_ctrl/rwNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rwNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "RWNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "RWLINK":
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'title': "插入形状点",
+                            'type': 'PATHVERTEXINSERT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'title': "删除形状点",
+                            'type': 'PATHVERTEXREMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "修改形状点",
+                            'type': 'PATHVERTEXMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'title': "打断link",
+                            'type': 'PATHBREAK',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_tpl/rwLinkTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "RWLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case "ADADMIN":
                     toolsObj = {
                         items: [{
@@ -388,7 +439,7 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-move'></a>",
-                            'title': "移动ADNODE点",
+                            'title': "移动端点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
                             callback: $scope.modifyTools
@@ -438,6 +489,61 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adFaceCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adFaceTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "ADFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "ZONENODE":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "移动ZONENODE点",
+                            'type': "PATHNODEMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "ZONENODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "ZONELINK":
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'title': "插入形状点",
+                            'type': 'PATHVERTEXINSERT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'title': "删除形状点",
+                            'type': 'PATHVERTEXREMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "修改形状点",
+                            'type': 'PATHVERTEXMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'title': "打断link",
+                            'type': 'PATHBREAK',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneLinkCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneLinkTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "ZONELINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "ZONEFACE":
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneFaceCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneFaceTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "ZONEFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "TIPS":
                     $("#popoverTips").css("display", "block");
@@ -1063,11 +1169,12 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
                     shapeCtrl.startEditing();
-                    map.currentTool = shapeCtrl.getCurrentTool();
                     // shapeCtrl.editFeatType = "rdLink";
-                    // map.currentTool.snapHandler.addGuideLayer(rdLink); //捕捉图层
+                    // map.currentTool = shapeCtrl.getCurrentTool();
+                    // map.currentTool.snapHandler.addGuideLayer(rdLink);
                     // modified by chenx
                     shapeCtrl.editFeatType = $scope.selectedFeature.optype;
+                    map.currentTool = shapeCtrl.getCurrentTool();
                     map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype)); //捕捉图层
                 }
                 shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);

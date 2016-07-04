@@ -281,8 +281,8 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             //高亮分歧图标;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.realimages[0].rowId.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
+                layerid:'relationData',
+                type:'relationData',
                 style:{}
             });
             for(var i=0;i<$scope.diverObj.vias.length;i++){

@@ -229,8 +229,8 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             //高亮分歧图标;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.schematics[0].pid.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
+                layerid:'relationData',
+                type:'relationData',
                 style:{}
             });
             for(var i=0;i<$scope.diverObj.vias.length;i++){

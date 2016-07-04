@@ -119,9 +119,9 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     },
     onMouseDown: function(event) {
         //小于一定级别不让选择
-        if (this.currentEditLayer.shwoNodeLevel > this._map.getZoom()) {
-            return;
-        }
+        // if (this.currentEditLayer.showNodeLevel > this._map.getZoom()) {
+        //     return;
+        // }
         var mouseLatlng;
         if (this.snapHandler.snaped) {
             mouseLatlng = this.targetPoint
@@ -141,9 +141,12 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         var x = pixels[0] - tilePoint[0] * 256,
             y = pixels[1] - tilePoint[1] * 256;
         // 鼠标点击的位置，用于显示操作按钮面板
-        var point = new fastmap.mapApi.Point(transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom()));
+        var point = new fastmap.mapApi.Point(this.transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom()));
         var data, touchedObjects = [];
         for (var i = 0; i < this.workLayers.length; i++) {
+            if (this.workLayers[i].options.showNodeLevel > this._map.getZoom()) {
+                continue;
+            }
             data = this.workLayers[i].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             for (var item in data) {
                 if (data[item].geometry.type == "LineString") {
@@ -154,6 +157,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                             event: event,
                             point: point,
                             properties: data[item].properties,
+                            layer: this.workLayers[i]
                         });
                     }
                 }
@@ -166,6 +170,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
             } else {
                 this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, touchedObjects[0]);
             }
+            touchedObjects[0].layer.selectedid = touchedObjects[0].id;
         } else if (touchedObjects.length > 1) {
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
@@ -178,11 +183,12 @@ fastmap.uikit.SelectPath = L.Handler.extend({
             this._map.on('popupopen', function() {
                 document.getElementById('layerpopup').onclick = function(e) {
                     that.selectCtrl.selectedFeatures = touchedObjects[e.target.id];
-                    if (this.linksFlag) {
+                    if (that.linksFlag) {
                         that.eventController.fire(that.eventController.eventTypes.GETLINKID, touchedObjects[e.target.id]);
                     } else {
                         that.eventController.fire(that.eventController.eventTypes.GETOUTLINKSPID, touchedObjects[e.target.id]);
                     }
+                    touchedObjects[e.target.id].layer.selectedid = touchedObjects[e.target.id].id;
                     that._map.closePopup(that.popup);
                     that._map.off('popupopen');
                 }
