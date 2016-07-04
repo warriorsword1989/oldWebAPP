@@ -139,7 +139,6 @@ a:hover {
     background: url("../../images/road/img/arrow-down.png") no-repeat center center;
 }
 
-
 /**************************************nnade***************************************************/
 
 .fm-col {
@@ -296,7 +295,6 @@ input.fm-control {
     background-color: #333;
 }
 
-
 /*input.fm-control.ng-dirty {
     background-color: #307BA3;
 }*/
@@ -309,7 +307,6 @@ select.fm-control {
     border: 1px ridge #FFFFFF;
     background-color: #333;
 }
-
 
 /*select.fm-control.ng-dirty {
     background-color: #307BA3;
@@ -329,7 +326,6 @@ textarea.fm-control {
     background-color: #333;
 }
 
-
 /* textarea.fm-control.ng-dirty {
     background-color: #307BA3;
 } */
@@ -343,7 +339,6 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
-
 
 /*form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
@@ -403,7 +398,6 @@ form input[type='checkbox']:checked.ng-dirty {
     padding: 5px;
 }
 
-
 /************************* 图片资源 ******************************/
 
 .icon_3d {
@@ -423,7 +417,6 @@ form input[type='checkbox']:checked.ng-dirty {
     width: 24px;
     height: 24px;
 }
-
 
 /******************************** 文件上传 **************************************/
 
@@ -523,7 +516,6 @@ form input[type='checkbox']:checked.ng-dirty {
     top: -8px;
     position: relative;
 }
-
 
 /**************************控制台************************/
 
@@ -705,7 +697,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-right: 10px;
 }
 
-
 /**********tips style**********/
 
 .modal-tips-img {
@@ -784,7 +775,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #A9A6A6;
 }
 
-
 /*fadeIn animte*/
 
 .animated-fast {
@@ -793,7 +783,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
-
 
 /*重写了部分angular-chosen的样式*/
 
@@ -854,7 +843,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border: solid #ff8888 1px !important;
 }
 
-
 /*********************tips**********************/
 
 .tips-title {
@@ -874,6 +862,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     width: 100%;
 }
 
+.text-control {
+    color: #fff;
+}
+
+.task-box {
+    margin-bottom: 5px;
+}
 
 /*tips照片预览*/
 
@@ -994,7 +989,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .poiTipsOriginImg {
     width: 100%;
     cursor: move;
-    margin-top: -260px;
+    margin-top: -460px;
 }
 
 .tips-option-well {
@@ -1108,15 +1103,17 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-right: 5px;
 }
 
-.remove-preview-img{
+.remove-preview-img {
     color: #BCBBBB;
     float: right;
     margin-right: 5px;
     margin-top: 5px;
 }
-.remove-preview-img:hover{
+
+.remove-preview-img:hover {
     color: #fff;
 }
+
 /*********************floatMenu**********************/
 
 .floatMenu {
@@ -1147,7 +1144,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     font-size: 16px;
     color: #FFF;
 }
-
 
 /* ---------------------滚动条-------------------------------------------------- */
 
@@ -1205,7 +1201,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .dark .rounded-toggle {
     background: rgba(0, 0, 0, .25);
 }
-
 
 /***************************poi-list**********************/
 
@@ -1317,7 +1312,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-right: 1px solid #404040
 }
 
-
 /********************* poiList *****************/
 
 .fm-dropdown-menu {
@@ -1411,7 +1405,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: greenyellow;
 }
 
-
 /*-------------------------------------------------选择同点位popup-----------------------------------------------*/
 
 #layerpopup {
@@ -1425,7 +1418,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
 }
 
-
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
 
 .div_float {
@@ -1437,7 +1429,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     z-index: 1;
 }
 
-
 /*按钮组加中间的边框*/
 
 .fm-btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .btn {
@@ -1448,7 +1439,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-left: none;
     border-top: 1px solid #404040;
 }
-
 
 /*紫色按钮*/
 

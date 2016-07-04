@@ -1,7 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
+var selectApp = angular.module("app", ['oc.lazyLoad']);
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
     function($scope, $ocLazyLoad, $rootScope, dsFcc, dsRoad, dsEdit, appPath) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -9,8 +10,8 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var eventController = fastmap.uikit.EventController();
-        var rdLink = layerCtrl.getLayerById('rdLink');
-        var rdNode = layerCtrl.getLayerById('rdNode');
+        var rdLink = layerCtrl.getLayerById('referenceLine');
+        var rdNode = layerCtrl.getLayerById('referenceNode');
         var workPoint = layerCtrl.getLayerById('workPoint');
         var editLayer = layerCtrl.getLayerById('edit');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -18,6 +19,11 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
         $scope.toolTipText = "";
         //重新设置选择工具
         $scope.resetToolAndMap = function() {
+            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventController.off(eventController.eventTypes.GETADADMINNODEID);
+            eventController.off(eventController.eventTypes.GETNODEID);
+            eventController.off(eventController.eventTypes.GETRELATIONID);
+            eventController.off(eventController.eventTypes.GETTIPSID);
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
@@ -49,30 +55,38 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
          */
         $scope.showTipsOrProperty = function(data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
             var ctrlAndTplParams = {
-                    loadType: 'tipsTplContainer',
-                    propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                    propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                    callback: function() {
-                        if (data.t_lifecycle === 2) { //外业修改直接打开相关的属性栏
-                            $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                        } else { //3新增或1删除
-                            var stageLen = data.t_trackInfo.length;
-                            var stage = parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
-                            if (stage === 1) { // 未作业 当是删除时 可以打开右侧属性栏
-                                if (data.t_lifecycle === 1) {
-                                    $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                                }
-                            } else if (stage === 3) { //已作业 新添加的可以打开右侧属性栏
-                                if (data.t_lifecycle === 3) {
-                                    if (data.f) {
+                loadType: 'tipsTplContainer',
+                propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                callback: function() {
+                    if (data.t_lifecycle === 2) { //外业修改直接打开相关的属性栏
+                        $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                    } else { //3新增或1删除
+                        var stageLen = data.t_trackInfo.length;
+                        var stage = parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
+                        if (stage === 1) { // 未作业 当是删除时 可以打开右侧属性栏
+                            if (data.t_lifecycle === 1) {
+                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                            } else { //3新增或1删除
+                                var stageLen = data.t_trackInfo.length;
+                                var stage = parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
+                                if (stage === 1) { // 未作业 当是删除时 可以打开右侧属性栏
+                                    if (data.t_lifecycle === 1) {
                                         $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                                    }
+                                } else if (stage === 3) { //已作业 新添加的可以打开右侧属性栏
+                                    if (data.t_lifecycle === 3) {
+                                        if (data.f) {
+                                            $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-                //先load Tips面板和控制器
+            };
+            //先load Tips面板和控制器
             $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
         }
         $scope.selectShape = function(type, num) {
@@ -1147,7 +1161,7 @@ angular.module("app").controller("selectShapeController", ["$scope", '$ocLazyLoa
                             "branchType": $scope.selectedFeature.branchType,
                             'childId': $scope.selectedFeature.id
                         });
-                    })
+                    });
                     return;
                 }
                 if (!selectCtrl.selectedFeatures) {

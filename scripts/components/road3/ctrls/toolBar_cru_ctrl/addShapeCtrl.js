@@ -791,7 +791,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
-                shapeCtrl.editFeatType = "rdLink";
+                shapeCtrl.editFeatType = "rdNode";
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');

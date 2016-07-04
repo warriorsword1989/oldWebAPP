@@ -33,7 +33,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         }
         return layer;
-    }
+    };
 
     /**
      * 重新设置选择工具

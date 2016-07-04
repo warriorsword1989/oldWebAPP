@@ -86,7 +86,12 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this.newredraw = $.extend({}, this.tiles);
-        this.getPoiId(tileCoordinate, event);
+        if (this.id === "poiPoint") {
+            this.getPoiId(tileCoordinate, event);
+        } else {
+            this.drawGeomCanvasHighlight(tileCoordinate, event);
+        }
+
     },
     getPoiId: function (tilePoint, event) {
         this.samePois = [];
@@ -153,6 +158,31 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             event: event
         });
         this._map.closePopup(this.popup);
+    },
+    drawGeomCanvasHighlight: function (tilePoint, event) {
+        var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
+        var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256
+        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+
+        for (var item in data) {
+            var touched = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
+            var id = data[item].properties.id;
+            if (touched) {
+
+                this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
+
+                    id: id,
+                    optype: "POI",
+
+                    event: event
+                })
+                this.selectCtrl.selectedFeatures = id;
+                break;
+
+            }
+
+        }
+
     },
 
     /***

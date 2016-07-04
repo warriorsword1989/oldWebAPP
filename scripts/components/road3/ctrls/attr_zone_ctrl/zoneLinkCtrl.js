@@ -8,6 +8,7 @@ zoneLinkApp.controller("zoneLinkController",["$scope","dsEdit" , function($scope
     var layerCtrl = fastmap.uikit.LayerController();
     var zoneLink = layerCtrl.getLayerById("zoneLink");
     var zoneNode=layerCtrl.getLayerById("zoneNode");
+    var zoneFace=layerCtrl.getLayerById("zoneFace");
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var editLayer = layerCtrl.getLayerById('edit');
@@ -98,9 +99,14 @@ zoneLinkApp.controller("zoneLinkController",["$scope","dsEdit" , function($scope
             if (data) {
                 zoneLink.redraw();//线重绘
                 zoneNode.redraw();//点重绘
+                zoneFace.redraw();
                 $scope.zoneLinkData = null;
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})

@@ -278,7 +278,7 @@ angular.module('app').controller("addZoneShapeController", ['$scope', '$ocLazyLo
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
-            shapeCtrl.editFeatType = "zoneLink";
+            shapeCtrl.editFeatType = "zoneNode";
             map.currentTool.snapHandler.addGuideLayer(zoneLink);
             tooltipsCtrl.setEditEventType('pointVertexAdd');
             tooltipsCtrl.setCurrentTooltip('开始增加节点！');

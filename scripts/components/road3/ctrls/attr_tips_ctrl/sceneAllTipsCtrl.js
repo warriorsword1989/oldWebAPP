@@ -1032,8 +1032,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 var stageParam = {
                     "rowkey": $scope.rowkey,
                     "stage": 3,
-                    "handler": 0
-                }
+                    "handler": 0,
+                    "mdFlag":App.Temp.mdFlag
+                };
                 if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 3) {
                     $timeout(function() {
                         $.showPoiMsg('状态已改，不允许改变状态！', e);
@@ -1043,38 +1044,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 dsFcc.changeDataTipsState(JSON.stringify(stageParam), function(data) {
                     var info = [];
-                    if (data.errcode === 0) {
+                    if (data) {
                         if (workPoint) workPoint.redraw();
                         $scope.showContent = "外业新增";
                         $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage = 3;
-                        //output 需要解析到固定的格式，做什么操作，然后是操作内容
-                        if (data.data) {
-                            var sInfo = {
-                                "op": "状态修改成功",
-                                "type": "",
-                                "pid": ""
-                            };
-                            data.data.log.push(sInfo);
-                            info = data.data.log;
-                        } else {
-                            var sInfo = [{
-                                "op": "状态修改成功",
-                                "type": "",
-                                "pid": ""
-                            }];
-                            data.data = sInfo;
-                            info = data.data;
-                        }
-                        //弹出提示框
-                        swal("操作成功", "状态修改成功！", "success");
-                    } else {
-                        info = [{
-                            "op": data.errcode,
-                            "type": data.errmsg,
-                            "pid": data.errid
-                        }];
-                        //弹出提示框
-                        swal("操作失败", data.errmsg, "error");
+
                     }
                     $scope.$emit('getConsoleInfo', info);
                     $scope.rowkey = undefined;
