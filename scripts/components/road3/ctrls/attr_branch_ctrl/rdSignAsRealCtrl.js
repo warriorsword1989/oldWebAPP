@@ -132,11 +132,31 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         }
         return result;
     }
+    /*输入svg图号过滤*/
+    $scope.changeSVGCode = function(){
+        if(!testSVGReg($scope.diverObj.signasreals[0].svgfileCode)){
+            $scope.diverObj.signasreals[0].svgfileCode = $scope.diverObj.signasreals[0].svgfileCode.substring(0, $scope.diverObj.signasreals[0].svgfileCode.length - 1);
+        }
+    };
+    /*svg图号校验*/
+    function testSVGReg(str){
+        if(str.length == 1){
+            if(new RegExp('^[S]+$').test(str)){
+                return true;
+            }else{
+                return false;
+            }
+        }else if(str.length < 13){
+            return true;
+        }else{
+            return false;
+        }
+    }
     /*箭头图代码点击下一页*/
     $scope.picNext = function () {
         $scope.picNowNum += 1;
         $scope.getPicsData();
-    }
+    };
     /*箭头图代码点击上一页*/
     $scope.picPre = function () {
         $scope.picNowNum -= 1;
@@ -402,10 +422,13 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
     $scope.delete = function () {
         var detailId = $scope.diverObj.signasreals[0].pid;
         dsEdit.deleteBranchByDetailId(detailId,8).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }

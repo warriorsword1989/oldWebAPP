@@ -1,7 +1,9 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath','$interval',
+    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath,$interval) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
+        var layerCtrl = fastmap.uikit.LayerController();
+        var poiLayer = layerCtrl.getLayerById('poiPoint');
         var _self = scope;
         scope.radio_select = '名称';
         //当前表格数据;
@@ -202,6 +204,52 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*新鲜度验证*/
         function getKindName(scope, row) {
             return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+        }
+        /**
+         * POI提交
+         * 返回成功后刷新POI列表，重新绘制POI图层
+         */
+        scope.doSubmitData = function (){
+            swal({
+                title: "确认提交？",
+                type: "warning",
+                animation: 'slide-from-top',
+                showCancelButton: true,
+                closeOnConfirm: true,
+                confirmButtonText: "是的，我要提交",
+                cancelButtonText: "取消"
+            }, function(f) {
+                if(f){
+                    scope.$emit("SWITCHCONTAINERSTATE",{ attrContainerTpl:false,subAttrContainerTpl:false });
+                    scope.$parent.$parent.showLoading = true;
+                    var param = {
+                        dbId:App.Temp.dbId,
+                        gridIds:App.Temp.gridList
+                    };
+                    dsEdit.submitData(param).then(function (jobId){
+                        if(jobId){
+                            var timer = $interval(function(){
+                                dsEdit.queryByJobId(jobId).then(function (data){
+                                    if(data.status == 3 || data.status == 4){//3-成功 4-失败
+                                        scope.$parent.$parent.showLoading = false;
+                                        refreshData();
+                                        poiLayer.redraw();
+                                        $interval.cancel(timer);
+                                        if(data.status == 3){
+                                            swal("提交提示", '提交完成', "info");
+                                        } else {
+                                            swal("提交提示", '提交失败,'+data.latestStepMsg, "warning");
+                                        }
+
+                                    }
+                                });
+                            },500);
+
+                        }
+                    });
+                }
+            });
+
         }
     }
 ]);

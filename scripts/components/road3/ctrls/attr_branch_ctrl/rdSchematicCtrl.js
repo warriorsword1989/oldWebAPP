@@ -409,10 +409,13 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     $scope.delete = function () {
         var detailId = $scope.diverObj.schematics[0].pid;
         dsEdit.deleteBranchByDetailId(detailId,8).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }

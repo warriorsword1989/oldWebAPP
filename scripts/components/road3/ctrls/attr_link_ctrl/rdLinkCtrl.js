@@ -293,12 +293,15 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 rdLink.redraw();
                 referenceNode.redraw();
                 rdCross.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.linkData = null;
-                var editorLayer = layerCtrl.getLayerById("edit")
+                var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
+
             }
         });
-    }
+    };
     $scope.changeLink = function(ind, linkId) {
         $scope.brigeIndex = ind;
         //        Application.functions.getRdObjectById(linkId, "RDLINK", function (data) {

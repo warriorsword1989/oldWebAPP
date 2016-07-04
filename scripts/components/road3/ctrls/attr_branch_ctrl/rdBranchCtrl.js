@@ -522,12 +522,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         var detailId = $scope.diverObj.details[0].pid;
         var branchType = $scope.diverObj.details[0].branchType;
         dsEdit.deleteBranchByDetailId(detailId,branchType).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-                highRenderCtrl._cleanHighLight();
-                //rdBranch.redraw();
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }
