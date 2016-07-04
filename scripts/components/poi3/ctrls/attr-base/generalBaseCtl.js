@@ -1,6 +1,9 @@
 angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var poiLayer = layerCtrl.getLayerById('poiPoint');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     function initData() {
         $scope.poi = objectCtrl.data;
@@ -281,7 +284,19 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 删除数据
     function del() {
-        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {});
+        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
+            poiLayer.redraw();
+            if (map.floatMenu) { //移除半圈工具条
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
+            $scope.poi = null;
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            var editorLayer = layerCtrl.getLayerById("edit");
+            editorLayer.clear();
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+        });
     }
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
