@@ -1032,7 +1032,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 var stageParam = {
                     "rowkey": $scope.rowkey,
                     "stage": 3,
-                    "handler": 0
+                    "handler": 0,
+                    "mdFlag":App.Temp.mdFlag
                 };
                 if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 3) {
                     $timeout(function() {
