@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function($http, $q, ajax) {
+angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput", function($http, $q, ajax,dsOutput) {
     /***
      * 根据getStats接口获取相关数据
      * @param stage 1：待作业；3：已作业
@@ -78,9 +78,22 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
             parameter: param
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data.data);
+                dsOutput.push({
+                    "op": "状态修改成功",
+                    "type": "succ",
+                    "pid": "0",
+                    "childPid": ""
+                });
+                swal("状态修改成功", "", "success");
+                defer.resolve(1);
             } else {
-                swal("查询数据出错：", data.errmsg, "error");
+                dsOutput.push({
+                    "op": "操作出错：" + data.errmsg,
+                    "type": "fail",
+                    "pid": data.errcode,
+                    "childPid": ""
+                });
+                swal("状态修改出错：", data.errmsg, "error");
                 defer.resolve(-1);
             }
         }).error(function(rejection) {
