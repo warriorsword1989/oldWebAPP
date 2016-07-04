@@ -109,7 +109,6 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
     $scope.selectObjCallback = function (data) {
-        console.info("selectObjCallback==========");
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
         var ctrlAndTplParams = {
@@ -274,7 +273,6 @@ angular.module("app").controller("selectRwShapeController", ["$scope", '$ocLazyL
     }
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        console.info("getFeatDataCallback------");
         dsEdit.getByPid(id,type,selectedData.detailId).then(function (data){
             if (data.errcode === -1) {
                 return;

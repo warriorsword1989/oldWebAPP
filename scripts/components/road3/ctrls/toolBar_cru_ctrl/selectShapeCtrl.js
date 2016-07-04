@@ -1009,7 +1009,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 });
             }
         }else{
-            console.info("dddddddddddddddd ");
             dsEdit.getByPid(id, type, selectedData.id,selectedData.branchType).then(function(data){
                 getByPidCallback(type,ctrl,tpl,data)
             });
