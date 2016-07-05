@@ -72,7 +72,7 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
         $scope.changeBtnClass(num);
-         if (type === "poi") {
+         if (type === "IXPOI") {
             if (shapeCtrl.shapeEditorResult) {
                 var feature={};
                 feature.components = [];
@@ -81,7 +81,7 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
                 feature.components.push(fastmap.mapApi.point(0, 0));
                 feature.points.push(fastmap.mapApi.point(0, 0));
                 feature.points.push(fastmap.mapApi.point(0, 0));
-                feature.type = "Poi";
+                feature.type = "IXPOI";
 
                 shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                 selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());

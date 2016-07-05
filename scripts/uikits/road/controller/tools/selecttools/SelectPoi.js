@@ -172,7 +172,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
                 this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
 
                     id: id,
-                    optype: "POI",
+                    optype: "IXPOI",
 
                     event: event
                 })

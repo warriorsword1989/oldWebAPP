@@ -113,8 +113,14 @@ fastmap.mapApi.LayerRender = {
                 g.strokeStyle = options.fillStyle.lineColor;  //边框颜色
                 g.fillStyle = options.fillStyle.fillColor;
                 g.linewidth = options.fillStyle.lineWidth;  //边框宽
-                g.fillRect(drawx, drawy , image.width, image.height);  //填充颜色 x y坐标 宽 高
-                g.strokeRect(drawx, drawy , image.width, image.height);  //填充边框 x y坐标 宽 高
+                if(options.fillStyle.fillType == "IXPOI"){
+                    g.beginPath();
+                    g.arc(0, 0 ,image.width * scalex / 2 +2,0,2*Math.PI);
+                    g.stroke();
+                }else {
+                    g.fillRect(drawx, drawy , image.width, image.height);  //填充颜色 x y坐标 宽 高
+                    g.strokeRect(drawx, drawy , image.width, image.height);  //填充边框 x y坐标 宽 高
+                }
             }
 
             if (rotate) {

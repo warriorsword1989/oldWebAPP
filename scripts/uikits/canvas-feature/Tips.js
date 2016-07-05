@@ -1,13 +1,13 @@
 fastmap.uikit.canvasTips = {};
 fastmap.uikit.canvasTips.Tips = L.Class.extend({
-    guideLineObj : null,
-    linePoint : null,
-    transform : null,
-    layerCtrl : null,
-    guideLayer : null,
+    // guideLineObj : null,
+    // linePoint : null,
+    // transform : null,
+    // layerCtrl : null,
+    // guideLayer : null,
     geometry: null,
     properties: null,
-    guideLineArr : [],
+    // guideLineArr : [],
     redFill: {
         lineColor: 'red',
         fillColor: 'rgba(225,225,225,0.5)'
