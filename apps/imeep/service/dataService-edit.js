@@ -283,6 +283,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         return this.save(param);
     };
     /***
+     * 打断link
+     * 适用于rdlink、adlink等
+     */
+    this.repair = function(pid, type, data) {
+        var param = {
+            "command": "BREAK",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        };
+        return this.save(param);
+    };
+    /***
      * poi要素创建父poi
      */
     this.createParent = function(pid, newParentPid) {
