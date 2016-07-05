@@ -41,6 +41,17 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             });
             scope.itemActive = index;
         };
+
+        evtCtrl.off("testtest");
+        evtCtrl.on("testtest", function (poi){ //正在解决刷新POI列表的问题
+            for (var i = 0 ,len = scope.poiList.length;i<len;i++){
+                if(scope.poiList[i].pid == poi.pid){
+                    //scope.poiList.splice(i,1);
+                    break;
+                }
+            }
+        });
+
         /*键盘控制poilist切换*/
         $document.bind("keyup", function(event) {
             if (event.keyCode == 34 || event.keyCode == 33) {
