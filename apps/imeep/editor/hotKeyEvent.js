@@ -863,7 +863,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function(data) {
                     highRenderCtrl._cleanHighLight();
-                    layerCtrl.getLayerById("poiPoint").redraw();
+                    layerCtrl.getLayerById("poi").redraw();
                     // treatmentOfChanged(data, "poi", "移动poi成功");
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
@@ -891,7 +891,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 };
                 dsEdit.save(param).then(function(data) {
-                    layerCtrl.getLayerById("poiPoint").redraw();
+                    layerCtrl.getLayerById("poi").redraw();
                     treatmentOfChanged(data, "POI", "保存poi成功", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
             }
