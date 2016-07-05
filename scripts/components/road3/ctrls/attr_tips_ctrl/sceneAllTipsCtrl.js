@@ -1042,7 +1042,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     });
                     return;
                 }
-                dsFcc.changeDataTipsState(JSON.stringify(stageParam), function(data) {
+                dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data) {
                     var info = [];
                     if (data) {
                         if (workPoint) workPoint.redraw();

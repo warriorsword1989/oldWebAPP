@@ -99,7 +99,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 data.log.push(sInfo);
                 info = data.log;
                 if (ctrl) {
-                    if(type != "POI"){
+                    if(type != "IXPOI"){
                         if (type === "RDBRANCH") {
                             id = "";
                         } else if (type === "ADFACE"|| type === "ZONEFACE"){
@@ -145,10 +145,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             if (rest) {
                                 objEditCtrl.setCurrentObject('IXPOI', rest);
                                 objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
-                                evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
-                                    feature: objEditCtrl.data
-                                });
-                                scope.$emit("SWITCHCONTAINERSTATE", {});
                                 scope.$emit("transitCtrlAndTpl", {
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
@@ -757,6 +753,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     dsEdit.save(param).then(function (data) {
                         highRenderCtrl._cleanHighLight();
                         layerCtrl.getLayerById("poiPoint").redraw();
+                        treatmentOfChanged(data, "IXPOI", "移动poi成功",'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                         // treatmentOfChanged(data, "poi", "移动poi成功");
                     })
                 }else if(shapeCtrl.editType === "poiAdd" ){
