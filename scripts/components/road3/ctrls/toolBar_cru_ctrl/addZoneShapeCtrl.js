@@ -13,7 +13,7 @@ angular.module('app').controller("addZoneShapeController", ['$scope', '$ocLazyLo
     var zoneFace = layerCtrl.getLayerById('zoneFace');
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.limitRelation = {};
     /**
      * 两点之间的距离
@@ -278,7 +278,7 @@ angular.module('app').controller("addZoneShapeController", ['$scope', '$ocLazyLo
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
-            shapeCtrl.editFeatType = "zoneLink";
+            shapeCtrl.editFeatType = "zoneNode";
             map.currentTool.snapHandler.addGuideLayer(zoneLink);
             tooltipsCtrl.setEditEventType('pointVertexAdd');
             tooltipsCtrl.setCurrentTooltip('开始增加节点！');

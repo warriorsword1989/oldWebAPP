@@ -10,7 +10,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
     //线图层
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     //交限图层
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
@@ -70,7 +70,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 });
                 highRenderCtrl.highLightFeatures.push({
                     id: data.pid.toString(),
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 });
@@ -522,7 +522,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 var detailsOfHigh = $scope.dataTipsData.o_array;
                 highLightFeatures.push({
                     id: $scope.dataTipsData.in.id,
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 });
@@ -532,7 +532,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
                             highLightFeatures.push({
                                 id: outLinksOfHigh[outNum].id,
-                                layerid: 'referenceLine',
+                                layerid: 'rdLink',
                                 type: 'line',
                                 style: {}
                             });
@@ -559,7 +559,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     {"id":1,"label":'客车'},
                     {"id":2,"label":'配送卡车'},
                     {"id":3,"label":'运输卡车'},
-                    {"id":4,"label":'急救车'},
                     {"id":5,"label":'出租车'}
                 ];
                 for(var i=0,len=$scope.eliminateCarObj.length;i<len;i++){
@@ -664,21 +663,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1514": //施工
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
-                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
-                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
+                if($scope.dataTipsData.time){
+                    $scope.timeDomain = $scope.dataTipsData.time.split(';');
+                }
                 break;
             case "1515": //维修
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                var strArray = [];
-                $scope.startTime = "";
-                $scope.endTime = "";
                 if($scope.dataTipsData.time){
-                    strArray = $scope.dataTipsData.time.split('-');
-                    if(strArray.length > 1){
-                        $scope.startTime = strArray[0].substring(5);
-                        $scope.endTime = strArray[1].substring(5);
-                    }
+                    $scope.timeDomain = $scope.dataTipsData.time.split(';');
                 }
                 break;
             case "1604": //区域内道路
@@ -795,11 +787,13 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
          * 图片、语音、备注
          */
         var fArray = $scope.dataTipsData.feedback.f_array;
+        $scope.tipsPhotos = [];
         var content;
         for (var i in fArray) {
             if (fArray[i].type === 1) {
                 content = App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + fArray[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
+                $scope.tipsPhotos.push(content);
             } else if (fArray[i].type === 2) {
                 content = fArray[i].content;
                 $scope.audios.push(content);
@@ -1030,8 +1024,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 var stageParam = {
                     "rowkey": $scope.rowkey,
                     "stage": 3,
-                    "handler": 0
-                }
+                    "handler": 0,
+                    "mdFlag":App.Temp.mdFlag
+                };
                 if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 3) {
                     $timeout(function() {
                         $.showPoiMsg('状态已改，不允许改变状态！', e);
@@ -1039,40 +1034,13 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     });
                     return;
                 }
-                dsFcc.changeDataTipsState(JSON.stringify(stageParam), function(data) {
+                dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data) {
                     var info = [];
-                    if (data.errcode === 0) {
+                    if (data) {
                         if (workPoint) workPoint.redraw();
                         $scope.showContent = "外业新增";
                         $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage = 3;
-                        //output 需要解析到固定的格式，做什么操作，然后是操作内容
-                        if (data.data) {
-                            var sInfo = {
-                                "op": "状态修改成功",
-                                "type": "",
-                                "pid": ""
-                            };
-                            data.data.log.push(sInfo);
-                            info = data.data.log;
-                        } else {
-                            var sInfo = [{
-                                "op": "状态修改成功",
-                                "type": "",
-                                "pid": ""
-                            }];
-                            data.data = sInfo;
-                            info = data.data;
-                        }
-                        //弹出提示框
-                        swal("操作成功", "状态修改成功！", "success");
-                    } else {
-                        info = [{
-                            "op": data.errcode,
-                            "type": data.errmsg,
-                            "pid": data.errid
-                        }];
-                        //弹出提示框
-                        swal("操作失败", data.errmsg, "error");
+
                     }
                     $scope.$emit('getConsoleInfo', info);
                     $scope.rowkey = undefined;

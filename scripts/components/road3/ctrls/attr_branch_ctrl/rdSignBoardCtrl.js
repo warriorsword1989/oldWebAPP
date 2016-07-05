@@ -5,7 +5,7 @@ var namesOfBranch = angular.module("app");
 namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,dsEdit,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdBranch = layerCtrl.getLayerById("relationdata");
+    var rdBranch = layerCtrl.getLayerById("relationData");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
@@ -204,7 +204,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         if (dObj) {
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#21ed25',
@@ -213,7 +213,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             });
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#CD0011'
@@ -221,21 +221,21 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             });
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
             //高亮分歧图标;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.signboards[0].pid.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
+                layerid:'relationData',
+                type:'relationData',
                 style:{}
             });
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{color:'blue'}
                 })
@@ -408,10 +408,13 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     $scope.delete = function () {
         var detailId = $scope.diverObj.signboards[0].pid;
         dsEdit.deleteBranchByDetailId(detailId,9).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }

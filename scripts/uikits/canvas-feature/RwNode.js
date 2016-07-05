@@ -3,7 +3,7 @@
  */
 fastmap.uikit.canvasFeature.RwNode = fastmap.uikit.canvasFeature.Feature.extend({
     setAttribute: function(data) {
-        this.properties["featType"] = "RwNode";
+        this.properties["featType"] = "RWNODE";
         this.geometry['type'] = 'Point';
         this.properties['markerStyle'] = {};
         this.properties['style']['strokeColor'] = '#4F4F2F';

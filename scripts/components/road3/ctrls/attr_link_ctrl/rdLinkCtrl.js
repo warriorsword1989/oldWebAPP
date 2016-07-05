@@ -6,10 +6,10 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var rdLink = layerCtrl.getLayerById("referenceLine");
-    var referenceNode = layerCtrl.getLayerById("referenceNode");
+    var rdLink = layerCtrl.getLayerById("rdLink");
+    var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
-    var rdCross = layerCtrl.getLayerById("relationdata");
+    var rdCross = layerCtrl.getLayerById("relationData");
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -68,7 +68,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 linksArr.push($scope.dataTipsData.f_array[item].id);
                 highLightFeatures.push({
                     id: $scope.dataTipsData.f_array[item].id,
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 })
@@ -78,7 +78,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         } else {
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.linkData.pid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });
@@ -291,14 +291,17 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
             if (data) {
                 rdLink.redraw();
-                referenceNode.redraw();
+                rdNode.redraw();
                 rdCross.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.linkData = null;
-                var editorLayer = layerCtrl.getLayerById("edit")
+                var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
+
             }
         });
-    }
+    };
     $scope.changeLink = function(ind, linkId) {
         $scope.brigeIndex = ind;
         //        Application.functions.getRdObjectById(linkId, "RDLINK", function (data) {

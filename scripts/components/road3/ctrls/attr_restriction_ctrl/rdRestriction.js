@@ -7,9 +7,9 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
     var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var eventController = fastmap.uikit.EventController();
-    var rdRestriction = layerCtrl.getLayerById('relationdata');
+    var rdRestriction = layerCtrl.getLayerById('relationData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
 
@@ -49,7 +49,7 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
         var highLightFeatures = [];
         highLightFeatures.push({
             id:objectEditCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{
                 color: '#3A5FCD'
@@ -58,7 +58,7 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
         for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
             highLightFeatures.push({
                 id:objectEditCtrl.data.details[i].outLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#CD0000'
@@ -67,8 +67,8 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
         }
         highLightFeatures.push({
             id:$scope.rdRestrictData.pid.toString(),
-            layerid:'relationdata',
-            type:'relationdata',
+            layerid:'relationData',
+            type:'relationData',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -202,13 +202,13 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
         var highLightFeatures = [];
         highLightFeatures.push({
             id:objectEditCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })
         highLightFeatures.push({
             id:item.outLinkPid.toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })
@@ -266,13 +266,13 @@ var objectEditApp = angular.module("app").controller("normalController",['$scope
             var highLightFeatures = [];
             highLightFeatures.push({
                 id:objectEditCtrl.data["inLinkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{}
             })
             highLightFeatures.push({
                 id:data.id.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{}
             })

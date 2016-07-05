@@ -42,7 +42,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                     break;
                 case 3:
                     $scope.requestParams.classType = 1;
-                    $scope.requestParams.classStage = 2;
+                    $scope.requestParams.classStage = 1;
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;
@@ -164,11 +164,40 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                 }
             }
         }
-        $scope.getDateFormat = function() {
-            var startTime = $scope.currentTaskData.planStartDate.split(' ')[0].split('-').join('.');
-            var endTime = $scope.currentTaskData.planEndDate.split(' ')[0].split('-').join('.');
-            return startTime + '~' + endTime;
+
+        //获取当前任务作业类型;
+        $scope.getTaskType = function(){
+            return '日编一体化';
+        }
+        //获取当前任务作业类型;
+        $scope.getTaskProgresing = function(){
+            return '12%';
+        }
+        $scope.getTaskSeason = function(){
+            return '最后一季节';
+        }
+        //拼接开始时间和结束时间的显示方式;
+        $scope.getDiyDateFormat = function(type){
+            var tempTime = null;
+            if($scope.currentTaskData){
+                if(type==='start'){
+                    tempTime = $scope.currentTaskData.planStartDate;
+                }else{
+                    tempTime = $scope.currentTaskData.planEndDate;
+                }
+                return getDateFormat(tempTime);
+            }
+        }
+        //格式化日期显示;
+        function getDateFormat(parmas) {
+            var tempDate = new Date();
+            tempDate.setTime(parmas);
+            var taskYear = tempDate.getFullYear();
+            var taskMonth = tempDate.getMonth();
+            var taskDay = tempDate.getDate();
+            return taskYear+' . '+taskMonth+' . '+taskDay;
         };
+
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
             if (!obj) return;

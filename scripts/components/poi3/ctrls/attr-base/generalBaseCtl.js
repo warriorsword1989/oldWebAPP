@@ -1,6 +1,9 @@
 angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var poiLayer = layerCtrl.getLayerById('poi');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     function initData() {
         $scope.poi = objectCtrl.data;
@@ -274,14 +277,47 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         objectCtrl.save();
         var chaged =  objectCtrl.changedProperty;
         if(!chaged){
-            swal("保存提示", '属性值没有变化，不需要保存！', "info");
-            return ;
+            swal({
+                title: "属性值没有变化，是否保存？",
+                type: "warning",
+                animation: 'slide-from-top',
+                showCancelButton: true,
+                closeOnConfirm: true,
+                confirmButtonText: "是的，我要保存",
+                cancelButtonText: "取消"
+            }, function(f) {
+                if(f){
+                    dsEdit.update($scope.poi.pid, "IXPOI", {
+                        "rowId": objectCtrl.data.rowId,
+                        "pid": objectCtrl.data.pid,
+                        "objStatus": "UPDATE"
+                    }).then(function(data) {});
+                }
+            });
+            return;
         }
         dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {});
     }
     // 删除数据
     function del() {
-        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {});
+        // eventCtrl.fire("testtest", {"pid":$scope.poi.pid});
+        // if(true){
+        //     return ;
+        // }
+
+        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
+            poiLayer.redraw();
+            if (map.floatMenu) { //移除半圈工具条
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
+            $scope.poi = null;
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            var editorLayer = layerCtrl.getLayerById("edit");
+            editorLayer.clear();
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+        });
     }
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存

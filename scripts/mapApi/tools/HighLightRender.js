@@ -157,7 +157,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             } else if (this.highLightFeatures[item].type == 'adadmin') {
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx );
-                            }else if(this.highLightFeatures[item].type == 'adface'){
+                            }else if(this.highLightFeatures[item].type == 'adFace'){
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawPolygon(this.highLightFeatures[item].id, feature, ctx );
                             }

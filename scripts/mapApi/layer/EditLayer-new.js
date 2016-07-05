@@ -138,7 +138,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Buffer':
                 drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
                 break;
-            case 'Poi':
+            case 'IXPOI':
                 drawPoiAndLink(currentGeo.components,{color: 'blue', size: 2}, self);
                 break;
         }

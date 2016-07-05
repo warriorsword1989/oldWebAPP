@@ -11,7 +11,7 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
      */
     initialize: function (options) {
         var layerCtrl = fastmap.uikit.LayerController();
-        this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
+        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
         this.tiles = this.currentEditLayer.tiles;
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.options = options || {};
@@ -27,7 +27,7 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.captureHandler = new fastmap.mapApi.Capture({map:this._map,shapeEditor:this.shapeEditor,selectedCapture:false,captureLine:true});
         this.captureHandler.enable();
-        // this.captureHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('poiPoint'));
+        // this.captureHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('poi'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 

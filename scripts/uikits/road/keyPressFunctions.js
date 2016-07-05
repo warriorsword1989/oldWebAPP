@@ -54,7 +54,7 @@ function keyEvent(ocLazyLoad, scope) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
-                layerCtrl.getLayerById("referenceLine").clearAllEventListeners();
+                layerCtrl.getLayerById("rdLink").clearAllEventListeners();
                 layerCtrl.getLayerById("adLink").clearAllEventListeners();
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
@@ -168,8 +168,8 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                             if (param["type"] === "RDLINK") {
-                                layerCtrl.getLayerById("referenceLine").redraw();
-                                layerCtrl.getLayerById("referenceNode").redraw();
+                                layerCtrl.getLayerById("rdLink").redraw();
+                                layerCtrl.getLayerById("rdNode").redraw();
                             } else if (param["type"] === "ADLINK") {
                                 layerCtrl.getLayerById("adLink").redraw();
                                 layerCtrl.getLayerById("adnode").redraw();
@@ -228,8 +228,8 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                         if (param["type"] === "RDLINK") {
-                            layerCtrl.getLayerById("referenceLine").redraw();
-                            layerCtrl.getLayerById("referenceNode").redraw();
+                            layerCtrl.getLayerById("rdLink").redraw();
+                            layerCtrl.getLayerById("rdNode").redraw();
                         } else if (param["type"] === "ADLINK") {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
@@ -258,8 +258,8 @@ function keyEvent(ocLazyLoad, scope) {
                             Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                                 treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
                                 if (data.errcode === 0) {
-                                    layerCtrl.getLayerById("referenceLine").redraw();
-                                    layerCtrl.getLayerById("referenceNode").redraw();
+                                    layerCtrl.getLayerById("rdLink").redraw();
+                                    layerCtrl.getLayerById("rdNode").redraw();
                                 }
 
                             });
@@ -329,8 +329,8 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                             if (param["type"] === "RDLINK") {
-                                layerCtrl.getLayerById("referenceLine").redraw();
-                                layerCtrl.getLayerById("referenceNode").redraw();
+                                layerCtrl.getLayerById("rdLink").redraw();
+                                layerCtrl.getLayerById("rdNode").redraw();
                             } else if (param["type"] === "ADLINK") {
                                 layerCtrl.getLayerById("adLink").redraw();
                                 layerCtrl.getLayerById("adface").redraw();
@@ -355,8 +355,8 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                         if (param ["type"] === "RDNODE") {
-                            layerCtrl.getLayerById("referenceLine").redraw();
-                            layerCtrl.getLayerById("referenceNode").redraw();
+                            layerCtrl.getLayerById("rdLink").redraw();
+                            layerCtrl.getLayerById("rdNode").redraw();
                         } else if (param ["type"] === "ADNODE") {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
@@ -377,8 +377,8 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                         if (param["type"] === "RDLINK") {
-                            layerCtrl.getLayerById("referenceLine").redraw();
-                            layerCtrl.getLayerById("referenceNode").redraw();
+                            layerCtrl.getLayerById("rdLink").redraw();
+                            layerCtrl.getLayerById("rdNode").redraw();
                         } else {
                             layerCtrl.getLayerById("adLink").redraw();
                             layerCtrl.getLayerById("adnode").redraw();
@@ -468,7 +468,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("relationdata").redraw();
-                        layerCtrl.getLayerById("referenceLine").redraw();
+                        layerCtrl.getLayerById("rdLink").redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功",
@@ -523,8 +523,8 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        layerCtrl.getLayerById("referenceNode").redraw();
+                        layerCtrl.getLayerById("rdLink").redraw();
+                        layerCtrl.getLayerById("rdNode").redraw();
                         treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
                     })
                 } else if (shapeCtrl.editType === "addAdFaceLine") {

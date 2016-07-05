@@ -4,13 +4,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     road: "scripts/components/road3/",
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath',
-    function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
+    function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.layersConfig
         });
         var eventCtrl = new fastmap.uikit.EventController();
-        var highRenderCtrl = new fastmap.uikit.HighRenderController();
+        $scope.appPath = appPath;
         $scope.metaData = {}; //存放元数据
         $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
         $scope.showLoading = true;
@@ -97,6 +97,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     $scope.classArr[claFlag] = false;
                 }
             }
+            $timeout(function() { //为了解决按esc键后工具条按钮不能恢复的bug
+                $scope.$apply();
+            }, 1);
         };
 
         function loadMap() {
@@ -110,7 +113,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             });
             map.setView([40.012834, 116.476293], 17);
             //属性编辑ctrl(解析对比各个数据类型)
-
             var shapeCtrl = new fastmap.uikit.ShapeEditorController();
             var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
             tooltipsCtrl.setMap(map, 'tooltip');
@@ -125,7 +127,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             for (var layer in layerCtrl.getVisibleLayers()) {
                 map.addLayer(layerCtrl.getVisibleLayers()[layer]);
             }
-
         }
         // 加载元数据
         var loadMetaData = function() {
@@ -174,71 +175,48 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             return promises;
         };
         var loadToolsPanel = function(callback) {
-            // var promises = [];
-            // promises.push($ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
-            //     $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function() {
-            //     $scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function() {
-            //     $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
-            //     $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function() {
-            //     $scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/addPoiCtrl').then(function() {
-            //     $scope.addPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/addPoiTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
-            //     $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
-            //     $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
-            // }));
-            // promises.push($ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
-            //     $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-            // }));
-            // return promises;
-            $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
-                $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
-                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function() {
-                    $scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
-                    $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function() {
-                        $scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-                        $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/addPoiCtrl').then(function() {
-                            $scope.addPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/addPoiTpl.html';
-                            $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
-                                $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-                                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function() {
-                                    $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
-                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
-                                        $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
-                                        $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
-                                            $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
-                                            $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
-                                                $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
-                                                $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectZoneShapeCtrl').then(function() {
-                                                    $scope.selectZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectZoneShapeTpl.html';
-                                                    $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addZoneShapeCtrl').then(function() {
-                                                        $scope.addZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addZoneShapeTpl.html';
-                                                        if (callback) {
-                                                            callback();
-                                                        }
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
+            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function() {
+                $scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
+                if (callback) {
+                    callback();
+                }
             });
+            // $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
+            //     $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
+            //     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function() {
+            //         $scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
+            //         $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function() {
+            //             $scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
+            //             $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/addPoiCtrl').then(function() {
+            //                 $scope.addPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/addPoiTpl.html';
+            //                 $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
+            //                     $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
+            //                     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function() {
+            //                         $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
+            //                         $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
+            //                             $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
+            //                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
+            //                                 $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
+            //                                 $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
+            //                                     $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
+            //                                     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectZoneShapeCtrl').then(function() {
+            //                                         $scope.selectZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectZoneShapeTpl.html';
+            //                                         $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addZoneShapeCtrl').then(function() {
+            //                                             $scope.addZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addZoneShapeTpl.html';
+            //                                             if (callback) {
+            //                                                 callback();
+            //                                             }
+            //                                         });
+            //                                     });
+            //                                 });
+            //                             });
+            //                         });
+            //                     });
+            //                 });
+            //             });
+            //         });
+            //     });
+            // });
         };
         //页面初始化方法调用
         var initPage = function() {
@@ -287,7 +265,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 confirmButtonText: "是的，我要删除",
                 cancelButtonText: "取消"
             }, function(f) {
-                if(f){
+                if (f) {
                     eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
                 }
             });
@@ -372,8 +350,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 }
             });
         });
-        $scope.$on("refreshPhoto",function(event,data){
-            $scope.$broadcast('refreshImgsData',true);
+        $scope.$on("refreshPhoto", function(event, data) {
+            $scope.$broadcast('refreshImgsData', true);
         });
         $scope.$on("highLightPoi", function(event, pid) {
             $scope.$broadcast("highlightPoiByPid", pid);
@@ -382,7 +360,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         // $scope.checkPageNow = 1;
         /*高亮检查结果poi点*/
         $scope.$on('getHighlightData', function(event, data) {
-            $scope.showOnMap(data.pid,data.type);
+            $scope.showOnMap(data.pid, data.type);
         });
         /*关闭Tips面板*/
         $scope.$on('closePopoverTips', function(event, img) {
@@ -393,90 +371,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.pImageNow = img;
             $scope.showFullScreen = true;
         });
-        
         /*接收全屏请求*/
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;
         });
-
-        //点击数据在地图上高亮
-        $scope.showOnMap = function (id,type) {
-            highRenderCtrl._cleanHighLight();
-            if(highRenderCtrl.highLightFeatures!=undefined){
-                highRenderCtrl.highLightFeatures.length = 0;
-            }
-            var highlightFeatures = [];
-           dsEdit.getByPid(id,type).then(function (data) {
-               if(data){
-                    switch (type){
-                        case "RDLINK":
-                            var linkArr = data.geometry.coordinates, points = [];
-                            for (var i = 0, len = linkArr.length; i < len; i++) {
-                                var point = L.latLng(linkArr[i][1], linkArr[i][0]);
-                                points.push(point);
-                            }
-                            var line = new L.polyline(points);
-                            var bounds = line.getBounds();
-                            map.fitBounds(bounds, {"maxZoom": 19});
-                            highlightFeatures.push({
-                                id:id.toString(),
-                                layerid:'referenceLine',
-                                type:'line',
-                                style:{}
-                            });
-                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-                            break;
-                        case "IX_POI":
-                            highLightFeatures.push({
-                                id:id.toString(),
-                                layerid:'poiPoint',
-                                type:'poi',
-                                style:{}
-                            });
-                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-                            break;
-                        case "RDRESTRICTION":
-                            var limitPicArr = [];
-                            layerCtrl.pushLayerFront('referencePoint');
-                            highlightFeatures.push({
-                                id: data.pid.toString(),
-                                layerid:'restriction',
-                                type:'restriction',
-                                style:{}
-                            });
-                            highlightFeatures.push({
-                                id: data["inLinkPid"].toString(),
-                                layerid:'referenceLine',
-                                type:'line',
-                                style:{}
-                            });
-                            for (var i = 0, len = (data.details).length; i < len; i++) {
-                                highlightFeatures.push({
-                                    id: data.details[i].outLinkPid.toString(),
-                                    layerid:'referenceLine',
-                                    type:'line',
-                                    style:{}
-                                })
-                            }
-                            map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-                            break;
-                        default :
-                            layerCtrl.pushLayerFront("workPoint");
-                            highlightFeatures.push({
-                                id:data.rowkey,
-                                layerid:'workPoint',
-                                type:'workPoint',
-                                style:{}
-                            });
-                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                            break;
-                            highRenderCtrl.highLightFeatures = highLightFeatures;
-                            highRenderCtrl.drawHighlight();
-
-                    }
-               }
-           })
-        }
-
     }
 ]);

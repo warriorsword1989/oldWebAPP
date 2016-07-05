@@ -11,11 +11,11 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
     var selectCtrl = fastmap.uikit.SelectController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var adLink = layerCtrl.getLayerById('adLink');
-    var adNode = layerCtrl.getLayerById('adnode');
+    var adNode = layerCtrl.getLayerById('adNode');
     var eventController = fastmap.uikit.EventController();
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.limitRelation = {};
     /**
      * 两点之间的距离
@@ -283,7 +283,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
-            shapeCtrl.editFeatType = "adLink";
+            shapeCtrl.editFeatType = "adNode";
             map.currentTool.snapHandler.addGuideLayer(adLink);
             tooltipsCtrl.setEditEventType('pointVertexAdd');
             tooltipsCtrl.setCurrentTooltip('开始增加节点！');

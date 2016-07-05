@@ -10,7 +10,7 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var selectCtrl = fastmap.uikit.SelectController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     /**
@@ -72,7 +72,7 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
         $scope.changeBtnClass(num);
-         if (type === "poi") {
+         if (type === "IXPOI") {
             if (shapeCtrl.shapeEditorResult) {
                 var feature={};
                 feature.components = [];
@@ -81,7 +81,7 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
                 feature.components.push(fastmap.mapApi.point(0, 0));
                 feature.points.push(fastmap.mapApi.point(0, 0));
                 feature.points.push(fastmap.mapApi.point(0, 0));
-                feature.type = "Poi";
+                feature.type = "IXPOI";
 
                 shapeCtrl.shapeEditorResult.setFinalGeometry(feature);
                 selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
