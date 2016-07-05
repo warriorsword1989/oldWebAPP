@@ -14,7 +14,11 @@ fastmap.uikit.HighRenderController = (function() {
             initialize: function(options) {
                 this.options = options || {};
                 this.layerCtrl = fastmap.uikit.LayerController();
+                this.objCtrl = fastmap.uikit.ObjectEditController();
                 this.layer = this.layerCtrl.getLayerById('highlightlayer');
+                this.guideLayer = new L.layerGroup();
+                this.guideLayer.id = "poiGuideLayer";
+
                 this.currentEditLayer = null;
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
@@ -405,40 +409,92 @@ fastmap.uikit.HighRenderController = (function() {
                     })
                 }
             },
+            /*
+             获取地图上的指定图层
+             */
+            getLayerById: function (layerId) {
+                var layer;
+                for (var item in map._layers) {
+                    if (map._layers[item].id) {
+                        if (map._layers[item].id === layerId) {
+                            layer = map._layers[item];
+                            break;
+                        }
+                    }
+                }
+                return layer;
+            },
             drawPoi: function(id, feature, ctx) {
+                var transform = new fastmap.mapApi.MecatorTranform();
+                var data = this.objCtrl.data;
+                var guideTilePoint = transform.lonlat2Tile(data.xGuide,data.yGuide, map.getZoom());
+
+                var guidePixel = transform.lonlat2Pixel(data.xGuide,data.yGuide,map.getZoom());
+                guidePixel[0] = Math.ceil(guidePixel[0]);
+                guidePixel[1] = Math.ceil(guidePixel[1]);
+
+                var a = guidePixel[0] - 256*guideTilePoint[0];
+                var b = guidePixel[1] - 256*guideTilePoint[1];
+                var point_guide = [];
+                point_guide.push(a);
+                point_guide.push(b);
+
+                var point_loc =feature.geometry.coordinates;
+
+                var geo = [];
+                geo.push({
+                    lng:data.geometry.coordinates[0],
+                    lat:data.geometry.coordinates[1]
+
+                });
+                geo.push({
+                    lng:data.xGuide,
+                    lat:data.yGuide
+
+                });
+                var poiGuideLayer = this.getLayerById('poiGuideLayer');
+                if(poiGuideLayer == undefined){
+                    map.addLayer(this.guideLayer);
+                }
+
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
-                    var geo = [];
-                    geo.push(feature.geometry.coordinates);
-                    geo.push(feature.properties.guide);
+
                     this.layer._drawImg({
                         ctx: ctx,
-                        geo: feature.geometry.coordinates,
+                        geo: point_loc,
                         style: {
                             src: '../../../images/poi/map/marker_red_16.png'
                         },
                         boolPixelCrs: true,
                         drawy: -31
                     });
-                    // this.layer._drawPoint({
-                    //     boolPixelCrs: true,
-                    //     ctx: ctx,
-                    //     fillColor: 'red',
-                    //     radius: 3,
-                    //     geom: feature.geometry.coordinates
+
+                    // var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+                    // feature.properties['symbol'] = symbolFactory.dataToSymbol({
+                    //     type: 'SampleLineSymbol',
+                    //     style: 'dash',
+                    //     color: 'red'
                     // });
-                    var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
-                    feature.properties['symbol'] = symbolFactory.dataToSymbol({
-                        type: 'SampleLineSymbol',
-                        style: 'dash',
-                        color: 'red'
+                    // this.guideLayer.clear();
+                    // this.guideLayer.draw(geo);
+                    // this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+
+                    var guideLine = L.polyline(geo, {
+                        color: 'red',
+                        weight: 1,
+                        dashArray: "5, 10"
                     });
-                    this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+                    this.guideLayer.addLayer(guideLine);
+                    ctx .canvas = this.layer._tiles[guideTilePoint[0]+":"+guideTilePoint[1]];
+                    ctx .tile = L.point(guideTilePoint[0], guideTilePoint[1]);
+
                     this.layer._drawImg({
                         ctx: ctx,
-                        geo: feature.properties.guide,
+                        // geo: feature.properties.guide,
+                        geo: point_guide,
                         style: {
                             src: '../../../images/poi/map/marker_circle.png'
                         },
@@ -465,6 +521,10 @@ fastmap.uikit.HighRenderController = (function() {
             _cleanHighLight: function() {
                 for (var index in this.layer._tiles) {
                     this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
+                }
+                var poiGuideLayer = this.getLayerById('poiGuideLayer');
+                if(poiGuideLayer!=undefined){
+                    poiGuideLayer.clearLayers();
                 }
             }
         });

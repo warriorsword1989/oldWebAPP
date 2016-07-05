@@ -34,7 +34,7 @@ fastmap.dataApi.RwLinkName = fastmap.dataApi.GeoDataModel.extend({
         data["linkPid"] = this.linkPid;
         data["nameGroupid"] = this.nameGroupid;
         //data["uFields"] = this.uFields;
-        //ata["name"] = this.name;
+        //data["name"] = this.name;
         return data;
 
     },

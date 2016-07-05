@@ -486,23 +486,24 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     })
                 } else if (shapeCtrl.editType === "pointVertexAdd") {
                     var ctrl, tpl;
-                    param["command"] = "BREAK";
+                    //param["command"] = "BREAK";
+                    param["command"] = "CREATE";
                     param["dbId"] = App.Temp.dbId;
                     param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
                     param["data"] = {"longitude": geo.x, "latitude": geo.y};
-                    if (shapeCtrl.editFeatType === "rdLink") {
-                        param ["type"] = "RDLINK";
-                    } else if (shapeCtrl.editFeatType === "adLink") {
-                        param ["type"] = "ADLINK";
-                    } else if (shapeCtrl.editFeatType === "rwLink") {
-                    	param ["type"] = "RWLINK";
+                    if (shapeCtrl.editFeatType === "rdNode") {
+                        param ["type"] = "RDNODE";
+                    } else if (shapeCtrl.editFeatType === "adNode") {
+                        param ["type"] = "ADNODE";
+                    //} else if (shapeCtrl.editFeatType === "rwLink") {
+                    	//param ["type"] = "RWLINK";
                     } else if (shapeCtrl.editFeatType === "rwNode") {
                     	param ["type"] = "RWNODE";
-                    } else if (shapeCtrl.editFeatType === "zoneLink") {
+                    } else if (shapeCtrl.editFeatType === "zoneNode") {
                         param ["type"] = "ZONENODE";
                     }
                     dsEdit.save(param).then(function (data) {
-                        if (param["type"] === "RDLINK") {
+                        if (param["type"] === "RDNODE") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                             layerCtrl.getLayerById("referenceNode").redraw();
                         } else if(param["type"] === "RWNODE"){
@@ -510,9 +511,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             layerCtrl.getLayerById("rwNode").redraw();
                         }else if(param["type"] === "ADNODE") {
                             layerCtrl.getLayerById("adLink").redraw();
-                            layerCtrl.getLayerById("adnode").redraw();
-
-                        } else {
+                            layerCtrl.getLayerById("adNode").redraw();
+                        } else if (param["type"] === "ZONENODE"){
                             layerCtrl.getLayerById("zoneLink").redraw();
                             layerCtrl.getLayerById("zoneNode").redraw();
                         }
@@ -596,6 +596,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             }
                         };
                         dsEdit.save(param).then(function (data) {
+                            layerCtrl.getLayerById("adnode").redraw();
                             layerCtrl.getLayerById("adface").redraw();
                             layerCtrl.getLayerById("adLink").redraw();
                             treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
@@ -611,6 +612,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             }
                         };
                         dsEdit.save(param).then(function (data) {
+                            layerCtrl.getLayerById("zoneNode").redraw();
                             layerCtrl.getLayerById("zoneFace").redraw();
                             layerCtrl.getLayerById("zoneLink").redraw();
                             treatmentOfChanged(data, "ZONEFACE", "创建行政区划面成功",

@@ -1,7 +1,7 @@
 angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', function($scope,FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-            url: App.Util.getFullUrl('editsupport/poi/uploadresource/'),
-            formData:[{'filetype':'photo','projectId':2016013086}]
+            url: App.Util.getFullUrl('dropbox/upload/resource'),
+            formData:[{'parameter':JSON.stringify({'filetype':'photo','dbId':App.Temp.dbId,'pid':$scope.selectPoi})}],
         }),
         imgItems = [];
 
@@ -31,18 +31,16 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     };
     /*添加完所有文件*/
     uploader.onAfterAddingFile = function(fileItem) {
-        $scope.showProgress = true;
+        // console.info('onAfterAddingFile', fileItem);
     };
     uploader.onBeforeUploadItem = function(item) {
         $scope.showProgress = true;
     };
-    /*uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-    };
+
     uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
+        // console.info('onAfterAddingAll', addedFileItems);
     };
-    uploader.onProgressItem = function(fileItem, progress) {
+    /*uploader.onProgressItem = function(fileItem, progress) {
         console.info('onProgressItem', fileItem, progress);
     };
     uploader.onProgressAll = function(progress) {
@@ -52,18 +50,17 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         console.log(response)
         if(response.errcode == 0){
             var img = new FM.dataApi.IxPoiPhoto({
-                'url':App.Config.resourceUrl + '/photo' + response.data.filenames[0],
-                'poiPid':1,
-                'photoId':0,
-                'status':null
+                thumbnailUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"thumbnail"}',
+                originUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"origin"}'
             });
             imgItems.push(img);
+            $scope.poi.photos.push(img);
+            $scope.$emit("refreshPhoto",true);
         }
         // console.info('onSuccessItem', fileItem, response, status, headers);
     };
     /*移除文件*/
     uploader.remove = function(){
-        console.log($scope.uploader.queue.length)
         if($scope.uploader.queue.length == 0){
             $scope.showProgress = false;
         }

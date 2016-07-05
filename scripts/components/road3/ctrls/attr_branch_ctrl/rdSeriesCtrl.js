@@ -419,10 +419,13 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
     $scope.delete = function () {
         var detailId = $scope.diverObj.seriesbranches[0].rowId
         dsEdit.deleteBranchByRowId(detailId,7).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }

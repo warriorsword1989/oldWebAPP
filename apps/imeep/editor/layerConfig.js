@@ -37,16 +37,6 @@ App.layersConfig = [{
         }
     }, {
         url: '',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '照片',
-            id: 'photo',
-            url: '',
-            visible: false,
-            zIndex: 4
-        }
-    }, {
-        url: '',
         clazz: fastmap.mapApi.meshLayer,
         options: {
             layername: '图幅',
@@ -492,7 +482,7 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             tileSize: 256,
             type: 'guideLine',
-            zIndex: 9,
+            zIndex: 20,
             restrictZoom: 10,
             visible: true
         },

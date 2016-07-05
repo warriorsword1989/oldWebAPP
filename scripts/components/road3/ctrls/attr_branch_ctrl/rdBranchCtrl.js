@@ -325,7 +325,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 layerid:'referenceLine',
                 type:'line',
                 style:{
-                    color: '#21ed25'
+                    color: '#CD0011'
                 }
             });
             //高亮进入点;
@@ -433,6 +433,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             "propertyCtrl": tempCtr,
             "propertyHtml": tempTepl
         };
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.namesInfo = objCtrl.data.details[0].names;
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
@@ -520,10 +522,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         var detailId = $scope.diverObj.details[0].pid;
         var branchType = $scope.diverObj.details[0].branchType;
         dsEdit.deleteBranchByDetailId(detailId,branchType).then(
-            function(){
-                swal("删除成功", "分歧数据删除成功！", "success");
-            },function(){
-                swal("删除失败", "问题原因：", "error");
+            function(params){
+                if(params){
+                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl._cleanHighLight();
+                    $scope.attrTplContainerSwitch(false);
+                    rdBranch.redraw();
+                }
             }
         );
     }

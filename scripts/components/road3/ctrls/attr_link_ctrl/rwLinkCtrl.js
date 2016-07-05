@@ -66,8 +66,21 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
 
     $scope.save = function(){
         objCtrl.save();
+        var chaged =  objCtrl.changedProperty;
+        if(!chaged){
+            swal("保存提示", '属性值没有变化，不需要保存！', "info");
+            return ;
+        }
+        if(objCtrl.data.names){
+            for (var i = 0 ,len = objCtrl.data.names.length; i < len ; i ++){
+                if(!objCtrl.data.names[i].nameGroupid){
+                    swal("保存提示", '名称组号存在为空，不能保存！', "info");
+                    return
+                }
+            }
+        }
         //console.info(objCtrl.changedProperty);
-        dsEdit.update($scope.rwLinkData.pid, "RWLINK", objCtrl.changedProperty).then(function(data) {
+        dsEdit.update($scope.rwLinkData.pid, "RWLINK", chaged).then(function(data) {
             if (data) {
                 rwLink.redraw();
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
@@ -98,7 +111,7 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
                 highRenderCtrl.highLightFeatures.length = 0;
                 var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
-                //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });
     };

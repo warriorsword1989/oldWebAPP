@@ -29,6 +29,10 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         var chainArray = pAllChain[kindCode];
         $scope.chainList = {};
         if (chainArray) {
+            chainArray.unshift({
+                "chainCode": "0",
+                "chainName": "--请选择--"
+            });
             for (var i = 0, len = chainArray.length; i < len; i++) {
                 var cha = chainArray[i];
                 $scope.chainList[cha.chainCode] = { //转换成chosen-select可以解析的格式
@@ -79,15 +83,15 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     $scope.deleteContact = function(index) {
         $scope.poi.contacts.splice(index, 1);
     };
-    $scope.controlFlag.isTelEmptyArr = [];//用于保存时对电话的校验
+    //$scope.controlFlag.isTelEmptyArr = [];//用于保存时对电话的校验
     $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
-        if(temp.contact && !/^[0-9]*$/.test(temp.contact)){
-            $scope.controlFlag.isTelEmptyArr[index] = true;
-            return ;
-        }else {
-            $scope.controlFlag.isTelEmptyArr[index] = false;
-        }
+        // if(temp.contact && !/^[0-9]*$/.test(temp.contact)){
+        //     $scope.controlFlag.isTelEmptyArr[index] = true;
+        //     return ;
+        // }else {
+        //     $scope.controlFlag.isTelEmptyArr[index] = false;
+        // }
         if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
             temp.contactType = 2;
         }else {

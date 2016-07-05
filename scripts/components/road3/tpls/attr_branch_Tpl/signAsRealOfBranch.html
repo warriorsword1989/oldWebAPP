@@ -79,15 +79,9 @@
                     </div>
                 </div>
                 <div class="d-group">
-                    <div class="d-name">模式图号：</div>
-                    <div class="d-value">
-                        <div ng-bind="diverObj.signasreals[0].backimageCode" class="show-val"></div>
-                    </div>
-                </div>
-                <div class="d-group">
                     <div class="d-name">SVG图号：</div>
                     <div class="d-value">
-                        <input type="text" class="d-input" placeholder="SVG图号" ng-model="diverObj.signasreals[0].svgfileCode"/>
+                        <input type="text" class="d-input" placeholder="SVG图号" ng-model="diverObj.signasreals[0].svgfileCode" ng-change="changeSVGCode();"/>
                     </div>
                 </div>
             </div>

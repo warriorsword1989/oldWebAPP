@@ -1,6 +1,9 @@
 angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var poiLayer = layerCtrl.getLayerById('poiPoint');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     function initData() {
         $scope.poi = objectCtrl.data;
@@ -164,7 +167,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     poi.gasstations[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
                     break;
-                case 5: //运动场馆
+                case 5: //运动场馆 由于运动场馆深度信息没有子表，使用的是poi的label字段，所以需要和default一样的处理方式
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
                     break;
                 case 6: //餐馆
                     poi.parkings[0]._flag_ = "ignore";
@@ -241,25 +248,55 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 表单验证
     function validateForm() {
-        if (!objectCtrl.changedProperty) {
-            swal("", "属性值没有变化，不需要保存！", "info");
-            return false;
+        var flag = true;
+        var contacts = objectCtrl.data.contacts;
+        for (var i = 0,len = contacts.length; i<len;i++){
+            if(contacts[i].contactType == 2){ //手机
+                if(!contacts[i].contact){
+                    flag = false;
+                    break;
+                }
+            } else { //非手机
+                if(!contacts[i].contact || !contacts[i].code){
+                    flag = false;
+                    break;
+                }
+            }
         }
-        return true;
+        if(!flag){
+            swal("保存提示", '电话填写不正确,不能保存！', "info");
+        }
+        return flag;
     }
     // 保存数据
     function save() {
-        clearDeepInfo();//清除不使用的深度信息
-        objectCtrl.save();
-        if (!validateForm()) {
-            return;
+        if(!validateForm()){
+            return ;
         }
-        console.info(objectCtrl.changedProperty);
-        dsEdit.update($scope.poi.pid, "IXPOI", objectCtrl.changedProperty).then(function(data) {});
+        clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
+        objectCtrl.save();
+        var chaged =  objectCtrl.changedProperty;
+        if(!chaged){
+            swal("保存提示", '属性值没有变化，不需要保存！', "info");
+            return ;
+        }
+        dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {});
     }
     // 删除数据
     function del() {
-        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {});
+        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
+            poiLayer.redraw();
+            if (map.floatMenu) { //移除半圈工具条
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
+            $scope.poi = null;
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            var editorLayer = layerCtrl.getLayerById("edit");
+            editorLayer.clear();
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+        });
     }
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
