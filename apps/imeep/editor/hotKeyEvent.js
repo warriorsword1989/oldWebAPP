@@ -71,17 +71,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         }
 
         function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
-            var info = null,
-                id;
+            var id;
             //结束编辑状态
             shapeCtrl.stopEditing();
-            var sInfo = {
-                "op": op,
-                "type": "",
-                "pid": ""
-            };
-            data.log.push(sInfo);
-            info = data.log;
             if (ctrl) {
                 if (type != "IXPOI") {
                     if (type === "RDBRANCH") {
@@ -155,8 +147,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     // scope.$apply();
                 }
             }
-            resetPage(info);
-            outPutCtrl.pushOutput(info);
+            resetPage();
+            //outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
@@ -418,43 +410,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                         treatmentOfChanged(data, param["type"], "移动link成功");
                     })
-                } else if (shapeCtrl.editType === "pointVertexAdd") {
-                    var ctrl, tpl;
-                    //param["command"] = "BREAK";
-                    param["command"] = "CREATE";
-                    param["dbId"] = App.Temp.dbId;
-                    param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
-                    param["data"] = {
-                        "longitude": geo.x,
-                        "latitude": geo.y
-                    };
-                    if (shapeCtrl.editFeatType === "rdNode") {
-                        param["type"] = "RDNODE";
-                    } else if (shapeCtrl.editFeatType === "adNode") {
-                        param["type"] = "ADNODE";
-                        //} else if (shapeCtrl.editFeatType === "rwLink") {
-                        //param ["type"] = "RWLINK";
-                    } else if (shapeCtrl.editFeatType === "rwNode") {
-                        param["type"] = "RWNODE";
-                    } else if (shapeCtrl.editFeatType === "zoneNode") {
-                        param["type"] = "ZONENODE";
-                    }
-                    dsEdit.save(param).then(function(data) {
-                        if (param["type"] === "RDNODE") {
-                            layerCtrl.getLayerById("rdLink").redraw();
-                            layerCtrl.getLayerById("rdNode").redraw();
-                        } else if (param["type"] === "RWNODE") {
-                            layerCtrl.getLayerById("rwLink").redraw();
-                            layerCtrl.getLayerById("rwNode").redraw();
-                        } else if (param["type"] === "ADNODE") {
-                            layerCtrl.getLayerById("adLink").redraw();
-                            layerCtrl.getLayerById("adNode").redraw();
-                        } else if (param["type"] === "ZONENODE") {
-                            layerCtrl.getLayerById("zoneLink").redraw();
-                            layerCtrl.getLayerById("zoneNode").redraw();
-                        }
-                        treatmentOfChanged(data, param["type"], repairContent, ctrl, tpl);
-                    })
                 }
             } else if (shapeCtrl.editType === "pathNodeMove") {
                 param["command"] = "MOVE";
@@ -498,7 +453,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
                 var ctrl, tpl;
-                param["command"] = "BREAK";
+                param["command"] = "CREATE";
                 param["dbId"] = App.Temp.dbId;
                 param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
                 param["data"] = {
@@ -863,7 +818,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function(data) {
                     highRenderCtrl._cleanHighLight();
-                    layerCtrl.getLayerById("poiPoint").redraw();
+                    layerCtrl.getLayerById("poi").redraw();
                     // treatmentOfChanged(data, "poi", "移动poi成功");
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
@@ -891,7 +846,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 };
                 dsEdit.save(param).then(function(data) {
-                    layerCtrl.getLayerById("poiPoint").redraw();
+                    layerCtrl.getLayerById("poi").redraw();
                     treatmentOfChanged(data, "POI", "保存poi成功", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
             }

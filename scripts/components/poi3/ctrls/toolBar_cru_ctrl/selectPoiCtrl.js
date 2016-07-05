@@ -11,7 +11,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdLink = layerCtrl.getLayerById('rdLink');
     var editLayer = layerCtrl.getLayerById('edit');
-    var poi = layerCtrl.getLayerById('poiPoint');
+    var poi = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var originalFeature = [];
     var selectCount = 0;
@@ -191,7 +191,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 for (var i = 0, lenI = data.length; i < lenI; i++) {
                     highlightFeatures.push({
                         id: data[i].properties.id.toString(),
-                        layerid:'poiPoint',
+                        layerid:'poi',
                         type:'IXPOI'
                     })
                 }
@@ -358,7 +358,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var highLightFeatures=[];
         highLightFeatures.push({
             id:objCtrl.data.pid.toString(),
-            layerid:'poiPoint',
+            layerid:'poi',
             type:'IXPOI'
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -486,7 +486,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var highLightFeatures = [];
         highLightFeatures.push({
             id:pid,
-            layerid:'poiPoint',
+            layerid:'poi',
             type:'IXPOI',
             style:{}
         });
@@ -503,7 +503,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var highLightFeatures = [];
         highLightFeatures.push({
             id:pid,
-            layerid:'poiPoint',
+            layerid:'poi',
             type:'IXPOI',
             style:{}
         });
