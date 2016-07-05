@@ -81,6 +81,15 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         });
     };
+    $scope.resetMap =function (myPid) {
+        map.closePopup();
+        $scope.clearMap();
+        var drawLayer = $scope.getLayerById('parentLayer');
+        if(drawLayer!=undefined){
+            map.removeLayer(drawLayer);
+        }
+        $scope.getPoi(myPid);
+    };
     /*
     变更父子关系
     */
@@ -90,25 +99,18 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         if (myParent.length > 0) {
             if (myParent[0].parentPoiPid == parentId) {//解除
                 dsEdit.deleteParent(myPid).then(function (data) {
-
+                    $scope.resetMap(myPid);
                 });
             } else {//更新
                 dsEdit.updateParent(myPid, parentId).then(function (data) {
-
+                    $scope.resetMap(myPid);
                 });
             }
         } else {//新增
             dsEdit.createParent(myPid, parentId).then(function (data) {
-
+                $scope.resetMap(myPid);
             });
         }
-        map.closePopup();
-        $scope.clearMap();
-        var drawLayer = $scope.getLayerById('parentLayer');
-        if(drawLayer!=undefined){
-            map.removeLayer(drawLayer);
-        }
-        $scope.getPoi(myPid);
     };
 
     /**
