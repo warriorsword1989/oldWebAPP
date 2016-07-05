@@ -29,6 +29,10 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         var chainArray = pAllChain[kindCode];
         $scope.chainList = {};
         if (chainArray) {
+            chainArray.unshift({
+                "chainCode": "0",
+                "chainName": "--请选择--"
+            });
             for (var i = 0, len = chainArray.length; i < len; i++) {
                 var cha = chainArray[i];
                 $scope.chainList[cha.chainCode] = { //转换成chosen-select可以解析的格式

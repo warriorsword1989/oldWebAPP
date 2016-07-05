@@ -25,29 +25,17 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
     
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
-        dsPoi.updateCheckType(rowid, selectInd).then(function (data) {
+        dsEdit.updateCheckType(rowid, selectInd).then(function (data) {
             console.log('修改成功')
         });
     };
     /*高亮地图上poi*/
-    $scope.showPoiOnMap = function(pid){
+    $scope.showOnMap = function(pid,type){
         var param = {
             pid:pid,
-            type:'IX_POI'
+            type:type.split('_').join('')
         };
         showOnMap(param.pid,param.type);
-    };
-
-    //点击数据在地图上高亮
-    $scope.showOnMap = function (targets,geom) {
-        var value = targets.replace("[", "");
-        var value1 = value.replace("]", "");
-
-        var data = {
-            pid:value1.split(",")[1],
-            type:value1.split(",")[0].replace("_", "")
-        };
-        showOnMap(data.pid,data.type);
     };
 
     //点击数据在地图上高亮
@@ -75,7 +63,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                             type:'line',
                             style:{}
                         });
-                        map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+                        map.setView([data.geometry.coordinates[1][1], data.geometry.coordinates[1][0]], 17);
                         break;
                     case "IX_POI":
                         highLightFeatures.push({
