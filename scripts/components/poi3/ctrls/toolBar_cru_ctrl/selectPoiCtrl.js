@@ -192,7 +192,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                     highlightFeatures.push({
                         id: data[i].properties.id.toString(),
                         layerid:'poiPoint',
-                        type:'poi'
+                        type:'IXPOI'
                     })
                 }
                 highRenderCtrl.highLightFeatures = highlightFeatures;
@@ -255,7 +255,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 feature.points.push(feature[1]);
                 originalFeature.push(feature[0].clone());
                 originalFeature.push(feature[1].clone());
-                feature.type = "Poi";
+                feature.type = "IXPOI";
 
                 layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
                 var sObj = shapeCtrl.shapeEditorResult;
@@ -271,15 +271,15 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         shapeCtrl.startEditing();// 开始编辑
         map.currentTool = shapeCtrl.getCurrentTool();
         if (type === "POILOCMOVE") {
-            shapeCtrl.editFeatType = "poi";
+            shapeCtrl.editFeatType = "IXPOI";
             map.currentTool.snapHandler._guides.length = 0;
             map.currentTool.snapHandler.addGuideLayer(poi);//把点图层放到捕捉工具中
         } else if(type === "POIGUIDEMOVE"){
-            shapeCtrl.editFeatType = "poiGuide";
+            shapeCtrl.editFeatType = "IXPOI";
             map.currentTool.snapHandler._guides.length = 0;
             map.currentTool.snapHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
         } else if(type === "POIAUTODRAG"){
-            shapeCtrl.editFeatType = "poi";
+            shapeCtrl.editFeatType = "IXPOI";
             map.currentTool.snapHandler._guides.length = 0;
             map.currentTool.snapHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
         } else if(type === "POIRESET"){
@@ -317,7 +317,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map._container.style.cursor = '';
             return;
         }
-        if (type === "poi") {
+        if (type === "IXPOI") {
             layerCtrl.pushLayerFront('edit');//把editlayer置顶
 
             //初始化选择POI点工具
@@ -359,7 +359,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         highLightFeatures.push({
             id:objCtrl.data.pid.toString(),
             layerid:'poiPoint',
-            type:'poi'
+            type:'IXPOI'
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
@@ -448,7 +448,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                                     callback: $scope.modifyTools
                                 }]
                         };
-                        $scope.type = "POI";
+                        $scope.type = "IXPOI";
                         break;
                 }
                 $scope.initializeData();
@@ -487,7 +487,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         highLightFeatures.push({
             id:pid,
             layerid:'poiPoint',
-            type:'poi',
+            type:'IXPOI',
             style:{}
         });
         //高亮
@@ -504,7 +504,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         highLightFeatures.push({
             id:pid,
             layerid:'poiPoint',
-            type:'poi',
+            type:'IXPOI',
             style:{}
         });
         //高亮

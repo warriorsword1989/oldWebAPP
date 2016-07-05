@@ -78,7 +78,7 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })
@@ -88,7 +88,7 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
             if (lenOfInfo=== $scope.laneInfo["index"]) {
                 highLightFeatures.push({
                     id:$scope.laneInfo["topos"][i].outLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })

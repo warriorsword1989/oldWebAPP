@@ -10,7 +10,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
     $scope.laneConnexity = {};
@@ -79,7 +79,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             $scope.laneConnexity.inLinkPid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:   $scope.laneConnexity.inLinkPid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });
@@ -91,7 +91,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             $scope.laneConnexity.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:   $scope.laneConnexity.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {}
             });
@@ -102,7 +102,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
                 id:  data.id.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });

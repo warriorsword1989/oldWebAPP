@@ -117,7 +117,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.highLightFeatures[item].type == 'adadmin') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'poi') {
+                                    } else if (this.highLightFeatures[item].type == 'IXPOI') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
                                     } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace') {
