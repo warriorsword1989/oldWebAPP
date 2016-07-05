@@ -559,7 +559,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     {"id":1,"label":'客车'},
                     {"id":2,"label":'配送卡车'},
                     {"id":3,"label":'运输卡车'},
-                    {"id":4,"label":'急救车'},
                     {"id":5,"label":'出租车'}
                 ];
                 for(var i=0,len=$scope.eliminateCarObj.length;i<len;i++){
