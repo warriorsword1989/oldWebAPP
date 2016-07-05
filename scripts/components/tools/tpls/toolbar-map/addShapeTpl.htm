@@ -1,0 +1,62 @@
+<div class="btn-group" ng-controller="addShapeCtrl">
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">点 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDNODE')">RDNODE</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('RWNODE')">RWNODE</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('ADNODE')">ADNODE</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('ZONENODE')">ZONENODE</button>
+            </div>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">线 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDLINK')">RDLINK</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('RWLINK')">RWLINK</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('ADLINK')">ADLINK</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('ZONELINK')">ZONELINK</button>
+            </div>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">面 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                <button type="button" class="btn btn-shape" ng-click="addShape('ADFACE')">ADFACE</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('ZONEFACE')">ZONEFACE</button>
+            </div>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">关系 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDCROSS')">RDCROSS</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDSPEEDLIMIT')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDRESTRICTION')">RDRESTRICTION</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDLANECONNEXITY')">RDLANECONNEXITY</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('RDGSC')">RDGSC</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_3D')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_HIGHWAY')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_SERIESBRANCH')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_SIGNBOARDNAME')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_BIGCROSSSCHEMATIC')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_NORMALROAD')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_REALIMAGE')">RDSPEEDLIMIT</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('BRANCH_SIGNASREAL')">RDSPEEDLIMIT</button>
+            </div>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">点要素 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <div class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                <button type="button" class="btn btn-shape" ng-click="addShape('IXPOI')">IXPOI</button>
+                <button type="button" class="btn btn-shape" ng-click="addShape('ADADMIN')">ADADMIN</button>
+            </div>
+        </ul>
+    </div>
+</div>

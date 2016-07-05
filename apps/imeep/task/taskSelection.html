@@ -69,7 +69,7 @@
                                             </ul>
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
-                                                    <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + '. ' + item.name"></a>
+                                                    <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + '. ' + item.name"></a>　
                                                     <span ng-if="currentTaskData.name===item.name" class="glyphicon glyphicon-ok"></span>
                                                 </li>
                                             </ul>
@@ -127,8 +127,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div style="text-align:center;position:absolute;left:5px;right:5px;bottom:26px;">
-                                        <button type="button" ng-disabled="currentTaskData.status == 0" ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px">
+                                    <div style="text-align:center;position:absolute;left:5px;right:5px;bottom:26px;z-index: 10000">
+                                        <button type="button" ng-disabled="currentTaskData.status == 0" ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px;">
                                         <i class="glyphicon glyphicon-edit"></i> 开始作业
                                         </button>
                                     </div>

@@ -1,67 +1,13 @@
 /*
  * Created by liwanchong on 2016 / 2 / 24.
  */
-angular.module('app').controller('sceneLayersController', function($scope) {
+angular.module('app').controller('scenceLayersController', function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
-    var defaultScenceConfig = [{
-        "layerId": "rdNode"
-    }, {
-        "layerId": "rdLink"
-    }, {
-        "layerId": "rwNode"
-    }, {
-        "layerId": "rwLink"
-    }, {
-        "layerId": "relationData",
-        "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS"
-    }];
+    $scope.selectedScenceId = 1; // 默认选中常规场景
     $scope.scenceArray = [{
         "id": 1,
-        "label": "线限速场景",
-        "selected": false,
-        "dataLayers": [{
-            "layerId": "rdLink",
-            "requestType": ""
-        }, {
-            "layerId": "relationData",
-            "requestType": "RDRESTRICTION,RDSPEEDLIMIT"
-        }]
-    }, {
-        "id": 2,
-        "label": "条件限速",
-        "selected": false
-    }, {
-        "id": 3,
-        "label": "互联网RTIC场景",
-        "selected": false
-    }, {
-        "id": 4,
-        "label": "行政区划场景",
-        "selected": false,
-        "dataLayers": [{
-            "layerId": "rdNode"
-        }, {
-            "layerId": "rdLink"
-        }, {
-            "layerId": "rwLink"
-        }, {
-            "layerId": "adNode"
-        }, {
-            "layerId": "adLink"
-        }, {
-            "layerId": "adFace"
-        }, {
-            "layerId": "rwLink"
-        }]
-    }, {
-        "id": 5,
-        "label": "复杂要素",
-        "selected": false
-    }, {
-        "id": 6,
         "label": "常规场景",
-        "selected": false,
         "dataLayers": [{
             "layerId": "rdNode"
         }, {
@@ -75,33 +21,34 @@ angular.module('app').controller('sceneLayersController', function($scope) {
             "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS"
         }]
     }, {
-        "id": 7,
-        "label": "车场RTIC场景",
-        "selected": false
+        "id": 2,
+        "label": "行政区划场景",
+        "dataLayers": [{
+            "layerId": "rdNode"
+        }, {
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rwLink"
+        }, {
+            "layerId": "adNode"
+        }, {
+            "layerId": "adLink"
+        }, {
+            "layerId": "adFace"
+        }, {
+            "layerId": "adAdmin"
+        }]
     }, {
-        "id": 8,
-        "label": "TMC",
-        "selected": false
-    }, {
-        "id": 9,
-        "label": "自然语音场景",
-        "selected": false
-    }, {
-        "id": 10,
-        "label": "13cy-HW场景",
-        "selected": false
-    }, {
-        "id": 11,
-        "label": "NBT高速出入口场景",
-        "selected": false
-    }, {
-        "id": 12,
-        "label": "CRF场景",
-        "selected": false
-    }, {
-        "id": 13,
-        "label": "同一关系场景",
-        "selected": false
+        "id": 3,
+        "label": "互联网RTIC场景",
+        "dataLayers": [{
+            "layerId": "rdNode"
+        }, {
+            "layerId": "rdLink"
+        }, {
+            "layerId": "relationData",
+            "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLINKINTRTIC"
+        }]
     }];
     $scope.dataLayers = [];
     var reqType;
@@ -187,26 +134,18 @@ angular.module('app').controller('sceneLayersController', function($scope) {
             }
         }
     }
-    $scope.toggleScence = function(item, event) {
-        event.stopPropagation();
+    $scope.selectScence = function(item, event) {
+        if (item.id == $scope.selectedScenceId) {
+            return;
+        }
+        $scope.selectedScenceId = item.id;
+        // event.stopPropagation();
         resetToolAndMap();
         $scope.$emit("SWITCHCONTAINERSTATE", {
             "attrContainerTpl": false,
             "subAttrContainerTpl": false
         });
-        item['selected'] = !item['selected'];
-        if (item['selected']) {
-            for (var i = 0; i < $scope.scenceArray.length; i++) {
-                if ($scope.scenceArray[i].id != item.id) {
-                    $scope.scenceArray[i].selected = false;
-                }
-            }
-        }
-        if (item['selected']) {
-            layers = item.dataLayers || [];
-        } else {
-            layers = defaultScenceConfig;
-        }
+        var layers = item.dataLayers || [];
         resetDataLayers(layers);
         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
             layerArr: layerCtrl.layers

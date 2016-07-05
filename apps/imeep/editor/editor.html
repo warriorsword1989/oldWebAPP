@@ -60,21 +60,22 @@
                         <div ui-layout="{flow:'row',dividerSize:'0'}">
                             <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;">
                             </div>
-                            <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
-                                <div class="btn-toolbar" style="margin-left: 0px">
-                                    <div ng-include="selectShapeURL" style="float: left"></div>
-                                    <div ng-include="selectPoiURL" style="float: left"></div>
-                                    <div ng-include="addPoiURL" style="float: left;"></div>
-                                    <div ng-include="addShapeURL" style="float: left;"></div>
-                                    <div ng-include="modifyToolURL" style="float: left"></div>
-                                    <div ng-include="selectAdShapeURL" style="float: left"></div>
-                                    <div ng-include="addAdShapeURL" style="float: left;"></div>
-                                    <div ng-include="selectRwShapeURL" style="float: left"></div>
-                                    <div ng-include="addRwShapeURL" style="float: left"></div>
-                                    <div ng-include="selectZoneShapeURL" style="float: left"></div>
-                                    <div ng-include="addZoneShapeURL" style="float: left"></div>
-                                </div>
-                            </div>
+                            <!-- <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
+                                    <div class="btn-toolbar" style="margin-left: 0px">
+                                            <div ng-include="selectShapeURL" style="float: left"></div>
+                                            <div ng-include="selectPoiURL" style="float: left"></div>
+                                            <div ng-include="addPoiURL" style="float: left;"></div>
+                                            <div ng-include="addShapeURL" style="float: left;"></div>
+                                            <div ng-include="modifyToolURL" style="float: left"></div>
+                                            <div ng-include="selectAdShapeURL" style="float: left"></div>
+                                            <div ng-include="addAdShapeURL" style="float: left;"></div>
+                                            <div ng-include="selectRwShapeURL" style="float: left"></div>
+                                            <div ng-include="addRwShapeURL" style="float: left"></div>
+                                            <div ng-include="selectZoneShapeURL" style="float: left"></div>
+                                            <div ng-include="addZoneShapeURL" style="float: left"></div>
+                                    </div>
+                            </div> -->
+                            <div ng-include="mapToolbar" style="position:absolute;z-index:1;background:black;top:0px;left:290px;padding:5px;"></div>
                             <div id="zoomLevelBar" class="div_float"></div>
                         </div>
                         <!--右侧属性编辑面板-->

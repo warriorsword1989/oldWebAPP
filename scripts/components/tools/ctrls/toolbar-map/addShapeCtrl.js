@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
- * Rebuild by chenx on 2016-07-05
+ * rebuild by chenx on 2016-07-05
  */
-angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
+angular.module("app").controller("addShapeCtrl", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
     function($scope, $ocLazyLoad, $rootScope, dsFcc, dsRoad, dsEdit, appPath) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -89,7 +89,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             //先load Tips面板和控制器
             $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
         }
-        $scope.selectShape = function(type) {
+        $scope.selectShape = function(type, num) {
             //大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
                 return;
@@ -108,14 +108,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             })
             $scope.subAttrTplContainerSwitch(false);
             $("#popoverTips").hide();
-            // //点击按钮后样式的修改
-            // $scope.changeBtnClass(num);
-            // //连续点击同一个按钮的操作
-            // if (!$scope.classArr[num]) {
-            //     map.currentTool.disable();
-            //     map._container.style.cursor = '';
-            //     return;
-            // }
+            //点击按钮后样式的修改
+            $scope.changeBtnClass(num);
+            //连续点击同一个按钮的操作
+            if (!$scope.classArr[num]) {
+                map.currentTool.disable();
+                map._container.style.cursor = '';
+                return;
+            }
             if (type === "node") { //选择点
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
