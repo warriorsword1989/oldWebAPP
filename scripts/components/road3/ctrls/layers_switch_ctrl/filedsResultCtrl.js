@@ -453,7 +453,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             if(data.in){
                                 highCtrl.highLightFeatures.push({
                                     id:data.in.id.toString(),
-                                    layerid:'referenceLine',
+                                    layerid:'rdLink',
                                     type:'line',
                                     style:{
                                         color: '#21ed25',
@@ -465,7 +465,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             if(data.out){
                                 highCtrl.highLightFeatures.push({
                                     id:data.out.id.toString(),
-                                    layerid:'referenceLine',
+                                    layerid:'rdLink',
                                     type:'line',
                                     style:{
                                         color: '#CD0011'

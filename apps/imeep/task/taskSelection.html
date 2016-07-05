@@ -70,6 +70,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
                                                     <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + '. ' + item.name"></a>
+                                                    <span ng-if="currentTaskData.name===item.name" class="glyphicon glyphicon-ok"></span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -90,16 +91,24 @@
                                         <div class="content" style="max-height: 300px;">
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
-                                                    <label>计划完成时间：</label>
-                                                    <label ng-bind="currentTaskData?getDateFormat():''"></label>
+                                                    <label style="text-indent: 15px">类　　型：</label>
+                                                    <label ng-bind="getTaskType()"></label>
                                                 </li>
                                                 <li>
-                                                    <label>完成进度：</label>
-                                                    <label>6%</label>
+                                                    <label style="text-indent: 15px">开　　始：</label>
+                                                    <label ng-bind="getDiyDateFormat('start')"></label>
                                                 </li>
                                                 <li>
-                                                    <label>........</label>
-                                                    <label></label>
+                                                    <label style="text-indent: 15px">结　　束：</label>
+                                                    <label ng-bind="getDiyDateFormat('end')"></label>
+                                                </li>
+                                                <li>
+                                                    <label style="text-indent: 15px">完成进度：</label>
+                                                    <label ng-bind="getTaskProgresing()"></label>
+                                                </li>
+                                                <li>
+                                                    <label style="letter-spacing: 1px;text-indent: 15px">作 业 季：</label>
+                                                    <label ng-bind="getTaskSeason()"></label>
                                                 </li>
                                                 <li>
                                                     <div>
