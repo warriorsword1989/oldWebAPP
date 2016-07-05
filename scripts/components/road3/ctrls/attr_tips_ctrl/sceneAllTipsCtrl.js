@@ -559,7 +559,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     {"id":1,"label":'客车'},
                     {"id":2,"label":'配送卡车'},
                     {"id":3,"label":'运输卡车'},
-                    {"id":4,"label":'急救车'},
                     {"id":5,"label":'出租车'}
                 ];
                 for(var i=0,len=$scope.eliminateCarObj.length;i<len;i++){
@@ -664,21 +663,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1514": //施工
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
-                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
-                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
+                if($scope.dataTipsData.time){
+                    $scope.timeDomain = $scope.dataTipsData.time.split(';');
+                }
                 break;
             case "1515": //维修
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
-                var strArray = [];
-                $scope.startTime = "";
-                $scope.endTime = "";
                 if($scope.dataTipsData.time){
-                    strArray = $scope.dataTipsData.time.split('-');
-                    if(strArray.length > 1){
-                        $scope.startTime = strArray[0].substring(5);
-                        $scope.endTime = strArray[1].substring(5);
-                    }
+                    $scope.timeDomain = $scope.dataTipsData.time.split(';');
                 }
                 break;
             case "1604": //区域内道路
