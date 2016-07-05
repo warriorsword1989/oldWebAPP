@@ -9,7 +9,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var editLayer = layerCtrl.getLayerById('edit');
     var poi = layerCtrl.getLayerById('poiPoint');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
