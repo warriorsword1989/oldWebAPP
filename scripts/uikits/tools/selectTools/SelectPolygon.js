@@ -17,8 +17,8 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
-        this.currentEditLayer = this.options.currentEditLayer;
-        this.tiles = this.currentEditLayer.tiles;
+        // this.currentEditLayer = this.options.currentEditLayer;
+        // this.tiles = this.currentEditLayer.tiles;
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.eventController = new fastmap.uikit.EventController();

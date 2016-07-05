@@ -221,12 +221,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         //页面初始化方法调用
         var initPage = function() {
             var subtaskId = App.Util.getUrlParam("subtaskId");
-            // App.Temp.subTaskId = subtaskId;
+            App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
                     // 暂时注释
-                    // App.Temp.dbId = data.dbId;
-                    // App.Temp.gridList = data.gridIds;
+                    App.Temp.dbId = data.dbId;
+                    App.Temp.gridList = data.gridIds;
+                    if (data.stage == 1) { // 日编
+                        App.Temp.mdFlag = "d";
+                    } else if (data.stage == 2) { // 月编
+                        App.Temp.mdFlag = "m";
+                    } else { // 默认：日编
+                        App.Temp.mdFlag = "d";
+                    }
                     loadMap();
                     var promises = loadMetaData();
                     $q.all(promises).then(function() {
