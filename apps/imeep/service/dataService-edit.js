@@ -362,6 +362,14 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "DELETEPARENT": "POI解除父",
             "UPDATETOPO":"更新"+[param.type]+"拓扑"
         }[param.command];
+
+        if(param.type == "IXPOI"){ //poi属性不修改也可进行保存，所以需要进行特殊处理
+            var keys = Object.keys(param.data);
+            if(keys.length ==3 && param.data["rowId"] && param.data["objStatus"] && param.data["pid"]){
+                opDesc = param.type;
+            }
+        }
+
         if(param.command==='UPDATETOPO'){
             param.command='UPDATE'
         }
