@@ -7,7 +7,7 @@ adFaceApp.controller("adFaceController",["$scope","dsEdit" , function($scope,dsE
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var adFace = layerCtrl.getLayerById("adface");
+    var adFace = layerCtrl.getLayerById("adFace");
     var outputCtrl = fastmap.uikit.OutPutController({});
     //初始化
     $scope.initializeData = function(){
@@ -18,12 +18,12 @@ adFaceApp.controller("adFaceController",["$scope","dsEdit" , function($scope,dsE
             $scope.adFaceForm.$setPristine();
         }
 
-        //高亮adface
+        //高亮adFace
         var highLightFeatures=[];
         highLightFeatures.push({
             id:$scope.adFaceData.pid.toString(),
-            layerid:'adface',
-            type:'adface',
+            layerid:'adFace',
+            type:'adFace',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;

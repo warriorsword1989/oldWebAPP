@@ -7,7 +7,7 @@ adNodeApp.controller("adNodeController",['$scope','dsEdit',function($scope,dsEdi
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById("adLink");
-    var adNode = layerCtrl.getLayerById("adnode");
+    var adNode = layerCtrl.getLayerById("adNode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();

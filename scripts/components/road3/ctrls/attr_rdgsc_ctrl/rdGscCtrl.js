@@ -7,7 +7,7 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdgsc = layerCtrl.getLayerById('relationdata');
+    var rdgsc = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     // var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -18,7 +18,7 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'rdgsc',
                 index:links[i].zlevel,
                 style:{

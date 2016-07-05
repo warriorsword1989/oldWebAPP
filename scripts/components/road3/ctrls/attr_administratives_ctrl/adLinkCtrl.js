@@ -7,7 +7,7 @@ adLinkApp.controller("adLinkController",["$scope","dsEdit" , function($scope,dsE
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById("adLink");
-    var adNode=layerCtrl.getLayerById("adnode");
+    var adNode=layerCtrl.getLayerById("adNode");
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var editLayer = layerCtrl.getLayerById('edit');

@@ -7,8 +7,8 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdLink = layerCtrl.getLayerById("referenceLine");
-    var rdNode = layerCtrl.getLayerById("referenceNode");
+    var rdLink = layerCtrl.getLayerById("rdLink");
+    var rdNode = layerCtrl.getLayerById("rdNode");
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -95,7 +95,7 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
                 $scope.linepids.push(data.data[index].pid);
                 highlightFeatures.push({
                     id:data.data[index].pid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -109,7 +109,7 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
 
             highlightFeatures.push({
                 id:$scope.rdNodeData.pid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'node',
                 style:{}
             })
@@ -235,7 +235,7 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
         //
         // dsRoad.editGeometryOrProperty(param).then(function (data){
         //     if(data){
-        //         var restrict = layerCtrl.getLayerById("referenceLine");
+        //         var restrict = layerCtrl.getLayerById("rdLink");
         //         restrict.redraw();
         //         var info = null;
         //         if (data.errcode==0) {

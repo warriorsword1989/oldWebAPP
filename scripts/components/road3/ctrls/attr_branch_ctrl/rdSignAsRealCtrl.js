@@ -5,7 +5,7 @@ var namesOfBranch = angular.module("app");
 namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,dsEdit,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdBranch = layerCtrl.getLayerById("relationdata");
+    var rdBranch = layerCtrl.getLayerById("relationData");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
@@ -49,7 +49,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         };
         return dsMeta.getArrowImg(JSON.stringify(params));
     }
-    
+
     $scope.picNowNum = 0;
     $scope.getPicsData = function () {
         $scope.loadText = 'loading...';
@@ -218,7 +218,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         if (dObj) {
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#21ed25',
@@ -227,7 +227,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
             });
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
                     color: '#CD0011'
@@ -235,21 +235,21 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
             });
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {color:'yellow'}
             });
             //高亮分歧图标;
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.signasreals[0].pid.toString(),
-                layerid:'relationdata',
-                type:'relationdata',
+                layerid:'relationData',
+                type:'relationData',
                 style:{}
             });
             for(var i=0;i<$scope.diverObj.vias.length;i++){
                 highRenderCtrl.highLightFeatures.push({
                     id:$scope.diverObj.vias[i].linkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{color:'blue'}
                 })

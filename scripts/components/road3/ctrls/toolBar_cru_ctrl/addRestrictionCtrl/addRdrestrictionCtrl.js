@@ -8,7 +8,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
@@ -54,7 +54,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             $scope.limitRelation.inLinkPid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:  $scope.limitRelation.inLinkPid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });
@@ -66,7 +66,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             $scope.limitRelation.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:  $scope.limitRelation.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {}
             });
@@ -77,7 +77,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
                 id:  data.id.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });

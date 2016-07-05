@@ -6,7 +6,7 @@ selectApp.controller("rdCrossController", ['$scope','dsRoad','dsFcc',function ($
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var rdcross = layerCtrl.getLayerById('relationdata');
+    var rdcross = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -18,7 +18,7 @@ selectApp.controller("rdCrossController", ['$scope','dsRoad','dsFcc',function ($
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{}
             })
@@ -26,8 +26,8 @@ selectApp.controller("rdCrossController", ['$scope','dsRoad','dsFcc',function ($
         highLightFeatures.push({
 
             id:$scope.rdCrossData.pid.toString(),
-            layerid:'relationdata',
-            type:'relationdata',
+            layerid:'relationData',
+            type:'relationData',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;

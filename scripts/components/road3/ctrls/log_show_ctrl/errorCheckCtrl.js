@@ -6,7 +6,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
     //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     //检查数据ctrl(可以监听到检查数据变化)
@@ -81,7 +81,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
 //
 //                highlightFeatures.push({
 //                    id:id.toString(),
-//                    layerid:'referenceLine',
+//                    layerid:'rdLink',
 //                    type:'line',
 //                    style:{}
 //                });
@@ -105,7 +105,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
 
                 highlightFeatures.push({
                     id:id.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -129,7 +129,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
 //                })
 //                hightlightFeatures.push({
 //                    id: objCtrl.data["inLinkPid"].toString(),
-//                    layerid:'referenceLine',
+//                    layerid:'rdLink',
 //                    type:'line',
 //                    style:{}
 //                })
@@ -138,7 +138,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
 //
 //                    hightlightFeatures.push({
 //                        id: objCtrl.data.details[i].outLinkPid.toString(),
-//                        layerid:'referenceLine',
+//                        layerid:'rdLink',
 //                        type:'line',
 //                        style:{}
 //                    })
@@ -159,7 +159,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
                 })
                 hightlightFeatures.push({
                     id: objCtrl.data["inLinkPid"].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -168,7 +168,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
 
                     hightlightFeatures.push({
                         id: objCtrl.data.details[i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
