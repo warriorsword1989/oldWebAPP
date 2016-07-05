@@ -2,7 +2,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var poiLayer = layerCtrl.getLayerById('poiPoint');
+    var poiLayer = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     function initData() {
