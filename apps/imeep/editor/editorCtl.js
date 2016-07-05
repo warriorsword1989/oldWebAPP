@@ -4,8 +4,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     road: "scripts/components/road3/",
     poi: "scripts/components/poi3/",
     tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath',
-    function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath','$timeout',
+    function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath,$timeout) {
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.layersConfig
         });
@@ -96,6 +96,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     $scope.classArr[claFlag] = false;
                 }
             }
+            $timeout(function (){  //为了解决按esc键后工具条按钮不能恢复的bug
+                $scope.$apply();
+            },1);
         };
 
         function loadMap() {
@@ -393,7 +396,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.pImageNow = img;
             $scope.showFullScreen = true;
         });
-        
+
         /*接收全屏请求*/
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;

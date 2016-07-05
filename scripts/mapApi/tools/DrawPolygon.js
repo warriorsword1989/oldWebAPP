@@ -32,7 +32,7 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
             snapVertex: true
         });
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('rdLink'));
         this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
 
     },

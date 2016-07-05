@@ -10,8 +10,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
-    var adNode = layerCtrl.getLayerById('adnode');
-    var adFace = layerCtrl.getLayerById('adface');
+    var adNode = layerCtrl.getLayerById('adNode');
+    var adFace = layerCtrl.getLayerById('adFace');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin = layerCtrl.getLayerById('adAdmin');

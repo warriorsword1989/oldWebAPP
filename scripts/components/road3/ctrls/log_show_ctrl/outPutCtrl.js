@@ -10,7 +10,7 @@ outPutModule.controller('outPutController', function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     //输出控制
     var output = fastmap.uikit.OutPutController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var workPoint = layerCtrl.getLayerById('workPoint');
     //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();
@@ -53,7 +53,7 @@ outPutModule.controller('outPutController', function ($scope) {
             var nodeLyaerid="";
             if(type.indexOf("RDNODE") >= 0){
                 nodetype="RDLINK";
-                nodeLyaerid="referenceLine";
+                nodeLyaerid="rdLink";
             }else{
                 nodetype="ADLINK";
                 nodeLyaerid="adLink";
@@ -113,7 +113,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -121,7 +121,7 @@ outPutModule.controller('outPutController', function ($scope) {
 
                     highLightFeatures.push({
                         id:d.data.details[i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -152,7 +152,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 for(var i= 0,len=linkArr.length;i<len;i++) {
                     highLightFeatures.push({
                         id: links[i]["linkPid"].toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -178,7 +178,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -186,7 +186,7 @@ outPutModule.controller('outPutController', function ($scope) {
 
                     highLightFeatures.push({
                         id:d.data.topos[i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     });
@@ -200,13 +200,13 @@ outPutModule.controller('outPutController', function ($scope) {
             Application.functions.getRdObjectById(id, "RDBRANCH", function (d) {
                 highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
                 highLightFeatures.push({
                     id:d.data.outLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -224,7 +224,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 for (var i = 0, len = (d.data.links).length; i < len; i++) {
                     highLightFeatures.push({
                         id:d.data.links[i].linkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -261,8 +261,8 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id: id.toString(),
-                    layerid: 'adface',
-                    type: 'adface',
+                    layerid: 'adFace',
+                    type: 'adFace',
                     style: {}
                 })
                 highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -291,7 +291,7 @@ outPutModule.controller('outPutController', function ($scope) {
 
             var layerid="";
             if(type.indexOf("RDLINK") >= 0){
-                layerid="referenceLine";
+                layerid="rdLink";
             }else if(type.indexOf("ADLINK") >= 0){
                 layerid="adLink";
             }
