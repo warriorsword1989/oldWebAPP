@@ -39,6 +39,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     /*更新图片数组*/
     $scope.$on('refreshImgsData', function(event, data) {
         initData();
+        $scope.tipsBtnDisabled = $scope.tipsPage == Math.ceil($scope.poi.photos.length / 4);
     });
     /*数据状态*/
     $scope.stateObject = {

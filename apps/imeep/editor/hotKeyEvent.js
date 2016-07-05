@@ -44,86 +44,27 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 map.currentTool.snapHandler._enabled = true;
                 map.currentTool.snapHandler.snaped = false;
             }
-            map.currentTool._enabled = true;
-            map.currentTool.disable();
-            if (map.currentTool.rwEvent) {
-                map.currentTool.rwEvent.disable();
-            }
-            if (toolTipsCtrl.getCurrentTooltip()) {
-                toolTipsCtrl.onRemoveTooltip();
-            }
-            if (map.floatMenu) {
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
-            layerCtrl.getLayerById("rdLink").clearAllEventListeners();
-            layerCtrl.getLayerById("adLink").clearAllEventListeners();
-            highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
-            editLayer.drawGeometry = null;
-            shapeCtrl.stopEditing();
-            editLayer.bringToBack();
-            $(editLayer.options._div).unbind();
-            scope.changeBtnClass("");
-            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-            editLayer.clear();
-        }
-        //获取当前的控制器级对应的模板;
-        function getCtrlAndTpl(type) {
-            var obj = {};
-            switch (type) {
-                case 0:
-                case 1:
-                case 3:
-                    obj.ctrl = 'attr_branch_ctrl/rdBranchCtrl';
-                    obj.tpl = 'attr_branch_Tpl/namesOfBranch.html';
-                    break;
-                case 5:
-                    obj.ctrl = 'attr_branch_ctrl/rdRealImageCtrl';
-                    obj.tpl = 'attr_branch_Tpl/realImageOfBranch.html';
-                    break;
-                case 8:
-                    obj.ctrl = 'attr_branch_ctrl/rdSchematicCtrl';
-                    obj.tpl = 'attr_branch_Tpl/schematicOfBranch.html';
-                    break;
-                case 7:
-                    obj.ctrl = 'attr_branch_ctrl/rdSeriesCtrl';
-                    obj.tpl = 'attr_branch_Tpl/seriesOfBranch.html';
-                    break;
-                case 6:
-                    obj.ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl';
-                    obj.tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';
-                    break;
-                case 9:
-                    obj.ctrl = 'attr_branch_ctrl/rdSignBoardCtrl';
-                    obj.tpl = 'attr_branch_Tpl/signBoardOfBranch.html';
-                    break;
-            }
-            return obj;
-        }
-
-        function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
-            var info = null,
-                id;
-            //结束编辑状态
-            shapeCtrl.stopEditing();
-            var sInfo = {
-                "op": op,
-                "type": "",
-                "pid": ""
-            };
-            data.log.push(sInfo);
-            info = data.log;
-            if (ctrl) {
-                if (type != "POI") {
-                    if (type === "RDBRANCH") {
-                        id = "";
-                    } else if (type === "ADFACE" || type === "ZONEFACE") {
-                        for (var i = 0; i < data.log.length; i++) {
-                            if (data.log[i].type == "ADFACE" || data.log[i].type == "ZONEFACE") {
-                                id = data.log[i].pid;
-                                break;
+            function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
+                var info = null, id;
+                //结束编辑状态
+                shapeCtrl.stopEditing();
+                var sInfo = {
+                    "op": op,
+                    "type": "",
+                    "pid": ""
+                };
+                data.log.push(sInfo);
+                info = data.log;
+                if (ctrl) {
+                    if(type != "IXPOI"){
+                        if (type === "RDBRANCH") {
+                            id = "";
+                        } else if (type === "ADFACE"|| type === "ZONEFACE"){
+                            for(var i = 0;i<data.log.length;i++){
+                                if(data.log[i].type == "ADFACE"||data.log[i].type == "ZONEFACE"){
+                                    id = data.log[i].pid;
+                                    break;
+                                }
                             }
                         }
                     } else {
@@ -178,7 +119,41 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             });
                             scope.$emit("highLightPoi", rest.pid);
                         }
-                    });
+                        scope.$emit("SWITCHCONTAINERSTATE", {
+                            "attrContainerTpl": true,
+                            "subAttrContainerTpl": false
+                        });
+                    }else {
+                        dsEdit.getByPid(data.pid,"IXPOI").then(function(rest) {
+                            if (rest) {
+                                objEditCtrl.setCurrentObject('IXPOI', rest);
+                                objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                                scope.$emit("transitCtrlAndTpl", {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                                    "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                                });
+                                scope.$emit("transitCtrlAndTpl", {
+                                    "loadType": "attrTplContainer",
+                                    "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                                    "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                                });
+                                scope.$emit("highLightPoi", rest.pid);
+                            }
+                        });
+                    }
+
+                }else{
+                    if(shapeCtrl.editType==="pathBreak") {
+                            scope.$emit("SWITCHCONTAINERSTATE", {
+                                "attrContainerTpl": false,
+                                "subAttrContainerTpl": false
+                            });
+                        ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
+                            scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
+                        });
+                             // scope.$apply();
+                    }
                 }
             } else {
                 if (shapeCtrl.editType === "pathBreak") {
@@ -482,7 +457,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             layerCtrl.getLayerById("rwNode").redraw();
                         }else if(param["type"] === "ADNODE") {
                             layerCtrl.getLayerById("adLink").redraw();
-                            layerCtrl.getLayerById("adnode").redraw();
+                            layerCtrl.getLayerById("adNode").redraw();
                         } else if (param["type"] === "ZONENODE"){
                             layerCtrl.getLayerById("zoneLink").redraw();
                             layerCtrl.getLayerById("zoneNode").redraw();
@@ -844,25 +819,30 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "data": {
                         "linkPids": linkIds
                     }
-                };
-                dsEdit.save(param).then(function(data) {
-                    layerCtrl.getLayerById("rdLink").redraw();
-                    layerCtrl.getLayerById("rdNode").redraw();
-                    treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
-                })
-            } else if (shapeCtrl.editType === "addAdFaceLine") {
-                var adLinksArr = selectCtrl.selectedFeatures.adLinks;
-                if (adLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
-                    return;
-                }
-                param = {
-                    "command": "CREATE",
-                    "type": "ADFACE",
-                    "linkType": "ADLINK",
-                    "dbId": App.Temp.dbId,
-                    "data": {
-                        "linkPids": adLinksArr
+                    param = {
+                        "command": "MOVE",
+                        "type": "IXPOI",
+                        "dbId": App.Temp.dbId,
+                        "objId": points.id,
+                        "data": {
+                            "longitude": points.geometry[0].x,
+                            "latitude": points.geometry[0].y,
+                            "x_guide": points.geometry[1].x,
+                            "y_guide": points.geometry[1].y,
+                            "linkPid": points.linkPid
+                        }
+                    };
+                    dsEdit.save(param).then(function (data) {
+                        highRenderCtrl._cleanHighLight();
+                        layerCtrl.getLayerById("poiPoint").redraw();
+                        treatmentOfChanged(data, "IXPOI", "移动poi成功",'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
+                        // treatmentOfChanged(data, "poi", "移动poi成功");
+                    })
+                }else if(shapeCtrl.editType === "poiAdd" ){
+                    var points = selectCtrl.selectedFeatures;
+                    if (!points || !points.geometry) {
+                        swal("操作失败", "无法获取poi点数据", "error");
+                        return;
                     }
                 };
                 dsEdit.save(param).then(function(data) {
