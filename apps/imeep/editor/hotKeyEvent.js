@@ -44,6 +44,30 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 map.currentTool.snapHandler._enabled = true;
                 map.currentTool.snapHandler.snaped = false;
             }
+            map.currentTool._enabled = true;
+            map.currentTool.disable();
+            if(map.currentTool.rwEvent) {
+                map.currentTool.rwEvent.disable();
+            }
+            if (toolTipsCtrl.getCurrentTooltip()) {
+                toolTipsCtrl.onRemoveTooltip();
+            }
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
+            //layerCtrl.getLayerById("rdLink").clearAllEventListeners();
+            //layerCtrl.getLayerById("adLink").clearAllEventListeners();
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            editLayer.drawGeometry = null;
+            shapeCtrl.stopEditing();
+            editLayer.bringToBack();
+            $(editLayer.options._div).unbind();
+            scope.changeBtnClass("");
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            editLayer.clear();
         }
 
         function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
