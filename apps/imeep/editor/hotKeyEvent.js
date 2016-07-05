@@ -441,8 +441,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                     dsEdit.save(param).then(function(data) {
                         if (param["type"] === "RDNODE") {
-                            layerCtrl.getLayerById("referenceLine").redraw();
-                            layerCtrl.getLayerById("referenceNode").redraw();
+                            layerCtrl.getLayerById("rdLink").redraw();
+                            layerCtrl.getLayerById("rdNode").redraw();
                         } else if (param["type"] === "RWNODE") {
                             layerCtrl.getLayerById("rwLink").redraw();
                             layerCtrl.getLayerById("rwNode").redraw();
@@ -603,7 +603,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         "data": laneInfo
                     };
                     dsEdit.save(param).then(function(data) {
-                        layerCtrl.getLayerById("relationdata").redraw();
+                        layerCtrl.getLayerById("relationData").redraw();
                         treatmentOfChanged(data, "RDLANECONNEXITY", "创建车信成功", 'attr_connexity_ctrl/rdLaneConnexityCtrl', 'attr_connexity_tpl/rdLaneConnexityTpl.html');
                     })
                 } else if (shapeCtrl.editType === 'drawPolygon') {
@@ -653,8 +653,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         "data": selectCtrl.selectedFeatures
                     };
                     dsEdit.save(param).then(function(data) {
-                        layerCtrl.getLayerById("relationdata").redraw();
-                        layerCtrl.getLayerById("referenceLine").redraw();
+                        layerCtrl.getLayerById("relationData").redraw();
+                        layerCtrl.getLayerById("rdLink").redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
@@ -706,8 +706,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     };
                     dsEdit.save(param).then(function(data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        layerCtrl.getLayerById("referenceNode").redraw();
+                        layerCtrl.getLayerById("rdLink").redraw();
+                        layerCtrl.getLayerById("rdNode").redraw();
                         treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
                     })
                 } else if (shapeCtrl.editType === "addAdFaceLine") {
