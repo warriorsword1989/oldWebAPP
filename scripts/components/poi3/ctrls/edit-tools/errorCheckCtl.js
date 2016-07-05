@@ -68,8 +68,8 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                     case "IX_POI":
                         highLightFeatures.push({
                             id:id.toString(),
-                            layerid:'poiPoint',
-                            type:'poi',
+                            layerid:'poi',
+                            type:'IXPOI',
                             style:{}
                         });
                         map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);

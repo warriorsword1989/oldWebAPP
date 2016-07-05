@@ -3,7 +3,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
-        var poiLayer = layerCtrl.getLayerById('poiPoint');
+        var poiLayer = layerCtrl.getLayerById('poi');
         var _self = scope;
         scope.radio_select = '名称';
         //当前表格数据;
