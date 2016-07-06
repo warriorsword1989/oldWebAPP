@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css" />
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
@@ -22,12 +23,13 @@
     <body ng-controller="TaskSelectionCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
-                <div class="banner-top"><a><strong>FM</strong></a></div>
+                <div class="banner-top"><a><strong style="font-size: 20px;">FM</strong></a></div>
                 <div class="banner-center" style="margin-top: 0;">
-                    <div><h4>任</h4></div>
-                    <div><h4>务</h4></div>
-                    <div><h4>设</h4></div>
-                    <div><h4>置</h4></div>
+                    <div style="cursor: default"><h4><i title="任务选择" class="fa fa-tasks fa-lg" aria-hidden="true"></i></h4></div>
+                    <!--<div><h4>任</h4></div>-->
+                    <!--<div><h4>务</h4></div>-->
+                    <!--<div><h4>设</h4></div>-->
+                    <!--<div><h4>置</h4></div>-->
                 </div>
                 <div class="banner-bottom">
                     <div><a href="javascript:void(0);"><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -38,11 +40,11 @@
                 <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
                     <div ui-layout-container size="35px" style="background-color: #222;padding:5px 10px;">
                         <div class="btn-group fm-btn-group" role="group">
-                            <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)">日 一体化任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)">日 POI任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)">月 道路任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{4: 'active'}[dataListType]" ng-click="changeDataList(4)">月 POI任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{5: 'active'}[dataListType]" ng-click="changeDataList(5)">专项作业任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)"><i class="fa fa-sun-o" aria-hidden="true"></i> 一体化任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)"><i class="fa fa-sun-o" aria-hidden="true"></i> POI任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)"><i class="fa fa-moon-o" aria-hidden="true"></i> 道路任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{4: 'active'}[dataListType]" ng-click="changeDataList(4)"><i class="fa fa-moon-o" aria-hidden="true"></i> POI任务</button>
+                            <button class="btn btn-xs btn-purple" ng-class="{5: 'active'}[dataListType]" ng-click="changeDataList(5)"><i class="fa fa-adjust" aria-hidden="true"></i> 专项作业任务</button>
                         </div>
                     </div>
                     <div ui-layout-container>
@@ -52,9 +54,9 @@
                                     <div ui-layout-container size="36px" style="padding: 5px 5px;overflow:visible">
                                         <div class="btn-group fm-btn-group" role="group">
                                             <div class="btn-group-vertical">
-                                                <button class="btn btn-xs btn-purple" ng-class="{6: 'active'}[taskStatus]" ng-click="changeTaskStatus(6)" style="padding: 20px 5px;">全<br>部</button>
-                                                <button class="btn btn-xs btn-purple" ng-class="{7: 'active'}[taskStatus]" ng-click="changeTaskStatus(7)" style="padding: 20px 5px;">开<br>启</button>
-                                                <button class="btn btn-xs btn-purple" ng-class="{8: 'active'}[taskStatus]" ng-click="changeTaskStatus(8)" style="padding: 20px 5px;">关<br>闭</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{6: 'active'}[taskStatus]" ng-click="changeTaskStatus(6)" style="padding: 20px 5px;"><i class="fa fa-th-large" aria-hidden="true"></i><br>全<br>部</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{7: 'active'}[taskStatus]" ng-click="changeTaskStatus(7)" style="padding: 20px 5px;"><i class="fa fa-unlock" aria-hidden="true"></i><br>开<br>启</button>
+                                                <button class="btn btn-xs btn-purple" ng-class="{8: 'active'}[taskStatus]" ng-click="changeTaskStatus(8)" style="padding: 20px 5px;"><i class="fa fa-lock" aria-hidden="true"></i><br>关<br>闭</button>
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +72,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
                                                     <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + '. ' + item.name"></a>　
-                                                    <span ng-if="currentTaskData.name===item.name" class="glyphicon glyphicon-ok"></span>
+                                                    <span ng-if="currentTaskData.name===item.name" class="glyphicon glyphicon-pushpin" style="font-size: 12px"></span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -87,7 +89,7 @@
                                 </div>
                                 <div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;padding:5px;">
                                     <div class="fm-panel">
-                                        <div class="title">任务概况</div>
+                                        <div class="title"><i class="fa fa-list-alt" aria-hidden="true"></i> 任务概况</div>
                                         <div class="content" style="max-height: 300px;">
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
@@ -115,7 +117,7 @@
                                     </div>
                                     <!-- -->
                                     <div class="fm-panel">
-                                        <div class="title">任务统计</div>
+                                        <div class="title"><i class="fa fa-bar-chart" aria-hidden="true"></i> 任务统计</div>
                                         <div class="content" style="max-height: 300px;">
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
