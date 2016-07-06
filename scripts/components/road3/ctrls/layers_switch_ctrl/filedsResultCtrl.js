@@ -546,7 +546,17 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfJCV);
                 } else if (pItemId === "1407") { //高速分歧
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                    $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID ? data.brID[0].id : '', appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",0);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle != 3) { //3表示新增
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1409") { //普通路口模式图
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTplOfD = {
