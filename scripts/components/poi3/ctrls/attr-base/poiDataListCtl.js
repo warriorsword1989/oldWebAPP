@@ -1,5 +1,5 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath','$interval',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath,$interval) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath','$interval','$timeout',
+    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath,$interval,$timeout) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -42,13 +42,24 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             scope.itemActive = index;
         };
 
-        evtCtrl.off("testtest");
-        evtCtrl.on("testtest", function (poi){ //正在解决刷新POI列表的问题
-            for (var i = 0 ,len = scope.poiList.length;i<len;i++){
-                if(scope.poiList[i].pid == poi.pid){
-                    //scope.poiList.splice(i,1);
-                    break;
+        /**
+         * 删除、保存POI之后需要把POI从表格中删除
+         */
+        evtCtrl.off(evtCtrl.eventTypes.CHANGEPOILIST);
+        evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function (poi){
+            if(scope.dataListType == 1){ //表示的是待作业
+                for (var i = 0 ,len = scope.tableParams.data.length;i<len;i++){
+                    if(scope.tableParams.data[i].pid == poi.pid){
+                        scope.tableParams.data.splice(i,1);
+                        break;
+                    }
                 }
+                scope.selectData(scope.tableParams.data[i],i);
+                // $timeout(function(){
+                //     scope.$apply();
+                //     scope.selectData(scope.tableParams.data[i],i);
+                //     //scope.$apply();
+                // });
             }
         });
 
