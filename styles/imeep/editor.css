@@ -1460,6 +1460,12 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-left: 5px;
 }
 
+.fm-table-content{
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .pagination > li > a, .pagination > li > span {
     position: relative;
     float: left;
