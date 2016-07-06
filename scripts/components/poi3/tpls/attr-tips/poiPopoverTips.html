@@ -9,7 +9,7 @@
         <span ng-if="nowActiveImg.thumbnailUrl" class="glyphicon glyphicon-trash remove-preview-img" title="删除" ng-click="deletePhoto(nowActiveImg);"></span>
         <img ng-if="nowActiveImg.thumbnailUrl" ng-click="showImage(nowActiveImg,nowActiveIndex);" image-404="../../../images/road/img/noimg.png" ng-src="{{nowActiveImg.originUrl}}" class="img-preview" alt="">
         <img ng-if="!nowActiveImg.thumbnailUrl" src="../../../images/road/img/noimg.png" class="img-preview" alt="当前无图片">
-        <span class="photo-page">{{nowActiveIndex+1}}/{{poi.photos.length}}</span>
+        <span class="photo-page">{{nowActiveIndex+1}}/{{poi.photos.length==0?1:poi.photos.length}}</span>
         <!--<div class="photo-load-bg" ng-show="showPhotoLoading">
             <div class="spinner">
                 <div class="rect1"></div>
@@ -26,7 +26,7 @@
         </div>
         <div class="col-sm-6 text-right">
             <label class="col-sm-8 text-control">
-                <input type="radio" name="taskTime">当前作业季
+                <input type="radio" name="taskTime">作业季
             </label>
             <label class="col-sm-4 text-control">
                 <input type="radio" name="taskTime" checked>全部
