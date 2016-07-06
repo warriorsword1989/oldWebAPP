@@ -66,7 +66,7 @@ angular.module("dataService", [], function($httpProvider) {
                 // if (canRecover(rejection)) {
                 //     return responseOrNewPromise
                 // }
-                console.log("啊呕，服务请求报错，请检查网络后重试！");
+                console.log("啊哦，服务请求报错，请检查网络后重试！");
                 return $q.reject(rejection);
             }
         };
@@ -107,7 +107,7 @@ angular.module("dataService", [], function($httpProvider) {
         defer.reject(null);
     };
     this.error = function(defer, rejection) {
-        swal("啊呕，服务请求报错，请检查网络后重试！", rejection, "error");
+        swal("啊哦，服务程序开小差了，请稍后再试！", rejection, "error");
         defer.reject(rejection);
     };
 }]).service("dsOutput", [function() {
