@@ -22,7 +22,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.selectCtrl = new fastmap.uikit.SelectController();
         this.popup = L.popup();
-        this._setWorkLayers(this.options.geomType || "Point");
+        this._setWorkLayers(this.options.nodeType || "Point");
         this._setSnapHandler(["Node"]);
     },
     /***

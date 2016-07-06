@@ -181,6 +181,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     callback();
                 }
             });
+            $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
+                $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
+            });
+            //
             // $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
             //     $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
             //     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function() {
@@ -221,12 +225,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         //页面初始化方法调用
         var initPage = function() {
             var subtaskId = App.Util.getUrlParam("subtaskId");
-            // App.Temp.subTaskId = subtaskId;
+            App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
                     // 暂时注释
-                    // App.Temp.dbId = data.dbId;
-                    // App.Temp.gridList = data.gridIds;
+                    App.Temp.dbId = data.dbId;
+                    App.Temp.gridList = data.gridIds;
+                    if (data.stage == 1) { // 日编
+                        App.Temp.mdFlag = "d";
+                    } else if (data.stage == 2) { // 月编
+                        App.Temp.mdFlag = "m";
+                    } else { // 默认：日编
+                        App.Temp.mdFlag = "d";
+                    }
                     loadMap();
                     var promises = loadMetaData();
                     $q.all(promises).then(function() {
@@ -278,6 +289,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.attrTplContainerSwitch(false);
             $scope.subAttrTplContainerSwitch(false);
             eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
+        };
+        $scope.goback = function() {
+            window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
         };
         /*start 事件监听*******************************************************************/
         //响应选择要素类型变化事件，清除要素页面的监听事件
