@@ -174,15 +174,17 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
 
         //获取当前任务作业类型;
         $scope.getTaskProgresing = function(){
-            dsManage.getSubtaskById({
-                'subtaskId': $scope.currentTaskData.subtaskId,
-            }).then(function(data) {
-                console.log(data)
-            });
+            //if($scope.currentTaskData){
+            //    dsManage.getSubtaskById($scope.currentTaskData.subtaskId).then(function(data) {
+            //        console.log(data)
+            //    });
+            //}
             return '12%';
         }
         $scope.getTaskSeason = function(){
-            return $scope.currentTaskData.descp;
+            if($scope.currentTaskData){
+                return $scope.currentTaskData.descp;
+            }
         }
 
         //拼接开始时间和结束时间的显示方式;
