@@ -215,7 +215,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             highCtrl._cleanHighLight();
             highCtrl.highLightFeatures.length = 0;
             dsFcc.getTipsResult(item.i).then(function(data) {
-                if (data.rowkey === "undefined") {
+                if (data.rowkey === "undefined" || data == -1) {
                     return;
                 }
                 $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {
