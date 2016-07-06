@@ -215,4 +215,4 @@ selectApp.controller("rdCrossController", ['$scope','dsRoad','dsFcc',function ($
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeRdCrossData);
-});
+}]);
