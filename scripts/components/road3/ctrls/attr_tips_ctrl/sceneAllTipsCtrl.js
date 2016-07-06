@@ -407,12 +407,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 break;
             case "1111": //条件限速
-                var dir = {
-                    "0":"不应用",
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 $scope.limitValue = $scope.dataTipsData.value;
                 var limitFlagObj = {
                     "0": "限速开始",
@@ -442,11 +436,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 break;
             case "1113":
-                var dir = {
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 var limitValue = $scope.dataTipsData.value;
                 limitValue.sort(function(a,b){
                     return a<b?1:-1;
@@ -495,11 +484,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.kindType = $scope.returnKindType($scope.dataTipsData.kind);
                 break;
             case "1202":    //车道数
-                var dir = {
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 var sideObj = {
                     0:'不应用',
                     1:'左',
@@ -571,20 +555,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 break;
             case "1304": //禁止穿行
-                var dir = {
-                    "0":"不应用",
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 break;
             case "1305": //禁止驶入
-                var dir = {
-                    "0":"不应用",
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 $scope.eliminateCarObj = [
                     {"id":1,"label":'客车'},
                     {"id":2,"label":'配送卡车'},
