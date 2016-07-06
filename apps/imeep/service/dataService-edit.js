@@ -283,6 +283,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         return this.save(param);
     };
     /***
+     * 打断link
+     * 适用于rdlink、adlink等
+     */
+    this.repair = function(pid, type, data) {
+        var param = {
+            "command": "BREAK",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        };
+        return this.save(param);
+    };
+    /***
      * poi要素创建父poi
      */
     this.createParent = function(pid, newParentPid) {
@@ -348,6 +362,14 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "DELETEPARENT": "POI解除父",
             "UPDATETOPO":"更新"+[param.type]+"拓扑"
         }[param.command];
+
+        if(param.type == "IXPOI"){ //poi属性不修改也可进行保存，所以需要进行特殊处理
+            var keys = Object.keys(param.data);
+            if(keys.length ==3 && param.data["rowId"] && param.data["objStatus"] && param.data["pid"]){
+                opDesc = param.type;
+            }
+        }
+
         if(param.command==='UPDATETOPO'){
             param.command='UPDATE'
         }

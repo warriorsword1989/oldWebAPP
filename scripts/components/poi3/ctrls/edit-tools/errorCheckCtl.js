@@ -59,7 +59,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                         map.fitBounds(bounds, {"maxZoom": 19});
                         highlightFeatures.push({
                             id:id.toString(),
-                            layerid:'referenceLine',
+                            layerid:'rdLink',
                             type:'line',
                             style:{}
                         });
@@ -68,8 +68,8 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                     case "IX_POI":
                         highLightFeatures.push({
                             id:id.toString(),
-                            layerid:'poiPoint',
-                            type:'poi',
+                            layerid:'poi',
+                            type:'IXPOI',
                             style:{}
                         });
                         map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
@@ -85,14 +85,14 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                         });
                         highlightFeatures.push({
                             id: data["inLinkPid"].toString(),
-                            layerid:'referenceLine',
+                            layerid:'rdLink',
                             type:'line',
                             style:{}
                         });
                         for (var i = 0, len = (data.details).length; i < len; i++) {
                             highlightFeatures.push({
                                 id: data.details[i].outLinkPid.toString(),
-                                layerid:'referenceLine',
+                                layerid:'rdLink',
                                 type:'line',
                                 style:{}
                             })

@@ -82,46 +82,41 @@ fastmap.mapApi.Capture = L.Handler.extend({
                 return;
             }
             this.selectedId = this._guides[layerindex].selectedid;
-            if(this._map.getZoom() == 20){
-                this.tileDataList = [];//当前瓦片周边
-                for (var i = -1 ;i<2;i++){
-                    for(var j = -1; j<2;j++){
-                        var tiles1 = this._guides[layerindex].tiles[(tiles[0]+i) + ':' + (tiles[1]+j)];
-                        if(tiles1 && tiles1.data){
-                            this.tileDataList.push(tiles1);
-                        }
-                    }
-                }
-                    for(var currentTileData in this.tileDataList){
-                        var closestPoint = this.closeestCapture({
-                            point:tilePixcel,
-                            data:this.tileDataList[currentTileData].data,
-                            candidateId:this._guides[layerindex].selectedid
-                        });
-                        if(closestPoint && !closest){
-                            this.captured = true;
-                            this.properties = closestPoint.properties;
-                            this.captureIndex = closestPoint.index;
-                            this.coordinates = closestPoint.layer;
-                            this.selectedVertex = closestPoint.selectedVertexe;
-                            this.captureLatlng = this.transform.PixelToLonlat(closestPoint.latlng[0] + tiles[0] * 256, closestPoint.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                            closest = closestPoint;
-                        }
-                        if (closestPoint && closest && closestPoint.distance<closest.distance) {
-                            this.captured = true;
-                            this.properties = closestPoint.properties;
-                            this.captureIndex = closestPoint.index;
-                            this.coordinates = closestPoint.layer;
-                            this.selectedVertex = closestPoint.selectedVertexe;
-                            this.captureLatlng = this.transform.PixelToLonlat(closestPoint.latlng[0] + tiles[0] * 256, closestPoint.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                            closest = closestPoint;
-                            //break;
-                        }
-                    }
-                if(!closest){
-                    this.captured = false;
-                }
-            }else {
+            // if(this._map.getZoom() == 20){
+            //     this.tileDataList = [];//当前瓦片周边
+            //     for(var tileData in this._guides[layerindex].tiles ){
+            //         this.tileDataList = this.tileDataList.concat(this._guides[layerindex].tiles[tileData].data);
+            //     }
+            //     var closest = this.closeestCapture({
+            //         point:tilePixcel,
+            //         data:this.tileDataList,
+            //         candidateId:this._guides[layerindex].selectedid
+            //     });
+            //     if (closest) {
+            //         this.captured = true;
+            //         this.properties = closest.properties;
+            //         this.captureIndex = closest.index;
+            //         this.coordinates = closest.layer;
+            //         this.selectedVertex = closest.selectedVertexe;
+            //         var captureTile = null;
+            //         for(var tile in this._guides[layerindex].tiles){
+            //             var tiledate = this._guides[layerindex].tiles[tile].data;
+            //             for(var i = 0;i<tiledate.length;i++){
+            //                 if(tiledate[i].properties.id == closest.properties.id && tiledate[i].properties.enode == closest.properties.enode &&tiledate[i].properties.snode == closest.properties.snode &&tiledate[i].geometry.coordinates.length == closest.layer.length ){
+            //                     captureTile = tile.split(":");
+            //                     break;
+            //                 }
+            //             }
+            //             if(captureTile){
+            //                 break;
+            //             }
+            //         }
+            //         this.captureLatlng = this.transform.PixelToLonlat(closest.latlng[0] + parseInt(captureTile[0]) * 256, closest.latlng[1] + parseInt(captureTile[1]) * 256, this._map.getZoom());
+            //         //break;
+            //     } else {
+            //         this.captured = false;
+            //     }
+            // }else {
                 this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
                 if (this.currentTileData&&this.currentTileData.data) {
                     closest = this.closeestCapture({
@@ -140,7 +135,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
                     } else {
                         this.captured = false;
                     }
-                }
+                // }
             }
         }
     },

@@ -1,0 +1,17 @@
+<div ng-controller="mapToolbarCtrl">
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[selectBtnOpened]" ng-click="toggleSelectBtn()" ng-bind="selectBtnOpened?'收起《':'选择 》'"></button>
+        <div ng-include="selectShapeTpl" ng-if="selectBtnOpened" class="btn-group">
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[addBtnOpened]" ng-click="toggleAddBtn()" ng-bind="addBtnOpened?'收起《':'新增 》'"></button>
+        <div ng-include="addShapeTpl" ng-if="addBtnOpened" class="btn-group">
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs" ng-class="{false:'btn-primary',true:'btn-danger'}[advanceBtnOpened]" ng-click="toggleAdvanceBtn()" ng-bind="advanceBtnOpened?'收起《':'高级 》'"></button>
+        <div ng-include="advanceToolsTpl" ng-if="advanceBtnOpened" class="btn-group">
+        </div>
+    </div>
+</div>

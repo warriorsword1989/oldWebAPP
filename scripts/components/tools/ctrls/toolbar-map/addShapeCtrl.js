@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
+ * rebuild by chenx on 2016-07-05
  */
-var selectApp = angular.module("app", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
+angular.module("app").controller("addShapeCtrl", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
     function($scope, $ocLazyLoad, $rootScope, dsFcc, dsRoad, dsEdit, appPath) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -711,8 +711,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                             case "1205": //SA
                                 var ctrlAndTplOfSA = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
                                             $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
@@ -724,8 +724,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                             case "1206": //PA
                                 var ctrlAndTplOfPA = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
                                             $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
@@ -793,8 +793,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                             case "1401": //方向看板
                                 var ctrlAndTplOfOrientation = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "../../../scripts/components/road3/tpls/attr_branch_Tpl/signBoardOfBranch.html");
@@ -806,8 +806,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                             case "1402": //real sign
                                 var ctrlAndTplOfRealSign = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
@@ -832,8 +832,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                             case "1406": //实景图
                                 var ctrlAndTplOfJCV = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html');

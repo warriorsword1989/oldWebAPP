@@ -81,13 +81,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             });
         };
         $scope.changeList(1);
-        var dataLoadind = true; //此变量用于控制菜单点击速度过快导致异常
+        var dataLoading = true; //此变量用于控制菜单点击速度过快导致异常
         //点击下拉框的时  显示内容
         $scope.showContent = function(item, arr, stage, event) {
-            if(!dataLoadind){
+            if(!dataLoading){
                 return ;
             }
-            dataLoadind = false;
+            dataLoading = false;
             $scope.$emit('closePopoverTips', false);
             $("#dataTipsOriginModal").css("display", "none");
             $("#dataTipsVideoModal").css("display", "none");
@@ -106,6 +106,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
                 if ($scope.showOrHideId === item.id) {
                     $scope.showOrHideId = "";
+                    dataLoading = true;
                     return;
                 }
             }
@@ -119,6 +120,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
                 if ($scope.showOrHideIdOfPending === (item.id + "Pending")) {
                     $scope.showOrHideIdOfPending = "";
+                    dataLoading = true;
                     return;
                 }
             }
@@ -132,12 +134,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
                 if ($scope.showOrHideIdOfPended === (item.id + "Pended")) {
                     $scope.showOrHideIdOfPended = "";
+                    dataLoading = true;
                     return;
                 }
             }
             //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
             dsFcc.getTipsListItems(arr, item.id).then(function(data) {
-                dataLoadind = true;
+                dataLoading = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;
                     if ($("#" + $scope.showOrHideId).hasClass("selected")) {
@@ -453,7 +456,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             if(data.in){
                                 highCtrl.highLightFeatures.push({
                                     id:data.in.id.toString(),
-                                    layerid:'referenceLine',
+                                    layerid:'rdLink',
                                     type:'line',
                                     style:{
                                         color: '#21ed25',
@@ -465,7 +468,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             if(data.out){
                                 highCtrl.highLightFeatures.push({
                                     id:data.out.id.toString(),
-                                    layerid:'referenceLine',
+                                    layerid:'rdLink',
                                     type:'line',
                                     style:{
                                         color: '#CD0011'

@@ -8,8 +8,8 @@ angular.module('app').controller('relationInfoCtl', ['$scope','dsEdit', function
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id:data.pid,
-                    layerid:'poiPoint',
-                    type:'poi',
+                    layerid:'poi',
+                    type:'IXPOI',
                     style:{}
                 });
                 //高亮

@@ -9,9 +9,9 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var editLayer = layerCtrl.getLayerById('edit');
-    var poi = layerCtrl.getLayerById('poiPoint');
+    var poi = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var originalFeature = [];
     var selectCount = 0;
@@ -81,6 +81,15 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         });
     };
+    $scope.resetMap =function (myPid) {
+        map.closePopup();
+        $scope.clearMap();
+        var drawLayer = $scope.getLayerById('parentLayer');
+        if(drawLayer!=undefined){
+            map.removeLayer(drawLayer);
+        }
+        $scope.getPoi(myPid);
+    };
     /*
     变更父子关系
     */
@@ -90,25 +99,18 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         if (myParent.length > 0) {
             if (myParent[0].parentPoiPid == parentId) {//解除
                 dsEdit.deleteParent(myPid).then(function (data) {
-
+                    $scope.resetMap(myPid);
                 });
             } else {//更新
                 dsEdit.updateParent(myPid, parentId).then(function (data) {
-
+                    $scope.resetMap(myPid);
                 });
             }
         } else {//新增
             dsEdit.createParent(myPid, parentId).then(function (data) {
-
+                $scope.resetMap(myPid);
             });
         }
-        map.closePopup();
-        $scope.clearMap();
-        var drawLayer = $scope.getLayerById('parentLayer');
-        if(drawLayer!=undefined){
-            map.removeLayer(drawLayer);
-        }
-        $scope.getPoi(myPid);
     };
 
     /**
@@ -191,7 +193,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 for (var i = 0, lenI = data.length; i < lenI; i++) {
                     highlightFeatures.push({
                         id: data[i].properties.id.toString(),
-                        layerid:'poiPoint',
+                        layerid:'poi',
                         type:'IXPOI'
                     })
                 }
@@ -358,7 +360,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var highLightFeatures=[];
         highLightFeatures.push({
             id:objCtrl.data.pid.toString(),
-            layerid:'poiPoint',
+            layerid:'poi',
             type:'IXPOI'
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -486,7 +488,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var highLightFeatures = [];
         highLightFeatures.push({
             id:pid,
-            layerid:'poiPoint',
+            layerid:'poi',
             type:'IXPOI',
             style:{}
         });
@@ -503,7 +505,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var highLightFeatures = [];
         highLightFeatures.push({
             id:pid,
-            layerid:'poiPoint',
+            layerid:'poi',
             type:'IXPOI',
             style:{}
         });
