@@ -2,8 +2,8 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>FastMap设施编辑系统</title>
-        <link href="../../../favicon.ico" rel="icon" type="image/x-icon" />
+        <title>FastMap一体化编辑平台</title>
+        <link href="../../../images/favicon.ico" rel="icon" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
@@ -71,7 +71,7 @@
                                             </ul>
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
-                                                    <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + '. ' + item.name"></a>　
+                                                    <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + '. ' + item.name"></a>
                                                     <span ng-if="currentTaskData.name===item.name" class="glyphicon glyphicon-pushpin" style="font-size: 12px"></span>
                                                 </li>
                                             </ul>
@@ -129,11 +129,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div style="text-align:center;position:absolute;left:5px;right:5px;bottom:26px;z-index: 10000">
-                                        <button type="button" ng-disabled="currentTaskData.status == 0" ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px;">
-                                        <i class="glyphicon glyphicon-edit"></i> 开始作业
-                                        </button>
-                                    </div>
+                                <div style="text-align:center;position:absolute;left:5px;right:5px;bottom:26px;z-index: 10000">
+                                    <button type="button" ng-disabled="currentTaskData.status == 0" ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px;">
+                                    <i class="glyphicon glyphicon-edit"></i> 开始作业
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -142,6 +141,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
+</div>
+<script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
 </body>
 </html>
