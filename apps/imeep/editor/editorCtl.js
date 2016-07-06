@@ -286,6 +286,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             $scope.subAttrTplContainerSwitch(false);
             eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
         };
+        $scope.goback = function() {
+            window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
+        };
         /*start 事件监听*******************************************************************/
         //响应选择要素类型变化事件，清除要素页面的监听事件
         eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURETYPECHANGE, function(data) {
