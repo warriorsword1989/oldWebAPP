@@ -42,6 +42,25 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
         });
         return defer.promise;
     };
+    //根据子任务Id查找子任务概要信息;
+    this.getSubtaskById = function(paramObj) {
+        var defer = $q.defer();
+        ajax.get("man/statics/subtask/query", {
+            parameter: JSON.stringify(paramObj)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data.result);
+            } else if (data.errcode == -100) {
+                ajax.tokenExpired();
+            } else {
+                swal("查询子任务出错", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            ajax.error(defer, rejection);
+        });
+        return defer.promise;
+    };
     //根据用户名查找子任务列表;
     this.getSubtaskById = function(subtaskId) {
         var defer = $q.defer();
