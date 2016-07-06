@@ -15,6 +15,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         $scope.startBtnDisabled = true;
         //顶标签初始状态;
         $scope.dataListType = 1;
+        //顶标签的当前字符状态;
+        $scope.dataStringType = '日 一体化任务';
         //侧标签初始状态;
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
@@ -35,21 +37,26 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             switch ($scope.dataListType) {
                 case 1:
                     $scope.requestParams.classType = 2;
+                    $scope.dataStringType = '日 一体化任务';
                     break;
                 case 2:
                     $scope.requestParams.classType = 0;
                     $scope.requestParams.classStage = 1;
+                    $scope.dataStringType = '日 POI任务';
                     break;
                 case 3:
                     $scope.requestParams.classType = 1;
                     $scope.requestParams.classStage = 1;
+                    $scope.dataStringType = '月 道路任务';
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;
                     $scope.requestParams.classStage = 2;
+                    $scope.dataStringType = '月 POI任务';
                     break;
                 case 5:
                     $scope.requestParams.classType = 3;
+                    $scope.dataStringType = '专项作业任务';
                     break;
             }
             loadSubTaskfn($scope.requestParams)
@@ -166,16 +173,13 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         }
 
         //获取当前任务作业类型;
-        $scope.getTaskType = function(){
-            return '日编一体化';
-        }
-        //获取当前任务作业类型;
         $scope.getTaskProgresing = function(){
             return '12%';
         }
         $scope.getTaskSeason = function(){
-            return '最后一季节';
+            return '2016 冬';
         }
+
         //拼接开始时间和结束时间的显示方式;
         $scope.getDiyDateFormat = function(type){
             var tempTime = null;
@@ -188,15 +192,23 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                 return getDateFormat(tempTime);
             }
         }
+
         //格式化日期显示;
-        function getDateFormat(parmas) {
-            var tempDate = new Date();
-            tempDate.setTime(parmas);
-            var taskYear = tempDate.getFullYear();
-            var taskMonth = tempDate.getMonth();
-            var taskDay = tempDate.getDate();
+        function getDateFormat(parmas){
+            var taskYear = taskMonth = taskDay = '';
+            if(parmas.length==8){
+                taskYear = parmas.substr(0,4);
+                taskMonth = parmas.substr(4,2);
+                taskDay = parmas.substr(6);
+            }else{
+                var tempDate = new Date();
+                tempDate.setTime(parmas);
+                taskYear = tempDate.getFullYear();
+                taskMonth = tempDate.getMonth();
+                taskDay = tempDate.getDate();
+            }
             return taskYear+' . '+taskMonth+' . '+taskDay;
-        };
+        }
 
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
@@ -208,7 +220,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
                 'type': obj.classType,
                 'status': obj.currentStatus,
                 'snapshot': 0,
-                'pageNum': 0,
+                'pageNum': 1,
                 'pageSize': 20
             }).then(function(data) {
                 $scope.currentSubTaskList = data;

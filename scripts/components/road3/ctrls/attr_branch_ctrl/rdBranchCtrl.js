@@ -524,6 +524,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         dsEdit.deleteBranchByDetailId(detailId,branchType).then(
             function(params){
                 if(params){
+                    //map.floatMenu.onRemove();
                     highRenderCtrl.highLightFeatures = null
                     highRenderCtrl._cleanHighLight();
                     $scope.attrTplContainerSwitch(false);
