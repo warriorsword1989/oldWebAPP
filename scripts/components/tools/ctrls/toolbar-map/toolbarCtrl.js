@@ -1,4 +1,3 @@
-
 /**
  * Created by chenx on 2016-07-05
  */
@@ -72,8 +71,12 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETRELATIONID);
             eventCtrl.off(eventCtrl.eventTypes.GETTIPSID);
-            if (map.currentTool) {
-                map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
+            if (map.currentTool) { //禁止当前的参考线图层的事件捕获
+                map.currentTool.disable();
+            }
+            if (map.floatMenu) { // 清除操作按钮
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
             }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
