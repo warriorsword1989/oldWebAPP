@@ -15,7 +15,7 @@ fastmap.uikit.canvasTips.TipsDrivewayLimit = fastmap.uikit.canvasTips.Tips.exten
         );
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                    iconName: '../../../images/road/1111/1111_0.svg',
+                    iconName: '../../../images/road/tips/1111/1111_0_0.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates'],
