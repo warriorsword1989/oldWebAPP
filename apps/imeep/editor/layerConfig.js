@@ -153,7 +153,7 @@ App.layersConfig = [{
             type: 'Marker',
             zIndex: 6,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
             showNodeLevel: 17
         }
