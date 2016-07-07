@@ -300,23 +300,19 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 删除数据
     function del() {
-        // eventCtrl.fire("testtest", {"pid":$scope.poi.pid});
-        // if(true){
-        //     return ;
-        // }
-
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             poiLayer.redraw();
             if (map.floatMenu) { //移除半圈工具条
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
             }
-            $scope.poi = null;
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+            $scope.poi = null;
         });
     }
     /* start 事件监听 ********************************************************/
