@@ -291,7 +291,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "rowId": objectCtrl.data.rowId,
                         "pid": objectCtrl.data.pid,
                         "objStatus": "UPDATE"
-                    }).then(function(data) {});
+                    }).then(function(data) {
+                        if(data){
+                            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+                            }
+                        }
+                    });
                 }
             });
             return;
@@ -310,8 +316,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
-            eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+            }
             $scope.poi = null;
         });
     }
