@@ -41,7 +41,7 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
          * 增加POI
          * @param type
          */
-        $scope.addShape = function(type) {
+        $scope.addPoi = function(type) {
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -58,7 +58,7 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
             $("#popoverTips").hide();
             //清空编辑图层
             editLayer.clear();
