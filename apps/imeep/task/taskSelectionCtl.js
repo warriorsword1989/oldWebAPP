@@ -272,7 +272,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
             }).then(function(data) {
                 for(var i=0;i<data.length;i++){
                     if(!data[i].name){
-                        data[i].name = 'name is not exist';
+                        data[i].name = '（无）';
                     }
                 }
                 $scope.currentSubTaskList = data;

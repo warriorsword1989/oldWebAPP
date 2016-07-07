@@ -386,6 +386,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     this.save = function(param) {
         var opDesc = {
             "CREATE": "创建" + [param.type],
+            "UPDOWNDEPART": "创建上下线分离",
             "BREAK" : "新增" + [param.type],
             "UPDATE": "更新" + [param.type] + "属性",
             "DELETE": "删除" + [param.type],
