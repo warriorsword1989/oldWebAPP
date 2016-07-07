@@ -27,7 +27,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
                         feature: objCtrl.data
                     });
-                    scope.$emit("SWITCHCONTAINERSTATE", {});
+                    //scope.$emit("SWITCHCONTAINERSTATE", {});
                     scope.$emit("transitCtrlAndTpl", {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
