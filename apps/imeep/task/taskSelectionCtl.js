@@ -270,6 +270,11 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                 'pageNum': 1,
                 'pageSize': 20
             }).then(function(data) {
+                for(var i=0;i<data.length;i++){
+                    if(!data[i].name){
+                        data[i].name = 'name is not exist';
+                    }
+                }
                 $scope.currentSubTaskList = data;
             });
         }
