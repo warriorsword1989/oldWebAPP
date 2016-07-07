@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRoad', 'appPath',
-    function($scope, $ocLazyLoad, dsRoad, appPath) {
+angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath',
+    function($scope, $ocLazyLoad, dsEdit, appPath) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -398,7 +398,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
         $scope.upAndDown = function(event) {
             var type = event.currentTarget.type;
             if (type === 'chooseOver') {
-                dsRoad.getByCondition($scope.param).then(function(data) {
+                dsEdit.getByCondition($scope.param).then(function(data) {
                     var highLightFeatures = [];
                     highRenderCtrl.highLightFeatures.length = 0;
                     highRenderCtrl._cleanHighLight();
@@ -502,7 +502,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 $scope.param1["data"] = {
                     "linkPids": $scope.linkMulity
                 };
-                dsRoad.getByCondition($scope.param1).then(function(data) {
+                dsEdit.getByCondition($scope.param1).then(function(data) {
                     var linkArr = data.data,
                         points = [];
                     for (var i = 0, len = linkArr.length; i < len; i++) {
@@ -636,15 +636,15 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
-                    dsRoad.getRdObjectById(pro.id, "RDLINK").then(function(data) {
-                        if (data.errcode == 0) {
+                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if (data) {
                             selectCtrl.onSelected({
-                                geometry: data.data.geometry.coordinates,
-                                id: data.data.pid,
+                                geometry: data.geometry.coordinates,
+                                id: data.pid,
                                 direct: pro.direct,
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
-                            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates,
+                            var linkArr = data.geometry.coordinates,
                                 points = [];
                             if (pro.direct == 1) {
                                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
@@ -695,7 +695,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 tooltipsCtrl.setCurrentTooltip('请框选路口组成Node！');
                 shapeCtrl.toolsSeparateOfEditor("addRdCross", {
                     map: map,
-                    layer: rdLink,
+                    layer: [rdLink],
                     type: "rectangle"
                 });
                 map.currentTool = shapeCtrl.getCurrentTool();
