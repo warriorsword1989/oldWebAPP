@@ -321,7 +321,7 @@
                 <span>共{{items.total}}个</span>
                 <!--<span style="float:right">显示</span>-->
             </div>
-            <div  style="width:100%;">
+            <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataListOfPending">
                     <li ng-repeat="pendItem in items " id="{{pendItem.id}}Pending">
                         <div ng-click="showContent(pendItem,[1],1,$event)"><i
@@ -348,7 +348,7 @@
                 </div>
                 <span>共{{items.total}}个</span>
             </div>
-            <div style="width:100%;">
+            <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataListOfPended">
                     <li ng-repeat="solveItem in items" id="{{solveItem.id}}Pended">
                         <div ng-click="showContent(solveItem,[3],3,$event)"><i  class="glyphicon glyphicon-folder-close" style=""></i>
