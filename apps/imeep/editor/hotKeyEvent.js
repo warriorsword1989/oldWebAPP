@@ -776,6 +776,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功", 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                 });
             } else if (shapeCtrl.editType === "pathBuffer") {
+
                 this.transform = new fastmap.mapApi.MecatorTranform();
                 var scale = this.transform.scale(map);
                 var linkWidth = parseFloat(geo.linkWidth * scale);
@@ -791,10 +792,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 };
                 dsEdit.save(param).then(function(data) {
-                    layerCtrl.getLayerById("adFace").redraw();
-                    layerCtrl.getLayerById("adLink").redraw();
-                    treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
-                });
+                    layerCtrl.getLayerById("rdLink").redraw();
+                    layerCtrl.getLayerById("rdNode").redraw();
+                    treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
+                })
             } else if (shapeCtrl.editType === "addAdFaceLine") {
                     var adLinksArr = selectCtrl.selectedFeatures.adLinks;
                     if (!adLinksArr || adLinksArr.length < 2) {
@@ -862,6 +863,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function(data) {
                     highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     layerCtrl.getLayerById("poi").redraw();
                     treatmentOfChanged(data, "IXPOI", "移动poi成功",'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
@@ -891,6 +893,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function(data) {
                     layerCtrl.getLayerById("poi").redraw();
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "IXPOI", "保存poi成功", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
             }
