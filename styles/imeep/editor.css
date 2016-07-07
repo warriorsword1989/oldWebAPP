@@ -1600,6 +1600,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
+    outline: none;
 }
 
 .btn-shape-cap {
