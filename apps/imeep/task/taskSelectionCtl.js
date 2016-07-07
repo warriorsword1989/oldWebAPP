@@ -270,7 +270,16 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                     pointPadding: 0.2,
                     borderWidth: 0
                 }
-            }
+            },
+            series: [{
+                name: 'POI',
+                data: [220, 80, 140]
+
+            }, {
+                name: '道路',
+                data: [250, 100, 150]
+
+            }]
         };
 
         /*加载子任务列表*/
