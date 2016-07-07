@@ -151,6 +151,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1405://一般道路方面
                     ret = new fastmap.uikit.canvasTips.TipsNormalRoadSide(item);
                     break;
+                case 1503://高架路
+                    ret = new fastmap.uikit.canvasTips.TipsElevatedRoads(item);
+                    break;
                 case 1510://桥
                     ret = new fastmap.uikit.canvasTips.TipsBridges(item);
                     break;
