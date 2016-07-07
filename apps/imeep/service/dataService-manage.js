@@ -43,13 +43,15 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
         return defer.promise;
     };
     //根据子任务Id查找子任务概要信息;
-    this.getSubtaskById = function(paramObj) {
+    this.getSubtaskSummaryById = function(paramObj) {
         var defer = $q.defer();
         ajax.get("man/statics/subtask/query", {
-            parameter: JSON.stringify(paramObj)
+            parameter: JSON.stringify({
+                "subtaskId": paramObj
+            })
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data.data.result);
+                defer.resolve(data.data);
             } else if (data.errcode == -100) {
                 ajax.tokenExpired();
             } else {

@@ -85,16 +85,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
         };
         // 选中子任务，高亮子任务对应的网格
         $scope.selectSubtask = function(subtask) {
-            /*模拟数据变化*/
-                $scope.chartConfig.series = [{
-                    name: 'POI',
-                    data: [300, 80, 240]
-                }, {
-                    name: '道路',
-                    data: [200, 20, 180]
 
-                }]
-            /**/
             $scope.currentTaskData = subtask;
             $scope.dataStringType = $scope.currentTaskData.name;
             $scope.infoPanelOpened = true;
@@ -176,16 +167,15 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                     }).addTo(map));
                 }
             }
+            //去查找当前的substask概要信息;
+            getCurrentSubtaskSummary();
         }
 
         //获取当前任务作业类型;
         $scope.getTaskProgresing = function(){
-            //if($scope.currentTaskData){
-            //    dsManage.getSubtaskById($scope.currentTaskData.subtaskId).then(function(data) {
-            //        console.log(data)
-            //    });
-            //}
-            return '12%';
+            if($scope.summary){
+                return $scope.summary.percent+'%';
+            }
         }
         $scope.getTaskSeason = function(){
             if($scope.currentTaskData){
@@ -259,7 +249,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
             },
             yAxis: {
                 min: 0,
-                max:250,
                 title: {text: ''},
                 labels:{
                     style:{color:'#FFF'}
@@ -281,6 +270,25 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
 
             }]
         };
+        //更新统计百分数和统计图表数据;
+        function getCurrentSubtaskSummary(){
+            if($scope.currentTaskData){
+                dsManage.getSubtaskSummaryById($scope.currentTaskData.subtaskId).then(function(data) {
+                    $scope.summary = data;
+                    var poiArray = [$scope.summary.poi.total,$scope.summary.poi.working,$scope.summary.poi.finish];
+                    var roadArray = [$scope.summary.road.total,$scope.summary.road.working,$scope.summary.road.finish];
+                    /*更新统计数据*/
+                    $scope.chartConfig.series = [{
+                        name: 'POI',
+                        data: poiArray
+                    }, {
+                        name: '道路',
+                        data: roadArray
+
+                    }]
+                });
+            }
+        }
 
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
