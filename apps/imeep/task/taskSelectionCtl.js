@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/6/7.
  */
-angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location',
+angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location',
     function($scope, dsManage, $q, $cookies, $location) {
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.taskSelectionLayersConfig
@@ -212,6 +212,50 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             }
             return taskYear+' . '+taskMonth+' . '+taskDay;
         }
+
+        //
+        $scope.chartConfig = {
+            options: {
+                chart: {
+                    type: 'column',
+                    width:270,
+                    height:230
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                }
+            },
+            title: {text: ''},
+            xAxis: {
+                categories: ['全部', '待作业', '已作业'],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                max:250,
+                title: {text: ''}
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'POI',
+                data: [220, 80, 140]
+
+            }, {
+                name: '道路',
+                data: [250, 100, 150]
+
+            }]
+        };
 
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
