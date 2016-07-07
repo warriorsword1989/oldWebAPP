@@ -157,7 +157,10 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         } else {
             var layer = layerCtrl.getLayerById(item.layerId);
             if (item.selected) {
-                layer.url.parameter["types"] = layer.url.parameter["types"] || [];
+                // 由不可见到可见时，清空初始化的全部请求对象，只赋值当前选中的对象
+                if (!layer.options.visible) {
+                    layer.url.parameter["types"] = [];
+                }
                 layer.url.parameter["types"].push(item.requestType);
             } else {
                 layer.url.parameter["types"].splice(layer.url.parameter["types"].indexOf(item.requestType), 1)
