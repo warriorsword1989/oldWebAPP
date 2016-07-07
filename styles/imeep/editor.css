@@ -1574,9 +1574,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /*灰色按钮*/
-
 .btn.btn-gray {
-    background: rgba(85, 85, 85,.9);
+    background: rgba(150,150,150,0.9);
     color: #FFF;
     /*font-size: 14px;*/
     font-weight: bold;
