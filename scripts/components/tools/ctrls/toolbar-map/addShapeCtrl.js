@@ -551,7 +551,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
             $("#popoverTips").hide();
             editLayer.clear();
             editLayer.bringToBack();
@@ -575,11 +575,12 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
             //     }
             // }
             if (type === "RDRESTRICTION") {
+                $scope.resetOperator("addRelation", type);
                 $scope.$emit("SWITCHCONTAINERSTATE", {
                     "attrContainerTpl": true
                 });
                 var restrictionObj = {};
-                restrictionObj["showTransitData"] = []
+                restrictionObj["showTransitData"] = [];
                 restrictionObj["showAdditionalData"] = [];
                 restrictionObj["showNormalData"] = [];
                 restrictionObj["inLaneInfoArr"] = [];
@@ -588,9 +589,10 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
-                }
+                };
                 $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
             } else if (type === "RDLINK") {
+                $scope.resetOperator("addLink", type);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -616,6 +618,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "RDSPEEDLIMIT") {
+                $scope.resetOperator("addRelation", type);
                 var minLen = 100000,
                     pointsOfDis, pointForAngle, angle;
                 if (shapeCtrl.shapeEditorResult) {
@@ -683,6 +686,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     })
                 });
             } else if (type === "RDCROSS") {
+                $scope.resetOperator("addRelation", type);
                 var linksArr = [],
                     nodesArr = [],
                     nodes = [],
@@ -693,7 +697,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
-                })
+                });
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
@@ -756,6 +760,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     selectCtrl.onSelected(options);
                 });
             } else if (type === "RDLANECONNEXITY") {
+                $scope.resetOperator("addRelation", type);
                 $scope.$emit("SWITCHCONTAINERSTATE", {
                     "attrContainerTpl": true
                 })
@@ -772,6 +777,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 }
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "RDNODE") {
+                $scope.resetOperator("addNode", type);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -789,6 +795,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             } else if (type === 'RDGSC') {
+                $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setEditEventType('rdgsc');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 shapeCtrl.toolsSeparateOfEditor("addRdGsc", {
@@ -882,6 +889,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     }
                 });
             } else if (type === 'RDMULTIDIGITIZED') {
+                $scope.resetOperator("specItem", type);
                 var highLightFeatures = [];
                 var linkDirect = 0;
                 var realNodeId = '';
@@ -967,6 +975,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
             }
             //新增加的分歧(实景分歧);
             else if (type.split('_').length == 2) {
+                $scope.resetOperator("addRelation", type);
                 var typeArr = type.split('_');
                 var currentActiveBranch = '';
                 //保存所有需要高亮的图层数组;
