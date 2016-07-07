@@ -164,6 +164,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         } else {
             var layer = layerCtrl.getLayerById(item.layerId);
             if (item.selected) {
+                layer.url.parameter["types"] = layer.url.parameter["types"] || [];
                 layer.url.parameter["types"].push(item.requestType);
             } else {
                 layer.url.parameter["types"].splice(layer.url.parameter["types"].indexOf(item.requestType), 1)
@@ -171,6 +172,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             if (layer.options.visible) {
                 layer.redraw();
             } else {
+                layer.options.visible = true;
                 eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                     layerArr: layerCtrl.layers
                 });
