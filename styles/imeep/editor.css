@@ -1577,6 +1577,31 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     -moz-box-shadow: none;
 }
 
+/*灰色按钮*/
+
+.btn.btn-gray {
+    background: rgba(85, 85, 85,.9);
+    color: #FFF;
+    /*font-size: 14px;*/
+    font-weight: bold;
+}
+
+.btn.btn-gray:hover {
+    color: #FFF;
+    background: #777;
+}
+
+.btn.btn-gray.active {
+    background: #777;
+}
+
+.btn.btn-gray:focus {
+    color: #FFF;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
 
 /*自适应*/
 
