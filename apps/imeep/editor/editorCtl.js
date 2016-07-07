@@ -6,9 +6,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
     function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
-        var layerCtrl = new fastmap.uikit.LayerController({
-            config: App.layersConfig
-        });
+
         var eventCtrl = new fastmap.uikit.EventController();
         $scope.appPath = appPath;
         $scope.metaData = {}; //存放元数据
@@ -103,6 +101,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         };
 
         function loadMap() {
+            var layerCtrl = new fastmap.uikit.LayerController({
+                config: App.layersConfig
+            });
             map = L.map('map', {
                 attributionControl: false,
                 doubleClickZoom: false,
@@ -238,6 +239,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     } else { // 默认：日编
                         App.Temp.mdFlag = "d";
                     }
+
                     loadMap();
                     var promises = loadMetaData();
                     $q.all(promises).then(function() {
