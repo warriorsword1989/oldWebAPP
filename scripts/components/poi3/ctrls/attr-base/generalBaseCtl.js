@@ -307,7 +307,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     // 删除数据
     function del() {
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
-            poiLayer.redraw();
+            //poiLayer.redraw();
             if (map.floatMenu) { //移除半圈工具条
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -316,7 +316,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
             if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
             }
