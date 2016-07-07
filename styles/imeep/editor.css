@@ -876,6 +876,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .text-control {
     color: #fff;
+    font-weight:100;
 }
 
 .task-box {
