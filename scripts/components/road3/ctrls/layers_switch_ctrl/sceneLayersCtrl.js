@@ -181,7 +181,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
     };
     $scope.toggleBgLayer = function(item, event) {
         item.visible = !item.visible;
-        if (item.visible) {
+        if (item.visible && item.singleSelect) {
             for (var i = 0; i < $scope.backgroundLayers.length; i++) {
                 if ($scope.backgroundLayers[i].id != item.id && $scope.backgroundLayers[i].singleSelect) {
                     $scope.backgroundLayers[i].visible = false;
