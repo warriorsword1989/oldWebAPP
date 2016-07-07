@@ -85,6 +85,17 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
         };
         // 选中子任务，高亮子任务对应的网格
         $scope.selectSubtask = function(subtask) {
+            /*模拟数据变化*/
+                console.log($scope.chartConfig.series)
+                $scope.chartConfig.series = [{
+                    name: 'POI',
+                    data: [300, 80, 240]
+                }, {
+                    name: '道路',
+                    data: [200, 20, 180]
+
+                }]
+            /**/
             $scope.currentTaskData = subtask;
             $scope.dataStringType = $scope.currentTaskData.name;
             $scope.infoPanelOpened = true;
@@ -212,15 +223,23 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
             }
             return taskYear+' . '+taskMonth+' . '+taskDay;
         }
-
-        //
+        //配置统计图表;
         $scope.chartConfig = {
             options: {
                 chart: {
                     type: 'column',
                     width:270,
-                    height:230
+                    height:230,
+                    options3d: {
+                        enabled: true,
+                        alpha: 10,
+                        beta: 25,
+                        depth: 100
+                    },
+                    backgroundColor:'transparent',
+                    spacingTop:15
                 },
+                colors:['#ff0033', '#00ccff'],
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -233,28 +252,25 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
             title: {text: ''},
             xAxis: {
                 categories: ['全部', '待作业', '已作业'],
-                crosshair: true
+                crosshair: true,
+                labels:{
+                    style:{color:'#FFF'}
+                }
             },
             yAxis: {
                 min: 0,
                 max:250,
-                title: {text: ''}
+                title: {text: ''},
+                labels:{
+                    style:{color:'#FFF'}
+                }
             },
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
                     borderWidth: 0
                 }
-            },
-            series: [{
-                name: 'POI',
-                data: [220, 80, 140]
-
-            }, {
-                name: '道路',
-                data: [250, 100, 150]
-
-            }]
+            }
         };
 
         /*加载子任务列表*/
@@ -270,6 +286,11 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                 'pageNum': 1,
                 'pageSize': 20
             }).then(function(data) {
+                for(var i=0;i<data.length;i++){
+                    if(!data[i].name){
+                        data[i].name = '（无）';
+                    }
+                }
                 $scope.currentSubTaskList = data;
             });
         }

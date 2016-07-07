@@ -45,7 +45,7 @@
             <button class="btn btn-xs btn-purple" ng-style="{'display':{true:'inline',false:'none'}[dataListType==2]}" ng-click="doSubmitData();">数据提交</button>
         </div>
     </div>
-    <div class="fm-table-content fm-fitsize dark scroll-styled" style="top:93px;">
+    <div class="fm-table-content fm-fitsize dark scroll-styled" style="top:98px;">
         <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-striped poi-list">
             <colgroup>
             <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>

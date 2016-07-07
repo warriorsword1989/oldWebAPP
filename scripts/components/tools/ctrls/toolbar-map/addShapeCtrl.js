@@ -123,7 +123,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 if (v.length > 0) {
                     return v;
                 }
-            })
+            });
             return arr;
         };
         $scope.changeIndexCallback = function(data) {
@@ -135,8 +135,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 } else {
                     return 0;
                 }
-            })
-            console.log($scope.jsonData.linkObjs);
+            });
             /*把当前link的zlevel升高一级*/
             for (var zLevelNum = 0, zLevelLen = $scope.jsonData.linkObjs.length; zLevelNum < zLevelLen; zLevelNum++) {
                 if ($scope.jsonData.linkObjs[zLevelNum].pid == data.id) {
@@ -948,19 +947,19 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         if (!map.floatMenu) {
                             map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, {
                                 items: [{
-                                    'text': "<a class='glyphicon glyphicon-apple'></a>",
+                                    'text': "<a class='glyphicon glyphicon-saved'></a>",
                                     'title': "选择完成",
                                     'type': 'chooseOver',
                                     'class': "feaf",
                                     callback: $scope.upAndDown
                                 }, {
-                                    'text': "<a class='glyphicon glyphicon-apple'></a>",
+                                    'text': "<a class='glyphicon glyphicon-import'></a>",
                                     'title': "重新选择线",
                                     'type': 'RETRYLINK',
                                     'class': "feaf",
                                     callback: $scope.upAndDown
                                 }, {
-                                    'text': "<a class='glyphicon glyphicon-apple'></a>",
+                                    'text': "<a class='glyphicon glyphicon-resize-full'></a>",
                                     'title': "上下线分离",
                                     'type': 'pathBuffer',
                                     'class': "feaf",
