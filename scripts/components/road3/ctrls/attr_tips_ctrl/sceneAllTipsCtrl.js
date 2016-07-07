@@ -555,6 +555,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 break;
             case "1304": //禁止穿行
+                $scope.dataTipsData.isNoCrossing = true;
                 break;
             case "1305": //禁止驶入
                 $scope.eliminateCarObj = [
