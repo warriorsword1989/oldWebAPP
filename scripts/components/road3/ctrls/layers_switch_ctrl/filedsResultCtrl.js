@@ -198,6 +198,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         //点击列表需要的方法
         $scope.showTab = function(item, e, pItemId, index) {
             $scope.$emit('closePopoverTips', false);
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
             if ($scope.allStyleArr && $scope.allStyleArr.length >= 1) {
                 $scope.changeStyleArr($scope.allStyleArr, index);
             }
@@ -943,6 +944,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
             }else{
                 dsEdit.getByPid(id, type).then(function(data){
+                    if(!data){
+                        return;
+                    }
                     if (type === "RDLINK") {
                         var linkArr = data.geometry.coordinates,
                             points = [];

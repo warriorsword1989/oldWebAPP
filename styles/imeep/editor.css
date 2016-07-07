@@ -403,6 +403,9 @@ form input[type='checkbox']:checked.ng-dirty {
     padding: 5px;
 }
 
+.fm-component  div.title span.label-info {
+    background-color:gray;
+}
 
 /************************* 图片资源 ******************************/
 

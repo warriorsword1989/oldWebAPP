@@ -18,14 +18,16 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
             scope.$emit('closePopoverTips',false);
+            scope.$parent.$parent.showLoading = true;
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
+                scope.$parent.$parent.showLoading = false;
                 if (rest) {
                     objCtrl.setCurrentObject('IXPOI', rest);
                     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
                         feature: objCtrl.data
                     });
-                    scope.$emit("SWITCHCONTAINERSTATE", {});
+                    //scope.$emit("SWITCHCONTAINERSTATE", {});
                     scope.$emit("transitCtrlAndTpl", {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
