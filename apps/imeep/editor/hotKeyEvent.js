@@ -863,6 +863,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function(data) {
                     highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     layerCtrl.getLayerById("poi").redraw();
                     treatmentOfChanged(data, "IXPOI", "移动poi成功",'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
@@ -892,6 +893,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function(data) {
                     layerCtrl.getLayerById("poi").redraw();
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "IXPOI", "保存poi成功", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
             }
