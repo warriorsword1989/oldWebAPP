@@ -147,6 +147,19 @@
                 <input type="text" placeholder="0530" ng-model="roadlinkData.rightRegionId">
             </div>
         </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >占道停车</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="parkingFlagRadio" value=0 ng-model="roadlinkData.parkingFlag">
+                    是
+                </label>
+                <label>
+                    <input type="radio" name="parkingFlagRadio" value=1 ng-model="roadlinkData.parkingFlag">
+                    否
+                </label>
+            </div>
+        </li>
     </ul>
     </form>
 </div>
