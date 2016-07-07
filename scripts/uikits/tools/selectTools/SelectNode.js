@@ -184,6 +184,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                         touchedObjects.push({
                             id: data[item].properties.id,
                             optype: data[item].properties.featType,
+                            name: data[item].properties.name,
                             event: event,
                             layer: this.workLayers[i]
                         });
@@ -199,7 +200,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
             for (var item in touchedObjects) {
-                html += '<li><a href="#" id="' + item + '">' + touchedObjects[item].optype + "-" + touchedObjects[item].id + '</a></li>';
+                if(touchedObjects[item].optype == "IXPOI"){
+                    html += '<li><a href="#" id="' + item + '">' + touchedObjects[item].optype + "-" + touchedObjects[item].name + '</a></li>';
+                }else {
+                    html += '<li><a href="#" id="' + item + '">' + touchedObjects[item].optype + "-" + touchedObjects[item].id + '</a></li>';
+                }
             }
             html += '</ul>';
             this.popup.setLatLng(event.latlng).setContent(html);

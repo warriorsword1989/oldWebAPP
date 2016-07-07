@@ -607,7 +607,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 shapeCtrl.getCurrentTool().enodePid = 0;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
-                shapeCtrl.editFeatType = "rdLink";
+                //shapeCtrl.editFeatType = "rdLink";
+                shapeCtrl.editFeatType = "RDLINK";
                 //把点和线图层放到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
@@ -698,6 +699,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     type: "rectangle"
                 })
                 map.currentTool = shapeCtrl.getCurrentTool();
+                eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     tooltipsCtrl.setCurrentTooltip('已选择路口，按空格保存或者esc取消！');
                     var data = $scope.getDataFromRectangleForCross(event),
@@ -784,7 +786,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
-                shapeCtrl.editFeatType = "rdNode";
+                //shapeCtrl.editFeatType = "rdNode";
+                shapeCtrl.editFeatType = "RDNODE";
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');

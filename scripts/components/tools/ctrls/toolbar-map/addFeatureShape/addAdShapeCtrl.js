@@ -275,7 +275,8 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
-                shapeCtrl.editFeatType = "adNode";
+                //shapeCtrl.editFeatType = "adNode";
+                shapeCtrl.editFeatType = "ADNODE";
                 map.currentTool.snapHandler.addGuideLayer(adLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');

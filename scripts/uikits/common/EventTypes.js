@@ -36,5 +36,6 @@ L.Mixin.EventTypes = {
     SELECTEDFEATURECHANGE: 'selectedfeaturechange', //objectcontroller选择要素(pid)变化事件
     CHEKCRESULT: 'checkresult', //检查刷新事件
     CAPTURED: 'captured',
-    CHANGELINKNAME: "changeLinkName" //link编辑名称组是
+    CHANGELINKNAME: "changeLinkName", //link编辑名称组是
+    CHANGEPOILIST: "changePoiList" //更换poiList列表
 }

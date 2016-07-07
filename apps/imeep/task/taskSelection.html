@@ -26,10 +26,6 @@
                 <div class="banner-top"><a><strong style="font-size: 20px;">FM</strong></a></div>
                 <div class="banner-center" style="margin-top: 0;">
                     <div style="cursor: default"><h4><i title="任务选择" class="fa fa-tasks fa-lg" aria-hidden="true"></i></h4></div>
-                    <!--<div><h4>任</h4></div>-->
-                    <!--<div><h4>务</h4></div>-->
-                    <!--<div><h4>设</h4></div>-->
-                    <!--<div><h4>置</h4></div>-->
                 </div>
                 <div class="banner-bottom">
                     <div><a href="javascript:void(0);"><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -62,7 +58,7 @@
                                     </div>
                                     <div ui-layout-container style="padding: 5px 5px 0px 0px;">
                                         <div class="fm-panel" style="font-size:14px;">
-                                            <div class="title"><label style="margin:0px;"><i class="glyphicon glyphicon-list"></i> 任务列表</label>
+                                            <div class="title"><label style="margin:0px;"><i class="fa fa-list" aria-hidden="true"></i> 任务列表</label>
                                             <span style="float:right;">共 <span ng-bind="currentSubTaskList.length"></span> 条</span>
                                         </div>
                                         <div class="content" style="min-height: 217px;">
@@ -72,7 +68,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
                                                     <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
-                                                    <span ng-if="currentTaskData.name===item.name" class="glyphicon glyphicon-pushpin" style="font-size: 12px"></span>
+                                                    <i ng-if="currentTaskData.name===item.name" class="fa fa-check" aria-hidden="true"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -94,7 +90,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
                                                     <label style="text-indent: 15px">类　　型：</label>
-                                                    <label ng-bind="dataStringType"></label>
+                                                    <label title="{{dataStringType}}" class="text-ellipsis" ng-bind="dataStringType"></label>
                                                 </li>
                                                 <li>
                                                     <label style="text-indent: 15px">开　　始：</label>

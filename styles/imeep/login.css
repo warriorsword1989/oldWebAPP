@@ -52,4 +52,13 @@ footer.bs-docs-footer {
     text-align: center;
     background-color: #AEAEAE;
 }
+/************************** backstrecth style **************************/
+.backstretch {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+.backstretch img{
+    -webkit-filter: blur(1px)
+}
 

@@ -222,8 +222,20 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     feather: data
                 });
                 if (pItemId === "1101") { //限速
+                    //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    //$scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                    $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                    var ctrlAndTplOfTraffic = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) { //只有新增
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfTraffic);
                 } else if (pItemId === "1102") { //红绿灯
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTplOfTraffic = {
@@ -379,7 +391,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     var ctrlAndTplOfSA = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                        "propertyHtml": appPath.root + appPath.road + "road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.f) {
                                 $scope.getFeatDataCallback(data, data.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");

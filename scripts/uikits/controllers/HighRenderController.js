@@ -14,7 +14,11 @@ fastmap.uikit.HighRenderController = (function() {
             initialize: function(options) {
                 this.options = options || {};
                 this.layerCtrl = fastmap.uikit.LayerController();
+                this.objCtrl = fastmap.uikit.ObjectEditController();
                 this.layer = this.layerCtrl.getLayerById('highlightLayer');
+                this.guideLayer = new L.layerGroup();
+                this.guideLayer.id = "poiGuideLayer";
+
                 this.currentEditLayer = null;
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
@@ -79,7 +83,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     var id = this.highLightFeatures[item].id;
                                     var style = this.highLightFeatures[item].style;
                                     if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RWLINK' && this.highLightFeatures[item].type == 'line') {
-                                        this.drawRwLink(id, hightlightfeature, ctx);
+                                        this.drawRwLink(id, hightlightfeature, ctx,style);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                                         this.drawOfLink(id, hightlightfeature, ctx, style);
                                     } else if (this.highLightFeatures[item].type == 'node') {
@@ -116,7 +120,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.highLightFeatures[item].type == 'IXPOI') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'adFace'||this.highLightFeatures[item].type == 'zoneFace') {
+                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
                                     }
@@ -162,6 +166,7 @@ fastmap.uikit.HighRenderController = (function() {
              * @param id
              * @param feature
              * @param ctx
+             * @param inOutStyle
              */
             drawOfLink: function(id, feature, ctx, inOutStyle) {
                 var color = null;
@@ -200,8 +205,9 @@ fastmap.uikit.HighRenderController = (function() {
              * @param id
              * @param feature
              * @param ctx
+             * @param inOutStyle
              */
-            drawRwLink: function(id, feature, ctx) {
+            drawRwLink: function(id, feature, ctx,inOutStyle) {
                 var color = null;
                 if (feature.hasOwnProperty('properties')) {
                     color = feature.properties.style.strokeColor;
@@ -214,7 +220,7 @@ fastmap.uikit.HighRenderController = (function() {
                 if (feature.properties.id === id) {
                     this.layer._drawLineString(ctx, geom, true, {
                         strokeWidth: 3,
-                        strokeColor: '#00F5FF'
+                        strokeColor: inOutStyle.color?inOutStyle.color:'#00F5FF'
                     }, {
                         color: '#00F5FF',
                         radius: 3
@@ -354,7 +360,7 @@ fastmap.uikit.HighRenderController = (function() {
             drawOverpass: function(id, feature, ctx, cusFeature) {
                 var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'],
                     style = feature.properties.style,
-                    /*根据index高低link的高亮也不一样*/
+                /*根据index高低link的高亮也不一样*/
                     cusColor = COLORTABLE[cusFeature.index];
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id === id) {
@@ -403,40 +409,93 @@ fastmap.uikit.HighRenderController = (function() {
                     })
                 }
             },
+            /*
+             获取地图上的指定图层
+             */
+            getLayerById: function (layerId) {
+                var layer;
+                for (var item in map._layers) {
+                    if (map._layers[item].id) {
+                        if (map._layers[item].id === layerId) {
+                            layer = map._layers[item];
+                            break;
+                        }
+                    }
+                }
+                return layer;
+            },
             drawPoi: function(id, feature, ctx) {
+                var transform = new fastmap.mapApi.MecatorTranform();
+                var data = this.objCtrl.data;
+                var guideTilePoint = transform.lonlat2Tile(data.xGuide,data.yGuide, map.getZoom());
+
+                var guidePixel = transform.lonlat2Pixel(data.xGuide,data.yGuide,map.getZoom());
+                guidePixel[0] = Math.ceil(guidePixel[0]);
+                guidePixel[1] = Math.ceil(guidePixel[1]);
+
+                var a = guidePixel[0] - 256*guideTilePoint[0];
+                var b = guidePixel[1] - 256*guideTilePoint[1];
+                var point_guide = [];
+                point_guide.push(a);
+                point_guide.push(b);
+
+                var point_loc =feature.geometry.coordinates;
+
+                var geo = [];
+                geo.push({
+                    lng:data.geometry.coordinates[0],
+                    lat:data.geometry.coordinates[1]
+
+                });
+                geo.push({
+                    lng:data.xGuide,
+                    lat:data.yGuide
+
+                });
+                var poiGuideLayer = this.getLayerById('poiGuideLayer');
+                if(poiGuideLayer == undefined){
+                    map.addLayer(this.guideLayer);
+                }
+
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
                     }
-                    var geo = [];
-                    geo.push(feature.geometry.coordinates);
-                    geo.push(feature.properties.guide);
+
                     this.layer._drawImg({
                         ctx: ctx,
-                        geo: feature.geometry.coordinates,
+                        geo: point_loc,
                         style: {
                             src: '../../../images/poi/map/marker_red_16.png'
                         },
                         boolPixelCrs: true,
                         drawy: -31
                     });
-                    // this.layer._drawPoint({
-                    //     boolPixelCrs: true,
-                    //     ctx: ctx,
-                    //     fillColor: 'red',
-                    //     radius: 3,
-                    //     geom: feature.geometry.coordinates
+
+                    // var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+                    // feature.properties['symbol'] = symbolFactory.dataToSymbol({
+                    //     type: 'SampleLineSymbol',
+                    //     style: 'dash',
+                    //     color: 'red'
                     // });
-                    var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
-                    feature.properties['symbol'] = symbolFactory.dataToSymbol({
-                        type: 'SampleLineSymbol',
-                        style: 'dash',
-                        color: 'red'
+                    // this.guideLayer.clear();
+                    // this.guideLayer.draw(geo);
+                    // this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+
+                    var guideLine = L.polyline(geo, {
+                        color: 'red',
+                        weight: 1,
+                        dashArray: "5, 10",
+                        id:"guideLine"
                     });
-                    this.layer._drawLineStringWithSymbol(ctx, geo, true, feature.properties['symbol']);
+                    this.guideLayer.addLayer(guideLine);
+                    ctx .canvas = this.layer._tiles[guideTilePoint[0]+":"+guideTilePoint[1]];
+                    ctx .tile = L.point(guideTilePoint[0], guideTilePoint[1]);
+
                     this.layer._drawImg({
                         ctx: ctx,
-                        geo: feature.properties.guide,
+                        // geo: feature.properties.guide,
+                        geo: point_guide,
                         style: {
                             src: '../../../images/poi/map/marker_circle.png'
                         },
@@ -463,6 +522,10 @@ fastmap.uikit.HighRenderController = (function() {
             _cleanHighLight: function() {
                 for (var index in this.layer._tiles) {
                     this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
+                }
+                var poiGuideLayer = this.getLayerById('poiGuideLayer');
+                if(poiGuideLayer!=undefined){
+                    poiGuideLayer.clearLayers();
                 }
             }
         });

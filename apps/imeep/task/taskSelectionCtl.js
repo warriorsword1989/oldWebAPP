@@ -16,7 +16,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         //顶标签初始状态;
         $scope.dataListType = 1;
         //顶标签的当前字符状态;
-        $scope.dataStringType = '日 一体化任务';
+        $scope.dataStringType = '';
         //侧标签初始状态;
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
@@ -37,26 +37,21 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
             switch ($scope.dataListType) {
                 case 1:
                     $scope.requestParams.classType = 2;
-                    $scope.dataStringType = '日 一体化任务';
                     break;
                 case 2:
                     $scope.requestParams.classType = 0;
                     $scope.requestParams.classStage = 1;
-                    $scope.dataStringType = '日 POI任务';
                     break;
                 case 3:
                     $scope.requestParams.classType = 1;
                     $scope.requestParams.classStage = 1;
-                    $scope.dataStringType = '月 道路任务';
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;
                     $scope.requestParams.classStage = 2;
-                    $scope.dataStringType = '月 POI任务';
                     break;
                 case 5:
                     $scope.requestParams.classType = 3;
-                    $scope.dataStringType = '专项作业任务';
                     break;
             }
             loadSubTaskfn($scope.requestParams)
@@ -91,6 +86,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies']).controller('Tas
         // 选中子任务，高亮子任务对应的网格
         $scope.selectSubtask = function(subtask) {
             $scope.currentTaskData = subtask;
+            $scope.dataStringType = $scope.currentTaskData.name;
             $scope.infoPanelOpened = true;
             // 清除原有高亮;
             if ($scope.currentHighLight.length) {
