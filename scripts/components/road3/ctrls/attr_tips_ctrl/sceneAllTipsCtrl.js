@@ -450,6 +450,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         $scope.limitValue = limitValue[i];
                     }
                 }
+                $scope.dataTipsData.limitValue = limitValue.join('|');
+                $scope.dataTipsData.isConditionLimit = true;
                 break;
             case "1201": //道路种别
                 $scope.returnKindType = function(code) {
