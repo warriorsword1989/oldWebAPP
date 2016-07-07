@@ -68,7 +68,7 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li ng-repeat="item in currentSubTaskList">
                                                     <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
-                                                    <i ng-if="currentTaskData.name===item.name" class="fa fa-check" aria-hidden="true"></i>
+                                                    <i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check" aria-hidden="true"></i>
                                                 </li>
                                             </ul>
                                         </div>
