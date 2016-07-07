@@ -23,11 +23,11 @@ requirejs.config({
         'ngCookies': ['angular'],
         'dataService': ['angular', "sweet-alert"],
         'manService': ['dataService'],
+        '3dchartsPlugin':['highcharts'],
         'highcharts': {
-            exports: 'angular',
+            exports: 'Highcharts',
             deps:['angular']
         },
-        '3dchartsPlugin':['highcharts'],
         'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','3dchartsPlugin','highstock']
     }
 });
