@@ -79,7 +79,7 @@ App.taskSelectionLayersConfig = [{
     groupId: "dataLayers",
     groupName: "数据",
     layers: [{
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDLINK'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rdLink',
@@ -106,7 +106,7 @@ App.taskSelectionLayersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             name: '兴趣点（POI）',

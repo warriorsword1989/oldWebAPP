@@ -1,8 +1,8 @@
 <div class="btn-group" ng-controller="selectShapeCtrl">
-    <button type="button" class="btn btn-xs btn-default" ng-click="selectShape('node')">点</button>
-    <button type="button" class="btn btn-xs btn-default" ng-click="selectShape('link')">线</button>
-    <button type="button" class="btn btn-xs btn-default" ng-click="selectShape('face')">面</button>
-    <button type="button" class="btn btn-xs btn-default" ng-click="selectShape('relation')">关系</button>
-    <button type="button" class="btn btn-xs btn-default" ng-click="selectShape('tips')">Tips</button>
-    <button type="button" class="btn btn-xs btn-default" ng-click="selectShape('point')">点要素</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'selectNode':'active'}[shapeOperator]" ng-click="selectShape('node')">点</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'selectLink':'active'}[shapeOperator]" ng-click="selectShape('link')">线</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'selectFace':'active'}[shapeOperator]" ng-click="selectShape('face')">面</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'selectRelation':'active'}[shapeOperator]" ng-click="selectShape('relation')">关系</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'selectTips':'active'}[shapeOperator]" ng-click="selectShape('tips')">Tips</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'selectPointFeature':'active'}[shapeOperator]" ng-click="selectShape('point')">点要素</button>
 </div>

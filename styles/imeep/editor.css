@@ -139,6 +139,7 @@ a:hover {
     background: url("../../images/road/img/arrow-down.png") no-repeat center center;
 }
 
+
 /**************************************nnade***************************************************/
 
 .fm-col {
@@ -295,6 +296,7 @@ input.fm-control {
     background-color: #333;
 }
 
+
 /*input.fm-control.ng-dirty {
     background-color: #307BA3;
 }*/
@@ -307,6 +309,7 @@ select.fm-control {
     border: 1px ridge #FFFFFF;
     background-color: #333;
 }
+
 
 /*select.fm-control.ng-dirty {
     background-color: #307BA3;
@@ -326,6 +329,7 @@ textarea.fm-control {
     background-color: #333;
 }
 
+
 /* textarea.fm-control.ng-dirty {
     background-color: #307BA3;
 } */
@@ -339,6 +343,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
+
 
 /*form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
@@ -398,6 +403,7 @@ form input[type='checkbox']:checked.ng-dirty {
     padding: 5px;
 }
 
+
 /************************* 图片资源 ******************************/
 
 .icon_3d {
@@ -417,6 +423,7 @@ form input[type='checkbox']:checked.ng-dirty {
     width: 24px;
     height: 24px;
 }
+
 
 /******************************** 文件上传 **************************************/
 
@@ -516,6 +523,7 @@ form input[type='checkbox']:checked.ng-dirty {
     top: -8px;
     position: relative;
 }
+
 
 /**************************控制台************************/
 
@@ -697,6 +705,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-right: 10px;
 }
 
+
 /**********tips style**********/
 
 .modal-tips-img {
@@ -775,6 +784,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #A9A6A6;
 }
 
+
 /*fadeIn animte*/
 
 .animated-fast {
@@ -783,6 +793,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
 
 /*重写了部分angular-chosen的样式*/
 
@@ -843,6 +854,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border: solid #ff8888 1px !important;
 }
 
+
 /*********************tips**********************/
 
 .tips-title {
@@ -869,6 +881,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .task-box {
     margin-bottom: 5px;
 }
+
 
 /*tips照片预览*/
 
@@ -1151,7 +1164,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     height: 100%;
     width: 6px;
     display: inline-block;
-
     -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
     animation: stretchdelay 1.2s infinite ease-in-out;
 }
@@ -1196,6 +1208,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     }
 }
 
+
 /*********************floatMenu**********************/
 
 .floatMenu {
@@ -1226,6 +1239,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     font-size: 16px;
     color: #FFF;
 }
+
 
 /* ---------------------滚动条-------------------------------------------------- */
 
@@ -1283,6 +1297,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .dark .rounded-toggle {
     background: rgba(0, 0, 0, .25);
 }
+
 
 /***************************poi-list**********************/
 
@@ -1394,6 +1409,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-right: 1px solid #404040
 }
 
+
 /********************* poiList *****************/
 
 .fm-dropdown-menu {
@@ -1460,7 +1476,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-left: 5px;
 }
 
-.fm-table-content{
+.fm-table-content {
     width: 100%;
     padding-left: 5px;
     padding-right: 5px;
@@ -1493,6 +1509,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: greenyellow;
 }
 
+
 /*-------------------------------------------------选择同点位popup-----------------------------------------------*/
 
 #layerpopup {
@@ -1506,6 +1523,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
 }
 
+
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
 
 .div_float {
@@ -1517,6 +1535,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     z-index: 1;
 }
 
+
 /*按钮组加中间的边框*/
 
 .fm-btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .btn {
@@ -1527,6 +1546,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-left: none;
     border-top: 1px solid #404040;
 }
+
 
 /*紫色按钮*/
 
@@ -1553,6 +1573,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     -moz-box-shadow: none;
 }
 
+
+/*自适应*/
+
 .fm-fitsize {
     position: absolute;
     width: auto;
@@ -1561,4 +1584,68 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     left: 0px;
     bottom: 0px;
     right: 0px;
+}
+
+
+/*浮动面板，主要用于地图上方的操作按钮*/
+
+.float-toolbar {
+    position: absolute;
+    z-index: 1;
+    background: rgba(64, 64, 64, 0.8);
+    padding: 5px;
+}
+
+.float-toolbar .btn:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    outline: none;
+}
+
+.btn-shape-cap {
+    background-color: rgba(119, 119, 119, 0.8);
+    color: #ccc;
+    border: 1px solid #555;
+}
+
+.btn-shape {
+    background-color: rgba(119, 119, 119, 0.8);
+    color: #ddd;
+    border: 1px solid #555;
+}
+
+.btn-shape-cap:hover, .btn-shape-cap:focus, .btn-shape:hover, .btn-shape:focus {
+    color: #fff;
+}
+
+.btn-shape-cap.active {
+    background-color: #555;
+    color: #fff;
+}
+
+.btn-shape.active {
+    background-color: #333;
+    color: #fff;
+}
+
+.shape-well {
+    background: #555;
+    padding: 5px;
+}
+
+.btn-feat {
+    border-radius: 0px !important;
+    border: 1px solid #555;
+    background: #777;
+    color: #ddd;
+}
+
+.btn-feat:hover, .btn-feat:focus {
+    color: #fff;
+}
+
+.btn-feat.active {
+    background-color: #333;
+    color: #fff;
 }

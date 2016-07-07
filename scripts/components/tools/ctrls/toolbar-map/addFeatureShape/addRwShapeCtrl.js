@@ -73,6 +73,7 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
             }
             // $scope.changeBtnClass(num);
             if (type === "RWLINK") {
+                $scope.resetOperator("addLink", type);
                 if (shapeCtrl.shapeEditorResult) {
                     //初始化编辑工具
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
@@ -83,12 +84,14 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 shapeCtrl.editFeatType = "rwLink";
+                //shapeCtrl.editFeatType = "RWLINK";
                 //重置捕捉工具中的值
                 shapeCtrl.getCurrentTool().clickcount = 1;
                 shapeCtrl.getCurrentTool().catches.length = 0;
                 shapeCtrl.getCurrentTool().snodePid = 0;
                 shapeCtrl.getCurrentTool().enodePid = 0;
                 //把点和线图层加到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
+                map.currentTool.snapHandler._guides.length = 0;
                 map.currentTool.snapHandler.addGuideLayer(rwNode);
                 map.currentTool.snapHandler.addGuideLayer(rwLink);
                 //提示信息
@@ -98,6 +101,7 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "RWNODE") {
+                $scope.resetOperator("addNode", type);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -107,7 +111,9 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
-                shapeCtrl.editFeatType = "rwNode";
+                //shapeCtrl.editFeatType = "rwNode";
+                shapeCtrl.editFeatType = "RWNODE";
+                map.currentTool.snapHandler._guides.length = 0;
                 map.currentTool.snapHandler.addGuideLayer(rwLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');

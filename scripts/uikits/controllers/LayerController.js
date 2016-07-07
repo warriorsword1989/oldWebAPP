@@ -40,7 +40,13 @@ fastmap.uikit.LayerController = (function() {
                         };
                         this.zIndexQueue.push(zIndexObj);
                         this.config[group].layers[layer].options.groupId = this.config[group].groupId;
-                        this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));
+                        if(this.config[group].groupId == "dataLayers"){
+                            this.layers.push(this.config[group].layers[layer].clazz(App.Util.createTileRequestObject(this.config[group].layers[layer].url,this.config[group].layers[layer].options.requestType), this.config[group].layers[layer].options));
+                        }else if(this.config[group].groupId == "worklayer"){
+                            this.layers.push(this.config[group].layers[layer].clazz(App.Util.createTileRequestObjectForTips(this.config[group].layers[layer].url,this.config[group].layers[layer].options.requestType), this.config[group].layers[layer].options));
+                        }else {
+                            this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));
+                        }
                     }
                 }
             },

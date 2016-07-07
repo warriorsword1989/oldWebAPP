@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button type="button" class="btn btn-xs btn-default" ng-controller="addShapeCtrl" ng-click="addShape('RDMULTIDIGITIZED')">上下线分离</button>
-    <button type="button" class="btn btn-xs btn-default">制作辅路</button>
-    <button type="button" class="btn btn-xs btn-default">追踪选择</button>
+    <button type="button" class="btn btn-xs btn-shape" ng-class="{'active':featureOperator=='RDMULTIDIGITIZED', 'hidden':dataLayer['RDMULTIDIGITIZED'] }" ng-controller="addShapeCtrl" ng-click="addShape('RDMULTIDIGITIZED')">上下线分离</button>
+    <button type="button" class="btn btn-xs btn-shape">制作辅路</button>
+    <button type="button" class="btn btn-xs btn-shape">追踪选择</button>
 </div>

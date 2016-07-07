@@ -70,6 +70,7 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
             }
             // $scope.changeBtnClass(num);
             if (type === "IXPOI") {
+                $scope.resetOperator("addPointFeature", type);
                 if (shapeCtrl.shapeEditorResult) {
                     var feature = {};
                     feature.components = [];
