@@ -101,7 +101,7 @@ App.layersConfig = [{
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'RDNODE',
             showNodeLevel: 17
         }
@@ -153,7 +153,7 @@ App.layersConfig = [{
             type: 'Marker',
             zIndex: 6,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
             showNodeLevel: 17
         }
@@ -281,7 +281,7 @@ App.layersConfig = [{
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'RWNODE',
             showNodeLevel: 17
         }

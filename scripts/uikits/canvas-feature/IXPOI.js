@@ -36,8 +36,8 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
                     iconName: '../../../images/poi/map/poi_p.bmp',
                     row: 0,
                     column: 1,
-                    location: this.geometry['coordinates'],
-                    fillStyle:poiColor
+                    location: this.geometry['coordinates']
+                    // fillStyle:poiColor
                 })
             );
         }else if(data.m.a == 2){
@@ -46,8 +46,8 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
                     iconName: '../../../images/poi/map/poi_c.bmp',
                     row: 0,
                     column: 1,
-                    location: this.geometry['coordinates'],
-                    fillStyle:poiColor
+                    location: this.geometry['coordinates']
+                    // fillStyle:poiColor
                 })
             );
         }else if(data.m.a == 3){
@@ -56,8 +56,8 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
                     iconName: '../../../images/poi/map/poi_pc.bmp',
                     row: 0,
                     column: 1,
-                    location: this.geometry['coordinates'],
-                    fillStyle:poiColor
+                    location: this.geometry['coordinates']
+                    // fillStyle:poiColor
                 })
             );
         }else {
@@ -66,8 +66,8 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
                     iconName: '../../../images/poi/map/poi_n.bmp',
                     row: 0,
                     column: 1,
-                    location: this.geometry['coordinates'],
-                    fillStyle:poiColor
+                    location: this.geometry['coordinates']
+                    // fillStyle:poiColor
                 })
             );
         }
