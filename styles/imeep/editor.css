@@ -1575,23 +1575,23 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /*灰色按钮*/
 
-.btn.btn-purple {
+.btn.btn-gray {
     background: rgba(85, 85, 85,.9);
     color: #FFF;
     /*font-size: 14px;*/
     font-weight: bold;
 }
 
-.btn.btn-purple:hover {
+.btn.btn-gray:hover {
     color: #FFF;
-    background: rgba(34, 34, 34, 0.9);
+    background: #777;
 }
 
-.btn.btn-purple.active {
-    background: rgba(34, 34, 34, 0.9);
+.btn.btn-gray.active {
+    background: #777;
 }
 
-.btn.btn-purple:focus {
+.btn.btn-gray:focus {
     color: #FFF;
     box-shadow: none;
     -webkit-box-shadow: none;
