@@ -551,7 +551,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
             $("#popoverTips").hide();
             editLayer.clear();
             editLayer.bringToBack();
@@ -580,7 +580,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     "attrContainerTpl": true
                 });
                 var restrictionObj = {};
-                restrictionObj["showTransitData"] = []
+                restrictionObj["showTransitData"] = [];
                 restrictionObj["showAdditionalData"] = [];
                 restrictionObj["showNormalData"] = [];
                 restrictionObj["inLaneInfoArr"] = [];
@@ -589,7 +589,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
-                }
+                };
                 $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
             } else if (type === "RDLINK") {
                 $scope.resetOperator("addLink", type);
@@ -697,7 +697,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsRo
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
-                })
+                });
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {

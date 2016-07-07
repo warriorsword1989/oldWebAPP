@@ -92,6 +92,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.getCurrentTool().snodePid = 0;
                 shapeCtrl.getCurrentTool().enodePid = 0;
                 //把点和线图层加到捕捉工具中，先加的优先捕捉
+                map.currentTool.snapHandler._guides.length = 0;
                 map.currentTool.snapHandler.addGuideLayer(zoneNode);
                 map.currentTool.snapHandler.addGuideLayer(zoneLink);
                 //提示信息
@@ -128,6 +129,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
+                map.currentTool.snapHandler._guides.length = 0;
                 map.currentTool.snapHandler.addGuideLayer(zoneLink);
                 map.currentTool.enable();
                 shapeCtrl.editType = "addZoneFaceLine";
@@ -276,6 +278,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
                 map.currentTool.enable();
                 //shapeCtrl.editFeatType = "zoneNode";
                 shapeCtrl.editFeatType = "ZONENODE";
+                map.currentTool.snapHandler._guides.length = 0;
                 map.currentTool.snapHandler.addGuideLayer(zoneLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
