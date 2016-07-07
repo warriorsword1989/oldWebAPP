@@ -19,8 +19,6 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "id": 2,
         "label": "行政区划场景",
         "dataLayers": [{
-            "layerId": "rdNode"
-        }, {
             "layerId": "rdLink"
         }, {
             "layerId": "rwLink"
