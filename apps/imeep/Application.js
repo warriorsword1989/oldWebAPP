@@ -7,7 +7,7 @@ App.Config = {
     serviceUrl: 'http://192.168.4.188:8000/service',
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
-    specialUrl: "http://192.168.4.189/fos",
+    specialUrl: "http://192.168.4.189/fos"
 };
 App.Temp = {
     accessToken: null,

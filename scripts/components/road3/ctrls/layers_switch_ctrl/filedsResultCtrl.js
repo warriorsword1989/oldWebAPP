@@ -391,7 +391,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     var ctrlAndTplOfSA = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                        "propertyHtml": appPath.root + appPath.road + "road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.f) {
                                 $scope.getFeatDataCallback(data, data.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");

@@ -845,7 +845,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.save(param).then(function(data) {
                     highRenderCtrl._cleanHighLight();
                     layerCtrl.getLayerById("poi").redraw();
-                    // treatmentOfChanged(data, "poi", "移动poi成功");
+                    treatmentOfChanged(data, "IXPOI", "移动poi成功",'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
                 var points = selectCtrl.selectedFeatures;

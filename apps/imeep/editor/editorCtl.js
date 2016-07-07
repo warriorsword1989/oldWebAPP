@@ -6,7 +6,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
     function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
-
         var eventCtrl = new fastmap.uikit.EventController();
         $scope.appPath = appPath;
         $scope.metaData = {}; //存放元数据

@@ -17,7 +17,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
-            
+            scope.$emit('closePopoverTips',false);
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 if (rest) {
                     objCtrl.setCurrentObject('IXPOI', rest);

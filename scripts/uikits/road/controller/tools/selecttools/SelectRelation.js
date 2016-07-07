@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['relationdata']
+        this.editLayerIds = ['relationdata'];
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -152,7 +152,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             });
 
             //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
-            var that = this;
+            // var that = this;
             if (this.overlays && this.overlays.length >= 1) {
                 setTimeout(function () {
                     that._map.openPopup(that.popup);
