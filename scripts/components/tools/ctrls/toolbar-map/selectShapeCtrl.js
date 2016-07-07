@@ -120,6 +120,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             //     return;
             // }
             if (type === "node") { //选择点
+                $scope.resetOperator("selectNode");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
                 map.currentTool = new fastmap.uikit.SelectNode({
@@ -135,6 +136,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             } else if (type === "link") { // 选择线
+                $scope.resetOperator("selectLink");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择线的工具
                 map.currentTool = new fastmap.uikit.SelectPath({
@@ -153,6 +155,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
             } else if (type === "face") {
+                $scope.resetOperator("selectFace");
                 //初始化选择面工具
                 map.currentTool = new fastmap.uikit.SelectPolygon({
                     map: map,
@@ -166,6 +169,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETFACEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETFACEID, $scope.selectObjCallback);
             } else if (type === "relation") {
+                $scope.resetOperator("selectRelation");
                 //初始化选择关系的工具
                 map.currentTool = new fastmap.uikit.SelectRelation({
                     map: map,
@@ -177,6 +181,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
             } else if (type === "tips") {
+                $scope.resetOperator("selectTips");
                 layerCtrl.pushLayerFront('workPoint'); //置顶editLayer
                 //初始化选择tips的工具
                 map.currentTool = new fastmap.uikit.SelectTips({
@@ -189,6 +194,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback)
             } else if (type === "point") { // 点要素：poi，adadmin
+                $scope.resetOperator("selectPointFeature");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
                 map.currentTool = new fastmap.uikit.SelectNode({

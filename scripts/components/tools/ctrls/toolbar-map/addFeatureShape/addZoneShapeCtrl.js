@@ -75,6 +75,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
             }
             // $scope.changeBtnClass(num);
             if (type === "ZONELINK") {
+                $scope.resetOperator("addLink", type);
                 if (shapeCtrl.shapeEditorResult) {
                     //初始化编辑工具
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
@@ -100,6 +101,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "ZONEFACE") {
+                $scope.resetOperator("addFace", type);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -118,6 +120,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "ZONELINKFACE") { //把闭合的线添加成面
+                $scope.resetOperator("addFace", type);
                 layerCtrl.pushLayerFront('edit');
                 map.currentTool = new fastmap.uikit.SelectPath({
                     map: map,
@@ -261,6 +264,7 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
                     }
                 });
             } else if (type === "ZONENODE") {
+                $scope.resetOperator("addNode", type);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());

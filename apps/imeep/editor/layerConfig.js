@@ -80,7 +80,7 @@ App.layersConfig = [{
     groupId: "dataLayers",
     groupName: "数据",
     layers: [{
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDNODE'),
+        url: '/render/obj/getByTileWithGap',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rdNode',
