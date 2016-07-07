@@ -509,7 +509,7 @@
                     </form>
                 </div>-->
                 <!--begin 条件限速-->
-                <div class="panel-body" ng-if="allTipsType==1111" style="border-radius: 4px;background-color: #555;">
+                <!--<div class="panel-body" ng-if="allTipsType==1111" style="border-radius: 4px;background-color: #555;">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
@@ -554,7 +554,7 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>-->
                 <!--end 条件限速-->
                 <!--begin 车道限速-->
                 <!--<div class="panel-body" ng-if="allTipsType==1113" style="border-radius: 4px;background-color: #555;">
@@ -1546,13 +1546,13 @@
                                 <span class="label">{{rdDir}}</span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('value') && !dataTipsData.isConditionLimit">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('value') && !dataTipsData.isDrivewayLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp; 速&nbsp; 值:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label ">{{dataTipsData.value}} km/h</span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('value') && dataTipsData.isConditionLimit">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('value') && dataTipsData.isDrivewayLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp; 速&nbsp; 值:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label ">{{dataTipsData.limitValue}} km/h</span>
@@ -1830,7 +1830,7 @@
                                 <span class="label" ng-bind="dataTipsData.gateDir"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && dataTipsData.idGate">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && dataTipsData.isGate">
                             <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label" ng-bind="dataTipsData.passTime"></span>
@@ -1851,6 +1851,20 @@
                             </div>
                         </div>
                         <!--end 坡度-->
+                        <!--begin 条件限速-->
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('d_array') && dataTipsData.isConditionLimit">
+                            <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp; 间&nbsp; 段:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label" ng-bind="dataTipsData.d_array[0].time"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isConditionLimit">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限速条件:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span ng-repeat="item in dataTipsData.limitConditionObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>
+                            </div>
+                        </div>
+                        <!--end 条件限速-->
                     </form>
                 </div>
             </div>
