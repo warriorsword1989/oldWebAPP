@@ -1344,7 +1344,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .poi-list {
     color: #fff;
-    margin-top: 8px;
+    /*margin-top: 8px;*/
     margin-bottom: 0px;
     width: 100%;
     overflow-x: auto;
