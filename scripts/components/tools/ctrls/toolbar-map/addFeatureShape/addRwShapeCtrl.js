@@ -73,6 +73,7 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
             }
             // $scope.changeBtnClass(num);
             if (type === "RWLINK") {
+                $scope.resetOperator("addLink", type);
                 if (shapeCtrl.shapeEditorResult) {
                     //初始化编辑工具
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
@@ -100,6 +101,7 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "RWNODE") {
+                $scope.resetOperator("addNode", type);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
