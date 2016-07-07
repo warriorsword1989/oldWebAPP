@@ -3,6 +3,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
+        var highRenderCtrl = fastmap.uikit.HighRenderController();
         var poiLayer = layerCtrl.getLayerById('poi');
         var _self = scope;
         scope.radio_select = '名称';
@@ -38,7 +39,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
-                    scope.$emit("highLightPoi", rest.pid);
+                    scope.highlightPoi(rest.pid);
+                    // scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto",true);
                 }
             });
@@ -229,6 +231,22 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*新鲜度验证*/
         function getKindName(scope, row) {
             return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+        }
+        scope.highlightPoi = function (pid) {
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            // $scope.clearMap();
+            var highLightFeatures = [];
+            highLightFeatures.push({
+                id: pid,
+                layerid: 'poi',
+                type: 'IXPOI',
+                style: {}
+            });
+            //高亮
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
+            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
         }
         /**
          * POI提交
