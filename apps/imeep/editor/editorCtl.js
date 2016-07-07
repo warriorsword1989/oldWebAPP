@@ -238,6 +238,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     } else { // 默认：日编
                         App.Temp.mdFlag = "d";
                     }
+
                     loadMap();
                     var promises = loadMetaData();
                     $q.all(promises).then(function() {

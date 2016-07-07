@@ -83,6 +83,7 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 shapeCtrl.editFeatType = "rwLink";
+                //shapeCtrl.editFeatType = "RWLINK";
                 //重置捕捉工具中的值
                 shapeCtrl.getCurrentTool().clickcount = 1;
                 shapeCtrl.getCurrentTool().catches.length = 0;
@@ -107,7 +108,8 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
-                shapeCtrl.editFeatType = "rwNode";
+                //shapeCtrl.editFeatType = "rwNode";
+                shapeCtrl.editFeatType = "RWNODE";
                 map.currentTool.snapHandler.addGuideLayer(rwLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
