@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/6/29.
  */
 var zoneNodeApp = angular.module("app");
-zoneNodeApp.controller("zoneNodeController",['$scope','dsRoad',function($scope,dsRoad) {
+zoneNodeApp.controller("zoneNodeController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -38,7 +38,7 @@ zoneNodeApp.controller("zoneNodeController",['$scope','dsRoad',function($scope,d
         /**
          * 根据点去获取多条zonelink，再高亮点线
          */
-        dsRoad.getByCondition({
+        dsEdit.getByCondition({
             dbId: App.Temp.dbId,
             type: 'ZONELINK',
             data: {"nodePid":  $scope.zoneNodeData.pid}
@@ -77,46 +77,6 @@ zoneNodeApp.controller("zoneNodeController",['$scope','dsRoad',function($scope,d
             highRenderCtrl .highLightFeatures =highlightFeatures;
             highRenderCtrl .drawHighlight();
         });
-        // Application.functions.getByCondition(JSON.stringify({
-        //     projectId: Application.projectid,
-        //     type: 'ADLINK',
-        //     data: {"nodePid":  $scope.adNodeData.pid}
-        // }), function (data) {
-        //     if (data.errcode === -1) {
-        //         return;
-        //     }
-        //     var lines = [];
-        //     $scope.linepids = [];
-        //     //获取点连接的线
-        //     for (var index in data.data) {
-        //         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
-        //         for (var i = 0, len = linkArr.length; i < len; i++) {
-        //             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-        //             points.push(point);
-        //         }
-        //         lines.push(fastmap.mapApi.lineString(points));
-        //         $scope.linepids.push(data.data[index].pid);
-        //         highlightFeatures.push({
-        //             id:data.data[index].pid.toString(),
-        //             layerid:'adLink',
-        //             type:'line',
-        //             style:{}
-        //         })
-        //     }
-        //     var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
-        //     //存储选择的数据
-        //     selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.adNodeData.pid});
-        //     //高亮点和线
-        //     highlightFeatures.push({
-        //         id:$scope.adNodeData.pid.toString(),
-        //         layerid:'adLink',
-        //         type:'node',
-        //         style:{}
-        //     })
-        //     highRenderCtrl .highLightFeatures =highlightFeatures;
-        //     highRenderCtrl .drawHighlight();
-        //
-        // });
     };
     if (objCtrl.data) {
         $scope.initializeData();
@@ -127,9 +87,9 @@ zoneNodeApp.controller("zoneNodeController",['$scope','dsRoad',function($scope,d
         var param = {
             "command": "UPDATE",
             "type":"ZONENODE",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
-        }
+        };
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;
@@ -146,36 +106,12 @@ zoneNodeApp.controller("zoneNodeController",['$scope','dsRoad',function($scope,d
             });
         }
 
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
-                swal("操作成功",'保存成功！', "success");
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                var sInfo={
-                    "op":"修改ZONENODE成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
                 zoneLink.redraw();
                 zoneNode.redraw();
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
             }
-            //数据解析后展示到输出框
-            if(info!=null){
-                outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
-                    outputCtrl.updateOutPuts();
-                }
-            }
-
         });
     };
     //删除
@@ -185,35 +121,14 @@ zoneNodeApp.controller("zoneNodeController",['$scope','dsRoad',function($scope,d
         {
             "command": "DELETE",
             "type": "ZONENODE",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": pid
         };
         //结束编辑状态
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.errcode == 0) {
-                swal("操作成功",'删除成功！', "success");
-                var sinfo = {
-                    "op": "删除ZONENODE成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 zoneLink.redraw();
                 zoneNode.redraw();
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("删除失败", data.errmsg, "error");
-            }
-            //返回数据显示到输出框
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
             }
         })
     };

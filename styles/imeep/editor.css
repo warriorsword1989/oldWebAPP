@@ -879,6 +879,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .text-control {
     color: #fff;
+    font-weight:100;
 }
 
 .task-box {
@@ -996,6 +997,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .tips-info {
     margin: 3px 0;
+}
+
+.tips-info .label,.tips-info label{
+    font-weight: 100;
 }
 
 .tips-close > .close {
@@ -1577,24 +1582,23 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /*灰色按钮*/
-
-.btn.btn-purple {
-    background: rgba(85, 85, 85,.9);
+.btn.btn-gray {
+    background: rgba(150,150,150,0.9);
     color: #FFF;
     /*font-size: 14px;*/
     font-weight: bold;
 }
 
-.btn.btn-purple:hover {
+.btn.btn-gray:hover {
     color: #FFF;
-    background: rgba(34, 34, 34, 0.9);
+    background: #49A7DA;
 }
 
-.btn.btn-purple.active {
-    background: rgba(34, 34, 34, 0.9);
+.btn.btn-gray.active {
+    background: #49A7DA;
 }
 
-.btn.btn-purple:focus {
+.btn.btn-gray:focus {
     color: #FFF;
     box-shadow: none;
     -webkit-box-shadow: none;
