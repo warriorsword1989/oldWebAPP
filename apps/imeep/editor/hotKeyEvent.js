@@ -69,7 +69,21 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             editLayer.clear();
         }
-
+        //获取当前的控制器级对应的模板;
+        function getCtrlAndTpl(type){
+            var obj = {};
+            switch (type){
+                case 0:
+                case 1:
+                case 3:obj.ctrl = 'attr_branch_ctrl/rdBranchCtrl'; obj.tpl = 'attr_branch_Tpl/namesOfBranch.html';break;
+                case 5:obj.ctrl = 'attr_branch_ctrl/rdRealImageCtrl'; obj.tpl = 'attr_branch_Tpl/realImageOfBranch.html';break;
+                case 8:obj.ctrl = 'attr_branch_ctrl/rdSchematicCtrl'; obj.tpl = 'attr_branch_Tpl/schematicOfBranch.html';break;
+                case 7:obj.ctrl = 'attr_branch_ctrl/rdSeriesCtrl'; obj.tpl = 'attr_branch_Tpl/seriesOfBranch.html';break;
+                case 6:obj.ctrl = 'attr_branch_ctrl/rdSignAsRealCtrl'; obj.tpl = 'attr_branch_Tpl/signAsRealOfBranch.html';break;
+                case 9:obj.ctrl = 'attr_branch_ctrl/rdSignBoardCtrl'; obj.tpl = 'attr_branch_Tpl/signBoardOfBranch.html';break;
+            }
+            return obj;
+        }
         function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
             var id;
             //结束编辑状态
@@ -496,13 +510,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 var param = {
                     "data": featCodeCtrl.getFeatCode()
                 };
-                var ctrl = tpl = ''
+                var ctrl = tpl = '';
                 dsEdit.create("RDBRANCH", param.data).then(function(data) {
                     layerCtrl.getLayerById("relationData").redraw();
                     //只有5（实景图）或7（连续分歧）的时候传rowId;
                     var rowId_detialId = (param.data.branchType == 5 || param.data.branchType == 7) ? data.log[0].rowId : data.pid;
                     //获取当前的ctrl和tpl的对象
                     var ctrlAndtplObj = getCtrlAndTpl(param.data.branchType);
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功", ctrlAndtplObj.ctrl, ctrlAndtplObj.tpl, param.data.branchType, rowId_detialId);
                 });
             } else if (shapeCtrl.editType === "UPDATEBRANCH") {
@@ -518,6 +534,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     layerCtrl.getLayerById("relationData").redraw();
                     //获取当前的ctrl和tpl的对象
                     var ctrlAndtplObj = getCtrlAndTpl(tempType);
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDBRANCH", "编辑RDBRANCH成功", ctrlAndtplObj.ctrl, ctrlAndtplObj.tpl, tempType, currentDataId);
                 })
             } else if (shapeCtrl.editType === "addRdCross") {

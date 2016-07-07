@@ -123,7 +123,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 if (v.length > 0) {
                     return v;
                 }
-            })
+            });
             return arr;
         };
         $scope.changeIndexCallback = function(data) {
@@ -135,8 +135,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 } else {
                     return 0;
                 }
-            })
-            console.log($scope.jsonData.linkObjs);
+            });
             /*把当前link的zlevel升高一级*/
             for (var zLevelNum = 0, zLevelLen = $scope.jsonData.linkObjs.length; zLevelNum < zLevelLen; zLevelNum++) {
                 if ($scope.jsonData.linkObjs[zLevelNum].pid == data.id) {
