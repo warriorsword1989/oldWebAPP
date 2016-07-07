@@ -995,6 +995,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin: 3px 0;
 }
 
+.tips-info .label,.tips-info label{
+    font-weight: 100;
+}
+
 .tips-close > .close {
     color: #fff;
 }
