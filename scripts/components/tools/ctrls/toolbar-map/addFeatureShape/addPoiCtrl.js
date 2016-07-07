@@ -37,7 +37,11 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
             }
             return angle;
         };
-        $scope.addPoi = function(type) {
+        /**
+         * 增加POI
+         * @param type
+         */
+        $scope.addShape = function(type) {
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -88,7 +92,7 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
-                shapeCtrl.editFeatType = "rdLink";
+                shapeCtrl.editFeatType = "IXPOI";
                 map.currentTool.captureHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('poiAdd');
                 tooltipsCtrl.setCurrentTooltip('点击空格保存,或者按ESC键取消!');
