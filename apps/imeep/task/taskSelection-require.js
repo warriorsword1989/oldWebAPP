@@ -9,6 +9,8 @@ requirejs.config({
         'ngCookies': 'scripts/libs/angularjs/1.4.4/angular-cookies.min',
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
         "sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",
+        "highcharts": "scripts/libs/highcharts-ng/dist/highcharts-ng",
+        "highstock": "http://code.highcharts.com/stock/highstock.src",
         // app相关
         'dataService': 'apps/imeep/service/dataService',
         'manService': 'apps/imeep/service/dataService-manage',
@@ -20,7 +22,8 @@ requirejs.config({
         'ngCookies': ['angular'],
         'dataService': ['angular', "sweet-alert"],
         'manService': ['dataService'],
-        'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies']
+        'highcharts': ['angular'],
+        'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','highstock']
     }
 });
 // Start the main app logic.

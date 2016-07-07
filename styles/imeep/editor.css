@@ -1576,6 +1576,34 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     -moz-box-shadow: none;
 }
 
+/*灰色按钮*/
+
+.btn.btn-purple {
+    background: rgba(85, 85, 85,.9);
+    color: #FFF;
+    /*font-size: 14px;*/
+    font-weight: bold;
+}
+
+.btn.btn-purple:hover {
+    color: #FFF;
+    background: rgba(34, 34, 34, 0.9);
+}
+
+.btn.btn-purple.active {
+    background: rgba(34, 34, 34, 0.9);
+}
+
+.btn.btn-purple:focus {
+    color: #FFF;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+
+/*自适应*/
+
 .fm-fitsize {
     position: absolute;
     width: auto;
@@ -1586,11 +1614,21 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     right: 0px;
 }
 
+
+/*浮动面板，主要用于地图上方的操作按钮*/
+
 .float-toolbar {
     position: absolute;
     z-index: 1;
     background: rgba(64, 64, 64, 0.8);
     padding: 5px;
+}
+
+.float-toolbar .btn:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    outline: none;
 }
 
 .btn-shape-cap {

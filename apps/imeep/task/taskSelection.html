@@ -23,9 +23,9 @@
     <body ng-controller="TaskSelectionCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
-                <div class="banner-top"><a><strong style="font-size: 20px;">FM</strong></a></div>
+                <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center" style="margin-top: 0;">
-                    <div style="cursor: default"><h4><i title="任务选择" class="fa fa-tasks fa-lg" aria-hidden="true"></i></h4></div>
+                    <div style="cursor: default"><h4 style="font-size: 16px;"><i title="任务选择" class="fa fa-tasks" aria-hidden="true"></i></h4></div>
                 </div>
                 <div class="banner-bottom">
                     <div><a href="javascript:void(0);"><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -118,7 +118,8 @@
                                             <ul class="fm-ul fm-ul-list">
                                                 <li>
                                                     <div>
-                                                        <img ng-src="../../../images/temp/test-chart.png"/>
+                                                        <!--<img ng-src="../../../images/temp/test-chart.png"/>-->
+                                                        <highchart config="chartConfig"></highchart>
                                                     </div>
                                                 </li>
                                             </ul>
