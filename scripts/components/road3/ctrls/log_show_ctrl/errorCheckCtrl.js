@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/10.
  */
 var errorCheckModule = angular.module('app');
-errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad','dsFcc',function ($scope, $timeout,dsRoad,dsFcc) {
+errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsEdit','dsFcc',function ($scope, $timeout,dsEdit,dsFcc) {
     //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -33,23 +33,17 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
         var params = {
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "id": rowid,
             "type": selectInd
         };
-//        Application.functions.updateCheckType(JSON.stringify(params), function (data) {
-//            if (data.errcode == 0) {
-//                $scope.$apply();
-//                $scope.getCheckDateAndCount();
-//            }
-//        });
-        dsRoad.updateCheckType(JSON.stringify(params)).then(function(data){
-        	if (data.errcode == 0) {
+        dsEdit.updateCheckType(params).then(function(data){
+        	if (data) {
                 $scope.$apply();
                 $scope.getCheckDateAndCount();
             }
         });
-    }
+    };
 
 
     //点击数据在地图上高亮
@@ -65,90 +59,33 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
         var id = value1.split(",")[1];
         //线高亮
         if (type == "RDLINK") {
-//            Application.functions.getRdObjectById(id, type, function (d) {
-//                if (d.errcode === -1) {
-//                    return;
-//                }
-//                var highlightFeatures = [];
-//                var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
-//                for (var i = 0, len = linkArr.length; i < len; i++) {
-//                    var point = L.latLng(linkArr[i][1], linkArr[i][0]);
-//                    points.push(point);
-//                }
-//                var line = new L.polyline(points);
-//                var bounds = line.getBounds();
-//                map.fitBounds(bounds, {"maxZoom": 19});
-//
-//                highlightFeatures.push({
-//                    id:id.toString(),
-//                    layerid:'rdLink',
-//                    type:'line',
-//                    style:{}
-//                });
-//                highRenderCtrl.highLightFeatures = highlightFeatures;
-//                highRenderCtrl.drawHighlight();
-//
-//            })
-            dsRoad.getRdObjectById(id, type).then(function(d){
-            	if (d.errcode === -1) {
-                    return;
-                }
-                var highlightFeatures = [];
-                var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
-                for (var i = 0, len = linkArr.length; i < len; i++) {
-                    var point = L.latLng(linkArr[i][1], linkArr[i][0]);
-                    points.push(point);
-                }
-                var line = new L.polyline(points);
-                var bounds = line.getBounds();
-                map.fitBounds(bounds, {"maxZoom": 19});
+            dsEdit.getByPid(id, type).then(function(d){
+            	if (d) {
+                    var highlightFeatures = [];
+                    var linkArr = d.geometry.coordinates, points = [];
+                    for (var i = 0, len = linkArr.length; i < len; i++) {
+                        var point = L.latLng(linkArr[i][1], linkArr[i][0]);
+                        points.push(point);
+                    }
+                    var line = new L.polyline(points);
+                    var bounds = line.getBounds();
+                    map.fitBounds(bounds, {"maxZoom": 19});
 
-                highlightFeatures.push({
-                    id:id.toString(),
-                    layerid:'rdLink',
-                    type:'line',
-                    style:{}
-                });
-                highRenderCtrl.highLightFeatures = highlightFeatures;
-                highRenderCtrl.drawHighlight();
+                    highlightFeatures.push({
+                        id:id.toString(),
+                        layerid:'rdLink',
+                        type:'line',
+                        style:{}
+                    });
+                    highRenderCtrl.highLightFeatures = highlightFeatures;
+                    highRenderCtrl.drawHighlight();
+                }
             });
         } else if (type == "RDRESTRICTION") {//交限高亮
-
             var limitPicArr = [];
-            layerCtrl.pushLayerFront('referencePoint');
-//            Application.functions.getRdObjectById(id, type, function (d) {
-//                objCtrl.setCurrentObject("RDRESTRICTION", d.data);
-//
-//                ////高亮进入线和退出线
-//                var hightlightFeatures = [];
-//                hightlightFeatures.push({
-//                    id: d.data.pid.toString(),
-//                    layerid:'restriction',
-//                    type:'restriction',
-//                    style:{}
-//                })
-//                hightlightFeatures.push({
-//                    id: objCtrl.data["inLinkPid"].toString(),
-//                    layerid:'rdLink',
-//                    type:'line',
-//                    style:{}
-//                })
-//
-//                for (var i = 0, len = (objCtrl.data.details).length; i < len; i++) {
-//
-//                    hightlightFeatures.push({
-//                        id: objCtrl.data.details[i].outLinkPid.toString(),
-//                        layerid:'rdLink',
-//                        type:'line',
-//                        style:{}
-//                    })
-//                }
-//                highRenderCtrl.highLightFeatures = highlightFeatures;
-//                highRenderCtrl.drawHighlight();
-//            });
-            dsRoad.getRdObjectById(id, type).then(function(d){
-            	objCtrl.setCurrentObject("RDRESTRICTION", d.data);
-
+            layerCtrl.pushLayerFront('relationData');
+            dsEdit.getByPid(id, type).then(function(d){
+            	objCtrl.setCurrentObject("RDRESTRICTION", d);
                 ////高亮进入线和退出线
                 var hightlightFeatures = [];
                 hightlightFeatures.push({
@@ -156,16 +93,15 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
                     layerid:'restriction',
                     type:'restriction',
                     style:{}
-                })
+                });
                 hightlightFeatures.push({
                     id: objCtrl.data["inLinkPid"].toString(),
                     layerid:'rdLink',
                     type:'line',
                     style:{}
-                })
+                });
 
                 for (var i = 0, len = (objCtrl.data.details).length; i < len; i++) {
-
                     hightlightFeatures.push({
                         id: objCtrl.data.details[i].outLinkPid.toString(),
                         layerid:'rdLink',
@@ -178,19 +114,6 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
             });
         } else {//其他tips高亮
             layerCtrl.pushLayerFront("workPoint");
-//            Application.functions.getTipsResult(id, function (data) {
-//                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-//
-//                var highlightFeatures=[];
-//                highlightFeatures.push({
-//                    id:data.rowkey,
-//                    layerid:'workPoint',
-//                    type:'workPoint',
-//                    style:{}
-//                });
-//                highRenderCtrl.highLightFeatures = highlightFeatures;
-//                highRenderCtrl.drawHighlight();
-//            });
             dsFcc.getTipsResult(id).then(function(data){
             	 map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
 
@@ -205,8 +128,7 @@ errorCheckModule.controller('errorCheckController', ['$scope','$timeout','dsRoad
                  highRenderCtrl.drawHighlight();
             });
         }
-    }
-
+    };
 
     //监听检查结果并获取
     eventController.on(eventController.eventTypes.CHEKCRESULT, function(event){

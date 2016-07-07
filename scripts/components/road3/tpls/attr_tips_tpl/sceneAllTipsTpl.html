@@ -1758,7 +1758,7 @@
                         </div>
                         <!--end 辅路-->
                         <!--begin 禁止驶入-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.vt.length > 0">
                             <label class="col-sm-5 control-label" style="padding: 4px">例外车辆:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label col-sm-6" ng-repeat="item in eliminateCarObj" ng-if="item.checked" ng-bind='item.label'></span>

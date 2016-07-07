@@ -876,6 +876,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .text-control {
     color: #fff;
+    font-weight:100;
 }
 
 .task-box {
@@ -1578,9 +1579,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /*灰色按钮*/
-
 .btn.btn-gray {
-    background: rgba(85, 85, 85,.9);
+    background: rgba(150,150,150,0.9);
     color: #FFF;
     /*font-size: 14px;*/
     font-weight: bold;
@@ -1588,11 +1588,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .btn.btn-gray:hover {
     color: #FFF;
-    background: #777;
+    background: #49A7DA;
 }
 
 .btn.btn-gray.active {
-    background: #777;
+    background: #49A7DA;
 }
 
 .btn.btn-gray:focus {
