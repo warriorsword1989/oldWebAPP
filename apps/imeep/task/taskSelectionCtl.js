@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016/6/7.
  */
-angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location',
-    function($scope, dsManage, $q, $cookies, $location) {
+angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
+    function($scope, dsManage, $q, $cookies, $location,$timeout) {
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.taskSelectionLayersConfig
         });
@@ -229,6 +229,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                     type: 'column',
                     width:270,
                     height:230,
+                    spacingLeft: -5,
                     options3d: {
                         enabled: true,
                         alpha: 10,
