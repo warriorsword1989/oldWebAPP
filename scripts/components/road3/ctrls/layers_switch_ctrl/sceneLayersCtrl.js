@@ -9,16 +9,9 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "id": 1,
         "label": "常规场景",
         "dataLayers": [{
-            "layerId": "rdNode"
-        }, {
             "layerId": "rdLink"
         }, {
-            "layerId": "rwNode"
-        }, {
             "layerId": "rwLink"
-        }, {
-            "layerId": "relationData",
-            "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS"
         }, {
             "layerId": "poi"
         }]
