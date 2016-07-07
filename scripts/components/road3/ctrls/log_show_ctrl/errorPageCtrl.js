@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/10.
  */
 var errorCheckModule = angular.module('app');
-errorCheckModule.controller('errorCheckPageController', ['$scope','dsRoad',function ($scope,dsRoad) {
+errorCheckModule.controller('errorCheckPageController', ['$scope','dsEdit','appPath',function ($scope,dsEdit,appPath) {
     var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
     $scope.itemsByPage = 1;
@@ -10,62 +10,41 @@ errorCheckModule.controller('errorCheckPageController', ['$scope','dsRoad',funct
     //获取检查错误数据
     $scope.getCheckDate = function () {
         var param = {
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "pageNum": $scope.itemsByPage,
             "pageSize": 5,
             "grids": $scope.meshesId
         };
-//        Application.functions.getCheckData(JSON.stringify(param), function (data) {
-//            if (data.errcode == 0) {
-//                checkResultC.setCheckResult(data.data);
-//                //获取数据并打开页面
-//                var errorCheckObj = {
-//                    "loadType": "errorCheckTab",
-//                    "propertyCtrl": 'components/road/ctrls/log_show_ctrl/errorCheckCtrl',
-//                    "propertyHtml": '../../scripts/components/road/tpls/log_show_tpl/errorCheckTpl.html'
-//                };
-//                $scope.$emit("transitCtrlAndTpl", errorCheckObj);
-//                $scope.goPaging();
-//                $scope.$apply();
-//            }
-//        });
-        dsRoad.getCheckData(JSON.stringify(param)).then(function(data){
+        dsEdit.getCheckData(param).then(function(data){
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
                 //获取数据并打开页面
                 var errorCheckObj = {
                     "loadType": "errorCheckTab",
-                    "propertyCtrl": 'components/road/ctrls/log_show_ctrl/errorCheckCtrl',
-                    "propertyHtml": '../../scripts/components/road/tpls/log_show_tpl/errorCheckTpl.html'
+                    "propertyCtrl": appPath.road + 'ctrls/log_show_ctrl/errorCheckCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/log_show_tpl/errorCheckTpl.html'
                 };
                 $scope.$emit("transitCtrlAndTpl", errorCheckObj);
                 $scope.goPaging();
                 $scope.$apply();
             }
         });
-    }
+    };
 
     //刷新检查输出结果，获取数量
     $scope.getCheckDateAndCount = function () {
         var paramsOfCounts = {
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "grids": $scope.meshesId
         };
-//        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
-//            if (data.errcode == 0) {
-//                $scope.checkTotalPage = Math.ceil(data.data / 5);
-//                $scope.checkTotal = data.data;
-//                $scope.getCheckDate();
-//            }
-//        });
-        dsRoad.getCheckCount(JSON.stringify(paramsOfCounts)).then(function(data){
+        dsEdit.getCheckCount(paramsOfCounts).then(function(data){
         	if (data.errcode == 0) {
                 $scope.checkTotalPage = Math.ceil(data.data / 5);
                 $scope.checkTotal = data.data;
                 $scope.getCheckDate();
             }
         });
-    }
+    };
 
     eventController.on('editAjaxCompleted', $scope.getCheckDateAndCount);
 
@@ -77,12 +56,12 @@ errorCheckModule.controller('errorCheckPageController', ['$scope','dsRoad',funct
     $scope.picNext = function () {
         $scope.itemsByPage += 1;
         $scope.getCheckDate();
-    }
+    };
     /*箭头图代码点击上一页*/
     $scope.picPre = function () {
         $scope.itemsByPage -= 1;
         $scope.getCheckDate();
-    }
+    };
 
     /*点击翻页*/
     $scope.goPaging = function () {
@@ -102,7 +81,7 @@ errorCheckModule.controller('errorCheckPageController', ['$scope','dsRoad',funct
             $(".pic-pre").prop('disabled', false);
         }
         $scope.$apply();
-    }
+    };
 
 
     //刷新检查

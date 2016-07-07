@@ -112,7 +112,8 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
         //    $scope.linkLimitData.limits[sitem].vehicle=getEndArray();
         //});
 
-    }
+    };
+
     for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
         if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
             $scope.oridiData = $scope.linkData.limits[i];
@@ -172,13 +173,13 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                 break;
             }
         }
-    }
+    };
 
     $scope.showPopover=function(ind,vehicle){
         //initdiv('vehicleExpressiondiv');
         //$('#vehicleExpressiondiv').popover('show');
        // $(".popover-title").append("<button id='closeBut' onclick='javascript:closePopover()'>X</button>");
-    }
+    };
 
     function closePopover(){
        $('#vehicleExpressiondiv').popover('hide');
@@ -200,7 +201,7 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                 $scope.$apply();
             },100);
         });
-    })
+    });
     /*时间控件*/
     $scope.fmdateTimer = function(str){
         $scope.$on('get-date', function(event,data) {
@@ -211,7 +212,7 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
             $scope.linkData.limits[$scope.limitNum].timeDomain = str;
             $scope.$apply();
         },100);
-    }
+    };
 
     $scope.checkViche=function(){
         $scope.applicArray = getEndArray();
@@ -238,7 +239,7 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
         }
 
         $scope.oridiData.vehicle=parseInt(bin2dec(result));
-    }
+    };
 
     //$scope.applicArray = getEndArray();
     //$scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
@@ -268,4 +269,4 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
     //    $scope.oridiData.vehicle=parseInt(bin2dec(result));
     //})
 
-})
+});
