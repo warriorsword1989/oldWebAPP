@@ -1352,11 +1352,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .poi-list > tbody > tr:hover {
-    background-color: rgba(138, 138, 203, 0.3) !important;
+    background-color: rgba(85, 85, 85, 0.5);
 }
 
 .poi-list > tbody > tr:nth-child(odd) {
-    background-color: rgba(138, 138, 203, 0.1);
+    background-color: rgba(85, 85, 85, 0.5);
 }
 
 .poi-list > tbody > tr > td > p {
@@ -1368,11 +1368,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .poi-list > tbody > tr.active > td {
-    background-color: rgba(138, 138, 203, 0.9);
+    background-color: #999;
 }
 
 .poi-list > tbody > tr.active:hover > td {
-    background-color: rgba(138, 138, 203, 0.9);
+    background-color: #999;
 }
 
 .fm-poiList-btnGroup {
