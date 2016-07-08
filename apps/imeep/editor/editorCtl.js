@@ -238,7 +238,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     } else { // 默认：日编
                         App.Temp.mdFlag = "d";
                     }
-
                     loadMap();
                     var promises = loadMetaData();
                     $q.all(promises).then(function() {
@@ -357,6 +356,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     $scope.$broadcast("TRANSITTIPSVIDEO", {})
                     return;
                 }
+            }
+            if (data["data"]) {
+                $scope.subAttributeData = data["data"];
             }
             $ocLazyLoad.load(data["propertyCtrl"]).then(function() {
                 $scope[data["loadType"]] = data["propertyHtml"];
