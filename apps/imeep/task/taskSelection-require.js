@@ -12,6 +12,7 @@ requirejs.config({
         "highcharts": "scripts/libs/highcharts-ng/dist/highcharts-ng",
         "highstock": "scripts/libs/highcharts-ng/dist/highStock",
         "3dchartsPlugin":"scripts/libs/highcharts-ng/dist/3dplugins",
+        'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
         // app相关
         'dataService': 'apps/imeep/service/dataService',
         'manService': 'apps/imeep/service/dataService-manage',
@@ -24,8 +25,9 @@ requirejs.config({
         'dataService': ['angular', "sweet-alert"],
         'manService': ['dataService'],
         'highcharts': ['angular'],
+        'uiBootstrap':['angular'],
         '3dchartsPlugin':['highcharts','highstock'],
-        'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','3dchartsPlugin','highstock']
+        'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap']
     }
 });
 // Start the main app logic.
