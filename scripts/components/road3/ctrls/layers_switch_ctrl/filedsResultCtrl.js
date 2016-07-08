@@ -317,6 +317,14 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
+                } else if (pItemId === "1110") {    //卡车限制
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1111") {    //条件限速
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTpl = {
