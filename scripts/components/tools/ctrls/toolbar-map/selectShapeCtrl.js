@@ -1215,7 +1215,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 }
             } else {
                 dsEdit.getByPid(id, type).then(function(data) {
-                    objCtrl.setCurrentObject(type, data);
                     if (type == "IXPOI") {
                         initPoiData(selectedData,data);
                     }
@@ -1284,6 +1283,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 }
             }
             function getByPidCallback(type, ctrl, tpl, data) {
+                objCtrl.setCurrentObject(type, data);
                 if (type == "IXPOI") {
                     $scope.$emit("transitCtrlAndTpl", {
                         "loadType": "tipsTplContainer",
