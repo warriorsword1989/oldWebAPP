@@ -225,6 +225,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         //页面初始化方法调用
         var initPage = function() {
             var subtaskId = App.Util.getUrlParam("subtaskId");
+            var substaskGeomotry = App.Util.getUrlParam("geometry");
             App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
