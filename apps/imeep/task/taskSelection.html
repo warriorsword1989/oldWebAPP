@@ -22,10 +22,24 @@
     </head>
     <body ng-controller="TaskSelectionCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
-                <div class="banner-center" style="margin-top: 0;">
-                    <div style="cursor: default"><h4 style="font-size: 16px;"><i title="任务选择" class="fa fa-tasks" aria-hidden="true"></i></h4></div>
+                <div class="banner-center">
+                    <div tooltip-class="subTooltip" uib-tooltip="日 一体化任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{1: 'selected'}[dataListType]" ng-click="changeDataList(1)">
+                        <a><i class="fa fa-map-o fa-lg" aria-hidden="true"></i></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="日 POI任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{2: 'selected'}[dataListType]" ng-click="changeDataList(2)">
+                        <a><i class="fa fa-map-pin fa-lg" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="月 道路任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{3: 'selected'}[dataListType]" ng-click="changeDataList(3)">
+                        <a><i class="fa fa-road fa-lg" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="月 POI任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{4: 'selected'}[dataListType]" ng-click="changeDataList(4)">
+                        <a><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="专项任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{5: 'selected'}[dataListType]" ng-click="changeDataList(5)">
+                        <a><i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i></i></a>
+                    </div>
                 </div>
                 <div class="banner-bottom">
                     <div><a href="javascript:void(0);"><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -34,56 +48,43 @@
             </div>
             <div ui-layout-container>
                 <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
-                    <div ui-layout-container size="35px" style="background-color: #222;padding:5px 10px;">
-                        <div class="btn-group fm-btn-group" role="group">
-                            <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)"><i class="fa fa-sun-o" aria-hidden="true"></i> 一体化任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)"><i class="fa fa-sun-o" aria-hidden="true"></i> POI任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)"><i class="fa fa-moon-o" aria-hidden="true"></i> 道路任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{4: 'active'}[dataListType]" ng-click="changeDataList(4)"><i class="fa fa-moon-o" aria-hidden="true"></i> POI任务</button>
-                            <button class="btn btn-xs btn-purple" ng-class="{5: 'active'}[dataListType]" ng-click="changeDataList(5)"><i class="fa fa-adjust" aria-hidden="true"></i> 专项作业任务</button>
-                        </div>
-                    </div>
                     <div ui-layout-container>
                         <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-                            <div ui-layout-container class="fm-container fm-col animated fadeInLeft" size="250px">
-                                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}" class="dark scroll-styled">
-                                    <div ui-layout-container size="36px" style="padding: 5px 5px;overflow:visible">
-                                        <div class="btn-group fm-btn-group" role="group">
-                                            <div class="btn-group-vertical">
-                                                <button class="btn btn-xs btn-purple" ng-class="{6: 'active'}[taskStatus]" ng-click="changeTaskStatus(6)" style="padding: 20px 5px;"><i class="fa fa-th-large" aria-hidden="true"></i><br>全<br>部</button>
-                                                <button class="btn btn-xs btn-purple" ng-class="{7: 'active'}[taskStatus]" ng-click="changeTaskStatus(7)" style="padding: 20px 5px;"><i class="fa fa-unlock" aria-hidden="true"></i><br>开<br>启</button>
-                                                <button class="btn btn-xs btn-purple" ng-class="{8: 'active'}[taskStatus]" ng-click="changeTaskStatus(8)" style="padding: 20px 5px;"><i class="fa fa-lock" aria-hidden="true"></i><br>关<br>闭</button>
-                                            </div>
-                                        </div>
+                            <div ui-layout-container class="fm-container fm-col animated fadeInLeft fm-no-scroll" size="250px">
+                                <div class="fm-tabs" style="padding:0px;overflow: auto;">
+                                    <a href="#" class="tab col-sm-4" ng-class="{6:'active'}[taskStatus]" ng-click="changeTaskStatus(6)"><i class="fa fa-th-large" aria-hidden="true"></i> 全部</a>
+                                    <a href="#" class="tab col-sm-4" ng-class="{7:'active'}[taskStatus]" ng-click="changeTaskStatus(7)"><i class="fa fa fa-unlock" aria-hidden="true"></i> 开启</a>
+                                    <a href="#" class="tab col-sm-4" ng-class="{8:'active'}[taskStatus]" ng-click="changeTaskStatus(8)"><i class="fa fa fa-lock" aria-hidden="true"></i> 关闭</a>
+                                </div>
+                                <div style="font-size:14px;color: white;padding: 10px 10px">
+                                    <div class="title" style="border-bottom: 1px solid #ddd;padding: 5px 0">
+                                        <label style="margin:0px;"><i class="fa fa-list" aria-hidden="true"></i> 任务列表</label>
+                                        <span style="float:right;">共 <span ng-bind="currentSubTaskList.length"></span> 条</span>
                                     </div>
-                                    <div ui-layout-container style="padding: 5px 5px 0px 0px;">
-                                        <div class="fm-panel" style="font-size:14px;">
-                                            <div class="title"><label style="margin:0px;"><i class="fa fa-list" aria-hidden="true"></i> 任务列表</label>
-                                            <span style="float:right;">共 <span ng-bind="currentSubTaskList.length"></span> 条</span>
-                                        </div>
-                                        <div class="content" style="min-height: 217px;">
-                                            <ul ng-if="currentSubTaskList&&!currentSubTaskList.length" class="fm-ul fm-ul-list">
-                                                <li>暂时没有子任务数据</li>
-                                            </ul>
-                                            <ul class="fm-ul fm-ul-list">
-                                                <li ng-repeat="item in currentSubTaskList">
-                                                    <a href='javascript:void(0);' class="text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
-                                                    <i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check" aria-hidden="true"></i>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div class="content" style="min-height: 217px;padding: 5px 0;">
+                                        <ul ng-if="currentSubTaskList&&!currentSubTaskList.length" class="fm-ul fm-ul-list">
+                                            <li>暂时没有子任务数据</li>
+                                            <!--<a tabindex="0" uib-tooltip="Test" class="btn btn-default"></a>-->
+                                        </ul>
+                                        <ul class="fm-ul fm-ul-list">
+                                            <li ng-repeat="item in currentSubTaskList">
+                                                <a href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
+                                                <i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check col-lg-1" aria-hidden="true"></i>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <!-- -->
                             </div>
-                        </div>
-                        <div ui-layout-container class="fm-no-scroll">
+
+                        <div ui-layout-container>
                             <div id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
-                            <div class="fm-foldable fm-col" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[infoPanelOpened]}">
+                            <div class="fm-foldable fm-col fm-no-scroll" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[infoPanelOpened]}">
                                 <div class="fm-fold-btn">
                                     <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[infoPanelOpened]" ng-click="infoPanelOpened=!infoPanelOpened">
                                     </a>
                                 </div>
-                                <div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;padding:5px;">
+                                <div class="fm-container fm-col fm-lvl1 fm-no-scroll" style="right:0px;width:300px;padding:5px;">
                                     <div class="fm-panel">
                                         <div class="title"><i class="fa fa-list-alt" aria-hidden="true"></i> 任务概况</div>
                                         <div class="content" style="max-height: 300px;">

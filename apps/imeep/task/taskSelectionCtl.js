@@ -1,7 +1,7 @@
 /**
- * Created by mali on 2016/6/7.
+ * Created by linglong on 2016/6/7.
  */
-angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
+angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','ui.bootstrap']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
     function($scope, dsManage, $q, $cookies, $location,$timeout) {
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.taskSelectionLayersConfig
