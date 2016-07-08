@@ -92,7 +92,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             }
         });
         $timeout(function () {
-            if ($.trim($scope.diverObj.signboards[0].arrowCode).length > 6) {
+            if ($.trim($scope.diverObj.signboards[0].arrowCode).length > 0) {
                 $scope.diverObj.signboards[0].backimageCode = '0' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
                 $scope.picNowNum = 1;
                 $scope.getPicsData();
