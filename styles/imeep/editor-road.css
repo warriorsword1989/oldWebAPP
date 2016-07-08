@@ -18,6 +18,14 @@
     border-radius:3px;
 }
 
+.unselected-text{
+    color:#979695;
+    cursor: not-allowed;
+}
+.text-left{
+    text-align: left;
+}
+
 #imgContainer {
     width: 520px;
     height: 300px;

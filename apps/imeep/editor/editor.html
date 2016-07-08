@@ -17,6 +17,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/timepicki/css/timepicki.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-datepicker/css/datepicker3.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+        <!--<script src="../../../scripts/libs/leaflet-0.7.3/plugins/wellkown.js"></script>-->
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
@@ -29,7 +30,7 @@
     </head>
     <body ng-controller="EditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">

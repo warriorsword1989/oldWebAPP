@@ -1,7 +1,7 @@
 /**
- * Created by mali on 2016/6/7.
+ * Created by linglong on 2016/6/7.
  */
-angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
+angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','ui.bootstrap']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
     function($scope, dsManage, $q, $cookies, $location,$timeout) {
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.taskSelectionLayersConfig
@@ -80,7 +80,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                 param.push("dbId=" + $scope.currentTaskData.dbId);
                 param.push("type=" + $scope.currentTaskData.type);
                 param.push("stage=" + $scope.currentTaskData.stage);
-                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
+                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId + "&geometry=" + $scope.currentTaskData.geometry;
             }
         };
         // 选中子任务，高亮子任务对应的网格
@@ -229,11 +229,11 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng'])
                     backgroundColor:'transparent',
                     spacingTop:15
                 },
-                colors:['#ff0033', '#00ccff'],
+                colors:['rgb(244, 91, 91)', '#00ccff'],
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y} 个</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
