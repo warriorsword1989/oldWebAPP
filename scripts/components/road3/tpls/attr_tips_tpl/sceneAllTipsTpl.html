@@ -171,1279 +171,6 @@
     <div class="middle">
         <div class="tip-left">
             <div class="panel panel-default" style="background-color: #555;margin-bottom: 0px;" >
-                <!--<div class="panel-body" ng-if="allTipsType==1101">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速方向:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label">{{rdDir}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp; 速&nbsp; 值:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dataTipsData.value}} km/h</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速标志:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span ng-if="dataTipsData.se==0" class="label ">限速开始</span>
-                                <span ng-if="dataTipsData.se==1" class="label ">解除限速</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">采集标志:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span ng-if="dataTipsData.flag==0" class="label ">现场采集</span>
-                                <span ng-if="dataTipsData.flag==1" class="label ">理论判断</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">文字说明:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="dataTipsData.desc"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 红绿灯-->
-                <!--<div class="panel-body" ng-if="allTipsType==1102" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">是否受指控:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-if="inCt==0">存在不受质控Link</span>
-                                <span class="label" ng-if="inCt==1">全部受指控</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">不受指控Link:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in disableCtl">
-                                    <span class="label blank-text" ng-click="getFeatDataCallback(item.f.id,'RDLINK')" ng-bind="item.f.id"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">受控&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link:</label>
-                            <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in enableCtl">
-                                    <span class="label blank-text" ng-click="getFeatDataCallback(item.f.id,'RDLINK')" ng-bind="item.f.id"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 红绿灯-->
-                <!--begin 红绿灯方位-->
-                <!--<div class="panel-body" ng-if="allTipsType==1103" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(linkPid,'RDLINK')" ng-bind="linkPid" title="{{linkPid}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">方向:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='traffDirection'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 红绿灯方位-->
-                <!--begin 大门-->
-                <!--<div class="panel-body" ng-if="allTipsType==1104">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(inLinkPid,'RDLINK')" ng-bind="inLinkPid.substring(0,6)+'...'" title="{{inLinkPid}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="inLinkPid.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(inLinkPid,'RDLINK')" ng-bind="inLinkPid" title="{{inLinkPid}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="outLinkPid.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(outLinkPid,'RDLINK')" ng-bind="outLinkPid.substring(0,6)+'...'" title="{{outLinkPid}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="outLinkPid.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(outLinkPid,'RDLINK')" ng-bind="outLinkPid" title="{{outLinkPid}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">大门类型:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="gateType"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">大门方向:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" ng-bind="gateDir"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" ng-bind="passTime"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 大门-->
-                <!--<div class="panel-body"  ng-if="allTipsType==1105">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" >
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(tipsData.in.id,'RDLINK')" ng-bind="tipsData.in.id" title="{{tipsData.in.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">标牌类型:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{type[wArrayitem.tp]}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">有效距离:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " >{{wArrayitem.vDis}} m</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">预告距离:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " >{{wArrayitem.wDis}} m</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " >{{wArrayitem.time}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">文字说明:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" >{{wArrayitem.desc}}</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 坡度-->
-                <!--<div class="panel-body" ng-if="allTipsType==1106" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')" ng-bind="dataTipsData.out.id" title="{{dataTipsData.out.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">坡度类型:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='slopeType'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">结束点标识:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='endSlopeFlag'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 坡度-->
-                <!--<div class="panel-body"  ng-if="allTipsType==1107">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.in.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" ng-bind="dataTipsData.in.id.substring(0,6)+'...'" title="{{dataTipsData.in.id}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.in.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" ng-bind="dataTipsData.in.id" title="{{dataTipsData.in.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:</label>
-                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
-                                <span class="label">{{tp}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">通道总数:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dataTipsData.pNum}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">E&nbsp; T&nbsp; C:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{TollETC}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">是否跨省:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{loc}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dataTipsData.name}}</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--电子眼-->
-                <!--<div  class="panel-body" ng-if="allTipsType==1109">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        &lt;!&ndash; 状态 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        &lt;!&ndash; 关联道路 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" >
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(tipsData.f.id,'RDLINK')" ng-bind="tipsData.f.id" title="{{tipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        &lt;!&ndash; 道路方向 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="rdDir"></span>
-                            </div>
-                        </div>
-                        &lt;!&ndash; 限速值 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限 速 值:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="tipsData.value"></span>km/h
-                            </div>
-                        </div>
-                        &lt;!&ndash; 类型 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">类　　型:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="type"></span>
-                            </div>
-                        </div>
-                        &lt;!&ndash; 方位 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">方　　位:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="loc"></span>
-                            </div>
-                        </div>
-                        &lt;!&ndash; 配对信息 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">配对信息:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="tipsData.pair"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 条件限速-->
-                <!--<div class="panel-body" ng-if="allTipsType==1111" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='rdDir'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速值:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='limitValue'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速标识:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='limitFlag'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速条件:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label col-sm-6" ng-repeat="item in limitConditionObj" ng-if="item.checked" ng-bind='item.label'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">时间段:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='dataTipsData.time'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 条件限速-->
-                <!--begin 车道限速-->
-                <!--<div class="panel-body" ng-if="allTipsType==1113" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='rdDir'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速值:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='limitValue'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 车道限速-->
-                <!--<div class="panel-body" ng-if="allTipsType==1201">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 10">
-                                <span class="label " ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 10">
-                                <span class="label " ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">种&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="kindType"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 车道数-->
-                <div class="panel-body" ng-if="allTipsType==1202" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">车道方位:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='dataTipsData.num'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">车道数:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='sideDir'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!--end 车道数-->
-                <!--<div class="panel-body" ng-if="allTipsType==1203">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id" title="{{fData.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="drs"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp; 间 &nbsp;段:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div>
-                                    <span class="label "></span>
-                                    <div ng-include="time"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin SA -->
-                <!--<div class="panel-body" ng-if="allTipsType==1205">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding-top: 4px" ng-if="fData.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding-top: 4px" ng-if="fData.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id" title="{{fData.id}}"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end SA-->
-                <!-- begin PA-->
-                <!--<div class="panel-body" ng-if="allTipsType==1206">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding-top: 4px" ng-if="fData.id.length > 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
-                            </div>
-                            <div class="col-sm-7" style="padding-top: 4px" ng-if="fData.id.length <= 10">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id" title="{{fData.id}}"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- end PA-->
-                <!--begin 车道数-->
-                <div class="panel-body" ng-if="allTipsType==1207" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">数据指令:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='commandData'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">车道数:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='sideDir'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!--end 车道数-->
-                <!--begin 停车场出入口link-->
-                <!--<div class="panel-body" ng-if="allTipsType==1208" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 停车场出入口link-->
-                <!--<div class="panel-body" ng-if="allTipsType==1301">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 15%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <div class="pic-show-tips">
-                                <div class="pic-show-well-normal-tips">
-                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
-                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext!=1">
-                                            <img ng-src="../../../images/road/1301/1301_0_{{gItem.arwG}}.svg" >
-                                        </div>
-                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext==1">
-                                            <img ng-src="../../../images/road/1301/1301_2_{{gItem.arwG}}.svg" >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 15%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <div class="pic-show-tips">
-                                <div class="pic-show-well-transit-tips">
-                                    <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
-                                        <div style="height: 30px;width:30px;border:none;visibility: hidden;" ng-if="bItem.arwB==null||bItem.arwB==''">
-                                            <img   style="border:0;visibility: hidden;">
-                                        </div>
-                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null&&bItem.ext!=1">
-                                            <img ng-if="bItem.arwB!=null"  ng-src="../../../images/road/1301/1301_1_{{bItem.arwB}}.svg">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span ng-if="dataTipsData.in.id.length>10" class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}">{{dataTipsData.in.id.substring(0,8)}}...</span>
-                                <span ng-if="dataTipsData.in.id.length<=10" class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}">{{dataTipsData.in.id}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="outItem in outIdS">
-                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(outItem.id,'RDLINK')">{{outItem.id}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--<div class="panel-body" ng-if="allTipsType==1302" style="border: none;border-radius: 4px">
-                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-8" style="padding: 4px">
-                                <span  class="label label-info" >{{showContent}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-8" style="padding: 4px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')">{{dataTipsData.in.id}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-8" style="padding: 4px">
-                                <div ng-repeat="restrictOutLink in restrictOutLinks" style="padding-top: 7px;display:inline">
-                                    <span class="label" style="padding: 4px;cursor:pointer;"  ng-click="getFeatDataCallback(restrictOutLink,'RDLINK')">{{restrictOutLink}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group tips-form-group">
-                            <label class="col-sm-4 control-label" style="padding: 4px">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;段:</label>
-                            <div class="col-sm-8" style="padding: 4px">
-                                <span class="label" ng-bind="dataTipsData.o_array[0].time"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 禁止穿行-->
-                <!--<div class="panel-body" ng-if="allTipsType==1304" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='rdDir'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='dataTipsData.time'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 禁止穿行-->
-                <!--begin 禁止驶入-->
-                <div class="panel-body" ng-if="allTipsType==1305" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">道路方向:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='rdDir'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">例外车辆:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label col-sm-6" ng-repeat="item in eliminateCarObj" ng-if="item.checked" ng-bind='item.label'></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!--end 禁止驶入-->
-                <!-- begin 方向看板 tips-->
-                <!--<div  class="panel-body" ng-if="allTipsType==1401">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="sceneEnty.id" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneOut">
-                                    <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">底图代码:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaNo"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- end 方向看板 tips-->
-                <!-- begin Real Sign tips-->
-                <!--<div  class="panel-body" ng-if="allTipsType==1402">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label blank-text" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneExit">
-                                    <span class="label blank-text" ng-click="getFeatDataCallback(item,'RDLINK')" ng-bind="item"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">底图号码:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaNo"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- end Real Sign tips-->
-                <!--<div class="panel-body" ng-if="allTipsType==1403">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="sceneEnty.id" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneOut">
-                                <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">模&nbsp; 式&nbsp; 图:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaNo"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- 一般道路方面start -->
-                <!-- begin 提左提右 tips-->
-                <!--<div  class="panel-body" ng-if="allTipsType==1404">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="sceneEnty.id" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneOut">
-                                    <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">模&nbsp; 式&nbsp; 图:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaNo"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- end 提左提右 tips-->
-                <div class="panel-body" ng-if="allTipsType==1405">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding:0">状　态: </label>
-                            <div class="col-sm-7">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding:0">进　入: </label>
-                            <div class="col-sm-7">
-                                <span class="label" ng-bind="sceneEnty.id" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')"></span>
-                            </div>
-                        </div>
-                        <div  ng-repeat="item in sceneOut" >
-                            <div class="form-group" style="height: 10%;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding:0">退　出: </label>
-                                <div class="col-sm-7">
-                                    <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
-                                </div>
-                            </div>
-                            <div class="form-group" style="height: 10%;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding:0">名　称: </label>
-                                <div class="col-sm-7">
-                                    <span ng-repeat="name in item.n_array">
-                                    <span class="label" ng-bind="name" style="cursor:pointer;"></span>
-                                    <span ng-if="$index+1!=item.n_array.length">,</span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- 一般道路方面end -->
-                <!--begin 实景图-->
-                <!--<div class="panel-body" ng-if="allTipsType==1406" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label blank-text" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in sceneExit">
-                                    <span class="label blank-text" ng-click="getFeatDataCallback(item,'RDLINK')" ng-bind="item"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">实景图代码:</label>
-                            <div class="col-sm-7 text-ellipsis" style="padding: 3px" ng-bind="schemaNo" title="{{schemaNo}}"></div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">实景图类型:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaType"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 实景图-->
-                <!--<div class="panel-body" ng-if="allTipsType==1407" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label" ng-bind="item"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">模式图号:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="schemaNo"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="scheName"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">出口编号:</label>
-                            <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--<div class="panel-body" ng-if="allTipsType==1409" style="border-radius: 4px;background-color: #555;">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label"  ng-click="getFeatDataCallback(item,'RDLINK')" ng-bind="item"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">底图代码:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="bottomPicture"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--<div class="panel-body" ng-if="allTipsType==1501">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
-                            <div class="col-sm-7" style="padding: 4px;">
-                                <div ng-repeat="item in upperAndLowerArrayLink">
-                                    <span class="label"  title="{{item.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id.substring(0,8)}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 路面覆盖-->
-                <div class="panel-body" ng-if="allTipsType==1502">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in roadArrayLink">
-                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!--end 路面覆盖-->
-                <!--<div class="panel-body" ng-if="allTipsType==1510">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="dataTipsData.name"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in brigeArrayLink">
-                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--<div class="panel-body" ng-if="allTipsType==1514">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in constructionArrayLink">
-                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in timeDomain" class="text-ellipsis">
-                                    <span class="label" title="{{item}}">{{item}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="panel-body" ng-if="allTipsType==1515">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in constructionArrayLink">
-                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in timeDomain" class="text-ellipsis">
-                                    <span class="label" title="{{item}}">{{item}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--<div class="panel-body" ng-if="allTipsType==1604" style="overflow-y: auto;max-height: 230px">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">数据指令:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-repeat="zoneState in zoneRoadState|filter:{'type':dataTipsData.t_command}" ng-bind="zoneState.state"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in fData">
-                                    <span class="label " ng-bind="item.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- 分叉口提示start -->
-                <!--<div  class="panel-body" ng-if="allTipsType==1703">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        &lt;!&ndash; 状态 &ndash;&gt;
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')" ng-bind="sceneEnty.id"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneOut.id,'RDLINK')" ng-bind="sceneOut.id"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- 分叉口提示end -->
-                <!--<div class="panel-body" ng-if="allTipsType==1704">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px" ng-if="fData.f.type == 1">关联Node:</label>
-                            <label class="col-sm-5 control-label" style="padding: 4px" ng-if="fData.f.type == 2">关联测线:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="fData.f.id"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="fData.name"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--begin 立交-->
-                <!--<div  class="panel-body" ng-if="allTipsType==1801">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状 态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span  class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!--end 立交-->
-                <!--<div class="panel-body" ng-if="allTipsType==1803">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <img ng-src="{{pcd}}">
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- begin 草图 -->
-                <!--<div  class="panel-body" ng-if="allTipsType==1806">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <!-- end 草图 -->
-                <!--<div class="panel-body" ng-if="allTipsType==1901">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-info" ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in nArrayData">
-                                    <span class="label " ng-bind="item"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>-->
-                <div class="panel-body" ng-if="allTipsType==2001">
-                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
-                            <div class="col-sm-8" style="padding: 3px">
-                                <span class="label" ng-class="{'label-info':labelInfo,'label-success':labelSuc}"
-                                ng-bind="showContent"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">种&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>
-                            <div class="col-sm-8" style="padding: 3px">
-                                <span class="label " ng-bind="lineType"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">车&nbsp; 道&nbsp; 数:</label>
-                            <div class="col-sm-8" style="padding: 3px">
-                                <span class="label " ng-bind="carNumber"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">测线来源:</label>
-                            <div class="col-sm-8" style="padding: 3px">
-                                <span class="label " ng-bind="lineSrc"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">测线长度:</label>
-                            <div class="col-sm-8" style="padding: 3px">
-                                <span class="label " ng-bind="lineLength+'m'"></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
@@ -1466,6 +193,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isGeneralRoad">
+                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
+                            <div class="col-sm-7">
+                                <div class="col-sm-12" style="padding: 3px" ng-repeat="items in dataTipsData.o_array">
+                                    <span class="label blank-text" ng-bind="name" ng-repeat="name in items.n_array"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('in') && !dataTipsData.hasOwnProperty('linkRoad') && !dataTipsData.isTrafficLightsDir">
                             <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
                             <div class="col-sm-7" style="padding: 3px">
@@ -1484,7 +219,7 @@
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && !dataTipsData.isSlope">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && !dataTipsData.isSlope && !dataTipsData.isLimitTruck">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
@@ -1493,8 +228,8 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array[0].out">
-                                    <span class="label" ng-bind="item.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')"></span>
+                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array">
+                                    <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
                                 </div>
                             </div>
                         </div>
@@ -1514,9 +249,9 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f_array') && !dataTipsData.isTrafficLights">
                             <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
-                            <div class="col-sm-7" style="padding: 4px;">
+                            <div class="col-sm-7 text-ellipsis" style="padding: 4px;">
                                 <div ng-repeat="item in dataTipsData.f_array">
-                                    <span class="label"  title="{{item.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id.substring(0,8)}}</span>
+                                    <span class="label"  title="{{item.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id}}</span>
                                 </div>
                             </div>
                         </div>
@@ -1563,18 +298,6 @@
                             <div class="col-sm-7" style="padding: 4px">
                                 <span ng-if="dataTipsData.se==0" class="label ">限速开始</span>
                                 <span ng-if="dataTipsData.se==1" class="label ">解除限速</span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="limitFlag">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速标识:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind='limitFlag'></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.limitConditionObj">
-                            <label class="col-sm-5 control-label" style="padding: 4px">限速条件:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label col-sm-6" ng-repeat="item in dataTipsData.limitConditionObj" ng-if="item.checked" ng-bind='item.label'></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('flag')">
@@ -1720,7 +443,7 @@
                         </div>
                         <!--end 实景图-->
                         <!--begin 维修-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.idGate">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.idGate && !dataTipsData.isNoDriveIn">
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.isNoCrossing">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.isNoCrossing">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
@@ -1753,7 +476,7 @@
                         </div>
                         <!--end 道路方向-->
                         <!--begin 道路种别-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('kind')">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('kind') && !dataTipsData.isMeasuringLine">
                             <label class="col-sm-5 control-label" style="padding: 4px">种&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label " ng-bind="kindType"></span>
@@ -1780,7 +503,7 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.vt.length > 0">
                             <label class="col-sm-5 control-label" style="padding: 4px">例外车辆:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label col-sm-6" ng-repeat="item in eliminateCarObj" ng-if="item.checked" ng-bind='item.label'></span>
+                                <span ng-repeat="item in dataTipsData.eliminateCarObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>
                             </div>
                         </div>
                         <!--end 禁止驶入-->
@@ -1865,6 +588,86 @@
                             </div>
                         </div>
                         <!--end 条件限速-->
+                        <!--begin 卡车限制-->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && dataTipsData.isLimitTruck">
+                            <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('ht')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label">{{dataTipsData.ht}}m</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('wt')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label">{{dataTipsData.wt}}t</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('ax')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">轴重限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label">{{dataTipsData.ax}}t</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('wd')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;宽:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label">{{dataTipsData.wd}}m</span>
+                            </div>
+                        </div>
+                        <!--end 卡车限制-->
+                        <!--begin 车道数-->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('num')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">车道数:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind='dataTipsData.num'></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('sideDir')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">车道方位:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind='dataTipsData.sideDir'></span>
+                            </div>
+                        </div>
+                        <!--end 车道数-->
+                        <!--begin 匝道-->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('commandData')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">数据指令:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind='dataTipsData.commandData'></span>
+                            </div>
+                        </div>
+                        <!--end 匝道-->
+                        <!--begin 测线-->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMeasuringLine">
+                            <label class="col-sm-5 control-label" style="padding: 4px">种&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label " ng-bind="dataTipsData.lineType"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMeasuringLine">
+                            <label class="col-sm-5 control-label" style="padding: 4px">车&nbsp; 道&nbsp; 数:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label " ng-bind="dataTipsData.carNumber"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMeasuringLine">
+                            <label class="col-sm-5 control-label" style="padding: 4px">测线来源:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label " ng-bind="dataTipsData.lineSrc"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMeasuringLine">
+                            <label class="col-sm-5 control-label" style="padding: 4px">测线长度:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label " ng-bind="dataTipsData.lineLength+'m'"></span>
+                            </div>
+                        </div>
+                        <!--end 测线-->
                     </form>
                 </div>
             </div>
