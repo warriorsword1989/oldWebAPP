@@ -280,6 +280,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 cancelButtonText: "取消"
             }, function(f) {
                 if (f) {
+                    $scope.attrTplContainer = "";
                     eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
                 }
             });
