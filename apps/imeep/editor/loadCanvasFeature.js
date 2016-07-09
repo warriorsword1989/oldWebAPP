@@ -84,7 +84,13 @@
         "TipsLeftToRight.js",
         "TipsPavementCover.js",
         "TipsRepairs.js",
-        "TipsRepair.js"
+        "TipsRepair.js",
+        "TipsOverpasses.js",
+        "TipsOverpass.js",
+        "TipsUnderpasses.js",
+        "TipsUnderpass.js",
+        "TipsBypaths.js",
+        "TipsBypath.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
