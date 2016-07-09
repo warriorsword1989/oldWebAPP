@@ -122,6 +122,14 @@ fastmap.uikit.ObjectEditController = (function() {
                         "currentData": this.data
                     });
                 }
+                //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
+                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType !=this.data.branchType)) {
+                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
+                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
+                        "originalData": this.originalData,
+                        "currentData": this.data
+                    });
+                }
                 this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                     "originalData": this.originalData,
                     "currentData": this.data

@@ -160,7 +160,7 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         for (var i = 0; i < this.details.length; i++) {
             data["details"].push(this.details[i].getIntegrate());
         }
-        data.brachType = this['branchType'];
+        data.branchType = this['branchType'];
         return data;
     }
 });
