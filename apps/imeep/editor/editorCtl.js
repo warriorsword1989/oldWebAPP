@@ -226,8 +226,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         var initPage = function() {
             var subtaskId = App.Util.getUrlParam("subtaskId");
             var substaskGeomotry = App.Util.getUrlParam("geometry");
-            var wkt = new Wkt.Wkt();
-            console.log(wkt)
+            //高亮作业区域
+            hightLightWorkArea(substaskGeomotry);
             App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
@@ -256,6 +256,24 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 }
             });
         };
+        //高亮作业区域方法;
+        function hightLightWorkArea(substaskGeomotry){
+            var wkt = new Wkt.Wkt();
+            //读取wkt格式的集合对象;
+            try {
+                wkt.read(substaskGeomotry);
+            } catch (e1) {
+                try {
+                    wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
+                } catch (e2) {
+                    if (e2.name === 'WKTError') {
+                        alert('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
+                        return;
+                    }
+                }
+            }
+
+        }
         /**
          * 页面初始化方法调用
          */
