@@ -1459,18 +1459,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             map.currentTool = shapeCtrl.getCurrentTool();
             if (type === "POILOCMOVE") {
                 shapeCtrl.editFeatType = "IXPOI";
-                map.currentTool.snapHandler._guides.length = 0;
-                map.currentTool.snapHandler.addGuideLayer(poiLayer); //把点图层放到捕捉工具中
+                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler.addGuideLayer(poiLayer); //把点图层放到捕捉工具中
             } else if (type === "POIGUIDEMOVE") {
                 shapeCtrl.editFeatType = "IXPOI";
-                map.currentTool.snapHandler._guides.length = 0;
-                map.currentTool.snapHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
+                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
             } else if (type === "POIAUTODRAG") {
                 shapeCtrl.editFeatType = "IXPOI";
-                map.currentTool.snapHandler._guides.length = 0;
-                map.currentTool.snapHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
+                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
             } else if (type === "POIRESET") {
-                map.currentTool.snapHandler._guides.length = 0;
+                map.currentTool.captureHandler._guides.length = 0;
             } else if (type === "SELECTPARENT") {
                 map.currentTool.snapHandler._guides.length = 0;
             }

@@ -247,7 +247,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
             map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
-        }
+        };
         /**
          * POI提交
          * 返回成功后刷新POI列表，重新绘制POI图层

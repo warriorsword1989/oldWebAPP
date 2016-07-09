@@ -23,8 +23,8 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         this.interNodes = [];
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.selectCtrl = fastmap.uikit.SelectController();
-        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
-        this.snapHandler.enable();
+        this.captureHandler = new fastmap.mapApi.Capture({map:this._map,shapeEditor:this.shapeEditor,selectedCapture:false,captureLine:true,captureNode:true,captureVertex:true});
+        this.captureHandler.enable();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.eventController = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -78,7 +78,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
                 this.targetIndex = 0;
             }
         //}
-        this.snapHandler.setTargetIndex(this.targetIndex);
+        this.captureHandler.setTargetIndex(this.targetIndex);
     },
 
     onMouseMove: function (event) {
@@ -94,23 +94,23 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         var that = this;
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         if(this.autoDrag){
-            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
-            this.snapHandler.targetIndex = this.targetIndex;
-            this.selectCtrl.setSnapObj(this.snapHandler);
-            if(this.snapHandler.snapLatlng){
-                var guide = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':true});
+            this.captureHandler.targetIndex = this.targetIndex;
+            this.selectCtrl.setSnapObj(this.captureHandler);
+            if(this.captureHandler.captureLatlng){
+                var guide = L.latLng(this.captureHandler.captureLatlng[1],this.captureHandler.captureLatlng[0]);
                 points.components[1].x = guide.lng;
                 points.components[1].y = guide.lat;
             }
         } else {
-            if(this.snapHandler.snaped == true){
-                this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
-                this.snapHandler.targetIndex = this.targetIndex;
-                this.selectCtrl.setSnapObj(this.snapHandler);
-                this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            if(this.captureHandler.captured == true){
+                this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':true});
+                this.captureHandler.targetIndex = this.targetIndex;
+                this.selectCtrl.setSnapObj(this.captureHandler);
+                this.targetPoint = L.latLng(this.captureHandler.captureLatlng[1],this.captureHandler.captureLatlng[0])
 
             }else{
-                this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
+                this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':false});
             }
         }
         points.components[0].x = this.targetPoint.lng;
@@ -131,7 +131,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
     },
     onMouseUp: function(event){
         this.targetIndex = null;
-        this.snapHandler.setTargetIndex(this.targetIndex);
+        this.captureHandler.setTargetIndex(this.targetIndex);
 
         if (this.targetPoint == null) {
             return;
@@ -141,28 +141,28 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
 
         var tileCoordinate = this.transform.lonlat2Tile(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
         this.drawGeomCanvasHighlight(tileCoordinate, event);
-        if (this.snapHandler.snaped == true) {
-            if (this.snapHandler) {
-                if (this.snapHandler.targetIndex == 0) {
+        if (this.captureHandler.captured == true) {
+            if (this.captureHandler) {
+                if (this.captureHandler.targetIndex == 0) {
                     nodePid = this.selectCtrl.selectedFeatures.snode;
-                } else if (this.snapHandler.targetIndex == this.selectCtrl.selectedFeatures.geometry.components.length - 1) {
+                } else if (this.captureHandler.targetIndex == this.selectCtrl.selectedFeatures.geometry.components.length - 1) {
                     nodePid = this.selectCtrl.selectedFeatures.enode;
                 } else {
                     nodePid = null;
                 }
             }
 
-            if (this.snapHandler.selectedVertex == true) {
+            if (this.captureHandler.selectedVertex == true) {
                 if (this.interNodes.length == 0 || !this.contains(nodePid, this.interNodes)) {
-                    if (this.snapHandler.snapIndex == 0) {
+                    if (this.captureHandler.captureIndex == 0) {
 
-                        this.snapHandler.interNodes.push({
-                            pid: parseInt(this.snapHandler.properties.snode),
+                        this.captureHandler.interNodes.push({
+                            pid: parseInt(this.captureHandler.properties.snode),
                             nodePid: nodePid
                         });
                     } else {
-                        this.snapHandler.interNodes.push({
-                            pid: parseInt(this.snapHandler.properties.enode),
+                        this.captureHandler.interNodes.push({
+                            pid: parseInt(this.captureHandler.properties.enode),
                             nodePid: nodePid
                         });
                     }
@@ -171,18 +171,18 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
 
             } else {
                 if (this.interLinks.length == 0 || !this.contains({
-                        pid: parseInt(this.snapHandler.properties.id),
+                        pid: parseInt(this.captureHandler.properties.id),
                         nodePid: nodePid
                     }, this.interLinks)) {
-                    this.snapHandler.interLinks.push({pid: parseInt(this.snapHandler.properties.id), nodePid: nodePid});
+                    this.captureHandler.interLinks.push({pid: parseInt(this.captureHandler.properties.id), nodePid: nodePid});
                 }
 
 
             }
 
             if (nodePid == null) {
-                this.snapHandler.interNodes = [];
-                this.snapHandler.interLinks = [];
+                this.captureHandler.interNodes = [];
+                this.captureHandler.interLinks = [];
             }
         }
     },
@@ -202,7 +202,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
             var pixels = null;
-            if(this.snapHandler.snaped == true){
+            if(this.captureHandler.captured == true){
                 pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat,this._map.getZoom());
             }else{
                 pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
