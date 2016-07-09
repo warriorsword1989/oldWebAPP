@@ -57,7 +57,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                         var line = new L.polyline(points);
                         var bounds = line.getBounds();
                         map.fitBounds(bounds, {"maxZoom": 19});
-                        highlightFeatures.push({
+                        highRenderCtrl.highLightFeatures.push({
                             id:id.toString(),
                             layerid:'rdLink',
                             type:'line',
@@ -66,7 +66,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                         map.setView([data.geometry.coordinates[1][1], data.geometry.coordinates[1][0]], 17);
                         break;
                     case "IX_POI":
-                        highLightFeatures.push({
+                        highRenderCtrl.highLightFeatures.push({
                             id:id.toString(),
                             layerid:'poi',
                             type:'IXPOI',
@@ -77,20 +77,20 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                     case "RDRESTRICTION":
                         var limitPicArr = [];
                         layerCtrl.pushLayerFront('referencePoint');
-                        highlightFeatures.push({
+                        highRenderCtrl.highLightFeatures.push({
                             id: data.pid.toString(),
                             layerid:'restriction',
                             type:'restriction',
                             style:{}
                         });
-                        highlightFeatures.push({
+                        highRenderCtrl.highLightFeatures.push({
                             id: data["inLinkPid"].toString(),
                             layerid:'rdLink',
                             type:'line',
                             style:{}
                         });
                         for (var i = 0, len = (data.details).length; i < len; i++) {
-                            highlightFeatures.push({
+                            highRenderCtrl.highLightFeatures.push({
                                 id: data.details[i].outLinkPid.toString(),
                                 layerid:'rdLink',
                                 type:'line',
@@ -101,7 +101,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                         break;
                     default :
                         layerCtrl.pushLayerFront("workPoint");
-                        highlightFeatures.push({
+                        highRenderCtrl.highLightFeatures.push({
                             id:data.rowkey,
                             layerid:'workPoint',
                             type:'workPoint',
@@ -109,10 +109,8 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', 
                         });
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         break;
-                        highRenderCtrl.highLightFeatures = highLightFeatures;
-                        highRenderCtrl.drawHighlight();
-
                 }
+                highRenderCtrl.drawHighlight();
             }
         })
     }

@@ -236,7 +236,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             }
             //清除上一个选择的高亮
             highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
+            highRenderCtrl.highLightFeatures = [];
             var ctrlAndTmplParams = {
                     propertyCtrl: "",
                     propertyHtml: ""
