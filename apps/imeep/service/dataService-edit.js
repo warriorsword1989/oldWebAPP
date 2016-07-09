@@ -421,7 +421,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": "0",
                     "childPid": ""
                 });
-                // swal(opDesc + "操作成功", "", "success");
+                swal(opDesc + "操作成功", "", "success");
                 defer.resolve(data.data);
             } else {
                 dsOutput.push({
