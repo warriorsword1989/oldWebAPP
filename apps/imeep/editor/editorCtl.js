@@ -108,10 +108,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 doubleClickZoom: false,
                 zoomControl: false
             });
+
+            //高亮作业区域
+            var substaskGeomotry = App.Util.getUrlParam("geometry");
+            var pointsArray = hightLightWorkArea(substaskGeomotry);
+            var lineLayer = L.multiPolygon(pointsArray,{fillOpacity:0});
+            map.addLayer(lineLayer);
+
             map.on("zoomend", function(e) {
                 document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
             });
-            map.setView([40.012834, 116.476293], 17);
+            //map.setView([40.012834, 116.476293], 17);
+            map.fitBounds(lineLayer.getBounds());
             //属性编辑ctrl(解析对比各个数据类型)
             var shapeCtrl = new fastmap.uikit.ShapeEditorController();
             var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
@@ -225,9 +233,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         //页面初始化方法调用
         var initPage = function() {
             var subtaskId = App.Util.getUrlParam("subtaskId");
-            var substaskGeomotry = App.Util.getUrlParam("geometry");
-            //高亮作业区域
-            hightLightWorkArea(substaskGeomotry);
             App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
@@ -259,9 +264,28 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         //高亮作业区域方法;
         function hightLightWorkArea(substaskGeomotry){
             var wkt = new Wkt.Wkt();
+            var pointsArr = new Array();
             //读取wkt格式的集合对象;
             try {
-                wkt.read(substaskGeomotry);
+                var polygon = wkt.read(substaskGeomotry);
+                var coords = polygon.components;
+                var points=[];
+                var point = [];
+                var poly = [];
+                for(var i = 0; i<coords.length;i++){
+                    for(var j = 0;j<coords[i].length;j++){
+                        if(polygon.type=='multipolygon'){
+                            for(var k=0;k<coords[i][j].length;k++){
+                                point.push(new L.latLng(coords[i][j][k].y,coords[i][j][k].x));
+                            }
+                        }else{
+                            point.push(new L.latLng(coords[i][j].y,coords[i][j].x));
+                        }
+                    }
+                    points.push(point);
+                    point = [];
+                }
+                return points;
             } catch (e1) {
                 try {
                     wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
@@ -273,6 +297,27 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 }
             }
 
+            //function loopPolygonfunc(parmas){
+            //    if(typeof parmas==='object'){
+            //        if(parmas.length){
+            //            for(var i=0;i<parmas.length;i++){
+            //                loopPolygonfunc(parmas[i])
+            //            }
+            //        }else{
+            //            pointsArr.push(new L.latLng(parmas.y,parmas.x))
+            //        }
+            //    }
+            //}
+            //function loopmutiPolygonfunc(){
+            //
+            //}
+            //
+            //if(polygon.type=='polygon'){
+            //    loopPolygonfunc(polygon.components);
+            //}else{
+            //    loopPolygonfunc(polygon.components);
+            //}
+            //return pointsArr;
         }
         /**
          * 页面初始化方法调用
