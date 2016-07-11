@@ -21,12 +21,15 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
         $scope.requestParams = {
-            classType: 2
+            classType: 2,
+            classStage:1
         };
         //当前选中子任务对象;
         $scope.currentTaskData = null;
         //是否信息面板;
         $scope.infoPanelOpened = 'none';
+        //所有的当前高亮grid数据
+        $scope.currentHighligtGrid = [];
         //控制页面tab页切换;
         $scope.changeDataList = function(val) {
             $scope.requestParams = {};
@@ -37,6 +40,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             switch ($scope.dataListType) {
                 case 1:
                     $scope.requestParams.classType = 2;
+                    $scope.requestParams.classStage = 1;
                     break;
                 case 2:
                     $scope.requestParams.classType = 0;
@@ -81,11 +85,11 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 param.push("type=" + $scope.currentTaskData.type);
                 param.push("stage=" + $scope.currentTaskData.stage);
                 window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId + "&geometry=" + $scope.currentTaskData.geometry;
+                //window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
             }
         };
         // 选中子任务，高亮子任务对应的网格
         $scope.selectSubtask = function(subtask) {
-
             $scope.currentTaskData = subtask;
             $scope.dataStringType = $scope.currentTaskData.name;
             $scope.infoPanelOpened = true;
@@ -97,8 +101,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             }
             if (subtask.gridIds.length > 0) {
                 var gridIdArray = []; // 网格ID数组;
-                var meshArray = [], // 图幅坐标数组
-                    meshIdArray = []; // 图幅ID数组;
+                var meshIdArray = []; // 图幅ID数组;
                 var meshId, gridNum;
                 for (var i = 0; i < subtask.gridIds.length; i++) {
                     meshId = subtask.gridIds[i].toString();
@@ -111,24 +114,26 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 }
                 //根据图幅号获取聚焦的范围;
                 map.fitBounds(getBounds(meshIdArray));
+
                 //判断任务网格是否都加载上的定时器;
                 var selectedGrids = [];
                 var timer = setInterval(function() {
                     var allGrids = layerCtrl.getLayerById('grid').gridArr;
                     for (var i = 0; i < allGrids.length; i++) {
-                        for (var j = gridIdArray.length - 1; j >= 0; j--) {
-                            if (allGrids[i].options.gridId == gridIdArray[j]) {
-                                selectedGrids.push(allGrids[i]);
-                                gridIdArray.splice(j, 1);
-                                if (gridIdArray.length == 0) {
-                                    clearInterval(timer);
-                                    addHighlight(selectedGrids)
+                            for (var j = gridIdArray.length - 1; j >= 0; j--) {
+                                if (allGrids[i].options.gridId == gridIdArray[j]) {
+                                    selectedGrids.push(allGrids[i]);
+                                    gridIdArray.splice(j, 1);
+                                    if (gridIdArray.length == 0) {
+                                        clearInterval(timer);
+                                        addHighlight(selectedGrids);
+                                    }
                                 }
                             }
-                        }
                     }
                 }, 100);
             }
+
             // 根据图幅编号获取图幅的外包矩形bounds
             function getBounds(meshIds) {
                 var mesh;
@@ -157,8 +162,24 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     [maxLat, maxLon]
                 ];
             }
+            function getTaskCenterPoint(gridArray){
+                var _lat = [];
+                var _lng = [];
+                for(var i=0;i<gridArray.length;i++){
+                    for(var j=0;j<gridArray[i]._latlngs.length;j++){
+                        _lat.push(gridArray[i]._latlngs[j].lat);
+                        _lng.push(gridArray[i]._latlngs[j].lng);
+                    }
+                }
+                minlng = Math.min.apply(null,_lng);
+                maxlat = Math.max.apply(null,_lat);
+                maxlng = Math.max.apply(null,_lng);
+                minlat = Math.min.apply(null,_lat);
+                return [minlat+(maxlat-minlat)/2,maxlng-(maxlng-minlng)/6];
+            }
             // 高亮网格
             function addHighlight(gridArray) {
+                $scope.currentHighligtGrid = gridArray;
                 for (var i = 0; i < gridArray.length; i++) {
                     $scope.currentHighLight.push(L.rectangle(gridArray[i].getBounds(), {
                         fillColor: "#FF6699",
@@ -166,6 +187,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                         fillOpacity: 0.5
                     }).addTo(map));
                 }
+                map.setView(getTaskCenterPoint(gridArray),13)
             }
             //去查找当前的substask概要信息;
             getCurrentSubtaskSummary();

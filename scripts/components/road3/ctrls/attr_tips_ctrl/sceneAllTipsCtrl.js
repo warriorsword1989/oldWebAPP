@@ -48,6 +48,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     $scope.getFeatDataCallback = function(id, type) {
         $scope.resetToolAndMap();
         dsEdit.getByPid(id, type).then(function(data) {
+            if(!data){
+                return;
+            }
             if (data.errcode === -1) {
                 swal("", data.errmsg, "提示信息");
                 return;
