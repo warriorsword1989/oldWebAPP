@@ -34,6 +34,7 @@
         "TipsRoadCross.js",
         "TipsConnect.js",
         "TipsMultiDigitized.js",
+        "TipsMultiDigitizeds.js",
         "TipsNomalRestriction.js",
         "TipsRoadTypes.js",
         "TipsRoadNames.js",
