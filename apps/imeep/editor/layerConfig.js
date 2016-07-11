@@ -44,7 +44,7 @@ App.layersConfig = [{
             id: 'mesh',
             name: '图幅',
             url: '',
-            visible: false,
+            visible: true,
             zIndex: 3
         }
     }, {

@@ -246,6 +246,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
+                    console.log(data)
                     // 暂时注释
                     App.Temp.dbId = data.dbId;
                     App.Temp.gridList = data.gridIds;
