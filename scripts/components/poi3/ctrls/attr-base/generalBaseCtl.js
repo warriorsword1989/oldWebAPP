@@ -7,6 +7,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
 
     function initData() {
         $scope.poi = objectCtrl.data;
+        objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         _retreatData($scope.poi);
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
