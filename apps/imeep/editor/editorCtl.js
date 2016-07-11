@@ -117,9 +117,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
 
             map.on("zoomend", function(e) {
                 document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
+                // if(map.getZoom() > 16){
+                //     if(map.hasLayer(lineLayer)){
+                //         map.removeLayer(lineLayer);
+                //     }
+                // }else {
+                //     if(!map.hasLayer(lineLayer)){
+                //         map.addLayer(lineLayer);
+                //
+                //     }
+                // }
             });
-            //map.setView([40.012834, 116.476293], 17);
-            map.fitBounds(lineLayer.getBounds());
+            map.setView([40.012834, 116.476293], 17);
+            // map.fitBounds(lineLayer.getBounds());
             //属性编辑ctrl(解析对比各个数据类型)
             var shapeCtrl = new fastmap.uikit.ShapeEditorController();
             var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
