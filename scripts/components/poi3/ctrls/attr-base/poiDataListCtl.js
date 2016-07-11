@@ -14,7 +14,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*切换poi列表类型*/
         scope.changeDataList = function(val) {
             scope.dataListType = val;
-            refreshData();
+            initPoiTable();
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
