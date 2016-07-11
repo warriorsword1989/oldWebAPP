@@ -10,11 +10,11 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     $scope.divergenceIds = objCtrl.data;
+    objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     $scope.initializeData = function () {
 
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();

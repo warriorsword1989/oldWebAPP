@@ -173,7 +173,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsSideRoads(item);
                     break;
                 case 1514://施工
-                    ret = new fastmap.uikit.canvasTips.TipsMaintenance(item);
+                    ret = new fastmap.uikit.canvasTips.TipsMaintenances(item);
                     break;
                 case 1515://维修
                     ret = new fastmap.uikit.canvasTips.TipsRepairs(item);
