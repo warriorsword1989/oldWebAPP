@@ -431,7 +431,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,
-            "propertyHtml": tempTepl
+            "propertyHtml": tempTepl,
+            "data":objCtrl.data.details[0].names
         };
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;

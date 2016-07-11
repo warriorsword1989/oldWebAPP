@@ -319,7 +319,8 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,
-            "propertyHtml": tempTepl
+            "propertyHtml": tempTepl,
+            "data":objCtrl.data.signboards[0].names
         };
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
