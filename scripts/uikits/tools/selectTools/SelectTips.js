@@ -81,6 +81,14 @@ fastmap.uikit.SelectTips = L.Handler.extend({
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
         this.overlays = [];
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
+        var PointPixel = transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, map.getZoom());
+        PointPixel[0] = Math.ceil(PointPixel[0]);
+        PointPixel[1] = Math.ceil(PointPixel[1]);
+
+        var x = PointPixel[0] - 256 * PointLoc[0];
+        var y = PointPixel[1] - 256 * PointLoc[1];
         var frs = null;
         for (var layer in this.currentEditLayers) {
 
@@ -91,7 +99,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
             }
             if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
-                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
                     if(data[item].geometry.coordinates){

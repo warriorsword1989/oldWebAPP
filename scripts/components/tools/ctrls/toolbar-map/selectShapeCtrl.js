@@ -1215,10 +1215,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 }
             } else {
                 dsEdit.getByPid(id, type).then(function(data) {
+                    getByPidCallback(type, ctrl, tpl, data);
                     if (type == "IXPOI") {
                         initPoiData(selectedData,data);
                     }
-                    getByPidCallback(type, ctrl, tpl, data);
                 });
             }
             //高亮图层的线是矢量图层且依赖于请求到的数据，因此要先高亮后画floatmenu
