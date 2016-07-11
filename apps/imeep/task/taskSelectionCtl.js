@@ -229,7 +229,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     backgroundColor:'transparent',
                     spacingTop:15
                 },
-                colors:['rgb(244, 91, 91)', '#00ccff'],
+                colors:['#8DBF60', '#27B7F3'],
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -237,7 +237,13 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
-                }
+                },
+                legend: {
+                    itemStyle: {
+                        color: '#ffffff',
+                        fontWeight: 'bold'
+                    }
+                },
             },
             title: {text: ''},
             xAxis: {
@@ -265,7 +271,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 data: [220, 80, 140]
 
             }, {
-                name: '道路',
+                name: 'Tips',
                 data: [250, 100, 150]
 
             }]
@@ -282,7 +288,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                         name: 'POI',
                         data: poiArray
                     }, {
-                        name: '道路',
+                        name: 'Tips',
                         data: roadArray
 
                     }]
