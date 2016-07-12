@@ -531,13 +531,13 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 });
             }
         };
-        /**
-         * 添加geometry
-         * @param type
-         * @param num
-         * @param event
-         */
-        $scope.addShape = function(type) {
+        //重新设置选择工具
+        $scope.resetToolAndMap = function() {
+            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventController.off(eventController.eventTypes.GETADADMINNODEID);
+            eventController.off(eventController.eventTypes.GETNODEID);
+            eventController.off(eventController.eventTypes.GETRELATIONID);
+            eventController.off(eventController.eventTypes.GETTIPSID);
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -552,10 +552,12 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 "subAttrContainerTpl": false
             });
             $("#popoverTips").hide();
+            editLayer.drawGeometry = null;
             editLayer.clear();
             editLayer.bringToBack();
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            shapeCtrl.stopEditing();
             rdLink.clearAllEventListeners();
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
@@ -564,6 +566,23 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 map.currentTool.cleanHeight();
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
+
+            if (selectCtrl.rowKey) {
+                selectCtrl.rowKey = null;
+            }
+
+            $(editLayer.options._div).unbind();
+
+        };
+        /**
+         * 添加geometry
+         * @param type
+         * @param num
+         * @param event
+         */
+        $scope.addShape = function(type) {
+            //重置选择工具
+            $scope.resetToolAndMap();
             // $scope.changeBtnClass(num);
             // //连续点击两次按钮
             // if (num !== 7) {
