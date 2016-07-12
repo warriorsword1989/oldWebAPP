@@ -197,7 +197,8 @@ a:hover {
     padding: 6px 5px;
     display: inline-block;
     text-align: center;
-    background-color: #555;
+    /*background-color: #555;*/
+    background-color: #313131;
 }
 
 .fm-tabs a.tab:hover {
@@ -207,7 +208,8 @@ a:hover {
 .fm-tabs a.tab.active {
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, .8);
-    background-color: #313131;
+    /*background-color: #313131;*/
+    background-color: #555;
     opacity: 0.9;
     transition: all .3s;
 }

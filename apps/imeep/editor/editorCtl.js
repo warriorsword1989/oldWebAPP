@@ -99,7 +99,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             }, 1);
         };
 
-        function loadMap() {
+        function loadMap(data) {
             var layerCtrl = new fastmap.uikit.LayerController({
                 config: App.layersConfig
             });
@@ -110,7 +110,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             });
 
             //高亮作业区域
-            var substaskGeomotry = App.Util.getUrlParam("geometry");
+            var substaskGeomotry = data.geometry;
             var pointsArray = hightLightWorkArea(substaskGeomotry);
             var lineLayer = L.multiPolygon(pointsArray,{fillOpacity:0});
             map.addLayer(lineLayer);
@@ -128,8 +128,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 //     }
                 // }
             });
-            map.setView([40.012834, 116.476293], 17);
-            // map.fitBounds(lineLayer.getBounds());
+            //map.setView([40.012834, 116.476293], 17);
+             map.fitBounds(lineLayer.getBounds());
             //属性编辑ctrl(解析对比各个数据类型)
             var shapeCtrl = new fastmap.uikit.ShapeEditorController();
             var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
@@ -246,7 +246,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             App.Temp.subTaskId = subtaskId;
             dsManage.getSubtaskById(subtaskId).then(function(data) {
                 if (data) {
-                    console.log(data)
                     // 暂时注释
                     App.Temp.dbId = data.dbId;
                     App.Temp.gridList = data.gridIds;
@@ -257,7 +256,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     } else { // 默认：日编
                         App.Temp.mdFlag = "d";
                     }
-                    loadMap();
+                    loadMap(data);
                     var promises = loadMetaData();
                     $q.all(promises).then(function() {
                         loadToolsPanel(function() {

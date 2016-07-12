@@ -71,7 +71,15 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
      */
     drawGeomCanvasHighlight: function (tilePoint, event) {
 
-        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
+        var PointPixel = transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, map.getZoom());
+        PointPixel[0] = Math.ceil(PointPixel[0]);
+        PointPixel[1] = Math.ceil(PointPixel[1]);
+
+        var x = PointPixel[0] - 256 * PointLoc[0];
+        var y = PointPixel[1] - 256 * PointLoc[1];
 
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
