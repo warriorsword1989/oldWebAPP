@@ -84,7 +84,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 param.push("dbId=" + $scope.currentTaskData.dbId);
                 param.push("type=" + $scope.currentTaskData.type);
                 param.push("stage=" + $scope.currentTaskData.stage);
-                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId + "&geometry=" + $scope.currentTaskData.geometry;
+                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
                 //window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
             }
         };
