@@ -303,11 +303,17 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             });
             return;
         }
-        dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {});
+        dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
+            if(data){
+                if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+                }
+            }
+        });
     }
     // 删除数据
     function del() {
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+        //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             //poiLayer.redraw();
             if (map.floatMenu) { //移除半圈工具条
@@ -321,7 +327,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
             }
-            $scope.poi = null;
         });
     }
     /* start 事件监听 ********************************************************/
