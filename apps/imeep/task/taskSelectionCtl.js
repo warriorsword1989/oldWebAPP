@@ -139,9 +139,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             var _northEast = $scope.currentHighLight.getBounds()._northEast;
             var _southWest = $scope.currentHighLight.getBounds()._southWest;
             var centerPonit = {}
-            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/5;
-            centerPonit.y = (_northEast.lat-_southWest.lat)/2+_southWest.lat
-            console.log(_northEast)
+            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.05;
+            centerPonit.y = (_northEast.lat-_southWest.lat)/2+_southWest.lat;
             map.setView([centerPonit.y,centerPonit.x],13);
             map.addLayer($scope.currentHighLight);
             //if (subtask.gridIds.length > 0) {
