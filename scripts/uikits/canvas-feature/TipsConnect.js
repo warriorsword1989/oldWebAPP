@@ -9,6 +9,7 @@ fastmap.uikit.canvasTips.TipsConnect = fastmap.uikit.canvasTips.Tips.extend({
                 location: this.geometry['coordinates'],
                 scalex: 0.7,
                 scaley: 0.7,
+                rotate: (item.m.c-180) * (Math.PI / 180),
                 fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );

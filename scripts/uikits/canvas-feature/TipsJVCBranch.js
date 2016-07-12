@@ -7,6 +7,7 @@ fastmap.uikit.canvasTips.TipsJVCBranch = fastmap.uikit.canvasTips.Tips.extend({
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
+                rotate: (item.m.c-180) * (Math.PI / 180),
                 fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
