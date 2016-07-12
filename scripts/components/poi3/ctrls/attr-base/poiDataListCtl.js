@@ -1,8 +1,9 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath','$interval',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath,$interval) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath','$interval','$timeout',
+    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath,$interval,$timeout) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
+        var highRenderCtrl = fastmap.uikit.HighRenderController();
         var poiLayer = layerCtrl.getLayerById('poi');
         var _self = scope;
         scope.radio_select = '名称';
@@ -13,18 +14,21 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*切换poi列表类型*/
         scope.changeDataList = function(val) {
             scope.dataListType = val;
-            refreshData();
+            initPoiTable();
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
+            scope.$emit('closePopoverTips',false);
+            scope.$parent.$parent.showLoading = true;
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
+                scope.$parent.$parent.showLoading = false;
                 if (rest) {
                     objCtrl.setCurrentObject('IXPOI', rest);
                     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
                         feature: objCtrl.data
                     });
-                    scope.$emit("SWITCHCONTAINERSTATE", {});
+                    //scope.$emit("SWITCHCONTAINERSTATE", {});
                     scope.$emit("transitCtrlAndTpl", {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
@@ -35,20 +39,32 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
-                    scope.$emit("highLightPoi", rest.pid);
+                    scope.highlightPoi(rest.pid);
+                    // scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto",true);
                 }
             });
             scope.itemActive = index;
         };
 
-        evtCtrl.off("testtest");
-        evtCtrl.on("testtest", function (poi){ //正在解决刷新POI列表的问题
-            for (var i = 0 ,len = scope.poiList.length;i<len;i++){
-                if(scope.poiList[i].pid == poi.pid){
-                    //scope.poiList.splice(i,1);
-                    break;
+        /**
+         * 删除、保存POI之后需要把POI从表格中删除
+         */
+        evtCtrl.off(evtCtrl.eventTypes.CHANGEPOILIST);
+        evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function (poi){
+            if(scope.dataListType == 1){ //表示的是待作业
+                for (var i = 0 ,len = scope.tableParams.data.length;i<len;i++){
+                    if(scope.tableParams.data[i].pid == poi.pid){
+                        scope.tableParams.data.splice(i,1);
+                        break;
+                    }
                 }
+                scope.selectData(scope.tableParams.data[i],i);
+                // $timeout(function(){
+                //     scope.$apply();
+                //     scope.selectData(scope.tableParams.data[i],i);
+                //     //scope.$apply();
+                // });
             }
         });
 
@@ -216,6 +232,22 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         function getKindName(scope, row) {
             return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
         }
+        scope.highlightPoi = function (pid) {
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            // $scope.clearMap();
+            var highLightFeatures = [];
+            highLightFeatures.push({
+                id: pid,
+                layerid: 'poi',
+                type: 'IXPOI',
+                style: {}
+            });
+            //高亮
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
+            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
+        };
         /**
          * POI提交
          * 返回成功后刷新POI列表，重新绘制POI图层

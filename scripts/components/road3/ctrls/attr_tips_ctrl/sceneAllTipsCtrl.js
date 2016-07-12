@@ -48,6 +48,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     $scope.getFeatDataCallback = function(id, type) {
         $scope.resetToolAndMap();
         dsEdit.getByPid(id, type).then(function(data) {
+            if(!data){
+                return;
+            }
             if (data.errcode === -1) {
                 swal("", data.errmsg, "提示信息");
                 return;
@@ -92,6 +95,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 
     //初始化DataTips相关数据
     $scope.initializeDataTips = function(data) {
+        if(data == -1){
+            return;
+        }
         $scope.photos = [];
         $scope.audios = [];
         $scope.remarksContent = null;
@@ -126,6 +132,17 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     break;
             }
         }
+        $scope.wArrayitem = {};
+        $scope.schemaType = '';
+        $scope.timeDomain = '';
+        $scope.sceneExit = '';
+        $scope.scheName = '';
+        $scope.JVCSchemaNo = '';
+        $scope.roadCameraType = '';
+        $scope.loc = '';
+        $scope.tollGateTp = '';
+        $scope.TollETC = '';
+        $scope.tollGateLoc = '';
         switch ($scope.allTipsType) {
             case "1101": //点限速
                 $scope.speedDirectTypeOptions = [{
@@ -193,6 +210,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 				        $scope.disableCtl.push(trafficLightArr[i]);
 			        }
 		        }
+                $scope.dataTipsData.isTrafficLights = true;
 		        break;
 	        case "1103":    //红绿灯方向
 		        $scope.linkPid = $scope.dataTipsData.in.id;
@@ -206,7 +224,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 			        6:'右上',
 			        7:'左上右'
 		        };
-		        $scope.traffDirection = directionObj[$scope.dataTipsData.loc];
+		        $scope.dataTipsData.traffDirection = directionObj[$scope.dataTipsData.loc];
+                $scope.dataTipsData.isTrafficLightsDir = true;
 		        break;
 	        case "1104":    //大门
 		        $scope.inLinkPid = $scope.dataTipsData.in.id;
@@ -221,14 +240,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 			        1:'KG',
 			        2:'PG'
 		        };
-		        $scope.gateType = gateTypeObj[$scope.dataTipsData.tp];
-		        $scope.gateDir = gateDirObj[$scope.dataTipsData.dir];
-		        $scope.passTime = $scope.dataTipsData.time;
+		        $scope.dataTipsData.gateType = gateTypeObj[$scope.dataTipsData.tp];
+		        $scope.dataTipsData.gateDir = gateDirObj[$scope.dataTipsData.dir];
+		        $scope.dataTipsData.passTime = $scope.dataTipsData.time;
+                $scope.dataTipsData.isGate = true;
 		        break;
             case "1105":
-                $scope.tipsData = $scope.dataTipsData;
-                $scope.wArrayitem = $scope.tipsData.w_array[0];
-                $scope.type = {
+                $scope.wArrayitem = $scope.dataTipsData.w_array[0];
+                $scope.dangerTypeObj = {
                     "10501": "上陡坡",
                     "10502": "下陡坡",
                     "10701": "两侧变窄",
@@ -280,6 +299,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "12301": "驼峰桥",
                     "31501": "鸣喇叭"
                 };
+                $scope.dataTipsData.linkRoad = $scope.dataTipsData.in;
                 break;
 	        case "1106":    //坡度
 		        var slopeTypeObj = {
@@ -292,8 +312,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 			        0:'否',
 			        1:'是'
 		        };
-		        $scope.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
-		        $scope.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+		        $scope.dataTipsData.slopeType = slopeTypeObj[$scope.dataTipsData.tp];
+		        $scope.dataTipsData.endSlopeFlag = endSlopeFlagObj[$scope.dataTipsData.end];
+                $scope.dataTipsData.isSlope = true;
 		        break;
             case "1107": //收费站
                 $scope.TollType = [{
@@ -332,7 +353,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }];
                 for (var i in $scope.TollType) {
                     if ($scope.TollType[i].id == $scope.dataTipsData.tp) {
-                        $scope.tp = $scope.TollType[i].label;
+                        $scope.tollGateTp = $scope.TollType[i].label;
                     }
                 }
                 $scope.TollETC = $scope.dataTipsData.etc.join(',');
@@ -348,18 +369,19 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }];
                 for (var i in $scope.TollLoc) {
                     if ($scope.TollLoc[i].id == $scope.dataTipsData.loc) {
-                        $scope.loc = $scope.TollLoc[i].label;
+                        $scope.tollGateLoc = $scope.TollLoc[i].label;
                     }
                 }
+                $scope.dataTipsData.linkRoad = $scope.dataTipsData.in;
+                delete $scope.dataTipsData.out;
                 break;
             case "1109": //电子眼
-                $scope.tipsData = $scope.dataTipsData;
-                var dir = {
-                    "2": "顺方向",
-                    "3": "逆方向"
+                var limitFlagObj = {
+                    "0": "限速开始",
+                    "1": "限速解除"
                 };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
-                var type = {
+                $scope.limitFlag = limitFlagObj[$scope.dataTipsData.se];
+                var typeObj = {
                     "1": "限速摄像头",
                     "13": "非机动车道摄像头",
                     "15": "公交车道摄像头",
@@ -367,7 +389,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     "20": "区间测速开始",
                     "21": "区间测速结束"
                 };
-                $scope.type = type[$scope.dataTipsData.tp];
+                $scope.roadCameraType = typeObj[$scope.dataTipsData.tp];
                 var loc = {
                     "0": "未调查",
                     "1": "左",
@@ -376,28 +398,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 };
                 $scope.loc = loc[$scope.dataTipsData.loc];
                 break;
+            case '1110':    //卡车限制
+                $scope.dataTipsData.isLimitTruck = true;
+                break;
             case "1111": //条件限速
-                var dir = {
-                    "0":"不应用",
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
-                $scope.limitValue = $scope.dataTipsData.value;
-                var limitFlagObj = {
-                    "0": "限速开始",
-                    "1": "限速解除"
-                };
-                $scope.limitFlag = limitFlagObj[$scope.dataTipsData.se];
-                $scope.time = type[$scope.dataTipsData.time];
-                var loc = {
-                    "0": "未调查",
-                    "1": "左",
-                    "2": "右",
-                    "4": "上"
-                };
-                $scope.loc = loc[$scope.dataTipsData.loc];
-                $scope.limitConditionObj = [
+                $scope.dataTipsData.limitConditionObj = [
                     {"id":1,"label":'雨天'},
                     {"id":2,"label":'雪天'},
                     {"id":3,"label":'雾天'},
@@ -405,18 +410,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     {"id":10,"label":'时间限制'},
                     {"id":12,"label":'季节时段'}
                 ];
-                for(var i=0,len=$scope.limitConditionObj.length;i<len;i++){
-                    if($scope.limitConditionObj[i].id == $scope.dataTipsData.dpnd[i]){
-                        $scope.limitConditionObj[i].checked = true;
+                for(var i=0,len=$scope.dataTipsData.limitConditionObj.length;i<len;i++){
+                    if($scope.dataTipsData.limitConditionObj[i].id == $scope.dataTipsData.d_array[0].dpnd[i]){
+                        $scope.dataTipsData.limitConditionObj[i].checked = true;
                     }
                 }
+                $scope.dataTipsData.isConditionLimit = true;
                 break;
             case "1113":
-                var dir = {
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 var limitValue = $scope.dataTipsData.value;
                 limitValue.sort(function(a,b){
                     return a<b?1:-1;
@@ -428,6 +429,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         $scope.limitValue = limitValue[i];
                     }
                 }
+                $scope.dataTipsData.limitValue = limitValue.join('|');
+                $scope.dataTipsData.isDrivewayLimit = true;
                 break;
             case "1201": //道路种别
                 $scope.returnKindType = function(code) {
@@ -465,17 +468,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.kindType = $scope.returnKindType($scope.dataTipsData.kind);
                 break;
             case "1202":    //车道数
-                var dir = {
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
                 var sideObj = {
                     0:'不应用',
                     1:'左',
                     2:'右'
                 };
-                $scope.sideDir = sideObj[$scope.dataTipsData.side];
+                $scope.dataTipsData.sideDir = sideObj[$scope.dataTipsData.side];
                 break;
             case "1203": //道路方向
                 if ($scope.dataTipsData.dr == 1) {
@@ -499,7 +497,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     2:'修改',
                     3:'新增'
                 };
-                $scope.commandData = commandObj[$scope.dataTipsData.t_commandObj];
+                $scope.dataTipsData.commandData = commandObj[$scope.dataTipsData.t_command];
                 break;
             case "1208":
                 break;
@@ -541,47 +539,33 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 break;
             case "1304": //禁止穿行
-                var dir = {
-                    "0":"不应用",
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+                $scope.dataTipsData.isNoCrossing = true;
                 break;
             case "1305": //禁止驶入
-                var dir = {
-                    "0":"不应用",
-                    "2": "顺方向",
-                    "3": "逆方向"
-                };
-                $scope.rdDir = dir[$scope.dataTipsData.rdDir];
-                $scope.eliminateCarObj = [
+                $scope.dataTipsData.eliminateCarObj = [
                     {"id":1,"label":'客车'},
                     {"id":2,"label":'配送卡车'},
                     {"id":3,"label":'运输卡车'},
                     {"id":5,"label":'出租车'}
                 ];
-                for(var i=0,len=$scope.eliminateCarObj.length;i<len;i++){
-                    if($scope.eliminateCarObj[i].id == $scope.dataTipsData.vt[i]){
-                        $scope.eliminateCarObj[i].checked = true;
+                for(var i=0,len=$scope.dataTipsData.eliminateCarObj.length;i<len;i++){
+                    if($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[i]){
+                        $scope.dataTipsData.eliminateCarObj[i].checked = true;
                     }
                 }
+                $scope.dataTipsData.isNoDriveIn = true;
                 break;
             case "1401": //方向看板
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
                 /*退出*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
-                /*底图代码*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
             case "1402": //real sign
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /*退出*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
-                /*底图号码*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
             case "1403": //3D
                 /*进入*/
@@ -589,27 +573,29 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 /*退出*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
                 /*模式图号*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
+                $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
                 break;
-            case "1401": //提左提右
+            case "1404": //提左提右
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
                 /*退出*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
-                /*底图代码*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
+                /*模式图*/
+                $scope.dataTipsData.leftAndRightSchemaNo = $scope.dataTipsData.ptn;
+                $scope.dataTipsData.leftAndRight = true;
                 break;
-            case "1405": //3D
+            case "1405": //一般道路方面
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;
                 /*退出数组*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
+                $scope.dataTipsData.isGeneralRoad = true;
                 break;
             case "1406": //实景图
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /*实景图代码*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
+                $scope.dataTipsData.JVCSchemaNo = $scope.dataTipsData.ptn;
                 /*实景图类型*/
                 if ($scope.dataTipsData.tp == 1) {
                     $scope.schemaType = "普通路口";
@@ -618,39 +604,31 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 } else {
                     $scope.schemaType = "高速出口";
                 }
-                /*退出*/
-                $scope.sceneExit = [];
-                $.each($scope.dataTipsData.o_array, function(i, v) {
-                    if (v.out) {
-                        $scope.sceneExit.push(v.out.id);
-                    }
-                });
+                $scope.dataTipsData.realImgArray = [];
+                for(var i=0,len=$scope.dataTipsData.o_array.length;i<len;i++){
+                    $scope.dataTipsData.realImgArray.push($scope.dataTipsData.o_array[i].out);
+                }
                 break;
             case "1407": //高速分歧
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /*模式图号*/
-                $scope.schemaNo = $scope.dataTipsData.ptn;
+                $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
                 $scope.scheName = $scope.dataTipsData.name;
-                /*退出*/
+                /*出口编号*/
                 $scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array, function(i, v) {
                     if (v.out) {
                         $scope.sceneExit.push(v.out.id);
                     }
                 });
+                $scope.dataTipsData.isBranch = true;
                 break;
             case "1409": //普通路口模式图
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /*退出*/
-                $scope.sceneExit = [];
                 $scope.bottomPicture = $scope.dataTipsData.ptn;
-                $.each($scope.dataTipsData.o_array, function(i, v) {
-                    if (v.out) {
-                        $scope.sceneExit.push(v.out.id);
-                    }
-                });
                 break;
             case "1501": //上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
@@ -687,7 +665,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }, {
                     "type": 3,
                     "state": "新增"
-                }, ];
+                }];
+                $scope.dataTipsData.regionRoad = true;
                 break;
             case "1703":
                 $scope.sceneEnty = $scope.dataTipsData.in;
@@ -701,7 +680,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1803": //挂接
                 if ($scope.dataTipsData.pcd) { //有图片时，显示图片
-                    $scope.pcd = "../../images/road/hook/" + $scope.dataTipsData.pcd.substr(5, 4) + ".svg";
+                    $scope.pcd = "../../../images/road/hook/" + $scope.dataTipsData.pcd.substr(5, 4) + ".svg";
                     //$scope.pcd="./css/hook/2081.svg";
                 } else { //无图片时获取经纬度，高亮
                     $scope.garray = $scope.dataTipsData.g_array;
@@ -770,16 +749,29 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 if ($scope.dataTipsData) {
                     /*种别*/
-                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.kind);
+                    $scope.dataTipsData.lineType = $scope.returnLineType($scope.dataTipsData.kind);
                     /*来源*/
-                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
+                    $scope.dataTipsData.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
                     /*车道数*/
-                    $scope.carNumber = $scope.dataTipsData.ln;
+                    $scope.dataTipsData.carNumber = $scope.dataTipsData.ln;
                     /*长度*/
-                    $scope.lineLength = $scope.dataTipsData.len;
+                    $scope.dataTipsData.lineLength = $scope.dataTipsData.len;
                 }
+                $scope.dataTipsData.isMeasuringLine = true;
                 break;
         }
+        /*时间段*/
+        if($scope.dataTipsData.time){
+            $scope.timeDomain = $scope.dataTipsData.time.split(';');
+        }
+
+        var dir = {
+            "0":"不应用",
+            "2": "顺方向",
+            "3": "逆方向"
+        };
+        $scope.rdDir = dir[$scope.dataTipsData.rdDir];
+
         //高亮
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
@@ -1023,7 +1015,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             if ($scope.rowkey !== undefined) {
                 var stageParam = {
                     "rowkey": $scope.rowkey,
-                    "stage": 3,
                     "handler": 0,
                     "mdFlag":App.Temp.mdFlag
                 };

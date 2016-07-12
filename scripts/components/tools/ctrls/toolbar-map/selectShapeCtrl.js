@@ -14,8 +14,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         var rdNode = layerCtrl.getLayerById('rdNode');
         var workPoint = layerCtrl.getLayerById('workPoint');
         var editLayer = layerCtrl.getLayerById('edit');
+        var poiLayer = layerCtrl.getLayerById('poi');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
+        var originalFeature = []; // 用于poi
+        var selectCount = 0; // 用于poi
+        var popup = L.popup();
         $scope.toolTipText = "";
         //重新设置选择工具
         $scope.resetToolAndMap = function() {
@@ -88,7 +92,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             };
             //先load Tips面板和控制器
             $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
-        }
+        };
         $scope.selectShape = function(type) {
             //大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
@@ -117,6 +121,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             //     return;
             // }
             if (type === "node") { //选择点
+                $scope.resetOperator("selectNode");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
                 map.currentTool = new fastmap.uikit.SelectNode({
@@ -132,6 +137,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             } else if (type === "link") { // 选择线
+                $scope.resetOperator("selectLink");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择线的工具
                 map.currentTool = new fastmap.uikit.SelectPath({
@@ -150,6 +156,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
             } else if (type === "face") {
+                $scope.resetOperator("selectFace");
                 //初始化选择面工具
                 map.currentTool = new fastmap.uikit.SelectPolygon({
                     map: map,
@@ -163,6 +170,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETFACEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETFACEID, $scope.selectObjCallback);
             } else if (type === "relation") {
+                $scope.resetOperator("selectRelation");
                 //初始化选择关系的工具
                 map.currentTool = new fastmap.uikit.SelectRelation({
                     map: map,
@@ -174,6 +182,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
             } else if (type === "tips") {
+                $scope.resetOperator("selectTips");
                 layerCtrl.pushLayerFront('workPoint'); //置顶editLayer
                 //初始化选择tips的工具
                 map.currentTool = new fastmap.uikit.SelectTips({
@@ -186,15 +195,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 eventController.off(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback)
             } else if (type === "point") { // 点要素：poi，adadmin
+                $scope.resetOperator("selectPointFeature");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
                 map.currentTool = new fastmap.uikit.SelectNode({
                     map: map,
                     nodesFlag: true,
                     // currentEditLayer: rdNode,
-                    shapeEditor: shapeCtrl
+                    shapeEditor: shapeCtrl,
+                    nodeType: "PointFeature"
                 });
                 map.currentTool.enable();
+                selectCount = 0;
+                originalFeature = [];
                 //需要捕捉的图层
                 // map.currentTool.snapHandler.addGuideLayer(rdNode);
                 $scope.toolTipText = '请选择点要素！';
@@ -211,14 +224,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             $scope.selectedFeature = data;
             $scope.$emit("SWITCHCONTAINERSTATE", {
                     "subAttrContainerTpl": false
-                })
+                });
                 //地图小于17级时不能选择
             if (map.getZoom < 17) {
                 return;
             }
+            map.closePopup();//如果有popup的话清除它
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
             //清除上一个选择的高亮
             highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
+            highRenderCtrl.highLightFeatures = [];
             var ctrlAndTmplParams = {
                     propertyCtrl: "",
                     propertyHtml: ""
@@ -226,10 +244,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 toolsObj = null;
             switch (data.optype) {
                 case "RDLINK":
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
                     //悬浮工具条的设置
                     toolsObj = {
                             items: [{
@@ -263,7 +277,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                             }]
-                        }
+                        };
                         //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
@@ -286,10 +300,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, "RDLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "RDNODE":
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
                     toolsObj = {
                             items: [{
                                 'text': "<a class='glyphicon glyphicon-move'></a>",
@@ -298,7 +308,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                             }]
-                        }
+                        };
                         //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
@@ -349,10 +359,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDBRANCH':
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
                     toolsObj = {
                             items: [{
                                 'text': "<a class='glyphicon glyphicon-move'></a>",
@@ -367,7 +373,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                             }]
-                        }
+                        };
                         //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
@@ -400,10 +406,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, "RWNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "RWLINK":
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-plus'></a>",
@@ -430,7 +432,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }]
-                    }
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_tpl/rwLinkTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "RWLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -444,7 +446,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }]
-                    }
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adAdminCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adAdminTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "ADADMIN", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -458,16 +460,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }]
-                    }
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adNodeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adNodeTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "ADNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "ADLINK":
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-plus'></a>",
@@ -494,7 +492,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }]
-                    }
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adLinkTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "ADLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -519,10 +517,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, "ZONENODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "ZONELINK":
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
-                    }
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-plus'></a>",
@@ -558,6 +552,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneFaceCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneFaceTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "ZONEFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "IXPOI":
+                    $scope.getFeatDataCallback(data, data.id, "IXPOI");
                     break;
                 case "TIPS":
                     $("#popoverTips").css("display", "block");
@@ -705,14 +702,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                             $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                         }
                                     }
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                                 break;
                             case "1205": //SA
                                 var ctrlAndTplOfSA = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
                                             $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
@@ -724,8 +721,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             case "1206": //PA
                                 var ctrlAndTplOfPA = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
                                             $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
@@ -793,8 +790,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             case "1401": //方向看板
                                 var ctrlAndTplOfOrientation = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": "../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "../../../scripts/components/road3/tpls/attr_branch_Tpl/signBoardOfBranch.html");
@@ -806,8 +803,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             case "1402": //real sign
                                 var ctrlAndTplOfRealSign = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
@@ -832,8 +829,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             case "1406": //实景图
                                 var ctrlAndTplOfJCV = {
                                     "loadType": "tipsTplContainer",
-                                    "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                                    "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html');
@@ -862,7 +859,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                         $scope.brigeLinkArray = result.f_array;
                                         $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                     }
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfBridge);
                                 break;
                             case "1514": //施工
@@ -874,7 +871,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                         $scope.brigeLinkArray = result.f_array;
                                         $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                     }
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfMend);
                                 break;
                             case "1515": //维修
@@ -905,18 +902,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                                 "dbId": App.Temp.dbId,
                                                 "type": "RDCROSS",
                                                 "data": obj
-                                            }
+                                            };
                                             dsRoad.getByCondition(JSON.stringify(param), function(data) {
                                                 var crossCtrlAndTpl = {
                                                     propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
                                                     propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
-                                                }
+                                                };
                                                 objCtrl.setCurrentObject("RDCROSS", result.data[0]);
                                                 $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                                             });
                                         }
                                     }
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
                                 break;
                             case "1803": //挂接
@@ -924,7 +921,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                                 break;
                             case "1501": //上下线分离
@@ -935,7 +932,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     callback: function() {
                                         $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                     }
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndDown);
                                 break;
                             case "1901": //道路名
@@ -943,7 +940,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
-                                }
+                                };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
                                 break;
                         }
@@ -996,11 +993,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 }
             }
             if (!map.floatMenu && toolsObj) {
-                map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+                map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
                 map.addLayer(map.floatMenu);
                 map.floatMenu.setVisible(true);
+                console.log(map.floatMenu);
             }
-        }
+        };
         $scope.sign = 0; //初始值
         /**
          * 修改方向
@@ -1208,29 +1206,373 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             if (type == 'RDBRANCH') {
                 if (selectedData.branchType == 5 || selectedData.branchType == 7) {
                     dsEdit.getBranchByRowId(selectedData.id, selectedData.branchType).then(function(data) {
-                        getByPidCallback(type, ctrl, tpl, data)
+                        getByPidCallback(type, ctrl, tpl, data);
                     });
                 } else {
                     dsEdit.getBranchByDetailId(selectedData.id, selectedData.branchType).then(function(data) {
-                        getByPidCallback(type, ctrl, tpl, data)
+                        getByPidCallback(type, ctrl, tpl, data);
                     });
                 }
             } else {
                 dsEdit.getByPid(id, type).then(function(data) {
-                    getByPidCallback(type, ctrl, tpl, data)
+                    getByPidCallback(type, ctrl, tpl, data);
+                    if (type == "IXPOI") {
+                        initPoiData(selectedData,data);
+                    }
                 });
             }
-
-            function getByPidCallback(type, ctrl, tpl, data) {
-                var options = {
-                    "loadType": 'attrTplContainer',
-                    "propertyCtrl": ctrl,
-                    "propertyHtml": tpl
+            //高亮图层的线是矢量图层且依赖于请求到的数据，因此要先高亮后画floatmenu
+            function initPoiData(selectedData,data) {
+                var locArr = data.geometry.coordinates;
+                // var guideArr = data.guide.coordinates;
+                var points = [];
+                points.push(fastmap.mapApi.point(locArr[0], locArr[1]));
+                points.push(fastmap.mapApi.point(data.xGuide, data.yGuide));
+                selectCtrl.onSelected({ //记录选中点信息
+                    geometry: points,
+                    id: data.pid,
+                    linkPid: data.linkPid
+                });
+                //高亮POI点
+                var highLightFeatures = [];
+                highLightFeatures.push({
+                    id: data.pid.toString(),
+                    layerid: 'poi',
+                    type: 'IXPOI'
+                });
+                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.drawHighlight();
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-open'></a>",
+                        'title': "移动显示坐标",
+                        'type': "POILOCMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyPoi
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-export'></a>",
+                        'title': "移动引导坐标",
+                        'type': "POIGUIDEMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyPoi
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-random'></a>",
+                        'title': "引导坐标随着显示坐标变化",
+                        'type': "POIAUTODRAG",
+                        'class': "feaf",
+                        callback: $scope.modifyPoi
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                        'title': "重置",
+                        'type': "POIRESET",
+                        'class': "feaf",
+                        callback: $scope.modifyPoi
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
+                        'title': "编辑父",
+                        'type': "SELECTPARENT",
+                        'class': "feaf",
+                        callback: $scope.modifyPoi
+                    }]
                 };
-                $scope.$emit("transitCtrlAndTpl", options);
+                if (!map.floatMenu && toolsObj) {
+                    map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
+                    map.addLayer(map.floatMenu);
+                    map.floatMenu.setVisible(true);
+                    console.log(map.floatMenu);
+                }
+            }
+            function getByPidCallback(type, ctrl, tpl, data) {
                 objCtrl.setCurrentObject(type, data);
+                if (type == "IXPOI") {
+                    $scope.$emit("transitCtrlAndTpl", {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                    });
+                    $scope.$emit("transitCtrlAndTpl", {
+                        "loadType": "attrTplContainer",
+                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                    });
+                } else {
+                    var options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": ctrl,
+                        "propertyHtml": tpl
+                    };
+                    $scope.$emit("transitCtrlAndTpl", options);
+                }
+
                 tooltipsCtrl.onRemoveTooltip();
             }
-        }
+        };
+        $scope.modifyPoi = function(event) {
+            var type = event.currentTarget.type; //按钮的类型
+            if (type === "POILOCMOVE") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setCurrentTooltip('开始移动POI显示坐标点！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
+                    return;
+                }
+            } else if (type === "POIGUIDEMOVE") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setCurrentTooltip('开始移动POI引导坐标点！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('先选择POI引导坐标点！');
+                    return;
+                }
+            } else if (type === "POIAUTODRAG") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setCurrentTooltip('开始移动POI显示坐标点！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
+                    return;
+                }
+            } else if (type === "POIRESET") {
+                if (shapeCtrl.shapeEditorResult) {
+                    var sObj = shapeCtrl.shapeEditorResult;
+                    var oFeature = sObj.getOriginalGeometry();
+                    var of_1 = originalFeature[0].clone();
+                    var of_2 = originalFeature[1].clone();
+                    var comsAndPoints = [];
+                    comsAndPoints.push(of_1);
+                    comsAndPoints.push(of_2);
+                    oFeature.components = comsAndPoints;
+                    oFeature.points = comsAndPoints;
+                    setTimeout(function() {
+                        editLayer.clear();
+                        $scope.geometry = of_1;
+                        $scope.guide = of_2;
+                        editLayer.draw(oFeature, editLayer); //在编辑图层中画出需要编辑的几何体
+                    }, 100);
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(oFeature);
+                    return;
+                }
+            } else if (type === "SELECTPARENT") {
+                tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
+                eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
+                    var data = event.data,
+                        highlightFeatures = [],
+                        rectangleData = { //矩形框信息geoJson
+                            "type": "Polygon",
+                            "coordinates": [
+                                []
+                            ]
+                        },
+                        latArr = event.border._latlngs;
+                    /*过滤框选后的数组，去重*/
+                    for (var i = 0; i < data.length; i++) {
+                        for (var j = 0; j < data.length; j++) {
+                            if (i != j) {
+                                if (data[i].properties.id == data[j].properties.id || data[i].properties.id == objCtrl.data.pid) {
+                                    data.splice(i, 1);
+                                }
+                            }
+                        }
+                    }
+                    for (var rec = 0; rec < latArr.length; rec++) {
+                        var tempArr = [];
+                        tempArr.push(latArr[rec].lng);
+                        tempArr.push(latArr[rec].lat);
+                        rectangleData.coordinates[0].push(tempArr);
+                        if (rec == latArr.length - 1) {
+                            rectangleData.coordinates[0].push(rectangleData.coordinates[0][0]);
+                        }
+                    }
+                    /*高亮link*/
+                    for (var i = 0, lenI = data.length; i < lenI; i++) {
+                        highlightFeatures.push({
+                            id: data[i].properties.id.toString(),
+                            layerid: 'poi',
+                            type: 'IXPOI'
+                        })
+                    }
+                    highRenderCtrl.highLightFeatures = highlightFeatures;
+                    highRenderCtrl.drawHighlight();
+                    //判断相交点数
+                    if (data.length == 0) {
+                        tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
+                    } else {
+                        var html = '<ul id="layerpopup">';
+                        //this.overlays = this.unique(this.overlays);
+                        for (var item in data) {
+                            var index = parseInt(item) + 1;
+                            if (objCtrl.data.parents.length > 0 && data[item].properties.id == objCtrl.data.parents[0].parentPoiPid) { //当前父
+                                html += '<li><a href="#" id="' + data[item].properties.id + '">' + index + '、' + data[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-default">' + '当前父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-warning btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="解除父">' + '</li>';
+                            } else if ($scope.metaData.kindFormat[data[item].properties.kindCode].parent != 0) {
+                                html += '<li><a href="#" id="' + data[item].properties.id + '">' + index + '、' + data[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-info">' + '可为父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-success btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="作为父">' + '</li>';
+                            }
+                            // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';
+                        }
+                        html += '</ul>';
+                        popup.setLatLng([data[item].point.y, data[item].point.x]).setContent(html);
+                        if (data && data.length >= 1) {
+                            setTimeout(function() {
+                                map.openPopup(popup);
+                            }, 200)
+                        }
+                    }
+                });
+            }
+            if (!selectCtrl.selectedFeatures) {
+                return;
+            }
+            if (!selectCount) {
+                // $scope.$apply();
+                //停止shapeCtrl
+                if (shapeCtrl.getCurrentTool()['options']) {
+                    shapeCtrl.stopEditing();
+                }
+                var feature = null;
+                if (map.currentTool) {
+                    map.currentTool.disable();
+                }
+                if (shapeCtrl.shapeEditorResult) {
+                    if (tooltipsCtrl.getCurrentTooltip()) {
+                        tooltipsCtrl.onRemoveTooltip();
+                    }
+                    feature = selectCtrl.selectedFeatures.geometry; //获取要编辑的几何体的geometry
+                    //组装一个线
+                    feature.components = [];
+                    feature.points = [];
+                    feature.components.push(feature[0]);
+                    feature.components.push(feature[1]);
+                    feature.points.push(feature[0]);
+                    feature.points.push(feature[1]);
+                    originalFeature.push(feature[0].clone());
+                    originalFeature.push(feature[1].clone());
+                    feature.type = "IXPOI";
+                    layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
+                    var sObj = shapeCtrl.shapeEditorResult;
+                    editLayer.drawGeometry = feature;
+                    editLayer.draw(feature, editLayer); //在编辑图层中画出需要编辑的几何体
+                    sObj.setOriginalGeometry(feature);
+                    sObj.setFinalGeometry(feature);
+                    selectCount = 1;
+                }
+            }
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑的类型
+            shapeCtrl.startEditing(); // 开始编辑
+            map.currentTool = shapeCtrl.getCurrentTool();
+            if (type === "POILOCMOVE") {
+                shapeCtrl.editFeatType = "IXPOI";
+                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler.addGuideLayer(poiLayer); //把点图层放到捕捉工具中
+            } else if (type === "POIGUIDEMOVE") {
+                shapeCtrl.editFeatType = "IXPOI";
+                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
+            } else if (type === "POIAUTODRAG") {
+                shapeCtrl.editFeatType = "IXPOI";
+                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
+            } else if (type === "POIRESET") {
+                map.currentTool.captureHandler._guides.length = 0;
+            } else if (type === "SELECTPARENT") {
+                map.currentTool.snapHandler._guides.length = 0;
+            }
+        };
+        $scope.clearMap = function () {
+            //重置选择工具
+            $scope.resetToolAndMap();
+            //移除上一步中的悬浮按钮
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
+            // $scope.classArr[0] = false;
+            //重置上一步中的属性栏和tips框
+            originalFeature = [];
+            selectCount = 0;
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+        };
+        /*
+         获取地图上的指定图层
+         */
+        $scope.getLayerById = function(layerId) {
+            var layer;
+            for (var item in map._layers) {
+                if (map._layers[item].options&&map._layers[item].options.id) {
+                    if (map._layers[item].options.id === layerId) {
+                        layer=map._layers[item];
+                        break;
+                    }
+                }
+            }
+            return layer;
+        };
+        /**
+         * 查找poi
+         */
+        $scope.getPoi = function (pid) {
+            dsEdit.getByPid(pid, "IXPOI").then(function (rest) {
+                if (rest) {
+                    objCtrl.setCurrentObject('IXPOI', rest);
+                    $scope.$emit("transitCtrlAndTpl", {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+                    });
+                    $scope.$emit("transitCtrlAndTpl", {
+                        "loadType": "attrTplContainer",
+                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                    });
+                }
+            });
+        };
+        $scope.resetMap =function (myPid) {
+            map.closePopup();
+            $scope.clearMap();
+            var drawLayer = $scope.getLayerById('parentLayer');
+            if(drawLayer!=undefined){
+                map.removeLayer(drawLayer);
+            }
+            $scope.getPoi(myPid);
+        };
+        /*
+        变更父子关系
+        */
+        changePoiParent = function(parentId) {
+            var myPid = objCtrl.data.pid;
+            var myParent = objCtrl.data.parents;
+            if (myParent.length > 0) {
+                if (myParent[0].parentPoiPid == parentId) { //解除
+                    dsEdit.deleteParent(myPid).then(function(data) {
+                        $scope.resetMap(myPid);
+                    });
+                } else { //更新
+                    dsEdit.updateParent(myPid, parentId).then(function(data) {
+                        $scope.resetMap(myPid);
+                    });
+                }
+            } else { //新增
+                dsEdit.createParent(myPid, parentId).then(function(data) {
+                    $scope.resetMap(myPid);
+                });
+            }
+        };
+        //高亮显示左侧列表的poi
+        $scope.$on("highlightPoiByPid", function(event) {
+            var pid = objCtrl.data.pid;
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            // $scope.clearMap();
+            var highLightFeatures = [];
+            highLightFeatures.push({
+                id: pid,
+                layerid: 'poi',
+                type: 'IXPOI',
+                style: {}
+            });
+            //高亮
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
+            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
+        });
     }
 ]);

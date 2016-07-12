@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['relationData']
+        this.editLayerIds = ['relationData'];
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -79,6 +79,14 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
         this.overlays = [];
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
+        var PointPixel = transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, map.getZoom());
+        PointPixel[0] = Math.ceil(PointPixel[0]);
+        PointPixel[1] = Math.ceil(PointPixel[1]);
+
+        var x = PointPixel[0] - 256 * PointLoc[0];
+        var y = PointPixel[1] - 256 * PointLoc[1];
         var frs = null;
         for (var layer in this.currentEditLayers) {
 
@@ -89,7 +97,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             }
             if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
-                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
                     if (data[item].properties.featType == 'RDCROSS') {
@@ -101,7 +109,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         }
                     }else if(data[item].properties.featType == 'RDGSC'){
                             if( data[item]['geometry']['type']!=="LineString") {
-                                if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                if (this._TouchesPoint(data[item].geometry.coordinates[0].g[1], x, y, 20)) {
                                     this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
                                 }
                             }
@@ -152,7 +160,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             });
 
             //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
-            var that = this;
+            // var that = this;
             if (this.overlays && this.overlays.length >= 1) {
                 setTimeout(function () {
                     that._map.openPopup(that.popup);

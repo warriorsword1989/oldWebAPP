@@ -44,7 +44,7 @@ App.layersConfig = [{
             id: 'mesh',
             name: '图幅',
             url: '',
-            visible: false,
+            visible: true,
             zIndex: 3
         }
     }, {
@@ -80,7 +80,7 @@ App.layersConfig = [{
     groupId: "dataLayers",
     groupName: "数据",
     layers: [{
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDNODE'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rdNode',
@@ -101,12 +101,12 @@ App.layersConfig = [{
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'RDNODE',
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDLINK'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rdLink',
@@ -133,7 +133,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'relationData',
@@ -153,12 +153,12 @@ App.layersConfig = [{
             type: 'Marker',
             zIndex: 6,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADADMIN'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'adAdmin',
@@ -183,7 +183,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADNODE'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'adNode',
@@ -209,7 +209,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADLINK'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'adLink',
@@ -234,7 +234,7 @@ App.layersConfig = [{
             showNodeLevel: 5
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADFACE'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'adFace',
@@ -260,7 +260,7 @@ App.layersConfig = [{
             showNodeLevel: 13
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWNODE'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rwNode',
@@ -281,12 +281,12 @@ App.layersConfig = [{
             zIndex: 17,
             restrictZoom: 10,
             editable: false,
-            visible: true,
+            visible: false,
             requestType: 'RWNODE',
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'RWLINK'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rwLink',
@@ -312,7 +312,7 @@ App.layersConfig = [{
             showNodeLevel: 12
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONENODE'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'zoneNode',
@@ -338,7 +338,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONELINK'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'zoneLink',
@@ -364,7 +364,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ZONEFACE'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'zoneFace',
@@ -390,7 +390,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'IXPOI'),
+        url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             name: '兴趣点（POI）',
@@ -419,7 +419,7 @@ App.layersConfig = [{
     groupId: 'worklayer',
     groupName: '作业图层',
     layers: [{
-        url: App.Util.createTileRequestObjectForTips('/render/tip/getByTileWithGap?', '12'), //暂时未用到此图层
+        url: '/render/tip/getByTileWithGap?', //暂时未用到此图层
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'workLine',
@@ -444,7 +444,7 @@ App.layersConfig = [{
             showNodeLevel: 17
         }
     }, {
-        url: App.Util.createTileRequestObjectForTips('/render/tip/getByTileWithGap?', ""),
+        url: '/render/tip/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'workPoint',

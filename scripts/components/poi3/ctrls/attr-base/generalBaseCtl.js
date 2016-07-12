@@ -7,6 +7,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
 
     function initData() {
         $scope.poi = objectCtrl.data;
+        objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         _retreatData($scope.poi);
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
@@ -291,7 +292,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "rowId": objectCtrl.data.rowId,
                         "pid": objectCtrl.data.pid,
                         "objStatus": "UPDATE"
-                    }).then(function(data) {});
+                    }).then(function(data) {
+                        if(data){
+                            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+                            }
+                        }
+                    });
                 }
             });
             return;
@@ -300,23 +307,21 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 删除数据
     function del() {
-        // eventCtrl.fire("testtest", {"pid":$scope.poi.pid});
-        // if(true){
-        //     return ;
-        // }
-
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
-            poiLayer.redraw();
+            //poiLayer.redraw();
             if (map.floatMenu) { //移除半圈工具条
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
             }
-            $scope.poi = null;
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+            }
+            $scope.poi = null;
         });
     }
     /* start 事件监听 ********************************************************/

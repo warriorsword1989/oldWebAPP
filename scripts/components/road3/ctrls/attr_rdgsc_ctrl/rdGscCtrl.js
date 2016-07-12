@@ -3,7 +3,7 @@
  */
 
 var rdGscApp = angular.module("app");
-rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope,dsRoad,dsFcc) {
+rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope,dsEdit,dsFcc) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -36,16 +36,11 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
     };
     $scope.initializeData();
     $scope.refreshData = function () {
-//        Application.functions.getRdObjectById(parseInt($scope.reGscData.pid), "RDGSC", function (data) {
-//            objCtrl.setCurrentObject("RDGSC", data.data);
-//            $scope.initializeData();
-//        });
-        dsRoad.getRdObjectById(parseInt($scope.reGscData.pid), "RDGSC").then(function(data){
-        	if (data.errcode === -1) {
-                return;
+        dsEdit.getByPid(parseInt($scope.reGscData.pid), "RDGSC").then(function(data){
+        	if (data) {
+                objCtrl.setCurrentObject("RDGSC", data.data);
+                $scope.initializeData();
             }
-        	objCtrl.setCurrentObject("RDGSC", data.data);
-            $scope.initializeData();
         });
     };
     /*处理标识*/
@@ -61,7 +56,7 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
         for(var i=0;i<$scope.reGscData.links.length;i++){
             $scope.zlevel.push({id:i,label:i});
         }
-    }
+    };
     $scope.getLevels();
 
     $scope.tableName = [
@@ -81,88 +76,24 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
         var param = {
             "command": "UPDATE",
             "type": "RDGSC",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,
                         "handler": 0
-
-                    }
-//                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-//                        var info = null;
-//                        if (data.errcode==0) {
-//                            var sinfo={
-//                                "op":"修改RDGSC状态成功",
-//                                "type":"",
-//                                "pid": ""
-//                            };
-//                            data.data.log.push(sinfo);
-//                            info=data.data.log;
-//                        }else{
-//                            info=[{
-//                                "op":data.errcode,
-//                                "type":data.errmsg,
-//                                "pid": data.errid
-//                            }];
-//                        }
-//                        outPutCtrl.pushOutput(info);
-//                        if (outPutCtrl.updateOutPuts !== "") {
-//                            outPutCtrl.updateOutPuts();
-//                        }
-//                        selectCtrl.rowkey.rowkey = undefined;
-//                    })
+                    };
                     dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
-                    	var info = null;
-                        if (data.errcode==0) {
-                            var sinfo={
-                                "op":"修改RDGSC状态成功",
-                                "type":"",
-                                "pid": ""
-                            };
-                            data.data.log.push(sinfo);
-                            info=data.data.log;
-                        }else{
-                            info=[{
-                                "op":data.errcode,
-                                "type":data.errmsg,
-                                "pid": data.errid
-                            }];
-                        }
-                        outPutCtrl.pushOutput(info);
-                        if (outPutCtrl.updateOutPuts !== "") {
-                            outPutCtrl.updateOutPuts();
-                        }
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                var sinfo={
-                    "op":"修改RDGSC成功",
-                    "type":"",
-                    "pid": ""
-                };
-
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                data.data.log.push(sinfo);
-                info=data.data.log;
                 rdgsc.redraw();
                 swal("操作成功", "修改立交成功！", "success");
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("操作失败", "问题原因：" + data.errmsg, "error");
-            }
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
             }
             $scope.refreshData();
         })
@@ -173,35 +104,15 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
         var param = {
             "command": "DELETE",
             "type": "RDGSC",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": objId
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+        };
+        dsEdit.save(param).then(function (data) {
             var info = null;
-            if (data.errcode==0) {
+            if (data) {
                 rdgsc.redraw();
                 $scope.reGscData = null;
-                var sinfo={
-                    "op":"删除RDGSC成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info=data.data.log;
                 rdgsc.redraw();
-                swal("删除成功", "删除RDGSC成功！", "success");
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("删除失败", "问题原因：" + data.errmsg, "error");
-            }
-
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
             }
         })
     };
@@ -211,4 +122,4 @@ rdGscApp.controller("rdGscController",['$scope','dsRoad','dsFcc',function($scope
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-}])
+}]);

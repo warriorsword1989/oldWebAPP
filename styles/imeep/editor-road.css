@@ -7,13 +7,24 @@
     width: 280px;
 }
 
-#popoverTips #imgContainer>img {
+#popoverTips #imgContainer > img {
     width: 32px;
     height: 32px;
 }
 
-
 /* *********tips图片缩放********* */
+
+.road-tips-img{
+    border-radius:3px;
+}
+
+.unselected-text{
+    color:#979695;
+    cursor: not-allowed;
+}
+.text-left{
+    text-align: left;
+}
 
 #imgContainer {
     width: 520px;
@@ -174,32 +185,34 @@
 
 .cursor-left,
 .cursor-left div,
-.cursor-left img{
-    cursor:url("../../images/road/img/arrow_thick_left.png"), auto !important;
+.cursor-left img {
+    cursor: url("../../images/road/img/arrow_thick_left.png"), auto !important;
 }
+
 .cursor-right,
 .cursor-right div,
-.cursor-right img{
-    cursor:url("../../images/road/img/arrow_thick_right.png"), auto !important;
+.cursor-right img {
+    cursor: url("../../images/road/img/arrow_thick_right.png"), auto !important;
 }
+
 /***************************关闭弹框样式*********************************/
 
-#tkclosediv>button {
+#tkclosediv > button {
     width: 78px;
     background-color: rgba(255, 255, 255, 0.3);
     margin-top: 5px;
     margin-left: 5px;
 }
 
-#tkclosediv>button:hover {
+#tkclosediv > button:hover {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-#tkclosediv>button:hover>a {
+#tkclosediv > button:hover > a {
     color: rgba(0, 0, 0, 0.5);
 }
 
-#tkclosediv>button>a {
+#tkclosediv > button > a {
     color: #FFF;
     text-decoration: none;
     cursor: pointer;
@@ -234,7 +247,6 @@
     position: absolute;
     z-index: 99;
 }
-
 
 /*********************************属性栏样式**********************************/
 
@@ -336,7 +348,7 @@
     font-weight: normal;
 }
 
-.blackTheme ul > li > div > label>input[type="radio"] {
+.blackTheme ul > li > div > label > input[type="radio"] {
     margin-top: 3px
 }
 
@@ -447,7 +459,6 @@
     color: #FFF;
     margin: 5px 0;
 }
-
 
 /*输入查询图片*/
 
@@ -613,12 +624,12 @@
     box-shadow: 0px 0px 7px 4px #9d9d9d;
 }
 
-.blackTheme ul > li >i {
+.blackTheme ul > li > i {
     color: #FFF;
     cursor: pointer;
 }
 
-.blackTheme ul > li >i:hover {
+.blackTheme ul > li > i:hover {
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -722,9 +733,7 @@
     background: rgba(0, 0, 0, .25);
 }
 
-
 /*********************************属性栏修改后特殊样式**********************************/
-
 
 /*.blackTheme select.ng-dirty {
     background-color: #307BA3;
@@ -746,9 +755,7 @@
     background-color: #307BA3;
 }*/
 
-
 /************************************名称属性样式*******************************************/
-
 
 /* 公用详细信息样式 */
 
@@ -840,7 +847,7 @@
     float: left;
 }
 
-.blackTheme .d-radio-btn>label {
+.blackTheme .d-radio-btn > label {
     height: 20px !important;
     line-height: 8px !important;
     border: 1px solid #FFF !important;
@@ -871,8 +878,10 @@
     padding-top: 0;
 }
 
-
 /************************************分歧属性样式*******************************************/
+.nameOfBraDiv {
+    height: 100%;
+}
 
 .blackTheme .panel-body {
     padding: 0px 15px;
@@ -941,7 +950,6 @@
     color: #CC0000 !important
 }
 
-
 /*输入查询图片*/
 
 .blackTheme .pic-show {
@@ -995,7 +1003,7 @@
 }
 
 .blackTheme .pic-loading {
-    min-height: 300px;
+    min-height: 100%;
     position: absolute;
     top: -1px;
     left: 1px;
@@ -1070,7 +1078,7 @@
     float: left;
 }
 
-.blackTheme .d-radio-btn>label {
+.blackTheme .d-radio-btn > label {
     height: 20px !important;
     line-height: 8px !important;
     border: 1px solid #FFF !important;
@@ -1090,7 +1098,6 @@
 .blackTheme .blackTheme .show-val {
     color: #fff;
 }
-
 
 /*********************次属性栏弹出窗口***********************/
 
@@ -1112,7 +1119,6 @@
 .suspend_hide {
     display: none;
 }
-
 
 /*高速分歧map上图片显示*/
 

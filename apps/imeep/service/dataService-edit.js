@@ -149,6 +149,40 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+    //获取检查结果
+    this.getCheckData = function(param) {
+        var defer = $q.defer();
+        ajax.get("edit/check/get", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //获取检查结果总数
+    this.getCheckCount = function(param) {
+        var defer = $q.defer();
+        ajax.get("edit/check/count", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     //获取检查状态
     this.updateCheckType = function(id, type) {
         var defer = $q.defer();
@@ -352,7 +386,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     this.save = function(param) {
         var opDesc = {
             "CREATE": "创建" + [param.type],
-            "BREAK" : "新增" + [param.type],
+            "UPDOWNDEPART": "创建上下线分离",
+            "BREAK" : "打断" + [param.type],
             "UPDATE": "更新" + [param.type] + "属性",
             "DELETE": "删除" + [param.type],
             "MOVE": "移动" + [param.type] + "点位",
@@ -363,7 +398,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "UPDATETOPO":"更新"+[param.type]+"拓扑"
         }[param.command];
 
-        if(param.type == "IXPOI"){ //poi属性不修改也可进行保存，所以需要进行特殊处理
+        if(param.type == "IXPOI" && param.data){ //poi属性不修改也可进行保存，所以需要进行特殊处理
             var keys = Object.keys(param.data);
             if(keys.length ==3 && param.data["rowId"] && param.data["objStatus"] && param.data["pid"]){
                 opDesc = param.type;

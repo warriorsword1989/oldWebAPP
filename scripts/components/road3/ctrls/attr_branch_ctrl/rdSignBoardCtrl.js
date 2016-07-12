@@ -10,11 +10,11 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     $scope.divergenceIds = objCtrl.data;
+    objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     $scope.initializeData = function () {
 
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
@@ -92,7 +92,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             }
         });
         $timeout(function () {
-            if ($.trim($scope.diverObj.signboards[0].arrowCode).length > 6) {
+            if ($.trim($scope.diverObj.signboards[0].arrowCode).length > 0) {
                 $scope.diverObj.signboards[0].backimageCode = '0' + $.trim($scope.diverObj.signboards[0].arrowCode).substr(1);
                 $scope.picNowNum = 1;
                 $scope.getPicsData();
@@ -319,7 +319,8 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,
-            "propertyHtml": tempTepl
+            "propertyHtml": tempTepl,
+            "data":objCtrl.data.signboards[0].names
         };
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
@@ -412,7 +413,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 if(params){
                     highRenderCtrl.highLightFeatures = null
                     highRenderCtrl._cleanHighLight();
-                    $scope.attrTplContainerSwitch(false);
                     rdBranch.redraw();
                 }
             }

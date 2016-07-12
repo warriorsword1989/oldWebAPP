@@ -20,7 +20,7 @@
         <div>
             <span class="fm-list-filter" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
             <button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
-            <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+                <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                 <li ng-repeat="col in cols">
@@ -34,28 +34,30 @@
         <div class="table-search fm-inline fm-list-dropdown">
             <div class="btn-group" uib-dropdown is-open="status.isopen">
                 <button type="button" class="btn btn-xs dropdown-toggle fm-xs-btn fm-group-btn" uib-dropdown-toggle ng-disabled="disabled">
-                {{radio_select}} <span class="caret"></span>
+                    {{radio_select}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">名称</a></li>
                     <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">PID</a></li>
                 </ul>
             </div>
-            <input class="fm-search-control" type="text" ng-style="{'width':{true: '94px', false: '130px'}[dataListType==2]}" ng-model="filters[searchType]" placeholder="搜索"/>
+            <input class="fm-search-control" type="text" ng-style="{'width':{true: '94px', false: '160px'}[dataListType==2]}" ng-model="filters[searchType]" placeholder="搜索"/>
             <button class="btn btn-xs btn-purple" ng-style="{'display':{true:'inline',false:'none'}[dataListType==2]}" ng-click="doSubmitData();">数据提交</button>
         </div>
     </div>
-    <div class="table-container dark scroll-styled">
-        <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
-            <colgroup>
-            <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
-            </colgroup>
-            <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
-                <td ng-repeat="col in $columns">
-                    <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
-                </td>
-            </tr>
-            <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="poiListTableMsg"></td></tr>
-        </table>
+    <div style="height: 100%;position: absolute;left: 0;right: 0;top: 0;overflow-y: hidden;z-index: -1">
+        <div class="fm-table-content fm-fitsize dark scroll-styled" style="top:98px;bottom: 40px">
+            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-striped poi-list">
+                <colgroup>
+                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+                </colgroup>
+                <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
+                    <td ng-repeat="col in $columns">
+                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+                    </td>
+                </tr>
+                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="poiListTableMsg"></td></tr>
+            </table>
+        </div>
     </div>
 </div>

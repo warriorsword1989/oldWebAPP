@@ -44,7 +44,7 @@
     #tipsTabContent #dataList > li > div > label {
         color: #FFF;
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 100;
     }
     #tipsTabContent #dataList > li > div > label>span{
         color:rgba(255,255,255,0.5);
@@ -76,7 +76,7 @@
     }
     #tipsTabContent #dataList > li > ul > li > label {
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 100;
     }
     /********************待处理的样式****************************************/
     #tipsTabContent #dataListOfPending {
@@ -293,7 +293,7 @@
                 </div>
                 <span>共{{items.total}}个</span>
             </div>
-            <div style="width:100%;">
+            <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataList">
                     <li ng-repeat="pItem in items" id="{{pItem.id}}">
                         <div ng-click="showContent(pItem,[1,3],0,$event)">
@@ -321,7 +321,7 @@
                 <span>共{{items.total}}个</span>
                 <!--<span style="float:right">显示</span>-->
             </div>
-            <div  style="width:100%;">
+            <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataListOfPending">
                     <li ng-repeat="pendItem in items " id="{{pendItem.id}}Pending">
                         <div ng-click="showContent(pendItem,[1],1,$event)"><i
@@ -348,7 +348,7 @@
                 </div>
                 <span>共{{items.total}}个</span>
             </div>
-            <div style="width:100%;">
+            <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataListOfPended">
                     <li ng-repeat="solveItem in items" id="{{solveItem.id}}Pended">
                         <div ng-click="showContent(solveItem,[3],3,$event)"><i  class="glyphicon glyphicon-folder-close" style=""></i>
