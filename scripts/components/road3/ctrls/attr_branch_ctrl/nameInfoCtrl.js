@@ -11,40 +11,40 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
         $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
         $scope.nameGroup = [];
     }
-    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-    if($scope.branchNameForm) {
-        $scope.branchNameForm.$setPristine();
-    }
-     /*根据nameGroupid排序*/
-     $scope.details[0].names.sort(function(a,b){
-        return b.nameGroupid >= a.nameGroupid;
-     });
-     /*重组源数据用新建变量nameGroup显示*/
-     $scope.sortNameGroup = function(arr){
-        $scope.nameGroup = [];
-        for (var i = 0; i <= arr.length - 1; i++) {
-            var tempArr = [];
-            if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
-                if($.inArray(arr[i],$scope.nameGroup) == -1){
+
+    function initNameInfo(){
+        /*根据nameGroupid排序*/
+        $scope.details[0].names.sort(function(a,b){
+            return b.nameGroupid >= a.nameGroupid;
+        });
+        /*重组源数据用新建变量nameGroup显示*/
+        $scope.sortNameGroup = function(arr){
+            $scope.nameGroup = [];
+            for (var i = 0; i <= arr.length - 1; i++) {
+                var tempArr = [];
+                if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
+                    if($.inArray(arr[i],$scope.nameGroup) == -1){
+                        tempArr.push(arr[i])
+                    }
+                    for(var j=i+1;j<arr.length-1;j++){
+                        if(arr[j].nameGroupid == arr[i].nameGroupid){
+                            tempArr.push(arr[j]);
+                            i = j;
+                        }
+                    }
+                }else{
                     tempArr.push(arr[i])
                 }
-                for(var j=i+1;j<arr.length-1;j++){
-                    if(arr[j].nameGroupid == arr[i].nameGroupid){
-                        tempArr.push(arr[j]);
-                        i = j;
-                    }
-                }
-            }else{
-                tempArr.push(arr[i])
-            }
-            $scope.nameGroup.push(tempArr);
-        };
-     }
-     $scope.sortNameGroup($scope.details[0].names);
-     // console.log($scope.nameGroup)
-     $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+                $scope.nameGroup.push(tempArr);
+            };
+        }
+        $scope.sortNameGroup($scope.details[0].names);
+        // console.log($scope.nameGroup)
+        $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
-         });
+        });
+    }
+
     /*名称分类*/
     $scope.nameClassType = [
         {"code":0,"label":"方向"},
@@ -220,4 +220,16 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
         $scope.sortNameGroup(protoArr);
     }
     // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
+    $scope.$watch('subAttributeData',function(){
+        if(!objCtrl.data.hasOwnProperty('details') && !objCtrl.data.hasOwnProperty('signboards')){
+            return;
+        }
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
+        $scope.nameGroup = [];
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.branchNameForm) {
+            $scope.branchNameForm.$setPristine();
+        }
+        initNameInfo();
+    });
 });
