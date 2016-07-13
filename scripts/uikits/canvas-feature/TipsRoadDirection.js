@@ -7,9 +7,9 @@ fastmap.uikit.canvasTips.TipsRoadDirection = fastmap.uikit.canvasTips.Tips.exten
                 fastmap.uikit.canvasTips.Tips.getIconStyle({
                     iconName: '../../../images/road/tips/road/1.svg',
                     row: 0,
-                    rotate: (item.m.c ) * (Math.PI / 180),
                     column: 1,
                     location: this.geometry['coordinates'],
+                    rotate: (item.m.c-180) * (Math.PI / 180),
                     fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                 })
             );
@@ -18,9 +18,9 @@ fastmap.uikit.canvasTips.TipsRoadDirection = fastmap.uikit.canvasTips.Tips.exten
                 fastmap.uikit.canvasTips.Tips.getIconStyle({
                     iconName: '../../../images/road/tips/road/2.svg',
                     row: 0,
-                    rotate: (item.m.c) * (Math.PI / 180),
                     column: 1,
                     location: this.geometry['coordinates'],
+                    rotate: (item.m.c-180) * (Math.PI / 180),
                     fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                 })
             );

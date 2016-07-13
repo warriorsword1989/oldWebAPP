@@ -42,7 +42,13 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
             }
             return angle;
         };
-        $scope.addShape = function(type) {
+        //重新设置选择工具
+        $scope.resetToolAndMap = function() {
+            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventController.off(eventController.eventTypes.GETADADMINNODEID);
+            eventController.off(eventController.eventTypes.GETNODEID);
+            eventController.off(eventController.eventTypes.GETRELATIONID);
+            eventController.off(eventController.eventTypes.GETTIPSID);
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -50,30 +56,36 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
             if (event) {
                 event.stopPropagation();
             }
-            //清空上一步的操作时的高亮
             highRenderCtrl._cleanHighLight();
-            if (highRenderCtrl.highLightFeatures != undefined) {
-                highRenderCtrl.highLightFeatures.length = 0;
-            }
-            //收回上一步中打开的属性栏和tips框
+            highRenderCtrl.highLightFeatures.length = 0;
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
             $("#popoverTips").hide();
-            //清空编辑图层
+            editLayer.drawGeometry = null;
             editLayer.clear();
             editLayer.bringToBack();
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-            adLink.clearAllEventListeners()
+            shapeCtrl.stopEditing();
+            rdLink.clearAllEventListeners();
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
-                map.currentTool.cleanHeight();
+            if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
+
+            if (selectCtrl.rowKey) {
+                selectCtrl.rowKey = null;
+            }
+
+            $(editLayer.options._div).unbind();
+
+        };
+        $scope.addShape = function(type) {
+            $scope.resetToolAndMap();
             // $scope.changeBtnClass(num);
             if (type === "ADLINK") {
                 $scope.resetOperator("addLink", type);

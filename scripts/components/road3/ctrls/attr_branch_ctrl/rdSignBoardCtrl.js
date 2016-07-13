@@ -10,7 +10,8 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     $scope.divergenceIds = objCtrl.data;
-    objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+    console.log(objCtrl.data.getIntegrate())
+    objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
     $scope.initializeData = function () {
 
         $scope.divergenceIds = objCtrl.data;
@@ -32,7 +33,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     };
 
     $scope.setOriginalDataFunc = function () {
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        // objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
     }
     /*点击关系类型*/
     $scope.switchRelType = function (code) {
@@ -253,7 +254,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
     }
     /*clone对象*/
-    $scope.clone = function (obj) {
+    function clone(obj) {
         var o;
         switch (typeof obj) {
             case 'undefined':
@@ -274,12 +275,12 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                     if (obj instanceof Array) {
                         o = [];
                         for (var i = 0, len = obj.length; i < len; i++) {
-                            o.push($scope.clone(obj[i]));
+                            o.push(clone(obj[i]));
                         }
                     } else {
                         o = {};
                         for (var k in obj) {
-                            o[k] = $scope.clone(obj[k]);
+                            o[k] = clone(obj[k]);
                         }
                     }
                 }
@@ -365,6 +366,14 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             if (param.data.signboards[0].names) {
                 $.each(param.data.signboards[0].names, function (i, v) {
                     delete v.linkPid;
+                    delete v.options;
+                    delete v._initHooksCalled;
+                    delete v._initHooks;
+                    delete v.id;
+                    delete v.geometry;
+                    delete v.attributes;
+                    delete v.snapShot;
+                    delete v.integrate;
                 });
                 $scope.delEmptyNames(param.data.signboards[0].names);
             }
@@ -378,7 +387,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             var info = null;
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
                 rdBranch.redraw();
 
                 swal("操作成功", "分歧属性值修改成功！", "success");

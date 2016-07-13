@@ -15,7 +15,7 @@ fastmap.uikit.canvasTips.TipsSpeedlimit = fastmap.uikit.canvasTips.Tips.extend({
         );
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                    iconName: '../../../images/road/tips/1111/1111_5_0.svg',
+                    iconName: '../../../images/road/tips/1111/1111_0_0.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates'],

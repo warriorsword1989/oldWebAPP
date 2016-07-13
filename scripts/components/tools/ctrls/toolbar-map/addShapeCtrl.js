@@ -562,8 +562,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
-                map.currentTool.cleanHeight();
+            if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
 
