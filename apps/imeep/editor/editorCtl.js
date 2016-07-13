@@ -361,10 +361,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
          * 取消编辑
          */
         $scope.doCancel = function() {
-            $scope.attrTplContainer = "";
+            $scope.tipsPanelOpened = false;
+            //$scope.attrTplContainer = "";
             $scope.attrTplContainerSwitch(false);
-            $scope.subAttrTplContainerSwitch(false);
-            eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
+            //$scope.subAttrTplContainerSwitch(false);
+            //eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
         };
         $scope.goback = function() {
             window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
