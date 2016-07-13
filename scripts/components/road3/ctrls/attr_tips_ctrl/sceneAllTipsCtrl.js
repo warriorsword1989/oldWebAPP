@@ -199,14 +199,15 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.limitDesc = $scope.dataTipsData.desc;
                 break;
 	        case "1102":    //红绿灯
-		        var fArray = $scope.dataTipsData.f_array;
-		        $scope.dataTipsData.enableCtl = [];
-		        $scope.dataTipsData.disableCtl = [];
-		        for(var i=0,len=fArray.length;i<len;i++){
-			        if(fArray[i].ctrl == 1){
-				        $scope.dataTipsData.enableCtl.push(fArray[i]);
+		        var trafficLightArr = $scope.dataTipsData.f_array;
+		        $scope.inCt = $scope.dataTipsData.inCt;
+		        $scope.enableCtl = [];
+		        $scope.disableCtl = [];
+		        for(var i=0,len=trafficLightArr.length;i<len;i++){
+			        if(trafficLightArr[i].ctrl == 1){
+				        $scope.enableCtl.push(trafficLightArr[i]);
 			        }else{
-				        $scope.dataTipsData.disableCtl.push(fArray[i]);
+				        $scope.disableCtl.push(trafficLightArr[i]);
 			        }
 		        }
                 $scope.dataTipsData.isTrafficLights = true;

@@ -84,6 +84,10 @@ angular.module('app').controller("addZoneShapeCtrl", ['$scope', '$ocLazyLoad',
         };
         $scope.addShape = function(type) {
             $scope.resetToolAndMap();
+            //大于17级才可以选择地图上各种geometry
+            if (map.getZoom() < 17) {
+                return;
+            }
             // $scope.changeBtnClass(num);
             if (type === "ZONELINK") {
                 $scope.resetOperator("addLink", type);

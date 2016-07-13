@@ -222,10 +222,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
          */
         $scope.selectObjCallback = function(data) {
             $scope.selectedFeature = data;
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                    "subAttrContainerTpl": false
-                });
-                //地图小于17级时不能选择
+            // $scope.$emit("SWITCHCONTAINERSTATE", {
+            //     "subAttrContainerTpl": false
+            // });
+            //地图小于17级时不能选择
             if (map.getZoom < 17) {
                 return;
             }

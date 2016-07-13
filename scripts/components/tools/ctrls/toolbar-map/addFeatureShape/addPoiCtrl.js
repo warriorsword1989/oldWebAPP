@@ -85,6 +85,10 @@ angular.module('app').controller("addPoiCtrl", ['$scope', '$ocLazyLoad',
          */
         $scope.addPoi = function(type) {
             $scope.resetToolAndMap();
+            //大于17级才可以选择地图上各种geometry
+            if (map.getZoom() < 17) {
+                return;
+            }
             // $scope.changeBtnClass(num);
             if (type === "IXPOI") {
                 $scope.resetOperator("addPointFeature", type);

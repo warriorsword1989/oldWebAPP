@@ -580,6 +580,10 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
          * @param event
          */
         $scope.addShape = function(type) {
+            //大于17级才可以选择地图上各种geometry
+            if (map.getZoom() < 17) {
+                return;
+            }
             //重置选择工具
             $scope.resetToolAndMap();
             // $scope.changeBtnClass(num);

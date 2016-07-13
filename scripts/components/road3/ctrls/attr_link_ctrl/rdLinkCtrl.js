@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("app");
-angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsEdit", "appPath", function($scope, $ocLazyLoad, dsEdit, appPath) {
+angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsEdit", "appPath","$timeout", function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -212,6 +212,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         shapeCtrl.startEditing();
     };
     $scope.save = function() {
+        if(!$scope.linkData){
+            return;
+        }
         if ($scope.linkData.forms.length == 0) {
             var newForm = fastmap.dataApi.rdLinkForm({
                 "linkPid": $scope.linkData.pid,
@@ -288,6 +291,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         })
     };
     $scope.delete = function() {
+        if(!$scope.linkData){
+            return ;
+        }
         dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
             if (data) {
                 rdLink.redraw();
@@ -295,10 +301,28 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 rdCross.redraw();
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
-                $scope.linkData = null;
-                var editorLayer = layerCtrl.getLayerById("edit");
-                editorLayer.clear();
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                //清空编辑图层和shapeCtrl
+                editLayer.drawGeometry = null;
+                shapeCtrl.stopEditing();
+                editLayer.bringToBack();
+                $(editLayer.options._div).unbind();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                editLayer.clear();
 
+                $scope.linkData = null;
+
+                // $scope.$emit("SWITCHCONTAINERSTATE",{
+                //     "attrContainerTpl":false,
+                //     "subAttrContainerTpl":false
+                // });
             }
         });
     };
