@@ -123,7 +123,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                 if (v.length > 0) {
                     return v;
                 }
-            })
+            });
             return arr;
         };
     $scope.changeIndexCallback=function(data) {
@@ -135,8 +135,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
             }else {
                 return 0;
             }
-        })
-        console.log($scope.jsonData.linkObjs);
+        });
         /*把当前link的zlevel升高一级*/
         for (var zLevelNum = 0, zLevelLen = $scope.jsonData.linkObjs.length; zLevelNum < zLevelLen; zLevelNum++) {
             if ($scope.jsonData.linkObjs[zLevelNum].pid == data.id) {
@@ -200,8 +199,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
         rdLink.options.selectType = 'link';
         rdLink.options.editable = true;
         eventController.off(eventController.eventTypes.GETLINKID,$scope.changeIndexCallback)
-        eventController.on(eventController.eventTypes.GETLINKID,$scope.callback)
-    }
+        eventController.on(eventController.eventTypes.GETLINKID,$scope.changeIndexCallback)
+    };
         /**
          *  路口创建中的方法 根据node删除对象中的重复
          * @param nodesArr
@@ -365,7 +364,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                         var sObj = {
                             "node": parseInt(properties.snode),
                             "link": parseInt(properties.id)
-                        }
+                        };
                         nodeArr.push(sObj);
                     }
 
@@ -702,7 +701,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
-                })
+                });
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     tooltipsCtrl.setCurrentTooltip('已选择路口，按空格保存或者esc取消！');
@@ -767,9 +766,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
 
             }
             else if (type === "RDLANECONNEXITY") {
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true})
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true});
                 var obj = {};
-                obj["showTransitData"] = []
+                obj["showTransitData"] = [];
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
@@ -778,7 +777,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
-                }
+                };
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             }
             else if (type === "RDNODE") {
@@ -859,7 +858,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                                 if (i != j) {
                                     var lineGeoArr = function (mark) {
                                         return [dealData[mark].line.points[0], dealData[mark].line.points[1]];
-                                    }
+                                    };
                                     crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                 }
                             }
@@ -946,7 +945,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                         $scope.param["data"] = {
                             "linkPid": $scope.limitRelation.inLinkPid,
                             "nodePidDir": $scope.limitRelation.nodePid
-                        }
+                        };
                         if (!map.floatMenu) {
                             map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, {
                                 items: [{
@@ -968,7 +967,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                                     'class': "feaf",
                                     callback: $scope.upAndDown
                                 }]
-                            })
+                            });
                             map.addLayer(map.floatMenu);
                             map.floatMenu.setVisible(true);
                         }
@@ -1043,7 +1042,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                     });
                     highRenderCtrl.drawHighlight();
                     tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
-                }
+                };
                 //选择分歧监听事件;
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
@@ -1097,4 +1096,4 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
         }
 
     }]
-)
+);

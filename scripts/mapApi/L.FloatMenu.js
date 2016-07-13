@@ -26,7 +26,9 @@ L.Control.FloatMenu = fastmap.mapApi.Layer.extend({
 
         this._el.appendChild(this.toolBarContainer);
         map.getPanes().overlayPane.appendChild(this._el);
-
+        if( this._map.getPanes().overlayPane.style.zIndex == "1"){
+            this._map.getPanes().overlayPane.style.zIndex = "4";
+        }
         // add a viewreset event listener for updating layer's position, do the latter
         map.on('viewreset', this._reset, this);
         map.on('moveend',this._reset,this);

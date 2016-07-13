@@ -44,7 +44,6 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
             return b.nameGroupid >= a.nameGroupid;
         });
     }
-
     /*名称分类*/
     $scope.nameClassType = [
         {"code":0,"label":"方向"},

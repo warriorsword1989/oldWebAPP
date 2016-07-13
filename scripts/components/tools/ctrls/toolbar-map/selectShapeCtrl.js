@@ -996,7 +996,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
                 map.addLayer(map.floatMenu);
                 map.floatMenu.setVisible(true);
-                console.log(map.floatMenu);
             }
         };
         $scope.sign = 0; //初始值
@@ -1279,7 +1278,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
                     map.addLayer(map.floatMenu);
                     map.floatMenu.setVisible(true);
-                    console.log(map.floatMenu);
                 }
             }
             function getByPidCallback(type, ctrl, tpl, data) {
