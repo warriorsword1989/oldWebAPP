@@ -5,7 +5,7 @@ fastmap.uikit.canvasTips.TipsTollGate = fastmap.uikit.canvasTips.Tips.extend({
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
                 iconName: '../../../images/road/tips/1107/0.svg',
-                rotate: (item.m.c - 90) * (Math.PI / 180),
+                rotate: (item.m.c) * (Math.PI / 180),
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
@@ -18,7 +18,7 @@ fastmap.uikit.canvasTips.TipsTollGate = fastmap.uikit.canvasTips.Tips.extend({
                     row: 0,
                     column: 3,
                     location: this.geometry['coordinates'],
-                    rotate: (item.m.c - 90) * (Math.PI / 180),
+                    rotate: (item.m.c) * (Math.PI / 180),
                     dx: 16,
                     dy: 7
                 }

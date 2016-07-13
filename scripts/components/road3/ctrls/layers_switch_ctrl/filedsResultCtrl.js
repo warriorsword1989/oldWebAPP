@@ -943,10 +943,16 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             if(type == 'RDBRANCH'){
                 if(selectedData.branchType == 5 || selectedData.branchType == 7){
                     dsEdit.getBranchByRowId(selectedData.rowkey,branchType).then(function(data){
+                        if(data == -1){
+                            return;
+                        }
                         getByPidCallback(type,ctrl,tpl,data);
                     });
                 }else{
                     dsEdit.getBranchByDetailId(selectedData.rowkey,branchType).then(function(data){
+                        if(data == -1){
+                            return;
+                        }
                         getByPidCallback(type,ctrl,tpl,data);
                     });
                 }

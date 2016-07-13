@@ -344,13 +344,13 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('vDis')">
                             <label class="col-sm-5 control-label" style="padding: 4px">有效距离:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " >{{wArrayitem.vDis}} m</span>
+                                <span class="label" ng-if="wArrayitem.vDis != 0">{{wArrayitem.vDis}} m</span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('wDis')">
                             <label class="col-sm-5 control-label" style="padding: 4px">预告距离:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " >{{wArrayitem.wDis}} m</span>
+                                <span class="label" ng-if="wArrayitem.wDis != 0">{{wArrayitem.wDis}} m</span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('time')">
@@ -432,11 +432,11 @@
                         <!--end 高速分歧-->
                         <!--begin 实景图-->
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('JVCSchemaNo')">
-                            <label class="col-sm-5 control-label" style="padding: 4px">实景图代码:</label>
-                            <div class="col-sm-7 text-ellipsis" style="padding: 3px" ng-bind="dataTipsData.JVCSchemaNo" title="{{dataTipsData.JVCSchemaNo}}"></div>
+                            <label class="col-sm-5 control-label" style="padding: 4px;padding-left: 2px;">底图号码:</label>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 3px;padding-left:10px;" ng-bind="dataTipsData.JVCSchemaNo" title="{{dataTipsData.JVCSchemaNo}}"></div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="schemaType">
-                            <label class="col-sm-5 control-label" style="padding: 4px">实景图类型:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label" ng-bind="schemaType"></span>
                             </div>

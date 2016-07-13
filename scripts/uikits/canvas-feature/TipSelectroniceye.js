@@ -4,7 +4,7 @@ fastmap.uikit.canvasTips.TipSelectroniceye = fastmap.uikit.canvasTips.Tips.exten
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
                 iconName: '../../../images/road/tips/1109/0.svg',
-                rotate: (item.m.c - 90) * (Math.PI / 180),
+                rotate: (item.m.c) * (Math.PI / 180),
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
@@ -19,7 +19,7 @@ fastmap.uikit.canvasTips.TipSelectroniceye = fastmap.uikit.canvasTips.Tips.exten
                 location: this.geometry['coordinates'],
                 rotate: (item.m.c) * (Math.PI / 180),
                 dx: 0,
-                dy: -14
+                dy: -18
             }
             )
         );
