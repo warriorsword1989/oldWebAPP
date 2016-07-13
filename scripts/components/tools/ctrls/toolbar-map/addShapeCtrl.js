@@ -780,9 +780,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 $scope.resetOperator("addRelation", type);
                 $scope.$emit("SWITCHCONTAINERSTATE", {
                     "attrContainerTpl": true
-                })
+                });
                 var obj = {};
-                obj["showTransitData"] = []
+                obj["showTransitData"] = [];
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
@@ -791,7 +791,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
-                }
+                };
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "RDNODE") {
                 $scope.resetOperator("addNode", type);

@@ -297,7 +297,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     });
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rdLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "RDLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "RDLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "RDNODE":
                     toolsObj = {
@@ -325,7 +325,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_node_ctrl/rdNodeFromCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFromTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDRESTRICTION':
                     //if (data.restrictionType === 1) {
@@ -389,7 +389,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         })
                     }
                     locllBranchCtlAndTpl(data.branchType);
-                    $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "RWNODE":
                     toolsObj = {
@@ -403,7 +403,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_node_ctrl/rwNodeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rwNodeTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "RWNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "RWNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "RWLINK":
                     toolsObj = {
@@ -435,7 +435,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_link_ctrl/rwLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_link_tpl/rwLinkTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "RWLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "RWLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "ADADMIN":
                     toolsObj = {
@@ -449,7 +449,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adAdminCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adAdminTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "ADADMIN", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "ADADMIN", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "ADNODE":
                     toolsObj = {
@@ -463,7 +463,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adNodeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adNodeTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "ADNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "ADNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "ADLINK":
                     toolsObj = {
@@ -495,7 +495,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adLinkTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "ADLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "ADLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "ADFACE":
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adFaceCtrl';
@@ -514,7 +514,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneNodeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneNodeTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "ZONENODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "ZONENODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "ZONELINK":
                     toolsObj = {
@@ -546,7 +546,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneLinkTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "ZONELINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "ZONELINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "ZONEFACE":
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_zone_ctrl/zoneFaceCtrl';
@@ -554,7 +554,42 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, "ZONEFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "IXPOI":
-                    $scope.getFeatDataCallback(data, data.id, "IXPOI");
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-open'></a>",
+                            'title': "移动显示坐标",
+                            'type': "POILOCMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-export'></a>",
+                            'title': "移动引导坐标",
+                            'type': "POIGUIDEMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-random'></a>",
+                            'title': "引导坐标随着显示坐标变化",
+                            'type': "POIAUTODRAG",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'title': "重置",
+                            'type': "POIRESET",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
+                            'title': "编辑父",
+                            'type': "SELECTPARENT",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.poi + "ctrls/attr-base/generalBaseCtl";
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "IXPOI", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "TIPS":
                     $("#popoverTips").css("display", "block");
@@ -992,11 +1027,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         break;
                 }
             }
-            if (!map.floatMenu && toolsObj) {
-                map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
-                map.addLayer(map.floatMenu);
-                map.floatMenu.setVisible(true);
-            }
+
         };
         $scope.sign = 0; //初始值
         /**
@@ -1201,26 +1232,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 }
             }
         };
-        $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl) {
+        $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,toolsObj) {
             if (type == 'RDBRANCH') {
                 if (selectedData.branchType == 5 || selectedData.branchType == 7) {
                     dsEdit.getBranchByRowId(selectedData.id, selectedData.branchType).then(function(data) {
-                        getByPidCallback(type, ctrl, tpl, data);
+                        getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj);
                     });
                 } else {
                     dsEdit.getBranchByDetailId(selectedData.id, selectedData.branchType).then(function(data) {
-                        getByPidCallback(type, ctrl, tpl, data);
+                        getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj);
                     });
                 }
             } else {
                 dsEdit.getByPid(id, type).then(function(data) {
-                    getByPidCallback(type, ctrl, tpl, data);
-                    if (type == "IXPOI") {
-                        initPoiData(selectedData,data);
-                    }
+                    getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj);
                 });
             }
-            //高亮图层的线是矢量图层且依赖于请求到的数据，因此要先高亮后画floatmenu
+            //高亮poi并放入selectCtrl
             function initPoiData(selectedData,data) {
                 var locArr = data.geometry.coordinates;
                 // var guideArr = data.guide.coordinates;
@@ -1241,46 +1269,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 });
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
-                toolsObj = {
-                    items: [{
-                        'text': "<a class='glyphicon glyphicon-open'></a>",
-                        'title': "移动显示坐标",
-                        'type': "POILOCMOVE",
-                        'class': "feaf",
-                        callback: $scope.modifyPoi
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-export'></a>",
-                        'title': "移动引导坐标",
-                        'type': "POIGUIDEMOVE",
-                        'class': "feaf",
-                        callback: $scope.modifyPoi
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-random'></a>",
-                        'title': "引导坐标随着显示坐标变化",
-                        'type': "POIAUTODRAG",
-                        'class': "feaf",
-                        callback: $scope.modifyPoi
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-refresh'></a>",
-                        'title': "重置",
-                        'type': "POIRESET",
-                        'class': "feaf",
-                        callback: $scope.modifyPoi
-                    }, {
-                        'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
-                        'title': "编辑父",
-                        'type': "SELECTPARENT",
-                        'class': "feaf",
-                        callback: $scope.modifyPoi
-                    }]
-                };
-                if (!map.floatMenu && toolsObj) {
-                    map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
-                    map.addLayer(map.floatMenu);
-                    map.floatMenu.setVisible(true);
-                }
             }
-            function getByPidCallback(type, ctrl, tpl, data) {
+            function getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj) {
                 objCtrl.setCurrentObject(type, data);
                 if (type == "IXPOI") {
                     $scope.$emit("transitCtrlAndTpl", {
@@ -1290,19 +1280,24 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     });
                     $scope.$emit("transitCtrlAndTpl", {
                         "loadType": "attrTplContainer",
-                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
-                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                        "propertyCtrl": ctrl,
+                        "propertyHtml": tpl
                     });
+                    initPoiData(selectedData,data);
                 } else {
-                    var options = {
+                    $scope.$emit("transitCtrlAndTpl", {
                         "loadType": 'attrTplContainer',
                         "propertyCtrl": ctrl,
                         "propertyHtml": tpl
-                    };
-                    $scope.$emit("transitCtrlAndTpl", options);
+                    });
                 }
 
                 tooltipsCtrl.onRemoveTooltip();
+                if (!map.floatMenu && toolsObj) {
+                    map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
+                    map.addLayer(map.floatMenu);
+                    map.floatMenu.setVisible(true);
+                }
             }
         };
         $scope.modifyPoi = function(event) {
