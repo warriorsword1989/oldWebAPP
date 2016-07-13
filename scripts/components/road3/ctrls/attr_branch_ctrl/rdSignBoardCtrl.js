@@ -10,7 +10,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     $scope.divergenceIds = objCtrl.data;
-    console.log(objCtrl.data.getIntegrate())
     objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
     $scope.initializeData = function () {
 

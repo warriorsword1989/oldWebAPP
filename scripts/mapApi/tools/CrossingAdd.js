@@ -141,7 +141,6 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         return re;
     },
     _getDataOfRectangle: function (layer, tiles) {
-    	console.log(tiles)
         var points = layer._latlngs, dataOfRectangle = [];
         var transform = new fastmap.mapApi.MecatorTranform();
         var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),

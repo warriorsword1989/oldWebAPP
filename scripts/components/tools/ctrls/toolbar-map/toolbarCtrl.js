@@ -36,17 +36,17 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             $scope.selectBtnOpened = false;
             $scope.addBtnOpened = !$scope.addBtnOpened;
             $scope.advanceBtnOpened = false;
-        }
+        };
         $scope.toggleAdvanceBtn = function() {
             $scope.selectBtnOpened = false;
             $scope.addBtnOpened = false;
             $scope.advanceBtnOpened = !$scope.advanceBtnOpened;
-        }
+        };
         $scope.clearOperator = function() {
             $scope.shapeOperator = "navigate";
             $scope.featureOperator = null;
             resetMap();
-        }
+        };
         $scope.resetOperator = function(shapeOper, featureOper) {
             if (shapeOper) {
                 $scope.shapeOperator = shapeOper;
@@ -56,7 +56,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             } else {
                 $scope.featureOperator = null;
             }
-        }
+        };
         var selectCtrl = fastmap.uikit.SelectController();
         var layerCtrl = fastmap.uikit.LayerController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -94,5 +94,8 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             editLayer.clear();
         }
+        $scope.$on("resetButtons",function (event) {
+            $scope.clearOperator();
+        });
     }
 ]);
