@@ -27,7 +27,7 @@
                             <label>种 别</label>
                             <div>
                                 <select class="fm-control" ng-model="selectedKind"
-                                        no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'"
+                                        no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'" search_contains=true
                                         ng-options="value as lable.kindName for (value, lable) in metaData.kindFormat"
                                         chosen ng-change="kindChange($event, this)">
                                 </select>
