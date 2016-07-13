@@ -295,7 +295,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     }).then(function(data) {
                         if(data){
                             if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
-                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi});
+                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
                             }
                         }
                     });
@@ -306,7 +306,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
             if(data){
                 if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
-                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi});
+                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
                 }
             }
         });
@@ -325,7 +325,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
             if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
-                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi.pid});
             }
         });
     }
