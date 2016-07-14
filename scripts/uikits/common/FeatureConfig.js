@@ -19,7 +19,7 @@ fastmap.uikit.FeatureConfig = {
             name: "路口"
         },
         "RDLANECONNEXITY": {
-            name: "车道"
+            name: "车信"
         },
         "RDLINKINTRTIC": {
             name: "互联网RTIC"
