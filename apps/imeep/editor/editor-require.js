@@ -25,7 +25,6 @@ requirejs.config({
         'e-smart-zoom': 'scripts/libs/e-smart-zoom/js/e-smart-zoom-jquery.min',
         'bootspopover': 'scripts/utils/popoverSelect',
         'poi-msg':'scripts/libs/poi-msg/poiMsg',
-        'wicket':'scripts/libs/leaflet-0.7.3/plugins/wicket',
         // app相关
         'dataService': 'apps/imeep/service/dataService',
         'poiService': 'apps/imeep/service/dataService-poi',
@@ -69,7 +68,7 @@ requirejs.config({
         'bootspopover': ['jquery'],
         'keyPressFunctions': ['jquery', 'dataService', 'poiService', 'metaService', 'roadService'],
         'z-tree': ['jquery'],
-        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'fccService', 'roadService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','wicket']
+        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'fccService', 'roadService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg']
     }
 });
 // Start the main app logic.

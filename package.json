@@ -5,6 +5,7 @@
   "homepage": "http://www.navinfo.com/",
   "author": "navinfo",
   "devDependencies": {
+    "del": "^2.2.1",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "~0.3.0",
