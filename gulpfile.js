@@ -29,7 +29,7 @@ gulp.task('styles', function() {
 });
 // 脚本
 gulp.task('scripts', function() {
-	return gulp.src('scripts/**/*.js')
+	return gulp.src(['scripts/**/*.js','!scripts/libs/**/*.js'])
 		.pipe(jshint('jshintrc.json'))
 		/*.pipe(jshint.reporter('default'))
 		.pipe(concat('main.js'))
@@ -42,9 +42,23 @@ gulp.task('scripts', function() {
 // 清理
 gulp.task('clean', function() {
 	return gulp.src(['dist/scripts'], {read: false})
-		.pipe(clean());
+		.pipe(clean())
+		.pipe(notify({ message: '清空完成' }));
 });
-// 预设任务
-gulp.task('default', ['clean'], function() {
+// 说明
+gulp.task('help',function () {
+	console.log('	gulp build			文件打包');
+	console.log('	gulp clean			清空文件夹');
+	console.log('	gulp help			gulp参数说明');
+	console.log('	gulp styles			压缩CSS文件');
+	console.log('	gulp scripts		        压缩JS文件');
+	console.log('	gulp watchLess		        监控less变化，自动转CSS');
+
+});
+// 打包
+gulp.task('build', ['clean'], function() {
+	gulp.start('clean');
+	gulp.start('help');
 	gulp.start('scripts');
+	gulp.start('styles');
 });
