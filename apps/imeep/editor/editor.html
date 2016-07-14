@@ -31,14 +31,16 @@
     </head>
     <body ng-controller="EditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="40px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">
                         <a tooltip-class="subTooltip" uib-tooltip="成　果" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true><i title="成果" class="glyphicon glyphicon-home"></i></a>
+                        <div ng-if="selectedTool == 1" class="fill-azure pin-left"></div>
                     </div>
                     <div ng-class="{2:'selected'}[selectedTool]" ng-click="changeEditTool('scenePanel')">
                         <a tooltip-class="subTooltip" uib-tooltip="场　景" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true><i title="场景" class="glyphicon glyphicon-facetime-video"></i></a>
+                        <div ng-if="selectedTool == 2" class="fill-azure pin-left"></div>
                     </div>
                 </div>
                 <div class="banner-bottom">
