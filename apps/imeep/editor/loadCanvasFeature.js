@@ -91,7 +91,10 @@
         "TipsUnderpasses.js",
         "TipsUnderpass.js",
         "TipsBypaths.js",
-        "TipsBypath.js"
+        "TipsBypath.js",
+        "TipsTunnels.js",
+        "TipsSeasonalRoads",
+        "TipsUsageFeeRequireds"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

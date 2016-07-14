@@ -148,6 +148,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1510://桥
                     ret = new fastmap.uikit.canvasTips.TipsBridges(item);
                     break;
+                case 1511://隧道
+                    ret = new fastmap.uikit.canvasTips.TipsTunnels(item);
+                    break;
                 case 1512://辅路
                     ret = new fastmap.uikit.canvasTips.TipsSideRoads(item);
                     break;
@@ -156,6 +159,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1515://维修
                     ret = new fastmap.uikit.canvasTips.TipsRepairs(item);
+                    break;
+                case 1516://季节性关闭道路
+                    ret = new fastmap.uikit.canvasTips.TipsSeasonalRoads(item);
                     break;
                 case 1604://区域内道路
                     ret = new fastmap.uikit.canvasTips.TipsRegionRoad(item);
