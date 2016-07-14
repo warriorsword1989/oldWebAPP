@@ -82,6 +82,10 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
 
         };
         $scope.addShape = function(type) {
+            if (map.getZoom() < 17) {
+                swal("提示","地图缩放等级必须大于16级才可操作","info");
+                return;
+            }
             $scope.resetToolAndMap();
             // $scope.changeBtnClass(num);
             if (type === "RWLINK") {

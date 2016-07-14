@@ -87,13 +87,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
          */
         $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
         $scope.changeBtnClass = function(id) {
-            for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
-                if (claFlag === id) {
-                    $scope.classArr[claFlag] = !$scope.classArr[claFlag];
-                } else {
-                    $scope.classArr[claFlag] = false;
-                }
-            }
+            $scope.$broadcast("resetButtons", {});
+            // for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
+            //     if (claFlag === id) {
+            //         $scope.classArr[claFlag] = !$scope.classArr[claFlag];
+            //     } else {
+            //         $scope.classArr[claFlag] = false;
+            //     }
+            // }
             $timeout(function() { //为了解决按esc键后工具条按钮不能恢复的bug
                 $scope.$apply();
             }, 1);
@@ -353,7 +354,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 cancelButtonText: "取消"
             }, function(f) {
                 if (f) {
-                    $scope.attrTplContainer = "";
                     eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
                 }
             });
@@ -362,10 +362,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
          * 取消编辑
          */
         $scope.doCancel = function() {
-            $scope.attrTplContainer = "";
+            $scope.tipsPanelOpened = false;
+            //$scope.attrTplContainer = "";
             $scope.attrTplContainerSwitch(false);
-            $scope.subAttrTplContainerSwitch(false);
-            eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
+            //$scope.subAttrTplContainerSwitch(false);
+            //eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
         };
         $scope.goback = function() {
             window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;

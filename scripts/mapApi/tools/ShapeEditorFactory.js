@@ -24,6 +24,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                 var toolsObject = {
 
                     'drawPath': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
+                    'drawRwLink': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawAdLink': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawPolygon': new fastmap.mapApi.DrawPolygon({shapeEditor:shapeEditor}),
                     'pathCopy': new fastmap.mapApi.PathCopy({shapeEditor:shapeEditor}),
