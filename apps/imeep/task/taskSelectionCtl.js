@@ -6,7 +6,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.taskSelectionLayersConfig
         });
-        var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
         var eventCtrl = new fastmap.uikit.EventController();
         var gridLayer = new fastmap.mapApi.GridLayer();
         //当前高亮的格网数组;
@@ -365,9 +364,10 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
 
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
+            $scope.dataLoaded = false;
             if (!obj) return;
+            var k = 0;
             dsManage.getSubtaskListByUser({
-                // 'exeUserId': 1,
                 'exeUserId': $cookies.get('FM_USER_ID'),
                 'stage': obj.classStage,
                 'type': obj.classType,
@@ -376,6 +376,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 'pageNum': 1,
                 'pageSize': 20
             }).then(function(data) {
+                $scope.dataLoaded = true;
                 for(var i=0;i<data.length;i++){
                     if(!data[i].name){
                         data[i].name = '（无）';
@@ -397,7 +398,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     map.invalidateSize()
                 }, 400);
             });
-            tooltipsCtrl.setMap(map, 'tooltip');
             layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function(event) {
                 if (event.flag == true) {
                     map.addLayer(event.layer);

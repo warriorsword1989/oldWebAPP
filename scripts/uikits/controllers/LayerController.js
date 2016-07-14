@@ -19,7 +19,6 @@ fastmap.uikit.LayerController = (function() {
                 L.setOptions(this, options);
                 this.config = this.options.config;
                 this.layers = [];
-                this.eventController = fastmap.uikit.EventController();
                 this.highLightLayersArr = [];
                 this.zIndexQueue = [];
                 this.maxZIndex = 1;
