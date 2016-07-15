@@ -112,7 +112,9 @@
         "TipsSpecialTrafficTypes.js",
         "TipsSpecialTrafficType.js",
         "TipsSpecialTrafficTypePart.js",
-        "TipsDirect.js"
+        "TipsDirect.js",
+        "TipsPedestrianStreets.js",
+        "TipsPedestrianStreet.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
