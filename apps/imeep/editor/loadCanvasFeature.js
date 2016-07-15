@@ -110,6 +110,8 @@
         "TipsRoundabouts.js",
         "TipsRoundaboutPart.js",
         "TipsSpecialTrafficTypes.js",
+        "TipsSpecialTrafficType.js",
+        "TipsSpecialTrafficTypePart.js",
         "TipsDirect.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
