@@ -30,7 +30,9 @@
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",
         "TipsGSBranch.js",
+        "TipsRegionRoads.js",
         "TipsRegionRoad.js",
+        "TipsRegionRoadPart.js",
         "TipsRoadCross.js",
         "TipsConnect.js",
         "TipsMultiDigitized.js",
@@ -91,7 +93,26 @@
         "TipsUnderpasses.js",
         "TipsUnderpass.js",
         "TipsBypaths.js",
-        "TipsBypath.js"
+        "TipsBypath.js",
+        "TipsPOIRoads.js",
+        "TipsPOIRoadPart.js",
+        "TipsPOIRoad.js",
+        "TipsTunnels.js",
+        "TipsTunnel.js",
+        "TipsSeasonalRoads.js",
+        "TipsSeasonalRoad.js",
+        "TipsUsageFeeRequireds.js",
+        "TipsUsageFeeRequired.js",
+        "TipsChargeOpenRoad.js",
+        "TipsChargeOpenRoads.js",
+        "TipsChargeOpenRoadPart.js",
+        "TipsRoundabout.js",
+        "TipsRoundabouts.js",
+        "TipsRoundaboutPart.js",
+        "TipsSpecialTrafficTypes.js",
+        "TipsSpecialTrafficType.js",
+        "TipsSpecialTrafficTypePart.js",
+        "TipsDirect.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

@@ -49,7 +49,7 @@
             <li><label>数据图层</label></li>
             <li>
                 <ul style="padding-left: 10px" >
-                    <li ng-repeat="item in dataLayers">
+                    <li ng-repeat="item in dataLayers" ng-if="item.id != 'relationData-RDLINKINTRTIC'">
                         <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.selected]" ng-click="toggleDataLayer(item, $event)"></a>
                         <label style="font-weight: bold;">{{item.label}}</label>
                     </li>

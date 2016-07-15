@@ -1,0 +1,85 @@
+@company-logo-url:'../../images/poi/main/navi_logo.png';
+
+@login-bg-url:'../../images/poi/main/login_bg.png';
+
+html, body {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    min-width: 400px;
+    font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', '黑体', Arial, sans-serif;
+    font-size: 14px;
+    background: #000
+}
+/******************************************导航**************************************************/
+#navibar {
+    height: 10%;
+    color: white;
+    border-bottom: 1px solid #444;
+    .navbar-header{
+        height: 100%;
+    }
+    div.navbar-header h1 {
+        color: #FFF;
+        margin: 0!important;
+        height: 100%;
+        line-height: 60px;
+        font-size: 32px;
+        font-family: '宋体 Bold';
+    }
+}
+/*******************************************登陆框*****************************************************/
+.wrapper{
+    width: 100%;
+    height: 84%;
+    background: url(@login-bg-url) no-repeat 99% center;
+    background-size:60% 110%
+}
+.left_part,
+.right_part{
+    height: 100%;
+}
+.company-logo{
+    background: url(@company-logo-url) 0 10px;
+    background-repeat: no-repeat
+}
+.login {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 400px;
+    height: 300px;
+    padding: 25px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    /*background-image:-webkit-linear-gradient(to bottom, #666666, #1a1a1a);*/
+    /*background-image:linear-gradient(to bottom,#666666,#1a1a1a);*/
+    .company-logo {
+        height: 60px;
+        padding: 10px 0px;
+    }
+    button{
+        background:#fff;
+        color: black;
+        font-weight: bold;
+        font-size: 14px;
+        opacity: 1!important;
+    }
+}
+.checkbox{
+    color: white;
+    letter-spacing: 1px;
+}
+/*****************************************底部**************************************************/
+footer.bs-docs-footer {
+    text-align: center;
+    line-height: 40px;
+    border-top: 1px solid #333;
+    background-color: rgba(0, 0, 0, 0.78);
+    color: white;
+    height: 6%
+}
+
