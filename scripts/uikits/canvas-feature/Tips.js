@@ -163,8 +163,20 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1516://季节性关闭道路
                     ret = new fastmap.uikit.canvasTips.TipsSeasonalRoads(item);
                     break;
+                case 1601://环岛
+                    ret = new fastmap.uikit.canvasTips.TipsRoundabouts(item);
+                    break;
+                case 1602://特殊交通类型
+                    ret = new fastmap.uikit.canvasTips.TipsSpecialTrafficTypes(item);
+                    break;
                 case 1604://区域内道路
-                    ret = new fastmap.uikit.canvasTips.TipsRegionRoad(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRegionRoads(item);
+                    break;
+                case 1605://POI连接路
+                    ret = new fastmap.uikit.canvasTips.TipsPOIRoads(item);
+                    break;
+                case 1606://收费开放道路
+                    ret = new fastmap.uikit.canvasTips.TipsChargeOpenRoads(item);
                     break;
                 case 1703://分叉路口提示
                     ret = new fastmap.uikit.canvasTips.TipsRoadCrossProm(item);
@@ -177,6 +189,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1803://挂接
                     ret = new fastmap.uikit.canvasTips.TipsConnect(item);
+                    break;
+                case 1804://顺行
+                    ret = new fastmap.uikit.canvasTips.TipsDirect(item);
                     break;
                 case 1806://草图
                     ret = new fastmap.uikit.canvasTips.TipsSketchs(item);
