@@ -3,11 +3,34 @@
  */
 angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','ui.bootstrap']).controller('TaskSelectionCtl', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
     function($scope, dsManage, $q, $cookies, $location,$timeout) {
+
+        /***********************************地图相关配置以及外部js注入***********************************/
+
         var layerCtrl = new fastmap.uikit.LayerController({
             config: App.taskSelectionLayersConfig
         });
         var eventCtrl = new fastmap.uikit.EventController();
-        var gridLayer = new fastmap.mapApi.GridLayer();
+        var mapZoomPoint = [40.012834, 116.476293];
+        var maplevel = 13;
+        //初始化地图;
+        var map = fastmap.mapApi.map('map', {
+            attributionControl: false,
+            doubleClickZoom: false,
+            zoomControl: false
+        }).setView(mapZoomPoint, maplevel);
+        //防止地图视口加载不全;
+        map.on('resize', function() {setTimeout(function() {map.invalidateSize()},400);});
+        //对要加载的图层事件监听;
+        layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function(event) {
+            for(var layer in event.layer){
+                map.addLayer(event.layer[layer]);
+            }
+        })
+        //设置要加载显示的图层;
+        layerCtrl.setLayersVisible(['grid','mesh','rdLink']);
+        //layerCtrl.setLayersVisible(['mesh']);
+        /***********************************控制器初始化以及事件监听绑定***********************************/
+
         //当前高亮的格网数组;
         $scope.currentHighLight = [];
         //编辑开关;
@@ -132,106 +155,107 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 map.removeLayer($scope.currentHighLight)
             }
             //高亮作业区域
-            var substaskGeomotry = $scope.currentTaskData.geometry;
-            var pointsArray = $scope.returnHighlightPoint(substaskGeomotry);
-            $scope.currentHighLight = L.multiPolygon(pointsArray,{fillOpacity:0.5,fillColor: "#FF6699",});
-            var _northEast = $scope.currentHighLight.getBounds()._northEast;
-            var _southWest = $scope.currentHighLight.getBounds()._southWest;
-            var centerPonit = {}
-            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.05;
-            centerPonit.y = (_northEast.lat-_southWest.lat)/2+_southWest.lat;
-            map.setView([centerPonit.y,centerPonit.x],13);
-            map.addLayer($scope.currentHighLight);
-            //if (subtask.gridIds.length > 0) {
-            //    var gridIdArray = []; // 网格ID数组;
-            //    var meshIdArray = []; // 图幅ID数组;
-            //    var meshId, gridNum;
-            //    for (var i = 0; i < subtask.gridIds.length; i++) {
-            //        meshId = subtask.gridIds[i].toString();
-            //        gridNum = meshId.substr(-2);
-            //        meshId = ("000000" + meshId.substr(0, meshId.length - 2)).substr(-6); // 图幅号不够6位左补0
-            //        if (meshIdArray.indexOf(meshId) < 0) {
-            //            meshIdArray.push(meshId);
-            //        }
-            //        gridIdArray.push(meshId + "_" + gridNum); // 网格号变换
-            //    }
-            //    //根据图幅号获取聚焦的范围;
-            //    map.fitBounds(getBounds(meshIdArray));
-            //
-            //    //判断任务网格是否都加载上的定时器;
-            //    var selectedGrids = [];
-            //    var timer = setInterval(function() {
-            //        var allGrids = layerCtrl.getLayerById('grid').gridArr;
-            //        for (var i = 0; i < allGrids.length; i++) {
-            //                for (var j = gridIdArray.length - 1; j >= 0; j--) {
-            //                    if (allGrids[i].options.gridId == gridIdArray[j]) {
-            //                        selectedGrids.push(allGrids[i]);
-            //                        gridIdArray.splice(j, 1);
-            //                        if (gridIdArray.length == 0) {
-            //                            clearInterval(timer);
-            //                            addHighlight(selectedGrids);
-            //                        }
-            //                    }
-            //                }
-            //        }
-            //    }, 100);
-            //}
-            //
-            //// 根据图幅编号获取图幅的外包矩形bounds
-            //function getBounds(meshIds) {
-            //    var mesh;
-            //    var meshLayer = layerCtrl.getLayerById('mesh');
-            //    var maxLat = 0,
-            //        maxLon = 0,
-            //        minLat = 180,
-            //        minLon = 180;
-            //    for (var i = 0; i < meshIds.length; i++) {
-            //        mesh = meshLayer.Calculate25TMeshBorder(meshIds[i]);
-            //        if (mesh.maxLat > maxLat) {
-            //            maxLat = mesh.maxLat;
-            //        }
-            //        if (mesh.maxLon > maxLon) {
-            //            maxLon = mesh.maxLon;
-            //        }
-            //        if (mesh.minLat < minLat) {
-            //            minLat = mesh.minLat;
-            //        }
-            //        if (mesh.minLon < minLon) {
-            //            minLon = mesh.minLon;
-            //        }
-            //    }
-            //    return [
-            //        [minLat, minLon],
-            //        [maxLat, maxLon]
-            //    ];
-            //}
-            //function getTaskCenterPoint(gridArray){
-            //    var _lat = [];
-            //    var _lng = [];
-            //    for(var i=0;i<gridArray.length;i++){
-            //        for(var j=0;j<gridArray[i]._latlngs.length;j++){
-            //            _lat.push(gridArray[i]._latlngs[j].lat);
-            //            _lng.push(gridArray[i]._latlngs[j].lng);
-            //        }
-            //    }
-            //    minlng = Math.min.apply(null,_lng);
-            //    maxlat = Math.max.apply(null,_lat);
-            //    maxlng = Math.max.apply(null,_lng);
-            //    minlat = Math.min.apply(null,_lat);
-            //    return [minlat+(maxlat-minlat)/2,maxlng-(maxlng-minlng)/5];
-            //}
-            //// 高亮网格
-            //function addHighlight(gridArray) {
-            //    $scope.currentHighligtGrid = gridArray;
-            //    for (var i = 0; i < gridArray.length; i++) {
-            //        $scope.currentHighLight.push(L.rectangle(gridArray[i].getBounds(), {
-            //            fillColor: "#FF6699",
-            //            weight: 0,
-            //            fillOpacity: 0.5
-            //        }).addTo(map));
-            //    }
-            //    map.setView(getTaskCenterPoint(gridArray),13)
-            //}
+            //var substaskGeomotry = $scope.currentTaskData.geometry;
+            //var pointsArray = $scope.returnHighlightPoint(substaskGeomotry);
+            //$scope.currentHighLight = L.multiPolygon(pointsArray,{fillOpacity:0.5,fillColor: "#FF6699",});
+            //var _northEast = $scope.currentHighLight.getBounds()._northEast;
+            //var _southWest = $scope.currentHighLight.getBounds()._southWest;
+            //console.log($scope.currentHighLight.getBounds())
+            //var centerPonit = {}
+            //centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.05;
+            //centerPonit.y = (_northEast.lat-_southWest.lat)/2+_southWest.lat;
+            //map.setView([centerPonit.y,centerPonit.x],13);
+            //map.addLayer($scope.currentHighLight);
+            if (subtask.gridIds.length > 0) {
+                var gridIdArray = []; // 网格ID数组;
+                var meshIdArray = []; // 图幅ID数组;
+                var meshId, gridNum;
+                for (var i = 0; i < subtask.gridIds.length; i++) {
+                    meshId = subtask.gridIds[i].toString();
+                    gridNum = meshId.substr(-2);
+                    meshId = ("000000" + meshId.substr(0, meshId.length - 2)).substr(-6); // 图幅号不够6位左补0
+                    if (meshIdArray.indexOf(meshId) < 0) {
+                        meshIdArray.push(meshId);
+                    }
+                    gridIdArray.push(meshId + "_" + gridNum); // 网格号变换
+                }
+                //根据图幅号获取聚焦的范围;
+                map.fitBounds(getBounds(meshIdArray));
+
+                //判断任务网格是否都加载上的定时器;
+                var selectedGrids = [];
+                var timer = setInterval(function() {
+                    var allGrids = layerCtrl.getLayerById('grid').gridArr;
+                    for (var i = 0; i < allGrids.length; i++) {
+                            for (var j = gridIdArray.length - 1; j >= 0; j--) {
+                                if (allGrids[i].options.gridId == gridIdArray[j]) {
+                                    selectedGrids.push(allGrids[i]);
+                                    gridIdArray.splice(j, 1);
+                                    if (gridIdArray.length == 0) {
+                                        clearInterval(timer);
+                                        addHighlight(selectedGrids);
+                                    }
+                                }
+                            }
+                    }
+                }, 100);
+            }
+
+            // 根据图幅编号获取图幅的外包矩形bounds
+            function getBounds(meshIds) {
+                var mesh;
+                var meshLayer = layerCtrl.getLayerById('mesh');
+                var maxLat = 0,
+                    maxLon = 0,
+                    minLat = 180,
+                    minLon = 180;
+                for (var i = 0; i < meshIds.length; i++) {
+                    mesh = meshLayer.Calculate25TMeshBorder(meshIds[i]);
+                    if (mesh.maxLat > maxLat) {
+                        maxLat = mesh.maxLat;
+                    }
+                    if (mesh.maxLon > maxLon) {
+                        maxLon = mesh.maxLon;
+                    }
+                    if (mesh.minLat < minLat) {
+                        minLat = mesh.minLat;
+                    }
+                    if (mesh.minLon < minLon) {
+                        minLon = mesh.minLon;
+                    }
+                }
+                return [
+                    [minLat, minLon],
+                    [maxLat, maxLon]
+                ];
+            }
+            function getTaskCenterPoint(gridArray){
+                var _lat = [];
+                var _lng = [];
+                for(var i=0;i<gridArray.length;i++){
+                    for(var j=0;j<gridArray[i]._latlngs.length;j++){
+                        _lat.push(gridArray[i]._latlngs[j].lat);
+                        _lng.push(gridArray[i]._latlngs[j].lng);
+                    }
+                }
+                minlng = Math.min.apply(null,_lng);
+                maxlat = Math.max.apply(null,_lat);
+                maxlng = Math.max.apply(null,_lng);
+                minlat = Math.min.apply(null,_lat);
+                return [minlat+(maxlat-minlat)/2,maxlng-(maxlng-minlng)/5];
+            }
+            // 高亮网格
+            function addHighlight(gridArray) {
+                $scope.currentHighligtGrid = gridArray;
+                for (var i = 0; i < gridArray.length; i++) {
+                    $scope.currentHighLight.push(L.rectangle(gridArray[i].getBounds(), {
+                        fillColor: "#FF6699",
+                        weight: 0,
+                        fillOpacity: 0.5
+                    }).addTo(map));
+                }
+                map.setView(getTaskCenterPoint(gridArray),13)
+            }
             //去查找当前的substask概要信息;
             getCurrentSubtaskSummary();
         }
@@ -261,6 +285,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             }
         }
 
+        /***********************************控制器私有方法***********************************/
 
         //格式化日期显示;
         function getDateFormat(parmas){
@@ -361,7 +386,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 });
             }
         }
-
         /*加载子任务列表*/
         function loadSubTaskfn(obj) {
             $scope.dataLoaded = false;
@@ -385,33 +409,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 $scope.currentSubTaskList = data;
             });
         }
-
-        function loadMap() {
-            map = L.map('map', {
-                attributionControl: false,
-                doubleClickZoom: false,
-                zoomControl: false
-            }).setView([40.012834, 116.476293], 13);
-            //防止地图视口加载不全;
-            map.on('resize', function() {
-                setTimeout(function() {
-                    map.invalidateSize()
-                }, 400);
-            });
-            layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function(event) {
-                if (event.flag == true) {
-                    map.addLayer(event.layer);
-                } else {
-                    map.removeLayer(event.layer);
-                }
-            })
-            for (var layer in layerCtrl.getVisibleLayers()) {
-                map.addLayer(layerCtrl.getVisibleLayers()[layer]);
-            }
-        }
         //子任务查询
         loadSubTaskfn($scope.requestParams);
-        //加载地图;
-        loadMap();
     }
 ]);
