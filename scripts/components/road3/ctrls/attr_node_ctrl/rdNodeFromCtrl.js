@@ -65,9 +65,9 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
 
     $scope.otherFromOfWay=[];
     $scope.kindOptions=[
-        {"id":0,"label":"平面交叉点"},
-        {"id":1,"label":"Link属性变化点"},
-        {"id":2,"label":"路上点"}
+        {"id":1,"label":"平面交叉点"},
+        {"id":2,"label":"Link属性变化点"},
+        {"id":3,"label":"路上点"}
     ];
     $scope.initializeNodeData=function() {
         $scope.rdNodeData = {};
