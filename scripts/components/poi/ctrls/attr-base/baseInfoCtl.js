@@ -1,4 +1,4 @@
-angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, dsPoi, dsMeta) {
+angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 'dsMeta', function($scope, $ocll, $q, dsMeta) {
     var pKindFormat = {}, pKindList = [] ,pAllChain = {};
 
     pKindList = $scope.$parent.metaData.kindList;
