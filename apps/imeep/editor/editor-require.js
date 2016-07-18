@@ -27,10 +27,10 @@ requirejs.config({
         'poi-msg':'scripts/libs/poi-msg/poiMsg',
         // app相关
         'dataService': 'apps/imeep/service/dataService',
-        'poiService': 'apps/imeep/service/dataService-poi',
+//        'poiService': 'apps/imeep/service/dataService-poi',
         'metaService': 'apps/imeep/service/dataService-meta',
         'fccService': 'apps/imeep/service/dataService-fcc',
-        'roadService': 'apps/imeep/service/dataService-road',
+//        'roadService': 'apps/imeep/service/dataService-road',
         'editService': 'apps/imeep/service/dataService-edit',
         'manService': 'apps/imeep/service/dataService-manage',
         'EditorCtl': 'apps/imeep/editor/editorCtl',
@@ -56,19 +56,19 @@ requirejs.config({
         'angularDrag': ['angular', 'jquery'],
         'poi-msg':['jquery'],
         'dataService': ['angular', "sweet-alert"],
-        'poiService': ['dataService'],
+//        'poiService': ['dataService'],
         'metaService': ['dataService'],
         'fccService': ['dataService'],
-        'roadService': ['dataService'],
+//        'roadService': ['dataService'],
         'editService': ['dataService'],
         'manService': ['dataService'],
         'bootstrapDatepicker': ['jquery', 'bootstrap'],
         'bootstrapDatepickerCN': ['bootstrapDatepicker'],
         'timepicki': ['jquery', 'angular'],
         'bootspopover': ['jquery'],
-        'keyPressFunctions': ['jquery', 'dataService', 'poiService', 'metaService', 'roadService'],
+        'keyPressFunctions': ['jquery', 'dataService', 'metaService', 'editService'],
         'z-tree': ['jquery'],
-        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'fccService', 'roadService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg']
+        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg']
     }
 });
 // Start the main app logic.

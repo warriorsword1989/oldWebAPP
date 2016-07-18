@@ -1,4 +1,4 @@
-angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', 'dsOutput','dsEdit', function($scope, $ocll,dsPoi, dsOutput,dsEdit) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOutput','dsEdit', function($scope, $ocll, dsOutput,dsEdit) {
     /*翻页事件*/
     $scope.turnPage = function(type){
         if(type == 'prev'){     //上一页
@@ -73,7 +73,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     };
     /*查找检查结果*/
     function getCheckResultData(num){
-        dsPoi.getCheckData(num).then(function(data){
+        dsEdit.getCheckDataCount(num).then(function(data){
             $scope.checkResultData = [];
             for(var i=0,len=data.length;i<len;i++){
                 $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
@@ -82,7 +82,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPo
     };
     initCheckResultData();
     /*查找检查结果总数*/
-    dsPoi.getCheckDataCount().then(function(data){
+    dsEdit.getCheckDataCount().then(function(data){
         $scope.checkResultTotal = data;
         $scope.checkPageTotal = data.length > 0 ? Math.ceil(data/5):1;
     });
