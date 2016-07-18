@@ -14,12 +14,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         $scope.showTab = true;
         $scope.selectedTool = 1;
         $scope.dataListType = 1;
-        $scope.projectType = 1;
+        $scope.projectType = 1; //1--POI作业，其他为道路作业
         $scope.outputType = 1;
         //面板显示控制开关
         $scope.editorPanelOpened = 'none';
         $scope.suspendPanelOpened = false;
         $scope.consolePanelOpened = false;
+        $scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
         //$scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
         // $scope.outputResult = []; //输出结果
