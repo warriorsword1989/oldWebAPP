@@ -9,8 +9,8 @@ basicApp.controller("nameController", function ($scope, $ocLazyLoad) {
         $scope.linkData["oridiRowId"] = nameItem.rowId;
         var showNamesObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/namesOfDetailCtrl',
-            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/namesOfDetailTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/namesOfDetailCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/namesOfDetailTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showNamesObj);
     };

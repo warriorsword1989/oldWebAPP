@@ -186,8 +186,8 @@ limitedApp.controller("limitedController", function($scope, $timeout, $ocLazyLoa
         $scope.linkData["oridiRowId"] = item.rowId;
         var showOrdinaryObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/limitOfOrdinaryCtrl',
-            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/limitOfOrdinaryTpl.html',
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/limitOfOrdinaryCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/limitOfOrdinaryTpl.html',
             data: item
         }
         $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
@@ -196,8 +196,8 @@ limitedApp.controller("limitedController", function($scope, $timeout, $ocLazyLoa
         $scope.linkData["truckRowId"] = item.rowId;
         var showTrcukObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road3/ctrls/attr_link_ctrl/limitOfTruckCtrl',
-            "propertyHtml": '../../../scripts/components/road3/tpls/attr_link_tpl/limitOfTruckTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/limitOfTruckCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/limitOfTruckTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showTrcukObj);
     };

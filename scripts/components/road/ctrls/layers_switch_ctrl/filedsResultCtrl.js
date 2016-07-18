@@ -829,7 +829,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         // callback:function(){
                         //     if (data.id) {
-                        //         $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
+                        //         $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
                         //     }
                         // }
                     }

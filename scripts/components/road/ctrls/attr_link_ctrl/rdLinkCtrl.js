@@ -141,28 +141,28 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
             "subAttrContainerTpl": false
         })
         if (url === "basicModule") {
-            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/basicCtrl').then(function() {
-                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/basicTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/basicCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
             });
         } else if (url === "paginationModule") {
-            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/pedestrianNaviCtrl').then(function() {
-                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/pedestrianNaviTepl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/pedestrianNaviCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
-            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/rticCtrl').then(function() {
-                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/rticTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/rticCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/rticTpl.html";
             });
         } else if (url === "limitedModule") {
-            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/limitedCtrl').then(function() {
-                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/limitTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/limitedCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/limitTpl.html";
             });
         } else if (url == "nameModule") { //道路名
-            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/namesCtrl').then(function() {
-                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/namesTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/namesCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/namesTpl.html";
             });
         } else if (url == "speedModule") { //限速
-            $ocLazyLoad.load('scripts/components/road3/ctrls/attr_link_ctrl/speedCtrl').then(function() {
-                $scope.currentURL = "../../../scripts/components/road3/tpls/attr_link_tpl/speedTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/speedCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/speedTpl.html";
             });
         }
     }
@@ -343,8 +343,8 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         //            objectCtrl.setCurrentObject("RDLINK",data.data);
         //            var linkObj = {
         //                "loadType":"attrTplContainer",
-        //                "propertyCtrl":"scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl",
-        //                "propertyHtml":"../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html"
+        //                "propertyCtrl":"scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+        //                "propertyHtml":"../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
         //            };
         //            $scope.$emit("transitCtrlAndTpl", linkObj);
         //        });

@@ -151,13 +151,13 @@ fastmap.uikit.FeatureConfig = {
         },
         1406:{
             name:'实景图',
-            ctl:'scripts/components/road3/ctrls/attr_branch_ctrl/rdRealImageCtrl',
-            tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/realImageOfBranch.html'
+            ctl:'scripts/components/road/ctrls/attr_branch_ctrl/rdRealImageCtrl',
+            tpl:'../../../scripts/components/road/tpls/attr_branch_Tpl/realImageOfBranch.html'
         },
         1407:{
             name:'高速分歧',
-            ctl:'scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl',
-            tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html'
+            ctl:'scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl',
+            tpl:'../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html'
         },
         1409:{
             name:'普通路口模式图'

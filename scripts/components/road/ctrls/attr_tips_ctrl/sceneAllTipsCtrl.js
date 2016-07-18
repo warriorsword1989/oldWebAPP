@@ -82,8 +82,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             objCtrl.setCurrentObject(type, data);
             var options = {
                 "loadType": 'attrTplContainer',
-                "propertyCtrl": "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl",
-                "propertyHtml": "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html"
+                "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
             };
             $scope.$emit("transitCtrlAndTpl", options);
         });
@@ -818,8 +818,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",
-            "propertyCtrl": "scripts/components/road3/ctrls/attr_tips_ctrl/tipsPictureCtrl",
-            "propertyHtml": "../../../scripts/components/road3/tpls/attr_tips_tpl/tipsPictureTpl.html"
+            "propertyCtrl": "scripts/components/road/ctrls/attr_tips_ctrl/tipsPictureCtrl",
+            "propertyHtml": "../../../scripts/components/road/tpls/attr_tips_tpl/tipsPictureTpl.html"
         };
         $scope.$emit("transitCtrlAndTpl", openOriginObj);
     };
