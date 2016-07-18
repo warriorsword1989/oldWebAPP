@@ -247,6 +247,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             }
         }
     }
+    //将电话区号和长度保存至缓存，不用每次都查询电话的长度
+    $scope.teleCodeToLength = {};
     // 表单验证
     function validateForm() {
         var flag = true;
@@ -262,10 +264,23 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     flag = false;
                     break;
                 }
+                
             }
         }
         if(!flag){
-            swal("保存提示", '电话填写不正确,不能保存！', "info");
+            swal("保存提示", '电话填写不正确,不能保存！', "warning");
+            return flag;
+        }
+        for (var i = 0,len = contacts.length; i<len;i++){
+            if(contacts[i].contactType == 1){ //固话
+                if(contacts[i].contact.length != $scope.teleCodeToLength[contacts[i].code]){
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if(!flag){
+            swal("保存提示", '电话长度不正确,不能保存！', "warning");
         }
         return flag;
     }
