@@ -72,6 +72,9 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1204:{
+		name:'可逆车道'
+	},
 	1205:{
 		name:'SA(服务区)',
 		ctl:'',
@@ -102,6 +105,9 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1303:{
+		name:'客车交限'
+	},
 	1304:{
 		name:'禁止穿行',
 		ctl:'',
@@ -111,6 +117,12 @@ fastmap.dataApi.FeatureConfig = {
 		name:'禁止驶入',
 		ctl:'',
 		tpl:''
+	},
+	1306:{
+		name:'路口语音引导'
+	},
+	1307:{
+		name:'自然语音引导'
 	},
 	1401:{
 		name:'方向看板',
@@ -162,10 +174,40 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1503:{
+		name:'高架路'
+	},
+	1504:{
+		name:'OverPass(跨线天桥)'
+	},
+	1505:{
+		name:'UnderPass(跨线地道)'
+	},
+	1506:{
+		name:'私道'
+	},
+	1507:{
+		name:'步行街'
+	},
+	1508:{
+		name:'公交专用道路'
+	},
+	1509:{
+		name:'跨线立交桥'
+	},
 	1510:{
 		name:'桥',
 		ctl:'',
 		tpl:''
+	},
+	1511:{
+		name:'隧道'
+	},
+	1512:{
+		name:'辅路'
+	},
+	1513:{
+		name:'窄道'
 	},
 	1514:{
 		name:'施工',
@@ -177,10 +219,40 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1516:{
+		name:'季节性关闭道路'
+	},
+	1517:{
+		name:'Usage Fee Required'
+	},
+	1601:{
+		name:'环岛'
+	},
+	1602:{
+		name:'特殊交通类型'
+	},
+	1603:{
+		name:'未定义交通类型'
+	},
 	1604:{
 		name:'区域内道路',
 		ctl:'',
 		tpl:''
+	},
+	1605:{
+		name:'POI连接路'
+	},
+	1606:{
+		name:'收费开放道路'
+	},
+	1607:{
+		name:'风景路线'
+	},
+	1701:{
+		name:'障碍物'
+	},
+	1702:{
+		name:'铁路道口'
 	},
 	1703:{
 		name:'分叉口提示(SE)',
@@ -192,6 +264,12 @@ fastmap.dataApi.FeatureConfig = {
 		ctl:'',
 		tpl:''
 	},
+	1705:{
+		name:'立交桥名称'
+	},
+	1706:{
+		name:'GPS打点'
+	},
 	1801:{
 		name:'立交',
 		ctl:'',
@@ -201,6 +279,9 @@ fastmap.dataApi.FeatureConfig = {
 		name:'挂接',
 		ctl:'',
 		tpl:''
+	},
+	1804:{
+		name:'顺行'
 	},
 	1805:{
 		name:'复合路口',
@@ -221,5 +302,11 @@ fastmap.dataApi.FeatureConfig = {
 		name:'测线',
 		ctl:'',
 		tpl:''
+	},
+	2101:{
+		name:'删除标记'
+	},
+	2102:{
+		name:'万能标记'
 	}
 };
