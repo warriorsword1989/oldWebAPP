@@ -110,8 +110,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
-            $scope.subAttrTplContainerSwitch(false);
+            });
+            $scope.$emit('closePopoverTips', false);
+            //$scope.subAttrTplContainerSwitch(false);
             $("#popoverTips").hide();
             // //点击按钮后样式的修改
             // $scope.changeBtnClass(num);
@@ -223,9 +224,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
          */
         $scope.selectObjCallback = function(data) {
             $scope.selectedFeature = data;
-            // $scope.$emit("SWITCHCONTAINERSTATE", {
-            //     "subAttrContainerTpl": false
-            // });
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "subAttrContainerTpl": false
+            });
             //地图小于17级时不能选择
             if (map.getZoom < 17) {
                 return;

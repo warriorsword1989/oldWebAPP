@@ -9,7 +9,7 @@ html, body {
     min-width: 400px;
     font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', '黑体', Arial, sans-serif;
     font-size: 14px;
-    background: #000
+    background: #1a1a1a
 }
 /******************************************导航**************************************************/
 #navibar {
@@ -51,15 +51,16 @@ html, body {
     right: 0;
     margin: auto;
     width: 400px;
-    height: 300px;
+    height: 290px;
     padding: 25px;
-    background: #1a1a1a;
     border-radius: 10px;
-    /*background-image:-webkit-linear-gradient(to bottom, #666666, #1a1a1a);*/
-    /*background-image:linear-gradient(to bottom,#666666,#1a1a1a);*/
-    .company-logo {
-        height: 60px;
-        padding: 10px 0px;
+    background: -webkit-linear-gradient(#333, #eee 38%, #222 90%); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#333,#eee 38%, #222 90%); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#333,#eee 38%, #222 90%); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#333,#eee 38%, #222 90%); /* 标准的语法（必须放在最后） */
+    form{
+      margin-top: 22px;
+      padding: 0 15px;
     }
     button{
         background:#fff;
@@ -78,7 +79,7 @@ footer.bs-docs-footer {
     text-align: center;
     line-height: 40px;
     border-top: 1px solid #333;
-    background-color: rgba(0, 0, 0, 0.78);
+    background: #1a1a1a;
     color: white;
     height: 6%
 }
