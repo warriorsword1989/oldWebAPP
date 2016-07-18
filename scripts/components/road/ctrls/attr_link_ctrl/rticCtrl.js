@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var realtimeTrafficApp = angular.module("mapApp");
+var realtimeTrafficApp = angular.module("app");
 realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = new fastmap.uikit.SelectController();
@@ -9,8 +9,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
-    var rdCross = layerCtrl.getLayerById("relationdata")
+    var rdLink = layerCtrl.getLayerById('rdLink');
+    var rdCross = layerCtrl.getLayerById("relationData")
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.rticData =  objCtrl.data;
@@ -72,8 +72,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showRticsInfoObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
     }
@@ -82,8 +82,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
         var showCarInfoObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfCar',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfCar',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showCarInfoObj);
     }
@@ -115,8 +115,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         objCtrl.data["oridiRowId"] = $scope.rticData.intRtics[0].rowId;
         var showRticsInfoObj = {
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
         $scope.resetToolAndMap();

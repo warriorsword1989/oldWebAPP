@@ -1,20 +1,19 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var myApp = angular.module("mapApp");
-myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($scope, $ocLazyLoad) {
+var myApp = angular.module("app");
+angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsEdit", "appPath","$timeout", function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var rdLink = layerCtrl.getLayerById("referenceLine");
-    var referenceNode = layerCtrl.getLayerById("referenceNode");
+    var rdLink = layerCtrl.getLayerById("rdLink");
+    var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
-    var rdCross = layerCtrl.getLayerById("relationdata");
+    var rdCross = layerCtrl.getLayerById("relationData");
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
-    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.speedAndDirect = shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex = 0;
@@ -34,11 +33,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
                         $scope.modelArray[i] = false;
                     }
                 }
-                $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/rticCtrl').then(function() {
+                $ocLazyLoad.load(appPath.road + 'ctrls/attr_link_ctrl/rticCtrl').then(function() {
                     if (objectCtrl.updateObject) {
                         objectCtrl.updateObject();
                     }
-                    $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/rticTpl.html";
+                    $scope.currentURL = appPath.root + appPath.road + "tpls/attr_link_tpl/rticTpl.html";
                 });
                 break;
             } else if (layer == layerCtrl.layers.length - 1) {
@@ -49,11 +48,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
                         $scope.modelArray[i] = false;
                     }
                 }
-                $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/basicCtrl').then(function() {
+                $ocLazyLoad.load(appPath.road + 'ctrls/attr_link_ctrl/basicCtrl').then(function() {
                     if (objectCtrl.updateObject) {
                         objectCtrl.updateObject();
                     }
-                    $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
+                    $scope.currentURL = appPath.root + appPath.road + "tpls/attr_link_tpl/basicTpl.html";
                 });
             }
         }
@@ -69,7 +68,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
                 linksArr.push($scope.dataTipsData.f_array[item].id);
                 highLightFeatures.push({
                     id: $scope.dataTipsData.f_array[item].id,
-                    layerid: 'referenceLine',
+                    layerid: 'rdLink',
                     type: 'line',
                     style: {}
                 })
@@ -79,7 +78,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
         } else {
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.linkData.pid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });
@@ -142,28 +141,28 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
             "subAttrContainerTpl": false
         })
         if (url === "basicModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/basicCtrl').then(function() {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/basicCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
             });
         } else if (url === "paginationModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/pedestrianNaviCtrl').then(function() {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviTepl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/pedestrianNaviCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/rticCtrl').then(function() {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/rticTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/rticCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/rticTpl.html";
             });
         } else if (url === "limitedModule") {
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/limitedCtrl').then(function() {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/limitTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/limitedCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/limitTpl.html";
             });
         } else if (url == "nameModule") { //道路名
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/namesCtrl').then(function() {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/namesTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/namesCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/namesTpl.html";
             });
         } else if (url == "speedModule") { //限速
-            $ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/speedCtrl').then(function() {
-                $scope.currentURL = "../../scripts/components/road/tpls/attr_link_tpl/speedTpl.html";
+            $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/speedCtrl').then(function() {
+                $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/speedTpl.html";
             });
         }
     }
@@ -213,6 +212,9 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
         shapeCtrl.startEditing();
     };
     $scope.save = function() {
+        if(!$scope.linkData){
+            return;
+        }
         if ($scope.linkData.forms.length == 0) {
             var newForm = fastmap.dataApi.rdLinkForm({
                 "linkPid": $scope.linkData.pid,
@@ -250,6 +252,10 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
             });
         }
         objectCtrl.save();
+        if (!objectCtrl.changedProperty) {
+            swal("保存提示", '属性值没有变化，不需要保存！', "info");
+            return;
+        }
         if (objectCtrl.changedProperty.limits) {
             if (objectCtrl.changedProperty.limits.length > 0) {
                 $.each(objectCtrl.changedProperty.limits, function(i, v) {
@@ -264,19 +270,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
                 });
             }
         }
-        var param = {
-            "command": "UPDATE",
-            "type": "RDLINK",
-            "projectId": Application.projectid,
-            "data": objectCtrl.changedProperty
-        };
-        if (!objectCtrl.changedProperty) {
-            swal("操作成功", '属性值没有变化！', "success");
-            return;
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function(data) {
-            var info = null;
-            if (data.errcode == 0) {
+        dsEdit.update($scope.linkData.pid, "RDLINK", objectCtrl.changedProperty).then(function(data) {
+            if (data) {
                 rdLink.redraw();
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
@@ -291,112 +286,98 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad', function($sco
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                swal("操作成功", '保存成功！', "success");
                 objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-                var sInfo = {
-                    "op": "修改道路link成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                for (var i = 0; i < data.data.log.length - 1; i++) {
-                    if (data.data.log[i].rowId) {
-                        data.data.log[i].rowId = $scope.linkData.pid;
-                    }
-                }
-                info = data.data.log;
-            } else {
-                swal("操作失败", data.errmsg, "error");
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
             }
         })
     };
     $scope.delete = function() {
-        var objId = parseInt($scope.linkData.pid);
-        var param = {
-            "command": "DELETE",
-            "type": "RDLINK",
-            "projectId": Application.projectid,
-            "objId": objId
+        if(!$scope.linkData){
+            return ;
         }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function(data) {
-            var info = null;
-            rdLink.redraw();
-            referenceNode.redraw();
-            rdCross.redraw();
-            if (data.errcode == 0) {
-                var sinfo = {
-                    "op": "删除道路link成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
-            if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
+        dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
+            if (data) {
+                rdLink.redraw();
+                rdNode.redraw();
+                rdCross.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
                 }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                //清空编辑图层和shapeCtrl
+                editLayer.drawGeometry = null;
+                shapeCtrl.stopEditing();
+                editLayer.bringToBack();
+                $(editLayer.options._div).unbind();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                editLayer.clear();
+
                 $scope.linkData = null;
-                var editorLayer = layerCtrl.getLayerById("edit")
-                editorLayer.clear();
-            } else {
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
+
+                // $scope.$emit("SWITCHCONTAINERSTATE",{
+                //     "attrContainerTpl":false,
+                //     "subAttrContainerTpl":false
+                // });
             }
-        })
-    }
+        });
+    };
     $scope.changeLink = function(ind, linkId) {
         $scope.brigeIndex = ind;
-        Application.functions.getRdObjectById(linkId, "RDLINK", function(data) {
-            if (data.errcode === -1) {
-                return;
+        //        Application.functions.getRdObjectById(linkId, "RDLINK", function (data) {
+        //            if (data.errcode === -1) {
+        //                return;
+        //            }
+        //            var linkArr = data.data.geometry.coordinates,points = [];
+        //            for (var i = 0, len = linkArr.length; i < len; i++) {
+        //                var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+        //                points.push(point);
+        //            }
+        //            map.panTo({lat: points[0].y, lon: points[0].x});
+        //            var line = fastmap.mapApi.lineString(points);
+        //            selectCtrl.onSelected({geometry: line, id: data.data.pid});
+        //            objectCtrl.setCurrentObject("RDLINK",data.data);
+        //            var linkObj = {
+        //                "loadType":"attrTplContainer",
+        //                "propertyCtrl":"scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+        //                "propertyHtml":"../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+        //            };
+        //            $scope.$emit("transitCtrlAndTpl", linkObj);
+        //        });
+        dsEdit.getByPid(linkId, "RDLINK").then(function(data) {
+            if (data) {
+                var linkArr = data.geometry.coordinates,
+                    points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                    points.push(point);
+                }
+                map.panTo({
+                    lat: points[0].y,
+                    lon: points[0].x
+                });
+                var line = fastmap.mapApi.lineString(points);
+                selectCtrl.onSelected({
+                    geometry: line,
+                    id: data.pid
+                });
+                objectCtrl.setCurrentObject("RDLINK", data);
+                var linkObj = {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl",
+                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html"
+                };
+                $scope.$emit("transitCtrlAndTpl", linkObj);
             }
-            var linkArr = data.data.geometry.coordinates,
-                points = [];
-            for (var i = 0, len = linkArr.length; i < len; i++) {
-                var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                points.push(point);
-            }
-            map.panTo({
-                lat: points[0].y,
-                lon: points[0].x
-            });
-            var line = fastmap.mapApi.lineString(points);
-            selectCtrl.onSelected({
-                geometry: line,
-                id: data.data.pid
-            });
-            objectCtrl.setCurrentObject("RDLINK", data.data);
-            var linkObj = {
-                "loadType": "attrTplContainer",
-                "propertyCtrl": "components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-                "propertyHtml": "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-            };
-            $scope.$emit("transitCtrlAndTpl", linkObj);
         });
     }
     $scope.cancel = function() {}
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeLinkData);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeLinkData);
 }]);

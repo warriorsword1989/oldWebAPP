@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/3.
  */
-var conditionSpeedApp = angular.module("mapApp");
+var conditionSpeedApp = angular.module("app");
 conditionSpeedApp.controller("conditionSpeedController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.speedLimitsData = objCtrl.data.speedlimits;

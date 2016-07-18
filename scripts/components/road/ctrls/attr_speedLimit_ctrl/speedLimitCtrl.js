@@ -2,41 +2,41 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 
-var selectApp = angular.module("mapApp");
-selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
+var selectApp = angular.module("app");
+selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazyLoad', 'dsEdit', function ($scope, $timeout, $ocLazyLoad, dsEdit) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
-    var speedLimit = layerCtrl.getLayerById('speedlimit');
+    var speedLimit = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    $scope.carSpeedType=false;
+
+    $scope.carSpeedType = false;
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
         highRenderCtrl.highLightFeatures.push({
-
-            id:$scope.speedLimitData.linkPid.toString(),
-            layerid:'referenceLine',
-            type:'line',
-            style:{}
+            id: $scope.speedLimitData.linkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {}
         });
         highRenderCtrl.highLightFeatures.push({
-            id:$scope.speedLimitData.pid,
-            layerid:'relationdata',
-            type:'relationdata',
-            style:{}
-        })
+            id: $scope.speedLimitData.pid,
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {}
+        });
         highRenderCtrl.drawHighlight();
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        if($scope.speedLimitForm) {
+        if ($scope.speedLimitForm) {
             $scope.speedLimitForm.$setPristine();
         }
-    }
-    if(objectEditCtrl.data){
+    };
+    if (objectEditCtrl.data) {
         $scope.initializeData();
     }
     $scope.speedTypeOptions = [
@@ -78,13 +78,13 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         {"id": 8, "label": "8 缓速行驶"},
         {"id": 9, "label": "9 未调查"}
     ];
-    $scope.speedLimitValue=$scope.speedLimitData.speedValue/10;
-    $timeout(function(){
-        $ocLazyLoad.load('components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+    $scope.speedLimitValue = $scope.speedLimitData.speedValue / 10;
+    $timeout(function () {
+        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
             var tmpStr = $scope.speedLimitData.timeDomain;
-            $scope.fmdateTimer(tmpStr);
+            //$scope.fmdateTimer(tmpStr);
         });
     });
     /*时间控件*/
@@ -99,44 +99,26 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             $scope.speedLimitData.timeDomain = str;
             $scope.$apply();
         }, 100);
-    }
+    };
+
     $scope.save = function () {
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
             "type": "RDSPEEDLIMIT",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objectEditCtrl.changedProperty
         };
 
-        if(!objectEditCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
+        if (!objectEditCtrl.changedProperty) {
+            swal("操作成功", '属性值没有变化！', "success");
             return;
         }
 
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info=null;
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"修改RDSPEEDLIMIT成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                swal("操作成功",'修改成功！', "success");
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-                info=data.data.log;
                 speedLimit.redraw();
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
             }
         })
     };
@@ -145,81 +127,61 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         var param = {
             "command": "DELETE",
             "type": "RDSPEEDLIMIT",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": objId
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            if (data.errcode === -1) {
-                return;
+        };
+        dsEdit.save(param).then(function (data) {
+            if (data) {
+                speedLimit.redraw();
+                $scope.speedLimitData = null;
+                $scope.speedLimitGeometryData = null;
             }
-            speedLimit.redraw();
-            $scope.speedLimitData = null;
-            $scope.speedLimitGeometryData = null;
-            var info = null;
-            if (data.errcode == 0) {
-                var sinfo = {
-                    "op": "删除RDSPEEDLIMIT成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
-
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
-
-            }
-
         })
     };
-    $scope.cancel=function() {
+    $scope.cancel = function () {
 
     };
-
 
     //箭头方向
     $scope.changeDirect = function (direct) {
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
         var containerPoint;
-        var point= {x:$scope.speedLimitData.geometry.coordinates[0], y:$scope.speedLimitData.geometry.coordinates[1]};
-        var pointVertex= {x:$scope.speedLimitData.geometry.coordinates[0], y:$scope.speedLimitData.geometry.coordinates[1]};
+        var point = {
+            x: $scope.speedLimitData.geometry.coordinates[0],
+            y: $scope.speedLimitData.geometry.coordinates[1]
+        };
+        var pointVertex = {
+            x: $scope.speedLimitData.geometry.coordinates[0],
+            y: $scope.speedLimitData.geometry.coordinates[1]
+        };
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
         var marker = {
-            flag:true,
-            pid:$scope.speedLimitData.pid,
+            flag: true,
+            pid: $scope.speedLimitData.pid,
             point: point,
             type: "marker",
-            angle:angle,
-            orientation:direct.toString()
+            angle: angle,
+            orientation: direct.toString()
         };
         var editLayer = layerCtrl.getLayerById('edit');
         layerCtrl.pushLayerFront('edit');
         var sobj = shapeCtrl.shapeEditorResult;
-        editLayer.drawGeometry =  marker;
-        editLayer.draw( marker, editLayer);
-        sobj.setOriginalGeometry( marker);
+        editLayer.drawGeometry = marker;
+        editLayer.draw(marker, editLayer);
+        sobj.setOriginalGeometry(marker);
         sobj.setFinalGeometry(marker);
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
 
-    $scope.angleOfLink=function(pointA,pointB) {
-        var PI = Math.PI,angle;
-        if((pointA.x-pointB.x)===0) {
+    $scope.angleOfLink = function (pointA, pointB) {
+        var PI = Math.PI, angle;
+        if ((pointA.x - pointB.x) === 0) {
             angle = PI / 2;
-        }else{
+        } else {
             angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
         }
         return angle;
@@ -228,8 +190,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
 
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
-    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+    eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);
 
-
-});
+}]);

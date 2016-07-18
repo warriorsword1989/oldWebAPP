@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("mapApp");
-oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
+var oridinaryInfoApp = angular.module("app");
+oridinaryInfoApp.controller("oridinaryRticsController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -41,15 +41,13 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
         }
     }
 
-
-
     $scope.changeRank=function(){
         if($scope.oridiData.rank==0){
             swal("", "RTIC等级不能为无，请选择RTIC等级", "");
         }else if($scope.rank!=1&&$scope.oridiData.rank==1){
             swal("", "RTIC等级不能正确，请选择RTIC等级", "");
         }
-    }
+    };
 
     $scope.changeDirect = function (direct) {
         map.currentTool.disable();
@@ -111,19 +109,13 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
         }
 
     }
-
     //添加新的RTIC代码
     $scope.addRticCode=function(){
-        var param = {
-            "type": "rtic"
-        };
-        Application.functions.getIntRticRank(JSON.stringify(param), function (data) {
-            if (data.errcode == 0) {
+        dsEdit.applyPid("rtic", function (data) {
+            if (data!= -1) {
                 $scope.oridiData.code=data.data;
                 $scope.$apply();
             }
         });
     }
-
-
-})
+}]);

@@ -1,335 +1,393 @@
 /**
- * Created by chenxiao on 2016/4/21.
+ * Created by wuz on 2016/5/27.
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     geoLiveType: "IX_POI",
-    
-    /*
-     * UI-->DB
-     */
-     getIntegrate: function (){
-        var ret = {};
-        ret['relateParent'] = this.relateParent;
-        ret['attachments'] = [];
-        if (this.attachmentsImage) {
-            for (var i = 0, len = this.attachmentsImage.length; i < len; i++) { 
-                var img = this.attachmentsImage[i].getIntegrate();
-                if (img.url && img.url.indexOf(App.Config.resourceUrl + '/photo') > -1){
-                    img.url = img.url.substr((App.Config.resourceUrl + '/photo').length);
-                }
-                ret['attachments'].push(img);
-            }
-        }
-        if (this.attachmentsOther) {
-            for (var i = 0, len = this.attachmentsOther.length; i < len; i++) {
-                 ret['attachments'].push(this.attachmentsOther[i]);
-             }
-         }
-        if (this.attachmentsRemark) {
-            if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
-                 this.attachmentsDoc[i].url = this.attachmentsRemark;
-                 ret['attachments'].push(this.attachmentsDoc[i]);
-             } else {
-                 var temp = {
-                     "tag": 4,
-                     "type": 0,
-                     "url": this.attachmentsRemark
-                 }
-                 ret['attachments'].push(temp);
-             }
-         } else {
-            if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
-                 this.attachmentsDoc[i].url = "";
-                ret['attachments'].push(this.attachmentsDoc[i]);
-             }
-         }
-        
-
-        ret["contacts"] = [];
-        if (this.contacts){
-            for (var i = 0 ,len = this.contacts.length ;i < len ; i++){
-                ret['contacts'].push(this.contacts[i].getIntegrate());
-            }
-        }
-        ret["indoor"] = this.indoor;
-        if (ret["indoor"].type) {
-            ret["indoor"].type = 3;
-        } else {
-            ret["indoor"].type = 0;
-        }
-
-        ret['pid'] = this.pid;
-        ret['checkResults'] = [];
-        if (this.checkResults){
-            for (var i = 0 ,len = this.checkResults.length ;i < len ; i++){
-                ret['checkResults'].push(this.checkResults[i].getIntegrate());
-            }
-        }
-        ret['phaseHistory'] = this.phaseHistory;
-        ret['synchronizeDate'] = this.synchronizeDate;
-        ret['regionInfo'] = this.regionInfo;
-        ret['businessTime'] = this.businessTime;
-        ret['sportsVenues'] = this.sportsVenues;
-        ret['projectHistory'] = this.projectHistory;
-        ret['freshnessVerification'] = this.freshnessVerification;
-        ret['ckException'] = [];
-            if (this.ckException){
-                 for (var i = 0 ,len = this.ckException.length ;i < len ; i++){
-                     ret['ckException'].push(this.ckException[i].getIntegrate());
-                 }
-            }
-        ret['operateDate'] = this.operateDate;
-        ret['srcInformation'] = this.srcInformation;
-        ret['batchModifyStatus'] = this.batchModifyStatus;
-        ret['hospital'] = this.hospital;
-        ret['verifyFlags'] = this.verifyFlags;
-        ret['chargingPole'] = [];
-        if (this.chargingPole){
-            for (var i = 0 ,len = this.chargingPole.length ;i < len ; i++){
-                ret['chargingPole'].push(this.chargingPole[i].getIntegrate());
-            }
-        }
-        ret['kindCode'] = this.kindCode;
-        ret['chargingStation'] = [];
-        if (this.chargingStation){
-            for (var i = 0 ,len = this.chargingStation.length ;i < len ; i++){
-                //ret['chargingStation'].push(this.chargingStation[i].getIntegrate());
-            }
-        }
-        ret['attraction'] = this.attraction;
-        ret['handler'] = this.handler;
-        ret['location'] = this.location;
-        ret['fid'] = this.fid;
-        ret['editHistory'] = [];
-        if (this.editHistory){
-            for (var i = 0 ,len = this.editHistory.length ;i < len ; i++){
-                ret['editHistory'].push(this.editHistory[i].getIntegrate());
-            }
-        }
-        ret['fieldVerification'] = this.fieldVerification;
-        ret['sourceFlags'] = this.sourceFlags;
-        ret['website'] = this.website;
-        ret['open24h'] = this.open24h;
-         if (this.open24h) {
-             ret['open24h'] = 1;
-         } else {
-             ret['open24h'] = 2;
-         }
-        ret['evaluateComment'] = this.evaluateComment;
-        ret['latestBatchDate'] = this.latestBatchDate;
-        ret['importance'] = this.importance;
-        ret['parkings'] = this.parkings;
-        ret['evaluatePlanning'] = this.evaluatePlanning;
-        ret['airportCode'] = this.airportCode;
-        ret['hwEntryExit'] = this.hwEntryExit;
-        ret['brands'] = this.brands;
-        ret['foodtypes'] = this.foodtypes; //需要修改成模型，暂时没有模型先这么写
-        ret['evaluateQuality'] = this.evaluateQuality;
-        ret['rawFields'] = this.rawFields;
-        ret['rental'] = this.rental;
-        ret['lifecycle'] = this.lifecycle;
-        ret['submitStatus'] = this.submitStatus;
-        ret['gasStation'] = this.gasStation;
-        ret['name'] = this.name;
-        ret['meshid'] = this.meshid;
-        ret['evaluateIntegrity'] = this.evaluateIntegrity;
-        ret['adminReal'] = this.adminReal;
-        ret['hotel'] = this.hotel;
-        ret['level'] = this.level;
-        ret['relateChildren'] = this.relateChildren;
-        ret['rowkey'] = this.rowkey;
-        ret['vipFlag'] = this.vipFlag;
-         if (this.vipFlag) {
-             var tmp = this.vipFlag.split("|");
-             for (var i = 0; i < tmp.length; i++) {
-                 if (tmp[i] == 1) {
-                     /*重要车场*/
-                     ret['poiCarIcon'] = true;
-                 } else if (tmp[i] == 2) {
-                     /*后项收费*/
-                     ret['poiRmbIcon'] = true;
-                 }
-             }
-         }
-        ret['postCode'] = this.postCode;
-        ret['adminCode'] = this.adminCode;
-        ret['latestMergeDate'] = this.latestMergeDate;
-        ret['address'] = this.address;
-        ret['checkResultNum'] = this.checkResultNum;
-        ret['guide'] = this.guide;
-        ret['auditStatus'] = this.auditStatus;
-        return ret;
-     },
     /*
      * DB-->UI
      */
     setAttributes: function(data) {
-        this.relateParent = data["relateParent"] || null;
-        this.relateParentName = data["relateParentName"] || "";
-        //this.attachments = data["attachments"] || [];
-        this.attachmentsImage = []; //图片
-        this.attachmentsDoc = []; //备注
-        this.attachmentsOther = []; //音频视频等
-        this.attachmentsRemark = '';
-        if (data["attachments"].length > 0) {
-            for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
-                if (data["attachments"][i].type == 1) { //表示图片
-                    var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
-                    attachment.url = App.Config.resourceUrl + '/photo' + attachment.url;
-                    this.attachmentsImage.push(attachment);
-                } else if (data["attachments"][i].type == 4) {
-                    this.attachmentsDoc.push(data["attachments"][i]);
-                    this.attachmentsRemark = data["attachments"][i].url;
-                } else {
-                    this.attachmentsOther.push(data["attachments"][i]);
-                }
-            }
-        }
-
-        this.contacts = [];
-        if (data["contacts"].length > 0) {
-            for (var i = 0 , len = data["contacts"].length ; i < len; i++) {
-                var contact = new FM.dataApi.IxPoiContact(data["contacts"][i]);
-                contact.index = i;
-                this.contacts.push(contact)
-            }
-        }
-
-        this.indoor = data["indoor"] || {};
-        this.indoor.type = false;
-        if (this.indoor.type == 3) {
-            this.indoor.type = true
-        }
-
-        this.pid = data["pid"] || 0;
-        /*检查结果*/
-        this.checkResultData = [];
-        /*冲突检测*/
-        this.confusionInfoData = [];
-        this.checkResults = [];
-        if(data['checkResults'] && data['checkResults'].length > 0){
-            for (var i = 0, len = data["checkResults"].length; i < len; i++) {
-                var checkResult = new FM.dataApi.IxCheckResult(data["checkResults"][i]);
-                if(checkResult.poiType == '重复' || checkResult.poiType == '冲突'){
-                    this.confusionInfoData.push(checkResult);
-                }else{
-                    this.checkResultData.push(checkResult);
-                }
-                this.checkResults.push(checkResult);
-            }
-        }
-        this.phaseHistory = data["phaseHistory"] || [];
-        this.synchronizeDate = data['synchronizeDate'];
-        this.regionInfo = data['regionInfo'] || 'D';
-        this.businessTime = data['businessTime'] || [];
-        this.sportsVenues = data['sportsVenues'] || null;
-        // 
-        this.projectHistory = data["projectHistory"] || null;
-        this.freshnessVerification = data["freshnessVerification"] || 0;
-        this.ckException = data["ckException"] || [];
-        this.ckException = [];
-        if(data['ckException'] && data['ckException'].length > 0){
-            for (var i = 0, len = data["ckException"].length; i < len; i++) {
-                var exception = new FM.dataApi.IxCheckResult(data["ckException"][i]);
-                if(exception.poiType == '重复' || exception.poiType == '冲突'){
-                    this.confusionInfoData.push(exception);
-                }else{
-                    this.checkResultData.push(exception);
-                }
-                this.ckException.push(exception);
-            }
-        }
-        this.operateDate = data["operateDate"] || null;
-        this.srcInformation = data["srcInformation"] || null;
-
-        this.batchModifyStatus = data['batchModifyStatus'] || 0;
-        this.hospital = data['hospital'] || null;
-        this.verifyFlags = data['verifyFlags'] || null;
-        //this.chargingPole = data['chargingPole'] || [];
-
-        this.chargingPole = [];
-        if (data["chargingPole"]&&data["chargingPole"].length > 0) {
-            for (var i = 0, len = data["chargingPole"].length; i < len; i++) {
-                var chargingPole = new FM.dataApi.IxPoiChargingPole(data["chargingPole"][i]);
-                this.chargingPole.push(chargingPole);
-            }
-        }
-        // 
-        this.kindCode = data["kindCode"] || null;
-        this.chargingStation = data["chargingStation"] || null;
-        this.attraction = data["attraction"] || null;
-        this.handler = data["handler"] || 1;
-        this.location = data["location"] || null;
-        this.fid = data["fid"] || null;
-        this.editHistory = [];
-        if(data['editHistory'] && data['editHistory'].length > 0){
-            for (var i = 0, len = data["editHistory"].length; i < len; i++) {
-                var editHistory = new FM.dataApi.IxEditHistory(data["editHistory"][i]);
-                this.editHistory.push(editHistory);
-            }
-        }
-        /*履历*/
-        this.editHistoryData = [];
-        /*履历默认取最后一条*/
-        this.editHistoryData = this.editHistory[this.editHistory.length-1];
-        this.fieldVerification = data['fieldVerification'] || 0;
-        this.sourceFlags = data['sourceFlags'] || null;
-        this.website = data['website'] || null;
-        // 
-        this.open24h = false;
-        if (data["open24h"] == 1) {
-            this.open24h = true
-        }
-        this.evaluateComment = data["evaluateComment"] || null;
-        this.latestBatchDate = data["latestBatchDate"] || null;
-        this.importance = data["importance"] || null;
-        this.parkings = data["parkings"] || null;
-        this.evaluatePlanning = data["evaluatePlanning"] || null;
+        this.pid = data['pid'] || 0;
+        this.rowId = data['rowId'] || "";
+        this.kindCode = data['kindCode'] || null;
+        this.geometry = data['geometry'];
+        this.xGuide = data['xGuide'] || 0;
+        this.yGuide = data['yGuide'] || 0;
+        this.linkPid = data['linkPid'] || 0;
+        this.side = data['side'] || 0;
+        this.nameGroupid = data['nameGroupid'] || 0;
+        this.roadFlag = data['roadFlag'] || 0;
+        this.pmeshId = data['pmeshId'] || 0;
+        this.importance = data['importance'] || 0;
+        this.chain = data['chain'] || null;
         this.airportCode = data['airportCode'] || null;
-        this.hwEntryExit = data['hwEntryExit'] || 0;
-        this.brands = data['brands'] || [];
-        this.foodtypes = data['foodtypes'] || null;
-        // 
-        this.evaluateQuality = data["evaluateQuality"] || null;
-        this.rawFields = data["rawFields"] || null;
-        this.rental = data["rental"] || null;
-        this.lifecycle = data["lifecycle"] || null;
-        this.lifecycleName = FM.dataApi.Constant.LIFE_CYCLE[this.lifecycle] || null;
-        this.submitStatus = data["submitStatus"] || 0;
-        this.gasStation = data["gasStation"] || null;
-        this.name = data['name'] || null;
-        this.meshid = data['meshid'] || null;
-        this.evaluateIntegrity = data['evaluateIntegrity'] || null;
-        this.adminReal = data['adminReal'] || null;
-        // 
-        this.hotel = data["hotel"] || null;
-        this.level = data["level"] || null;
-        this.relateChildren = data["relateChildren"] || [];
-        this.rowkey = data["rowkey"] || null;
-        this.vipFlag = data["vipFlag"] || null;
-        this.postCode = data["postCode"] || null;
-        this.adminCode = data['adminCode'] || null;
-        this.latestMergeDate = data['latestMergeDate'] || null;
-        this.address = data['address'] || null;
-        this.checkResultNum = data['checkResultNum'] || null;
-        // 
-        this.guide = data['guide'] || null;
-        this.auditStatus = data['auditStatus'] || 0;
-        this.auditStatusText = FM.dataApi.Constant.AUDITU_STATUS[this.auditStatus] || null;
+        this.accessFlag = data['accessFlag'] || 0;
+        this.open24h = data['open24h'] || 0;
+        this.meshId5K = data['meshId5K'] || null;
+        this.meshId = data['meshId'] || 0;
+        this.regionId = data['regionId'] || 0;
+        this.postCode = data['postCode'] || null;
+        this.difGroupid = data['difGroupid'] || null;
+        this.editFlag = data['editFlag'] || 1;
+        this.state = data['state'] || 0;
+        this.fieldState = data['fieldState'] || null;
+        var labelArr =  data["label"] ? data["label"].split("|") : [];
+        this.label = {};
+        for (var i = 0; i < labelArr.length; i++) {
+            this.label[labelArr[i]] = true;
+        }
+        //this.label = data['label'] || null;
+        this.type = data['type'] || 0;
+        this.addressFlag = data['addressFlag'] || 0;
+        this.exPriority = data['exPriority'] || null;
+        this.editionFlag = data['editionFlag'] || null;
+        this.poiMemo = data['poiMemo'] || null;
+        this.oldBlockcoed = data['oldBlockcoed'] || null;
+        this.oldName = data['oldName'] || null;
+        this.oldAddress = data['oldAddress'] || null;
+        this.oldKind = data['oldKind'] || null;
+        this.poiNum = data['poiNum'] || null;
+        this.log = data['log'] || null;
+        this.taskId = data["taskId"] || 0
+        this.dataVersion = data['dataVersion'] || null;
+        this.fieldTaskid = data['fieldTaskid'] || 0;
+        this.verifiedFlag = data['verifiedFlag'] || 9;
+        this.collectTime = data['collectTime'] || null;
+        this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
+        this.fullAttrFlag = data['fullAttrFlag'] || 9;
+        this.level = data['level']
+        this.indoor = data['indoor'] || 0;
+        this.freshnessVefication = data['freshnessVefication'];
+        this.status = data['status'] || 0;
+        this.poi3DIcon = false;
+        this.poiRmbIcon = false;
+        this.poiCarIcon = false;
+        this.poiIcon = false;
+        this.vipFlag = data['vipFlag'];
+        if (data['vipFlag']) {
+            var vFlag = data['vipFlag'].split('|');
+            if (vFlag.length > 1) {
+                for (var i = 0, len = vFlag.length - 1; i < len; i++) {
+                    if (vFlag[i] == 1) {
+                        this.poiRmbIcon = true;
+                    } else if (vFlag[i] == 2) {
+                        this.poiCarIcon = true;
+                    } else if (vFlag[i] == 3) {
+                        this.poiIcon = true;
+                    }
+                }
+            }
+        };
+        this.guide = {
+            "type": "Point",
+            "coordinates": [
+                data['xGuide'], data['yGuide']
+            ]
+        };
+        this.name = {}; //主名称
+        this.names = [];
+        if (data['names']) {
+            for (var i = 0, len = data['names'].length; i < len; i++) {
+                var obj = new FM.dataApi.IxPoiName(data['names'][i]);
+                this.names.push(obj);
+            }
+        }
+        this.address = {}; //主地址
+        this.addresses = [];
+        if (data["addresses"]) {
+            for (var i = 0, len = data["addresses"].length; i < len; i++) {
+                var obj = new FM.dataApi.IxPoiAddress(data["addresses"][i]);
+                this.addresses.push(obj);
+            }
+        }
+        this.contacts = [];
+        if (data["contacts"]) {
+            for (var i = 0, len = data["contacts"].length; i < len; i++) {
+                this.contacts.push(new FM.dataApi.IxPoiContact(data["contacts"][i]));
+            }
+        }
+        this.photos = [];
+        if (data['photos']) {
+            for (var i = 0, len = data['photos'].length; i < len; i++) {
+                this.photos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
+            }
+        }
+        this.children = [];
+        if (data["children"]) {
+            for (var i = 0, len = data["children"].length; i < len; i++) {
+                this.children.push(new FM.dataApi.IxPoiChildren(data["children"][i]));
+            }
+        }
+        this.parents = [];
+        if (data['parents']) {
+            for (var i = 0, len = data['parents'].length; i < len; i++) {
+                this.parents.push(new FM.dataApi.IxPoiParent(data['parents'][i]));
+            }
+        }
+        this.buildings = [];
+        if (data['buildings']) {
+            for (var i = 0, len = data['buildings'].length; i < len; i++) {
+                this.buildings.push(new FM.dataApi.IxPoiBuilding(data['buildings'][i]));
+            }
+        }
+        this.gasstations = [];
+        if (data['gasstations']) {
+            if (data['gasstations'].length == 0) {
+                this.gasstations = [new FM.dataApi.IxPoiGasstation({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+            } else {
+                for (var i = 0, len = data['gasstations'].length; i < len; i++) {
+                    this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
+                }
+            }
+        }
+        this.hotels = [];
+        if (data["hotels"]) {
+            if (data["hotels"].length == 0) {
+                this.hotels = [new FM.dataApi.IxPoiHotel({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+            } else {
+                for (var i = 0, len = data["hotels"].length; i < len; i++) {
+                    this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
+                }
+            }
+        }
+        this.restaurants = [];
+        if (data["restaurants"]) {
+            if (data["restaurants"].length == 0) {
+                this.restaurants = [new FM.dataApi.IxPoiRestaurant({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加空对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+            } else {
+                for (var i = 0, len = data["restaurants"].length; i < len; i++) {
+                    this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
+                }
+            }
+        }
+        this.parkings = [];
+        if (data["parkings"]) {
+            if (data["parkings"].length == 0) {
+                this.parkings = [new FM.dataApi.IxPoiParking({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+            } else {
+                for (var i = 0, len = data["parkings"].length; i < len; i++) {
+                    this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
+                }
+            }
+        }
+        this.samePois = [];
+        if (data["samePois"]) {
+            for (var i = 0, len = data["samePois"].length; i < len; i++) {
+                this.samePois.push(new FM.dataApi.IxSamepoi(data["samePois"][i]));
+            }
+        }
+        this.samePoiParts = [];
+        if (data["samePoiParts"]) {
+            for (var i = 0, len = data["samePoiParts"].length; i < len; i++) {
+                this.samePoiParts.push(new FM.dataApi.IxSamepoiPart(data["samePoiParts"][i]));
+            }
+        }
     },
-    /*getSnapShot: function() {
-        var data = {};
-        data["fid"] = this.fid;
-        data["pid"] = this.pid;
-        data["name"] = this.name;
-        data["kindCode"] = this.kindCode;
-        data["lifecycle"] = this.lifecycle;
-        data["auditStatus"] = this.auditStatus;
-        data["rawFields"] = this.rawFields;
-        data["location"] = this.location;
-        data["guide"] = this.guide;
-        return data;
-    }*/
+    /*
+     * UI-->DB
+     */
+    getIntegrate: function() {
+        var ret = {};
+        ret["pid"] = this.pid;
+        ret["rowId"] = this.rowId;
+        ret["kindCode"] = this.kindCode;
+        //ret["geometry"] = this.geometry;
+        //ret["xGuide"] = this.xGuide;
+        //ret["yGuide"] = this.yGuide;
+        //ret["linkPid"] = this.linkPid;
+        ret["side"] = this.side;
+        ret["nameGroupid"] = this.nameGroupid;
+        ret["roadFlag"] = this.roadFlag;
+        ret["pmeshId"] = this.pmeshId;
+        ret["importance"] = this.importance;
+        ret["chain"] = this.chain;
+        ret["airportCode"] = this.airportCode;
+        ret["accessFlag"] = this.accessFlag;
+        ret["open24h"] = this.open24h;
+        ret["meshId5K"] = this.meshId5K;
+        ret["meshId"] = this.meshId;
+        ret["regionId"] = this.regionId;
+        ret["postCode"] = this.postCode;
+        ret["difGroupid"] = this.difGroupid;
+        ret["editFlag"] = this.editFlag;
+        ret["state"] = this.state;
+        ret["fieldState"] = this.fieldState;
+        var checkedLabelArr = [];
+        for (var key in this.label) {
+            if (this.label[key] == true) {
+                checkedLabelArr.push(key);
+            }
+        }
+        ret["label"] = checkedLabelArr.join("|").substr(0,3);
+        ret["type"] = this.type;
+        ret["addressFlag"] = this.addressFlag;
+        ret["exPriority"] = this.exPriority;
+        ret["editionFlag"] = this.editionFlag;
+        ret["poiMemo"] = this.poiMemo;
+        ret["oldBlockcoed"] = this.oldBlockcoed;
+        ret["oldName"] = this.oldName;
+        ret["oldAddress"] = this.oldAddress;
+        ret["oldKind"] = this.oldKind;
+        ret["poiNum"] = this.poiNum;
+        ret["log"] = this.log;
+        ret["taskId"] = this.taskId;
+        ret["dataVersion"] = this.dataVersion;
+        ret["fieldTaskid"] = this.fieldTaskid;
+        ret["verifiedFlag"] = this.verifiedFlag;
+        ret["collectTime"] = this.collectTime;
+        ret["geoAdjustFlag"] = this.geoAdjustFlag;
+        ret["fullAttrFlag"] = this.fullAttrFlag;
+        ret["level"] = this.level;
+        ret["indoor"] = this.indoor;
+        ret["vipFlag"] = this.vipFlag;
+        ret["freshnessVefication"] = this.freshnessVefication;
+        ret['status'] = this.status;
+        //ret["xGuide"] = this.guide.coordinates[0];
+        //ret["yGuide"] = this.guide.coordinates[1];
+        ret["names"] = [];
+        if (this.names) {
+            if (this.names.length > 0) {
+                if (this.name && !FM.Util.isEmptyObject(this.name) && this.name.name != "") {
+                    var flag = true;
+                    for (var i = 0, len = this.names.length; i < len; i++) {
+                        if (this.name.langCode == this.names[i].langCode && this.name.nameClass == this.names[i].nameClass && this.name.nameType == this.names[i].nameType) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        this.names.push(this.name);
+                    }
+                }
+                for (var i = 0, len = this.names.length; i < len; i++) {
+                    ret["names"].push(this.names[i].getIntegrate());
+                }
+            } else {
+                if (!FM.Util.isEmptyObject(this.name) && this.name.name != "") {
+                    ret["names"].push(this.name.getIntegrate());
+                }
+            }
+        }
+        ret["addresses"] = [];
+        if (this.addresses) {
+            if (this.addresses.length > 0) {
+                if (this.address && !FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
+                    var flag = true;
+                    for (var i = 0, len = this.addresses.length; i < len; i++) {
+                        if (this.address.langCode == this.addresses[i].langCode) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        this.addresses.push(this.address);
+                    }
+                }
+                for (var i = 0, len = this.addresses.length; i < len; i++) {
+                    ret["addresses"].push(this.addresses[i].getIntegrate());
+                }
+            } else {
+                if (!FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
+                    ret["addresses"].push(this.address.getIntegrate());
+                }
+            }
+        }
+        ret["contacts"] = [];
+        if (this.contacts) {
+            for (var i = 0, len = this.contacts.length; i < len; i++) {
+                ret["contacts"].push(this.contacts[i].getIntegrate());
+            }
+        }
+        ret["photos"] = [];
+        if (this.photos) {
+            for (var i = 0, len = this.photos.length; i < len; i++) {
+                ret["photos"].push(this.photos[i].getIntegrate());
+            }
+        }
+        ret["children"] = [];
+        if (this.children) {
+            for (var i = 0, len = this.children.length; i < len; i++) {
+                ret["children"].push(this.children[i].getIntegrate());
+            }
+        }
+        ret["parents"] = [];
+        if (this.parents) {
+            for (var i = 0, len = this.parents.length; i < len; i++) {
+                ret["parents"].push(this.parents[i].getIntegrate());
+            }
+        }
+        ret["buildings"] = [];
+        if (this.buildings) {
+            for (var i = 0, len = this.buildings.length; i < len; i++) {
+                ret["buildings"].push(this.buildings[i].getIntegrate());
+            }
+        }
+        ret["gasstations"] = [];
+        if (this.gasstations) {
+            if (this.gasstations.length == 1 && FM.Util.isEmptyObject(this.gasstations[0])) {
+                ret["gasstations"] = [];
+            } else {
+                for (var i = 0, len = this.gasstations.length; i < len; i++) {
+                    ret["gasstations"].push(this.gasstations[i].getIntegrate());
+                }
+            }
+        }
+        ret["hotels"] = [];
+        if (this.hotels) {
+            if (this.hotels.length == 1 && FM.Util.isEmptyObject(this.hotels[0])) {
+                ret["hotels"] = [];
+            } else {
+                for (var i = 0, len = this.hotels.length; i < len; i++) {
+                    ret["hotels"].push(this.hotels[i].getIntegrate());
+                }
+            }
+        }
+        ret["restaurants"] = [];
+        if (this.restaurants) {
+            if (this.restaurants.length == 1 && FM.Util.isEmptyObject(this.restaurants[0])) {
+                ret["restaurants"] = [];
+            } else {
+                for (var i = 0, len = this.restaurants.length; i < len; i++) {
+                    ret["restaurants"].push(this.restaurants[i].getIntegrate());
+                }
+            }
+        }
+        ret["parkings"] = [];
+        if (this.parkings) {
+            if (this.parkings.length == 1 && FM.Util.isEmptyObject(this.parkings[0])) {
+                ret["parkings"] = [];
+            } else {
+                for (var i = 0, len = this.parkings.length; i < len; i++) {
+                    ret["parkings"].push(this.parkings[i].getIntegrate());
+                }
+            }
+            // if (this.parkings.length == 1 && FM.Util.isEmptyObject(this.parkings[0])) {
+            //     ret["parkings"] = [];
+            // } else if(this.parkings[0] instanceof FM.Class){
+            //     for (var i = 0, len = this.parkings.length; i < len; i++) {
+            //         ret["parkings"].push(this.parkings[i].getIntegrate());
+            //     }
+            // } else {
+            //     for (var i = 0, len = this.parkings.length; i < len; i++) {
+            //         ret["parkings"].push(this.parkings[i]);
+            //     }
+            // }
+        }
+        ret["samePois"] = [];
+        if (this.samePois) {
+            for (var i = 0, len = this.samePois.length; i < len; i++) {
+                ret["samePois"].push(this.samePois[i].getIntegrate());
+            }
+        }
+        ret["samePoiParts"] = [];
+        if (this.samePoiParts) {
+            for (var i = 0, len = this.samePoiParts.length; i < len; i++) {
+                ret["samePoiParts"].push(this.samePoiParts[i].getIntegrate());
+            }
+        }
+        ret["geoLiveType"] = this.geoLiveType;
+        return ret;
+    },
     getSnapShot: function() { //这样写的原因是为了返回的UI对象
         return new FM.dataApi.IxPoiSnapShot(this.getIntegrate());
     },

@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/4/12.
  */
 
-var addAdShapeApp = angular.module('mapApp');
+var addAdShapeApp = angular.module('app');
 addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
 
     var layerCtrl = fastmap.uikit.LayerController();
@@ -11,10 +11,11 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
     var selectCtrl = fastmap.uikit.SelectController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var adLink = layerCtrl.getLayerById('adLink');
-    var adNode = layerCtrl.getLayerById('adnode');
+    var adNode = layerCtrl.getLayerById('adNode');
     var eventController = fastmap.uikit.EventController();
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.limitRelation = {};
     /**
      * 两点之间的距离
@@ -43,7 +44,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
         }
         return angle;
     };
-    $scope.addShape = function (type, num, event) {
+    $scope.addAdShape = function (type, num, event) {
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
             map.floatMenu = null;
@@ -93,9 +94,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             shapeCtrl.getCurrentTool().snodePid = 0;
             shapeCtrl.getCurrentTool().enodePid = 0;
 
-            //把点和线图层加到捕捉工具中
-            map.currentTool.snapHandler.addGuideLayer(adLink);
+            //把点和线图层加到捕捉工具中，先加的优先捕捉
             map.currentTool.snapHandler.addGuideLayer(adNode);
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             //提示信息
             tooltipsCtrl.setEditEventType('drawAdLink');
             tooltipsCtrl.setCurrentTooltip('开始画线！');
@@ -111,6 +112,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             }
             //设置添加类型
             shapeCtrl.setEditingType('drawPolygon');
+            shapeCtrl.setEditFeatType('adFace');
             shapeCtrl.startEditing();
 
             //把工具添加到map中
@@ -136,7 +138,8 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             map.currentTool.enable();
             shapeCtrl.editType = "addAdFaceLine";
             //初始化鼠标提示
-            $scope.toolTipText = '请选择线！';
+            // $scope.toolTipText = '请选择线！';
+            tooltipsCtrl.setCurrentTooltip('请选择行政区划线！');
             adLink.options.editable = true;
             var selectCount = 0, linksArr = [], sNode, eNode;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
@@ -280,7 +283,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();
             map.currentTool.enable();
-            shapeCtrl.editFeatType = "adLink";
+            shapeCtrl.editFeatType = "adNode";
             map.currentTool.snapHandler.addGuideLayer(adLink);
             tooltipsCtrl.setEditEventType('pointVertexAdd');
             tooltipsCtrl.setCurrentTooltip('开始增加节点！');

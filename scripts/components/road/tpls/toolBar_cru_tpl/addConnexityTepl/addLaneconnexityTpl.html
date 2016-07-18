@@ -82,12 +82,12 @@
                           ng-click="minusNormalData(item,$index,$event)"></span>
                     <img class="show-img-normal"
                          ng-if="item.type===0"
-                         ng-src="../../images/road/1301/1301_0_{{item.flag}}.svg"
+                         ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
                          ng-click="addTransitData(item,$index)"
                          title="{{item.flag}}">
                     <img class="show-img-normal" ng-if="item.type===2"
                          ng-click="addTransitData(item,$index)"
-                         ng-src="../../images/road/1301/1301_2_{{item.flag}}.svg"
+                         ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
                          title="{{item.flag}}">
                 </div>
 
@@ -111,11 +111,11 @@
                     <img
                             class="show-img-transit"
                             ng-if="items.flag!=='test'"
-                            ng-src="../../images/road/1301/1301_1_{{busItem.flag}}.svg"
+                            ng-src="../../../images/road/1301/1301_1_{{busItem.flag}}.svg"
                             title="{{items}}">
                     <img
                             ng-if="items.flag==='test'"
-                            ng-src="../../images/road/1301/1301_1_test.svg">
+                            ng-src="../../../images/road/1301/1301_1_test.svg">
                 </div>
 
             </div>

@@ -1,8 +1,8 @@
 angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize']).constant("appPath", {
     root: App.Util.getAppPath() + "/",
     meta: "scripts/components/meta/",
-    road: "scripts/components/road3/",
-    poi: "scripts/components/poi3/",
+    road: "scripts/components/road/",
+    poi: "scripts/components/poi/",
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', 'dsRoad', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
     function($scope, $ocLazyLoad, $rootScope, dsPoi, dsMeta, dsRoad, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {

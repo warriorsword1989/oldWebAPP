@@ -1,7 +1,7 @@
 angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', function($scope,FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-            url: App.Util.getFullUrl('editsupport/poi/uploadresource/'),
-            formData:[{'filetype':'photo','projectId':2016013086}]
+            url: App.Util.getFullUrl('dropbox/upload/resource'),
+            formData:[{'parameter':JSON.stringify({'filetype':'photo','dbId':App.Temp.dbId,'pid':$scope.selectPoi})}],
         }),
         imgItems = [];
 
@@ -29,17 +29,18 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
         console.info('onWhenAddingFileFailed', item, filter, options);
     };
-    /*uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-    };
-    uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
+    /*添加完所有文件*/
+    uploader.onAfterAddingFile = function(fileItem) {
+        // console.info('onAfterAddingFile', fileItem);
     };
     uploader.onBeforeUploadItem = function(item) {
-        chargeFileType(item.file);
-        console.info('onBeforeUploadItem', item);
+        $scope.showProgress = true;
     };
-    uploader.onProgressItem = function(fileItem, progress) {
+
+    uploader.onAfterAddingAll = function(addedFileItems) {
+        // console.info('onAfterAddingAll', addedFileItems);
+    };
+    /*uploader.onProgressItem = function(fileItem, progress) {
         console.info('onProgressItem', fileItem, progress);
     };
     uploader.onProgressAll = function(progress) {
@@ -48,16 +49,22 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     uploader.onSuccessItem = function(fileItem, response, status, headers) {
         console.log(response)
         if(response.errcode == 0){
-            var img = {
-                'url':App.Config.resourceUrl + '/photo' + response.data.filenames[0],
-                'type':1,
-                'tag':0
-            };
+            var img = new FM.dataApi.IxPoiPhoto({
+                thumbnailUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"thumbnail"}',
+                originUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"origin"}'
+            });
             imgItems.push(img);
-            console.log(img)
+            $scope.poi.photos.push(img);
+            $scope.$emit("refreshPhoto",true);
         }
         // console.info('onSuccessItem', fileItem, response, status, headers);
     };
+    /*移除文件*/
+    uploader.remove = function(){
+        if($scope.uploader.queue.length == 0){
+            $scope.showProgress = false;
+        }
+    }
     uploader.onErrorItem = function(fileItem, response, status, headers) {
         // console.info('onErrorItem', fileItem, response, status, headers);
     };
@@ -68,9 +75,9 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         // console.info('onCompleteItem', fileItem, response, status, headers);
     };
     uploader.onCompleteAll = function() {
-        // console.info('onCompleteAll');
         $scope.$emit('getImgItems',imgItems);
+        if($scope.uploader.progress == 100){
+            $scope.showProgress = false;
+        }
     };
-
-    console.info('uploader', uploader);
 }]);

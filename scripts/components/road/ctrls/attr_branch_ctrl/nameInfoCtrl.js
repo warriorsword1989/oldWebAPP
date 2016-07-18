@@ -1,45 +1,49 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var braName = angular.module("mapApp");
-braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
+var braName = angular.module("app");
+braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-     $scope.details = objCtrl.data.details?objCtrl.data.details:0;
+    var eventController = fastmap.uikit.EventController();
+     $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
      $scope.nameGroup = [];
-    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-    if($scope.branchNameForm) {
-        $scope.branchNameForm.$setPristine();
-    }
-     /*根据nameGroupid排序*/
-     $scope.details[0].names.sort(function(a,b){
-        return b.nameGroupid >= a.nameGroupid;
-     });
-     /*重组源数据用新建变量nameGroup显示*/
-     $scope.sortNameGroup = function(arr){
+    if (objCtrl.data) {
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
         $scope.nameGroup = [];
-        for (var i = 0; i <= arr.length - 1; i++) {
-            var tempArr = [];
-            if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
-                if($.inArray(arr[i],$scope.nameGroup) == -1){
+    }
+
+    function initNameInfo(){
+        /*根据nameGroupid排序*/
+        $scope.details[0].names.sort(function(a,b){
+            return b.nameGroupid >= a.nameGroupid;
+        });
+        /*重组源数据用新建变量nameGroup显示*/
+        $scope.sortNameGroup = function(arr){
+            $scope.nameGroup = [];
+            for (var i = 0; i <= arr.length - 1; i++) {
+                var tempArr = [];
+                if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
+                    if($.inArray(arr[i],$scope.nameGroup) == -1){
+                        tempArr.push(arr[i])
+                    }
+                    for(var j=i+1;j<arr.length-1;j++){
+                        if(arr[j].nameGroupid == arr[i].nameGroupid){
+                            tempArr.push(arr[j]);
+                            i = j;
+                        }
+                    }
+                }else{
                     tempArr.push(arr[i])
                 }
-                for(var j=i+1;j<arr.length-1;j++){
-                    if(arr[j].nameGroupid == arr[i].nameGroupid){
-                        tempArr.push(arr[j]);
-                        i = j;
-                    }
-                }
-            }else{
-                tempArr.push(arr[i])
-            }
-            $scope.nameGroup.push(tempArr);
-        };
-     }
-     $scope.sortNameGroup($scope.details[0].names);
-     // console.log($scope.nameGroup)
-     $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+                $scope.nameGroup.push(tempArr);
+            };
+        }
+        $scope.sortNameGroup($scope.details[0].names);
+        // console.log($scope.nameGroup)
+        $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
-         });
+        });
+    }
     /*名称分类*/
     $scope.nameClassType = [
         {"code":0,"label":"方向"},
@@ -97,9 +101,8 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     $scope.diverName = function(id,name){
         var param = {
             "word":name
-        }
-        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$apply();
+        };
+        dsMeta.getNamePronunciation(param).then(function (data) {
             if(data.errcode == 0){
                 $.each($scope.details[0].names,function(i,v){
                     if(v.nameGroupid == id){
@@ -107,7 +110,6 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
                         v.voiceFile = data.data.voicefile;
                     }
                 });
-                $scope.$apply();
             }else{
                 swal("查找失败", "问题原因："+data.errmsg, "error");
             }
@@ -216,4 +218,17 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         protoArr.unshift(newName);
         $scope.sortNameGroup(protoArr);
     }
+    // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
+    $scope.$watch('subAttributeData',function(){
+        if(!objCtrl.data.hasOwnProperty('details') && !objCtrl.data.hasOwnProperty('signboards')){
+            return;
+        }
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
+        $scope.nameGroup = [];
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.branchNameForm) {
+            $scope.branchNameForm.$setPristine();
+        }
+        initNameInfo();
+    });
 });

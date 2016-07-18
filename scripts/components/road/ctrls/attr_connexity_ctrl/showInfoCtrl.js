@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/1.
  */
-var infoOfConnexityApp = angular.module("mapApp");
+var infoOfConnexityApp = angular.module("app");
 infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -15,7 +15,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.laneFlag = false;
     $scope.laneNum = $scope.infoData["laneInfo"].split(",").length;
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
    //清除高亮
     highRenderCtrl._cleanHighLight();
     highRenderCtrl.highLightFeatures.length = 0;
@@ -79,7 +79,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var highLightFeatures = [];
     highLightFeatures.push({
         id: objCtrl.data["inLinkPid"].toString(),
-        layerid:'referenceLine',
+        layerid:'rdLink',
         type:'line',
         style:{}
     })
@@ -90,7 +90,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             if (lenOfInfo === $scope.infoData["index"]) {
                 highLightFeatures.push({
                     id:$scope.infoData["topos"][i].outLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -110,7 +110,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 if (lenOfInfo === $scope.infoData["index"]) {
                     highLightFeatures.push({
                         id:$scope.infoData["topos"][i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -170,7 +170,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 $scope.showLaneInfo.push($scope.outLanesArr[i]);
                 highLightFeatures.push({
                     id: $scope.outLanesArr[i]["outLinkPid"].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -179,7 +179,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         }
         highLightFeatures.push({
             id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })
@@ -260,7 +260,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             for(var x= 0,lenX= Object.keys(outLinkObj).length;x<lenX;x++) {
                 highLightFeatures.push({
                     id:Object.keys(outLinkObj)[x].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -268,7 +268,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             //高亮进入线和退出线
             highLightFeatures.push({
                 id: objCtrl.data["inLinkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{}
             })

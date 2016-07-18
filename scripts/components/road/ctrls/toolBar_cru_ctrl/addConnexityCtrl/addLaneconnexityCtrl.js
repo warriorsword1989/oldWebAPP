@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2016/1/25.
  */
-var laneConnexityApp = angular.module("mapApp");
-laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+var laneConnexityApp = angular.module("app");
+laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad','appPath', function ($scope, $ocLazyLoad, appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -10,7 +10,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
     $scope.laneConnexity = {};
@@ -21,8 +21,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
 
     var changedDirectObj = {
         "loadType":"subAttrTplContainer",
-        "propertyCtrl":'components/road/ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
-        "propertyHtml":'../../scripts/components/road/tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
+        "propertyCtrl":appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
+        "propertyHtml":appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
 
@@ -79,7 +79,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             $scope.laneConnexity.inLinkPid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:   $scope.laneConnexity.inLinkPid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });
@@ -91,7 +91,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             $scope.laneConnexity.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:   $scope.laneConnexity.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {}
             });
@@ -102,7 +102,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
                 id:  data.id.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });

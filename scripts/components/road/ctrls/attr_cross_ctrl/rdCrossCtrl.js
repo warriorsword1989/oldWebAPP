@@ -1,12 +1,12 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var selectApp = angular.module("mapApp");
-selectApp.controller("rdCrossController", function ($scope) {
+var selectApp = angular.module("app");
+selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',function ($scope,dsEdit,dsFcc,appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var rdcross = layerCtrl.getLayerById('relationdata');
+    var rdcross = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -18,18 +18,17 @@ selectApp.controller("rdCrossController", function ($scope) {
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{}
             })
         }
         highLightFeatures.push({
-
             id:$scope.rdCrossData.pid.toString(),
-            layerid:'relationdata',
-            type:'relationdata',
+            layerid:'relationData',
+            type:'relationData',
             style:{}
-        })
+        });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
@@ -41,16 +40,18 @@ selectApp.controller("rdCrossController", function ($scope) {
         $scope.initializeRdCrossData();
     }
     $scope.refreshData = function () {
-        Application.functions.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS", function (data) {
-            objCtrl.setCurrentObject("RDCROSS", data.data);
-            $scope.initializeRdCrossData();
-        })
+        dsEdit.getByPid(parseInt($scope.rdCrossData.pid), "RDCROSS").then(function(data){
+    		if (data) {
+                objCtrl.setCurrentObject("RDCROSS", data.data);
+                $scope.initializeRdCrossData();
+            }
+    	});
     };
     $scope.showCrossNames=function(nameItem) {
         var crossNamesObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_cross_ctrl/namesCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_cross_tpl/namesTpl.html'
+            "propertyCtrl":appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
+            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", crossNamesObj);
         $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
@@ -63,21 +64,21 @@ selectApp.controller("rdCrossController", function ($scope) {
 
     $scope.minuscrossName=function(id){
         $scope.rdCrossData.names.splice(id, 1);
-    }
+    };
 
     $scope.changeColor=function(index){
         $("#crossnameSpan"+index).css("color","#FFF");
-    }
+    };
     $scope.backColor=function(index){
         $("#crossnameSpan"+index).css("color","darkgray");
-    }
+    };
 
     $scope.save = function () {
         objCtrl.save();
         var param = {
             "command": "UPDATE",
             "type": "RDCROSS",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
 
@@ -86,18 +87,18 @@ selectApp.controller("rdCrossController", function ($scope) {
             return;
         }
 
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+        dsEdit.save(param).then(function (data) {
             var info = [];
-            if (data.data) {
+            if (data) {
                 if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,
                         "handler": 0
 
-                    }
-                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info = null;
+                    };
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
+                    	var info = null;
                         if (data.errcode==0) {
                             var sinfo={
                                 "op":"修改RDCROSS状态成功",
@@ -118,7 +119,7 @@ selectApp.controller("rdCrossController", function ($scope) {
                             outPutCtrl.updateOutPuts();
                         }
                         selectCtrl.rowkey.rowkey = undefined;
-                    })
+                    });
                 }
                 var sinfo={
                     "op":"修改RDCROSS成功",
@@ -149,40 +150,24 @@ selectApp.controller("rdCrossController", function ($scope) {
         var param = {
             "command": "DELETE",
             "type": "RDCROSS",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": objId
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
+        };
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 rdcross.redraw();
                 $scope.rdCrossData = null;
-                var sinfo={
-                    "op":"删除RDCROSS成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
             }
-
-            outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
         })
-    }
+    };
 
     $scope.cancel=function(){
-    }
+    };
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeRdCrossData);
-});
+}]);

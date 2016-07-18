@@ -1120,8 +1120,18 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 })
             } else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
                 tooltipsCtrl.setCurrentTooltip('请选择制作信号灯的路口！');
-                tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
+                layerCtrl.pushLayerFront('edit'); //置顶editLayer
+                //初始化选择点工具
+                map.currentTool = new fastmap.uikit.SelectNode({
+                    map: map,
+                    nodesFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.enable();
+                //需要捕捉的图层
+                eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+                eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+                tooltipsCtrl.setChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
             }
         }
     }

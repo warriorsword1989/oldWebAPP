@@ -1,22 +1,10 @@
-angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi', 'dsMeta', '$http', function($scope, $ocll, $q, poi, meta, $http) {
-    var resultAllData = [],
-        resultIgnoreData = [],
-        checkRuleObj = {};
-    // $scope.editHistoryData = $scope.poi.editHistoryData;
-    var distinguishResult = function (data) {
-        resultAllData = $scope.poi.checkResults;
-        resultIgnoreData = $scope.poi.ckException;
-        /*检查规则*/
-        for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
-            $scope.poi.checkResults[i].setCheckRule(checkRuleObj[$scope.poi.checkResults[i].errorCode])
-        }
-        if ($scope.poi.lifeCycle != 2) {
-            /*根据履历作业员id查找真实姓名*/
-            poi.queryUser($scope.poi.editHistoryData.operator.user.toString()).then(function(userInfo){
-                $scope.poi.editHistoryData.operator.name = userInfo.realName;
-            });
-        }else {
-            $scope.poi.editHistoryData = false;
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsPoi', 'dsOutput','dsEdit', function($scope, $ocll,dsPoi, dsOutput,dsEdit) {
+    /*翻页事件*/
+    $scope.turnPage = function(type){
+        if(type == 'prev'){     //上一页
+            $scope.$emit('trunPaging','prev');
+        }else{      //  下一页
+            $scope.$emit('trunPaging','next');
         }
     }
     /*编辑关联poi数据*/
@@ -29,75 +17,95 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     });
     /*切换tag按钮*/
     $scope.changeTag = function (tagName) {
+        $scope.tagSelect = tagName;
         switch (tagName) {
-            case 'checkResult':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+            case 'outputResult':
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/outputResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/outputResultTpl.html';
                 });
                 break;
-            case 'confusionInfo':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
+            case 'errorCheck':
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/errorCheckCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/errorCheckTpl.html';
                 });
                 break;
-            case 'editHistory':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function () {
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
-                });
-                break;
-            case 'fileUpload':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/fileUploadCtl').then(function () {
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/fileUploadTpl.html';
+            case 'searchResult':
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/searchResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/searchResultTpl.html';
                 });
                 break;
             default:
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                $ocll.load('scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
         }
     };
-    /*刷新poi对象*/
-    function refreshPoiData() {
-        $scope.snapshotPoi = $scope.poi.getSnapShot();
-        distinguishResult($scope.poi);
-        if ($scope.poi.lifeCycle == 1) {
-            $scope.pEditable = false;
+    /*清空数据*/
+    $scope.emptyTableResult = function(type){
+        if(type == 'outputResult'){     //输出结果
+            dsOutput.clear();
+        }else{      //搜索结果
+
+        }
+    };
+    /*刷新检查*/
+    $scope.refreshCheckResult = function(){
+        initCheckResultData();
+    };
+
+    /**
+     * 在线检查
+     */
+    $scope.checkUpResult = function(){
+        var projectType = $scope.projectType; //poi或者道路,$scope.projectType字段来自于editroCtl.js中.
+        var checkType;
+        if(projectType == 1){
+            checkType = 0; //poi行编
         } else {
-            $scope.pEditable = true;
+            checkType = 2; //道路
         }
-        $scope.$broadcast('checkResultData', $scope.poi.checkResultData);
-        $scope.$broadcast('confusionInfoData', $scope.poi.confusionInfoData);
+        dsEdit.runCheck(checkType).then(function(data){
+           if(data){
+               initCheckResultData();
+           }
+        });
+    };
+    /*查找检查结果*/
+    function getCheckResultData(num){
+        dsPoi.getCheckData(num).then(function(data){
+            $scope.checkResultData = [];
+            for(var i=0,len=data.length;i<len;i++){
+                $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
+            }
+        });
+    };
+    initCheckResultData();
+    /*查找检查结果总数*/
+    dsPoi.getCheckDataCount().then(function(data){
+        $scope.checkResultTotal = data;
+        $scope.checkPageTotal = data.length > 0 ? Math.ceil(data/5):1;
+    });
+    /*初始化检查结果数据*/
+    function initCheckResultData(){
+        $scope.checkPageNow = 1;//检查结果当前页
+        getCheckResultData(1);
+        $scope.outputResult = dsOutput.output; //输出结果
     }
-
-    /*所有初始化执行方法放在此*/
-    function initializeData() {
-        for (var i = 0, len = $scope.checkRuleList.length; i < len; i++) {
-            checkRuleObj[$scope.checkRuleList[i].ruleId] = $scope.checkRuleList[i].severity;
+    /*检查结果翻页*/
+    $scope.$on('trunPaging',function(event,type){
+        if(type == 'prev'){     //上一页
+            getCheckResultData($scope.checkPageNow-1);
+            $scope.checkPageNow--;
+        }else{      //  下一页
+            getCheckResultData($scope.checkPageNow+1);
+            $scope.checkPageNow++;
         }
-        refreshPoiData();
-    }
-    initializeData();
-
-    /*当poi刷新broadcast此方法*/
-    $scope.$on('initOptionData',function(event,data){
-       initializeData();
     });
     /*判断默认显示哪个tab*/
     function initShowTag(){
-        if($scope.poi.checkResultData.length > 0){
-            $scope.tagSelect = 'checkResult';
-            $scope.changeTag('checkResult');
-        }else if($scope.poi.confusionInfoData.length > 0){
-            $scope.tagSelect = 'confusionInfo';
-            $scope.changeTag('confusionInfo');
-        }else if($scope.poi.editHistory.length > 0){
-            $scope.tagSelect = 'editHistory';
-            $scope.changeTag('editHistory');
-        }else{
-            $scope.tagSelect = 'fileUpload';
-            $scope.changeTag('fileUpload');
-        }
+        $scope.tagSelect = 'outputResult';
+        $scope.changeTag('outputResult');
     }
     initShowTag();
 }]);

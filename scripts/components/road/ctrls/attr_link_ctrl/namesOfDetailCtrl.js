@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var namesOfLinkApp = angular.module("mapApp");
-namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
+var namesOfLinkApp = angular.module("app");
+namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',function($scope,$timeout,dsMeta) {
     $scope.srcFlagOptions = [
         {"id": 0, "label": "0 现场道路名标牌"},
         {"id": 1, "label": "1 现场概略图"},
@@ -24,12 +24,8 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     ];
     var objCtrl = fastmap.uikit.ObjectEditController();
 
-    $scope.names = objCtrl.data.names;
+    $scope.names = objCtrl.namesInfo;
     $scope.realtimeData = objCtrl.data;
-
-
-
-
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
@@ -41,9 +37,9 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
         $scope.nameDetailForm.$setPristine();
     }
     $scope.addRoadName=function(){
-        var newName=fastmap.dataApi.linkname({"linkPid":objCtrl.data.pid})
+        var newName=fastmap.dataApi.linkname({"linkPid":objCtrl.data.pid});
         $scope.names.unshift(newName)
-    }
+    };
     $scope.minusRoadName=function(id) {
         $scope.names.splice(id, 1);
         if($scope.names.length===0) {
@@ -76,9 +72,9 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
             "name": $scope.inNmae,
             "pageSize": $scope.pagesize,
             "pageNum":$scope.picNowNum
-        }
-        Application.functions.getNamesbyName(JSON.stringify(nameParameter), function (data) {
-            if(data.errcode == 0){
+        };
+        dsMeta.getNamesbyName(nameParameter).then(function (data) {
+            if(data!= -1){
                 $(".pic-loading").hide();
                 //$("#namesDiv").css("display", "block");
                 $scope.pictures = data.data.data;
@@ -87,7 +83,7 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
                 $scope.$apply();
             }
         });
-    }
+    };
 
     $scope.selectNameInd=0;
     $scope.searchGroupidByNames=function(){
@@ -106,7 +102,7 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
             }
             $scope.$apply();
         },100);
-    }
+    };
 
     $scope.selectNmaesId=function(nameid,name){
        // $scope.names[$scope.selectNameInd].nameGroupid=nameid;
@@ -114,31 +110,27 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
         $scope.oridiData.nameGroupid=nameid;
         $scope.oridiData.name=name;
         $('.pic-show').hide();
-    }
+    };
 
     /*箭头图代码点击下一页*/
     $scope.picNext = function(){
         $scope.picNowNum += 1;
         $scope.getPicsDate();
-    }
+    };
     /*箭头图代码点击上一页*/
     $scope.picPre = function(){
         $scope.picNowNum -= 1;
         $scope.getPicsDate();
-    }
+    };
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function(e){
         $(e.target).parents('.pic-show').hide();
         $("#" + $scope.namesOfFlag).css("display","none");
-    }
+    };
     $scope.changeColor=function(ind){
         $("#minusNameSpan"+ind).css("color","#FFF");
-    }
+    };
     $scope.backColor=function(ind){
         $("#minusNameSpan"+ind).css("color","darkgray");
     }
-
-
-
-
-})
+}]);

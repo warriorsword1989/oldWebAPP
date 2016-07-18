@@ -749,7 +749,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
-                                            $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                            $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
                                         }
                                     }
                                 };
@@ -762,7 +762,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
-                                            $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html");
+                                            $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
                                         }
                                     }
                                 };
@@ -831,7 +831,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "../../../scripts/components/road3/tpls/attr_branch_Tpl/signBoardOfBranch.html");
+                                            $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "../../../scripts/components/road/tpls/attr_branch_Tpl/signBoardOfBranch.html");
                                         }
                                     }
                                 };
@@ -844,7 +844,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", "scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html");
+                                            $scope.getFeatDataCallback(result, result.brID ? result.brID[0].id : '', "RDBRANCH", "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                                         }
                                     }
                                 };

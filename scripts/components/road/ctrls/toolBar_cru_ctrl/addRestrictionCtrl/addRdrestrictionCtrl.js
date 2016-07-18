@@ -1,14 +1,14 @@
 /**
  * Created by zhaohang on 2016/5/6.
  */
-var rdRestrictionApp = angular.module("mapApp");
-rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+var rdRestrictionApp = angular.module("app");
+rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoad','appPath', function ($scope, $ocLazyLoad, appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
@@ -18,8 +18,8 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     $scope.highFeatures = [];
     var changedDirectObj = {
         "loadType": "subAttrTplContainer",
-        "propertyCtrl": 'components/road/ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
-        "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
+        "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
+        "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
 
@@ -54,7 +54,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             $scope.limitRelation.inLinkPid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:  $scope.limitRelation.inLinkPid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });
@@ -66,7 +66,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             $scope.limitRelation.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:  $scope.limitRelation.nodePid.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'rdnode',
                 style: {}
             });
@@ -77,7 +77,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
                 id:  data.id.toString(),
-                layerid: 'referenceLine',
+                layerid: 'rdLink',
                 type: 'line',
                 style: {}
             });

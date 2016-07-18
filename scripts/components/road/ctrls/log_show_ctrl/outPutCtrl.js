@@ -3,14 +3,14 @@
  */
 var outPutModule = angular.module('mapApp');
 outPutModule.controller('outPutController', function ($scope) {
-    $scope.outputtext = ""
+    $scope.outputtext = "";
     //图层控制ctrl
     var layerCtrl = fastmap.uikit.LayerController();
     //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
     //输出控制
     var output = fastmap.uikit.OutPutController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var workPoint = layerCtrl.getLayerById('workPoint');
     //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();
@@ -33,11 +33,11 @@ outPutModule.controller('outPutController', function ($scope) {
             })
         }
 
-    }
+    };
 
     $scope.showByMap = function (type, pid) {
 
-    }
+    };
 
     //index 1表示是pid  2表示rowid  点击编号在地图上高亮
     $scope.showInMap = function (index, type, id) {
@@ -53,7 +53,7 @@ outPutModule.controller('outPutController', function ($scope) {
             var nodeLyaerid="";
             if(type.indexOf("RDNODE") >= 0){
                 nodetype="RDLINK";
-                nodeLyaerid="referenceLine";
+                nodeLyaerid="rdLink";
             }else{
                 nodetype="ADLINK";
                 nodeLyaerid="adLink";
@@ -100,7 +100,7 @@ outPutModule.controller('outPutController', function ($scope) {
                     layerid:nodeLyaerid,
                     type:'node',
                     style:{}
-                })
+                });
 
                 highRenderCtrl.highLightFeatures = highlightFeatures;
                 highRenderCtrl.drawHighlight();
@@ -113,7 +113,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -121,7 +121,7 @@ outPutModule.controller('outPutController', function ($scope) {
 
                     highLightFeatures.push({
                         id:d.data.details[i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -131,7 +131,7 @@ outPutModule.controller('outPutController', function ($scope) {
                     layerid:'restriction',
                     type:'restriction',
                     style:{}
-                })
+                });
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
 
@@ -152,7 +152,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 for(var i= 0,len=linkArr.length;i<len;i++) {
                     highLightFeatures.push({
                         id: links[i]["linkPid"].toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -162,7 +162,7 @@ outPutModule.controller('outPutController', function ($scope) {
                     layerid:'rdcross',
                     type:'rdcross',
                     style:{}
-                })
+                });
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
                 if(linkArr.length>0){
@@ -178,7 +178,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -186,7 +186,7 @@ outPutModule.controller('outPutController', function ($scope) {
 
                     highLightFeatures.push({
                         id:d.data.topos[i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     });
@@ -200,13 +200,13 @@ outPutModule.controller('outPutController', function ($scope) {
             Application.functions.getRdObjectById(id, "RDBRANCH", function (d) {
                 highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
                 highLightFeatures.push({
                     id:d.data.outLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
@@ -224,7 +224,7 @@ outPutModule.controller('outPutController', function ($scope) {
                 for (var i = 0, len = (d.data.links).length; i < len; i++) {
                     highLightFeatures.push({
                         id:d.data.links[i].linkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -234,7 +234,7 @@ outPutModule.controller('outPutController', function ($scope) {
                     layerid:'rdGsc',
                     type:'rdgsc',
                     style:{}
-                })
+                });
                 map.setView([d.data.geometry.coordinates[1], d.data.geometry.coordinates[0]], 20);
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
@@ -244,14 +244,13 @@ outPutModule.controller('outPutController', function ($scope) {
                 $scope.OutDrawLink(id,"ADLINK");
         }else if(type.indexOf("ADADMIN") >= 0){
             Application.functions.getRdObjectById(id, "ADADMIN", function (d) {//行政区划代表点高亮
-                console.log(d);
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id: id.toString(),
                     layerid: 'adAdmin',
                     type: 'adadmin',
                     style: {}
-                })
+                });
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
                 map.setView([d.data.geometry.coordinates[1], d.data.geometry.coordinates[0]], 20);
@@ -261,17 +260,17 @@ outPutModule.controller('outPutController', function ($scope) {
                 var highLightFeatures = [];
                 highLightFeatures.push({
                     id: id.toString(),
-                    layerid: 'adface',
-                    type: 'adface',
+                    layerid: 'adFace',
+                    type: 'adFace',
                     style: {}
-                })
+                });
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
 
                 $scope.OutDrawLink(d.data.faceTopos[0].linkPid,"ADLINK");
             })
         }
-    }
+    };
 
     //线高亮
     $scope.OutDrawLink=function(id,type){
@@ -291,7 +290,7 @@ outPutModule.controller('outPutController', function ($scope) {
 
             var layerid="";
             if(type.indexOf("RDLINK") >= 0){
-                layerid="referenceLine";
+                layerid="rdLink";
             }else if(type.indexOf("ADLINK") >= 0){
                 layerid="adLink";
             }

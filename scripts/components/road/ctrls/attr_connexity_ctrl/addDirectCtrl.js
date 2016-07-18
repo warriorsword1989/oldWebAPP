@@ -4,11 +4,11 @@
 /**
  * Created by liwanchong on 2016/3/4.
  */
-var addDirectConnexityApp = angular.module("mapApp");
+var addDirectConnexityApp = angular.module("app");
 addDirectConnexityApp.controller("addDirectOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var hLayer = layerCtrl.getLayerById('highlightLayer');
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -80,7 +80,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })

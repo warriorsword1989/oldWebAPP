@@ -1,8 +1,8 @@
 /**
  * Created by zhaohang on 2016/04/12.
  */
-var selectAdApp = angular.module("mapApp");
-selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
+var selectAdApp = angular.module("app");
+selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope','appPath','dsEdit', function ($scope, $ocLazyLoad, $rootScope,appPath,dsEdit) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -10,8 +10,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
-    var adNode = layerCtrl.getLayerById('adnode');
-    var adFace = layerCtrl.getLayerById('adface');
+    var adNode = layerCtrl.getLayerById('adNode');
+    var adFace = layerCtrl.getLayerById('adFace');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin = layerCtrl.getLayerById('adAdmin');
@@ -21,6 +21,13 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
      * 重新设置选择工具
      */
     $scope.resetToolAndMap = function () {
+        eventController.off(eventController.eventTypes.GETLINKID);//清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+        eventController.off(eventController.eventTypes.GETADADMINNODEID);
+        eventController.off(eventController.eventTypes.GETNODEID);
+        eventController.off(eventController.eventTypes.GETRELATIONID);
+        eventController.off(eventController.eventTypes.GETTIPSID);
+
+
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -241,11 +248,12 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     };
 
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-        Application.functions.getRdObjectById(id, type, function (data) {
+        dsEdit.getByPid(id,type).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
-            objCtrl.setCurrentObject(type, data.data);
+            objCtrl.setCurrentObject(type, data);
+            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             tooltipsCtrl.onRemoveTooltip();
             var options = {
                 "loadType": 'attrTplContainer',
@@ -253,7 +261,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 "propertyHtml": tpl
             }
             $scope.$emit("transitCtrlAndTpl", options);
-        }, selectedData.detailid);
+        });
     }
     $scope.selectObjCallback = function (data) {
         highRenderCtrl._cleanHighLight();
@@ -274,8 +282,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adNodeCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adNodeTpl.html";
                 $scope.type = "ADNODE";
                 break;
             case "LINK":
@@ -310,8 +318,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adLinkCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adLinkTpl.html";
                 $scope.type = "ADLINK";
                 break;
             case "RDADMINNODE" :
@@ -324,13 +332,13 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                         callback: $scope.modifyTools
                     }]
                 }
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adAdminCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adAdminTpl.html";
                 $scope.type = "ADADMIN";
                 break;
             case "ADFACE":
-                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl';
-                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html";
+                ctrlAndTplParams.propertyCtrl = appPath.road + 'ctrls/attr_administratives_ctrl/adFaceCtrl';
+                ctrlAndTplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_adminstratives_tpl/adFaceTpl.html";
                 $scope.type = "ADFACE";
                 break;
         }
