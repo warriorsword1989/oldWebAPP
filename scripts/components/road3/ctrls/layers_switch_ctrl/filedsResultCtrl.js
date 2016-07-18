@@ -697,7 +697,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1512") { //辅路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    map.setView([data.g_location.coordinates[1][1], data.g_location.coordinates[1][0]], 20);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -892,7 +892,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                 } else if (pItemId === "1804") { //顺行
-                    map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
