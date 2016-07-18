@@ -3,120 +3,76 @@
  */
 fastmap.dataApi.FeatureConfig = {
 	1101:{
-		name:'点限速',
-		ctl:'',
-		tpl:''
+		name:'点限速'
 	},
 	1102:{
-		name:'红绿灯',
-		ctl:'',
-		tpl:''
+		name:'红绿灯'
 	},
 	1103:{
-		name:'红绿灯方位',
-		ctl:'',
-		tpl:''
+		name:'红绿灯方位'
 	},
 	1104:{
-		name:'大门',
-		ctl:'',
-		tpl:''
+		name:'大门'
 	},
 	1105:{
-		name:'危险信息',
-		ctl:'',
-		tpl:''
+		name:'危险信息'
 	},
 	1106:{
-		name:'坡度',
-		ctl:'',
-		tpl:''
+		name:'坡度'
 	},
 	1107:{
-		name:'收费站',
-		ctl:'',
-		tpl:''
+		name:'收费站'
 	},
 	1109:{
-		name:'电子眼',
-		ctl:'',
-		tpl:''
+		name:'电子眼'
 	},
 	1110:{
-		name:'卡车限制',
-		ctl:'',
-		tpl:''
+		name:'卡车限制'
 	},
 	1111:{
-		name:'条件限速',
-		ctl:'',
-		tpl:''
+		name:'条件限速'
 	},
 	1113:{
-		name:'车道限速',
-		ctl:'',
-		tpl:''
+		name:'车道限速'
 	},
 	1201:{
-		name:'道路种别',
-		ctl:'',
-		tpl:''
+		name:'道路种别'
 	},
 	1202:{
-		name:'车道数',
-		ctl:'',
-		tpl:''
+		name:'车道数'
 	},
 	1203:{
-		name:'道路方向',
-		ctl:'',
-		tpl:''
+		name:'道路方向'
 	},
 	1204:{
 		name:'可逆车道'
 	},
 	1205:{
-		name:'SA(服务区)',
-		ctl:'',
-		tpl:''
+		name:'SA(服务区)'
 	},
 	1206:{
-		name:'PA(停车区)',
-		ctl:'',
-		tpl:''
+		name:'PA(停车区)'
 	},
 	1207:{
-		name:'匝道',
-		ctl:'',
-		tpl:''
+		name:'匝道'
 	},
 	1208:{
-		name:'停车场出入口Link',
-		ctl:'',
-		tpl:''
+		name:'停车场出入口Link'
 	},
 	1301:{
-		name:'车信',
-		ctl:'',
-		tpl:''
+		name:'车信'
 	},
 	1302:{
-		name:'交限',
-		ctl:'',
-		tpl:''
+		name:'交限'
 	},
 	1303:{
 		name:'客车交限'
 	},
 	1304:{
-		name:'禁止穿行',
-		ctl:'',
-		tpl:''
+		name:'禁止穿行'
 	},
 	1305:{
-		name:'禁止驶入',
-		ctl:'',
-		tpl:''
+		name:'禁止驶入'
 	},
 	1306:{
 		name:'路口语音引导'
@@ -125,29 +81,19 @@ fastmap.dataApi.FeatureConfig = {
 		name:'自然语音引导'
 	},
 	1401:{
-		name:'方向看板',
-		ctl:'',
-		tpl:''
+		name:'方向看板'
 	},
 	1402:{
-		name:'Real Sign',
-		ctl:'',
-		tpl:''
+		name:'Real Sign'
 	},
 	1403:{
-		name:'3D',
-		ctl:'',
-		tpl:''
+		name:'3D'
 	},
 	1404:{
-		name:'提左提右',
-		ctl:'',
-		tpl:''
+		name:'提左提右'
 	},
 	1405:{
-		name:'一般道路方面',
-		ctl:'',
-		tpl:''
+		name:'一般道路方面'
 	},
 	1406:{
 		name:'实景图',
@@ -160,19 +106,13 @@ fastmap.dataApi.FeatureConfig = {
 		tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html'
 	},
 	1409:{
-		name:'普通路口模式图',
-		ctl:'',
-		tpl:''
+		name:'普通路口模式图'
 	},
 	1501:{
-		name:'上下线分离',
-		ctl:'',
-		tpl:''
+		name:'上下线分离'
 	},
 	1502:{
-		name:'路面覆盖',
-		ctl:'',
-		tpl:''
+		name:'路面覆盖'
 	},
 	1503:{
 		name:'高架路'
@@ -196,9 +136,7 @@ fastmap.dataApi.FeatureConfig = {
 		name:'跨线立交桥'
 	},
 	1510:{
-		name:'桥',
-		ctl:'',
-		tpl:''
+		name:'桥'
 	},
 	1511:{
 		name:'隧道'
@@ -210,14 +148,10 @@ fastmap.dataApi.FeatureConfig = {
 		name:'窄道'
 	},
 	1514:{
-		name:'施工',
-		ctl:'',
-		tpl:''
+		name:'施工'
 	},
 	1515:{
-		name:'维修',
-		ctl:'',
-		tpl:''
+		name:'维修'
 	},
 	1516:{
 		name:'季节性关闭道路'
@@ -235,9 +169,7 @@ fastmap.dataApi.FeatureConfig = {
 		name:'未定义交通类型'
 	},
 	1604:{
-		name:'区域内道路',
-		ctl:'',
-		tpl:''
+		name:'区域内道路'
 	},
 	1605:{
 		name:'POI连接路'
@@ -255,14 +187,10 @@ fastmap.dataApi.FeatureConfig = {
 		name:'铁路道口'
 	},
 	1703:{
-		name:'分叉口提示(SE)',
-		ctl:'',
-		tpl:''
+		name:'分叉口提示(SE)'
 	},
 	1704:{
-		name:'交叉路口名称',
-		ctl:'',
-		tpl:''
+		name:'交叉路口名称'
 	},
 	1705:{
 		name:'立交桥名称'
@@ -271,37 +199,25 @@ fastmap.dataApi.FeatureConfig = {
 		name:'GPS打点'
 	},
 	1801:{
-		name:'立交',
-		ctl:'',
-		tpl:''
+		name:'立交'
 	},
 	1803:{
-		name:'挂接',
-		ctl:'',
-		tpl:''
+		name:'挂接'
 	},
 	1804:{
 		name:'顺行'
 	},
 	1805:{
-		name:'复合路口',
-		ctl:'',
-		tpl:''
+		name:'复合路口'
 	},
 	1806:{
-		name:'草图',
-		ctl:'',
-		tpl:''
+		name:'草图'
 	},
 	1901:{
-		name:'道路名',
-		ctl:'',
-		tpl:''
+		name:'道路名'
 	},
 	2001:{
-		name:'测线',
-		ctl:'',
-		tpl:''
+		name:'测线'
 	},
 	2101:{
 		name:'删除标记'
