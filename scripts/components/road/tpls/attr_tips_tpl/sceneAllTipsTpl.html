@@ -500,7 +500,7 @@
                         </div>
                         <!--end 辅路-->
                         <!--begin 禁止驶入-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.vt.length > 0">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.eliminateCarObj">
                             <label class="col-sm-5 control-label" style="padding: 4px">例外车辆:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span ng-repeat="item in dataTipsData.eliminateCarObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>
@@ -668,6 +668,21 @@
                             </div>
                         </div>
                         <!--end 测线-->
+                        <!--begin Usage Fee Required-->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isUsageFeeRequired">
+                            <label class="col-sm-5 control-label" style="padding: 4px">收费类型:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span ng-if="dataTipsData.tp == 2" class="label ">桥</span>
+                                <span ng-if="dataTipsData.tp == 3" class="label ">隧道</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.usageEliminateCarObj">
+                            <label class="col-sm-5 control-label" style="padding: 4px">例外车辆:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span ng-repeat="item in dataTipsData.usageEliminateCarObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>
+                            </div>
+                        </div>
+                        <!--end Usage Fee Required-->
                     </form>
                 </div>
             </div>
