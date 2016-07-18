@@ -651,6 +651,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     $scope.timeDomain = $scope.dataTipsData.time.split(';');
                 }
                 break;
+            case "1517": //Usage Fee Required
+                $scope.dataTipsData.usageEliminateCarObj = [
+                    {"id":1,"label":'客车'},
+                    {"id":2,"label":'配送卡车'},
+                    {"id":3,"label":'运输卡车'},
+                    {"id":5,"label":'出租车'},
+                    {"id":6,"label":'公交车'}
+                ];
+                for(var i=0,len=$scope.dataTipsData.usageEliminateCarObj.length;i<len;i++){
+                    if($scope.dataTipsData.usageEliminateCarObj[i].id == $scope.dataTipsData.vt[i]){
+                        $scope.dataTipsData.usageEliminateCarObj[i].checked = true;
+                    }
+                }
+                $scope.dataTipsData.isUsageFeeRequired = true;
+                break;
             case "1604": //区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
                 $scope.zoneRoadState = [{
