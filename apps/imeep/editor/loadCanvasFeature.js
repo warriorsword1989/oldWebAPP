@@ -116,7 +116,9 @@
         "TipsPedestrianStreets.js",
         "TipsPedestrianStreet.js",
         "TipsNarrowChannels.js",
-        "TipsNarrowChannel.js"
+        "TipsNarrowChannel.js",
+        "TipsElevatedRoads.js",
+        "TipsElevatedRoad.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
