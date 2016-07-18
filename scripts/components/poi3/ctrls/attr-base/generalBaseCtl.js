@@ -273,7 +273,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         for (var i = 0,len = contacts.length; i<len;i++){
             if(contacts[i].contactType == 1){ //固话
-                if(contacts[i].contact.length != $scope.teleCodeToLength[contacts[i].code]){
+                if($scope.teleCodeToLength[contacts[i].code] && contacts[i].contact.length != $scope.teleCodeToLength[contacts[i].code]){
                     flag = false;
                     break;
                 }
@@ -309,7 +309,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "objStatus": "UPDATE"
                     }).then(function(data) {
                         if(data){
-                            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                                if (map.floatMenu) {
+                                    map.removeLayer(map.floatMenu);
+                                    map.floatMenu = null;
+                                }
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
                             }
                         }
@@ -320,7 +324,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
             if(data){
-                if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+                if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
                     eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
                 }
             }
@@ -339,7 +347,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
+            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi.pid});
             }
         });
