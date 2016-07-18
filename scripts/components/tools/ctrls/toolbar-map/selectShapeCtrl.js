@@ -110,8 +110,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
-            $scope.subAttrTplContainerSwitch(false);
+            });
+            $scope.$emit('closePopoverTips', false);
+            //$scope.subAttrTplContainerSwitch(false);
             $("#popoverTips").hide();
             // //点击按钮后样式的修改
             // $scope.changeBtnClass(num);
