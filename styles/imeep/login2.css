@@ -48,21 +48,21 @@ body {
   right: 0;
   margin: auto;
   width: 400px;
-  height: 280px;
+  height: 290px;
   padding: 25px;
   border-radius: 10px;
-  background: -webkit-linear-gradient(#333333, #eeeeee 38%, #222222 90%);
+  background: -webkit-linear-gradient(#333, #eee 38%, #222 90%);
   /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(#333333, #eeeeee 38%, #222222 90%);
+  background: -o-linear-gradient(#333, #eee 38%, #222 90%);
   /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(#333333, #eeeeee 38%, #222222 90%);
+  background: -moz-linear-gradient(#333, #eee 38%, #222 90%);
   /* Firefox 3.6 - 15 */
-  background: linear-gradient(#333333, #eeeeee 38%, #222222 90%);
+  background: linear-gradient(#333, #eee 38%, #222 90%);
   /* 标准的语法（必须放在最后） */
 }
 .login form {
-  margin-top: 30px;
-  padding: 0 30px;
+  margin-top: 22px;
+  padding: 0 15px;
 }
 .login button {
   background: #fff;
