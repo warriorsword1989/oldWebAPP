@@ -21,5 +21,17 @@ fastmap.uikit.canvasTips.TipsPedestrianStreet = fastmap.uikit.canvasTips.Tips.ex
                 fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
+        this.properties['markerStyle']["icon"].push(
+            fastmap.uikit.canvasTips.Tips.getIconStyle({
+                    text: item.m.e,
+                    row: 0,
+                    column: 3,
+                    location: this.geometry['coordinates'],
+                    rotate: (item.m.c) * (Math.PI / 180),
+                    dx: 16,
+                    dy: 7
+                }
+            )
+        );
     }
 });
