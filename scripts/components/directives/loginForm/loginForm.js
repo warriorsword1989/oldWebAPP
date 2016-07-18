@@ -24,7 +24,8 @@ angular.module('fastmap.uikit').directive('login', function() {
                 }
                 $scope.$emit("startLogin", {
                     userName: $scope.username,
-                    password: $scope.pwd
+                    password: $scope.pwd,
+                    remember: $scope.rememberMe
                 });
             }
         },

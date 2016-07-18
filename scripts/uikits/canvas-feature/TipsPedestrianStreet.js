@@ -1,4 +1,4 @@
-fastmap.uikit.canvasTips.TipsTunnel = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsPedestrianStreet = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function (item,i) {
         this.properties['markerStyle'] = {};
         this.properties['markerStyle']["icon"] = [];
@@ -14,7 +14,7 @@ fastmap.uikit.canvasTips.TipsTunnel = fastmap.uikit.canvasTips.Tips.extend({
         }
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1511/1511_0_0.svg',
+                iconName: '../../../images/road/tips/1507/1507_1_0.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],

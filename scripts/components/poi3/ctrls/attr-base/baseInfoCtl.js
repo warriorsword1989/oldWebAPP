@@ -86,16 +86,32 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     //$scope.controlFlag.isTelEmptyArr = [];//用于保存时对电话的校验
     $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
-        // if(temp.contact && !/^[0-9]*$/.test(temp.contact)){
-        //     $scope.controlFlag.isTelEmptyArr[index] = true;
-        //     return ;
-        // }else {
-        //     $scope.controlFlag.isTelEmptyArr[index] = false;
-        // }
+        if( !/^[0-9]*$/.test(temp.contact)){
+            swal("保存提示","电话填写不正确,不能保存！","warning");
+            return ;
+        }
         if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
             temp.contactType = 2;
         }else {
             temp.contactType = 1;
+            if(temp.code){
+                if($scope.$parent.teleCodeToLength[temp.code]){
+                    if($scope.$parent.teleCodeToLength[temp.code] != temp.contact.length){
+                        swal("提示","电话填写不正确,长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
+                    }
+                    return ;
+                }
+                dsMeta.queryTelLength(temp.code).then(function (data){
+                    if(data){
+                        $scope.$parent.teleCodeToLength[temp.code] = data - temp.code.length;
+                        if(temp.contact.length != $scope.$parent.teleCodeToLength[temp.code]){
+                            swal("提示","电话填写不正确,长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
+                        }
+                    }
+                });
+            } else {
+                swal("保存提示","电话填写不正确,不能保存！","warning");
+            }
         }
     };
     

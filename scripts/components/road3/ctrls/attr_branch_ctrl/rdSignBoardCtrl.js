@@ -381,7 +381,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
-        dsRoad.editGeometryOrProperty(param).then(function (data) {
+        dsEdit.save(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
             var info = null;
             if (data.errcode == 0) {
@@ -389,7 +389,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
                 rdBranch.redraw();
 
-                swal("操作成功", "分歧属性值修改成功！", "success");
+                swal("操作成功", "方向看板属性值修改成功！", "success");
                 var sinfo = {
                     "op": "修改RDBRANCH成功",
                     "type": "",
@@ -419,7 +419,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         dsEdit.deleteBranchByDetailId(detailId,9).then(
             function(params){
                 if(params){
-                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl.highLightFeatures = null;
                     highRenderCtrl._cleanHighLight();
                     rdBranch.redraw();
                 }
