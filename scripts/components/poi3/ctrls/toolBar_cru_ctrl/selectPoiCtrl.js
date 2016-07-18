@@ -385,6 +385,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     // };
 
     $scope.selectObjCallback = function (data) {
+        $scope.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
         dsEdit.getByPid(data.id, "IXPOI").then(function(rest) {
             if (rest) {
                 objCtrl.setCurrentObject('IXPOI', rest);
