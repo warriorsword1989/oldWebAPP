@@ -112,6 +112,8 @@
         "TipsSpecialTrafficTypes.js",
         "TipsSpecialTrafficType.js",
         "TipsSpecialTrafficTypePart.js",
+        "TipsNarrowChannels.js",
+        "TipsNarrowChannel.js",
         "TipsDirect.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
