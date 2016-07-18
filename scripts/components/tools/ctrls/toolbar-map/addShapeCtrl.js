@@ -1122,6 +1122,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 tooltipsCtrl.setCurrentTooltip('请选择制作信号灯的路口！');
                 tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
+            } else if(type === "RDGATE") {//大门
+            	
+            	
             }
         }
     }
