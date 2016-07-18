@@ -74,9 +74,9 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param options 可选参数
      */
     drawRect: function (context, meshId, options) {
-        //context.strokeStyle = '#B3ADE9'//边框颜色
-        //context.font = "30px Verdana";
-        //context.fillText(meshId, options.x, options.y);
+        context.strokeStyle = '#B3ADE9'//边框颜色
+        context.font = "30px Verdana";
+        context.fillText(meshId, options.x, options.y);
         context.strokeStyle = '#00ff00'//边框颜色
 
         context.linewidth = 3;  //边框宽
@@ -252,7 +252,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
 
         var rowResult = this.CalculateRealRowIndex(lat, remainder);
 
-        var colResult = this.CalculateRealColumnIndex(lon, rowResult.remainder);
+        var colResult = this.CalculateRealColumnIndex(lon, rowResult.reminder);
 
         //第1、2位 : 纬度取整拉伸1.5倍
         var M1M2 = Math.floor(lat * 1.5);
@@ -364,9 +364,9 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         switch (rowResult.value % 3) {
             case 0: //第一行
             {
-                if (300000 - rowResult.remainder == 12) //余数距离上框等于0.012秒
+                if (300000 - rowResult.reminder == 12) //余数距离上框等于0.012秒
                     model |= 0x01;
-                else if (rowResult.remainder == 0)
+                else if (rowResult.reminder == 0)
                     model |= 0x01;
             }
                 break;
@@ -374,15 +374,15 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
                 break;
             case 2: //第三行
             {
-                if (rowResult.remainder == 12) //余数距离下框等于0.012秒
+                if (rowResult.reminder == 12) //余数距离下框等于0.012秒
                     model |= 0x01;
             }
                 break;
         }
 
-        var colResult = this.CalculateRealColumnIndex(lon, rowResult.remainder);
+        var colResult = this.CalculateRealColumnIndex(lon, rowResult.reminder);
 
-        if (0 == colResult.remainder)
+        if (0 == colResult.reminder)
             model |= 0x10;
 
         return model;

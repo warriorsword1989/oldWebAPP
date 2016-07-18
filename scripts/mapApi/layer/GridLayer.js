@@ -107,7 +107,7 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
     },
 
     /***
-     * 绘制图幅
+     * 绘制格网
      * @param {Object}context canvas context
      * @param meshId 图幅id
      * @param options 可选参数
@@ -176,7 +176,6 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
             differenceX=(bound.maxLon-bound.minLon)/this.divideX;
         }
 
-
         for(var i= 0;i<this.divideX;i++){
             var boundXmin=bound.minLon+differenceX*i;
             var boundXmax=bound.minLon+differenceX*(i+1);
@@ -185,7 +184,7 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
                 var boundYmax=bound.minLat+differenceY*(j+1)
 
                 var b = L.latLngBounds([boundYmin, boundXmin], [boundYmax, boundXmax]);
-                var polygon = L.rectangle(b, {meshId: meshId,gridId:meshId+"_"+i+""+j});
+                var polygon = L.rectangle(b, {meshId: meshId,gridId:meshId+"_"+j+""+i});
                 grid.push(polygon);
             }
         }

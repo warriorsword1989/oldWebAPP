@@ -996,7 +996,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 });
             }
             //新增加的分歧(实景分歧);
-            else if (type.split('_').length == 2) {
+            else if (type.split('_')[0] == 'BRANCH') {
                 $scope.resetOperator("addRelation", type);
                 var typeArr = type.split('_');
                 var currentActiveBranch = '';
@@ -1118,6 +1118,10 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
+            } else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
+                tooltipsCtrl.setCurrentTooltip('请选择制作信号灯的路口！');
+                tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
             }
         }
     }
