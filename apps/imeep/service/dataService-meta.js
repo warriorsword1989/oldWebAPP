@@ -75,6 +75,22 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    //根据区号查询电话号码长度
+    this.queryTelLength = function (code){
+        var defer = $q.defer();
+        ajax.get("metadata/queryTelLength/", {
+            parameter: JSON.stringify({
+                code:code
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取电话长度出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
     this.getFocus = function() {
         var defer = $q.defer();
         ajax.get("metadata/queryFocus/", {}).success(function(data) {

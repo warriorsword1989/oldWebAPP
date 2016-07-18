@@ -419,7 +419,7 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
-        dsRoad.editGeometryOrProperty(param).then(function (data) {
+        dsEdit.save(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
             var info = null;
             if (data.errcode == 0) {
