@@ -869,6 +869,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 })
+            } else if (shapeCtrl.editType === "trafficSignal") {    //信号灯
+                if(geo) {
+                    console.log('创建信号灯成功')
+                }
             }
         }
     });
