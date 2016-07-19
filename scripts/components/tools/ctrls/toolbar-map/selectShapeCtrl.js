@@ -2,8 +2,8 @@
  * Created by liwanchong on 2015/10/28.
  * Rebuild by chenx on 2016-07-05
  */
-angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsRoad', 'dsEdit', 'appPath',
-    function($scope, $ocLazyLoad, $rootScope, dsFcc, dsRoad, dsEdit, appPath) {
+angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath',
+    function($scope, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -940,7 +940,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                                 "type": "RDCROSS",
                                                 "data": obj
                                             };
-                                            dsRoad.getByCondition(JSON.stringify(param), function(data) {
+                                            dsEdit.getByCondition(JSON.stringify(param), function(data) {
                                                 var crossCtrlAndTpl = {
                                                     propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
                                                     propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
