@@ -52,14 +52,22 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             $scope.showAllPre = true;
             $scope.showAllYet = true;
             if ($scope.workPoint.url.parameter["types"]) {
-                delete $scope.workPoint.url.parameter["types"]
+                delete $scope.workPoint.url.parameter["types"];
                 $scope.workPoint.redraw();
             }
-            dsFcc.getTipsStatics({
-                1: [1, 3],
-                2: [1],
-                3: [3]
-            }[type]).then(function(data) {
+            var stage = {};
+            if(App.Temp.mdFlag == "d"){//日编
+                stage = {
+                    1: [1, 2],
+                    2: [1],
+                    3: [2]}
+            } else {//月编
+                stage = {
+                    1: [1, 2 ,3],
+                    2: [1],
+                    3: [3]}
+            }
+            dsFcc.getTipsStatics(stage[type]).then(function(data) {
                 var arr = [],
                     transArr = [];
                 transArr = data.data.rows;
@@ -138,8 +146,20 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     return;
                 }
             }
+            var stages = {};
+            if(App.Temp.mdFlag == "d"){//日编
+                stages = {
+                    1: [1, 2],
+                    2: [1],
+                    3: [2]}
+            } else {//月编
+                stages = {
+                    1: [1, 2 ,3],
+                    2: [1],
+                    3: [3]}
+            }
             //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
-            dsFcc.getTipsListItems(arr, item.id).then(function(data) {
+            dsFcc.getTipsListItems(stages[arr], item.id).then(function(data) {
                 dataLoading = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;

@@ -15,7 +15,7 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
         this.options = options || {};
         fastmap.mapApi.MeshLayer.prototype.initialize(this, options);
         this.minShowZoom = this.options.minShowZoom || 9;
-        this.maxShowZoom = this.options.maxShowZoom || 18;
+        this.maxShowZoom = this.options.maxShowZoom || 20;
         this.divideX=this.options.divideX||0;
         this.divideY=this.options.divideY||0;
     },
