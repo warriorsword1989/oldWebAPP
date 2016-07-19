@@ -86,33 +86,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-    /**
-     * 根据detailId获取要素详细属性
-     * @param id
-     * @param type
-     * @param func
-     */
-    this.getByDetailId = function(detailId, type) {
-        var defer = $q.defer();
-        var params = {
-            "dbId": App.Temp.dbId,
-            "type": type,
-            "detailId": detailId
-        };
-        ajax.get("edit/getByPid", {
-            parameter: JSON.stringify(params)
-        }).success(function(data) {
-            if (data.errcode == 0) {
-                defer.resolve(data);
-            } else {
-                swal("根据DetailId查询" + type + "数据出错：", data.errmsg, "error");
-                defer.resolve(null);
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    };
     /***
      * 根据接口getByCondition获取相关数据
      */
@@ -177,6 +150,26 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             } else {
                 swal("查询数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*获取检查结果条数*/
+    this.getCheckDataCount = function() {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            grids: App.Temp.gridList
+        };
+        ajax.get("edit/check/count", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查找检查结果条数出错：" + data.errmsg);
             }
         }).error(function(rejection) {
             defer.reject(rejection);

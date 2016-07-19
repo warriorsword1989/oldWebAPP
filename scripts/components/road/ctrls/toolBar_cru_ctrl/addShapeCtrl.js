@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  */
 var addShapeApp = angular.module('app');
-addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad', 'appPath', function ($scope, $ocLazyLoad, dsRoad, appPath) {
+addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath', function ($scope, $ocLazyLoad, dsEdit, appPath) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -397,7 +397,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
         $scope.upAndDown = function (event) {
             var type = event.currentTarget.type;
             if (type === 'chooseOver') {
-                dsRoad.getByCondition($scope.param).then(function (data) {
+            	dsEdit.getByCondition($scope.param).then(function (data) {
                     var highLightFeatures = [];
                     highRenderCtrl.highLightFeatures.length = 0;
                     highRenderCtrl._cleanHighLight();
@@ -643,16 +643,17 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', 'dsRoad',
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                     var pro = e.property;
-                    dsRoad.getRdObjectById(pro.id, "RDLINK").then(function (data) {
-                        if (data.errcode == 0) {
+                    dsEdit.getByPid(pro.id, "RDLINK").then(function (data) {
+                        if (data) {
                             selectCtrl.onSelected({
-                                geometry: data.data.geometry.coordinates,
-                                id: data.data.pid,
+                                geometry: data.geometry.coordinates,
+                                id: data.pid,
                                 direct: pro.direct,
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
 
-                            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                            var linkArr = data.geometry.coordinates, 
+                            	points = [];
                             if (pro.direct == 1) {
                                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
