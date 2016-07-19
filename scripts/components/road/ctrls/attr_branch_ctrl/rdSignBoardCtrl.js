@@ -359,35 +359,10 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
         var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
         dsEdit.save(param).then(function (data) {
-            var outPutCtrl = fastmap.uikit.OutPutController();
-            var info = null;
-            if (data.errcode == 0) {
-                $scope.setOriginalDataFunc();
-                objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
-                rdBranch.redraw();
-
-                swal("操作成功", "方向看板属性值修改成功！", "success");
-                var sinfo = {
-                    "op": "修改RDBRANCH成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("操作失败", "问题原因：" + data.errmsg, "error");
-            }
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
+            objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
+            rdBranch.redraw();
         });
-    }
+    };
 
 
     /*删除pid*/

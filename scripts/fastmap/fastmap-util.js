@@ -71,29 +71,5 @@ FM.Util.extend(FM.Util, {
             return false;
         }
         return true;
-    },
-    setCheckboxMutex: function(event,obj,rejectVal) {
-        if (event.target.value == rejectVal) {
-            if (event.target.checked) {
-                for (var key in obj) {
-                    if (key != rejectVal) {
-                        obj[key] = false;
-                    }
-                }
-            }
-        } else {
-            if (event.target.checked) {
-                obj[rejectVal] = false;
-            }
-        }
-    },
-    setCheckBoxSingleCheck : function(event,obj){
-        if(event.target.checked){
-            for(var key in obj){
-                if(key != event.target.value){
-                    obj[key] = false;
-                }
-            }
-        }
     }
 });
