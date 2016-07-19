@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/2/29.
  */
 var namesOfCross = angular.module("app");
-namesOfCross.controller("namesController",['$scope','dsRoad',function($scope,dsRoad) {
+namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.names = objCtrl.data.names;
     $scope.langCodeOptions = [
@@ -72,17 +72,15 @@ namesOfCross.controller("namesController",['$scope','dsRoad',function($scope,dsR
 //                swal("查找失败", "问题原因：" + data.errmsg, "error");
 //            }
 //        });
-        dsRoad.getNamePronunciation(JSON.stringify(param)).then(function(data){
+        dsMeta.getNamePronunciation(param).then(function(data){
         	$scope.$apply();
-          if (data.errcode == 0) {
+          if (data) {
               $.each( $scope.names, function (i, v) {
                   if (v.nameGroupid == id) {
                       v.phonetic = data.data.phonetic;
                   }
               });
               $scope.$apply();
-          } else {
-              swal("查找失败", "问题原因：" + data.errmsg, "error");
           }
         });
     }

@@ -1,4 +1,4 @@
-angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsPoi', 'dsEdit', function($scope,dsPoi,dsEdit) {
+angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', function($scope,dsEdit) {
 
     var highRenderCtrl = new fastmap.uikit.HighRenderController();
     //初始化ng-table表头;

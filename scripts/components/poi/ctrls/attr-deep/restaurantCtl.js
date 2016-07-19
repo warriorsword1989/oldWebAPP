@@ -13,11 +13,11 @@ angular.module('app').controller('restaurantCtl', function($scope) {
     $scope.creditCardChange = function(event){
         var obj = $scope.poi.restaurants[0].creditCard;
         var rejectVal = "0";
-        FM.Util.setCheckboxMutex(event,obj,rejectVal);
+        Utils.setCheckboxMutex(event,obj,rejectVal);
     };
     $scope.foodType1Change = function(event){
         var obj = $scope.poi.restaurants[0].foodType1;
-        FM.Util.setCheckBoxSingleCheck(event,obj);
+        Utils.setCheckBoxSingleCheck(event,obj);
         //单独处理不能同时存在的几个风味
         var rejectArr = ["2016", "1001", "3009", "3015"];
         var obj2 = $scope.poi.restaurants[0].foodType2;
@@ -32,7 +32,7 @@ angular.module('app').controller('restaurantCtl', function($scope) {
     };
     $scope.foodType2Change = function(event){
         var obj = $scope.poi.restaurants[0].foodType2;
-        FM.Util.setCheckBoxSingleCheck(event,obj);
+        Utils.setCheckBoxSingleCheck(event,obj);
         //单独处理不能同时存在的几个风味
         var rejectArr = ["2016", "1001", "3009", "3015"];
         var obj1 = $scope.poi.restaurants[0].foodType1;

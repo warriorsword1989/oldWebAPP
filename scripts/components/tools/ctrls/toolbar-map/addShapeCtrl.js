@@ -1129,9 +1129,27 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 });
                 map.currentTool.enable();
                 //需要捕捉的图层
-                eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
-                eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+                eventController.off(eventController.eventTypes.GETNODEID, selectObjCallback);
+                eventController.on(eventController.eventTypes.GETNODEID, selectObjCallback);
+                console.log(shapeCtrl)
                 tooltipsCtrl.setChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
+                function selectObjCallback(){
+                    $scope.$emit("SWITCHCONTAINERSTATE", {
+                        "subAttrContainerTpl": false
+                    });
+                    //地图小于17级时不能选择
+                    if (map.getZoom < 17) {
+                        return;
+                    }
+                    map.closePopup();//如果有popup的话清除它
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
+                    //清除上一个选择的高亮
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures = [];
+                }
             }
         }
     }

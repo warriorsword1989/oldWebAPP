@@ -697,7 +697,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1512") { //辅路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    map.setView([data.g_location.coordinates[1][1], data.g_location.coordinates[1][0]], 20);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -829,39 +829,39 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         // callback:function(){
                         //     if (data.id) {
-                        //         $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                        //         $scope.getFeatDataCallback(data,data.id,"RDLINK","scripts/components/road3/ctrls/attr_link_ctrl/rdLinkCtrl","../../../scripts/components/road3/tpls/attr_link_tpl/rdLinkTpl.html")
                         //     }
                         // }
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfForks);
                 } else if (pItemId === "1704") { //交叉路口
                     /*map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
-                    var ctrlAndTplOfCross = {
-                        "loadType": "tipsTplContainer",
-                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        callback: function() {
-                            if (data.f.id) {
-                                var obj = {
-                                    "nodePid": parseInt(data.f.id)
-                                };
-                                var param = {
-                                    "dbId": App.Temp.dbId,
-                                    "type": "RDCROSS",
-                                    "data": obj
-                                }
-                                dsEdit.getByCondition(param, function(data) {
-                                    var crossCtrlAndTpl = {
-                                        propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
-                                        propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html",
-                                    }
-                                    objCtrl.setCurrentObject('RDCROSS', data.data[0]);
-                                    $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
-                                });
-                            }
-                        }
-                    }
-                    $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);*/
+                     var ctrlAndTplOfCross = {
+                     "loadType": "tipsTplContainer",
+                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                     callback: function() {
+                     if (data.f.id) {
+                     var obj = {
+                     "nodePid": parseInt(data.f.id)
+                     };
+                     var param = {
+                     "dbId": App.Temp.dbId,
+                     "type": "RDCROSS",
+                     "data": obj
+                     }
+                     dsEdit.getByCondition(param, function(data) {
+                     var crossCtrlAndTpl = {
+                     propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
+                     propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html",
+                     }
+                     objCtrl.setCurrentObject('RDCROSS', data.data[0]);
+                     $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
+                     });
+                     }
+                     }
+                     }
+                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);*/
 
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                     var crossCtrlAndTpl = {
@@ -892,7 +892,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                 } else if (pItemId === "1804") { //顺行
-                    map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -991,43 +991,43 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         }
         $scope.showTipsOrProperty = function(data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
             var ctrlAndTplParams = {
-                    loadType: 'tipsTplContainer',
-                    propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                    propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                    callback: function() {
-                        if (data.t_lifecycle === 2) { //修改
-                            $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                        } else { //1删除 3新增
-                            var stageLen = data.t_trackInfo.length;
-                            var stage = data.t_trackInfo[stageLen - 1];
-                            if (stage.stage === 1) { //未作业
-                                if (data.s_sourceType === "1201") { //道路种别 无论作业未作业 道路种别相关的属性页面都要弹出
+                loadType: 'tipsTplContainer',
+                propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                callback: function() {
+                    if (data.t_lifecycle === 2) { //修改
+                        $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                    } else { //1删除 3新增
+                        var stageLen = data.t_trackInfo.length;
+                        var stage = data.t_trackInfo[stageLen - 1];
+                        if (stage.stage === 1) { //未作业
+                            if (data.s_sourceType === "1201") { //道路种别 无论作业未作业 道路种别相关的属性页面都要弹出
+                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                            } else {
+                                if (data.t_lifecycle === 1) {
                                     $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                                } else {
-                                    if (data.t_lifecycle === 1) {
-                                        $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                                    }
                                 }
-                                $scope.$emit("SWITCHCONTAINERSTATE", {
-                                    "attrContainerTpl": false
-                                })
-                            } else if (stage.stage === 3) {
-                                if (data.t_lifecycle === 3) {
-                                    $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                                } else {
-                                    $scope.$emit("SWITCHCONTAINERSTATE", {
-                                        "attrContainerTpl": false
-                                    })
-                                }
+                            }
+                            $scope.$emit("SWITCHCONTAINERSTATE", {
+                                "attrContainerTpl": false
+                            })
+                        } else if (stage.stage === 3) {
+                            if (data.t_lifecycle === 3) {
+                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
                             } else {
                                 $scope.$emit("SWITCHCONTAINERSTATE", {
                                     "attrContainerTpl": false
                                 })
                             }
+                        } else {
+                            $scope.$emit("SWITCHCONTAINERSTATE", {
+                                "attrContainerTpl": false
+                            })
                         }
                     }
                 }
-                //先load Tips面板和控制器
+            }
+            //先load Tips面板和控制器
             $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
         }
     }
