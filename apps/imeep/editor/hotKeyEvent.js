@@ -479,10 +479,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         } else if (param["type"] === "RWNODE") {
                             rwLink.redraw();
                             rwnode.redraw();
-                        } else if (param["type"] === "ZONENODE") {
-                            zoneLink.redraw();
-                            zoneNode.redraw();
-                        } else if (param["type"] === "ZONENODE") {
+                        }else if (param["type"] === "ZONENODE") {
                             zoneLink.redraw();
                             zoneNode.redraw();
                             zoneFace.redraw();
@@ -513,12 +510,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         } else if (param["type"] === "ADNODE") {
                             adLink.redraw();
                             adNode.redraw();
+                            adFace.redraw();
                         } else if (param["type"] === "RDNODE") {
                             rdLink.redraw();
                             rdnode.redraw();
-                        } else {
+                        } else if (param["type"] === "ZONENODE") {
                             zoneLink.redraw();
                             zoneNode.redraw();
+                            zoneFace.redraw();
                         }
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     } else {
