@@ -296,7 +296,7 @@
             <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataList">
                     <li ng-repeat="pItem in items" id="{{pItem.id}}">
-                        <div ng-click="showContent(pItem,[1,3],0,$event)">
+                        <div ng-click="showContent(pItem,1,0,$event)">
                             <i class="glyphicon glyphicon-folder-close"></i>
                             <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[pItem.flag]" ng-click="showLayers(pItem,$event)"></a>
                             <label>{{pItem.name}} <span>{{pItem.total}}</span></label>
@@ -324,7 +324,7 @@
             <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataListOfPending">
                     <li ng-repeat="pendItem in items " id="{{pendItem.id}}Pending">
-                        <div ng-click="showContent(pendItem,[1],1,$event)"><i
+                        <div ng-click="showContent(pendItem,2,1,$event)"><i
                             class="glyphicon glyphicon-folder-close" style=""></i>
                             <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[pendItem.flag]" ng-click="showLayers(pendItem,$event)"></a>
                             <label>{{pendItem.name}} <span>{{pendItem.total}}</span></label>
@@ -351,7 +351,7 @@
             <div class="fm-fitsize dark scroll-styled" style="top:130px;">
                 <ul id="dataListOfPended">
                     <li ng-repeat="solveItem in items" id="{{solveItem.id}}Pended">
-                        <div ng-click="showContent(solveItem,[3],3,$event)"><i  class="glyphicon glyphicon-folder-close" style=""></i>
+                        <div ng-click="showContent(solveItem,3,3,$event)"><i  class="glyphicon glyphicon-folder-close" style=""></i>
                             <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[solveItem.flag]" ng-click="showLayers(solveItem,$event)"></a>
                             <label>{{solveItem.name}}  <span>{{solveItem.total}}</span></label>
                         </div>
