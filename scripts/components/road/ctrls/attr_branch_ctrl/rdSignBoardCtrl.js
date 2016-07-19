@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/23.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,dsEdit,appPath,dsMeta) {
+namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsEdit,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationData");
@@ -21,15 +21,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
 
     }
-    if (objCtrl.data) {
-        $scope.initializeData();
-    }
-    objCtrl.updateRdBranch = function () {
-        $scope.divergenceIds = objCtrl.data;
-        $scope.diverObj = {};
-        $scope.getObjectById(true);
-        $scope.initializeData();
-    };
 
     $scope.setOriginalDataFunc = function () {
         // objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
@@ -181,7 +172,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
     /*修改模式图号*/
     $scope.changeBackimageCode = function(){
         if($scope.diverObj.signboards[0].backimageCode.charAt(0) == oldPatCode.charAt(0) ||
@@ -325,28 +315,14 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
-    $scope.getObjectById = function (type) {
-        //箭头图
-        if (type) {
-            $scope.diverObj = $scope.divergenceIds;
-            $scope.initializeData();
-            $scope.initDiver();
-        } else {
-            dsRoad.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH").then(function (data) {
-                if (data.errcode == 0) {
-                    $scope.diverObj = data.data;
-                    objCtrl.setCurrentObject($scope.diverObj);
-                    $scope.initDiver();
-                    $scope.initializeData();
-                    $scope.$apply();
-                } else {
-                    $scope.$apply();
-                    swal("查询失败", "问题原因：" + data.errmsg, "error");
-                }
-            });
-        }
+    if (objCtrl.data) {
+        $scope.initDiver();
     }
-    $scope.getObjectById(true);
+    objCtrl.updateRdBranch = function () {
+        $scope.divergenceIds = objCtrl.data;
+        $scope.diverObj = {};
+        $scope.initDiver();
+    };
     /*保存分歧数据*/
     $scope.save = function () {
         if (!$scope.diverObj) {
@@ -381,6 +357,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
+        var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
         dsEdit.save(param).then(function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
             var info = null;

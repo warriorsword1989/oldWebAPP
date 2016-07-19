@@ -33,15 +33,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         });
 
     }
-    if (objCtrl.data) {
-        initDiver();
-    }
-    objCtrl.updateRdBranch = function () {
-        $scope.divergenceIds = objCtrl.data;
-        $scope.diverObj = {};
-        $scope.getObjectById(true);
-        initDiver();
-    };
 
     $scope.setOriginalDataFunc = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -196,7 +187,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.details[0]?$scope.diverObj.details[0].patternCode:'';
     /*修改模式图号*/
     $scope.changePatternCode = function(){
         if($scope.diverObj.details[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
@@ -303,7 +293,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         {"id": 9, "label": "9 不应用"}
     ];
     /*初始化信息显示*/
-     function initDiver() {
+     $scope.initDiver = function() {
         $scope.initializeData();
         var dObj = $scope.diverObj;
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
@@ -439,28 +429,15 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
-    $scope.getObjectById = function (type) {
-        //箭头图
-        if (type) {
-            $scope.diverObj = $scope.divergenceIds;
-            $scope.initializeData();
-            initDiver();
-        } else {
-            dsRoad.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH").then(function (data) {
-                if (data.errcode == 0) {
-                    $scope.diverObj = data.data;
-                    objCtrl.setCurrentObject($scope.diverObj);
-                    initDiver();
-                    $scope.initializeData();
-                    $scope.$apply();
-                } else {
-                    $scope.$apply();
-                    swal("查询失败", "问题原因：" + data.errmsg, "error");
-                }
-            });
-        }
+    if (objCtrl.data) {
+        $scope.initDiver();
     }
-    $scope.getObjectById(true);
+    objCtrl.updateRdBranch = function () {
+        $scope.divergenceIds = objCtrl.data;
+        $scope.diverObj = {};
+        $scope.initDiver();
+    };
+    var oldPatCode = $scope.diverObj.details[0]?$scope.diverObj.details[0].patternCode:'';
     /*保存分歧数据*/
     $scope.save = function () {
         if (!$scope.diverObj) {

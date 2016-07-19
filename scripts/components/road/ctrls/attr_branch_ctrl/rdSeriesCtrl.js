@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/23.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsRoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsRoad,dsEdit,appPath,dsMeta) {
+namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','appPath','dsMeta', function ($scope, $timeout, $ocLazyLoad,dsEdit,appPath,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationData");
@@ -21,15 +21,6 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         }
 
     }
-    if (objCtrl.data) {
-        $scope.initializeData();
-    }
-    objCtrl.updateRdBranch = function () {
-        $scope.divergenceIds = objCtrl.data;
-        $scope.diverObj = {};
-        $scope.getObjectById(true);
-        $scope.initializeData();
-    };
 
     $scope.setOriginalDataFunc = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -181,7 +172,6 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         o.valueOf = obj.valueOf;
         return o;
     }
-    var oldPatCode = $scope.diverObj.seriesbranches[0]?$scope.diverObj.seriesbranches[0].patternCode:'';
     /*修改模式图号*/
     $scope.changePatternCode = function(){
         if($scope.diverObj.seriesbranches[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
@@ -335,28 +325,15 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
-    $scope.getObjectById = function (type) {
-        //箭头图
-        if (type) {
-            $scope.diverObj = $scope.divergenceIds;
-            $scope.initializeData();
-            $scope.initDiver();
-        } else {
-            dsRoad.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH").then(function (data) {
-                if (data.errcode == 0) {
-                    $scope.diverObj = data.data;
-                    objCtrl.setCurrentObject($scope.diverObj);
-                    $scope.initDiver();
-                    $scope.initializeData();
-                    $scope.$apply();
-                } else {
-                    $scope.$apply();
-                    swal("查询失败", "问题原因：" + data.errmsg, "error");
-                }
-            });
-        }
+    if (objCtrl.data) {
+        $scope.initDiver();
     }
-    $scope.getObjectById(true);
+    objCtrl.updateRdBranch = function () {
+        $scope.divergenceIds = objCtrl.data;
+        $scope.diverObj = {};
+        $scope.initDiver();
+    };
+    var oldPatCode = $scope.diverObj.seriesbranches[0]?$scope.diverObj.seriesbranches[0].patternCode:'';
     /*保存分歧数据*/
     $scope.save = function () {
         if (!$scope.diverObj) {

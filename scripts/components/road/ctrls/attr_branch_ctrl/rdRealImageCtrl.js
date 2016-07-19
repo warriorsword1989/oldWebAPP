@@ -2,7 +2,7 @@
  * Created by wangmingdong on 2016/6/22.
  */
 var namesOfBranch = angular.module("app");
-namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','dsRoad','dsMeta','appPath', function ($scope, $timeout, $ocLazyLoad,dsEdit,dsRoad,dsMeta,appPath) {
+namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLoad','dsEdit','dsMeta','appPath', function ($scope, $timeout, $ocLazyLoad,dsEdit,dsMeta,appPath) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("relationData");
@@ -26,16 +26,6 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             $scope.nameBranchForm.$setPristine();
         }
 
-    };
-    if (objCtrl.data) {
-        $scope.initializeData();
-    }
-    objCtrl.updateRdBranch = function () {
-        $scope.divergenceIds = objCtrl.data;
-        $scope.diverObj = {};
-        $scope.getObjectById(true);
-        $scope.initializeData();
-        initDiver();
     };
 
     $scope.setOriginalDataFunc = function () {
@@ -371,28 +361,15 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
-    $scope.getObjectById = function (type) {
-        //箭头图
-        if (type) {
-            $scope.diverObj = $scope.divergenceIds;
-            $scope.initializeData();
-            $scope.initDiver();
-        } else {
-            dsRoad.getRdObjectById($scope.divergenceIds.pid, "RDBRANCH").then(function (data) {
-                if (data.errcode == 0) {
-                    $scope.diverObj = data.data;
-                    objCtrl.setCurrentObject($scope.diverObj);
-                    $scope.initDiver();
-                    $scope.initializeData();
-                    $scope.$apply();
-                } else {
-                    $scope.$apply();
-                    swal("查询失败", "问题原因：" + data.errmsg, "error");
-                }
-            });
-        }
+    if (objCtrl.data) {
+        $scope.initDiver();
     }
-    $scope.getObjectById(true);
+    objCtrl.updateRdBranch = function () {
+        $scope.divergenceIds = objCtrl.data;
+        $scope.diverObj = {};
+        $scope.initializeData();
+        $scope.initDiver();
+    };
     /*保存分歧数据*/
     $scope.save = function () {
         if (!$scope.diverObj) {
