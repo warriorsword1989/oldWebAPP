@@ -1,12 +1,12 @@
 /**
  * Created by wangtun on 2016/4/21.
  */
-fastmap.mapApi.ShapeOptionType={
+fastmap.mapApi.ShapeOptionType = {
     /*
        画线操作
      */
     'DRAWPATH': "drawPath",
-    'DRAWRWLINK':'drawRwLink',
+    'DRAWRWLINK': 'drawRwLink',
     /*
       画AdLink操作
      */
@@ -50,38 +50,37 @@ fastmap.mapApi.ShapeOptionType={
     /*
      改变道路方向操作
      */
-    'TRANSFORMDIRECT':"transformDirect",
+    'TRANSFORMDIRECT': "transformDirect",
     /*
       线端点移动操作
      */
-    'PATHNODEMOVE':"pathNodeMove",
+    'PATHNODEMOVE': "pathNodeMove",
     /*
       添加端点操作
      */
-    'POINTVERTEXADD':"pointVertexAdd",
+    'POINTVERTEXADD': "pointVertexAdd",
     /*
     移动行政区划代表点
      */
-    'ADADMINMOVE':"adAdminMove",
+    'ADADMINMOVE': "adAdminMove",
     /*
      上下线分离
      */
-    'PATHBUFFER':"pathBuffer",
+    'PATHBUFFER': "pathBuffer",
     /*
      移动显示坐标点
      */
-    'POILOCMOVE':"poiLocMove",
+    'POILOCMOVE': "poiLocMove",
     /*
      移动引导坐标点
      */
-    'POIGUIDEMOVE':"poiGuideMove",
+    'POIGUIDEMOVE': "poiGuideMove",
     /*
      引导坐标点随着显示坐标移动
      */
-    'POIAUTODRAG':"poiAutoDrag",
+    'POIAUTODRAG': "poiAutoDrag",
     /*
      引导坐标点随着显示坐标移动
      */
-    'POIADD':"poiAdd"
-
+    'POIADD': "poiAdd"
 }

@@ -17,7 +17,7 @@ fastmap.mapApi.Bounds = L.Class.extend({
      *
      * @return {fastmap.mapApi.Bounds} 返回拷贝对象
      */
-    initialize: function (left, bottom, right, top) {
+    initialize: function(left, bottom, right, top) {
         if (left) {
             this.left = parseFloat(left);
         }
@@ -31,17 +31,15 @@ fastmap.mapApi.Bounds = L.Class.extend({
             this.top = parseFloat(top);
         }
     },
-
     /**
      * @method clone
      * 深度拷贝当前bounds对象
      *
      * @return {fastmap.mapApi.Bounds} 返回拷贝对象
      */
-    clone: function () {
+    clone: function() {
         return new fastmap.mapApi.Bounds(this.left, this.bottom, this.right, this.top);
     },
-
     /**
      * @method equals
      * 判断两个bounds是否相等
@@ -49,17 +47,14 @@ fastmap.mapApi.Bounds = L.Class.extend({
      * @param {fastmap.mapApi.Bounds} 用于比较的bounds
      * @return {Boolean} 如果两个bounds的上下左右相等，则两个bounds相等，否则不相等
      */
-    equals: function (bounds) {
+    equals: function(bounds) {
         var equals = false;
         if (bounds != null) {
-            equals = ((this.left == bounds.left) &&
-            (this.right == bounds.right) &&
-            (this.top == bounds.top) &&
-            (this.bottom == bounds.bottom));
+            equals = ((this.left == bounds.left) && (this.right == bounds.right) && (this.top == bounds.top) && (this.bottom == bounds.bottom));
         }
         return equals;
     }
 });
-fastmap.mapApi.bounds=function(options) {
+fastmap.mapApi.bounds = function(options) {
     return new fastmap.mapApi.Bounds(options);
 };
