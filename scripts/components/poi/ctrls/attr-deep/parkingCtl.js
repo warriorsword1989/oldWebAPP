@@ -10,12 +10,12 @@ angular.module('app').controller('parkingCtl', function($scope) {
     $scope.tollStdChange = function(event){
         var obj = $scope.poi.parkings[0].tollStd;
         var rejectVal = "5";
-        FM.Util.setCheckboxMutex(event,obj,rejectVal);
+        Utils.setCheckboxMutex(event,obj,rejectVal);
     };
     $scope.remarkChange = function(event){
         var obj = $scope.poi.parkings[0].remark;
         var rejectVal = "0";
-        FM.Util.setCheckboxMutex(event,obj,rejectVal);
+        Utils.setCheckboxMutex(event,obj,rejectVal);
     }
     $scope.test = function(event,obj,rejectVal1,rejectVal2){
         for(var i=0;i<rejectVal1.length;i++){

@@ -3,7 +3,7 @@
  */
 //var otherApp=angular.module("lazymodule", []);
 var otherApp=angular.module("app");
-otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit",function($scope,appPath,dsRoad,dsEdit){
+otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function($scope,appPath,dsEdit){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -75,12 +75,12 @@ otherApp.controller("rdNodeFromController",["$scope",'appPath',"dsRoad","dsEdit"
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         var highlightFeatures = [];
 
-        dsRoad.getByCondition({
+        dsEdit.getByCondition({
             dbId: App.Temp.dbId,
             type: 'RDLINK',
             data: {"nodePid":  $scope.rdNodeData.pid}
         }).then(function (data){
-            if (data.errcode === -1) {
+            if (!data) {
                 return;
             }
             var lines = [];
