@@ -364,7 +364,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
             return false;
         }
         dsEdit.save(param).then(function (data) {
-            objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
+            $scope.setOriginalDataFunc();
             rdBranch.redraw();
         });
     }

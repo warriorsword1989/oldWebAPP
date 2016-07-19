@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/3.
  */
 var conditionSpeedApp = angular.module("app");
-conditionSpeedApp.controller("conditionSpeedController",function($scope) {
+conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
 
@@ -128,4 +128,39 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope) {
     $scope.backColor=function(ind){
         $("#minusSpan"+ind).css("color","darkgray");
     }
+    function timeoutLoad() {
+        $timeout(function() {
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function() {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+                $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/carPopoverCtrl').then(function() {
+                    $scope.carPopoverURL = '../../../scripts/components/road/tpls/attr_link_tpl/carPopoverTpl.html';
+                });
+                /*查询数据库取出时间字符串*/
+                $timeout(function() {
+                    $scope.fmdateTimer($scope.oridiData.timeDomain);
+                    $scope.$broadcast('set-code', $scope.oridiData.timeDomain);
+                    if ($scope.oridiData.type == 8 || $scope.oridiData.type == 9) {
+                        $scope.$broadcast('btn-control', {
+                            'empty': 'hide',
+                            'add': 'hide',
+                            'delete': 'hide'
+                        });
+                    }
+                    $scope.$apply();
+                }, 100);
+            });
+        });
+    }
+    /*时间控件*/
+    $scope.fmdateTimer = function(str) {
+        $scope.$on('get-date', function(event, data) {
+            $scope.oridiData.timeDomain = data;
+        });
+        $timeout(function() {
+            $scope.$broadcast('set-code', str);
+            $scope.oridiData.timeDomain = str;
+            $scope.$apply();
+        }, 100);
+    };
+    timeoutLoad();
 })

@@ -73,7 +73,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     };
     /*查找检查结果*/
     function getCheckResultData(num){
-        dsEdit.getCheckDataCount(num).then(function(data){
+        dsEdit.getCheckData(num).then(function(data){
             $scope.checkResultData = [];
             for(var i=0,len=data.length;i<len;i++){
                 $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));

@@ -22,9 +22,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 
     }
 
-    $scope.setOriginalDataFunc = function () {
-        // objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
-    }
     /*点击关系类型*/
     $scope.switchRelType = function (code) {
         $scope.diverObj.relationshipType = code;
@@ -359,7 +356,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
         var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
         dsEdit.save(param).then(function (data) {
-            objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
+            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             rdBranch.redraw();
         });
     };
