@@ -24,15 +24,20 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
     ];
     var objCtrl = fastmap.uikit.ObjectEditController();
 
-    $scope.names = objCtrl.namesInfo;
-    $scope.realtimeData = objCtrl.data;
+    //$scope.names = objCtrl.namesInfo;
+    var index = $scope.subAttributeData;
+    $scope.subAttributeData = "";
+    $scope.names = objCtrl.data.names;
+    $scope.oridiData = $scope.names[index];
+    // $scope.realtimeData = objCtrl.data;
+    //
+    // for(var i= 0,len=$scope.names.length;i<len;i++) {
+    //     if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+    //         $scope.oridiData = $scope.names[i];
+    //     }
+    // }
 
-    for(var i= 0,len=$scope.names.length;i<len;i++) {
-        if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
-            $scope.oridiData = $scope.names[i];
-        }
-    }
-//回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
     if($scope.nameDetailForm) {
         $scope.nameDetailForm.$setPristine();
     }
@@ -62,7 +67,7 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
             }
             $(".pic-pre").prop('disabled',false);
         }
-        $scope.$apply();
+        //$scope.$apply();
     }
     $scope.picNowNum = 0;
     //$scope.pagesize=0;
@@ -80,7 +85,7 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
                 $scope.pictures = data.data.data;
                 $scope.picTotal = Math.ceil(data.data.total/5);
                 $scope.goPaging();
-                $scope.$apply();
+                //$scope.$apply();
             }
         });
     };
@@ -100,7 +105,7 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
             }else{
                 $('.pic-show').show();
             }
-            $scope.$apply();
+            //$scope.$apply();
         },100);
     };
 
