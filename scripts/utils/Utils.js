@@ -31,5 +31,29 @@ Utils = {
             ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
         }
         return ret;
+    },
+    setCheckboxMutex: function(event,obj,rejectVal) {
+        if (event.target.value == rejectVal) {
+            if (event.target.checked) {
+                for (var key in obj) {
+                    if (key != rejectVal) {
+                        obj[key] = false;
+                    }
+                }
+            }
+        } else {
+            if (event.target.checked) {
+                obj[rejectVal] = false;
+            }
+        }
+    },
+    setCheckBoxSingleCheck : function(event,obj){
+        if(event.target.checked){
+            for(var key in obj){
+                if(key != event.target.value){
+                    obj[key] = false;
+                }
+            }
+        }
     }
 }
