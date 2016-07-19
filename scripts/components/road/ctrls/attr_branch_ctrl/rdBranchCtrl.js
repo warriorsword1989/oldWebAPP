@@ -466,7 +466,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         }
         dsEdit.save(param).then(function (data) {
             $scope.setOriginalDataFunc();
-            objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
             rdBranch.redraw();
         });
     }
@@ -493,5 +492,5 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, objCtrl.updateRdBranch);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initDiver);
 }])

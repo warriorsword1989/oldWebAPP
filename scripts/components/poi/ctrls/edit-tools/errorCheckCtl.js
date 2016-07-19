@@ -1,6 +1,8 @@
-angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', function($scope,dsEdit) {
+angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath', function($scope,dsEdit,appPath) {
 
+    var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = new fastmap.uikit.HighRenderController();
+    var objCtrl = fastmap.uikit.ObjectEditController();
     //初始化ng-table表头;
     $scope.cols = [
         {field: "ruleid", title: "检查规则号", show: true},
@@ -64,6 +66,10 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', function(
                             style:{}
                         });
                         map.setView([data.geometry.coordinates[1][1], data.geometry.coordinates[1][0]], 17);
+                        selectCtrl.onSelected({
+                            point: data.point
+                        });
+                        getFeatDataCallback(data, id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                         break;
                     case "IX_POI":
                         highRenderCtrl.highLightFeatures.push({
@@ -73,6 +79,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', function(
                             style:{}
                         });
                         map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+                        getFeatDataCallback(data, id, "IXPOI", appPath.poi + "ctrls/attr-base/generalBaseCtl", appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html");
                         break;
                     case "RDRESTRICTION":
                         var limitPicArr = [];
@@ -98,6 +105,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', function(
                             })
                         }
                         map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+                        getFeatDataCallback(data, id, "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                         break;
                     default :
                         layerCtrl.pushLayerFront("workPoint");
@@ -113,6 +121,34 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', function(
                 highRenderCtrl.drawHighlight();
             }
         })
+    }
+    function getFeatDataCallback(selectedData, id, type, ctrl, tpl,toolsObj){
+        dsEdit.getByPid(id, type).then(function(data) {
+            getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj);
+        });
+    }
+    function getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj) {
+        objCtrl.setCurrentObject(type, data);
+        if (type == "IXPOI") {
+            $scope.$emit("transitCtrlAndTpl", {
+                "loadType": "tipsTplContainer",
+                "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+                "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+            });
+            $scope.$emit("transitCtrlAndTpl", {
+                "loadType": "attrTplContainer",
+                "propertyCtrl": ctrl,
+                "propertyHtml": tpl
+            });
+            initPoiData(selectedData,data);
+        } else {
+            $scope.$emit("transitCtrlAndTpl", {
+                "loadType": 'attrTplContainer',
+                "propertyCtrl": ctrl,
+                "propertyHtml": tpl
+            });
+        }
+
     }
     //监听检查结果并获取
     /*eventController.on(eventController.eventTypes.CHEKCRESULT, function(event){

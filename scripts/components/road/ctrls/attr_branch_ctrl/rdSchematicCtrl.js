@@ -351,7 +351,7 @@ namesOfBranch.controller("SchematicOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             return false;
         }
         dsEdit.save(param).then(function (data) {
-            objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
+            $scope.setOriginalDataFunc();
             rdBranch.redraw();
         });
     }
