@@ -301,7 +301,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * 打断link
      * 适用于rdlink、adlink等
      */
-    this.repair = function(pid, type, data) {
+    this.break = function(pid, type, data) {
         var param = {
             "command": "BREAK",
             "dbId": App.Temp.dbId,
