@@ -123,7 +123,7 @@
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
     var scriptTags = new Array(jsFiles.length);
-    var host = App.Util.getAppPath() + "/scripts/uikits/canvas-feature/";
+    var host = App.Util.getAppPath() + "/scripts/dataApi/canvasFeatures/";
     for (var i = 0, len = jsFiles.length; i < len; i++) {
         scriptTags[i] = "<script src='" + host + jsFiles[i] + "'></script>";
     }
