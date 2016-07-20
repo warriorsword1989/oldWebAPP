@@ -1150,6 +1150,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [];
                 }
+            }else if(type === "RD_GATE"){
+            	
             }
         }
     }
