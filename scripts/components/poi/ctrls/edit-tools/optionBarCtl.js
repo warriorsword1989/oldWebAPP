@@ -84,7 +84,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     /*查找检查结果总数*/
     dsEdit.getCheckDataCount().then(function(data){
         $scope.checkResultTotal = data;
-        $scope.checkPageTotal = data.length > 0 ? Math.ceil(data/5):1;
+        $scope.checkPageTotal = data > 0 ? Math.ceil(data/5):1;
     });
     /*初始化检查结果数据*/
     function initCheckResultData(){
