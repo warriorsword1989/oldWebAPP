@@ -556,6 +556,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, "ZONEFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "IXPOI":
+                    $scope.$parent.$parent.selectPoiInMap = true; //用于控制当前POI是否是从地图上选择的
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-open'></a>",
