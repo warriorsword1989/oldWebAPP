@@ -41,7 +41,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
                     scope.highlightPoi(rest.pid);
-                    // scope.$emit("highLightPoi", rest.pid);
+                    scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto",true);
                 }
             });

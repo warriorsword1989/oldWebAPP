@@ -1119,6 +1119,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
             } else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
+                $scope.resetOperator("addRelation", type);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TRAFFICSIGNAL);
                 tooltipsCtrl.setCurrentTooltip('请选择制作信号灯的路口！');
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
@@ -1131,9 +1133,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 //需要捕捉的图层
                 eventController.off(eventController.eventTypes.GETNODEID, selectObjCallback);
                 eventController.on(eventController.eventTypes.GETNODEID, selectObjCallback);
-                console.log(shapeCtrl)
-                tooltipsCtrl.setChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
-                function selectObjCallback(){
+                function selectObjCallback(data){
                     $scope.$emit("SWITCHCONTAINERSTATE", {
                         "subAttrContainerTpl": false
                     });
@@ -1149,6 +1149,22 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     //清除上一个选择的高亮
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [];
+                    var tempHighlight = [];
+                    tempHighlight.push({
+                        id: data.id.toString(),
+                        layerid: 'rdLink',
+                        type: 'node',
+                        style: {}
+                    });
+                    highRenderCtrl.highLightFeatures = tempHighlight;
+                    highRenderCtrl.drawHighlight();
+                    /*selectCtrl.onSelected({
+                        geometry: line,
+                        id: $scope.linkMulity,
+                        linkWidth: linwidth,
+                        type: 'Buffer'
+                    });*/
+                    tooltipsCtrl.setCurrentTooltip('点击空格保存信号灯,或者按ESC键取消!');
                 }
             }else if(type === "RD_GATE"){
             	

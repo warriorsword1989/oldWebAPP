@@ -451,6 +451,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         });
         $scope.$on("highLightPoi", function(event, pid) {
             $scope.$broadcast("highlightPoiByPid", pid);
+            $scope.$broadcast("clearQueueItem",true);
             $scope.selectPoi = pid;
         });
         // $scope.checkPageNow = 1;
