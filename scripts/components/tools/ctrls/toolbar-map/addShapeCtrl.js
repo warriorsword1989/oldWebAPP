@@ -1158,12 +1158,6 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     });
                     highRenderCtrl.highLightFeatures = tempHighlight;
                     highRenderCtrl.drawHighlight();
-                    /*selectCtrl.onSelected({
-                        geometry: line,
-                        id: $scope.linkMulity,
-                        linkWidth: linwidth,
-                        type: 'Buffer'
-                    });*/
                     tooltipsCtrl.setCurrentTooltip('点击空格保存信号灯,或者按ESC键取消!');
                 }
             }else if(type === "RD_GATE"){
