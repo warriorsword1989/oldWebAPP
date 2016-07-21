@@ -2,17 +2,19 @@
  * Created by wangmingdong on 2016/7/20.
  */
 
-var rdGscApp = angular.module("app");
-rdGscApp.controller("trafficSignalCtl",['$scope','dsEdit',function($scope,dsEdit) {
+var rdTrafficSignalApp = angular.module("app");
+rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($scope,dsEdit) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdgsc = layerCtrl.getLayerById('relationData');
+    var relationData = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        $scope.reGscData = objCtrl.data;
-        var links = $scope.reGscData.links,highLightFeatures=[];
+        console.log(objCtrl.data.getIntegrate())
+        $scope.trafficSignalData = objCtrl.data;
+        conversionSystem();
+        /*var links = $scope.trafficSignalData.links,highLightFeatures=[];
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
@@ -23,20 +25,63 @@ rdGscApp.controller("trafficSignalCtl",['$scope','dsEdit',function($scope,dsEdit
                     size:5
                 }
             })
-        }
+        }*/
         /*highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();*/
 
     };
-    // $scope.initializeData();
+    $scope.initializeData();
     $scope.refreshData = function () {
-        dsEdit.getByPid(parseInt($scope.reGscData.pid), "RDGSC").then(function(data){
+        dsEdit.getByPid(parseInt($scope.trafficSignalData.pid), "RDTRAFFICSIGNAL").then(function(data){
         	if (data) {
-                objCtrl.setCurrentObject("RDGSC", data.data);
+                objCtrl.setCurrentObject("RDTRAFFICSIGNAL", data.data);
                 $scope.initializeData();
             }
         });
     };
+
+    /*十进制转二进制*/
+    function conversionSystem(){
+        $scope.trafficSignalData.location = parseInt(objCtrl.data.location,10).toString(2);
+        if(objCtrl.data.location){
+            if(objCtrl.data.location.length == 1){
+                $scope.trafficSignalData.locationLeft = 0;
+                $scope.trafficSignalData.locationRight = 0;
+                $scope.trafficSignalData.locationTop = objCtrl.data.location;
+            }else if(objCtrl.data.location.length == 2){
+                $scope.trafficSignalData.locationLeft = 0;
+                $scope.trafficSignalData.locationRight = objCtrl.data.location.slice(0,1);
+                $scope.trafficSignalData.locationTop = objCtrl.data.location.slice(1,1);
+            }else if(objCtrl.data.location.length == 3){
+                $scope.trafficSignalData.locationLeft = objCtrl.data.location.slice(0,1);
+                $scope.trafficSignalData.locationRight = objCtrl.data.location.slice(1,1);
+                $scope.trafficSignalData.locationTop = objCtrl.data.location.slice(2,1);
+            }
+        }
+    }
+
+    $scope.changeLocationLeft = function(){
+        if($scope.trafficSignalData.locationLeft == 0){
+            $scope.trafficSignalData.locationLeft = 1;
+        }else{
+            $scope.trafficSignalData.locationLeft = 0
+        }
+    };
+    $scope.changeLocationRight = function(){
+        if($scope.trafficSignalData.locationRight == 0){
+            $scope.trafficSignalData.locationRight = 1;
+        }else{
+            $scope.trafficSignalData.locationRight = 0
+        }
+    };
+    $scope.changeLocationTop = function(){
+        if($scope.trafficSignalData.locationTop == 0){
+            $scope.trafficSignalData.locationTop = 1;
+        }else{
+            $scope.trafficSignalData.locationTop = 0
+        }
+    };
+    
     /*信号灯类型*/
     $scope.lampType = [
         {"id": 0, "label": "机动车信号灯"},
@@ -45,11 +90,11 @@ rdGscApp.controller("trafficSignalCtl",['$scope','dsEdit',function($scope,dsEdit
         {"id": 3, "label": "方向指示灯"},
         {"id": 4, "label": "闪光警告信号灯"},
         {"id": 5, "label": "道路与铁路平交道口信号灯"}
-
     ];
 
 
     $scope.save = function(){
+        objCtrl.data.location = parseInt($scope.trafficSignalData.locationLeft+ '' + $scope.trafficSignalData.locationRight + '' + $scope.trafficSignalData.locationTop);
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
@@ -57,7 +102,7 @@ rdGscApp.controller("trafficSignalCtl",['$scope','dsEdit',function($scope,dsEdit
         }
         var param = {
             "command": "UPDATE",
-            "type": "RDGSC",
+            "type": "RDTRAFFICSIGNAL",
             "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
@@ -74,27 +119,26 @@ rdGscApp.controller("trafficSignalCtl",['$scope','dsEdit',function($scope,dsEdit
                     });
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                rdgsc.redraw();
-                swal("操作成功", "修改立交成功！", "success");
+                relationData.redraw();
+                swal("操作成功", "修改信号灯成功！", "success");
             }
             $scope.refreshData();
         })
     };
 
     $scope.delete = function(){
-        var objId = parseInt($scope.reGscData.pid);
+        var objId = parseInt($scope.trafficSignalData.pid);
         var param = {
             "command": "DELETE",
-            "type": "RDGSC",
+            "type": "RDTRAFFICSIGNAL",
             "dbId": App.Temp.dbId,
             "objId": objId
         };
         dsEdit.save(param).then(function (data) {
             var info = null;
             if (data) {
-                rdgsc.redraw();
-                $scope.reGscData = null;
-                rdgsc.redraw();
+                $scope.trafficSignalData = null;
+                relationData.redraw();
             }
         })
     };
