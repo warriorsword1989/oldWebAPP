@@ -868,6 +868,32 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 })
+            } else if (shapeCtrl.editType === "trafficSignal") {    //信号灯
+                var data = {
+                    pid:rdnode.selectedid
+                }
+                scope.$emit("transitCtrlAndTpl", {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": appPath.road + "ctrls/attr_trafficSignal_ctrl/trafficSignalCtrl",
+                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_trafficSignal_tpl/trafficSignalTpl.html"
+                });
+                /*if (!rdnode.selectedid) {
+                    swal("操作失败", "请选取路口Node", "error");
+                    return;
+                }
+                param = {
+                    "nodePid": rdnode.selectedid
+                };
+                dsEdit.create('RDTRAFFICSIGNAL',param).then(function(data) {
+                    if(data != null){
+                        zoneFace.redraw();
+                        zoneLink.redraw();
+                        treatmentOfChanged(data, "RDTRAFFICSIGNAL", "创建信号灯成功", 'attr_trafficSignal_ctrl/trafficSignalCtrl', 'attr_trafficSignal_tpl/trafficSignalTpl.html');
+                    } else {
+                        resetPage();
+                    }
+
+                });*/
             }
         }
     });

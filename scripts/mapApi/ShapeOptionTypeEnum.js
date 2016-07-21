@@ -82,5 +82,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      引导坐标点随着显示坐标移动
      */
-    'POIADD': "poiAdd"
+    'POIADD': "poiAdd",
+    /*
+     增加信号灯
+     */
+    'TRAFFICSIGNAL': "trafficSignal"
 }

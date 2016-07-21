@@ -24,6 +24,11 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         }
     }
 
+    /*清空上传列表*/
+    $scope.$on("clearQueueItem",function(event,data){
+        uploader.clearQueue();
+    });
+
     // CALLBACKS
     /*添加上传文件失败*/
     uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {

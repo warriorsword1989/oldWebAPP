@@ -5,6 +5,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
     function($rootScope, $scope, $ocLazyLoad, $timeout, dsFcc, dsEdit, dsMeta, appPath) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
+        var stages = {};
+        if(App.Temp.mdFlag == "d"){//日编
+            stages = {
+                1: [1, 2],
+                2: [1],
+                3: [2]}
+        } else {//月编
+            stages = {
+                1: [1, 2 ,3],
+                2: [1,2],
+                3: [3]}
+        }
         $scope.workPoint = layerCtrl.getLayerById("workPoint");
         $scope.guideLayer = layerCtrl.getLayerById("guideLineLayer");
         $scope.eventController = fastmap.uikit.EventController();
@@ -55,19 +67,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 delete $scope.workPoint.url.parameter["types"];
                 $scope.workPoint.redraw();
             }
-            var stage = {};
-            if(App.Temp.mdFlag == "d"){//日编
-                stage = {
-                    1: [1, 2],
-                    2: [1],
-                    3: [2]}
-            } else {//月编
-                stage = {
-                    1: [1, 2 ,3],
-                    2: [1],
-                    3: [3]}
-            }
-            dsFcc.getTipsStatics(stage[type]).then(function(data) {
+            dsFcc.getTipsStatics(stages[type]).then(function(data) {
                 var arr = [],
                     transArr = [];
                 transArr = data.data.rows;
@@ -145,18 +145,6 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     dataLoading = true;
                     return;
                 }
-            }
-            var stages = {};
-            if(App.Temp.mdFlag == "d"){//日编
-                stages = {
-                    1: [1, 2],
-                    2: [1],
-                    3: [2]}
-            } else {//月编
-                stages = {
-                    1: [1, 2 ,3],
-                    2: [1],
-                    3: [3]}
             }
             //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
             dsFcc.getTipsListItems(stages[arr], item.id).then(function(data) {

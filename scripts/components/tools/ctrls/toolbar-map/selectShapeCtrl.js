@@ -1146,7 +1146,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     if (type.split('_')[1] === 'OUT') {
                         tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
                     } else if (type.split('_')[1] === 'THROUGH') {
-                        alert('待定!')
+                        tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
                     }
                     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                         highRenderCtrl._cleanHighLight();

@@ -18,7 +18,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
-            scope.$parent.$parent.selectPoiInMap = false;//表示poi是列表中选择的
+            scope.$parent.selectPoiInMap = false;//表示poi是列表中选择的
             scope.$emit('closePopoverTips',false);
             scope.$parent.$parent.showLoading = true;
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
@@ -41,7 +41,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
                     scope.highlightPoi(rest.pid);
-                    // scope.$emit("highLightPoi", rest.pid);
+                    scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto",true);
                 }
             });
