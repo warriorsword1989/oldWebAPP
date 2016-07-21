@@ -52,7 +52,8 @@
                 "dataApi/road/ZoneNode.js",
                 "dataApi/road/ZoneLink.js",
                 "dataApi/road/ZoneLinkKind.js",
-                "dataApi/road/ZoneFace.js"
+                "dataApi/road/ZoneFace.js",
+                "dataApi/road/RdTrafficSignal.js"
             ]; // etc.
 
 
