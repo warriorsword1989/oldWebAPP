@@ -178,14 +178,14 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             if (data.errcode == 0) {
                 defer.resolve(data.data);
                 dsOutput.push({
-                    "op": "修改 pid 为 "+id+" 的数据状态操作成功",
+                    "op": "修改 pid 为 " + id + " 的数据状态操作成功",
                     "type": "succ",
                     "pid": "0",
                     "childPid": ""
                 });
             } else {
                 dsOutput.push({
-                    "op": "修改 pid 为 "+id+" 的数据状态操作失败，失败原因："+data.errmsg,
+                    "op": "修改 pid 为 " + id + " 的数据状态操作失败，失败原因：" + data.errmsg,
                     "type": "fail",
                     "pid": "0",
                     "childPid": ""
@@ -349,26 +349,26 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         return this.save(param);
     };
-    this.updateTopo = function(pid, type, data){
-        var param = {
-            "command": "UPDATETOPO",
-            "dbId": App.Temp.dbId,
-            "type": type,
-            "objId": pid,
-            "data": data
+    this.updateTopo = function(pid, type, data) {
+            var param = {
+                "command": "UPDATETOPO",
+                "dbId": App.Temp.dbId,
+                "type": type,
+                "objId": pid,
+                "data": data
+            }
+            return this.save(param);
         }
-        return this.save(param);
-    }
-    /***
-     * 属性和几何编辑相关 editGeometryOrProperty
-     * @param param
-     * @param func
-     */
+        /***
+         * 属性和几何编辑相关 editGeometryOrProperty
+         * @param param
+         * @param func
+         */
     this.save = function(param) {
         var opDesc = {
             "CREATE": "创建" + [param.type],
             "UPDOWNDEPART": "创建上下线分离",
-            "BREAK" : "打断" + [param.type],
+            "BREAK": "打断" + [param.type],
             "UPDATE": "更新" + [param.type] + "属性",
             "DELETE": "删除" + [param.type],
             "MOVE": "移动" + [param.type] + "点位",
@@ -376,18 +376,16 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "CREATEPARENT": "POI增加父",
             "UPDATEPARENT": "POI更新父",
             "DELETEPARENT": "POI解除父",
-            "UPDATETOPO":"更新"+[param.type]+"拓扑"
+            "UPDATETOPO": "更新" + [param.type] + "拓扑"
         }[param.command];
-
-        if(param.type == "IXPOI" && param.data){ //poi属性不修改也可进行保存，所以需要进行特殊处理
+        if (param.type == "IXPOI" && param.data) { //poi属性不修改也可进行保存，所以需要进行特殊处理
             var keys = Object.keys(param.data);
-            if(keys.length ==3 && param.data["rowId"] && param.data["objStatus"] && param.data["pid"]){
+            if (keys.length == 3 && param.data["rowId"] && param.data["objStatus"] && param.data["pid"]) {
                 opDesc = param.type;
             }
         }
-
-        if(param.command==='UPDATETOPO'){
-            param.command='UPDATE'
+        if (param.command === 'UPDATETOPO') {
+            param.command = 'UPDATE'
         }
         param = JSON.stringify(param);
         var defer = $q.defer();
@@ -447,8 +445,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     this.runCheck = function(checkType) {
         var defer = $q.defer();
         var params = {
-            subtaskId:App.Temp.subTaskId,
-            checkType : checkType //0 poi行编，1poi精编, 2道路
+            subtaskId: App.Temp.subTaskId,
+            checkType: checkType //0 poi行编，1poi精编, 2道路
         };
         ajax.get("edit/check/run", {
             parameter: JSON.stringify(params)
@@ -463,13 +461,12 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
     /**
      * POI提交接口
      * @param param
      * @returns {Promise}
      */
-    this.submitData = function (param){
+    this.submitData = function(param) {
         var defer = $q.defer();
         ajax.get("edit/poi/base/release", {
             parameter: JSON.stringify(param)
@@ -485,14 +482,40 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         return defer.promise;
     };
     /**
+     * 创建后台任务
+     * @param jobId
+     * @returns {Promise}
+     */
+    this.createJob = function(jobType, requestParam) {
+        var defer = $q.defer();
+        ajax.get("job/create/", {
+            parameter: JSON.stringify({
+                "jobType": jobType,
+                "request": requestParam
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("创建后台任务失败：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
      * 查询后台任务进度
      * @param jobId
      * @returns {Promise}
      */
-    this.queryByJobId = function (jobId){
+    this.getJobById = function(jobId) {
         var defer = $q.defer();
         ajax.get("job/get/", {
-            parameter:JSON.stringify({jobId:jobId})
+            parameter: JSON.stringify({
+                jobId: jobId
+            })
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -504,5 +527,4 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     }
-    
 }]);
