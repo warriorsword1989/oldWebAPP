@@ -86,5 +86,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      增加信号灯
      */
-    'TRAFFICSIGNAL': "trafficSignal"
+    'TRAFFICSIGNAL': "trafficSignal",
+    /*
+     增加电子眼
+     */
+    'ELECTRONICEYE': "electronicEye"
 }

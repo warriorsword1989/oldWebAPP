@@ -1189,6 +1189,13 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
+                var addRestrictionObj = {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": appPath.road + 'ctrls/attr_warninginfo_ctrl/warningInfoCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_warninginfo_tpl/warningInfoTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
+                return ;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID,function (data){
                     console.info(data);
@@ -1222,6 +1229,74 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                         }
                     }
+                });
+            } else if(type === "ELECTRONIC_EYE"){   //电子眼
+                $scope.resetOperator("addRelation", type);
+                var minLen = 100000,
+                    pointsOfDis, pointForAngle, angle;
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setCurrentTooltip('请选择电子眼位置点！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
+                    var pro = e.property;
+                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if (data) {
+                            selectCtrl.onSelected({
+                                geometry: data.geometry.coordinates,
+                                id: data.pid,
+                                direct: pro.direct,
+                                point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                            });
+                            var linkArr = data.geometry.coordinates,
+                                points = [];
+                            if (pro.direct == 1) {
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
+                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                var link = linkArr;
+                                for (var i = 0, len = link.length; i < len; i++) {
+                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
+                                    if (pointsOfDis < minLen) {
+                                        minLen = pointsOfDis;
+                                        pointForAngle = link[i];
+                                    }
+                                }
+                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
+                                var marker = {
+                                    flag: true,
+                                    point: point,
+                                    type: "marker",
+                                    angle: angle,
+                                    orientation: "2",
+                                    pointForDirect: point
+                                };
+                                layerCtrl.pushLayerFront('edit');
+                                var sObj = shapeCtrl.shapeEditorResult;
+                                editLayer.drawGeometry = marker;
+                                editLayer.draw(marker, editLayer);
+                                sObj.setOriginalGeometry(marker);
+                                sObj.setFinalGeometry(marker);
+                                shapeCtrl.setEditingType("transformDirect");
+                                shapeCtrl.startEditing();
+                                tooltipsCtrl.setCurrentTooltip("选择方向!");
+                                tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                            } else {
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                tooltipsCtrl.setEditEventType('speedLimit');
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
+                                shapeCtrl.setEditingType("transformDirect");
+                            }
+                        } else {}
+                    })
                 });
             }
         }

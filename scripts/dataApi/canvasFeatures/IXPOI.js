@@ -7,28 +7,28 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
         this.properties['guide'] = data.m.c;
         this.properties['kindCode'] = data.m.d;
         this.properties['name'] = data.m.e;
-        this.redFill = {
+        var redFill = {
             lineColor: '#FF0000',
             fillColor: 'rgba(225,225,225,0.5)',
             fillType :'IXPOI'
         };
-        this.blueFill = {
+        var blueFill = {
             lineColor: '#0000FF',
             fillColor: 'rgba(225,225,225,0.5)',
             fillType :'IXPOI'
         };
-        this.grayFill = {
+        var grayFill = {
             lineColor: '#999999',
             fillColor: 'rgba(225,225,225,0.5)',
             fillType :'IXPOI'
         };
-        var poiColor = this.redFill;
+        var poiColor = redFill;
         if(data.m.b == 1){
-            poiColor = this.redFill;
+            poiColor = redFill;
         }else if(data.m.b == 2){
-            poiColor = this.blueFill;
+            poiColor = blueFill;
         }else if(data.m.b == 3){
-            poiColor = this.grayFill;
+            poiColor = grayFill;
         }
         if(data.m.a == 1){
             this.properties['markerStyle']["icon"].push(

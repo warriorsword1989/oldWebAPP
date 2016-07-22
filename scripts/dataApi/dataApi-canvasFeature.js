@@ -26,6 +26,7 @@
         "RdGscPart.js",
         "RdGsc.js",
         "IXPOI.js",
+        "RdTrafficSignal.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",
