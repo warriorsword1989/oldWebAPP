@@ -20,8 +20,25 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
         this.pid = data["pid"] || "";
         this.nodePid = data["nodePid"];
         this.linkPid = data["linkPid"];
-        this.location = data["location"] || 0;
+        this.location = data["location"];
+        /*this.location = parseInt(data["location"],10).toString(2);
+        if(data["location"]){
+            if(data["location"].length == 1){
+                this.locationLeft = 0;
+                this.locationRight = 0;
+                this.locationTop = data["location"];
+            }else if(data["location"].length == 2){
+                this.locationLeft = 0;
+                this.locationRight = data["location"].slice(0,1);
+                this.locationTop = data["location"].slice(1,1);
+            }else if(data["location"].length == 3){
+                this.locationLeft = data["location"].slice(0,1);
+                this.locationRight = data["location"].slice(1,1);
+                this.locationTop = data["location"].slice(2,1);
+            }
+        }*/
         this.flag = data["flag"] || 0;
+        this.rowId = data["rowId"] || 0;
 
         this.type = data["type"] || 0;
         this.kgFlag = data["kgFlag"] || 0;
@@ -41,6 +58,7 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
         data["linkPid"]  = this.linkPid;
         data["location"] = this.location;
         data["flag"] = this.flag;
+        data["rowId"] = this.rowId;
         data["type"] = this.type;
         data["kgFlag"] = this.kgFlag;
         data["uRecord"] = this.uRecord;
@@ -49,7 +67,7 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
     },
 
     /**
-     * 获取Node详细信息
+     * 获取RdTrafficSignal详细信息
      * @method getIntegrate
      *
      * @return {object} getIntegrate.
@@ -61,6 +79,7 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
         data["linkPid"]  = this.linkPid;
         data["location"] = this.location;
         data["flag"] = this.flag;
+        data["rowId"] = this.rowId;
         data["type"] = this.type;
         data["kgFlag"] = this.kgFlag;
         data["uRecord"] = this.uRecord;

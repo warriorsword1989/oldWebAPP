@@ -73,7 +73,10 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     ret = new fastmap.uikit.canvasFeature.IXPOI(data);
                     break;
                 case 22://rwNode
-                	ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    break;
+                case 27://红绿灯
+                    ret = new fastmap.uikit.canvasFeature.RdTrafficSignal(data);
                     break;
             }
             return ret;
