@@ -1,0 +1,81 @@
+<style>
+    h4{
+        padding-left: 10px;;
+        font-size: 16px;
+    }
+    .bathhandle{
+        display: inline-block;
+    }
+    .bathhandle label{
+        display: block;
+        padding-left: 12px;
+
+    }
+    .bathhandle label,input{
+        cursor: pointer;
+    }
+    .btngroup{
+        text-align: center;
+        margin:15px auto;
+    }
+    .top{
+        text-align: left;
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
+    .grid{
+        background:
+
+        -webkit-linear-gradient(top,
+        transparent
+
+        39px,
+        blue
+
+        30px),
+
+        -webkit-linear-gradient(left,
+        white
+
+        39px,
+        blue
+
+        30px)
+
+    ;
+
+        background-size:
+        40px
+
+        40px;
+
+    }
+</style>
+<h4>批 处 理</h4>
+<div class="btngroup top">
+    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px">在线批处理</button>
+    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px">后台批处理</button>
+</div>
+
+<div style="width: 350px;padding-right: 20px;overflow: auto;">
+    <div class="bathhandle" style="float: left;">
+        <label>
+            <input type="checkbox" name="" value=""> 道路Urban
+        </label>
+        <label>
+            <input type="checkbox" name="" value=""> 道路ZoneID
+        </label>
+        <label>
+            <input type="checkbox" name="" value=""> 道路ADID
+        </label>
+        <label>
+            <input type="checkbox" name="" value=""> POI引导线
+        </label>
+    </div>
+    <div class="grid" style="float:right;width: 200px;height: 160px;border: 1px solid blue"></div>
+</div>
+
+<div class="btngroup" style="clear: both;margin-top: 15px">
+    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px" ng-click="handleMethod('batch')">执　　行</button>
+    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px" ng-click="closeToolwindow()">关　　闭</button>
+</div>
