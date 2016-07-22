@@ -18,6 +18,9 @@ fastmap.uikit.FeatureConfig = {
         "RDCROSS": {
             name: "路口"
         },
+        "RDTRAFFICSIGNAL": {
+            name: "信号灯"
+        },
         "RDLANECONNEXITY": {
             name: "车信"
         },

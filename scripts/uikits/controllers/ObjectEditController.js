@@ -111,6 +111,12 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "ZONEFACE":
                         this.data = fastmap.dataApi.zoneFace(obj);
                         break;
+                    case "RDTRAFFICSIGNAL":
+                        this.data = fastmap.dataApi.rdTrafficSignal(obj);
+                        break;
+                    case "RDELECTRONICEYE":
+                        this.data = fastmap.dataApi.rdElectronicEye(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

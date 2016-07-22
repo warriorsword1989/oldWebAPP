@@ -1,0 +1,87 @@
+<div class="fm-component" ng-controller="trafficSignalCtl">
+    <div class="title">
+        信号灯PID
+        <span class="label label-info"></span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="rdGscForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label class="control-label">关联线</label>
+                            <div>
+                                <input type="text" ng-model="trafficSignalData.linkPid"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">关联点</label>
+                            <div>
+                                <input type="text" ng-model="trafficSignalData.nodePid"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">灯位置</label>
+                            <div>
+                                <label>
+                                    <input type="checkbox" ng-checked="trafficSignalData.locationLeft == 1" ng-click="changeLocationLeft();">
+                                    左
+                                </label>
+                                <label>
+                                    <input type="checkbox" ng-checked="trafficSignalData.locationRight == 1" ng-click="changeLocationRight();">
+                                    右
+                                </label>
+                                <label>
+                                    <input type="checkbox" ng-checked="trafficSignalData.locationTop == 1" ng-click="changeLocationTop();">
+                                    上
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">灯类型</label>
+                            <div>
+                                <select ng-model="trafficSignalData.type"
+                                        ng-options="value.id as value.label for value in lampType">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">控制标志</label>
+                            <div>
+                                <label>
+                                    <input type="radio" value=0 ng-model="trafficSignalData.flag">
+                                    不受控
+                                </label>
+                                <label>
+                                    <input type="radio" value=1 ng-model="trafficSignalData.flag">
+                                    受控
+                                </label>
+                                <label>
+                                    <input type="radio" value=2 ng-model="trafficSignalData.flag">
+                                    无
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">KG 标志</label>
+                            <div>
+                                <label>
+                                    <input type="radio" value=0 ng-model="trafficSignalData.kgFlag">
+                                    KG公用
+                                </label>
+                                <label>
+                                    <input type="radio" value=1 ng-model="trafficSignalData.kgFlag">
+                                    K专用
+                                </label>
+                                <label>
+                                    <input type="radio" value=2 ng-model="trafficSignalData.kgFlag">
+                                    G专用
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -53,7 +53,8 @@
                 "dataApi/road/ZoneLink.js",
                 "dataApi/road/ZoneLinkKind.js",
                 "dataApi/road/RdWarningInfo.js",
-                "dataApi/road/ZoneFace.js"
+                "dataApi/road/ZoneFace.js",
+                "dataApi/road/RdTrafficSignal.js"
             ]; // etc.
 
 

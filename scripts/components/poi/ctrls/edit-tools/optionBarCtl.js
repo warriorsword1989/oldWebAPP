@@ -52,6 +52,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     /*刷新检查*/
     $scope.refreshCheckResult = function(){
         initCheckResultData();
+        initCheckDataCount();
     };
 
     /**
@@ -82,12 +83,16 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     };
     initCheckResultData();
     /*查找检查结果总数*/
-    dsEdit.getCheckDataCount().then(function(data){
-        $scope.checkResultTotal = data;
-        $scope.checkPageTotal = data > 0 ? Math.ceil(data/5):1;
-    });
+    function initCheckDataCount(){
+        dsEdit.getCheckDataCount().then(function(data){
+            $scope.checkResultTotal = data;
+            $scope.checkPageTotal = data > 0 ? Math.ceil(data/5):1;
+        });
+    }
+
     /*初始化检查结果数据*/
     function initCheckResultData(){
+        initCheckDataCount();
         $scope.checkPageNow = 1;//检查结果当前页
         getCheckResultData(1);
         $scope.outputResult = dsOutput.output; //输出结果
