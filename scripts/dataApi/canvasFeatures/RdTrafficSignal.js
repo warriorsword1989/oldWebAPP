@@ -13,6 +13,5 @@ fastmap.uikit.canvasFeature.RdTrafficSignal = fastmap.uikit.canvasFeature.Featur
                 }
             )
         );
-        console.log(this,item)
     }
 });
