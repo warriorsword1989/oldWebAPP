@@ -1189,6 +1189,13 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
+                var addRestrictionObj = {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": appPath.road + 'ctrls/attr_warninginfo_ctrl/warningInfoCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_warninginfo_tpl/warningInfoTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
+                return ;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID,function (data){
                     console.info(data);
