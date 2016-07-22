@@ -22,7 +22,8 @@ App.Temp = {
         RDCROSS: '路口',
         RDLANECONNEXITY: '车信',
         RDLINKINTRTIC: '实时信息',
-        RDGSC: '立交'
+        RDGSC: '立交',
+        RDTRAFFICSIGNAL:'信号灯'
     }
 };
 // web app的公用函数命名空间
