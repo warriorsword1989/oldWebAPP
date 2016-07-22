@@ -19,9 +19,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
     initialize: function(item) {
         this.geometry = {};
         this.properties = {};
-        this.transform = new fastmap.mapApi.MecatorTranform();
-        this.layerCtrl = fastmap.uikit.LayerController();
-        this.guideLayer = this.layerCtrl.getLayerById("guideLineLayer");
+        // this.transform = new fastmap.mapApi.MecatorTranform();
+        // this.layerCtrl = fastmap.uikit.LayerController();
+        // this.guideLayer = this.layerCtrl.getLayerById("guideLineLayer");
         this.properties['markerStyle'] = {};
         this.properties['markerStyle']["icon"] = [];
         this.properties['id'] = item.i;
