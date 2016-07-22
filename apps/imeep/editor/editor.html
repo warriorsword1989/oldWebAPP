@@ -64,26 +64,28 @@
                         <div id="map" style="background-color:#F0F4F8;width: 100%;height: 100%;">
                             <!-- <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
                                     <div class="btn-toolbar" style="margin-left: 0px">
-                                            <div ng-include="selectShapeURL" style="float: left"></div>
-                                            <div ng-include="selectPoiURL" style="float: left"></div>
-                                            <div ng-include="addPoiURL" style="float: left;"></div>
-                                            <div ng-include="addShapeURL" style="float: left;"></div>
-                                            <div ng-include="modifyToolURL" style="float: left"></div>
-                                            <div ng-include="selectAdShapeURL" style="float: left"></div>
-                                            <div ng-include="addAdShapeURL" style="float: left;"></div>
-                                            <div ng-include="selectRwShapeURL" style="float: left"></div>
-                                            <div ng-include="addRwShapeURL" style="float: left"></div>
-                                            <div ng-include="selectZoneShapeURL" style="float: left"></div>
-                                            <div ng-include="addZoneShapeURL" style="float: left"></div>
+                                        <div ng-include="selectShapeURL" style="float: left"></div>
+                                        <div ng-include="selectPoiURL" style="float: left"></div>
+                                        <div ng-include="addPoiURL" style="float: left;"></div>
+                                        <div ng-include="addShapeURL" style="float: left;"></div>
+                                        <div ng-include="modifyToolURL" style="float: left"></div>
+                                        <div ng-include="selectAdShapeURL" style="float: left"></div>
+                                        <div ng-include="addAdShapeURL" style="float: left;"></div>
+                                        <div ng-include="selectRwShapeURL" style="float: left"></div>
+                                        <div ng-include="addRwShapeURL" style="float: left"></div>
+                                        <div ng-include="selectZoneShapeURL" style="float: left"></div>
+                                        <div ng-include="addZoneShapeURL" style="float: left"></div>
                                     </div>
                             </div> -->
-                            <div ng-include="mapToolbar" class="float-toolbar" style="top:0px;left:290px;"></div>
-                            <div ng-include="advancedToolbar" class="float-toolbar" style="top:0px;left:200px;">
-
+                            <div class="float-toolbar" style="top:0px;left:100px;">
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search')">搜 索</button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto')">自动录入</button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch')">批处理</button>
                             </div>
+                            <div ng-include="mapToolbar" class="float-toolbar" style="top:0px;left:290px;"></div>
                             <div id="zoomLevelBar" class="div_float"></div>
+                            <div ng-if="advancedTool!=null" ng-include="advancedToolPanelTpl" class="float-toolbar" style="top:80px;left:290px;min-width:300px;border-radius:5px;padding:0px;"></div>
                         </div>
-
                         <!--右侧属性编辑面板-->
                         <div class="fm-foldable fm-col" style="width: 315px;top: 0px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">
                             <div class="fm-fold-btn">
