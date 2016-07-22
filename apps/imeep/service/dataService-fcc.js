@@ -30,6 +30,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         var params = {
             "grids": App.Temp.gridList,
             "stage": stage,
+            "mdFlag":App.Temp.mdFlag,
             "type": type,
             "dbId": App.Temp.dbId
         };
