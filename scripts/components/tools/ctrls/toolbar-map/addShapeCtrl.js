@@ -1292,7 +1292,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
-                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
                                 shapeCtrl.setEditingType("transformDirect");
                             }
                         } else {}

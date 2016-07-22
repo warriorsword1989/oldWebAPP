@@ -154,7 +154,7 @@ App.layersConfig = [{
             zIndex: 6,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDTRAFFICSIGNAL',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDTRAFFICSIGNAL,RDELECTRONICEYE',
             showNodeLevel: 17
         }
     }, {

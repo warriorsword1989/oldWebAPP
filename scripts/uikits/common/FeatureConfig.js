@@ -21,6 +21,9 @@ fastmap.uikit.FeatureConfig = {
         "RDTRAFFICSIGNAL": {
             name: "信号灯"
         },
+        "RDELECTRONICEYE": {
+            name: "电子眼"
+        },
         "RDLANECONNEXITY": {
             name: "车信"
         },
