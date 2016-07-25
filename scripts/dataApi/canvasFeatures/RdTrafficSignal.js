@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdTrafficSignal = fastmap.uikit.canvasFeature.Featur
         this.properties["featType"] = "RDTRAFFICSIGNAL";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/road/rdtraffic/0.svg',
+                    iconName: '../../../images/road/rdTraffic/0.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates']
