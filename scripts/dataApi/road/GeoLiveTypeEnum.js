@@ -167,5 +167,9 @@ fastmap.dataApi.GeoLiveModelType={
     /*
      电子眼
      */
-    "RDELECTRONICEYE":"RDELECTRONICEYE"
+    "RDELECTRONICEYE":"RDELECTRONICEYE",
+    /*
+     电子眼旋转
+     */
+    "ELECTRANSFORMDIRECT":"ELECTRANSFORMDIRECT"
 }
