@@ -1292,11 +1292,7 @@ a.fm-panel-controlArrowRight > span {
   cursor: pointer;
 }
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
-.div_float {
-  width: 100px;
-  height: 20px;
-  bottom: 5px;
-  left: 10px;
+.div-float {
   position: absolute;
   z-index: 1;
 }
@@ -1339,13 +1335,11 @@ a.fm-panel-controlArrowRight > span {
   height: auto;
 }
 /*浮动面板，主要用于地图上方的操作按钮*/
-.float-toolbar {
-  position: absolute;
-  z-index: 1;
+.map-toolbar {
   background: rgba(64, 64, 64, 0.8);
   padding: 5px;
 }
-.float-toolbar .btn:focus {
+.map-toolbar .btn:focus {
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -1399,4 +1393,11 @@ a.fm-panel-controlArrowRight > span {
 .fm-table-content table + div {
   position: fixed;
   bottom: -15px;
+}
+
+.btn-main {
+  color:white;
+  background: rgba(150,150,150,0.5);
+  padding: 3px 12px;
+  font-size: 12px;
 }

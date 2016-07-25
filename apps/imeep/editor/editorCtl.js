@@ -384,13 +384,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
                     break;
                 case 'auto':
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/autofillJobPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
+                    });
+                    // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
                     break;
                 case 'batch':
                     $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
                     break;
             }
             $scope.advancedTool = toolType;
+        };
+        $scope.closeAdvancedToolsPanel = function() {
+            $scope.advancedTool = null;
         };
         /*start 事件监听*******************************************************************/
         //响应选择要素类型变化事件，清除要素页面的监听事件
@@ -491,6 +497,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         /*接收全屏请求*/
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;
+        });
+        $scope.$on('job-autofill', function(event, data) {
+            if (data.status == 'begin') {
+                $scope.autofillRunning = true;
+            } else if (data.status == 'end') {
+                $scope.autofillRunning = false;
+                // $scope.closeAdvancedToolsPanel();
+            }
         });
     }
 ]);
