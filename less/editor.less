@@ -413,7 +413,6 @@ label > input[type='checkbox'] {
   overflow-y: auto;
   z-index: 1;
   width: 100%;
-  height: 100%;
 }
 
 .fm-component > div.title {
@@ -1517,10 +1516,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
 
 .div_float {
-  width: 100px;
-  height: 20px;
-  bottom: 5px;
-  left: 10px;
   position: absolute;
   z-index: 1;
 }
@@ -1565,7 +1560,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /*浮动面板，主要用于地图上方的操作按钮*/
 
-.float-toolbar {
+.map-toolbar {
   position: absolute;
   z-index: 1;
   background: rgba(64, 64, 64, 0.8);
@@ -1628,5 +1623,12 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-table-content table + div{
   position: fixed;
   bottom: -15px;
+}
+
+.btn-main {
+  color: #fff;
+  background: rgba(150,150,150, 0.5);
+  padding: 3px 12px;
+  font-size: 12px;
 }
 
