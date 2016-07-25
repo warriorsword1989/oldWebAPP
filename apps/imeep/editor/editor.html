@@ -61,9 +61,7 @@
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
-                        <div ui-layout="{flow:'row',dividerSize:'0'}">
-                            <div ui-layout-container id="map" style="background-color:#F0F4F8;width: 100%;height: 100%;">
-                            </div>
+                        <div id="map" style="background-color:#F0F4F8;width: 100%;height: 100%;">
                             <!-- <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
                                     <div class="btn-toolbar" style="margin-left: 0px">
                                         <div ng-include="selectShapeURL" style="float: left"></div>
@@ -118,7 +116,7 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div class="fm-container fm-col" style="width:300px;right:301px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                        <div class="fm-container fm-col" style="width:300px;right:301px;top: 0px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}">
                             <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
