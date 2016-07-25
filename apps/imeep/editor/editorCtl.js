@@ -390,7 +390,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
                     break;
                 case 'batch':
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+                    });
+                    // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
                     break;
             }
             $scope.advancedTool = toolType;

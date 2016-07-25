@@ -1,81 +1,20 @@
-<style>
-    h4{
-        padding-left: 10px;;
-        font-size: 16px;
-    }
-    .bathhandle{
-        display: inline-block;
-    }
-    .bathhandle label{
-        display: block;
-        padding-left: 12px;
-
-    }
-    .bathhandle label,input{
-        cursor: pointer;
-    }
-    .btngroup{
-        text-align: center;
-        margin:15px auto;
-    }
-    .top{
-        text-align: left;
-        padding-left: 10px;
-        margin-bottom: 10px;
-    }
-    .grid{
-        background:
-
-        -webkit-linear-gradient(top,
-        transparent
-
-        39px,
-        blue
-
-        30px),
-
-        -webkit-linear-gradient(left,
-        white
-
-        39px,
-        blue
-
-        30px)
-
-    ;
-
-        background-size:
-        40px
-
-        40px;
-
-    }
-</style>
-<h4>批 处 理</h4>
-<div class="btngroup top">
-    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px">在线批处理</button>
-    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px">后台批处理</button>
-</div>
-
-<div style="width: 350px;padding-right: 20px;overflow: auto;">
-    <div class="bathhandle" style="float: left;">
-        <label>
-            <input type="checkbox" name="" value=""> 道路Urban
-        </label>
-        <label>
-            <input type="checkbox" name="" value=""> 道路ZoneID
-        </label>
-        <label>
-            <input type="checkbox" name="" value=""> 道路ADID
-        </label>
-        <label>
-            <input type="checkbox" name="" value=""> POI引导线
-        </label>
+<div class="fm-panel" ng-controller="BatchJobPanelCtrl" style="margin:0px;">
+    <div class="title">批处理</div>
+    <div class="content">
+        <div class="fm-tabs" style="padding:0px;" ng-init="batchType='online'">
+            <a href="#" class="tab" ng-class="{'online':'active'}[batchType]" ng-click="batchType='online'">在线批处理</a>
+            <a href="#" class="tab" ng-class="{'backend':'active'}[batchType]" ng-click="batchType='backend'">后台批处理</a>
+        </div>
+        <div class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
+            <label ng-repeat="item in batchList" class="col-md-6">
+                <input type="checkbox" name="batchList" ng-model="selectedBatches[item.id]" ng-value="item.id"> {{item.name}}
+            </label>
+        </div>
+        <div class="progress fm-progress" style="margin:8px;">
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
+        </div>
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-main" ng-click="doExecute()">执 行</button>
+        </div>
     </div>
-    <div class="grid" style="float:right;width: 200px;height: 160px;border: 1px solid blue"></div>
-</div>
-
-<div class="btngroup" style="clear: both;margin-top: 15px">
-    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px" ng-click="handleMethod('batch')">执　　行</button>
-    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px" ng-click="closeToolwindow()">关　　闭</button>
 </div>
