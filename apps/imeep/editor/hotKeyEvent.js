@@ -885,6 +885,24 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
 
                 });
+            } else if (shapeCtrl.editType === "RDELECTRONICEYE") {    //电子眼
+                var feature = selectCtrl.selectedFeatures,
+                    point = feature.point;
+                param = {
+                    "linkPid": parseInt(feature.id),
+                    "direct": parseInt(feature.direct),
+                    "longitude": point.x,
+                    "latitude": point.y
+                };
+                dsEdit.create('RDELECTRONICEYE',param).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDELECTRONICEYE", "创建电子眼成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+                    } else {
+                        resetPage();
+                    }
+
+                });
             }
         }
     });

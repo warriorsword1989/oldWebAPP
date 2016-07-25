@@ -268,8 +268,14 @@
                                 <span class="label" ng-bind="dataTipsData.ptn" title="dataTipsData.ptn"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f')">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f') && !dataTipsData.isCrossRoad">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 3px;cursor: pointer;">
+                                <span class="label" ng-bind="dataTipsData.f.id" title="dataTipsData.f.id" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f') && dataTipsData.isCrossRoad">
+                            <label class="col-sm-5 control-label" style="padding: 4px">关联Node:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px;cursor: pointer;">
                                 <span class="label" ng-bind="dataTipsData.f.id" title="dataTipsData.f.id" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
                             </div>

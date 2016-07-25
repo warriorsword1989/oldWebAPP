@@ -432,6 +432,54 @@ label > input[type='checkbox'] {
   background-color:gray;
 }
 
+/***************图片搜索*****************/
+.fm-pic-show{
+  position: absolute;
+  border: 1px solid #fff;
+  z-index: 999;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-top: 6px;
+  padding-bottom: 7px;
+  background-color: #333;
+  .global-box-shadow(4px 4px 7px 0px #777);
+  min-width: 60%;
+  min-height: 193px;
+  width: 70%;
+  .fm-option-hide{
+    position: absolute;
+    right: -4px;
+    background-color: @black-to-white-10;
+    border-radius: 50%;
+    top: -3px;
+  }
+  .fm-pic-show-well{
+    min-width: 100%;
+    min-height: 246px;
+    .fm-img-well{
+      float: left;
+      padding: 3px;
+      border: solid 1px @diamond-white;
+      border-radius: 4px;
+      margin: 4px;
+      cursor: pointer;
+      width: 45%;
+      text-align: center;
+      img{
+        width: 65px;
+        height: 55px;
+      };
+      div{
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+        margin-top: 2px;
+      };
+    }
+  }
+}
+
 /************************* 图片资源 ******************************/
 .poi-tips-icon(@icon-url){
   background-image: url(@icon-url);
