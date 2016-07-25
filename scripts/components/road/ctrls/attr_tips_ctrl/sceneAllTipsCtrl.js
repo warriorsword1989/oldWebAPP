@@ -689,6 +689,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1704": //交叉路口
                 $scope.fData = $scope.dataTipsData;
+                $scope.dataTipsData.isCrossRoad = true;
                 break;
             case "1801": //立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
