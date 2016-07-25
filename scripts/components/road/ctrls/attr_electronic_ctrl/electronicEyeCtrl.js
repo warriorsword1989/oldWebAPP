@@ -30,7 +30,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl",['$scope','dsEdit',function($sc
         highRenderCtrl.drawHighlight();*/
 
     };
-    // $scope.initializeData();
+    $scope.initializeData();
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.electronicEyeData.pid), "RDELECTRONICEYE").then(function(data){
         	if (data) {
