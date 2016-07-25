@@ -413,7 +413,6 @@ label > input[type='checkbox'] {
   overflow-y: auto;
   z-index: 1;
   width: 100%;
-  height: 100%;
 }
 
 .fm-component > div.title {
@@ -431,6 +430,54 @@ label > input[type='checkbox'] {
 
 .fm-component  div.title span.label-info {
   background-color:gray;
+}
+
+/***************图片搜索*****************/
+.fm-pic-show{
+  position: absolute;
+  border: 1px solid #fff;
+  z-index: 999;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-top: 6px;
+  padding-bottom: 7px;
+  background-color: #333;
+  .global-box-shadow(4px 4px 7px 0px #777);
+  min-width: 60%;
+  min-height: 193px;
+  width: 70%;
+  .fm-option-hide{
+    position: absolute;
+    right: -4px;
+    background-color: @black-to-white-10;
+    border-radius: 50%;
+    top: -3px;
+  }
+  .fm-pic-show-well{
+    min-width: 100%;
+    min-height: 246px;
+    .fm-img-well{
+      float: left;
+      padding: 3px;
+      border: solid 1px @diamond-white;
+      border-radius: 4px;
+      margin: 4px;
+      cursor: pointer;
+      width: 45%;
+      text-align: center;
+      img{
+        width: 65px;
+        height: 55px;
+      };
+      div{
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+        margin-top: 2px;
+      };
+    }
+  }
 }
 
 /************************* 图片资源 ******************************/
@@ -1469,10 +1516,6 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
 
 .div_float {
-  width: 100px;
-  height: 20px;
-  bottom: 5px;
-  left: 10px;
   position: absolute;
   z-index: 1;
 }
@@ -1517,7 +1560,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /*浮动面板，主要用于地图上方的操作按钮*/
 
-.float-toolbar {
+.map-toolbar {
   position: absolute;
   z-index: 1;
   background: rgba(64, 64, 64, 0.8);
@@ -1580,5 +1623,12 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-table-content table + div{
   position: fixed;
   bottom: -15px;
+}
+
+.btn-main {
+  color: #fff;
+  background: rgba(150,150,150, 0.5);
+  padding: 3px 12px;
+  font-size: 12px;
 }
 

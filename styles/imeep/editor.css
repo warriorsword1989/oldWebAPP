@@ -331,6 +331,55 @@ label > input[type='checkbox'] {
 .fm-component div.title span.label-info {
   background-color: gray;
 }
+/***************图片搜索*****************/
+.fm-pic-show {
+  position: absolute;
+  border: 1px solid #fff;
+  z-index: 999;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-top: 6px;
+  padding-bottom: 7px;
+  background-color: #333;
+  box-shadow: 4px 4px 7px 0px #777;
+  -webkit-box-shadow: 4px 4px 7px 0px #777;
+  -moz-box-shadow: 4px 4px 7px 0px #777;
+  min-width: 60%;
+  min-height: 193px;
+  width: 70%;
+}
+.fm-pic-show .fm-option-hide {
+  position: absolute;
+  right: -4px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  top: -3px;
+}
+.fm-pic-show .fm-pic-show-well {
+  min-width: 100%;
+  min-height: 246px;
+}
+.fm-pic-show .fm-pic-show-well .fm-img-well {
+  float: left;
+  padding: 3px;
+  border: solid 1px #F3F6FA;
+  border-radius: 4px;
+  margin: 4px;
+  cursor: pointer;
+  width: 45%;
+  text-align: center;
+}
+.fm-pic-show .fm-pic-show-well .fm-img-well img {
+  width: 65px;
+  height: 55px;
+}
+.fm-pic-show .fm-pic-show-well .fm-img-well div {
+  background-color: #777;
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  margin-top: 2px;
+}
 /************************* 图片资源 ******************************/
 .icon_3d {
   background-image: url("../../images/poi/icon/3D.png");
@@ -1292,11 +1341,7 @@ a.fm-panel-controlArrowRight > span {
   cursor: pointer;
 }
 /*-------------------------------------------------地图缩放等级-----------------------------------------------*/
-.div_float {
-  width: 100px;
-  height: 20px;
-  bottom: 5px;
-  left: 10px;
+.div-float {
   position: absolute;
   z-index: 1;
 }
@@ -1339,13 +1384,11 @@ a.fm-panel-controlArrowRight > span {
   height: auto;
 }
 /*浮动面板，主要用于地图上方的操作按钮*/
-.float-toolbar {
-  position: absolute;
-  z-index: 1;
+.map-toolbar {
   background: rgba(64, 64, 64, 0.8);
   padding: 5px;
 }
-.float-toolbar .btn:focus {
+.map-toolbar .btn:focus {
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -1399,4 +1442,11 @@ a.fm-panel-controlArrowRight > span {
 .fm-table-content table + div {
   position: fixed;
   bottom: -15px;
+}
+
+.btn-main {
+  color:white;
+  background: rgba(150,150,150,0.5);
+  padding: 3px 12px;
+  font-size: 12px;
 }

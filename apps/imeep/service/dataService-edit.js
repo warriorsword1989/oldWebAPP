@@ -466,7 +466,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @param param
      * @returns {Promise}
      */
-    this.submitData = function(param) {
+    this.submitPoi = function(param) {
         var defer = $q.defer();
         ajax.get("edit/poi/base/release", {
             parameter: JSON.stringify(param)
