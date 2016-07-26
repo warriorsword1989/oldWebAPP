@@ -1,5 +1,5 @@
 /**
- * Created by liwanchong on 2015/10/28.
+ * Created by chenxiao on 2016/7/26.
  */
 angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval', 'dsFcc', 'dsEdit',
     function($scope, $interval, dsFcc, dsEdit) {
