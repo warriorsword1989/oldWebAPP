@@ -1258,7 +1258,7 @@ a.fm-panel-controlArrowRight > span {
   color: #fff;
 }
 .fm-dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
+.fm-dropdown-menu > li > a:focus {
   color: #e5e5e5;
   background-color: #1D1B1B;
   background-image: linear-gradient(to bottom, #1F1E1E 0%, #1F1E1E 100%);
