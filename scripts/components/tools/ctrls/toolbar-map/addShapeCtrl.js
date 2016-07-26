@@ -1239,7 +1239,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
@@ -1260,7 +1260,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             var linkArr = data.geometry.coordinates,
                                 points = [];
                             if (pro.direct == 1) {
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
                                 var link = linkArr;
                                 for (var i = 0, len = link.length; i < len; i++) {
@@ -1285,15 +1285,15 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                 editLayer.draw(marker, editLayer);
                                 sObj.setOriginalGeometry(marker);
                                 sObj.setFinalGeometry(marker);
-                                shapeCtrl.setEditingType("transformDirect");
+                                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.ELECTRANSFORMDIRECT);
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
                                 tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                                tooltipsCtrl.setEditEventType('speedLimit');
-                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
-                                shapeCtrl.setEditingType("transformDirect");
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
+                                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.ELECTRANSFORMDIRECT);
                             }
                         } else {}
                     })

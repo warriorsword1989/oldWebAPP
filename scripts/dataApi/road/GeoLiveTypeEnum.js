@@ -161,7 +161,15 @@ fastmap.dataApi.GeoLiveModelType={
      */
     "RDSPEEDLIMIT":"RDSPEEDLIMIT",
     /*
-      铁路
+     铁路
      */
-    "RWLINK":"RWLINK"
+    "RWLINK":"RWLINK",
+    /*
+     电子眼
+     */
+    "RDELECTRONICEYE":"RDELECTRONICEYE",
+    /*
+     电子眼旋转
+     */
+    "ELECTRANSFORMDIRECT":"ELECTRANSFORMDIRECT"
 }

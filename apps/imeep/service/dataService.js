@@ -116,8 +116,10 @@ angular.module("dataService", [], function($httpProvider) {
         this.output.unshift(data);
     };
     this.pushAll = function(dataArray) {
-        for (var i = 0; i < dataArray.length; i++) {
-            this.output.unshift(dataArray[i]);
+        if(dataArray){
+            for (var i = 0; i < dataArray.length; i++) {
+                this.output.unshift(dataArray[i]);
+            }
         }
     };
     this.pop = function() {

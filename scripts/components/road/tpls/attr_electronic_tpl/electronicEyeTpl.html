@@ -1,0 +1,132 @@
+<div class="fm-component" ng-controller="electronicEyeCtl">
+    <div class="title">
+        电子眼PID
+        <span class="label label-info">{{electronicEyeData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="rdGscForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label class="control-label">关联线</label>
+                            <div>
+                                <input type="text" ng-model="electronicEyeData.linkPid"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">电子眼方位</label>
+                            <div>
+                                <label>
+                                    <input type="checkbox" ng-checked="electronicEyeData.locationLeft == 1" ng-click="changeLocationLeft();">
+                                    左
+                                </label>
+                                <label>
+                                    <input type="checkbox" ng-checked="electronicEyeData.locationRight == 1" ng-click="changeLocationRight();">
+                                    右
+                                </label>
+                                <label>
+                                    <input type="checkbox" ng-checked="electronicEyeData.locationTop == 1" ng-click="changeLocationTop();">
+                                    上
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">电子眼类型</label>
+                            <div>
+                                <select ng-model="electronicEyeData.kind"
+                                        ng-options="value.id as value.label for value in elecEyeType">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">作用方向</label>
+                            <div>
+                                <select ng-model="electronicEyeData.direct"
+                                        ng-options="value.id as value.label for value in directArray">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">限速值</label>
+                            <div>
+                                <input type="text" ng-model="electronicEyeData.speedLimit"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">违章高发地</label>
+                            <div>
+                                <label>
+                                    <input type="radio" value=0 ng-model="electronicEyeData.highViolation">
+                                    未调查
+                                </label>
+                                <label>
+                                    <input type="radio" value=1 ng-model="electronicEyeData.highViolation">
+                                    是
+                                </label>
+                                <label>
+                                    <input type="radio" value=2 ng-model="electronicEyeData.highViolation">
+                                    否
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">验证标识</label>
+                            <div>
+                                <label>
+                                    <input type="radio" value=0 ng-model="electronicEyeData.verifiedFlag">
+                                    未验证
+                                </label>
+                                <label>
+                                    <input type="radio" value=1 ng-model="electronicEyeData.verifiedFlag">
+                                    验证正确
+                                </label>
+                                <label>
+                                    <input type="radio" value=2 ng-model="electronicEyeData.verifiedFlag">
+                                    验证错误
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">电子眼方向</label>
+                            <div>
+                                <label>
+                                    <input type="radio" value=0 ng-model="electronicEyeData.verifiedFlag">
+                                    顺向
+                                </label>
+                                <label>
+                                    <input type="radio" value=1 ng-model="electronicEyeData.verifiedFlag">
+                                    逆向
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">照射角度</label>
+                            <div>
+                                <input type="text" ng-model="electronicEyeData.angle"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">图幅号码</label>
+                            <div>
+                                <input type="text" ng-model="electronicEyeData.meshId"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">创建日期</label>
+                            <div>
+                                <input type="text" ng-model="electronicEyeData.creationDate"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="control-label">电子眼坐标</label>
+                            <div>
+                                ({{electronicEyeData.geometry.coordinates.join(',')}})
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

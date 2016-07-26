@@ -27,6 +27,7 @@
         "RdGsc.js",
         "IXPOI.js",
         "RdTrafficSignal.js",
+        "RdElectronicEye.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",

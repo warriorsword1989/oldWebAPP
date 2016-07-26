@@ -75,6 +75,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 22://rwNode
                     ret = new fastmap.uikit.canvasFeature.RwNode(data);
                     break;
+                case 26://电子眼
+                    ret = new fastmap.uikit.canvasFeature.RdElectronicEye(data);
+                    break;
                 case 27://红绿灯
                     ret = new fastmap.uikit.canvasFeature.RdTrafficSignal(data);
                     break;

@@ -61,9 +61,7 @@
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
-                        <div ui-layout="{flow:'row',dividerSize:'0'}">
-                            <div ui-layout-container id="map" style="background-color:#F0F4F8;width: 100%;height: 100%;">
-                            </div>
+                        <div id="map" style="background-color:#F0F4F8;width: 100%;height: 100%;">
                             <!-- <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
                                     <div class="btn-toolbar" style="margin-left: 0px">
                                         <div ng-include="selectShapeURL" style="float: left"></div>
@@ -79,11 +77,20 @@
                                         <div ng-include="addZoneShapeURL" style="float: left"></div>
                                     </div>
                             </div> -->
-                            <div ng-include="mapToolbar" class="float-toolbar" style="top:0px;left:290px;"></div>
-                            <div id="zoomLevelBar" class="div_float"></div>
+                            <div class="div-float map-toolbar" style="top:0px;left:100px;">
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search')">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto')">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch')">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
+                            </div>
+                            <div ng-include="mapToolbar" class="div-float map-toolbar" style="top:0px;left:290px;"></div>
+                            <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
+                            <div ng-show="advancedTool!=null" class="div-float" style="top:80px;left:290px;min-width:300px;max-width:400px;border-radius:5px;">
+                                <button type="button" class="close" style="padding:0px 4px;" ng-click="closeAdvancedToolsPanel()"><span>&times;</span></button>
+                                <div ng-include="advancedToolPanelTpl"></div>
+                            </div>
                         </div>
                         <!--右侧属性编辑面板-->
-                        <div class="fm-foldable fm-col" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">
+                        <div class="fm-foldable fm-col" style="width:315px;top:0px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">
                             <div class="fm-fold-btn">
                                 <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[editorPanelOpened]" ng-click="editorPanelOpened=!editorPanelOpened">
                                 </a>
@@ -112,7 +119,7 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div class="fm-container fm-col" style="width:300px;right:301px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                        <div class="fm-container fm-col" style="width:300px;right:301px;top: 0px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}">
                             <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
@@ -122,7 +129,7 @@
                             </div>
                         </div>
                         <!--下方输出信息面板-->
-                        <div class="fm-foldable fm-row" style="height: 255px;left: 2px;width: auto;" ng-style="{'bottom':{true: '0px', false: '-240px'}[consolePanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                        <div class="fm-foldable fm-row" style="height:255px;left:2px;width:auto;" ng-style="{'bottom':{true: '0px', false: '-240px'}[consolePanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
                             <div class="fm-fold-btn">
                                 <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[consolePanelOpened]" ng-click="consolePanelOpened=!consolePanelOpened">
                                 </a>
