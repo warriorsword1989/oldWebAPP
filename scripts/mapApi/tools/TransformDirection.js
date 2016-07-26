@@ -46,7 +46,7 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
         }
         this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry() ? this.shapeEditor.shapeEditorResult.getFinalGeometry().flag : null;
         this.type = this.shapeEditor.shapeEditorResult.getFinalGeometry() ? this.shapeEditor.shapeEditorResult.getFinalGeometry().type : null;
-        var layerPoint = event.layerPoint;
+        var layerPoint = this._map.latLngToContainerPoint([event.latlng.lat, event.latlng.lng]);
         var geos = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
