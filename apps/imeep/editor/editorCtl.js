@@ -378,10 +378,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             }
             switch (toolType) {
                 case 'search':
-                    // $ocLazyLoad.load(appPath.tool + 'ctrls/toolbar-map/toolbarCtrl').then(function() {
-                    //     $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/toolbar-map/toolbarTpl.html';
-                    // });
-                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
+                    });
+                    // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
                     break;
                 case 'auto':
                     $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/autofillJobPanelCtrl').then(function() {
@@ -506,6 +506,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 $scope.autofillRunning = true;
             } else if (data.status == 'end') {
                 $scope.autofillRunning = false;
+                // $scope.closeAdvancedToolsPanel();
+            }
+        });
+        $scope.$on('job-batch', function(event, data) {
+            if (data.status == 'begin') {
+                $scope.batchRunning = true;
+            } else if (data.status == 'end') {
+                $scope.batchRunning = false;
+                // $scope.closeAdvancedToolsPanel();
+            }
+        });
+        $scope.$on('job-search', function(event, data) {
+            if (data.status == 'begin') {
+                $scope.searching = true;
+            } else if (data.status == 'end') {
+                $scope.searching = false;
                 // $scope.closeAdvancedToolsPanel();
             }
         });
