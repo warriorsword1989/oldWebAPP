@@ -78,6 +78,15 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 27://红绿灯
                     ret = new fastmap.uikit.canvasFeature.RdTrafficSignal(data);
                     break;
+                case 28://LUNode
+                    ret = new fastmap.uikit.canvasFeature.LUNode(data);
+                    break;
+                case 29://LULink
+                    ret = new fastmap.uikit.canvasFeature.LULink(data);
+                    break;
+                case 30://LUFace
+                    ret = new fastmap.uikit.canvasFeature.LUFace(data);
+                    break;
             }
             return ret;
         },
