@@ -223,6 +223,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
          * @param data
          */
         $scope.selectObjCallback = function(data) {
+            //console.info("selectObjCallback",$scope);
+            //$scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
+            //$scope.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
+            //$scope.selectPoiInMap = true;
             $scope.selectedFeature = data;
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "subAttrContainerTpl": false
@@ -363,6 +367,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 case 'RDTRAFFICSIGNAL':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_trafficSignal_ctrl/trafficSignalCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_trafficSignal_tpl/trafficSignalTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case 'RDELECTRONICEYE':
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_electronic_ctrl/electronicEyeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDBRANCH':
@@ -561,7 +570,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, "ZONEFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "IXPOI":
-                    $scope.$parent.$parent.selectPoiInMap = true; //用于控制当前POI是否是从地图上选择的
+                    $scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
+
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-open'></a>",

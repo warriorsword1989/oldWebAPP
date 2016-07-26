@@ -110,13 +110,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 doubleClickZoom: false,
                 zoomControl: false
             });
-
             //高亮作业区域
             var substaskGeomotry = data.geometry;
             var pointsArray = hightLightWorkArea(substaskGeomotry);
-            var lineLayer = L.multiPolygon(pointsArray,{fillOpacity:0});
+            var lineLayer = L.multiPolygon(pointsArray, {
+                fillOpacity: 0
+            });
             map.addLayer(lineLayer);
-
             map.on("zoomend", function(e) {
                 document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
                 // if(map.getZoom() > 16){
@@ -131,7 +131,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                 // }
             });
             //map.setView([40.012834, 116.476293], 17);
-             map.fitBounds(lineLayer.getBounds());
+            map.fitBounds(lineLayer.getBounds());
             //属性编辑ctrl(解析对比各个数据类型)
             var shapeCtrl = new fastmap.uikit.ShapeEditorController();
             var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
@@ -274,24 +274,24 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
             });
         };
         //高亮作业区域方法;
-        function hightLightWorkArea(substaskGeomotry){
+        function hightLightWorkArea(substaskGeomotry) {
             var wkt = new Wkt.Wkt();
             var pointsArr = new Array();
             //读取wkt格式的集合对象;
             try {
                 var polygon = wkt.read(substaskGeomotry);
                 var coords = polygon.components;
-                var points=[];
+                var points = [];
                 var point = [];
                 var poly = [];
-                for(var i = 0; i<coords.length;i++){
-                    for(var j = 0;j<coords[i].length;j++){
-                        if(polygon.type=='multipolygon'){
-                            for(var k=0;k<coords[i][j].length;k++){
-                                point.push(new L.latLng(coords[i][j][k].y,coords[i][j][k].x));
+                for (var i = 0; i < coords.length; i++) {
+                    for (var j = 0; j < coords[i].length; j++) {
+                        if (polygon.type == 'multipolygon') {
+                            for (var k = 0; k < coords[i][j].length; k++) {
+                                point.push(new L.latLng(coords[i][j][k].y, coords[i][j][k].x));
                             }
-                        }else{
-                            point.push(new L.latLng(coords[i][j].y,coords[i][j].x));
+                        } else {
+                            point.push(new L.latLng(coords[i][j].y, coords[i][j].x));
                         }
                     }
                     points.push(point);
@@ -308,7 +308,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     }
                 }
             }
-
             //function loopPolygonfunc(parmas){
             //    if(typeof parmas==='object'){
             //        if(parmas.length){
@@ -371,6 +370,36 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         };
         $scope.goback = function() {
             window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
+        };
+        $scope.advancedTool = null;
+        $scope.openAdvancedToolsPanel = function(toolType) {
+            if ($scope.advancedTool == toolType) {
+                return;
+            }
+            switch (toolType) {
+                case 'search':
+                    // $ocLazyLoad.load(appPath.tool + 'ctrls/toolbar-map/toolbarCtrl').then(function() {
+                    //     $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/toolbar-map/toolbarTpl.html';
+                    // });
+                    $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
+                    break;
+                case 'auto':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/autofillJobPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
+                    });
+                    // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
+                    break;
+                case 'batch':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+                    });
+                    // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+                    break;
+            }
+            $scope.advancedTool = toolType;
+        };
+        $scope.closeAdvancedToolsPanel = function() {
+            $scope.advancedTool = null;
         };
         /*start 事件监听*******************************************************************/
         //响应选择要素类型变化事件，清除要素页面的监听事件
@@ -451,7 +480,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         });
         $scope.$on("highLightPoi", function(event, pid) {
             $scope.$broadcast("highlightPoiByPid", pid);
-            $scope.$broadcast("clearQueueItem",true);
+            $scope.$broadcast("clearQueueItem", true);
             $scope.selectPoi = pid;
         });
         // $scope.checkPageNow = 1;
@@ -471,6 +500,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
         /*接收全屏请求*/
         $scope.$on('showRoadFullScreen', function(event, data) {
             $scope.roadFullScreen = true;
+        });
+        $scope.$on('job-autofill', function(event, data) {
+            if (data.status == 'begin') {
+                $scope.autofillRunning = true;
+            } else if (data.status == 'end') {
+                $scope.autofillRunning = false;
+                // $scope.closeAdvancedToolsPanel();
+            }
         });
     }
 ]);

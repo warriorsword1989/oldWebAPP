@@ -1,5 +1,5 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath','$interval','$timeout',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath,$interval,$timeout) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout',
+    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -18,8 +18,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
-            scope.$parent.selectPoiInMap = false;//表示poi是列表中选择的
-            scope.$emit('closePopoverTips',false);
+            scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
+            scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 scope.$parent.$parent.showLoading = false;
@@ -42,33 +42,32 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     });
                     scope.highlightPoi(rest.pid);
                     scope.$emit("highLightPoi", rest.pid);
-                    scope.$emit("refreshPhoto",true);
+                    scope.$emit("refreshPhoto", true);
                 }
             });
             scope.itemActive = index;
         };
-
         /**
          * 删除、保存POI之后需要把POI从表格中删除
          */
         evtCtrl.off(evtCtrl.eventTypes.CHANGEPOILIST);
-        evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function (obj){
-            if(scope.dataListType == 1){ //表示的是待作业
-                for (var i = 0 ,len = scope.tableParams.data.length;i<len;i++){
-                    if(scope.tableParams.data[i].pid == obj.poi.pid){
-                        scope.tableParams.data.splice(i,1);
+        evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function(obj) {
+            if (scope.dataListType == 1) { //表示的是待作业
+                for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
+                    if (scope.tableParams.data[i].pid == obj.poi.pid) {
+                        scope.tableParams.data.splice(i, 1);
                         break;
                     }
                 }
-                scope.selectData(scope.tableParams.data[i],i);
+                scope.selectData(scope.tableParams.data[i], i);
                 // $timeout(function(){
                 //     scope.$apply();
                 //     scope.selectData(scope.tableParams.data[i],i);
                 //     //scope.$apply();
                 // });
-            } else if (scope.dataListType == 2){ //已作业
-                for (var i = 0 ,len = scope.tableParams.data.length;i<len;i++){
-                    if(scope.tableParams.data[i].pid == obj.poi.pid){
+            } else if (scope.dataListType == 2) { //已作业
+                for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
+                    if (scope.tableParams.data[i].pid == obj.poi.pid) {
                         scope.tableParams.data[i].name = obj.poi.name.name;
                         scope.tableParams.data[i].kindCode = obj.poi.kindCode;
                         break;
@@ -76,7 +75,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 }
             }
         });
-
         /*键盘控制poilist切换*/
         $document.bind("keyup", function(event) {
             if (event.keyCode == 34 || event.keyCode == 33) {
@@ -97,43 +95,43 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         });
         //初始化ng-table表头;
         scope.cols = [{
-            field: "num_index",
-            title: "序号",
-            width: '35px',
-            show: true
-        }, {
-            field: "name",
-            title: "名称",
-            width: '135px',
-            sortable: "name",
-            show: true
-        }, {
-            field: "kindCode",
-            title: "分类",
-            width: '60px',
-            sortable: "kindCode",
-            getValue: getKindName,
-            show: true
-        }, {
-            field: "uRecord",
-            title: "更新记录",
-            width: '60px',
-            sortable: "uRecord",
-            show: false
-        }, {
-            field: "collectTime",
-            title: "采集时间",
-            width: '130px',
-            sortable: "collectTime",
-            show: false,
-            getValue: getCollectTime
-        }, {
-            field: "pid",
-            title: "PID",
-            width: '100px',
-            sortable: "pid",
-            show: false
-        },
+                field: "num_index",
+                title: "序号",
+                width: '35px',
+                show: true
+            }, {
+                field: "name",
+                title: "名称",
+                width: '135px',
+                sortable: "name",
+                show: true
+            }, {
+                field: "kindCode",
+                title: "分类",
+                width: '60px',
+                sortable: "kindCode",
+                getValue: getKindName,
+                show: true
+            }, {
+                field: "uRecord",
+                title: "更新记录",
+                width: '60px',
+                sortable: "uRecord",
+                show: false
+            }, {
+                field: "collectTime",
+                title: "采集时间",
+                width: '130px',
+                sortable: "collectTime",
+                show: false,
+                getValue: getCollectTime
+            }, {
+                field: "pid",
+                title: "PID",
+                width: '100px',
+                sortable: "pid",
+                show: false
+            },
             // {field: "geometry", title: "几何", sortable: "geometry", show: false},
             {
                 field: "freshnessVefication",
@@ -241,7 +239,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         function getKindName(scope, row) {
             return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
         }
-        scope.highlightPoi = function (pid) {
+        scope.highlightPoi = function(pid) {
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
@@ -261,7 +259,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
          * POI提交
          * 返回成功后刷新POI列表，重新绘制POI图层
          */
-        scope.doSubmitData = function (){
+        scope.doSubmitData = function() {
             swal({
                 title: "确认提交？",
                 type: "warning",
@@ -271,37 +269,37 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 confirmButtonText: "是的，我要提交",
                 cancelButtonText: "取消"
             }, function(f) {
-                if(f){
-                    scope.$emit("SWITCHCONTAINERSTATE",{ attrContainerTpl:false,subAttrContainerTpl:false });
+                if (f) {
+                    scope.$emit("SWITCHCONTAINERSTATE", {
+                        attrContainerTpl: false,
+                        subAttrContainerTpl: false
+                    });
                     scope.$parent.$parent.showLoading = true;
                     var param = {
-                        dbId:App.Temp.dbId,
-                        gridIds:App.Temp.gridList
+                        dbId: App.Temp.dbId,
+                        gridIds: App.Temp.gridList
                     };
-                    dsEdit.submitData(param).then(function (jobId){
-                        if(jobId){
-                            var timer = $interval(function(){
-                                dsEdit.queryByJobId(jobId).then(function (data){
-                                    if(data.status == 3 || data.status == 4){//3-成功 4-失败
+                    dsEdit.submitPoi(param).then(function(jobId) {
+                        if (jobId) {
+                            var timer = $interval(function() {
+                                dsEdit.getJobById(jobId).then(function(data) {
+                                    if (data.status == 3 || data.status == 4) { //3-成功 4-失败
                                         scope.$parent.$parent.showLoading = false;
                                         refreshData();
                                         poiLayer.redraw();
                                         $interval.cancel(timer);
-                                        if(data.status == 3){
+                                        if (data.status == 3) {
                                             swal("提交提示", '提交完成', "info");
                                         } else {
-                                            swal("提交提示", '提交失败,'+data.latestStepMsg, "warning");
+                                            swal("提交提示", '提交失败,' + data.latestStepMsg, "warning");
                                         }
-
                                     }
                                 });
-                            },500);
-
+                            }, 500);
                         }
                     });
                 }
             });
-
         }
     }
 ]);
