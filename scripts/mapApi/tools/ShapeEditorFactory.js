@@ -35,6 +35,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'pathVertexAdd': new fastmap.mapApi.PathVertexAdd({shapeEditor:shapeEditor}),
                     'pathBreak': new fastmap.mapApi.PathBreak({shapeEditor:shapeEditor}),
                     'transformDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
+                    'elecTransformDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                     'pathNodeMove':new fastmap.mapApi.PathNodeMove({shapeEditor:shapeEditor}),
                     'pointVertexAdd':new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor}),
                     'addAdAdmin':new fastmap.mapApi.adAdminAdd({shapeEditor:shapeEditor}),

@@ -1285,15 +1285,15 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                 editLayer.draw(marker, editLayer);
                                 sObj.setOriginalGeometry(marker);
                                 sObj.setFinalGeometry(marker);
-                                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.ELECTRANSFORMDIRECT);
+                                shapeCtrl.setEditingType('elecTransformDirect');
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
                                 tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
+                                // tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
-                                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.ELECTRANSFORMDIRECT);
+                                shapeCtrl.setEditingType('elecTransformDirect');
                             }
                         } else {}
                     })

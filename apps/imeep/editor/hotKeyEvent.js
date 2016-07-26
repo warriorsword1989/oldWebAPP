@@ -885,7 +885,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
 
                 });
-            } else if (shapeCtrl.editType === "ELECTRANSFORMDIRECT") {    //电子眼
+            } else if (shapeCtrl.editType === "elecTransformDirect") {    //电子眼
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
                 var startPoint = feature.geometry[0],
