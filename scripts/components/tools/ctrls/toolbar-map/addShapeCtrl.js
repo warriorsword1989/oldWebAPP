@@ -1247,6 +1247,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('请选择电子眼位置点！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
+                eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
