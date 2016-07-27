@@ -1,4 +1,4 @@
-angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit','appPath', function($scope,$timeout,dsEdit, appPath) {
+angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit','appPath','$ocLazyLoad', function($scope,$timeout,dsEdit, appPath,$ocLazyLoad) {
     var eventCtrl = fastmap.uikit.EventController();
 
     $scope.typeCodes = {
@@ -160,6 +160,32 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     $scope.hidePicSelect = function (e) {
         $scope.showImgData = false;
     };
+
+    function timeoutLoad() {
+        $timeout(function() {
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function() {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+                $ocLazyLoad.load('scripts/components/road/ctrls/attr_warninginfo_ctrl/carTypeCtrl').then(function() {
+                    $scope.carPopoverURL = '../../../scripts/components/road/tpls/attr_warninginfo_tpl/carTypeTpl.html';
+                });
+                // /!*查询数据库取出时间字符串*!/
+                // $timeout(function() {
+                //     $scope.fmdateTimer($scope.oridiData.timeDomain);
+                //     $scope.$broadcast('set-code', $scope.oridiData.timeDomain);
+                //     if ($scope.oridiData.type == 8 || $scope.oridiData.type == 9) {
+                //         $scope.$broadcast('btn-control', {
+                //             'empty': 'hide',
+                //             'add': 'hide',
+                //             'delete': 'hide'
+                //         });
+                //     }
+                //     $scope.$apply();
+                // }, 100);
+            });
+        });
+    }
+
+    timeoutLoad();
 
     $scope.cancel = function (){
     };
