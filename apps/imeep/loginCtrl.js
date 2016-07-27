@@ -15,7 +15,7 @@ angular.module('loginApp', ['fastmap.uikit', 'ngCookies', 'dataService']).contro
                     }
                     window.location.href = "./task/taskSelection.html?access_token=" + rest.access_token;
                 } else {
-                    swal("登陆出错", data, "error");
+                    swal("登陆出错", rest.errmsg, "error");
                 }
             });
         });

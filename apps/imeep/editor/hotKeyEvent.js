@@ -747,7 +747,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             createBranchFlag: true,
                             currentEditLayer: rdLink,
                             shapeEditor: shapeCtrl,
-                            type:['line','point','line']
+                            operationList:['line','point','line']
                         });
                         map.currentTool.enable();
                     }
@@ -882,6 +882,26 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if(data != null){
                         relationData.redraw();
                         treatmentOfChanged(data, "RDTRAFFICSIGNAL", "创建信号灯成功", 'attr_trafficSignal_ctrl/trafficSignalCtrl', 'attr_trafficSignal_tpl/trafficSignalTpl.html');
+                    } else {
+                        resetPage();
+                    }
+
+                });
+            }else if (shapeCtrl.editType === "warningInfo") {    //警示信息
+                var warning = featCodeCtrl.getFeatCode();
+                if(!(warning.nodePid && warning.inLinkPid)){
+                    swal("操作失败", "请选进入线和进入点", "error");
+                    return;
+                }
+
+                param = {
+                    linkPid:warning.inLinkPid,
+                    nodePid:warning.nodePid
+                };
+                dsEdit.create('RDWARNINGINFO',param).then(function(data) {
+                    if(data != null){
+                        relationData.redraw(); //ctrls/
+                        treatmentOfChanged(data, "RDWARNINGINFO", "创建危险信息成功", 'attr_warninginfo_ctrl/warningInfoCtrl', 'attr_warninginfo_tpl/warningInfoTpl.html');
                     } else {
                         resetPage();
                     }
