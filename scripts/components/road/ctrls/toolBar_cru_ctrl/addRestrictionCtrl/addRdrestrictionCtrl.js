@@ -47,7 +47,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
         createRestrictFlag: true,
         currentEditLayer: rdLink,
         shapeEditor: shapeCtrl,
-        type:['line','point','line']
+        operationList:['line','point','line']
     });
     map.currentTool.enable();
     $scope.excitLineArr = [];

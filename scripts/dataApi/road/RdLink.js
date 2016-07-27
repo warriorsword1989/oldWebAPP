@@ -28,7 +28,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         this.eNodePid = data["eNodePid"] || null;
         this.kind = data["kind"] || 7;
         this.direct = data["direct"] || 1;
-        this.appInfo = data["appInfo"] || 1;
+        this.appInfo = (data["appInfo"] === null || data["appInfo"] === '') ? 1 :data["appInfo"];
         this.tollInfo = data["tollInfo"] || 2;
         this.routeAdopt = data["routeAdopt"] || 2;
         this.multiDigitized = data["multiDigitized"] || 0;

@@ -1056,7 +1056,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 });
                 map.currentTool.enable();
                 //map.currentTool.snapHandler.addGuideLayer(rdnode);
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                map.currentTool.snapHandler.addGuideLayer(rdLink); //添加自动吸附的图层
                 //获取退出线并高亮;
                 $scope.getOutLink = function(dataId) {
                     $scope.limitRelation.outLinkPid = parseInt(dataId);
@@ -1137,6 +1137,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             map.currentTool.snapHandler.snaped = false;
                             map.currentTool.clearCross();
                             map.currentTool.snapHandler._guides = [];
+
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
                     } else if (data.index > 1) {
@@ -1198,37 +1199,29 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 //地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdWarningInfo');
                 tooltipsCtrl.setCurrentTooltip('请选择进入线！');
-                // map.currentTool = new fastmap.uikit.SelectForRestriction({
-                //     map: map,
-                //     createBranchFlag: true,
-                //     currentEditLayer: rdLink
-                // });
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
                     currentEditLayer: rdLink,
                     shapeEditor: shapeCtrl,
-                    type:['line','point','line']
+                    operationList:['line','point']
                 });
                 map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
 
-              
-
-                var addRestrictionObj = {
-                    "loadType": "attrTplContainer",
-                    "propertyCtrl": appPath.road + 'ctrls/attr_warninginfo_ctrl/warningInfoCtrl',
-                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_warninginfo_tpl/warningInfoTpl.html'
-                };
-                $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
-                return ;
+                $scope.warningInfo = {};
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID,function (data){
-                    console.info(data);
-                    if (data.index === 0) {
-                        //进入线;
-                        $scope.limitRelation.inLinkPid = parseInt(data.id);
+                    if (data.index === 0) { //进入线;
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdnode);
+
+                        $scope.warningInfo.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
-                            id: $scope.limitRelation.inLinkPid.toString(),
+                            id: $scope.warningInfo.inLinkPid.toString(),
                             layerid: 'rdLink',
                             type: 'line',
                             style: {
@@ -1237,12 +1230,16 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         });
                         highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
                         linkDirect = data["properties"]["direct"];
-                        if (linkDirect == 2 || linkDirect == 3) {
-                            $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                        if (linkDirect == 2 || linkDirect == 3) { //单方向
+                            map.currentTool.snapHandler.snaped = false;
+                            map.currentTool.clearCross();
+                            map.currentTool.snapHandler._guides = [];
+
+                            $scope.warningInfo.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
                             highLightFeatures.push({
-                                id: $scope.limitRelation.nodePid.toString(),
+                                id: $scope.warningInfo.nodePid.toString(),
                                 layerid: 'rdLink',
                                 type: 'rdnode',
                                 style: {
@@ -1250,9 +1247,25 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                            map.currentTool.selectedFeatures.push(nodePid.toString());
+
+                            featCodeCtrl.setFeatCode($scope.warningInfo);
+                            tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
+                    } else if (data.index === 1){ //进入点
+                        $scope.warningInfo.nodePid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id: $scope.warningInfo.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'rdnode',
+                            style: {
+                                color: '#21ed25'
+                            }
+                        });
+                        highRenderCtrl.drawHighlight();
+                        map.currentTool.selectedFeatures.push($scope.warningInfo.nodePid.toString());
+                        featCodeCtrl.setFeatCode($scope.warningInfo);
+                        tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                     }
                 });
             } else if(type === "ELECTRONIC_EYE"){   //电子眼

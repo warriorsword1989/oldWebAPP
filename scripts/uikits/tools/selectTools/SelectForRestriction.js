@@ -308,7 +308,6 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         return 0
     },
 
-
     /***
      * 点击node点
      * @param d

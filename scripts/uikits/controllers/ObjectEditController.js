@@ -114,6 +114,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDTRAFFICSIGNAL":
                         this.data = fastmap.dataApi.rdTrafficSignal(obj);
                         break;
+                    case "RDWARNINGINFO":
+                        this.data = fastmap.dataApi.rdWarningInfo(obj);
+                        break;
                     case "RDELECTRONICEYE":
                         this.data = fastmap.dataApi.rdElectronicEye(obj);
                         break;
