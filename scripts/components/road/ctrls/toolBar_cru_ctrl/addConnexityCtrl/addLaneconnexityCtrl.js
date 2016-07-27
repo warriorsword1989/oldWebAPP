@@ -70,7 +70,9 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     map.currentTool = new fastmap.uikit.SelectForRestriction({
         map: map,
         createLaneFlag:true,
-        currentEditLayer: rdLink
+        currentEditLayer: rdLink,
+        shapeEditor: shapeCtrl,
+        type:['line','point','line']
     });
     map.currentTool.enable();
     $scope.excitLineArr = [];

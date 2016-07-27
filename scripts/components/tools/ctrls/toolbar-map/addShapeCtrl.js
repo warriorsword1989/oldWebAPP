@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath',
-    function($scope, $ocLazyLoad, dsEdit, appPath) {
+angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath','$timeout',
+    function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -922,7 +922,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
-                    currentEditLayer: rdLink
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList:['line','point']
                 });
                 map.currentTool.enable();
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
@@ -942,7 +944,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         } else if (linkDirect == 3) {
                             realNodeId = data["properties"]["snode"];
                         }
-                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择点!");
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择点!");
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         if (linkDirect != 1) {
@@ -997,6 +999,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             }
             //新增加的分歧(实景分歧);
             else if (type.split('_')[0] == 'BRANCH') {
+
+
                 $scope.resetOperator("addRelation", type);
                 var typeArr = type.split('_');
                 var currentActiveBranch = '';
@@ -1046,28 +1050,39 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
-                    currentEditLayer: rdLink
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList:['line','point','line']
                 });
                 map.currentTool.enable();
+                //map.currentTool.snapHandler.addGuideLayer(rdnode);
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 //获取退出线并高亮;
                 $scope.getOutLink = function(dataId) {
-                        $scope.limitRelation.outLinkPid = parseInt(dataId);
-                        if (highLightFeatures.length === 3) {
-                            highLightFeatures.pop();
-                        }
-                        highRenderCtrl._cleanHighLight();
-                        highLightFeatures.push({
-                            id: $scope.limitRelation.outLinkPid.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
-                        highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+                    $scope.limitRelation.outLinkPid = parseInt(dataId);
+                    if (highLightFeatures.length === 3) {
+                        highLightFeatures.pop();
                     }
-                    //选择分歧监听事件;
+                    highRenderCtrl._cleanHighLight();
+                    highLightFeatures.push({
+                        id: $scope.limitRelation.outLinkPid.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
+                }
+                //选择分歧监听事件;
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) {
+                        //清除吸附的十字
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdnode);
+
                         //进入线;
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
@@ -1080,7 +1095,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         });
                         highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
+                        tooltipsCtrl.setCurrentTooltip('已经选择进入线,选择进入点!');
                         linkDirect = data["properties"]["direct"];
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
@@ -1094,7 +1109,13 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             });
                             highRenderCtrl.drawHighlight();
                             map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
+
+                            //清除吸附的十字
+                            map.currentTool.snapHandler.snaped = false;
+                            map.currentTool.clearCross();
+                            map.currentTool.snapHandler._guides = [];
+                            map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
                     } else if (data.index === 1) {
                         if (linkDirect == 2 || linkDirect == 3) {
@@ -1110,7 +1131,13 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
+
+                            //清除吸附的十字
+                            map.currentTool.snapHandler.snaped = false;
+                            map.currentTool.clearCross();
+                            map.currentTool.snapHandler._guides = [];
+                            map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
@@ -1163,31 +1190,29 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             } else if(type === "RD_GATE"){
 
             } else if (type === 'RD_WARNINGINFO'){ //警示信息
-                $scope.resetOperator("addWarningInfo", type);
+                $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
-                shapeCtrl.setEditingType(type);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.WARNINGINFO);
                 //地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdWarningInfo');
                 tooltipsCtrl.setCurrentTooltip('请选择进入线！');
+                // map.currentTool = new fastmap.uikit.SelectForRestriction({
+                //     map: map,
+                //     createBranchFlag: true,
+                //     currentEditLayer: rdLink
+                // });
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
-                    currentEditLayer: rdLink
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    type:['line','point','line']
                 });
                 map.currentTool.enable();
 
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
+              
 
                 var addRestrictionObj = {
                     "loadType": "attrTplContainer",
