@@ -1,7 +1,6 @@
 fastmap.uikit.canvasTips.TipsDrivewayMount = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function(item) {
         this.geometry['coordinates'] = item.g;
-        console.log(item)
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
                 iconName: '../../../images/road/tips/1202/1202_' + item.m.b + '_0.svg',

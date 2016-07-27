@@ -9,25 +9,22 @@ rdElectronicEyeApp.controller("electronicEyeCtl",['$scope','dsEdit',function($sc
     var eventController = fastmap.uikit.EventController();
     var relationData = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        console.log(objCtrl.data.getIntegrate())
         $scope.electronicEyeData = objCtrl.data;
         conversionSystem();
-        /*var links = $scope.electronicEyeData.links,highLightFeatures=[];
-        for(var i= 0,len=links.length;i<len;i++) {
-            highLightFeatures.push({
-                id: links[i]["linkPid"].toString(),
-                layerid:'rdLink',
-                type:'rdgsc',
-                index:links[i].zlevel,
-                style:{
-                    size:5
-                }
-            })
-        }*/
-        /*highRenderCtrl.highLightFeatures = highLightFeatures;
-        highRenderCtrl.drawHighlight();*/
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id: $scope.electronicEyeData.linkPid.toString(),
+            layerid:'rdLink',
+            type:'line',
+            style:{
+                size:5
+            }
+        });
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 
     };
     $scope.initializeData();
