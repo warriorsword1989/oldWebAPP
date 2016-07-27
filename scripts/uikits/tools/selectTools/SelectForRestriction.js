@@ -21,6 +21,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
+        this.shapeEditor = this.options.shapeEditor;
 
         this.currentEditLayer = this.options.currentEditLayer;
         this.eventController = fastmap.uikit.EventController();
@@ -31,6 +32,16 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this.redrawTiles = [];
         this._map._container.style.cursor = 'pointer';
         this.selectedFeatures = [];
+        this.operationList = this.options.operationList;
+        //this.workLayers = ['LineString'];
+        this.snapHandler = new fastmap.mapApi.Snap({
+            map: this._map,
+            snapLine: true,
+            snapNode: true,
+            snapVertex: false
+        });
+        this.snapHandler.enable();
+        //this._setSnapHandler(["Line"]);
     },
 
     /***
@@ -38,6 +49,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('mousemove', this.onMouseMove, this);
 
     },
 
@@ -46,6 +58,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        this._map.off('mousemove', this.onMouseMove, this);
     },
 
     disable: function () {
@@ -56,12 +69,38 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this._enabled = false;
         this.removeHooks();
     },
-
+    onMouseMove: function(event) {
+        this.snapHandler.setTargetIndex(0);
+        if (this.snapHandler.snaped) {
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {
+                'snaped': true
+            });
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0])
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
+                point: {
+                    x: this.targetPoint.lng,
+                    y: this.targetPoint.lat
+                }
+            });
+        } else {
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {
+                'snaped': false
+            });
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
+    },
+    clearCross:function (){
+        this.eventController.fire(this.eventController.eventTypes.SNAPED, {
+            'snaped': false
+        });
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+    },
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
 
         this.drawGeomCanvasHighlight(tileCoordinate, event);
+
     },
 
     /***
@@ -83,7 +122,90 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
-        if (this.selectedFeatures.length == 1) {
+        if(this.operationList.length > this.selectedFeatures.length){
+            if (this.operationList[this.selectedFeatures.length] == 'point') {
+                for (var item in data) {
+                    var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
+                    if (touchids.length) {
+                        var id = data[item].properties.id;
+
+                        if (id == this.selectedFeatures[0]) {
+                            if (touchids[0] == 0) {
+                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                    id: data[item].properties.snode,
+                                    event:event,
+                                    index: this.selectedFeatures.length
+                                })
+                            } else {
+                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                    id: data[item].properties.enode,
+                                    event:event,
+                                    index: this.selectedFeatures.length
+                                })
+                            }
+                            this.selectedFeatures.push(id);
+                            break;
+                        }
+                    }
+                }
+            } else if(this.operationList[this.selectedFeatures.length] == 'line'){
+                for (var item in data) {
+                    if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                        var id = data[item].properties.id;
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                            id: id,
+                            properties:data[item].properties,
+                            index: this.selectedFeatures.length
+                        })
+                        this.selectedFeatures.push(id);
+                        break;
+                    }
+                }
+            }
+        } else { //因为最后一步可以多次选中，所以做了此处理
+            if (this.operationList[this.operationList.length-1] == 'point') {
+                for (var item in data) {
+                    var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
+                    if (touchids.length) {
+                        var id = data[item].properties.id;
+
+                        if (id == this.selectedFeatures[0]) {
+                            if (touchids[0] == 0) {
+                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                    id: data[item].properties.snode,
+                                    event:event,
+                                    index: this.selectedFeatures.length
+                                })
+                            } else {
+                                this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                                    id: data[item].properties.enode,
+                                    event:event,
+                                    index: this.selectedFeatures.length
+                                })
+                            }
+                            this.selectedFeatures.push(id);
+                            break;
+                        }
+                    }
+                }
+            } else if(this.operationList[this.operationList.length-1] == 'line'){
+                for (var item in data) {
+                    if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                        var id = data[item].properties.id;
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                            id: id,
+                            properties:data[item].properties,
+                            index: this.selectedFeatures.length
+                        })
+                        this.selectedFeatures.push(id);
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        /*if (this.selectedFeatures.length == 1) {
             for (var item in data) {
                 var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
                 if (touchids.length) {
@@ -141,7 +263,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                 }
 
             }
-        }
+        }*/
 
     },
 
