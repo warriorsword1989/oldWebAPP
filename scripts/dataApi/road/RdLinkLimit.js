@@ -25,12 +25,12 @@ fastmap.dataApi.RdLinkLimit = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
         this.rowId= data["rowId"] || "";
-        this.type = (data["type"] === null || data["type"] === '') ? 3 :data["type"];
+        this.type = (data["type"] === undefined || data["type"] === '') ? 3 :data["type"];
         this.limitDir = data["limitDir"] || 0;
         this.timeDomain = data["timeDomain"] || "";
         this.vehicle = data["vehicle"] || 0;
-        this.tollType= (data["tollType"] === null || data["tollType"] === '') ? 9 :data["tollType"];
-        this.weather = (data["weather"] === null || data["weather"] === '') ? 9 :data["weather"];
+        this.tollType= (data["tollType"] === undefined || data["tollType"] === '') ? 9 :data["tollType"];
+        this.weather = (data["weather"] === undefined || data["weather"] === '') ? 9 :data["weather"];
         this.inputTime = data["inputTime"] || "";
         this.processFlag = data["processFlag"] || 0;
     },
