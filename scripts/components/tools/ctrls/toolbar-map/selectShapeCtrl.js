@@ -370,9 +370,44 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDELECTRONICEYE':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "改关联Link",
+                            'type': "MODIFYOUTLINE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-record'></a>",
+                            'title': "改点位",
+                            'type': "MODIFYNODE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "增加配对关系",
+                            'type': "ADDPAIRBOND",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_electronic_ctrl/electronicEyeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDBRANCH':
                     toolsObj = {
@@ -1143,6 +1178,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                         return;
                     }
+                } else if (type === "ADDPAIRBOND") {
+                    if (selectCtrl.selectedFeatures) {
+                        tooltipsCtrl.setEditEventType('UPDATEELECTRONICEYE');
+                        tooltipsCtrl.setCurrentTooltip('开始配对！');
+                    } else {
+                        tooltipsCtrl.setCurrentTooltip('正要增加配对关系,先选择配对电子眼！');
+                        return;
+                    }
                 } else if (type === "PATHNODEMOVE") {
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('pathNodeMove');
@@ -1151,7 +1194,107 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                         return;
                     }
-                } else if (type.split('_').length === 2) {
+                } else if (type === "MODIFYNODE") {
+                    var minLen = 100000,
+                        pointsOfDis, pointForAngle, angle;
+                    if (shapeCtrl.shapeEditorResult) {
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.enable();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                    tooltipsCtrl.setEditEventType('pointVertexAdd');
+                    tooltipsCtrl.setCurrentTooltip('请选择电子眼位置点！');
+                    tooltipsCtrl.setStyleTooltip("color:black;");
+                    eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                    eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
+                        var pro = e.property;
+                        dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                            if (data) {
+                                selectCtrl.onSelected({
+                                    geometry: data.geometry.coordinates,
+                                    id: data.pid,
+                                    direct: pro.direct,
+                                    point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                                });
+                                var linkArr = data.geometry.coordinates,
+                                    points = [];
+                                if (pro.direct == 1) {
+                                    tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
+                                    var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                    var link = linkArr;
+                                    for (var i = 0, len = link.length; i < len; i++) {
+                                        pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
+                                        if (pointsOfDis < minLen) {
+                                            minLen = pointsOfDis;
+                                            pointForAngle = link[i];
+                                        }
+                                    }
+                                    angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
+                                    var marker = {
+                                        flag: true,
+                                        point: point,
+                                        type: "marker",
+                                        angle: angle,
+                                        orientation: "2",
+                                        pointForDirect: point
+                                    };
+                                    layerCtrl.pushLayerFront('edit');
+                                    var sObj = shapeCtrl.shapeEditorResult;
+                                    editLayer.drawGeometry = marker;
+                                    editLayer.draw(marker, editLayer);
+                                    sObj.setOriginalGeometry(marker);
+                                    sObj.setFinalGeometry(marker);
+                                    shapeCtrl.setEditingType('elecTransformDirect');
+                                    shapeCtrl.startEditing();
+                                    tooltipsCtrl.setCurrentTooltip("选择方向!");
+                                    tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                                } else {
+                                    shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                    tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
+                                    shapeCtrl.setEditingType('elecTransformDirect');
+                                }
+                            }
+                        })
+                    });
+                } else if (type === "MODIFYOUTLINE") {
+                    map.currentTool = new fastmap.uikit.SelectPath({
+                        map: map,
+                        currentEditLayer: rdLink,
+                        linksFlag: true,
+                        shapeEditor: shapeCtrl
+                    });
+                    map.currentTool.enable();
+                    tooltipsCtrl.setCurrentTooltip('开始修改关联Link！');
+                    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                        //退出线;
+                        highRenderCtrl.highLightFeatures.push({
+                            id: data.id,
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {}
+                        });
+                        //绘制当前的退出线
+                        highRenderCtrl.drawHighlight();
+                        //设置热键修改时的监听类型;
+                        shapeCtrl.setEditingType("UPDATEELECTRONICEYE");
+                        //退出线选完后的鼠标提示;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                        //设置修改确认的数据;
+                        featCodeCtrl.setFeatCode({
+                            "linkPid": data.id.toString(),
+                            "pid": objCtrl.data.pid.toString(),
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                } else if (type.indexOf('BRANCH') > -1 ) {
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,

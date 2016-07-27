@@ -983,6 +983,25 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
+            } else if (shapeCtrl.editType === "UPDATEELECTRONICEYE") {
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDELECTRONICEYE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPid":featCodeCtrl.getFeatCode().linkPid.toString(),
+                        "pid":featCodeCtrl.getFeatCode().pid.toString(),
+                        "objStatus":"UPDATE"
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDELECTRONICEYE", "编辑RDELECTRONICEYE成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+                })
             }
         }
     });
