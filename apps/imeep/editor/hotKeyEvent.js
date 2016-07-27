@@ -745,7 +745,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         map.currentTool = new fastmap.uikit.SelectForRestriction({
                             map: map,
                             createBranchFlag: true,
-                            currentEditLayer: rdLink
+                            currentEditLayer: rdLink,
+                            shapeEditor: shapeCtrl,
+                            type:['line','point','line']
                         });
                         map.currentTool.enable();
                     }
