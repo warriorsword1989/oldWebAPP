@@ -12,6 +12,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rwLink = layerCtrl.getLayerById('rwLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
+        var luNode = layerCtrl.getLayerById('luNode');
+        var luLink = layerCtrl.getLayerById('luLink');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
@@ -816,6 +818,70 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+            }  else if (type === "LUNODE") {
+                $scope.resetOperator("addNode", type);
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                //shapeCtrl.editFeatType = "rdNode";
+                shapeCtrl.editFeatType = "LUNODE";
+                map.currentTool.snapHandler.addGuideLayer(luLink);
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setCurrentTooltip('开始增加节点！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+            } else if(type === "LULINK") {
+                $scope.resetOperator("addLink", type);
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
+                shapeCtrl.startEditing();
+                //重置创建link时   扑捉工具中的值
+                shapeCtrl.getCurrentTool().clickcount = 1;
+                shapeCtrl.getCurrentTool().catches.length = 0;
+                shapeCtrl.getCurrentTool().snodePid = 0;
+                shapeCtrl.getCurrentTool().enodePid = 0;
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.enable();
+                shapeCtrl.editFeatType = "LULINK";
+                //把点和线图层放到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
+                map.currentTool.snapHandler.addGuideLayer(luNode);
+                map.currentTool.snapHandler.addGuideLayer(luLink);
+                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
+                tooltipsCtrl.setCurrentTooltip('开始画线！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
+            } else if (type === 'LUFACE') {
+            	$scope.resetOperator("addFace", type);
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                //设置添加类型
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
+                shapeCtrl.startEditing();
+
+                //把工具添加到map中
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.enable();
+                shapeCtrl.editFeatType = "LUFACE";
+                //提示信息
+                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
+                tooltipsCtrl.setCurrentTooltip('开始画面！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === 'RDGSC') {
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setEditEventType('rdgsc');
