@@ -14,7 +14,8 @@ fastmap.uikit.canvasFeature.LUFace = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['style'] = {
             //'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
             //'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
-            'fillColor': '#' + color + '00',
+//            'fillColor': '#' + color + '00',
+            'fillColor': '#CD853F',
             'fillOpacity': 0.2,
             'strokeColor': '#CD853F',
             'strokeWidth': 1,
