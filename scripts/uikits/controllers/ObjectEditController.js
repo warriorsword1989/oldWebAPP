@@ -120,6 +120,15 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDELECTRONICEYE":
                         this.data = fastmap.dataApi.rdElectronicEye(obj);
                         break;
+                    case "LUNODE":
+                        this.data = fastmap.dataApi.luNode(obj);
+                        break;
+                    case "LULINK":
+                        this.data = fastmap.dataApi.luLink(obj);
+                        break;
+                    case "LUFACE":
+                        this.data = fastmap.dataApi.luFace(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

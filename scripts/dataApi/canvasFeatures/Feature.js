@@ -52,13 +52,19 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     ret = new fastmap.uikit.canvasFeature.RwLink(data);
                     break;
                 case 15://行政区划点
-                    ret = new fastmap.uikit.canvasFeature.AdAdmin(data);
+                    if((data.g[0] >= -12 && data.g[0] <= 267) && (data.g[1] >= -12 && data.g[1] <= 267)) {
+                        ret = new fastmap.uikit.canvasFeature.AdAdmin(data);
+                    }
                     break;
                 case 16://RDNODE
-                    ret = new fastmap.uikit.canvasFeature.RdNode(data);
+                    if((data.g[0] >= -3 && data.g[0] <= 258) && (data.g[1] >= -3 && data.g[1] <= 258)) {
+                        ret = new fastmap.uikit.canvasFeature.RdNode(data);
+                    }
                     break;
                 case 17://AdNode
-                    ret = new fastmap.uikit.canvasFeature.AdNode(data);
+                    if((data.g[0] >= -3 && data.g[0] <= 258) && (data.g[1] >= -3 && data.g[1] <= 258)) {
+                        ret = new fastmap.uikit.canvasFeature.AdNode(data);
+                    }
                     break;
                 case 18://zoneLink
                     ret = new fastmap.uikit.canvasFeature.ZoneLink(data);
@@ -67,19 +73,34 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     ret = new fastmap.uikit.canvasFeature.ZoneFace(data);
                     break;
                 case 20://zoneNode
-                    ret = new fastmap.uikit.canvasFeature.ZoneNode(data);
+                    if((data.g[0] >= -3 && data.g[0] <= 258) && (data.g[1] >= -3 && data.g[1] <= 258)) {
+                        ret = new fastmap.uikit.canvasFeature.ZoneNode(data);
+                    }
                     break;
                 case 21: //poi
-                    ret = new fastmap.uikit.canvasFeature.IXPOI(data);
+                    if((data.g[0] >= -5 && data.g[0] <= 260) && (data.g[1] >= -5 && data.g[1] <= 260)){
+                        ret = new fastmap.uikit.canvasFeature.IXPOI(data);
+                    }
                     break;
                 case 22://rwNode
-                    ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    if((data.g[0] >= -3 && data.g[0] <= 258) && (data.g[1] >= -3 && data.g[1] <= 258)) {
+                        ret = new fastmap.uikit.canvasFeature.RwNode(data);
+                    }
                     break;
                 case 26://电子眼
                     ret = new fastmap.uikit.canvasFeature.RdElectronicEye(data);
                     break;
                 case 27://红绿灯
                     ret = new fastmap.uikit.canvasFeature.RdTrafficSignal(data);
+                    break;
+                case 28://LUNode
+                    ret = new fastmap.uikit.canvasFeature.LUNode(data);
+                    break;
+                case 29://LULink
+                    ret = new fastmap.uikit.canvasFeature.LULink(data);
+                    break;
+                case 30://LUFace
+                    ret = new fastmap.uikit.canvasFeature.LUFace(data);
                     break;
             }
             return ret;
