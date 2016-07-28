@@ -14,7 +14,12 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 		this.shortInfo = this.information.substring(0,17)+'...';
 		this.rank = data['rank'];
 		this.ruleid = data['ruleid'] || "";
-		this.shortRuleId = this.ruleid.substring(0,10) + '...';
+		this.shortRuleId = '';
+		if(this.ruleid.length < 9){
+			this.shortRuleId = this.ruleid;
+		}else{
+			this.shortRuleId = this.ruleid.substring(0,10) + '...';
+		}
 		/*是否是poi检查项*/
 		this.poiCheck = false;
 		/*poi检查项数组*/

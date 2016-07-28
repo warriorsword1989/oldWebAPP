@@ -5,7 +5,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
     var objCtrl = fastmap.uikit.ObjectEditController();
     //初始化ng-table表头;
     $scope.cols = [
-        {field: "ruleid", title: "检查规则号", show: true},
+        {field: "ruleid", title: "检查规则", show: true},
         {field: "rank", title: "错误等级", sortable: "rank", show: true},
         {field: "targets", title: "错误对象", sortable: "targets", show: true},
         {field: "information", title: "错误信息", sortable: "information", show: true},
@@ -15,7 +15,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
         {field: "option", title: "检查管理", sortable: "option", show: false,getValue:getOption}
     ];
     /***************************** 以上为ngtable ********************************/
-    $scope.theadInfo = ['检查规则号','错误等级','错误对象','错误信息','检查时间','作业员','检查管理'];
+    $scope.theadInfo = ['检查规则','错误等级','错误对象','错误信息','检查时间','作业员','检查管理'];
     //状态
     $scope.initTypeOptions = [
         {"id": 0, "label": " 未修改"},

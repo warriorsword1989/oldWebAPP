@@ -1,5 +1,12 @@
+/**
+ * Created by wuzhen on 2016/7/24.
+ * 警示信息面板
+ */
 angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit','appPath','$ocLazyLoad', function($scope,$timeout,dsEdit, appPath,$ocLazyLoad) {
     var eventCtrl = fastmap.uikit.EventController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    var relationData = layerCtrl.getLayerById('relationData');
 
     $scope.typeCodes = {
         '10101交叉路口a':'交叉路口a',
@@ -81,11 +88,18 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         '14701前方车辆排队信息':'前方车辆排队信息'
     };
 
-    $scope.rdWarningInfoObj = {};
-    $scope.rdWarningInfoObj.typeCode = 10101;
+    //$scope.rdWarningInfoObj = {};
+    //$scope.rdWarningInfoObj.typeCode = 10101;
 
     $scope.pageSize = 6;
     var typeCodeArr = [];//结果集
+
+    $scope.initializeData = function(){
+        //objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        console.log(objCtrl.data.getIntegrate())
+        $scope.rdWarningInfoObj = objCtrl.data;
+
+    };
 
     /*点击选中的图片*/
     $scope.selectPicCode = function (code) {
@@ -186,6 +200,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     }
 
     timeoutLoad();
+    $scope.initializeData();
 
     $scope.cancel = function (){
     };
@@ -200,5 +215,5 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, $scope.save); // 保存
     eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, $scope.del); // 删除
     eventCtrl.on(eventCtrl.eventTypes.CANCELEVENT, $scope.cancel); // 取消
-    eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, $scope.initData); // 数据切换
+    eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);
 }]);
