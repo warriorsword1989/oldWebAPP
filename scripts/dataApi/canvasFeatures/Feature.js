@@ -88,7 +88,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     }
                     break;
                 case 24://坡度
-                    ret = new fastmap.uikit.canvasFeature.RdElectronicEye(data);
+                    ret = new fastmap.uikit.canvasFeature.RdSlope(data);
                     break;
                 case 26://电子眼
                     ret = new fastmap.uikit.canvasFeature.RdElectronicEye(data);

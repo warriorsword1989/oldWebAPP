@@ -9,6 +9,7 @@
         "AdNode.js",
         "RdRestriction.js",
         "RdSpeedLimit.js",
+        "RdSlope.js",
         "RdCross.js",
         "RdLaneConnexity.js",
         "AdAdmin.js",
