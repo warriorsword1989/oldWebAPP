@@ -512,6 +512,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
+                        } else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL"){
+                            relationData.redraw();
                         }
                         treatmentOfChanged(data, param["type"], "移动link成功");
                     } else {

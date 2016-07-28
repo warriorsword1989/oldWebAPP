@@ -4,57 +4,137 @@
 angular.module("app").controller("nameInfoCtrl", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-     $scope.details = objCtrl.data.names;
-     $scope.nameGroup = [];
-    if (objCtrl.data) {
-        $scope.details = objCtrl.data.names;
+    $scope.nameGroup = [];
+    $scope.names = objCtrl.data.names;
+    $scope.nameGroup = [];
+    /*根据nameGroupId排序*/
+    $scope.names.sort(function(a,b){
+        return b.nameGroupId >= a.nameGroupId;
+    });
+    /*重组源数据用新建变量nameGroup显示*/
+    $scope.sortNameGroup = function(arr){
         $scope.nameGroup = [];
-    }
-
-    function initNameInfo(){
-        /*根据nameGroupid排序*/
-        $scope.details[0].names.sort(function(a,b){
-            return b.nameGroupid >= a.nameGroupid;
-        });
-        /*重组源数据用新建变量nameGroup显示*/
-        $scope.sortNameGroup = function(arr){
-            $scope.nameGroup = [];
-            for (var i = 0; i <= arr.length - 1; i++) {
-                var tempArr = [];
-                if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
-                    if($.inArray(arr[i],$scope.nameGroup) == -1){
-                        tempArr.push(arr[i])
-                    }
-                    for(var j=i+1;j<arr.length-1;j++){
-                        if(arr[j].nameGroupid == arr[i].nameGroupid){
-                            tempArr.push(arr[j]);
-                            i = j;
-                        }
-                    }
-                }else{
+        for (var i = 0; i <= arr.length - 1; i++) {
+            var tempArr = [];
+            if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
+                if($.inArray(arr[i],$scope.nameGroup) == -1){
                     tempArr.push(arr[i])
                 }
-                $scope.nameGroup.push(tempArr);
-            };
+                for(var j=i+1;j<arr.length-1;j++){
+                    if(arr[j].nameGroupid == arr[i].nameGroupid){
+                        tempArr.push(arr[j]);
+                        i = j;
+                    }
+                }
+            }else{
+                tempArr.push(arr[i]);
+            }
+            $scope.nameGroup.push(tempArr);
+        };
+    };
+    $scope.sortNameGroup($scope.names);
+    $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+        return b.nameGroupid >= a.nameGroupid;
+    });
+    /*上移或者下移*/
+    $scope.changeOrder = function(item,type){
+        if(type == 1){
+            $.each($scope.names,function(i,v){
+                if(v.nameGroupid == item[0].nameGroupid-1){
+                    v.nameGroupid += 1;
+                }  
+            });
+            for(var i=0;i<item.length;i++){
+                item[i].nameGroupid -= 1;
+            }
+        }else{
+            $.each($scope.names,function(i,v){
+                if(v.nameGroupid == item[0].nameGroupid+1){
+                    v.nameGroupid -= 1;
+                }  
+            });
+            for(var i=0;i<item.length;i++){
+                item[i].nameGroupid+= 1;
+            }
         }
-        $scope.sortNameGroup($scope.details[0].names);
-        // console.log($scope.nameGroup)
-        $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+         $scope.names.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
+         });
+        $scope.sortNameGroup($scope.names);
+    };
+    /*删除名称信息*/
+    $scope.removeNameInfo = function(item){
+        var nameLength = 0;
+        /*数组中删除*/
+        $.each($scope.nameGroup,function(i,v){
+            if(v && v[0].nameGroupid == item.nameGroupid){
+                $scope.nameGroup.splice(i,1);
+            }
         });
-    }
-    $scope.codeTypeOptions=[
-        {"id":0,"label":"0 无"},
-        {"id":1,"label":"1 普通路名"},
-        {"id":2,"label":"2 设施名"},
-        {"id":3,"label":"3 高速道路名"},
-        {"id":4,"label":"4 国家高速编号"},
-        {"id":5,"label":"5 国道编号"},
-        {"id":6,"label":"6 省道编号"},
-        {"id":7,"label":"7 县道编号"},
-        {"id":8,"label":"8 乡道编号"},
-        {"id": 9, "label": "9 专用道编号"},
-        {"id": 10, "label": "10 省级高速编号"}
+        /*由于names的长度是变化的，所以在循环前赋值给一个变量*/
+        var tempLength = $scope.names.length;
+        for(var i = 0;i<tempLength;i++){
+            if($scope.names[i] && $scope.names[i].nameGroupid == item.nameGroupid){
+                $scope.names.splice(i,1);
+                i -= 1;
+            }
+        }
+        $.each($scope.nameGroup,function(i,v){
+            $.each(v,function(m,n){
+                if(n){
+                    /*删除一个，之后的nameGroup都减一*/
+                    if(n.nameGroupid > item.nameGroupid){
+                        n.nameGroupid -= 1;
+                    }
+                    /*如果只剩一条名称信息*/
+                    /*if($scope.nameGroup.length == 1){
+                        $scope.nameGroup[0].nameGroupid = 1;
+                    }*/
+                    nameLength++;
+                } 
+            });
+        });
+    };
+    /*删除名称组下的名称信息*/
+    $scope.removeNameItem = function(item){
+        var tempLength = $scope.names.length;
+        var groupNum = 0;
+        /*统计该组下有多少个名称信息*/
+        for(var i=0;i<tempLength;i++){
+            if($scope.names[i] && $scope.names[i].nameGroupid == item.nameGroupid){
+                groupNum++;
+            }
+        }
+        for(var i = 0;i<tempLength;i++){
+            if($scope.names[i] && $scope.names[i].pid == item.pid){
+                $scope.names.splice(i,1);
+                if(groupNum == 1){
+                    for(var j=0;j<tempLength-1;j++){
+                        if($scope.names[j].nameGroupid > item.nameGroupid){
+                            $scope.names[j].nameGroupid -= 1;
+                        }
+                    }
+                }
+            }
+        }
+        $scope.sortNameGroup($scope.names);
+    };
+    /*新增名称信息*/
+    $scope.nameInfoAdd = function(){
+        var protoArr = $scope.names;
+        var newName = fastmap.dataApi.luFaceName({
+            "pid":0,
+            "langCode":$scope.languageCode[0].code,
+            "nameGroupid":protoArr.length>0?protoArr[0].nameGroupid + 1:1,
+            "seqNum":this.nameGroupid
+        });
+        protoArr.unshift(newName);
+        $scope.sortNameGroup(protoArr);
+    };
+    /*名称来源*/
+    $scope.nameSource = [
+        {"code":0,"label":"未定义"},
+        {"code":1,"label":"翻译"}
     ];
     /*语言代码*/
     $scope.languageCode = [
@@ -91,130 +171,9 @@ angular.module("app").controller("nameInfoCtrl", function ($scope,$timeout,dsMet
         {"code":"UKR","name":"乌克兰语"},
         {"code":"SCR","name":"克罗地亚语"}
     ];
-    /*分歧名称输入完查询发音和拼音*/
-    $scope.diverName = function(id,name){
-        var param = {
-            "word":name
-        };
-        dsMeta.getNamePronunciation(param).then(function (data) {
-            if(data.errcode == 0){
-                $.each($scope.details[0].names,function(i,v){
-                    if(v.nameGroupid == id){
-                        v.phonetic = data.data.phonetic;
-                        v.voiceFile = data.data.voicefile;
-                    }
-                });
-            }else{
-                swal("查找失败", "问题原因："+data.errmsg, "error");
-            }
-        });
-    }
-    /*上移或者下移*/
-    $scope.changeOrder = function(item,type){
-        if(type == 1){
-            $.each($scope.details[0].names,function(i,v){
-                if(v.nameGroupid == item[0].nameGroupid-1){
-                    v.nameGroupid += 1;
-                }  
-            });
-            for(var i=0;i<item.length;i++){
-                item[i].nameGroupid -= 1;
-            }
-        }else{
-            $.each($scope.details[0].names,function(i,v){
-                if(v.nameGroupid == item[0].nameGroupid+1){
-                    v.nameGroupid -= 1;
-                }  
-            });
-            for(var i=0;i<item.length;i++){
-                item[i].nameGroupid+= 1;
-            }
-        }
-         $scope.details[0].names.sort(function(a,b){
-            return b.nameGroupid >= a.nameGroupid;
-         });
-        $scope.sortNameGroup($scope.details[0].names);
-    }
-    /*删除名称信息*/
-    $scope.removeNameInfo = function(item){
-        var nameLength = 0;
-        /*数组中删除*/
-        $.each($scope.nameGroup,function(i,v){
-            if(v && v[0].nameGroupid == item.nameGroupid){
-                $scope.nameGroup.splice(i,1);
-            }
-        });
-        /*由于names的长度是变化的，所以在循环前赋值给一个变量*/
-        var tempLength = $scope.details[0].names.length;
-        for(var i = 0;i<tempLength;i++){
-            if($scope.details[0].names[i] && $scope.details[0].names[i].nameGroupid == item.nameGroupid){
-                $scope.details[0].names.splice(i,1);
-                i -= 1;
-            }
-        }
-        $.each($scope.nameGroup,function(i,v){
-            $.each(v,function(m,n){
-                if(n){
-                    /*删除一个，之后的nameGroup都减一*/
-                    if(n.nameGroupid > item.nameGroupid){
-                        n.nameGroupid -= 1;
-                    }
-                    /*如果只剩一条名称信息*/
-                    /*if($scope.nameGroup.length == 1){
-                        $scope.nameGroup[0].nameGroupid = 1;
-                    }*/
-                    nameLength++;
-                } 
-            })
-        });
-    }
-    /*删除名称组下的名称信息*/
-    $scope.removeNameItem = function(item){
-        var tempLength = $scope.details[0].names.length;
-        var groupNum = 0;
-        /*统计该组下有多少个名称信息*/
-        for(var i=0;i<tempLength;i++){
-            if($scope.details[0].names[i] && $scope.details[0].names[i].nameGroupid == item.nameGroupid){
-                groupNum++;
-            }
-        }
-        for(var i = 0;i<tempLength;i++){
-            if($scope.details[0].names[i] && $scope.details[0].names[i].pid == item.pid){
-                $scope.details[0].names.splice(i,1);
-                if(groupNum == 1){
-                    for(var j=0;j<tempLength-1;j++){
-                        if($scope.details[0].names[j].nameGroupid > item.nameGroupid){
-                            $scope.details[0].names[j].nameGroupid -= 1;
-                        }
-                    }
-                }
-            }
-        }
-        $scope.sortNameGroup($scope.details[0].names);
-    }
-    /*新增名称信息*/
-    $scope.nameInfoAdd = function(){
-        var protoArr = $scope.details[0].names;
-        var newName = fastmap.dataApi.rdBranchName({
-            "pid":0,
-            "langCode":$scope.languageCode[0].code,
-            "nameGroupid":protoArr.length>0?protoArr[0].nameGroupid + 1:1,
-            "seqNum":this.nameGroupid
-        });
-        protoArr.unshift(newName);
-        $scope.sortNameGroup(protoArr);
-    }
     // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
-    $scope.$watch('subAttributeData',function(){
-        if(!objCtrl.data.hasOwnProperty('details') && !objCtrl.data.hasOwnProperty('signboards')){
-            return;
-        }
-        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
-        $scope.nameGroup = [];
-        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        if($scope.branchNameForm) {
-            $scope.branchNameForm.$setPristine();
-        }
-        initNameInfo();
-    });
+//    $scope.$watch('subAttributeData',function(){
+//        $scope.nameGroup = [];
+//        initNameInfo();
+//    });
 });
