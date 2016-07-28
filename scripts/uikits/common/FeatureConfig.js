@@ -24,6 +24,9 @@ fastmap.uikit.FeatureConfig = {
         "RDELECTRONICEYE": {
             name: "电子眼"
         },
+        "RDSLOPE": {
+            name: "坡度"
+        },
         "RDLANECONNEXITY": {
             name: "车信"
         },
