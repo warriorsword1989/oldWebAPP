@@ -80,7 +80,7 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'POIAUTODRAG': "poiAutoDrag",
     /*
-     引导坐标点随着显示坐标移动
+     增加poi
      */
     'POIADD': "poiAdd",
     /*
@@ -98,5 +98,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      电子眼旋转
      */
-    "ELECTRANSFORMDIRECT":"elecTransformDirect"
+    "ELECTRANSFORMDIRECT":"elecTransformDirect",
+    /*
+     增加poi
+     */
+    'RDSLOPE': "rdSlope"
 }

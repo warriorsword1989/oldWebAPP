@@ -963,6 +963,23 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
+            } else if (shapeCtrl.editType === "rdSlope"){
+                // var feature = selectCtrl.selectedFeatures,
+                //     point = feature.point;
+                // param = {
+                //     "linkPid": parseInt(feature.id),
+                //     "direct": parseInt(feature.direct),
+                //     "longitude": point.x,
+                //     "latitude": point.y
+                // };
+                dsEdit.create('RDSLOPE',geo).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDSLOPE", "创建坡度成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             }
         }
     });
