@@ -45,7 +45,9 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     map.currentTool = new fastmap.uikit.SelectForRestriction({
         map: map,
         createRestrictFlag: true,
-        currentEditLayer: rdLink
+        currentEditLayer: rdLink,
+        shapeEditor: shapeCtrl,
+        operationList:['line','point','line']
     });
     map.currentTool.enable();
     $scope.excitLineArr = [];

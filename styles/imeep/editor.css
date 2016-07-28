@@ -1259,7 +1259,7 @@ a.fm-panel-controlArrowRight > span {
   color: #fff;
 }
 .fm-dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
+.fm-dropdown-menu > li > a:focus {
   color: #e5e5e5;
   background-color: #1D1B1B;
   background-image: linear-gradient(to bottom, #1F1E1E 0%, #1F1E1E 100%);
@@ -1385,6 +1385,8 @@ a.fm-panel-controlArrowRight > span {
 }
 /*浮动面板，主要用于地图上方的操作按钮*/
 .map-toolbar {
+  position: absolute;
+  z-index: 1;
   background: rgba(64, 64, 64, 0.8);
   padding: 5px;
 }
@@ -1443,10 +1445,9 @@ a.fm-panel-controlArrowRight > span {
   position: fixed;
   bottom: -15px;
 }
-
 .btn-main {
-  color:white;
-  background: rgba(150,150,150,0.5);
+  color: #fff;
+  background: rgba(150, 150, 150, 0.5);
   padding: 3px 12px;
   font-size: 12px;
 }

@@ -556,6 +556,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         }else{
             $('body .datetip:last').hide();
         }
+        $('body .carTypeTip:last').hide();//关闭车辆类型
     }
     /*点击选择时间*/
     $scope.selectTime = function(e){

@@ -1,57 +1,27 @@
-<style>
-    h4{
-        padding-left: 10px;;
-        font-size: 16px;
-    }
-    .searchandle{
-        padding: 10px;
-        text-align: center;
-    }
-    input{
-        color: black;
-    }
-    .dropdown{
-        list-style: none;
-        position: relative;
-    }
-    .dropdown li{
-        display: block;
-        background: transparent!important;
-    }
-    .btngroup{
-        text-align: center;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 25px;
-        z-index: 10;
-    }
-    .dropdown-menu{
-        min-width: 66px!important;
-    }
-</style>
-<h4>搜索数据</h4>
-<div class="searchandle">
-    <div class="btn-group" uib-dropdown is-open="status.isopen">
-        <button id="single-button" type="button" class="btn btn-xs dropdown-toggle fm-xs-btn fm-group-btn" uib-dropdown-toggle ng-disabled="disabled">
-            搜 索 项 <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-            <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">道路名称</a></li>
-            <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">POI名称</a></li>
-            <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">道路种别</a></li>
-            <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">功能等级</a></li>
-            <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">道路PID</a></li>
-            <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">AD - PID</a></li>
-        </ul>
+<div class="fm-panel" ng-controller="SearchPanelCtrl" style="margin:0px;">
+    <div class="title">搜 索</div>
+    <div class="content" >
+        <div style="height:150px;">
+            <div class="input-group input-group-sm">
+                <div class="input-group-btn" uib-dropdown>
+                    <button type="button" class="btn btn-main dropdown-toggle" uib-dropdown-toggle>
+                    {{searchType || '搜索项'}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'道路Pid'"><a href="#" class="dropdown-menu-name">道路Pid</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'道路名称'"><a href="#" class="dropdown-menu-name">道路名称</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'POI Pid'"><a href="#" class="dropdown-menu-name">POI Pid</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'POI名称'"><a href="#" class="dropdown-menu-name">POI名称</a></li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" placeholder="搜 索" ng-model="searchText"/>
+            </div>
+        </div>
+        <div class="progress fm-progress" style="margin:8px;">
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
+        </div>
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">搜 索</button>
+        </div>
     </div>
-    <input style="height: 25px" placeholder="　搜索" />
-</div>
-<!-- 进度条 -->
-<div class="progress fm-progress" ng-show="showProcess" style="width: 205px;margin: 15px auto 0 auto">
-    <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" role="progressbar" ng-style="{ 'width': processValue + '%' }" style="width: 0%"></div>
-</div>
-<div class="btngroup">
-    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px" ng-click="handleMethod('search')">搜　　索</button>
-    <button type="button" class="btn btn-xs" style="color:white;background: rgba(150,150,150,0.5);padding: 3px 12px" ng-click="closeToolwindow()">关　　闭</button>
 </div>

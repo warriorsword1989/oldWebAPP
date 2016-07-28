@@ -14,7 +14,7 @@
             <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
         </div>
         <div style="text-align:center;">
-            <button type="button" class="btn btn-main" ng-click="doExecute()">执 行</button>
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行</button>
         </div>
     </div>
 </div>
