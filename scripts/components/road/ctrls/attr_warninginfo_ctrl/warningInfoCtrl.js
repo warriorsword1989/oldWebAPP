@@ -67,7 +67,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         '13602左侧绕行':'左侧绕行',
         '13603右侧绕行':'右侧绕行',
         '13701注意危险':'注意危险',
-        '13702通用警示':'通用警示',
+        '13702文字警示':'文字警示',
         '13703交通意外黑点':'交通意外黑点',
         '13801施工':'施工',
         '13901建议速度':'建议速度',
@@ -88,22 +88,22 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         '14701前方车辆排队信息':'前方车辆排队信息'
     };
 
-    //$scope.rdWarningInfoObj = {};
-    //$scope.rdWarningInfoObj.typeCode = 10101;
 
     $scope.pageSize = 6;
     var typeCodeArr = [];//结果集
 
     $scope.initializeData = function(){
-        //objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         console.log(objCtrl.data.getIntegrate())
         $scope.rdWarningInfoObj = objCtrl.data;
+        $scope.typeCodeImg = objCtrl.data.typeCode; //用于显示图片
 
     };
 
     /*点击选中的图片*/
     $scope.selectPicCode = function (code) {
         $scope.rdWarningInfoObj.typeCode = code.substr(0,5);//只取编号部分
+        $scope.typeCodeImg = $scope.rdWarningInfoObj.typeCode;
         $scope.showImgData = false;
     };
 
@@ -153,8 +153,9 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         var len = $scope.picNowNum * $scope.pageSize > typeCodeArr.length ? typeCodeArr.length : $scope.picNowNum * $scope.pageSize;
         $scope.pictures = [];
         for (var i = ($scope.picNowNum-1) * $scope.pageSize ; i < len;i ++){
+            var srcCode = typeCodeArr[i].code.substr(0,5);
             $scope.pictures.push({
-                src:'../../../images/road/1301/1301_0_0.svg',
+                src:'../../../images/road/warningInfo/'+srcCode+'.svg',
                 code:typeCodeArr[i].code,
                 fileName:typeCodeArr[i].name
             });
@@ -182,31 +183,43 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
                 $ocLazyLoad.load('scripts/components/road/ctrls/attr_warninginfo_ctrl/carTypeCtrl').then(function() {
                     $scope.carPopoverURL = '../../../scripts/components/road/tpls/attr_warninginfo_tpl/carTypeTpl.html';
                 });
-                // /!*查询数据库取出时间字符串*!/
-                // $timeout(function() {
-                //     $scope.fmdateTimer($scope.oridiData.timeDomain);
-                //     $scope.$broadcast('set-code', $scope.oridiData.timeDomain);
-                //     if ($scope.oridiData.type == 8 || $scope.oridiData.type == 9) {
-                //         $scope.$broadcast('btn-control', {
-                //             'empty': 'hide',
-                //             'add': 'hide',
-                //             'delete': 'hide'
-                //         });
-                //     }
-                //     $scope.$apply();
-                // }, 100);
+
+                $timeout(function() {
+                    $scope.$on('get-date', function(event, data) {
+                        $scope.rdWarningInfoObj.timeDomain = data;
+                    });
+                    $timeout(function() {
+                        $scope.$broadcast('set-code', $scope.rdWarningInfoObj.timeDomain);
+                        $scope.$apply();
+                    }, 100);
+                }, 100);
             });
         });
     }
-
+    //初始化时执行
     timeoutLoad();
     $scope.initializeData();
+
 
     $scope.cancel = function (){
     };
 
     // 保存数据
     $scope.save  = function () {
+        console.info($scope.rdWarningInfoObj);
+        objCtrl.save();
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+        console.info(objCtrl.changedProperty);
+        dsEdit.update($scope.rdWarningInfoObj.pid, "RDWARNINGINFO", objCtrl.changedProperty).then(function(data) {
+            if (data) {
+                relationData.redraw();
+
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+            }
+        });
     };
     // 删除数据
     $scope.del = function() {
