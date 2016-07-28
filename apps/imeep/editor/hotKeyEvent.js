@@ -1059,9 +1059,27 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDELECTRONICEYE", "编辑RDELECTRONICEYE成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
                 })
-            } else if (shapeCtrl.editType === "rdSlope") {
-                dsEdit.create('RDSLOPE', geo).then(function (data) {
-                    if (data != null) {
+            } else if (shapeCtrl.editType === "ADDELECTRONICGROUP") {
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDELECEYEPAIR",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "startPid":featCodeCtrl.getFeatCode().startPid.toString(),
+                        "endPid":featCodeCtrl.getFeatCode().endPid.toString()
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDELECTRONICEYE", "编辑RDELECTRONICEYE成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+                })
+            } else if (shapeCtrl.editType === "rdSlope"){
+                dsEdit.create('RDSLOPE',geo).then(function(data) {
+                    if(data != null){
                         relationData.redraw();
                         treatmentOfChanged(data, "RDSLOPE", "创建坡度成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
                     } else {
