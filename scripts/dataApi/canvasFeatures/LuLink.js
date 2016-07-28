@@ -8,7 +8,7 @@ fastmap.uikit.canvasFeature.LULink = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['snode'] = item.m.a;
         this.properties['enode'] = item.m.b;
         this.properties['kind'] = item.m.c;
-        this.properties['style']['strokeColor'] = '#FF0000';
+        this.properties['style']['strokeColor'] = '#DAA520';
         this.properties['style']['strokeWidth'] = 3;
         this.properties['style']['strokeOpacity'] = 1;
     }
