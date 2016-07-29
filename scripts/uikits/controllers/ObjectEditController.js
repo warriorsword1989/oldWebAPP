@@ -123,6 +123,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDELECTRONICEYE":
                         this.data = fastmap.dataApi.rdElectronicEye(obj);
                         break;
+                    case "RDGATE":
+                        this.data = fastmap.dataApi.RdGate(obj);
+                        break;
                     case "LUNODE":
                         this.data = fastmap.dataApi.luNode(obj);
                         break;
