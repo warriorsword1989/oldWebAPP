@@ -1325,6 +1325,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             }
                         })
                     });
+                    return;
                 } else if (type === "MODIFYOUTLINE") {
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
