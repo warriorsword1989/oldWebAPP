@@ -10,6 +10,7 @@
         "RdRestriction.js",
         "RdSpeedLimit.js",
         "RdSlope.js",
+        "RdGate.js",
         "RdCross.js",
         "RdLaneConnexity.js",
         "AdAdmin.js",
