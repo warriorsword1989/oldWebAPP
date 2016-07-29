@@ -609,6 +609,57 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_zone_tpl/zoneFaceTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "ZONEFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
+                case "LUNODE":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "移动LUNODE点",
+                            'type': "PATHNODEMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lu_tpl/luNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LUNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case "LUFACE":
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luFaceCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lu_tpl/luFaceTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LUFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "LULINK":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'title': "插入形状点",
+                            'type': 'PATHVERTEXINSERT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'title': "删除形状点",
+                            'type': 'PATHVERTEXREMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "修改形状点",
+                            'type': 'PATHVERTEXMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'title': "打断link",
+                            'type': 'PATHBREAK',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lu_tpl/luLinkTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LULINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
                 case "IXPOI":
                     $scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
 
@@ -1183,14 +1234,41 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                         return;
                     }
-                } else if (type === "ADDPAIRBOND") {
-                    if (selectCtrl.selectedFeatures) {
-                        tooltipsCtrl.setEditEventType('UPDATEELECTRONICEYE');
-                        tooltipsCtrl.setCurrentTooltip('开始配对！');
-                    } else {
-                        tooltipsCtrl.setCurrentTooltip('正要增加配对关系,先选择配对电子眼！');
-                        return;
-                    }
+                } else if (type === "ADDPAIRBOND") {    //配对电子眼
+                    map.currentTool = new fastmap.uikit.SelectRelation({
+                        map: map,
+                        relationFlag: true
+                    });
+                    map.currentTool.enable();
+                    editLayer.bringToBack();
+                    tooltipsCtrl.setCurrentTooltip('请选择配对的电子眼！');
+                    eventController.off(eventController.eventTypes.GETRELATIONID);
+                    eventController.on(eventController.eventTypes.GETRELATIONID, function(data){
+                        $scope.selectedFeature = data;
+                        $scope.$emit("SWITCHCONTAINERSTATE", {
+                            "subAttrContainerTpl": false
+                        });
+                        //地图小于17级时不能选择
+                        if (map.getZoom < 17) {
+                            return;
+                        }
+                        map.closePopup();//如果有popup的话清除它
+                        if (map.floatMenu) {
+                            map.removeLayer(map.floatMenu);
+                            map.floatMenu = null;
+                        }
+                        //清除上一个选择的高亮
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                        featCodeCtrl.setFeatCode({
+                            "startPid": objCtrl.data.pid.toString(),
+                            "endPid": data.id.toString()
+                        });
+                        //设置热键修改时的监听类型;
+                        shapeCtrl.setEditingType("ADDELECTRONICGROUP");
+                        //退出线选完后的鼠标提示;
+                        tooltipsCtrl.setCurrentTooltip('点击空格新增区间从测速电子眼组成！');
+                    });
                 } else if (type === "PATHNODEMOVE") {
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('pathNodeMove');
@@ -1200,8 +1278,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         return;
                     }
                 } else if (type === "MODIFYNODE") {
-                    var minLen = 100000,
-                        pointsOfDis, pointForAngle, angle;
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -1226,43 +1302,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     direct: pro.direct,
                                     point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                                 });
-                                var linkArr = data.geometry.coordinates,
-                                    points = [];
-                                if (pro.direct == 1) {
-                                    tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
-                                    var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                                    var link = linkArr;
-                                    for (var i = 0, len = link.length; i < len; i++) {
-                                        pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
-                                        if (pointsOfDis < minLen) {
-                                            minLen = pointsOfDis;
-                                            pointForAngle = link[i];
-                                        }
-                                    }
-                                    angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
-                                    var marker = {
-                                        flag: true,
-                                        point: point,
-                                        type: "marker",
-                                        angle: angle,
-                                        orientation: "2",
-                                        pointForDirect: point
-                                    };
-                                    layerCtrl.pushLayerFront('edit');
-                                    var sObj = shapeCtrl.shapeEditorResult;
-                                    editLayer.drawGeometry = marker;
-                                    editLayer.draw(marker, editLayer);
-                                    sObj.setOriginalGeometry(marker);
-                                    sObj.setFinalGeometry(marker);
-                                    shapeCtrl.setEditingType('elecTransformDirect');
-                                    shapeCtrl.startEditing();
-                                    tooltipsCtrl.setCurrentTooltip("选择方向!");
-                                    tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-                                } else {
-                                    shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                                    tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
-                                    shapeCtrl.setEditingType('elecTransformDirect');
-                                }
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,移动电子眼点位!');
+                                shapeCtrl.setEditingType('elecTransformDirect');
                             }
                         })
                     });

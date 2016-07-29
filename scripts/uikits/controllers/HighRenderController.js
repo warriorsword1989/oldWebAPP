@@ -435,6 +435,11 @@ fastmap.uikit.HighRenderController = (function() {
 
                 var a = guidePixel[0] - 256*guideTilePoint[0];
                 var b = guidePixel[1] - 256*guideTilePoint[1];
+                //防止超出瓦片范围
+                a = a < 5 ? 5 : a;
+                a = a > 250 ? 250 : a;
+                b = b < 5 ? 5 : b;
+                b = b > 250 ? 250 : b;
                 var point_guide = [];
                 point_guide.push(a);
                 point_guide.push(b);

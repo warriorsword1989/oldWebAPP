@@ -54,6 +54,11 @@
                 "dataApi/road/ZoneLinkKind.js",
                 "dataApi/road/RdWarningInfo.js",
                 "dataApi/road/ZoneFace.js",
+                "dataApi/road/LUNode.js",
+                "dataApi/road/LULink.js",
+                "dataApi/road/LUFace.js",
+                "dataApi/road/LULinkKind.js",
+                "dataApi/road/LuFaceName.js",
                 "dataApi/road/RdTrafficSignal.js",
                 "dataApi/road/RdElectronicEye.js"
             ]; // etc.

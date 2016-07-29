@@ -154,7 +154,7 @@ App.layersConfig = [{
             zIndex: 6,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE',
             showNodeLevel: 17
         }
     }, {
@@ -393,6 +393,84 @@ App.layersConfig = [{
         url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
+            id: 'luNode',
+            name: 'LU点',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Point',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'LUNODE',
+            showNodeLevel: 17
+        }
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'luLink',
+            name: 'LU线',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'LULINK',
+            showNodeLevel: 17
+        }
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'luFace',
+            name: 'LU面',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Polygon',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'LUFACE',
+            showNodeLevel: 17
+        }
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
             name: '兴趣点（POI）',
             id: 'poi',
             maxZoom: 20,
@@ -464,7 +542,7 @@ App.layersConfig = [{
             type: 'TipPoint',
             zIndex: 9,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: "",
             showNodeLevel: 17
         }
