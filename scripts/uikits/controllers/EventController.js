@@ -127,7 +127,7 @@ fastmap.uikit.EventController=(function() {
                     return this;
                 },
                 clearAllEventListeners: function () {
-                    delete this[eventsKey];
+                    // delete this[eventsKey];
                     this.eventTypesMap={};
                     return this;
                 }

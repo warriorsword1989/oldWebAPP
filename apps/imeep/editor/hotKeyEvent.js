@@ -965,7 +965,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
 
                 });
-            } else if (shapeCtrl.editType === "elecTransformDirect") {    //电子眼
+            } else if (shapeCtrl.editType === "electronicEye") {    //电子眼
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
                 var startPoint = feature.geometry[0],
@@ -1024,25 +1024,27 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
-            } else if (shapeCtrl.editType === "RDELECTRONICEYE"){
-                var feature = selectCtrl.selectedFeatures,
-                    point = feature.point;
-                param = {
-                    "linkPid": parseInt(feature.id),
-                    "direct": parseInt(feature.direct),
-                    "longitude": point.x,
-                    "latitude": point.y
-                };
-                dsEdit.create('RDELECTRONICEYE',param).then(function(data) {
-                    if(data != null){
-                        relationData.redraw();
-                        treatmentOfChanged(data, "RDELECTRONICEYE", "创建电子眼成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
-                    } else {
-                        resetPage();
-                    }
-                });
-
-            } else if (shapeCtrl.editType === "UPDATEELECTRONICEYE") {
+            }
+            // else if (shapeCtrl.editType === "RDELECTRONICEYE"){
+            //     var feature = selectCtrl.selectedFeatures,
+            //         point = feature.point;
+            //     param = {
+            //         "linkPid": parseInt(feature.id),
+            //         "direct": parseInt(feature.direct),
+            //         "longitude": point.x,
+            //         "latitude": point.y
+            //     };
+            //     dsEdit.create('RDELECTRONICEYE',param).then(function(data) {
+            //         if(data != null){
+            //             relationData.redraw();
+            //             treatmentOfChanged(data, "RDELECTRONICEYE", "创建电子眼成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+            //         } else {
+            //             resetPage();
+            //         }
+            //     });
+            //
+            // }
+            else if (shapeCtrl.editType === "UPDATEELECTRONICEYE") {
                 var param = {
                     "command": "UPDATE",
                     "type": "RDELECTRONICEYE",
