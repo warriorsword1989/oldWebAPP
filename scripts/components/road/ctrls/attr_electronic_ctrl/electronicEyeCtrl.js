@@ -139,7 +139,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				"command": "DELETE",
 				"type": "RDELECEYEPAIR",
 				"dbId": App.Temp.dbId,
-				"objId": $scope.electronicEyeData.parts[0].eleceyePid
+				"objId": $scope.electronicEyeData.parts[0].groupId
 			};
 			dsEdit.save(param).then(function (data) {
 				if (data) {
