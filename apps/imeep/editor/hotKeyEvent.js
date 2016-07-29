@@ -1061,6 +1061,26 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDELECTRONICEYE", "编辑RDELECTRONICEYE成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
                 })
+            } else if (shapeCtrl.editType === "updateElecNode") {
+                var param = {
+                    "command": "MOVE",
+                    "type": "RDELECTRONICEYE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPid":featCodeCtrl.getFeatCode().linkPid.toString(),
+                        "pid":featCodeCtrl.getFeatCode().pid.toString(),
+                        "latitude":featCodeCtrl.getFeatCode().latitude.toString(),
+                        "longitude":featCodeCtrl.getFeatCode().longitude.toString()
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDELECTRONICEYE", "编辑RDELECTRONICEYE成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+                })
             } else if (shapeCtrl.editType === "ADDELECTRONICGROUP") {
                 var param = {
                     "command": "CREATE",
