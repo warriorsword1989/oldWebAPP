@@ -87,6 +87,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                         ret = new fastmap.uikit.canvasFeature.RwNode(data);
                     }
                     break;
+                case 23://大门
+                    ret = new fastmap.uikit.canvasFeature.RdGate(data);
+                    break;
                 case 24://坡度
                     ret = new fastmap.uikit.canvasFeature.RdSlope(data);
                     break;
