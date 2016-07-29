@@ -117,6 +117,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDWARNINGINFO":
                         this.data = fastmap.dataApi.rdWarningInfo(obj);  //警示信息
                         break;
+                    case "RDGATE":
+                        this.data = fastmap.dataApi.rdGate(obj);  //大门
+                        break;
                     case "RDELECTRONICEYE":
                         this.data = fastmap.dataApi.rdElectronicEye(obj);
                         break;
