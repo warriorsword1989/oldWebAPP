@@ -26,6 +26,7 @@
         "RdGscPart.js",
         "RdGsc.js",
         "IXPOI.js",
+        "RdWarningInfo.js",
         "RdTrafficSignal.js",
         "RdElectronicEye.js",
         "Tips.js",

@@ -23,6 +23,7 @@ App.Temp = {
         RDLANECONNEXITY: '车信',
         RDLINKINTRTIC: '实时信息',
         RDGSC: '立交',
+        RDWARNINGINFO:'警示信息',
         RDTRAFFICSIGNAL:'信号灯',
         RDELECTRONICEYE:'电子眼'
     }

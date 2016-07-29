@@ -6,6 +6,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     var eventCtrl = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var relationData = layerCtrl.getLayerById('relationData');
 
     $scope.typeCodes = {
@@ -97,6 +98,16 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         console.log(objCtrl.data.getIntegrate())
         $scope.rdWarningInfoObj = objCtrl.data;
         $scope.typeCodeImg = objCtrl.data.typeCode; //用于显示图片
+
+        var highlightFeatures = [];
+        highlightFeatures.push({
+            id:$scope.rdWarningInfoObj.linkPid.toString(),
+            layerid:'rdLink',
+            type:'line',
+            style:{}
+        })
+        highRenderCtrl.highLightFeatures =highlightFeatures;
+        highRenderCtrl.drawHighlight();
 
     };
 
@@ -223,7 +234,18 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     };
     // 删除数据
     $scope.del = function() {
+        dsEdit.delete($scope.rdWarningInfoObj.pid, "RDWARNINGINFO").then(function(data) {
+            if (data) {
+                relationData.redraw();
+                $scope.rdWarningInfoObj = null;
+                // var editorLayer = layerCtrl.getLayerById("edit");
+                // editorLayer.clear();
+                highRenderCtrl._cleanHighLight(); //清空高亮
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+            }
+        });
     };
+
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, $scope.save); // 保存
     eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, $scope.del); // 删除
