@@ -1260,14 +1260,26 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         //清除上一个选择的高亮
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
-                        featCodeCtrl.setFeatCode({
-                            "startPid": objCtrl.data.pid.toString(),
-                            "endPid": data.id.toString()
+                        dsEdit.getByPid(data.id.toString(),'RDELECTRONICEYE').then(function(elecData){
+                            if(objCtrl.data.kind == 20 && elecData.kind == 21) {
+                                featCodeCtrl.setFeatCode({
+                                    "startPid": objCtrl.data.pid.toString(),
+                                    "endPid": data.id.toString()
+                                });
+                            } else if (objCtrl.data.kind == 21 && elecData.kind == 20) {
+                                featCodeCtrl.setFeatCode({
+                                    "startPid": data.id.toString(),
+                                    "endPid": objCtrl.data.pid.toString()
+                                });
+                            } else {
+                                swal("操作失败", '请选择电子眼类型为“区间测速开始”和“区间测速结束”！', "warning");
+                                return;
+                            }
+                            //设置热键修改时的监听类型;
+                            shapeCtrl.setEditingType("ADDELECTRONICGROUP");
+                            //退出线选完后的鼠标提示;
+                            tooltipsCtrl.setCurrentTooltip('点击空格新增区间从测速电子眼组成！');
                         });
-                        //设置热键修改时的监听类型;
-                        shapeCtrl.setEditingType("ADDELECTRONICGROUP");
-                        //退出线选完后的鼠标提示;
-                        tooltipsCtrl.setCurrentTooltip('点击空格新增区间从测速电子眼组成！');
                     });
                 } else if (type === "PATHNODEMOVE") {
                     if (selectCtrl.selectedFeatures) {
