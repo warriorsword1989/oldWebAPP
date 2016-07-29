@@ -5,7 +5,12 @@
             <span class="label label-info">{{rdWarningInfoObj.pid}}</span>
         </div>
         <div style="text-align: center;">
-            <img ng-src="../../../images/road/warningInfo/{{typeCodeImg}}.svg" style="height: 100px;width: 140px;">
+            <div ng-if="typeCodeImg">
+                <img ng-src="../../../images/road/warningInfo/{{typeCodeImg}}.svg" style="height: 100px;width: 140px;">
+            </div>
+            <div ng-if="!typeCodeImg">
+                <img ng-src="../../../images/road/img/noimg.png" style="height: 100px;width: 140px;">
+            </div>
         </div>
         <div class="content">
             <form>

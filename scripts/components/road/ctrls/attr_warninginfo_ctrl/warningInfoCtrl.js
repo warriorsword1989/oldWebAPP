@@ -95,7 +95,6 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        console.log(objCtrl.data.getIntegrate())
         $scope.rdWarningInfoObj = objCtrl.data;
         $scope.typeCodeImg = objCtrl.data.typeCode; //用于显示图片
 
