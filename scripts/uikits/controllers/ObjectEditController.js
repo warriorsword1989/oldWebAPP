@@ -309,7 +309,9 @@ fastmap.uikit.ObjectEditController = (function() {
                             for (var k = 0, lenK = oriData[item].length; k < lenK; k++) {
                                 if (indexOfData[oriData[item][k][key]]) {
                                     var obj = this.compareJson(pids,oriData[item][k], data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
-                                    objArr.push(obj);
+                                    if (obj) {
+                                        objArr.push(obj);
+                                    }
                                 } else {
                                     obj = oriData[item][k];
                                     obj["objStatus"] = "DELETE";
