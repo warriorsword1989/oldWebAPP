@@ -34,6 +34,8 @@ fastmap.dataApi.RdElectronicEye = fastmap.dataApi.GeoDataModel.extend({
         this.uFields = data["uFields"] || null;
         this.uRecord = data["uRecord"] || 0;
         this.uDate = data["uDate"] || null;
+        this.pairs = data["pairs"] || [];
+        this.parts = data["parts"] || [];
     },
 
     /**
@@ -61,6 +63,8 @@ fastmap.dataApi.RdElectronicEye = fastmap.dataApi.GeoDataModel.extend({
         data["uFields"] = this.uFields;
         data["uRecord"] = this.uRecord;
         data["uDate"] = this.uDate;
+        data["pairs"] = this.pairs;
+        data["parts"] = this.parts;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -90,6 +94,8 @@ fastmap.dataApi.RdElectronicEye = fastmap.dataApi.GeoDataModel.extend({
         data["uFields"] = this.uFields;
         data["uRecord"] = this.uRecord;
         data["uDate"] = this.uDate;
+        data["pairs"] = this.pairs;
+        data["parts"] = this.parts;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
