@@ -1304,23 +1304,67 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
-                        dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                            if (data) {
-                                selectCtrl.onSelected({
-                                    geometry: data.geometry.coordinates,
-                                    id: data.pid,
-                                    direct: pro.direct,
-                                    point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
-                                });
-                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                                tooltipsCtrl.setCurrentTooltip('请点击空格,移动电子眼点位!');
-                                featCodeCtrl.setFeatCode({
-                                    "longitude": shapeCtrl.shapeEditorResult.getFinalGeometry().x.toString(),
-                                    "latitude": shapeCtrl.shapeEditorResult.getFinalGeometry().y.toString()
-                                });
-                                shapeCtrl.setEditingType('updateElecNode');
-                            }
-                        })
+                        function fD(a, b, c) {
+                            for (; a > c;)
+                                a -= c - b;
+                            for (; a < b;)
+                                a += c - b;
+                            return a;
+                        };
+                        function jD(a, b, c) {
+                            b != null && (a = Math.max(a, b));
+                            c != null && (a = Math.min(a, c));
+                            return a;
+                        };
+                        function yk(a) {
+                            return Math.PI * a / 180
+                        };
+                        function Ce(a, b, c, d) {
+                            var dO = 6370996.81;
+                            return dO * Math.acos(Math.sin(c) * Math.sin(d) + Math.cos(c) * Math.cos(d) * Math.cos(b - a));
+                        };
+                        function getDistance(a, b) {
+                            if (!a || !b)
+                                return 0;
+                            a.lng = fD(a.lng, -180, 180);
+                            a.lat = jD(a.lat, -74, 74);
+                            b.lng = fD(b.lng, -180, 180);
+                            b.lat = jD(b.lat, -74, 74);
+                            return Ce(yk(a.lng), yk(b.lng), yk(a.lat), yk(b.lat));
+                        };
+                        var actualDistance = getDistance(
+                            {
+                                lng : $scope.selectedFeature.event.latlng.lng,
+                                lat: $scope.selectedFeature.event.latlng.lat
+                            },
+                            {
+                                lng : shapeCtrl.shapeEditorResult.getFinalGeometry().x,
+                                lat :shapeCtrl.shapeEditorResult.getFinalGeometry().y
+                            });
+                        if(actualDistance > 100){
+                            swal("操作失败", '移动距离必须小于100米！', "warning");
+                            return;
+                        }else{
+                            dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                                if (data) {
+                                    featCodeCtrl.setFeatCode({
+                                        "linkPid": data.pid.toString(),
+                                        "pid": objCtrl.data.pid.toString(),
+                                        "longitude": shapeCtrl.shapeEditorResult.getFinalGeometry().x,
+                                        "latitude": shapeCtrl.shapeEditorResult.getFinalGeometry().y
+                                    });
+                                    selectCtrl.onSelected({
+                                        geometry: data.geometry.coordinates,
+                                        id: data.pid,
+                                        direct: pro.direct,
+                                        point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                                    });
+                                    shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                    tooltipsCtrl.setCurrentTooltip('请点击空格,移动电子眼点位!');
+                                    shapeCtrl.setEditingType('updateElecNode');
+                                }
+                            })
+                        }
                     });
                     return;
                 } else if (type === "MODIFYOUTLINE") {
