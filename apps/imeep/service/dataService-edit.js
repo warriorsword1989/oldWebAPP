@@ -400,7 +400,13 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": "0",
                     "childPid": ""
                 });
-                swal(opDesc + "操作成功", "", "success");
+//                swal(opDesc + "操作成功", "", "success");
+                swal({
+                    title: opDesc + "操作成功",
+                    type: "success",
+                    timer: 1200,
+                    showConfirmButton: false
+                });
                 defer.resolve(data.data);
             } else {
                 dsOutput.push({
