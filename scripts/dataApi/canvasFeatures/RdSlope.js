@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdSlope = fastmap.uikit.canvasFeature.Feature.extend
         this.properties["featType"] = "RDSLOPE";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/rdSlope/' + item.m.a + '.svg',
+                iconName: '../../../images/road/rdSlope/' + parseInt(item.m.a) + '.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],

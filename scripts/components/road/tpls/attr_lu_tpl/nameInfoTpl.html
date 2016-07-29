@@ -12,7 +12,7 @@
 </style>
 <div id="braNameDiv" class="detail-info-box" ng-controller="nameInfoCtrl">
     <div class="detail-info-title">
-    名称信息（共 <span ng-bind="details[0].names.length">0</span>  条）
+    名称信息（共 <span ng-bind="names.length">0</span>  条）
                 <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;font-size: 20px;cursor: pointer;color: #fff;" ng-click="nameInfoAdd()"></span>
     </div>
     <form name="branchNameForm">
@@ -21,12 +21,12 @@
             <div class="info-head-well">
                 名称组
                 <span ng-bind="item[0].nameGroupid" style="line-height: 2.5;"></span>
-                <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> �� </span>
-                <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="����" ng-if="$index!=details[0].names.length-1"></span>
-                <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="����" ng-if="$index!=0"></span>
+                <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
+                <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=details[0].names.length-1"></span>
+                <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
             </div>
             <div class="name-group-item" ng-repeat="nameObj in item">
-                <span class="info-option-item info-remove-ico pull-right" ng-click="removeNameItem(nameObj)"> �� </span>
+                <span class="info-option-item info-remove-ico pull-right" ng-click="removeNameItem(nameObj)"> × </span>
                 <div class="line line-dashed b-b line-lg">
                     <div class="d-group">
                         <div class="d-name">名称号码：</div>
@@ -43,21 +43,21 @@
                     <div class="d-group">
                         <div class="d-name">名称内容：</div>
                         <div class="d-value">
-                            <input type="text" class="d-input name-voincefile" placeholder="�������"
-                                   ng-model="nameObj.voiceFile">
+                            <input type="text" class="d-input" placeholder="名称内容"
+                                   ng-model="nameObj.name">
                         </div> 
                     </div>
                     <div class="d-group">
-                        <div class="d-name">名称发音</div>
+                        <div class="d-name">名称发音：</div>
                         <div class="d-value">
-                            <input type="text" class="d-input name-phonetic" placeholder="��Ʒ���"
+                            <input type="text" class="d-input name-phonetic" placeholder="名称发音"
                                    ng-model="nameObj.phonetic">
                         </div> 
                     </div>
                     <div class="d-group">
-                        <div class="d-name">名称来源</div>
+                        <div class="d-name">名称来源：</div>
                         <div class="d-value">
-                            <input type="text" class="d-input" placeholder="�����Դ" ng-model="nameObj.srcFlag">
+                        	<select class="d-input"  ng-model="nameObj.srcFlag" ng-options="value.code as value.label for value in nameSource" ></select>
                         </div> 
                     </div>
                 </div>
