@@ -1,0 +1,72 @@
+<div class="fm-component" ng-controller="rdGateController" >
+    <div class="title">
+        大门PID
+        <span class="label label-info" >{{rdNodeData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="nodeForm">
+            <div class="fm-panel" >
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>进入线</label>
+                            <div>
+                                <input class="fm-control" type="text"  ng-model="rdNodeData.difGroupid">
+                            </div>
+                        </li>
+                        <li>
+                            <label>退出线</label>
+                            <div>
+                                <input class="fm-control" type="text"  ng-model="rdNodeData.difGroupid">
+                            </div>
+                        </li>
+                        <li>
+                            <label>大门类型</label>
+                            <div>
+                                <label ng-repeat="(key, value) in gateTypeOptions">
+                                	<input type="radio" value="{{key}}" ng-model=""> {{value}}
+                            	</label>
+                            </div>
+                        </li>
+                        <li>
+                            <label>大门方向</label>
+                            <div>
+                                <label ng-repeat="(key, value) in gateDirOptions">
+                                	<input type="radio" value="{{key}}" ng-model=""> {{value}}
+                            	</label>
+                            </div>
+                        </li>
+                        <li>
+                            <label>收费标识</label>
+                            <div>
+                                <label ng-repeat="(key, value) in gateFeeOptions">
+                                	<input type="radio" value="{{key}}" ng-model=""> {{value}}
+                            	</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fm-panel">
+            	<ul class="list-group list-group-lg m-b-none" >
+			        <li class="list-group-item">
+			            <div class="list-name">
+			                <a ng-click="addLimitTruck()" style="cursor: pointer;color: #ffffff;">大门限制信息（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
+			            </div>
+			            <div class="list-line"></div>
+			        </li>
+			        <li class="list-group-item" ng-repeat="truckItem in linkLimitData.limitTrucks">
+			            <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{dirItem.label}}</label></div>
+			            <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index,1)"></i>
+			        </li>
+			        <li class="list-group-item" >
+			            <div ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;">
+			            	<label class="control-label" style="cursor: pointer;">道路</label>
+			            </div>
+			            <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index,1)"></i>
+			        </li>
+			    </ul>
+            </div>
+        </form>
+    </div>
+</div>
