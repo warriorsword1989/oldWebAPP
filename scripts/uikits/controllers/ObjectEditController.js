@@ -117,6 +117,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDWARNINGINFO":
                         this.data = fastmap.dataApi.rdWarningInfo(obj);  //警示信息
                         break;
+                    case "RDGATE":
+                        this.data = fastmap.dataApi.rdGate(obj);  //大门
+                        break;
                     case "RDELECTRONICEYE":
                         this.data = fastmap.dataApi.rdElectronicEye(obj);
                         break;
@@ -312,7 +315,9 @@ fastmap.uikit.ObjectEditController = (function() {
                             for (var k = 0, lenK = oriData[item].length; k < lenK; k++) {
                                 if (indexOfData[oriData[item][k][key]]) {
                                     var obj = this.compareJson(pids,oriData[item][k], data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
-                                    objArr.push(obj);
+                                    if (obj) {
+                                        objArr.push(obj);
+                                    }
                                 } else {
                                     obj = oriData[item][k];
                                     obj["objStatus"] = "DELETE";
