@@ -1,11 +1,11 @@
 <div ng-controller="warningInfoCtl">
     <div class="fm-component" >
         <div class="title">
-            限速PID
-            <span class="label label-info">12345</span>
+            警示信息PID
+            <span class="label label-info">{{rdWarningInfoObj.pid}}</span>
         </div>
         <div style="text-align: center;">
-            <img src="../../../images/road/1301/1301_0_0.svg" style="height: 100px;width: 140px;">
+            <img ng-src="../../../images/road/warningInfo/{{typeCodeImg}}.svg" style="height: 100px;width: 140px;">
         </div>
         <div class="content">
             <form>

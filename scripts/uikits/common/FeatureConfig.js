@@ -18,11 +18,17 @@ fastmap.uikit.FeatureConfig = {
         "RDCROSS": {
             name: "路口"
         },
+        "RDWARNINGINFO": {
+            name: "警示信息"
+        },
         "RDTRAFFICSIGNAL": {
             name: "信号灯"
         },
         "RDELECTRONICEYE": {
             name: "电子眼"
+        },
+        "RDGATE": {
+            name: "大门"
         },
         "RDSLOPE": {
             name: "坡度"

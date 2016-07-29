@@ -137,9 +137,9 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		}, function () {
 			var param = {
 				"command": "DELETE",
-				"type": "RDELECTRONICEYE",
+				"type": "RDELECEYEPAIR",
 				"dbId": App.Temp.dbId,
-				"objId": $scope.electronicEyeData.pairs.eleceyePid
+				"objId": $scope.electronicEyeData.parts[0].eleceyePid
 			};
 			dsEdit.save(param).then(function (data) {
 				if (data) {
@@ -179,7 +179,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				}
 				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
-				swal("操作成功", "修改信号灯成功！", "success");
+				swal("操作成功", "修改电子眼成功！", "success");
 			}
 			$scope.refreshData();
 		})

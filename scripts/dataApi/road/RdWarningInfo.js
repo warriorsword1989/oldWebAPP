@@ -52,6 +52,7 @@ fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
         data["vehicle"] = this.vehicle;
         data["descript"] = this.descript;
         data["rowId"] = this.rowId;
+        data["geoLiveType"]  = this.geoLiveType;
 
         return data;
     },
@@ -74,6 +75,7 @@ fastmap.dataApi.RdWarningInfo = fastmap.dataApi.GeoDataModel.extend({
         data["vehicle"] = this.vehicle;
         data["descript"] = this.descript;
         data["rowId"] = this.rowId;
+        data["geoLiveType"]  = this.geoLiveType;
 
         return data;
     }

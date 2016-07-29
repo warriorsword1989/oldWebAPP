@@ -113,24 +113,23 @@
                 </ul>
             </div>
         </div>
-        <div class="fm-panel">
+        <div class="fm-panel" ng-if="electronicEyeData.parts.length != 0">
             <div class="d-box-title">配对关系</div>
             <span class="d-title-icon" ng-click="deletePairBond();">
                 <i class="glyphicon glyphicon-remove-sign"></i>
             </span>
             <div class="content">
-                <!--<div class="content" ng-if="electronicEyeData.pairs">-->
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label class="control-label">配对组号</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.pairs.groupId"/>
+                            <input type="text" ng-model="electronicEyeData.parts[0].groupId"/>
                         </div>
                     </li>
                     <li>
                         <label class="control-label">电子眼号</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.pairs.eleceyePid"/>
+                            <input type="text" ng-model="electronicEyeData.parts[0].eleceyePid"/>
                         </div>
                     </li>
                 </ul>
