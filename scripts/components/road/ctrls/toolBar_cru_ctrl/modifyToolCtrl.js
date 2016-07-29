@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var modifyApp = angular.module("mapApp");
+var modifyApp = angular.module("app");
 modifyApp.controller("modifyToolController", function ($scope) {
 
     var selectCtrl = fastmap.uikit.SelectController();
