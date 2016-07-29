@@ -23,11 +23,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         $scope.toolTipText = "";
         //重新设置选择工具
         $scope.resetToolAndMap = function() {
-            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
-            eventController.off(eventController.eventTypes.GETADADMINNODEID);
-            eventController.off(eventController.eventTypes.GETNODEID);
-            eventController.off(eventController.eventTypes.GETRELATIONID);
-            eventController.off(eventController.eventTypes.GETTIPSID);
+            // eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            // eventController.off(eventController.eventTypes.GETADADMINNODEID);
+            // eventController.off(eventController.eventTypes.GETNODEID);
+            // eventController.off(eventController.eventTypes.GETRELATIONID);
+            // eventController.off(eventController.eventTypes.GETTIPSID);
+            eventController.clearAllEventListeners();
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
@@ -1240,6 +1241,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         return;
                     }
                 } else if (type === "ADDPAIRBOND") {    //配对电子眼
+                    eventController.off(eventController.eventTypes.GETRELATIONID);
                     map.currentTool = new fastmap.uikit.SelectRelation({
                         map: map,
                         relationFlag: true
@@ -1247,21 +1249,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     map.currentTool.enable();
                     editLayer.bringToBack();
                     tooltipsCtrl.setCurrentTooltip('请选择配对的电子眼！');
-                    eventController.off(eventController.eventTypes.GETRELATIONID);
                     eventController.on(eventController.eventTypes.GETRELATIONID, function(data){
                         $scope.selectedFeature = data;
                         $scope.$emit("SWITCHCONTAINERSTATE", {
                             "subAttrContainerTpl": false
                         });
-                        //地图小于17级时不能选择
-                        if (map.getZoom < 17) {
-                            return;
-                        }
-                        map.closePopup();//如果有popup的话清除它
-                        if (map.floatMenu) {
-                            map.removeLayer(map.floatMenu);
-                            map.floatMenu = null;
-                        }
                         //清除上一个选择的高亮
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
@@ -1286,6 +1278,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             tooltipsCtrl.setCurrentTooltip('点击空格新增区间从测速电子眼组成！');
                         });
                     });
+                    return;
                 } else if (type === "PATHNODEMOVE") {
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('pathNodeMove');
