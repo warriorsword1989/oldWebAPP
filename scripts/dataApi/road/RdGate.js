@@ -46,6 +46,7 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         data["type"] = this.type;
         data["dir"] = this.dir;
         data["fee"] = this.fee;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -64,6 +65,7 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         data["type"] = this.type;
         data["dir"] = this.dir;
         data["fee"] = this.fee;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

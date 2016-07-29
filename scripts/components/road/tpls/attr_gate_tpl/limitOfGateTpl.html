@@ -1,23 +1,22 @@
-
 <div ng-controller="limitOfGateController" id="truckLimitInfoDiv" style="font-size: 12px">
     <form name="truckLimitForm">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">通行对象</label></div>
-            <div class="radio inline" style="text-align: left">
-                <label>
-                    <input type="radio" name="truckFlag" value=0 ng-model="">
-                    机动车辆
-                </label>
-                <label>
-                    <input type="radio" name="truckFlag" value=1 ng-model="">
-                    行人
-                </label>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ng-include="dateURL" class="muti-date" date-str='{{tItem.timeDomain}}' style="width:100%;padding: 5px;"></div>
-        </li>
-    </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div><label class="control-label">通行对象</label></div>
+                <div class="radio inline" style="text-align: left">
+                    <label>
+                        <input type="radio" name="truckFlag" value=0 ng-model="">
+                        机动车辆
+                    </label>
+                    <label>
+                        <input type="radio" name="truckFlag" value=1 ng-model="">
+                        行人
+                    </label>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div ng-include="dateURL" class="muti-date" date-str='{{tItem.timeDomain}}' style="width:100%;padding: 5px;"></div>
+            </li>
+        </ul>
     </form>
 </div>

@@ -14,21 +14,21 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.gateTypeOptions={
-            "0": "EG",
-            "1": "KG",
-            "2": "PG"
-        };
+        "0": "EG",
+        "1": "KG",
+        "2": "PG"
+    };
 
     $scope.gateDirOptions={
-            "0": "单向",
-            "1": "双向",
-            "2": "未调查"
-        };
+        "0": "单向",
+        "1": "双向",
+        "2": "未调查"
+    };
 
     $scope.gateFeeOptions={
-            "0": "免费",
-            "1": "收费"
-        };
+        "0": "免费",
+        "1": "收费"
+    };
     $scope.showTrcukInfo = function(item) {
         var showTrcukObj = {
             "loadType": "subAttrTplContainer",
