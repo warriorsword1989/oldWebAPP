@@ -1314,7 +1314,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                 });
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,移动电子眼点位!');
-                                shapeCtrl.setEditingType('elecTransformDirect');
+                                featCodeCtrl.setFeatCode({
+                                    "longitude": shapeCtrl.shapeEditorResult.getFinalGeometry().x.toString(),
+                                    "latitude": shapeCtrl.shapeEditorResult.getFinalGeometry().y.toString()
+                                });
+                                shapeCtrl.setEditingType('updateElecNode');
                             }
                         })
                     });
