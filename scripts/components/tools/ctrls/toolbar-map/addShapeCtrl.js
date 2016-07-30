@@ -1268,28 +1268,50 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     createBranchFlag: true,
                     currentEditLayer: rdLink,
                     shapeEditor: shapeCtrl,
-                    operationList:['line','point','line']
+                    operationList:['line','point']
                 });
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
                 $scope.gate = {};
-                //获取退出线并高亮;
-                var getGateOutLink = function(dataId) {
-                    $scope.gate.outLinkPid = parseInt(dataId);
-                    if (highLightFeatures.length === 3) {
-                        highLightFeatures.pop();
-                    }
-                    highRenderCtrl._cleanHighLight();
-                    highLightFeatures.push({
-                        id: $scope.gate.outLinkPid.toString(),
-                        layerid: 'rdLink',
-                        type: 'line',
-                        style: {}
+                var automaticCommand = function (){ //自动计算退出线
+                    var param = {};
+                    param["dbId"] = App.Temp.dbId;
+                    param["type"] = "RDLINK";
+                    param["data"] = { "nodePid": $scope.gate.nodePid };
+                    dsEdit.getByCondition(param).then(function(continueLinks) {
+                        console.info(continueLinks);
+                        if (continueLinks.errcode === -1) {
+                            return;
+                        }
+                        if(continueLinks.data){
+                            if(continueLinks.data.length > 2){
+                                featCodeCtrl.setFeatCode({});
+                                swal("错误信息", "退出线有多条，不允许创建大门", "error");
+                                tooltipsCtrl.setCurrentTooltip("退出线有多条，不允许创建大门!");
+                                return ;
+                            }
+                            for(var i = 0 ,len = continueLinks.data.length; i < len ; i ++){
+                                if(continueLinks.data[i].pid != $scope.gate.inLinkPid){
+                                    $scope.gate.outLinkPid = continueLinks.data[i].pid ;
+
+                                    highLightFeatures.push({
+                                        id: $scope.gate.outLinkPid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {}
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.gate.outLinkPid.toString());
+
+                                    featCodeCtrl.setFeatCode($scope.gate);
+                                    tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
+                                    break;
+                                }
+                            }
+                        }
                     });
-                    highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
-                }
+                };
 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID,function (data){
@@ -1328,10 +1350,11 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push(nodePid.toString());
+                            map.currentTool.selectedFeatures.push($scope.gate.nodePid.toString());
 
-                            featCodeCtrl.setFeatCode($scope.gate);
-                            tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
+                            automaticCommand();
+                            // featCodeCtrl.setFeatCode($scope.gate);
+                            // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
                     } else if (data.index === 1){ //进入点
                         //清除鼠标十字
@@ -1339,7 +1362,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
 
-                        map.currentTool.snapHandler.addGuideLayer(rdLink); //增加吸附图层
+                        //map.currentTool.snapHandler.addGuideLayer(rdLink); //增加吸附图层
 
                         $scope.gate.nodePid = parseInt(data.id);
                         highLightFeatures.push({
@@ -1353,10 +1376,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         highRenderCtrl.drawHighlight();
                         map.currentTool.selectedFeatures.push($scope.gate.nodePid.toString());
 
-                        
+                        automaticCommand();
 
-                        featCodeCtrl.setFeatCode($scope.gate);
-                        tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
+
                     } else if (data.index >= 2){ //退出线
                         $scope.gate.outLinkPid = parseInt(data.id);
 
