@@ -62,7 +62,8 @@
                 "dataApi/road/LuFaceName.js",
                 "dataApi/road/RdTrafficSignal.js",
                 "dataApi/road/RdElectronicEye.js",
-                "dataApi/road/RdGate.js"
+                "dataApi/road/RdGate.js",
+                "dataApi/road/RdGateCondition.js"
             ]; // etc.
 
 

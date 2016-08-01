@@ -28,18 +28,24 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         "0": "免费",
         "1": "收费"
     };
-    $scope.showTrcukInfo = function(item) {
-        var showTrcukObj = {
+    $scope.gateValidObj = {
+		 0: "机动车辆",
+         1: "行人"
+    };
+    $scope.showGateInfo = function(item) {
+        var showGateInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_gate_ctrl/limitOfGateCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_gate_tpl/limitOfGateTpl.html'
-        }
-        $scope.$emit("transitCtrlAndTpl", showTrcukObj);
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_gate_tpl/limitOfGateTpl.html',
+            data: item
+        };
+        $scope.$emit("transitCtrlAndTpl", showGateInfo);
     };
     $scope.initializeData=function() {
         $scope.rdGateData = {};
         var highLightFeatures = [];
         $scope.rdGateData=objectEditCtrl.data;
+        console.log(JSON.stringify($scope.rdGateData.gateLimits))
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         highLightFeatures.push({
 			id: $scope.rdGateData.pid.toString(),

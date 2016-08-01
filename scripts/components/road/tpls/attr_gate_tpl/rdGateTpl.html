@@ -51,17 +51,13 @@
                 <ul class="list-group list-group-lg m-b-none" >
                     <li class="list-group-item">
                         <div class="list-name">
-                            <a ng-click="addLimitTruck()" style="cursor: pointer;color: #ffffff;">大门限制信息（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
+                            <a ng-click="addLimitTruck()" style="cursor: pointer;color: #ffffff;">大门限制信息（共<span ng-if="rdGateData!=undefined">{{ rdGateData.gateLimits.length}}</span>条）</a>
                         </div>
                         <div class="list-line"></div>
                     </li>
-                    <li class="list-group-item" ng-repeat="truckItem in linkLimitData.limitTrucks">
-                        <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{dirItem.label}}</label></div>
-                        <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index,1)"></i>
-                    </li>
-                    <li class="list-group-item" >
-                        <div ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;">
-                            <label class="control-label" style="cursor: pointer;">道路</label>
+                    <li class="list-group-item" ng-repeat="limitItem in rdGateData.gateLimits">
+                        <div ng-click="showGateInfo(limitItem)" style="cursor: pointer;padding-left: 15px;">
+                             <label class="control-label" style="cursor: pointer;">{{gateValidObj[limitItem.validObj]}} </label>
                         </div>
                         <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index,1)"></i>
                     </li>
