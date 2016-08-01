@@ -66,11 +66,21 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 //     //scope.$apply();
                 // });
             } else if (scope.dataListType == 2) { //已作业
-                for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                    if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                        scope.tableParams.data[i].name = obj.poi.name.name;
-                        scope.tableParams.data[i].kindCode = obj.poi.kindCode;
-                        break;
+                if(obj.flag == 'del'){
+                    for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
+                        if (scope.tableParams.data[i].pid == obj.poi.pid) {
+                            scope.tableParams.data.splice(i, 1);
+                            break;
+                        }
+                    }
+                    scope.selectData(scope.tableParams.data[i], i);
+                } else if (obj.flag  == "update") {
+                    for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
+                        if (scope.tableParams.data[i].pid == obj.poi.pid) {
+                            scope.tableParams.data[i].name = obj.poi.name.name;
+                            scope.tableParams.data[i].kindCode = obj.poi.kindCode;
+                            break;
+                        }
                     }
                 }
             }
