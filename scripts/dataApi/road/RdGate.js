@@ -29,6 +29,15 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         this.type = data["type"] || 2;
         this.dir = data["dir"] || 2;
         this.fee = data["fee"] || 0;
+        this.gateLimits = [];
+        if (data["condition"]&&data["condition"].length > 0) {
+            for(var i= 0,len=data["condition"].length;i<len;i++) {
+
+                var gateLimit = fastmap.dataApi.rdGateCondition(data["condition"][i]);
+                this.gateLimits.push(gateLimit);
+            }
+
+        }
     },
 
     /**
@@ -46,6 +55,7 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         data["type"] = this.type;
         data["dir"] = this.dir;
         data["fee"] = this.fee;
+        data["condition"] = this.gateLimits;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
