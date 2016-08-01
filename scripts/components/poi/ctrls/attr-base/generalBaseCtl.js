@@ -314,7 +314,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                                     map.removeLayer(map.floatMenu);
                                     map.floatMenu = null;
                                 }
-                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
+                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
                             }
                         }
                     });
@@ -329,7 +329,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;
                     }
-                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
+                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
                 }
             }
         });
@@ -338,7 +338,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     function del() {
         //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
-            //poiLayer.redraw();
+            poiLayer.redraw();
             if (map.floatMenu) { //移除半圈工具条
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -348,7 +348,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
             if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
-                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi.pid});
+                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'del'});
             }
         });
     }
