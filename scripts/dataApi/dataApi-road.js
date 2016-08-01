@@ -53,6 +53,7 @@
                 "dataApi/road/ZoneLink.js",
                 "dataApi/road/ZoneLinkKind.js",
                 "dataApi/road/RdWarningInfo.js",
+                "dataApi/road/RdGate.js",
                 "dataApi/road/ZoneFace.js",
                 "dataApi/road/LuNode.js",
                 "dataApi/road/LuLink.js",
@@ -61,7 +62,8 @@
                 "dataApi/road/LuFaceName.js",
                 "dataApi/road/RdTrafficSignal.js",
                 "dataApi/road/RdElectronicEye.js",
-                "dataApi/road/RdGate.js"
+                "dataApi/road/RdGate.js",
+                "dataApi/road/RdGateCondition.js"
             ]; // etc.
 
 
