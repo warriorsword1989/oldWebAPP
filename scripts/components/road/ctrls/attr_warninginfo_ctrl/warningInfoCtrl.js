@@ -104,7 +104,14 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
             layerid:'rdLink',
             type:'line',
             style:{}
-        })
+        });
+
+        highlightFeatures.push({
+            id: $scope.rdWarningInfoObj.pid.toString(),
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {}
+        });
         highRenderCtrl.highLightFeatures =highlightFeatures;
         highRenderCtrl.drawHighlight();
 
@@ -212,6 +219,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
 
     $scope.cancel = function (){
+        
     };
 
     // 保存数据

@@ -45,7 +45,6 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         $scope.rdGateData = {};
         var highLightFeatures = [];
         $scope.rdGateData=objectEditCtrl.data;
-        console.log(JSON.stringify($scope.rdGateData.gateLimits))
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         highLightFeatures.push({
 			id: $scope.rdGateData.pid.toString(),
@@ -68,29 +67,9 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
     $scope.loadJsAndCtrl=function(obj) {
         $scope.$emit('transitCtrlAndTpl', obj);
     };
-    $scope.showPopover=function(){
-        var showPopoverObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":appPath.road +'ctrls/attr_node_ctrl/addDirectCtrl',
-            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_node_tpl/addDitrectTpl.html'
-        };
-        $scope.loadJsAndCtrl(showPopoverObj);
-    }
-
-    $scope.delFrom=function(item){
-        item.isCheck=false;
-        for(var i=0;i<$scope.newFromOfWRoadDate.length;i++){
-            if($scope.newFromOfWRoadDate[i].id==item.id){
-                $scope.newFromOfWRoadDate.splice(i,1);
-            }
-        }
-        for(var p in $scope.rdGateData.forms){
-            if($scope.rdGateData.forms[p].formOfWay==item.id){
-                $scope.rdGateData.forms.splice(p,1);
-            }
-        }
-        objectEditCtrl.selectNodeRefresh();
-    }
+    $scope.minusLimit = function(id, index) {
+        $scope.rdGateData.gateLimits.splice(id, 1);
+    };
     $scope.save = function () {
         objectEditCtrl.save();
         if(!objectEditCtrl.changedProperty){
