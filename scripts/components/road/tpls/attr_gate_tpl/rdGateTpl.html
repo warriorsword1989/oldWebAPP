@@ -1,7 +1,7 @@
 <div class="fm-component" ng-controller="rdGateController" >
     <div class="title">
         大门PID
-        <span class="label label-info" >{{rdNodeData.pid}}</span>
+        <span class="label label-info" >{{rdGateData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <form name="nodeForm">
@@ -11,20 +11,20 @@
                         <li>
                             <label>进入线</label>
                             <div>
-                                <input class="fm-control" type="text"  ng-model="rdNodeData.difGroupid">
+                                <input class="fm-control" type="text"  ng-model="rdGateData.inLinkPid">
                             </div>
                         </li>
                         <li>
                             <label>退出线</label>
                             <div>
-                                <input class="fm-control" type="text"  ng-model="rdNodeData.difGroupid">
+                                <input class="fm-control" type="text"  ng-model="rdGateData.outLinkPid">
                             </div>
                         </li>
                         <li>
                             <label>大门类型</label>
                             <div>
                                 <label ng-repeat="(key, value) in gateTypeOptions">
-                                    <input type="radio" value="{{key}}" ng-model=""> {{value}}
+                                    <input type="radio" value="{{key}}" ng-model="rdGateData.type"> {{value}}
                                 </label>
                             </div>
                         </li>
@@ -32,7 +32,7 @@
                             <label>大门方向</label>
                             <div>
                                 <label ng-repeat="(key, value) in gateDirOptions">
-                                    <input type="radio" value="{{key}}" ng-model=""> {{value}}
+                                    <input type="radio" value="{{key}}" ng-model="rdGateData.dir"> {{value}}
                                 </label>
                             </div>
                         </li>
@@ -40,7 +40,7 @@
                             <label>收费标识</label>
                             <div>
                                 <label ng-repeat="(key, value) in gateFeeOptions">
-                                    <input type="radio" value="{{key}}" ng-model=""> {{value}}
+                                    <input type="radio" value="{{key}}" ng-model="rdGateData.fee"> {{value}}
                                 </label>
                             </div>
                         </li>
