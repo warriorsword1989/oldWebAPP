@@ -23,12 +23,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         $scope.toolTipText = "";
         //重新设置选择工具
         $scope.resetToolAndMap = function() {
-            // eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
-            // eventController.off(eventController.eventTypes.GETADADMINNODEID);
-            // eventController.off(eventController.eventTypes.GETNODEID);
-            // eventController.off(eventController.eventTypes.GETRELATIONID);
-            // eventController.off(eventController.eventTypes.GETTIPSID);
-            eventController.clearAllEventListeners();
+            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventController.off(eventController.eventTypes.GETADADMINNODEID);
+            eventController.off(eventController.eventTypes.GETNODEID);
+            eventController.off(eventController.eventTypes.GETRELATIONID);
+            eventController.off(eventController.eventTypes.GETTIPSID);
+            eventController.off(eventController.eventTypes.GETFACEID);
+
+            //eventController.clearAllEventListeners(); //不能使用此方法，此方法只是将存储事件名的变量清空
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
