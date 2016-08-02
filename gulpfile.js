@@ -23,7 +23,7 @@ gulp.task('watchLess',function(){
 });
 // 样式
 gulp.task('styles',['appLess'], function() {
-	return gulp.src(['**/*.css','!node_modules/**/*.css','!scripts/lib/**/*.css','!css'])
+	return gulp.src(['**/*.css','!node_modules/**/*.css','!scripts/libs/**/*.css','!css/*.css'])
 		// .pipe(rename({ suffix: '.min' }))
 		.pipe(minifycss())
 		.pipe(gulp.dest('dist'))
@@ -41,7 +41,7 @@ gulp.task('htmls', function() {
 		minifyJS: true,//压缩页面JS
 		minifyCSS: true//压缩页面CSS
 	};
-	return gulp.src(['**/*.html','**/*.htm','!node_modules/**/*.html','!scripts/lib/**/*.html'])
+	return gulp.src(['**/*.html','**/*.htm','!node_modules/**/*.html','!scripts/libs/**/*.html'])
 		.pipe(htmlmin(options))
 		.pipe(gulp.dest('dist'))
 		.pipe(notify({ message: '<%= file.relative %>【压缩HTML文件完成】！' }));
@@ -49,7 +49,7 @@ gulp.task('htmls', function() {
 // 脚本
 gulp.task('scripts', function() {
 	// return gulp.src(['scripts/**/*.js','!scripts/libs/**/*.js'])
-	return gulp.src(['**/*.js','!node_modules/**/*.js','!scripts/lib/**/*.js','!gulpfile.js','!Gruntfile.js','!karma.conf.js','!test/**/*.js','!dest'])
+	return gulp.src(['**/*.js','!node_modules/**/*.js','!scripts/libs/**/*.js','!gulpfile.js','!Gruntfile.js','!karma.conf.js','!test/**/*.js','!dest/*.js'])
 		.pipe(jshint('jshintrc.json'))
 		/*.pipe(jshint.reporter('default'))
 		 .pipe(concat('main.js'))
@@ -71,7 +71,8 @@ gulp.task('images', function () {
 			interlaced: true, //类型：Boolean 默认：false 隔行扫描gif进行渲染
 			multipass: true //类型：Boolean 默认：false 多次优化svg直到完全优化
 		}))
-		.pipe(gulp.dest('dist/images'));
+		.pipe(gulp.dest('dist/images'))
+		.pipe(notify({ message: '<%= file.relative %>【压缩图片完成！】' }));
 });
 // 清理
 gulp.task('clean', function() {
@@ -82,27 +83,27 @@ gulp.task('clean', function() {
 // 清理有价值文件
 gulp.task('clean-all', function() {
 	return gulp.src([
-			'dist/**/*.js','!dist/node_modules/**/*.js','!dist/scripts/lib/**/*.js',
-			'dist/**/*.css','!dist/node_modules/**/*.css','!dist/lib/**/*.css',
-			'dist/**/*.html','dist/**/*.htm','!dist/node_modules/**/*.html','!dist/lib/**/*.html'], {read: false})
+			'dist/**/*.js','!dist/node_modules/**/*.js','!dist/scripts/libs/**/*.js',
+			'dist/**/*.css','!dist/node_modules/**/*.css','!dist/libs/**/*.css',
+			'dist/**/*.html','dist/**/*.htm','!dist/node_modules/**/*.html','!dist/libs/**/*.html'], {read: false})
 		.pipe(clean())
 		.pipe(notify({ message: '<%= file.relative %>【清空完成】' }));
 });
 // 清理js
 gulp.task('cleanjs', function() {
-	return gulp.src(['dist/**/*.js','!dist/node_modules/**/*.js','!dist/scripts/lib/**/*.js'], {read: false})
+	return gulp.src(['dist/**/*.js','!dist/node_modules/**/*.js','!dist/scripts/libs/**/*.js'], {read: false})
 		.pipe(clean())
 		.pipe(notify({ message: '<%= file.relative %>【清空JS完成】' }));
 });
 // 清理css
 gulp.task('cleancss', function() {
-	return gulp.src(['dist/**/*.css','!dist/node_modules/**/*.css','!dist/scripts/lib/**/*.css'], {read: false})
+	return gulp.src(['dist/**/*.css','!dist/node_modules/**/*.css','!dist/scripts/libs/**/*.css'], {read: false})
 		.pipe(clean())
 		.pipe(notify({ message: '<%= file.relative %>【清空CSS完成】' }));
 });
 // 清理html
 gulp.task('cleanhtml', function() {
-	return gulp.src(['dist/**/*.html','dist/**/*.htm','!dist/node_modules/**/*.html','!dist/scripts/lib/**/*.html'], {read: false})
+	return gulp.src(['dist/**/*.html','dist/**/*.htm','!dist/node_modules/**/*.html','!dist/scripts/libs/**/*.html'], {read: false})
 		.pipe(clean())
 		.pipe(notify({ message: '<%= file.relative %>【清空HTML完成】' }));
 });
@@ -126,4 +127,5 @@ gulp.task('build',['clean-all'] , function() {
 	gulp.start('scripts');
 	gulp.start('styles');
 	gulp.start('htmls');
+	gulp.start('images');
 });
