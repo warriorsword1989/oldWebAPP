@@ -48,12 +48,8 @@ gulp.task('htmls',['cleanhtml'], function() {
 });
 // 脚本
 gulp.task('scripts',['cleanjs'], function() {
-	// return gulp.src(['scripts/**/*.js','!scripts/libs/**/*.js'])
 	return gulp.src(['**/*.js','!node_modules/**/*.js','!scripts/libs/**/*.js','!gulpfile.js','!Gruntfile.js','!karma.conf.js','!test/**/*.js','!dest/*.js'])
 		.pipe(jshint('jshintrc.json'))
-		/*.pipe(jshint.reporter('default'))
-		 .pipe(concat('main.js'))
-		 .pipe(gulp.dest('dist/scripts'))*/
 		// .pipe(rename({ suffix: '.min' }))
 		.pipe(uglify({
 			mangle: false//类型：Boolean 默认：true 是否修改变量名
