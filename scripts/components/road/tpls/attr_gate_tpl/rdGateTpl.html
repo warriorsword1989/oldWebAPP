@@ -1,7 +1,7 @@
 <div class="fm-component" ng-controller="rdGateController" >
     <div class="title">
         大门PID
-        <span class="label label-info" >{{rdNodeData.pid}}</span>
+        <span class="label label-info" >{{rdGateData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <form name="nodeForm">
@@ -11,20 +11,20 @@
                         <li>
                             <label>进入线</label>
                             <div>
-                                <input class="fm-control" type="text"  ng-model="rdNodeData.difGroupid">
+                                <input class="fm-control" type="text"  ng-model="rdGateData.inLinkPid">
                             </div>
                         </li>
                         <li>
                             <label>退出线</label>
                             <div>
-                                <input class="fm-control" type="text"  ng-model="rdNodeData.difGroupid">
+                                <input class="fm-control" type="text"  ng-model="rdGateData.outLinkPid">
                             </div>
                         </li>
                         <li>
                             <label>大门类型</label>
                             <div>
                                 <label ng-repeat="(key, value) in gateTypeOptions">
-                                    <input type="radio" value="{{key}}" ng-model=""> {{value}}
+                                    <input type="radio" value="{{key}}" ng-model="rdGateData.type"> {{value}}
                                 </label>
                             </div>
                         </li>
@@ -32,7 +32,7 @@
                             <label>大门方向</label>
                             <div>
                                 <label ng-repeat="(key, value) in gateDirOptions">
-                                    <input type="radio" value="{{key}}" ng-model=""> {{value}}
+                                    <input type="radio" value="{{key}}" ng-model="rdGateData.dir"> {{value}}
                                 </label>
                             </div>
                         </li>
@@ -40,7 +40,7 @@
                             <label>收费标识</label>
                             <div>
                                 <label ng-repeat="(key, value) in gateFeeOptions">
-                                    <input type="radio" value="{{key}}" ng-model=""> {{value}}
+                                    <input type="radio" value="{{key}}" ng-model="rdGateData.fee"> {{value}}
                                 </label>
                             </div>
                         </li>
@@ -51,17 +51,13 @@
                 <ul class="list-group list-group-lg m-b-none" >
                     <li class="list-group-item">
                         <div class="list-name">
-                            <a ng-click="addLimitTruck()" style="cursor: pointer;color: #ffffff;">大门限制信息（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
+                            <a ng-click="addLimitTruck()" style="cursor: pointer;color: #ffffff;">大门限制信息（共<span ng-if="rdGateData!=undefined">{{ rdGateData.gateLimits.length}}</span>条）</a>
                         </div>
                         <div class="list-line"></div>
                     </li>
-                    <li class="list-group-item" ng-repeat="truckItem in linkLimitData.limitTrucks">
-                        <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{dirItem.label}}</label></div>
-                        <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index,1)"></i>
-                    </li>
-                    <li class="list-group-item" >
-                        <div ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;">
-                            <label class="control-label" style="cursor: pointer;">道路</label>
+                    <li class="list-group-item" ng-repeat="limitItem in rdGateData.gateLimits">
+                        <div ng-click="showGateInfo(limitItem)" style="cursor: pointer;padding-left: 15px;">
+                             <label class="control-label" style="cursor: pointer;">{{gateValidObj[limitItem.validObj]}} </label>
                         </div>
                         <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index,1)"></i>
                     </li>

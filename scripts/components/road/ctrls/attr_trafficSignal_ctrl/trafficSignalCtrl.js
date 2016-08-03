@@ -11,7 +11,6 @@ rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($sc
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        console.log(objCtrl.data.getIntegrate())
         $scope.trafficSignalData = objCtrl.data;
         conversionSystem();
         /*var links = $scope.trafficSignalData.links,highLightFeatures=[];

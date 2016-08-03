@@ -92,6 +92,10 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'WARNINGINFO': "warningInfo",
     /*
+     增加大门
+     */
+    'GATE': "gate",
+    /*
      增加电子眼
      */
     'ELECTRONICEYE': "electronicEye",

@@ -104,6 +104,8 @@ fastmap.uikit.HighRenderController = (function() {
                                         this.drawRestrict(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDLANECONNEXITY') {
                                         this.drawLane(id, hightlightfeature, ctx);
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDWARNINGINFO') {
+                                        this.drawBorder(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDBRANCH') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
@@ -239,6 +241,36 @@ fastmap.uikit.HighRenderController = (function() {
              * @param ctx
              */
             drawRestrict: function(id, feature, ctx) {
+                if (feature.properties.id == id) {
+                    if (id !== undefined) {
+                        var laneObjArr = feature.properties.markerStyle.icon;
+                        for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
+                            this.layer._drawBackground({
+                                ctx: ctx,
+                                geo: laneObjArr[fact].location,
+                                boolPixelCrs: true,
+                                //rotate: feature.properties.rotate,
+                                lineColor: 'rgb(4, 187, 245)',
+                                fillColor: 'rgba(225,225,225, 0)',
+                                lineWidth: 1,
+                                width: 15,
+                                height: 15,
+                                drawx: -7.5,
+                                drawy: -7.5,
+                                scalex: 2 / 3,
+                                scaley: 2 / 3
+                            })
+                        }
+                    }
+                }
+            },
+            /**
+             * 高亮图片的边线
+             * @param id
+             * @param feature
+             * @param ctx
+             */
+            drawBorder: function(id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (id !== undefined) {
                         var laneObjArr = feature.properties.markerStyle.icon;

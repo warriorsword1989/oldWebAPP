@@ -45,8 +45,12 @@
                 页
             </div>
             <div class="pull-left fm-pagination-btn">
-                <button class="btn btn-xs fm-output-btn fm-page-btn-prev" ng-disabled="checkPageNow == 1" ng-click="turnPage('prev');"> << </button>
-                <button class="btn btn-xs fm-output-btn fm-page-btn-next" ng-disabled="checkPageNow == checkPageTotal" ng-click="turnPage('next');"> >> </button>
+                <button class="btn btn-xs fm-output-btn fm-page-btn-prev" ng-disabled="checkPageNow == 1" ng-click="turnPage('prev');">
+                    <i class="glyphicon glyphicon-menu-left"></i>
+                </button>
+                <button class="btn btn-xs fm-output-btn fm-page-btn-next" ng-disabled="checkPageNow == checkPageTotal" ng-click="turnPage('next');">
+                    <i class="glyphicon glyphicon-menu-right"></i>
+                </button>
             </div>
         </div>
     </div>
