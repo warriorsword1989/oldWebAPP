@@ -1873,8 +1873,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         "propertyHtml": tpl
                     });
                 }
-
                 tooltipsCtrl.onRemoveTooltip();
+                if (data.status == 2){
+                    selectCtrl.selectedFeatures = [];
+                    return;
+                }
                 if (!map.floatMenu && toolsObj) {
                     map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
                     map.addLayer(map.floatMenu);
