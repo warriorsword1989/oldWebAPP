@@ -109,8 +109,7 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
                 $scope.rwLinkData = null;
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
-                var editorLayer = layerCtrl.getLayerById("edit");
-                editorLayer.clear();
+                editLayer.clear();
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });

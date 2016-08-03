@@ -171,5 +171,13 @@ fastmap.dataApi.GeoLiveModelType={
     /*
      电子眼旋转
      */
-    "ELECTRANSFORMDIRECT":"ELECTRANSFORMDIRECT"
-}
+    "ELECTRANSFORMDIRECT":"ELECTRANSFORMDIRECT",
+    /*
+     坡度
+     */
+    "RDSLOPE":"RDSLOPE",
+    /*
+     坡度连续link
+     */
+    "RDSLOPELINKS":"RDSLOPELINKS"
+};

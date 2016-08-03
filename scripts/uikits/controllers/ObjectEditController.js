@@ -120,6 +120,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDELECTRONICEYE":
                         this.data = fastmap.dataApi.rdElectronicEye(obj);
                         break;
+                    case "RDSLOPE":
+                        this.data = fastmap.dataApi.rdSlope(obj);
+                        break;
                     case "LUNODE":
                         this.data = fastmap.dataApi.luNode(obj);
                         break;
@@ -134,7 +137,6 @@ fastmap.uikit.ObjectEditController = (function() {
                         break;
                 }
                 if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
@@ -142,7 +144,6 @@ fastmap.uikit.ObjectEditController = (function() {
                 }
                 //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
                 if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType !=this.data.branchType)) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
