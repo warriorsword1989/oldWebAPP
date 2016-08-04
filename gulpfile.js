@@ -53,7 +53,9 @@ gulp.task('scripts',['cleanjs'], function() {
 		// .pipe(rename({ suffix: '.min' }))
 		.pipe(uglify({
 			mangle: false//类型：Boolean 默认：true 是否修改变量名
-			// mangle: {except: ['require' ,'exports' ,'module' ,'$','$scope']}//排除混淆关键字
+			// mangle: {except: ['require' ,'exports' ,'module' ,'$','$scope','$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout']},//排除混淆关键字
+			// compress: true,//类型：Boolean 默认：true 是否完全压缩
+			// preserveComments: all //保留所有注释
 		}))
 		.pipe(gulp.dest('dist'))
 		.pipe(notify({ message: '<%= file.relative %>【压缩JS文件完成】！' }));
