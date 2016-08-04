@@ -25,7 +25,7 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 	 */
 	getIntegrate: function(){
 		var ret = {};
-		ret["poiPid"] = this.poiPid;
+		//ret["poiPid"] = this.poiPid;
 		ret["contactType"] = this.contactType;
 		ret["contact"] = this.contact;
 		ret["contactDepart"] = this.contactDepart;

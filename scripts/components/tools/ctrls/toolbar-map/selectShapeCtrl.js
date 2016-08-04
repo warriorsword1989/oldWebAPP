@@ -29,8 +29,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             eventController.off(eventController.eventTypes.GETRELATIONID);
             eventController.off(eventController.eventTypes.GETTIPSID);
             eventController.off(eventController.eventTypes.GETFACEID);
+
+            //eventController.clearAllEventListeners(); //不能使用此方法，此方法只是将存储事件名的变量清空
+
             eventController.off(eventController.eventTypes.RESETCOMPLETE);
             eventController.off(eventController.eventTypes.GETBOXDATA);
+
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
