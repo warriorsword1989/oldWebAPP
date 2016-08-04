@@ -1629,7 +1629,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                                 return;
                                             }
                                             if (continueLinks.data) {
-                                                if (continueLinks.data.length > 2) {
+                                                if (continueLinks.data.length > 2 ||continueLinks.data.length == 1 ) {
+                                                    tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，点击空格保存坡度信息,或者按ESC键取消!");
                                                     eventController.off(eventController.eventTypes.GETLINKID);//不再寻找连续link
                                                 } else if (continueLinks.data.length == 2) {
                                                     if(continueLinks.data[0].pid == slopeData.linkPid){
@@ -1638,7 +1639,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                                         continueLinkPid = continueLinks.data[0].pid;
                                                     }
                                                     if (linkLength && linkLength < 100) {
-                                                        tooltipsCtrl.setCurrentTooltip("请选择坡度接续link!");
+                                                        tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，请选择坡度接续link!");
                                                         return;
                                                     }
                                                 }
@@ -1717,7 +1718,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                                         continueLinkPid = continueLinks.data[0].pid;
                                                     }
                                                     if (linkLength && linkLength < 100) {
-                                                        tooltipsCtrl.setCurrentTooltip("请选择坡度接续link!");
+                                                        tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，请选择坡度接续link!");
                                                         return;
                                                     }
                                                 }
@@ -1781,7 +1782,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                                     continueLinkPid = continueLinks.data[0].pid;
                                                 }
                                                 if (linkLength && linkLength < 100) {
-                                                    tooltipsCtrl.setCurrentTooltip("请选择坡度接续link!");
+                                                    tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，请选择坡度接续link!");
                                                     return;
                                                 }
                                             }
@@ -1796,7 +1797,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     }
                     shapeCtrl.shapeEditorResult.setFinalGeometry(slopeData);
                     tooltipsCtrl.setEditEventType('slopeData');
-                    tooltipsCtrl.setCurrentTooltip('点击空格保存坡度信息,或者按ESC键取消!');
+                    tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，点击空格保存坡度信息,或者按ESC键取消!");
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
                 });
             } else if (type === 'RDDIRECTROUTE') {    //顺行
@@ -1986,6 +1987,19 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                     }
                 });
+            } else if (type === 'RDTEST') { //框选测试
+                $scope.resetOperator("addRelation", type);
+                tooltipsCtrl.setCurrentTooltip('请框选数据！');
+                map.currentTool = new fastmap.uikit.SelectForRectang({
+                    map: map,
+                    shapeEditor: shapeCtrl,
+                    LayersList: [rdLink, rdnode,rwLink]
+                });
+                map.currentTool.enable();
+                eventController.off(eventController.eventTypes.GETRECTDATA);
+                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                    console.log(data.data);
+                })
             }
         }
     }

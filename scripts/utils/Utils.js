@@ -72,5 +72,17 @@ Utils = {
             }
         }
         return ret;
+    },
+    /**
+     * 数组去重
+     * @param arr
+     * @returns {Array}
+     */
+    distinctArr: function (arr) {
+        var dObj = {};
+        for (var i = 0, len = arr.length; i < len; i++) {
+            dObj[arr[i]] = true;
+        }
+        return Object.keys(dObj);
     }
-}
+};

@@ -123,6 +123,16 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 }
             }
         }
+        /*过滤框选后的数组，去重*/
+        var containObj = [];
+        var tempLays = [];
+        for (var num = 0, numLen = this.overlays.length; num < numLen; num++) {
+            if (!containObj[this.overlays[num].id]) {
+                containObj[this.overlays[num].id] = true;
+                tempLays.push(this.overlays[num]);
+            }
+        }
+        this.overlays = tempLays;
         if (this.overlays.length == 1) {
             frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
             frs.tiles = this.tiles;

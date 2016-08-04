@@ -37,5 +37,6 @@ L.Mixin.EventTypes = {
     CHEKCRESULT: 'checkresult', //检查刷新事件
     CAPTURED: 'captured',
     CHANGELINKNAME: "changeLinkName", //link编辑名称组是
-    CHANGEPOILIST: "changePoiList" //更换poiList列表
+    CHANGEPOILIST: "changePoiList", //更换poiList列表
+    GETRECTDATA:"getRectData"
 }

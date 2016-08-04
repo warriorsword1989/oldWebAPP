@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize']).constant("appPath", {
+angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize']).constant("appPath", {
     root: App.Util.getAppPath() + "/",
     meta: "scripts/components/meta/",
     road: "scripts/components/road/",
@@ -303,7 +303,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
                 } catch (e2) {
                     if (e2.name === 'WKTError') {
-                        alert('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
+                        swal("错误", 'WKT数据有误，请检查！', "error");
                         return;
                     }
                 }
