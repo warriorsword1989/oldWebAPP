@@ -1800,6 +1800,19 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，点击空格保存坡度信息,或者按ESC键取消!");
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
                 });
+            } else if (type === 'RDTEST') { //框选测试
+                $scope.resetOperator("addRelation", type);
+                tooltipsCtrl.setCurrentTooltip('请框选数据！');
+                map.currentTool = new fastmap.uikit.SelectForRectang({
+                    map: map,
+                    shapeEditor: shapeCtrl,
+                    LayersList: [rdLink, rdnode,rwLink]
+                });
+                map.currentTool.enable();
+                eventController.off(eventController.eventTypes.GETRECTDATA);
+                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                    console.log(data.data);
+                })
             }
         }
     }
