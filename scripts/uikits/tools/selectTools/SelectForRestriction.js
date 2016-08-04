@@ -33,7 +33,6 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this._map._container.style.cursor = 'pointer';
         this.selectedFeatures = [];
         this.operationList = this.options.operationList;
-        //this.workLayers = ['LineString'];
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             snapLine: true,
@@ -41,7 +40,6 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
             snapVertex: false
         });
         this.snapHandler.enable();
-        //this._setSnapHandler(["Line"]);
     },
 
     /***
@@ -129,7 +127,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     if (touchids.length) {
                         var id = data[item].properties.id;
 
-                        if (id == this.selectedFeatures[0]) {
+                        if (this.selectedFeatures.length == 0 || (this.selectedFeatures.length > 0 && id == this.selectedFeatures[0])) {
                             if (touchids[0] == 0) {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.snode,

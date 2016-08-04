@@ -1,132 +1,74 @@
-<div class="fm-component" ng-controller="electronicEyeCtl">
+<div class="fm-component" ng-controller="rdSlopeCtl">
     <div class="title">
         坡度PID
         <span class="label label-info">{{slopeData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
-        <form name="rdGscForm">
-            <div class="fm-panel">
+        <from name="rdSlopeForm">
+            <div class="fm-panel" >
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
-                            <label class="control-label">关联线</label>
+                            <label>关联点</label>
                             <div>
-                                <input type="text" ng-model="slopeData.linkPid"/>
+                                <input type="text" class="fm-control" ng-model="slopeData.nodePid" disabled />
                             </div>
                         </li>
                         <li>
-                            <label class="control-label">电子眼方位</label>
+                            <label>退出线</label>
                             <div>
-                                <label>
-                                    <input type="checkbox" ng-checked="slopeData.locationLeft == 1" ng-click="changeLocationLeft();">
-                                    左
-                                </label>
-                                <label>
-                                    <input type="checkbox" ng-checked="slopeData.locationRight == 1" ng-click="changeLocationRight();">
-                                    右
-                                </label>
-                                <label>
-                                    <input type="checkbox" ng-checked="slopeData.locationTop == 1" ng-click="changeLocationTop();">
-                                    上
-                                </label>
+                                <input type="text" class="fm-control" ng-model="slopeData.linkPid" disabled />
                             </div>
                         </li>
                         <li>
-                            <label class="control-label">电子眼类型</label>
-                            <div>
-                                <select ng-model="slopeData.kind"
-                                        ng-options="value.id as value.label for value in elecEyeType">
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">作用方向</label>
-                            <div>
-                                <select ng-model="slopeData.direct"
-                                        ng-options="value.id as value.label for value in directArray">
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">限速值</label>
-                            <div>
-                                <input type="text" ng-model="slopeData.speedLimit"/>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">违章高发地</label>
+                            <label>坡度类型</label>
                             <div>
                                 <label>
-                                    <input type="radio" value=0 ng-model="slopeData.highViolation">
-                                    未调查
+                                    <input type="radio" value=1 ng-model="slopeData.type">
+                                    水平
                                 </label>
                                 <label>
-                                    <input type="radio" value=1 ng-model="slopeData.highViolation">
-                                    是
+                                    <input type="radio" value=2 ng-model="slopeData.type">
+                                    上坡
                                 </label>
                                 <label>
-                                    <input type="radio" value=2 ng-model="slopeData.highViolation">
-                                    否
+                                    <input type="radio" value=3 ng-model="slopeData.type">
+                                    下坡
                                 </label>
                             </div>
                         </li>
                         <li>
-                            <label class="control-label">验证标识</label>
+                            <label>坡度角度</label>
                             <div>
-                                <label>
-                                    <input type="radio" value=0 ng-model="slopeData.verifiedFlag">
-                                    未验证
-                                </label>
-                                <label>
-                                    <input type="radio" value=1 ng-model="slopeData.verifiedFlag">
-                                    验证正确
-                                </label>
-                                <label>
-                                    <input type="radio" value=2 ng-model="slopeData.verifiedFlag">
-                                    验证错误
-                                </label>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">电子眼方向</label>
-                            <div>
-                                <label>
-                                    <input type="radio" value=0 ng-model="slopeData.verifiedFlag">
-                                    顺向
-                                </label>
-                                <label>
-                                    <input type="radio" value=1 ng-model="slopeData.verifiedFlag">
-                                    逆向
-                                </label>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">照射角度</label>
-                            <div>
-                                <input type="text" ng-model="slopeData.angle"/>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">图幅号码</label>
-                            <div>
-                                <input type="text" ng-model="slopeData.meshId"/>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">创建日期</label>
-                            <div>
-                                <input type="text" ng-model="slopeData.creationDate"/>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="control-label">电子眼坐标</label>
-                            <div>
-                                ({{slopeData.geometry.coordinates.join(',')}})
+                                <input type="text" class="fm-control" ng-model="slopeData.angle" />
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-        </form>
+            <div class="fm-panel" >
+                <div class="title">
+                    <div>连续Link（共 <span ng-bind="slopeData.slopeVias.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <div ng-repeat="cItem in slopeData.slopeVias" class="blackTheme module-box">
+                        <ul class="fm-ul fm-ul-form">
+                            <li >
+                                <label>Link序号</label>
+                                <div>
+                                    <input type="text" class="fm-control" ng-model="cItem.seqNum" disabled/>
+                                </div>
+                            </li>
+                            <li >
+                                <label>Link号码</label>
+                                <div>
+                                    <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </from>
     </div>
 </div>

@@ -31,6 +31,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             eventController.off(eventController.eventTypes.GETFACEID);
 
             //eventController.clearAllEventListeners(); //不能使用此方法，此方法只是将存储事件名的变量清空
+
+            eventController.off(eventController.eventTypes.RESETCOMPLETE);
+            eventController.off(eventController.eventTypes.GETBOXDATA);
+
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
@@ -415,6 +419,40 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_electronic_ctrl/electronicEyeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case 'RDSLOPE':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "改退出线",
+                            'type': "MODIFYLINKPID",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "改连续Link",
+                            'type': "MODIFYLINKPIDS",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdSlope_ctrl/rdSlopeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDGATE':  //大门
@@ -1402,7 +1440,327 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         });
                     });
                     return;
-                } else if (type.indexOf('BRANCH') > -1 ) {
+                }  else if (type === "MODIFYLINKPID") {
+                    map.currentTool = new fastmap.uikit.SelectPath({
+                        map: map,
+                        currentEditLayer: rdLink,
+                        linksFlag: true,
+                        shapeEditor: shapeCtrl
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+
+                    var comPids = [];
+                    var slopeVias = selData.slopeVias;
+                    slopeVias.sort(function (a, b) {
+                        return a.seqNum < b.seqNum ? -1 : 1;
+                    });
+                    var conLinkPids = [];
+                    var param1 = {};
+                    param1["dbId"] = App.Temp.dbId;
+                    param1["type"] = "RDLINK";
+                    param1["data"] = {
+                        "nodePid": selData.nodePid
+                    };
+                    if(slopeVias && slopeVias.length >= 0) {
+                        for (var i = 0; i < slopeVias.length; i++) {
+                            if(conLinkPids.indexOf(slopeVias[i].linkPid) < 0){
+                                conLinkPids.push(slopeVias[i].linkPid);
+                            }
+                        }
+                    }
+                    dsEdit.getByCondition(param1).then(function (exLinks) {//退出线操作
+                        if (exLinks.errcode === -1) {
+                            return;
+                        }
+                        if (exLinks.data) {
+                            if (exLinks.data.length == 1) {
+                                swal("无法改退出线", "此进入点只有一条可选退出线！", "info");
+                                return;
+                            } else if (exLinks.data.length == 2) {
+                                comPids = [];
+                                comPids.push(exLinks.data[0].pid);
+                                comPids.push(exLinks.data[1].pid);
+                                if(exLinks.data[0].pid == selData.linkPid){
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: exLinks.data[1].pid,
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {color: '#FF79BC'}
+                                    });
+                                } else {
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: exLinks.data[0].pid,
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {color: '#FF79BC'}
+                                    });
+                                }
+                                highRenderCtrl.drawHighlight();
+                            }
+                        }
+                    });
+                    tooltipsCtrl.setCurrentTooltip('请选择新的退出线！');
+                    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                        if(comPids.indexOf(parseInt(data.id)) > -1){
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            highRenderCtrl.highLightFeatures.push({
+                                id: selData.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {}
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: data.id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {color: 'red'}
+                            });
+                            highRenderCtrl.drawHighlight();
+                            shapeCtrl.setEditingType("UPDATERDSLOPE");   //设置热键修改时的监听类型;
+                            tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+
+
+                            featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                                "linkPid": data.id.toString(),
+                                "linkPids":conLinkPids,
+                                "objStatus": "UPDATE"
+                            });
+                        }
+                    });
+                    return;
+                }else if (type === "MODIFYLINKPIDS") {
+                    map.currentTool = new fastmap.uikit.SelectPath({
+                        map: map,
+                        currentEditLayer: rdLink,
+                        linksFlag: true,
+                        shapeEditor: shapeCtrl
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+                    var slopeVias = selData.slopeVias;
+                    slopeVias.sort(function (a, b) {
+                        return a.seqNum < b.seqNum ? -1 : 1;
+                    });
+                    var linkNodePid = null;
+                    var comPids = [];
+                    var conLinkPids = [];
+                    var linkDetail = null;
+                    if(slopeVias && slopeVias.length == 0){//没有连续link
+                        dsEdit.getByPid(parseInt(selData.linkPid), "RDLINK").then(function (exLinkDetail) {   //查询退出线的详情
+                            var param1 = {};
+                            param1["dbId"] = App.Temp.dbId;
+                            param1["type"] = "RDLINK";
+                            if (exLinkDetail.sNodePid == selData.nodePid) {
+                                param1["data"] = {
+                                    "nodePid": exLinkDetail.eNodePid
+                                };
+                            } else {
+                                param1["data"] = {
+                                    "nodePid": exLinkDetail.sNodePid
+                                };
+                            }
+                            dsEdit.getByCondition(param1).then(function (conLinks) {//找出退出线另一个节点的挂接线
+                                if (conLinks.errcode === -1) {
+                                    return;
+                                }
+                                if (conLinks.data) {
+                                    if(conLinks.data.length > 2){
+                                        swal("无法改连续Link", "此退出线挂接Link个数大于2！", "info");
+                                        return;
+                                    } else if(conLinks.data.length == 2){
+                                        comPids = [];
+                                        comPids.push(conLinks.data[0].pid);
+                                        comPids.push(conLinks.data[1].pid);
+                                        tooltipsCtrl.setCurrentTooltip('请添加连续Link！');
+                                    }
+                                }
+                            });
+                        })
+                    } else if(slopeVias && slopeVias.length > 0){
+                        for(var i = 0; i<slopeVias.length; i++){
+                            if(conLinkPids.indexOf(slopeVias[i].linkPid) < 0){
+                                conLinkPids.push(slopeVias[i].linkPid);
+                            }
+                        }
+                        //下面是查询最后一条连续link的前面一条link的详情，以确定最后一条连续link的哪个点是要查询的挂接点
+                        if(slopeVias.length == 1){
+                            dsEdit.getByPid(parseInt(selData.linkPid), "RDLINK").then(function (exLinkDetail) {   //查询退出线的详情
+                                linkDetail = exLinkDetail;
+                                //查询最后一条连续link的详情，并选择出要查询的挂接点
+                                dsEdit.getByPid(parseInt(slopeVias[slopeVias.length-1].linkPid), "RDLINK").then(function (newLinkDetail) {
+                                    if(newLinkDetail.eNodePid != linkDetail.eNodePid && newLinkDetail.eNodePid != linkDetail.sNodePid){
+                                        linkNodePid = newLinkDetail.eNodePid;
+                                    } else {
+                                        linkNodePid = newLinkDetail.sNodePid;
+                                    }
+                                    var param = {};
+                                    param["dbId"] = App.Temp.dbId;
+                                    param["type"] = "RDLINK";
+                                    param["data"] = {
+                                        "nodePid": linkNodePid
+                                    };
+                                    dsEdit.getByCondition(param).then(function (conLinks) {//找出连续link另一个节点的挂接线
+                                        if (conLinks.errcode === -1) {
+                                            return;
+                                        }
+                                        if (conLinks.data) {
+                                            if(conLinks.data.length > 2 || conLinks.data.length == 1){
+                                                comPids = [];
+                                                tooltipsCtrl.setCurrentTooltip('请删除连续Link！');
+                                            } else if(conLinks.data.length == 2){
+                                                comPids = [];
+                                                comPids.push(conLinks.data[0].pid);
+                                                comPids.push(conLinks.data[1].pid);
+                                                tooltipsCtrl.setCurrentTooltip('请修改连续Link！');
+                                            }
+                                        }
+                                    });
+                                })
+                            })
+                        } else {
+                            dsEdit.getByPid(parseInt(slopeVias[slopeVias.length-2].linkPid), "RDLINK").then(function (conLinkDetail) {   //查询倒数第二条连续link的详情
+                                linkDetail = conLinkDetail;
+                                //查询最后一条连续link的详情，并选择出要查询的挂接点
+                                dsEdit.getByPid(parseInt(slopeVias[slopeVias.length-1].linkPid), "RDLINK").then(function (newLinkDetail) {
+                                    if(newLinkDetail.eNodePid != linkDetail.eNodePid && newLinkDetail.eNodePid != linkDetail.sNodePid){
+                                        linkNodePid = newLinkDetail.eNodePid;
+                                    } else {
+                                        linkNodePid = newLinkDetail.sNodePid;
+                                    }
+                                    var param = {};
+                                    param["dbId"] = App.Temp.dbId;
+                                    param["type"] = "RDLINK";
+                                    param["data"] = {
+                                        "nodePid": linkNodePid
+                                    };
+                                    dsEdit.getByCondition(param).then(function (conLinks) {//找出连续link另一个节点的挂接线
+                                        if (conLinks.errcode === -1) {
+                                            return;
+                                        }
+                                        if (conLinks.data) {
+                                            if(conLinks.data.length > 2 || conLinks.data.length == 1){
+                                                comPids = [];
+                                                tooltipsCtrl.setCurrentTooltip('请删除连续Link！');
+                                            } else if(conLinks.data.length == 2){
+                                                comPids = [];
+                                                comPids.push(conLinks.data[0].pid);
+                                                comPids.push(conLinks.data[1].pid);
+                                                tooltipsCtrl.setCurrentTooltip('请修改连续Link！');
+                                            }
+                                        }
+                                    });
+                                })
+                            })
+                        }
+                    }
+                    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                        if(comPids && comPids.indexOf(parseInt(data.id)) > -1){//添加连续link
+                            if(conLinkPids.indexOf(parseInt(data.id)) < 0){
+                                conLinkPids.push(parseInt(data.id));
+                            }
+                            highRenderCtrl.highLightFeatures.push({
+                                id: data.id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {color: '#FF79BC'}
+                            });
+                            highRenderCtrl.drawHighlight();
+                            dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newLinkDetail) {//保持linkNodePid是最后一个挂接点
+                                if(newLinkDetail.eNodePid == linkNodePid){
+                                    linkNodePid = newLinkDetail.sNodePid;
+                                } else {
+                                    linkNodePid = newLinkDetail.eNodePid;
+                                }
+                                var param = {};
+                                param["dbId"] = App.Temp.dbId;
+                                param["type"] = "RDLINK";
+                                param["data"] = {
+                                    "nodePid": linkNodePid
+                                };
+                                dsEdit.getByCondition(param).then(function (conLinks) {//找出连续link另一个节点的挂接线
+                                    if (conLinks.errcode === -1) {
+                                        return;
+                                    }
+                                    if (conLinks.data) {
+                                        if(conLinks.data.length > 2 || conLinks.data.length == 1){
+                                            comPids = [];
+                                            tooltipsCtrl.setCurrentTooltip('请删除连续Link！');
+                                        } else if(conLinks.data.length == 2){
+                                            comPids = [];
+                                            comPids.push(conLinks.data[0].pid);
+                                            comPids.push(conLinks.data[1].pid);
+                                            tooltipsCtrl.setCurrentTooltip('请修改连续Link！');
+                                        }
+                                    }
+                                });
+                            });
+                        } else if(conLinkPids && conLinkPids[conLinkPids.length - 1] == (parseInt(data.id))){//删除最后一条连续link
+                            conLinkPids.pop();
+                            highRenderCtrl._cleanHighLight();
+                            for(var i = 0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                if(highRenderCtrl.highLightFeatures[i].id == data.id){
+                                    highRenderCtrl.highLightFeatures.splice(i,1);
+                                    i--;
+                                }
+                            }
+                            highRenderCtrl.drawHighlight();
+                            //下面是查询最后一条连续link的前面一条link的详情，以确定最后一条连续link的哪个点是要查询的挂接点
+                            if(conLinkPids.length == 1){
+                                dsEdit.getByPid(parseInt(selData.linkPid), "RDLINK").then(function (exLinkDetail) {   //查询退出线的详情
+                                    linkDetail = exLinkDetail;
+                                })
+                            } else {
+                                dsEdit.getByPid(parseInt(conLinkPids[conLinkPids.length-2]), "RDLINK").then(function (conLinkDetail) {   //查询倒数第二条连续link的详情
+                                    linkDetail = conLinkDetail;
+                                })
+                            }
+                            //查询最后一条连续link的详情，并选择出要查询的挂接点
+                            dsEdit.getByPid(parseInt(conLinkPids[conLinkPids.length-1]), "RDLINK").then(function (newLinkDetail) {
+                                if(newLinkDetail.eNodePid != linkDetail.eNodePid && newLinkDetail.eNodePid != linkDetail.sNodePid){
+                                    linkNodePid = newLinkDetail.eNodePid;
+                                } else {
+                                    linkNodePid = newLinkDetail.sNodePid;
+                                }
+                                var param = {};
+                                param["dbId"] = App.Temp.dbId;
+                                param["type"] = "RDLINK";
+                                param["data"] = {
+                                    "nodePid": linkNodePid
+                                };
+                                dsEdit.getByCondition(param).then(function (conLinks) {//找出连续link另一个节点的挂接线
+                                    if (conLinks.errcode === -1) {
+                                        return;
+                                    }
+                                    if (conLinks.data) {
+                                        if(conLinks.data.length > 2 || conLinks.data.length == 1){
+                                            comPids = [];
+                                            tooltipsCtrl.setCurrentTooltip('请删除连续Link！');
+                                        } else if(conLinks.data.length == 2){
+                                            comPids = [];
+                                            comPids.push(conLinks.data[0].pid);
+                                            comPids.push(conLinks.data[1].pid);
+                                            tooltipsCtrl.setCurrentTooltip('请修改连续Link！');
+                                        }
+                                    }
+                                });
+                            })
+                        }
+                        shapeCtrl.setEditingType("UPDATERDSLOPE");
+                        //退出线选完后的鼠标提示;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                        //设置修改确认的数据;
+                        featCodeCtrl.setFeatCode({
+                            "linkPid": selData.linkPid.toString(),
+                            "linkPids":conLinkPids,
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                }else if (type.indexOf('BRANCH') > -1 ) {
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -1560,8 +1918,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         "propertyHtml": tpl
                     });
                 }
-
                 tooltipsCtrl.onRemoveTooltip();
+                if (data.status == 3){
+                    swal("提示","此数据为已提交数据，不能修改几何！","info");
+                    selectCtrl.selectedFeatures = [];
+                    return;
+                }
                 if (!map.floatMenu && toolsObj) {
                     map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
                     map.addLayer(map.floatMenu);

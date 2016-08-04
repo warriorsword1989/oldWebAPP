@@ -1126,7 +1126,35 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.create('RDSLOPE',geo).then(function(data) {
                     if(data != null){
                         relationData.redraw();
-                        treatmentOfChanged(data, "RDSLOPE", "创建坡度成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
+                        treatmentOfChanged(data, "RDSLOPE", "创建坡度成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            }else if (shapeCtrl.editType === "UPDATERDSLOPE"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDSLOPE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                if(featCodeCtrl.getFeatCode().linkPid.toString() != oriData.linkPid){
+                    param.data.linkPid = featCodeCtrl.getFeatCode().linkPid.toString();
+                }
+                if(featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length){
+                    param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
+                }
+                if(param.data.linkPids == undefined && param.data.linkPid == undefined){
+                    swal("操作失败", "坡度没有发生修改！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDSLOPE", "修改坡度成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
                     } else {
                         resetPage();
                     }

@@ -41,7 +41,14 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
         };
         //重新设置选择工具
         $scope.resetToolAndMap = function() {
-            eventController.clearAllEventListeners(); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventController.off(eventController.eventTypes.GETADADMINNODEID);
+            eventController.off(eventController.eventTypes.GETNODEID);
+            eventController.off(eventController.eventTypes.GETRELATIONID);
+            eventController.off(eventController.eventTypes.GETTIPSID);
+            eventController.off(eventController.eventTypes.GETFACEID);
+            eventController.off(eventController.eventTypes.RESETCOMPLETE);
+            eventController.off(eventController.eventTypes.GETBOXDATA);
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
