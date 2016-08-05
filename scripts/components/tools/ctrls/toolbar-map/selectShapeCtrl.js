@@ -381,6 +381,16 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_trafficSignal_tpl/trafficSignalTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
+                case 'RDDIRECTROUTE': //顺行
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_directroute_ctrl/directRouteCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_directroute_tpl/directRouteTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case 'RDSPEEDBUMP': //减速带
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedbump_ctrl/speedBumpCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'RDELECTRONICEYE':
                     toolsObj = {
                         items: [{
