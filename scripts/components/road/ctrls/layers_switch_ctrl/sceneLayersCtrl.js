@@ -42,6 +42,22 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "relationData",
             "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLINKINTRTIC"
         }]
+    },{
+        "id": 4,
+        "label": "CRF场景",
+        "dataLayers": [{
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rwLink"
+        }, {
+            "layerId": "poi"
+        }, {
+            "layerId": "CRF_C"
+        }, {
+            "layerId": "CRF_R"
+        }, {
+            "layerId": "CRF_F"
+        }]
     }];
     $scope.dataLayers = [];
     var reqType;

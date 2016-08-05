@@ -2000,6 +2000,32 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
                     console.log(data.data);
                 })
+            } else if (type === 'CRFINTER') { //CRF交叉点
+                $scope.resetOperator("addRelation", type);
+                var highLightFeatures = [];
+                var linkPids = [];//推荐的退出线
+                var continueLinkPid = null;//退出线或者连续link的另一个端点
+                var linkLength = 0;//长度
+                var slopeData = {nodePid:null,linkPid:null};
+                var exLinkPids = [];//所有的连续link
+
+                highRenderCtrl.highLightFeatures = [];
+                highRenderCtrl._cleanHighLight();
+                //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
+                //地图编辑相关设置;
+                tooltipsCtrl.setEditEventType('rdSlope');
+                tooltipsCtrl.setCurrentTooltip('请框选制作CRF交叉点的道路线、点！');
+                map.currentTool = new fastmap.uikit.SelectForRectang({
+                    map: map,
+                    shapeEditor: shapeCtrl,
+                    LayersList: [rdLink, rdnode,rwLink]
+                });
+                map.currentTool.enable();
+                eventController.off(eventController.eventTypes.GETRECTDATA);
+                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                    console.log(data.data);
+                })
             }
         }
     }
