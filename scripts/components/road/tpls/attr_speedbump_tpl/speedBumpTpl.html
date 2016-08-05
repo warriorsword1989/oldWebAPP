@@ -1,0 +1,34 @@
+<div ng-controller="SpeedBumpCtl">
+    <div class="fm-component" >
+        <div class="title">
+            减速带PID
+            <span class="label label-info">{{rdWarningInfoObj.pid}}</span>
+        </div>
+        <div class="content">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>进入线</label>
+                        <div >
+                            <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.linkPid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>进入点</label>
+                        <div>
+                            <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.nodePid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>备注信息</label>
+                        <div>
+                            <input type="text"  ng-model="rdWarningInfoObj.memo" >
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+</div>
+
