@@ -45,6 +45,9 @@ fastmap.uikit.FeatureConfig = {
         "RDSPEEDBUMP": {
             name: "减速带"
         },
+        "RDSE": {
+            name: "分叉口"
+        },
         "RDGSC": {
             name: "立交"
         },
