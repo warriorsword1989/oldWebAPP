@@ -43,6 +43,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     scope.highlightPoi(rest.pid);
                     scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto", true);
+                    scope.$emit("clearAttrStyleUp");//清除属性样式
                 }
             });
             scope.itemActive = index;

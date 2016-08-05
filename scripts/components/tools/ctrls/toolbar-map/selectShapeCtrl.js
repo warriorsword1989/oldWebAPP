@@ -1938,6 +1938,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         "propertyCtrl": ctrl,
                         "propertyHtml": tpl
                     });
+                    $scope.$emit("clearAttrStyleUp");//清除属性样式
                     initPoiData(selectedData,data);
                 } else {
                     $scope.$emit("transitCtrlAndTpl", {
