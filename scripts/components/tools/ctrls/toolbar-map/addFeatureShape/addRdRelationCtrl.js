@@ -1,7 +1,7 @@
 /**
- * Created by liwanchong on 2015/10/28.
+ * Created by liuyang on 2016/8/5.
  */
-angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath','$timeout',
+angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath','$timeout',
     function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
@@ -12,8 +12,6 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rwLink = layerCtrl.getLayerById('rwLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
-        var luNode = layerCtrl.getLayerById('luNode');
-        var luLink = layerCtrl.getLayerById('luLink');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
@@ -392,189 +390,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 nodes: nodeArr
             }
         };
-        /**
-         * 创建上下线分离
-         * @param event
-         */
-        $scope.upAndDown = function(event) {
-            var type = event.currentTarget.type;
-            if (type === 'chooseOver') {
-                dsEdit.getByCondition($scope.param).then(function(data) {
-                    var highLightFeatures = [];
-                    highRenderCtrl.highLightFeatures.length = 0;
-                    highRenderCtrl._cleanHighLight();
-                    $scope.linkMulity = [];
-                    $scope.links = data.data;
-                    for (var i = 0; i < $scope.links.length; i++) {
-                        $scope.linkMulity.push($scope.links[i].pid);
-                        if (i == 0) {
-                            highLightFeatures.push({
-                                id: $scope.links[i].pid.toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {
-                                    color: 'red'
-                                }
-                            });
-                        } else if (i == $scope.links.length - 1) {
-                            highLightFeatures.push({
-                                id: $scope.links[i].pid.toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {
-                                    color: 'green'
-                                }
-                            });
-                        } else {
-                            highLightFeatures.push({
-                                id: $scope.links[i].pid.toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {}
-                            });
-                        }
-                    }
-                    highRenderCtrl.highLightFeatures = highLightFeatures;
-                    highRenderCtrl.drawHighlight();
-                })
-            } else if (type === "RETRYLINK") {
-                var links = $scope.linkMulity;
-                var highLightFeatures1 = [];
-                map.currentTool = new fastmap.uikit.SelectPath({
-                    map: map,
-                    currentEditLayer: rdLink,
-                    linksFlag: true,
-                    shapeEditor: shapeCtrl
-                });
-                tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
-                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    for (var j = 0; j < links.length; j++) {
-                        if (data.id == links[j]) {
-                            links = links.slice(0, j);
-                            break;
-                        }
-                    }
-                    highRenderCtrl.highLightFeatures.length = 0;
-                    highRenderCtrl._cleanHighLight();
-                    for (var i = 0; i < links.length; i++) {
-                        if (i == 0) {
-                            highLightFeatures1.push({
-                                id: links[i].toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {
-                                    color: 'red'
-                                }
-                            });
-                        } else if (i == links.length - 1) {
-                            highLightFeatures1.push({
-                                id: links[i].toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {
-                                    color: 'green'
-                                }
-                            });
-                        } else {
-                            highLightFeatures1.push({
-                                id: links[i].toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {}
-                            });
-                        }
-                    }
-                    highRenderCtrl.highLightFeatures = highLightFeatures1;
-                    highRenderCtrl.drawHighlight();
-                    $scope.linkMulity = links;
-                });
-            } else if (type === fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
-                if ($scope.linkMulity) {
-                    tooltipsCtrl.setCurrentTooltip('上下线分离请用鼠标滚轮调整间距！');
-                } else {
-                    tooltipsCtrl.setCurrentTooltip('上下线分离,先选择link！');
-                    return;
-                }
-                map.scrollWheelZoom.disable();
-                map.currentTool.disable();
-                $scope.param1 = {};
-                $scope.param1["dbId"] = App.Temp.dbId;
-                $scope.param1["type"] = "RDLINK";
-                $scope.param1["data"] = {
-                    "linkPids": $scope.linkMulity
-                };
-                dsEdit.getByCondition($scope.param1).then(function(data) {
-                    var linkArr = data.data,
-                        points = [];
-                    for (var i = 0, len = linkArr.length; i < len; i++) {
-                        var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                        points.push(pointOfLine);
-                    }
-                    var line = fastmap.mapApi.lineString(points);
-                    this.transform = new fastmap.mapApi.MecatorTranform();
-                    var scale = this.transform.scale(map);
-                    var linwidth = 6.6 / scale;
-                    selectCtrl.onSelected({
-                        geometry: line,
-                        id: $scope.linkMulity,
-                        linkWidth: linwidth,
-                        type: 'Buffer'
-                    });
-                    feature = selectCtrl.selectedFeatures;
-                    layerCtrl.pushLayerFront('edit');
-                    var sObj = shapeCtrl.shapeEditorResult;
-                    editLayer.drawGeometry = feature;
-                    editLayer.draw(feature, editLayer);
-                    sObj.setOriginalGeometry(feature);
-                    sObj.setFinalGeometry(feature);
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType["PATHBUFFER"]);
-                    shapeCtrl.startEditing();
-                    tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-                });
-            }
-        };
-        //重新设置选择工具
-        $scope.resetToolAndMap = function() {
-            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
-            eventController.off(eventController.eventTypes.GETADADMINNODEID);
-            eventController.off(eventController.eventTypes.GETNODEID);
-            eventController.off(eventController.eventTypes.GETRELATIONID);
-            eventController.off(eventController.eventTypes.GETTIPSID);
-            if (map.floatMenu) {
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
-            if (event) {
-                event.stopPropagation();
-            }
-            highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
-            });
-            $("#popoverTips").hide();
-            editLayer.drawGeometry = null;
-            editLayer.clear();
-            editLayer.bringToBack();
-            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-            shapeCtrl.stopEditing();
-            rdLink.clearAllEventListeners();
-            if (tooltipsCtrl.getCurrentTooltip()) {
-                tooltipsCtrl.onRemoveTooltip();
-            }
-            if (map.currentTool) {
-                map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
-            }
 
-            if (selectCtrl.rowKey) {
-                selectCtrl.rowKey = null;
-            }
-
-            $(editLayer.options._div).unbind();
-
-        };
         /**
          * 添加geometry
          * @param type
@@ -615,33 +431,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
                 };
                 $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
-            } else if (type === "RDLINK") {
-                $scope.resetOperator("addLink", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
-                shapeCtrl.startEditing();
-                //重置创建link时   扑捉工具中的值
-                shapeCtrl.getCurrentTool().clickcount = 1;
-                shapeCtrl.getCurrentTool().catches.length = 0;
-                shapeCtrl.getCurrentTool().snodePid = 0;
-                shapeCtrl.getCurrentTool().enodePid = 0;
-                map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
-                //shapeCtrl.editFeatType = "rdLink";
-                shapeCtrl.editFeatType = "RDLINK";
-                //把点和线图层放到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
-                map.currentTool.snapHandler.addGuideLayer(rdnode);
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
-                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
-                tooltipsCtrl.setCurrentTooltip('开始画线！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === "RDSPEEDLIMIT") {
+            }  else if (type === "RDSPEEDLIMIT") {
                 $scope.resetOperator("addRelation", type);
                 var minLen = 100000,
                     pointsOfDis, pointForAngle, angle;
@@ -800,89 +590,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
                 };
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
-            } else if (type === "RDNODE") {
-                $scope.resetOperator("addNode", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                //shapeCtrl.editFeatType = "rdNode";
-                shapeCtrl.editFeatType = "RDNODE";
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
-                tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-            }  else if (type === "LUNODE") {
-                $scope.resetOperator("addNode", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                //shapeCtrl.editFeatType = "rdNode";
-                shapeCtrl.editFeatType = "LUNODE";
-                map.currentTool.snapHandler.addGuideLayer(luLink);
-                tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-            } else if(type === "LULINK") {
-                $scope.resetOperator("addLink", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
-                shapeCtrl.startEditing();
-                //重置创建link时   扑捉工具中的值
-                shapeCtrl.getCurrentTool().clickcount = 1;
-                shapeCtrl.getCurrentTool().catches.length = 0;
-                shapeCtrl.getCurrentTool().snodePid = 0;
-                shapeCtrl.getCurrentTool().enodePid = 0;
-                map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
-                shapeCtrl.editFeatType = "LULINK";
-                //把点和线图层放到捕捉工具中(此处注意必须是先点后线，为了解决当起始点和终点为自动捕捉时，获取nodeId失败)
-                map.currentTool.snapHandler.addGuideLayer(luNode);
-                map.currentTool.snapHandler.addGuideLayer(luLink);
-                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
-                tooltipsCtrl.setCurrentTooltip('开始画线！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === 'LUFACE') {
-            	$scope.resetOperator("addFace", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                //设置添加类型
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
-                shapeCtrl.startEditing();
-
-                //把工具添加到map中
-                map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
-                shapeCtrl.editFeatType = "LUFACE";
-                //提示信息
-                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
-                tooltipsCtrl.setCurrentTooltip('开始画面！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === 'RDGSC') {
+            }  else if (type === 'RDGSC') {
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setEditEventType('rdgsc');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
@@ -976,243 +684,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         selectCtrl.onSelected($scope.jsonData);
                     }
                 });
-            } else if (type === 'RDMULTIDIGITIZED') {
-                $scope.resetOperator("specItem", type);
-                var highLightFeatures = [];
-                var linkDirect = 0;
-                var realNodeId = '';
-                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
-                shapeCtrl.editFeatType = 3;
-                tooltipsCtrl.setEditEventType('rdBranch');
-                tooltipsCtrl.setCurrentTooltip('正要新建上下线分离,先选择线！');
-                map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    map: map,
-                    createBranchFlag: true,
-                    currentEditLayer: rdLink,
-                    shapeEditor: shapeCtrl,
-                    operationList:['line','point']
-                });
-                map.currentTool.enable();
-                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) {
-                        $scope.limitRelation.inLinkPid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.limitRelation.inLinkPid.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
-                        highRenderCtrl.highLightFeatures = highLightFeatures;
-                        highRenderCtrl.drawHighlight();
-                        linkDirect = data["properties"]["direct"];
-                        if (linkDirect == 2) {
-                            realNodeId = data["properties"]["enode"];
-                        } else if (linkDirect == 3) {
-                            realNodeId = data["properties"]["snode"];
-                        }
-                        tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择点!");
-                    } else if (data.index === 1) {
-                        $scope.limitRelation.nodePid = parseInt(data.id);
-                        if (linkDirect != 1) {
-                            if ($scope.limitRelation.nodePid == realNodeId) {} else {
-                                swal("操作失败", "点方向与道路方向不符，请重新选择！", "error");
-                                return;
-                            }
-                        }
-                        highLightFeatures.push({
-                            id: $scope.limitRelation.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'node',
-                            style: {}
-                        });
-                        highRenderCtrl.highLightFeatures = highLightFeatures;
-                        highRenderCtrl.drawHighlight();
-                        $scope.param = {};
-                        $scope.param["command"] = "CREATE";
-                        $scope.param["dbId"] = App.Temp.dbId;
-                        $scope.param["type"] = "RDLINK";
-                        $scope.param["data"] = {
-                            "linkPid": $scope.limitRelation.inLinkPid,
-                            "nodePidDir": $scope.limitRelation.nodePid
-                        }
-                        if (!map.floatMenu) {
-                            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, {
-                                items: [{
-                                    'text': "<a class='glyphicon glyphicon-saved'></a>",
-                                    'title': "选择完成",
-                                    'type': 'chooseOver',
-                                    'class': "feaf",
-                                    callback: $scope.upAndDown
-                                }, {
-                                    'text': "<a class='glyphicon glyphicon-import'></a>",
-                                    'title': "重新选择线",
-                                    'type': 'RETRYLINK',
-                                    'class': "feaf",
-                                    callback: $scope.upAndDown
-                                }, {
-                                    'text': "<a class='glyphicon glyphicon-resize-full'></a>",
-                                    'title': "上下线分离",
-                                    'type': 'pathBuffer',
-                                    'class': "feaf",
-                                    callback: $scope.upAndDown
-                                }]
-                            })
-                            map.addLayer(map.floatMenu);
-                            map.floatMenu.setVisible(true);
-                        }
-                    }
-                });
-            }
-            //新增加的分歧(实景分歧);
-            else if (type.split('_')[0] == 'BRANCH') {
-
-
-                $scope.resetOperator("addRelation", type);
-                var typeArr = type.split('_');
-                var currentActiveBranch = '';
-                //保存所有需要高亮的图层数组;
-                var highLightFeatures = [],
-                    linkDirect = 0;
-                //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
-                shapeCtrl.setEditingType(typeArr[0]);
-                //根据不同的分歧种类构建limitRelation的参数;
-                switch (typeArr[1]) {
-                    case 'REALIMAGE':
-                        currentActiveBranch = '实景图';
-                        $scope.limitRelation.branchType = 5;
-                        break;
-                    case 'SIGNBOARDNAME':
-                        currentActiveBranch = '方向看板';
-                        $scope.limitRelation.branchType = 9;
-                        break;
-                    case 'SIGNASREAL':
-                        currentActiveBranch = '实景看板';
-                        $scope.limitRelation.branchType = 6;
-                        break;
-                    case 'SERIESBRANCH':
-                        currentActiveBranch = '连续分歧';
-                        $scope.limitRelation.branchType = 7;
-                        break;
-                    case 'BIGCROSSSCHEMATIC':
-                        currentActiveBranch = '大路口交叉点模式';
-                        $scope.limitRelation.branchType = 8;
-                        break;
-                    case 'NORMALROAD':
-                        currentActiveBranch = '普通道路方面';
-                        $scope.limitRelation.branchType = 1;
-                        break;
-                    case 'HIGHWAY':
-                        currentActiveBranch = '高速分歧';
-                        $scope.limitRelation.branchType = 0;
-                        break;
-                    case '3D':
-                        currentActiveBranch = '3D分歧';
-                        $scope.limitRelation.branchType = 3;
-                        break;
-                }
-                //地图编辑相关设置;
-                tooltipsCtrl.setEditEventType('rdBranch');
-                tooltipsCtrl.setCurrentTooltip('正要新建' + currentActiveBranch + '分歧,先选择线！');
-                map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    map: map,
-                    createBranchFlag: true,
-                    currentEditLayer: rdLink,
-                    shapeEditor: shapeCtrl,
-                    operationList:['line','point','line']
-                });
-                map.currentTool.enable();
-                //map.currentTool.snapHandler.addGuideLayer(rdnode);
-                map.currentTool.snapHandler.addGuideLayer(rdLink); //添加自动吸附的图层
-                //获取退出线并高亮;
-                $scope.getOutLink = function(dataId) {
-                    $scope.limitRelation.outLinkPid = parseInt(dataId);
-                    if (highLightFeatures.length === 3) {
-                        highLightFeatures.pop();
-                    }
-                    highRenderCtrl._cleanHighLight();
-                    highLightFeatures.push({
-                        id: $scope.limitRelation.outLinkPid.toString(),
-                        layerid: 'rdLink',
-                        type: 'line',
-                        style: {}
-                    });
-                    highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
-                }
-                //选择分歧监听事件;
-                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) {
-                        //清除吸附的十字
-                        map.currentTool.snapHandler.snaped = false;
-                        map.currentTool.clearCross();
-                        map.currentTool.snapHandler._guides = [];
-
-                        map.currentTool.snapHandler.addGuideLayer(rdnode);
-
-                        //进入线;
-                        $scope.limitRelation.inLinkPid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.limitRelation.inLinkPid.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {
-                                color: '#21ed25'
-                            }
-                        });
-                        highRenderCtrl.highLightFeatures = highLightFeatures;
-                        highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltip('已经选择进入线,选择进入点!');
-                        linkDirect = data["properties"]["direct"];
-                        if (linkDirect == 2 || linkDirect == 3) {
-                            $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
-                            highLightFeatures.push({
-                                id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {
-                                    color: 'yellow'
-                                }
-                            });
-                            highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
-                            tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
-
-                            //清除吸附的十字
-                            map.currentTool.snapHandler.snaped = false;
-                            map.currentTool.clearCross();
-                            map.currentTool.snapHandler._guides = [];
-                            map.currentTool.snapHandler.addGuideLayer(rdLink);
-                        }
-                    } else if (data.index === 1) {
-                        if (linkDirect == 2 || linkDirect == 3) {
-                            $scope.getOutLink(data.id);
-                        } else {
-                            $scope.limitRelation.nodePid = parseInt(data.id);
-                            highLightFeatures.push({
-                                id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {
-                                    color: 'yellow'
-                                }
-                            });
-                            highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
-
-                            //清除吸附的十字
-                            map.currentTool.snapHandler.snaped = false;
-                            map.currentTool.clearCross();
-                            map.currentTool.snapHandler._guides = [];
-
-                            map.currentTool.snapHandler.addGuideLayer(rdLink);
-                        }
-                    } else if (data.index > 1) {
-                        $scope.getOutLink(data.id);
-                        $scope.limitRelation.outLinkPid = parseInt(data.id);
-                    }
-                    featCodeCtrl.setFeatCode($scope.limitRelation);
-                })
-            } else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
+            }  else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
                 $scope.resetOperator("addRelation", type);
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.TRAFFICSIGNAL);
                 tooltipsCtrl.setCurrentTooltip('请选择制作信号灯的路口！');
@@ -1987,45 +1459,127 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                     }
                 });
-            } else if (type === 'RDTEST') { //框选测试
+            } else if(type === "RDSE"){ //分叉口提示
                 $scope.resetOperator("addRelation", type);
-                tooltipsCtrl.setCurrentTooltip('请框选数据！');
-                map.currentTool = new fastmap.uikit.SelectForRectang({
-                    map: map,
-                    shapeEditor: shapeCtrl,
-                    LayersList: [rdLink, rdnode,rwLink]
-                });
-                map.currentTool.enable();
-                eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    console.log(data.data);
-                })
-            } else if (type === 'CRFINTER') { //CRF交叉点
-                $scope.resetOperator("addRelation", type);
-                var highLightFeatures = [];
-                var linkPids = [];//推荐的退出线
-                var continueLinkPid = null;//退出线或者连续link的另一个端点
-                var linkLength = 0;//长度
-                var slopeData = {nodePid:null,linkPid:null};
-                var exLinkPids = [];//所有的连续link
-
-                highRenderCtrl.highLightFeatures = [];
-                highRenderCtrl._cleanHighLight();
+                //保存所有需要高亮的图层数组;线方向
+                var highLightFeatures = [],linkDirect = 0;
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSE);
                 //地图编辑相关设置;
-                tooltipsCtrl.setEditEventType('rdSlope');
-                tooltipsCtrl.setCurrentTooltip('请框选制作CRF交叉点的道路线、点！');
-                map.currentTool = new fastmap.uikit.SelectForRectang({
+                tooltipsCtrl.setEditEventType('rdSe');
+                tooltipsCtrl.setCurrentTooltip('请选择进入线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
+                    createBranchFlag: true,
+                    currentEditLayer: rdLink,
                     shapeEditor: shapeCtrl,
-                    LayersList: [rdLink, rdnode,rwLink]
+                    operationList:['line','point']
                 });
                 map.currentTool.enable();
-                eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    console.log(data.data);
-                })
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+
+                $scope.rdSe = {};
+                var automaticCommand = function (){ //自动计算退出线
+                    var param = {};
+                    param["dbId"] = App.Temp.dbId;
+                    param["type"] = "RDLINK";
+                    param["data"] = { "nodePid": $scope.rdSe.nodePid };
+                    dsEdit.getByCondition(param).then(function(continueLinks) {
+                        console.info(continueLinks);
+                        if (continueLinks.errcode === -1) {
+                            return;
+                        }
+                        if(continueLinks.data){
+                            if(continueLinks.data.length > 2){
+                                featCodeCtrl.setFeatCode({});
+                                swal("错误信息", "退出线有多条，不允许创建分叉口提示", "error");
+                                tooltipsCtrl.setCurrentTooltip("退出线有多条，不允许创建分叉口提示!");
+                                return ;
+                            }
+                            for(var i = 0 ,len = continueLinks.data.length; i < len ; i ++){
+                                if(continueLinks.data[i].pid != $scope.rdSe.inLinkPid){
+                                    $scope.rdSe.outLinkPid = continueLinks.data[i].pid ;
+
+                                    highLightFeatures.push({
+                                        id: $scope.rdSe.outLinkPid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {}
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.rdSe.outLinkPid.toString());
+
+                                    featCodeCtrl.setFeatCode($scope.rdSe);
+                                    tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                };
+                eventController.off(eventController.eventTypes.GETLINKID);
+                eventController.on(eventController.eventTypes.GETLINKID,function (data) {
+                    if (data.index === 0) { //进入线;
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdnode);
+
+                        $scope.rdSe.inLinkPid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id: $scope.rdSe.inLinkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {
+                                color: '#21ed25'
+                            }
+                        });
+                        highRenderCtrl.highLightFeatures = highLightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+                        linkDirect = data["properties"]["direct"];
+                        if (linkDirect == 2 || linkDirect == 3) { //单方向
+                            map.currentTool.snapHandler.snaped = false;
+                            map.currentTool.clearCross();
+                            map.currentTool.snapHandler._guides = [];
+
+                            $scope.rdSe.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                            highLightFeatures.push({
+                                id: $scope.rdSe.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'node',
+                                style: {
+                                    color: 'yellow'
+                                }
+                            });
+                            highRenderCtrl.drawHighlight();
+                            map.currentTool.selectedFeatures.push($scope.rdSe.nodePid.toString());
+
+                            automaticCommand();
+                            // featCodeCtrl.setFeatCode($scope.rdSe);
+                            // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
+                        }
+                    } else if (data.index >= 2){ //退出线
+                        $scope.rdSe.outLinkPid = parseInt(data.id);
+
+                        if (highLightFeatures.length === 3) {
+                            highLightFeatures.pop();
+                            highRenderCtrl._cleanHighLight();
+                        }
+
+                        highLightFeatures.push({
+                            id: $scope.rdSe.outLinkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
+                        map.currentTool.selectedFeatures.push($scope.rdSe.outLinkPid.toString());
+                        featCodeCtrl.setFeatCode($scope.rdSe);
+                        tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
+                    }
+                });
             }
         }
     }

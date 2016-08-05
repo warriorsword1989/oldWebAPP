@@ -29,7 +29,8 @@ App.Temp = {
         RDSLOPE:'坡度',
         RDGATE:'大门',
         RDDIRECTROUTE:'顺行',
-        RDSPEEDBUMP:'减速带'
+        RDSPEEDBUMP:'减速带',
+        RDSE:'分叉口'
     }
 };
 // web app的公用函数命名空间

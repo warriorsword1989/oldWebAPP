@@ -21,40 +21,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         var selectCount = 0; // 用于poi
         var popup = L.popup();
         $scope.toolTipText = "";
-        //重新设置选择工具
-        $scope.resetToolAndMap = function() {
-            eventController.off(eventController.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
-            eventController.off(eventController.eventTypes.GETADADMINNODEID);
-            eventController.off(eventController.eventTypes.GETNODEID);
-            eventController.off(eventController.eventTypes.GETRELATIONID);
-            eventController.off(eventController.eventTypes.GETTIPSID);
-            eventController.off(eventController.eventTypes.GETFACEID);
 
-            //eventController.clearAllEventListeners(); //不能使用此方法，此方法只是将存储事件名的变量清空
-
-            eventController.off(eventController.eventTypes.RESETCOMPLETE);
-            eventController.off(eventController.eventTypes.GETBOXDATA);
-
-            if (map.currentTool) {
-                map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
-            }
-            highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
-            if (tooltipsCtrl.getCurrentTooltip()) {
-                tooltipsCtrl.onRemoveTooltip();
-            }
-            if (selectCtrl.rowKey) {
-                selectCtrl.rowKey = null;
-            }
-            editLayer.drawGeometry = null;
-            shapeCtrl.stopEditing();
-            editLayer.bringToBack();
-            $(editLayer.options._div).unbind();
-            //$scope.changeBtnClass("");
-            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-            editLayer.clear();
-        };
         /**
          *  显示属性栏
          * @param data 点击地图上的点获取的数据
@@ -108,16 +75,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             }
             //重置选择工具
             $scope.resetToolAndMap();
-            //清除上一步中的悬浮工具
-            if (map.floatMenu) {
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
-            //收回上一步弹开的属性栏和tips框
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
-            });
             $scope.$emit('closePopoverTips', false);
             //$scope.subAttrTplContainerSwitch(false);
             $("#popoverTips").hide();
@@ -828,11 +785,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                                    callback: function() {
+                                    /*callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.in.id ? result.in.id : '', "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
                                         }
-                                    }
+                                    }*/
                                 };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                                 break;
@@ -2132,16 +2089,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             //重置选择工具
             $scope.resetToolAndMap();
             //移除上一步中的悬浮按钮
-            if (map.floatMenu) {
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
             // $scope.classArr[0] = false;
             //重置上一步中的属性栏和tips框
             originalFeature = [];
             selectCount = 0;
-            highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
         };
         /*
          获取地图上的指定图层
