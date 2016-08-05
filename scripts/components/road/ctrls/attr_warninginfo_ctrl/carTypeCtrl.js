@@ -141,6 +141,7 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
 
     $scope.initializeData();
 
+    eventCtrl.off(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE);
     eventCtrl.on(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE, $scope.initializeData);
 
 });
