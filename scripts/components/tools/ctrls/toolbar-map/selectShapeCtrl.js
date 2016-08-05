@@ -828,11 +828,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                                    callback: function() {
+                                    /*callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             $scope.getFeatDataCallback(result, result.in.id ? result.in.id : '', "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
                                         }
-                                    }
+                                    }*/
                                 };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                                 break;
