@@ -30,12 +30,14 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                     $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addCRFShapeCtrl.js').then(function () {
                         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addZoneShapeCtrl.js').then(function () {
                             $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLUShapeCtrl.js').then(function () {
-                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js').then(function () {
-                                    $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
-                                        $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js').then(function () {
+                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addSameFeatureCtrl.js').then(function () {
+                                    $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js').then(function () {
+                                        $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
+                                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js').then(function () {
+                                            });
+                                            $scope.addShapeTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/addShapeTpl.htm';
+                                            $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
                                         });
-                                        $scope.addShapeTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/addShapeTpl.htm';
-                                        $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
                                     });
                                 });
                             });
@@ -62,7 +64,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         $scope.clearOperator = function() {
             $scope.shapeOperator = "navigate";
             $scope.featureOperator = null;
-            resetMap();
+            $scope.resetToolAndMap();
         };
         $scope.resetOperator = function(shapeOper, featureOper) {
             if (shapeOper) {
@@ -93,7 +95,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                 event.stopPropagation();
             }
             highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
+            highRenderCtrl.highLightFeatures = [];
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
@@ -120,35 +122,6 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             $(editLayer.options._div).unbind();
 
         };
-        function resetMap() {
-            eventCtrl.off(eventCtrl.eventTypes.GETLINKID);
-            eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
-            eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
-            eventCtrl.off(eventCtrl.eventTypes.GETRELATIONID);
-            eventCtrl.off(eventCtrl.eventTypes.GETTIPSID);
-            if (map.currentTool) { //禁止当前的参考线图层的事件捕获
-                map.currentTool.disable();
-            }
-            if (map.floatMenu) { // 清除操作按钮
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
-            highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
-            if (tooltipsCtrl.getCurrentTooltip()) {
-                tooltipsCtrl.onRemoveTooltip();
-            }
-            if (selectCtrl.rowKey) {
-                selectCtrl.rowKey = null;
-            }
-            editLayer.drawGeometry = null;
-            shapeCtrl.stopEditing();
-            editLayer.bringToBack();
-            $(editLayer.options._div).unbind();
-            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-            editLayer.clear();
-        }
         $scope.$on("resetButtons",function (event) {
             $scope.clearOperator();
         });

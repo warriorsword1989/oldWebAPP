@@ -63,6 +63,8 @@
                 <button type="button" class="btn btn-xs btn-feat" ng-class="{'CRFINTER':'active'}[featureOperator]" ng-controller="addCRFShapeCtrl" ng-click="addShape('CRFINTER')">CRF交叉点</button>
                 <button type="button" class="btn btn-xs btn-feat" ng-class="{'CRFROAD':'active'}[featureOperator]" ng-controller="addCRFShapeCtrl" ng-click="addShape('CRFROAD')">CRF道路</button>
                 <button type="button" class="btn btn-xs btn-feat" ng-class="{'CRFOBJ':'active'}[featureOperator]" ng-controller="addCRFShapeCtrl" ng-click="addShape('CRFOBJ')">CRF对象</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSAMENODE':'active'}[featureOperator]" ng-controller="addSameFeatureCtrl" ng-click="addShape('RDSAMENODE')">同一点</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSAMELINK':'active'}[featureOperator]" ng-controller="addSameFeatureCtrl" ng-click="addShape('RDSAMELINK')">同一线</button>
             </li>
         </ul>
     </div>
