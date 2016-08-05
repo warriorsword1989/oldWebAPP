@@ -118,5 +118,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      增加减速带
      */
-    'RDSPEEDBUMP': "rdSpeedBump"
+    'RDSPEEDBUMP': "rdSpeedBump",
+    /*
+     增加分叉口提示
+     */
+    'RDSE': "rdSe"
 }
