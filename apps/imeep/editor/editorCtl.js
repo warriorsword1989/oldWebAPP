@@ -527,5 +527,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                 // $scope.closeAdvancedToolsPanel();
             }
         });
+		//清除表单修改后的样式
+        $scope.$on("clearAttrStyleUp", function(event, data) {
+            $scope.$broadcast("clearAttrStyleDown");
+        });
     }
 ]);
