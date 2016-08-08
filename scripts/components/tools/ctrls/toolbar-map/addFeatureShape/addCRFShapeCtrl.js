@@ -1,8 +1,8 @@
 /**
  * Created by liuyang on 2016/8/5.
  */
-angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath','$timeout',
-    function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
+angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath', '$timeout',
+    function ($scope, $ocLazyLoad, dsEdit, appPath, $timeout) {
         var layerCtrl = fastmap.uikit.LayerController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -16,7 +16,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
          * @param pointB
          * @returns {number}
          */
-        $scope.distance = function(pointA, pointB) {
+        $scope.distance = function (pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
             return Math.sqrt(len);
         };
@@ -27,7 +27,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
          * @param b
          * @returns {*}
          */
-        $scope.segmentsIntr = function(a, b) { //([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
+        $scope.segmentsIntr = function (a, b) { //([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
             var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
             var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
             // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
@@ -54,7 +54,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
          * @returns {*}
          * @constructor
          */
-        $scope.ArrUnique = function(arr) {
+        $scope.ArrUnique = function (arr) {
             for (var i = 0; i < arr.length; i++) {
                 for (var j = 0; j < arr.length; j++) {
                     if (i != j) {
@@ -65,7 +65,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                 }
             }
             /*清除空数组*/
-            arr.filter(function(v) {
+            arr.filter(function (v) {
                 if (v.length > 0) {
                     return v;
                 }
@@ -79,24 +79,15 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
          * @param num
          * @param event
          */
-        $scope.addShape = function(type) {
+        $scope.addShape = function (type) {
             //大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
-                swal("提示","地图缩放等级必须大于16级才可操作","info");
+                swal("提示", "地图缩放等级必须大于16级才可操作", "info");
                 return;
             }
             //重置选择工具
             $scope.resetToolAndMap();
-            // $scope.changeBtnClass(num);
-            // //连续点击两次按钮
-            // if (num !== 7) {
-            //     if (!$scope.classArr[num]) {
-            //         map.currentTool.disable();
-            //         map._container.style.cursor = '';
-            //         return;
-            //     }
-            // }
-             if (type === 'RDTEST') { //框选测试
+            if (type === 'RDTEST') { //框选测试
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setCurrentTooltip('请框选数据！');
                 map.currentTool = new fastmap.uikit.SelectForRectang({
@@ -112,18 +103,14 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
             } else if (type === 'CRFINTER') { //CRF交叉点
                 $scope.resetOperator("addRelation", type);
                 var highLightFeatures = [];
-                var linkPids = [];//推荐的退出线
-                var continueLinkPid = null;//退出线或者连续link的另一个端点
-                var linkLength = 0;//长度
-                var slopeData = {nodePid:null,linkPid:null};
-                var exLinkPids = [];//所有的连续link
+                var interData = {links:[],nodes:[]};//推荐的退出线
 
                 highRenderCtrl.highLightFeatures = [];
                 highRenderCtrl._cleanHighLight();
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.CRFINTER);
                 //地图编辑相关设置;
-                tooltipsCtrl.setEditEventType('rdSlope');
+                tooltipsCtrl.setEditEventType('crfInter');
                 tooltipsCtrl.setCurrentTooltip('请框选制作CRF交叉点的道路线、点！');
                 map.currentTool = new fastmap.uikit.SelectForRectang({
                     map: map,
@@ -134,7 +121,39 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                 eventController.off(eventController.eventTypes.GETRECTDATA);
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
                     console.log(data.data);
-                })
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (data.data[i].data && data.data[i].data.geometry.type == "LineString") {
+                            if (interData.links.indexOf(data.data[i].data.properties.id) < 0) {
+                                interData.links.push(data.data[i].data.properties.id);
+                                highLightFeatures.push({
+                                    id: data.data[i].data.properties.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: '#D9B300'
+                                    }
+                                });
+                            }
+                        } else {
+                            if (interData.nodes.indexOf(data.data[i].data.properties.id) < 0) {
+                                interData.nodes.push(data.data[i].data.properties.id);
+                                highLightFeatures.push({
+                                    id: data.data[i].data.properties.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'rdLink',
+                                    style: {
+                                        color: '#02F78E'
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                    highRenderCtrl.drawHighlight();
+                });
+                shapeCtrl.shapeEditorResult.setFinalGeometry(interData);
+                tooltipsCtrl.setEditEventType('interData');
+                tooltipsCtrl.setCurrentTooltip("点击空格保存坡度信息,或者按ESC键取消!");
             }
         }
     }

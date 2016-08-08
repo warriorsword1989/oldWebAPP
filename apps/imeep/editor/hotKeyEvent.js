@@ -1159,6 +1159,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
+            }else if (shapeCtrl.editType === "CRFInter"){
+                dsEdit.create('RDINTER',geo).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             }
         }
     });
