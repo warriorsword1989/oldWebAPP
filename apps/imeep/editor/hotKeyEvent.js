@@ -1160,6 +1160,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             }else if (shapeCtrl.editType === "CRFInter"){
+                if(geo.nodes.length == 0){
+                    swal("操作失败", "未选中Node点！", "info");
+                    return;
+                }
                 dsEdit.create('RDINTER',geo).then(function(data) {
                     if(data != null){
                         relationData.redraw();

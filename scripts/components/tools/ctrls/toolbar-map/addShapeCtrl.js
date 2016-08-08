@@ -589,15 +589,11 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             }
             //重置选择工具
             $scope.resetToolAndMap();
-            // $scope.changeBtnClass(num);
-            // //连续点击两次按钮
-            // if (num !== 7) {
-            //     if (!$scope.classArr[num]) {
-            //         map.currentTool.disable();
-            //         map._container.style.cursor = '';
-            //         return;
-            //     }
-            // }
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
+            $("#popoverTips").hide();
             if (type === "RDRESTRICTION") {
                 $scope.resetOperator("addRelation", type);
                 $scope.$emit("SWITCHCONTAINERSTATE", {

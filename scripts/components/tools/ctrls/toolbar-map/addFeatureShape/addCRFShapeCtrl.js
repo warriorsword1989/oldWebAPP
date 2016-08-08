@@ -87,6 +87,11 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
             }
             //重置选择工具
             $scope.resetToolAndMap();
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
+            $("#popoverTips").hide();
             if (type === 'RDTEST') { //框选测试
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setCurrentTooltip('请框选数据！');
@@ -124,7 +129,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                     for (var i = 0; i < data.data.length; i++) {
                         if (data.data[i].data && data.data[i].data.geometry.type == "LineString") {
                             if (interData.links.indexOf(data.data[i].data.properties.id) < 0) {
-                                interData.links.push(data.data[i].data.properties.id);
+                                interData.links.push(parseInt(data.data[i].data.properties.id));
                                 highLightFeatures.push({
                                     id: data.data[i].data.properties.id.toString(),
                                     layerid: 'rdLink',
@@ -136,7 +141,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                             }
                         } else {
                             if (interData.nodes.indexOf(data.data[i].data.properties.id) < 0) {
-                                interData.nodes.push(data.data[i].data.properties.id);
+                                interData.nodes.push(parseInt(data.data[i].data.properties.id));
                                 highLightFeatures.push({
                                     id: data.data[i].data.properties.id.toString(),
                                     layerid: 'rdLink',
