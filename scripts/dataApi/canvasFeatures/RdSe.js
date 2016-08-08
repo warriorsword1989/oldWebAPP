@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdSe = fastmap.uikit.canvasFeature.Feature.extend({
         this.properties["featType"] = "RDSE";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/road/rdSe/0.png',
+                    iconName: '../../../images/road/rdSe/0.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates']
