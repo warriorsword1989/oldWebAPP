@@ -1173,7 +1173,44 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDSE", "编辑RDSE成功", 'attr_se_ctrl/rdSeCtrl', 'attr_se_tpl/rdSeTpl.html');
                 })
-            }else if (shapeCtrl.editType === "CRFInter"){
+            } else if (shapeCtrl.editType === "rdDirectRoute") {    //顺行
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDDIRECTROUTE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDDIRECTROUTE", "编辑RDDIRECTROUTE成功", 'attr_directroute_ctrl/directRouteCtrl', 'attr_directroute_tpl/directRouteTpl.html');
+                })
+            } else if (shapeCtrl.editType === "rdSpeedBump") {    //减速带
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDSPEEDBUMP",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "inNodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDSPEEDBUMP", "编辑RDSPEEDBUMP成功", 'attr_speedbump_ctrl/speedBumpCtrl', 'attr_speedbump_tpl/speedBumpTpl.html');
+                })
+            } else if (shapeCtrl.editType === "CRFInter"){
                 if(geo.nodes.length == 0){
                     swal("操作失败", "未选中Node点！", "info");
                     return;

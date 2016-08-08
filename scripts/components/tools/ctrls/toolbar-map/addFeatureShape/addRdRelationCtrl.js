@@ -1290,13 +1290,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink); //添加自动吸附的图层
                 //获取退出线并高亮;
                 $scope.getOutLink = function(dataId) {
-                    $scope.limitRelation.outLinkPid = parseInt(dataId);
+                    $scope.directRoute.outLinkPid = parseInt(dataId);
                     if (highLightFeatures.length === 3) {
                         highLightFeatures.pop();
                     }
                     highRenderCtrl._cleanHighLight();
                     highLightFeatures.push({
-                        id: $scope.limitRelation.outLinkPid.toString(),
+                        id: $scope.directRoute.outLinkPid.toString(),
                         layerid: 'rdLink',
                         type: 'line',
                         style: {}
@@ -1315,9 +1315,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler.addGuideLayer(rdnode);
 
                         //进入线;
-                        $scope.limitRelation.inLinkPid = parseInt(data.id);
+                        $scope.directRoute.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
-                            id: $scope.limitRelation.inLinkPid.toString(),
+                            id: $scope.directRoute.inLinkPid.toString(),
                             layerid: 'rdLink',
                             type: 'line',
                             style: {
@@ -1329,9 +1329,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         tooltipsCtrl.setCurrentTooltip('已经选择进入线,选择进入点!');
                         linkDirect = data["properties"]["direct"];
                         if (linkDirect == 2 || linkDirect == 3) {
-                            $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                            $scope.directRoute.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
                             highLightFeatures.push({
-                                id: $scope.limitRelation.nodePid.toString(),
+                                id: $scope.directRoute.nodePid.toString(),
                                 layerid: 'rdLink',
                                 type: 'rdnode',
                                 style: {
@@ -1339,7 +1339,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
+                            map.currentTool.selectedFeatures.push($scope.directRoute.nodePid.toString());
                             tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
 
                             //清除吸附的十字
@@ -1352,9 +1352,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.getOutLink(data.id);
                         } else {
-                            $scope.limitRelation.nodePid = parseInt(data.id);
+                            $scope.directRoute.nodePid = parseInt(data.id);
                             highLightFeatures.push({
-                                id: $scope.limitRelation.nodePid.toString(),
+                                id: $scope.directRoute.nodePid.toString(),
                                 layerid: 'rdLink',
                                 type: 'rdnode',
                                 style: {
@@ -1373,9 +1373,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
-                        $scope.limitRelation.outLinkPid = parseInt(data.id);
+                        $scope.directRoute.outLinkPid = parseInt(data.id);
                     }
-                    featCodeCtrl.setFeatCode($scope.limitRelation);
+                    featCodeCtrl.setFeatCode($scope.directRoute);
                 })
             } else if (type === 'RDSPEEDBUMP'){ //减速带
                 $scope.resetOperator("addRelation", type);
@@ -1434,7 +1434,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push(nodePid.toString());
+                            map.currentTool.selectedFeatures.push($scope.speedBumpInfo.nodePid.toString());
 
                             featCodeCtrl.setFeatCode($scope.speedBumpInfo);
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");

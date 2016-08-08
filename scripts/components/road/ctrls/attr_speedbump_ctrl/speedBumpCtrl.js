@@ -13,7 +13,6 @@ rdElectronicEyeApp.controller("SpeedBumpCtl", ['$scope', 'dsEdit', function ($sc
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.speedBumpData = objCtrl.data;
-		conversionSystem();
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.speedBumpData.linkPid.toString(),
@@ -21,6 +20,14 @@ rdElectronicEyeApp.controller("SpeedBumpCtl", ['$scope', 'dsEdit', function ($sc
 			type: 'line',
 			style: {
 				size: 5
+			}
+		});
+		highLightFeatures.push({
+			id: $scope.speedBumpData.nodePid.toString(),
+			layerid: 'rdLink',
+			type: 'node',
+			style: {
+				color: 'yellow'
 			}
 		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
