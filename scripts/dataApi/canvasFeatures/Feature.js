@@ -114,6 +114,12 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 34://分叉口提示
                     ret = new fastmap.uikit.canvasFeature.RdSe(data);
                     break;
+                case 35://顺行
+                    ret = new fastmap.uikit.canvasFeature.RdDirectRoute(data);
+                    break;
+                case 36://减速带
+                    ret = new fastmap.uikit.canvasFeature.RdSpeedBump(data);
+                    break;
             }
             return ret;
         },
