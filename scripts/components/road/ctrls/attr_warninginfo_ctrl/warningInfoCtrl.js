@@ -115,6 +115,8 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         highRenderCtrl.highLightFeatures =highlightFeatures;
         highRenderCtrl.drawHighlight();
 
+        eventCtrl.fire(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE);
+
     };
 
     /*点击选中的图片*/
