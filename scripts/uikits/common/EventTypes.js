@@ -38,5 +38,6 @@ L.Mixin.EventTypes = {
     CAPTURED: 'captured',
     CHANGELINKNAME: "changeLinkName", //link编辑名称组是
     CHANGEPOILIST: "changePoiList", //更换poiList列表
-    GETRECTDATA:"getRectData"
+    GETRECTDATA:"getRectData",
+    SELECTEDVEHICLECHANGE:"selectedVehicleChage" //更改车辆类型时触发
 }

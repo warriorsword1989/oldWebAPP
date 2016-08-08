@@ -1173,6 +1173,19 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDSE", "编辑RDSE成功", 'attr_se_ctrl/rdSeCtrl', 'attr_se_tpl/rdSeTpl.html');
                 })
+            }else if (shapeCtrl.editType === "CRFInter"){
+                if(geo.nodes.length == 0){
+                    swal("操作失败", "未选中Node点！", "info");
+                    return;
+                }
+                dsEdit.create('RDINTER',geo).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             }
         }
     });

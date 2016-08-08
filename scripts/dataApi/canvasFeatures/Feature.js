@@ -111,6 +111,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 30://LUFace
                     ret = new fastmap.uikit.canvasFeature.LUFace(data);
                     break;
+                case 34://分叉口提示
+                    ret = new fastmap.uikit.canvasFeature.RdSe(data);
+                    break;
             }
             return ret;
         },

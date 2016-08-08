@@ -1,6 +1,7 @@
 var oridinaryInfoApp = angular.module("app",[]);
 oridinaryInfoApp.controller("carTypeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var eventCtrl = fastmap.uikit.EventController();
     $scope.rdWarningInfoObj = objCtrl.data;
 
     $scope.carData=[];
@@ -59,19 +60,19 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
                 originArray.push($scope.vehicleOptions[i]);
             }
         }
-        for(var p in originArray){
-            for(var s in $scope.vehicleOptions){
-                if(originArray[p].id.toString()==$scope.vehicleOptions[s].id){
-                    $scope.vehicleOptions[s].checked=true;
-                    $scope.carData.push($scope.vehicleOptions[s]);
+
+        if(originArray.length == 0){
+            $scope.carData = [];
+        } else {
+            for(var p in originArray){
+                for(var s in $scope.vehicleOptions){
+                    if(originArray[p].id.toString()==$scope.vehicleOptions[s].id){
+                        $scope.vehicleOptions[s].checked=true;
+                        $scope.carData.push($scope.vehicleOptions[s]);
+                    }
                 }
             }
         }
-        //$scope.carData=originArray;
-
-        //初始化数据
-        // initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv");
-
     };
 
     $scope.showPopover=function(e){
@@ -126,7 +127,21 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
                 }
             }
         }
-        objCtrl.data.vehicle = newArray.join(",");
-        //$scope.oridiData.vehicle=parseInt(bin2dec(result));
+        //objCtrl.data.vehicle = newArray.join(",");
+        objCtrl.data.vehicle = parseInt(bin2dec(result));
     };
+
+
+
+
+    $scope.initializeData = function (){
+        $scope.rdWarningInfoObj = objCtrl.data;
+        $scope.showvehicle($scope.rdWarningInfoObj.vehicle);
+    };
+
+    $scope.initializeData();
+
+    eventCtrl.off(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE);
+    eventCtrl.on(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE, $scope.initializeData);
+
 });

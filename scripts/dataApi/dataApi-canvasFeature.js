@@ -34,6 +34,7 @@
         "RdWarningInfo.js",
         "RdTrafficSignal.js",
         "RdElectronicEye.js",
+        "RdSe.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",

@@ -43,6 +43,11 @@ angular.module('app').controller("addRwShapeCtrl", ['$scope', '$ocLazyLoad',
                 return;
             }
             $scope.resetToolAndMap();
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
+            $("#popoverTips").hide();
             // $scope.changeBtnClass(num);
             if (type === "RWLINK") {
                 $scope.resetOperator("addLink", type);

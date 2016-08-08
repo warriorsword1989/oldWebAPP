@@ -110,7 +110,7 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      CRF点
      */
-    'RDSLOPE': "rdSlope",
+    'CRFINTER': "CRFInter",
     /*
      增加顺行
      */

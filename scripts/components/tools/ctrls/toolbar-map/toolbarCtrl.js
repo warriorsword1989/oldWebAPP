@@ -96,11 +96,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
-            });
-            $("#popoverTips").hide();
+
             editLayer.drawGeometry = null;
             editLayer.clear();
             editLayer.bringToBack();

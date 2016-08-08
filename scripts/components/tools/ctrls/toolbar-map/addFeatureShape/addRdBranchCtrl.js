@@ -27,15 +27,11 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
             }
             //重置选择工具
             $scope.resetToolAndMap();
-            // $scope.changeBtnClass(num);
-            // //连续点击两次按钮
-            // if (num !== 7) {
-            //     if (!$scope.classArr[num]) {
-            //         map.currentTool.disable();
-            //         map._container.style.cursor = '';
-            //         return;
-            //     }
-            // }
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
+            $("#popoverTips").hide();
              if (type.split('_')[0] == 'BRANCH') {
 
 
