@@ -25,6 +25,8 @@
         "RwLink.js",
         "RwNode.js",
         "RdLink.js",
+        "RdSameNode.js",
+        "RdSameLink.js",
         "RdBranchPart.js",
         "RdBranch.js",
         "RdGscMarker.js",
