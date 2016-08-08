@@ -153,11 +153,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
                                 "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                             });
-                            scope.$emit("transitCtrlAndTpl", {
-                                "loadType": "attrTplContainer",
-                                "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
-                                "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
-                            });
                             scope.$emit("highLightPoi", rest.pid);
                         }
                     });
@@ -1159,6 +1154,25 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
+            } else if (shapeCtrl.editType === "rdSe") {
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDSE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDSE", "编辑RDSE成功", 'attr_se_ctrl/rdSeCtrl', 'attr_se_tpl/rdSeTpl.html');
+                })
             }
         }
     });
