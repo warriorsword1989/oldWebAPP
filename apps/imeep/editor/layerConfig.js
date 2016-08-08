@@ -571,7 +571,33 @@ App.layersConfig = [{
             requestType: 'IXPOI',
             showNodeLevel: 17
         }
-    }]
+    },{
+            url: '/render/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                id: 'rdSameNode',
+                name: '同一点',
+                maxZoom: 20,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 5,
+                boolPixelCrs: true,
+                parse: fastmap.uikit.canvasFeature.Feature.transform,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'Point',
+                zIndex: 17,
+                restrictZoom: 10,
+                editable: false,
+                visible: false,
+                requestType: 'RDSAMENODE',
+                showNodeLevel: 17
+            }
+        }]
 }, {
     groupId: 'worklayer',
     groupName: '作业图层',
