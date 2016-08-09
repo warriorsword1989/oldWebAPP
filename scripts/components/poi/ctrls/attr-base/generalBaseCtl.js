@@ -289,6 +289,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if(!validateForm()){
             return ;
         }
+        if (objectCtrl.data.status == 3){
+            swal("提示", '此数据为已提交数据，不能做修改属性！', "info");
+            return;
+        }
         clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
         objectCtrl.save();
         var chaged =  objectCtrl.changedProperty;
@@ -336,6 +340,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 删除数据
     function del() {
+        if (objectCtrl.data.status == 3){
+            setTimeout(function () {//为了使这个提示能弹出来，要加个延时
+                swal("提示", '此数据为已提交数据，不能做删除！', "info");
+            },100);
+            return;
+        }
         //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             poiLayer.redraw();

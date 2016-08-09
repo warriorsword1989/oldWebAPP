@@ -64,7 +64,11 @@
                 "dataApi/road/RdSlope.js",
                 "dataApi/road/RdSlopeLinks.js",
                 "dataApi/road/RdGate.js",
-                "dataApi/road/RdGateCondition.js"
+                "dataApi/road/RdGateCondition.js",
+                "dataApi/road/RdDirectRoute.js",
+                "dataApi/road/RdDirectRouteVia.js",
+                "dataApi/road/RdSpeedBump.js",
+                "dataApi/road/RdSe.js"
             ]; // etc.
 
 

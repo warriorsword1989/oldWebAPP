@@ -153,11 +153,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
                                 "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                             });
-                            scope.$emit("transitCtrlAndTpl", {
-                                "loadType": "attrTplContainer",
-                                "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
-                                "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
-                            });
                             scope.$emit("highLightPoi", rest.pid);
                         }
                     });
@@ -1147,10 +1142,83 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 if(featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length){
                     param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
                 }
+                if(param.data.linkPids == undefined && param.data.linkPid == undefined){
+                    swal("操作失败", "坡度没有发生修改！", "info");
+                    return;
+                }
                 dsEdit.save(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();
                         treatmentOfChanged(data, "RDSLOPE", "修改坡度成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "rdSe") {
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDSE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDSE", "编辑RDSE成功", 'attr_se_ctrl/rdSeCtrl', 'attr_se_tpl/rdSeTpl.html');
+                })
+            } else if (shapeCtrl.editType === "rdDirectRoute") {    //顺行
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDDIRECTROUTE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDDIRECTROUTE", "编辑RDDIRECTROUTE成功", 'attr_directroute_ctrl/directRouteCtrl', 'attr_directroute_tpl/directRouteTpl.html');
+                })
+            } else if (shapeCtrl.editType === "rdSpeedBump") {    //减速带
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDSPEEDBUMP",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "inNodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDSPEEDBUMP", "编辑RDSPEEDBUMP成功", 'attr_speedbump_ctrl/speedBumpCtrl', 'attr_speedbump_tpl/speedBumpTpl.html');
+                })
+            } else if (shapeCtrl.editType === "CRFInter"){
+                if(geo.nodes.length == 0){
+                    swal("操作失败", "未选中Node点！", "info");
+                    return;
+                }
+                dsEdit.create('RDINTER',geo).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
                     } else {
                         resetPage();
                     }

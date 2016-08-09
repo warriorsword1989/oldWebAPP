@@ -135,6 +135,15 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "LUFACE":
                         this.data = fastmap.dataApi.luFace(obj);
                         break;
+                    case "RDDIRECTROUTE":
+                        this.data = fastmap.dataApi.rdDirectRoute(obj);
+                        break;
+                    case "RDSPEEDBUMP":
+                        this.data = fastmap.dataApi.rdSpeedBump(obj);
+                        break;
+                    case "RDSE": //分叉口
+                        this.data = fastmap.dataApi.rdSe(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

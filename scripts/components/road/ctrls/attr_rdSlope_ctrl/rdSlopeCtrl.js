@@ -14,6 +14,9 @@ rdSlopeApp.controller("rdSlopeCtl",['$scope','dsEdit',function($scope,dsEdit) {
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.initializeData = function(){
         $scope.slopeData = objCtrl.data;
+        $scope.slopeData.slopeVias.sort(function (a, b) {
+            return a.seqNum < b.seqNum ? -1 : 1;
+        });
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var highLightFeatures = [];
         selectCtrl.onSelected({

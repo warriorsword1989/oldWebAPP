@@ -293,6 +293,11 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.wID[0].id ? data.wID[0].id : '', "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
+                            }
+                        }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                 } else if (pItemId === "1106") { //坡度
@@ -319,12 +324,17 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                 } else if (pItemId === "1109") {
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                    var ctrlAndTplOfSA = {
+                    var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                               $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
+                            }
+                        }
                     };
-                    $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1110") {    //卡车限制
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                     var ctrlAndTpl = {

@@ -39,6 +39,15 @@ fastmap.uikit.FeatureConfig = {
         "RDLINKINTRTIC": {
             name: "互联网RTIC"
         },
+        "RDDIRECTROUTE": {
+            name: "顺行"
+        },
+        "RDSPEEDBUMP": {
+            name: "减速带"
+        },
+        "RDSE": {
+            name: "分叉口"
+        },
         "RDGSC": {
             name: "立交"
         },

@@ -154,7 +154,7 @@ App.layersConfig = [{
             zIndex: 6,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE',
             showNodeLevel: 17
         }
     }, {
@@ -471,6 +471,85 @@ App.layersConfig = [{
         url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
+            id: 'lcNode',
+            name: 'LC(土地覆盖)-点',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Point',
+            zIndex: 18,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'LCNODE',
+            showNodeLevel: 16
+        }
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'lcLink',
+            name: 'LC(土地覆盖)-线',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 18,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'LCLINK',
+            showNodeLevel: 15
+        }
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'lcFace',
+            name: 'LC(土地覆盖)-面',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Polygon',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'LCFACE',
+            showNodeLevel: 14
+        }
+    },
+        {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
             name: '兴趣点（POI）',
             id: 'poi',
             maxZoom: 20,
@@ -490,6 +569,58 @@ App.layersConfig = [{
             restrictZoom: 10,
             visible: true,
             requestType: 'IXPOI',
+            showNodeLevel: 17
+        }
+    },  {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'rdSameNode',
+            name: '同一点',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Point',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'RDSAMENODE',
+            showNodeLevel: 17
+        }
+    },  {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'rdSameLink',
+            name: '同一线',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 17,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'RDSAMELINK',
             showNodeLevel: 17
         }
     }]

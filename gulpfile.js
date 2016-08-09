@@ -48,12 +48,14 @@ gulp.task('htmls',['cleanhtml'], function() {
 });
 // 脚本
 gulp.task('scripts',['cleanjs'], function() {
-	return gulp.src(['**/*.js','!node_modules/**/*.js','!scripts/libs/**/*.js','!gulpfile.js','!Gruntfile.js','!karma.conf.js','!test/**/*.js','!dest/*.js'])
+	return gulp.src(['**/*.js','!node_modules/**/*.js','!dist/**/*.js','!scripts/libs/**/*.js','!gulpfile.js','!Gruntfile.js','!karma.conf.js','!test/**/*.js','!dest/*.js'])
 		.pipe(jshint('jshintrc.json'))
 		// .pipe(rename({ suffix: '.min' }))
 		.pipe(uglify({
 			mangle: false//类型：Boolean 默认：true 是否修改变量名
-			// mangle: {except: ['require' ,'exports' ,'module' ,'$','$scope']}//排除混淆关键字
+			// mangle: {except: ['require' ,'exports' ,'module' ,'$','$scope','$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout']},//排除混淆关键字
+			// compress: true,//类型：Boolean 默认：true 是否完全压缩
+			// preserveComments: all //保留所有注释
 		}))
 		.pipe(gulp.dest('dist'))
 		.pipe(notify({ message: '<%= file.relative %>【压缩JS文件完成】！' }));
@@ -70,6 +72,12 @@ gulp.task('images',['cleanimg'], function () {
 		.pipe(gulp.dest('dist/images'))
 		.pipe(notify({ message: '<%= file.relative %>【压缩图片完成！】' }));
 });
+//插件文件
+gulp.task('plugins',function() {
+	return gulp.src('scripts/libs/**/*.*')
+		.pipe(gulp.dest('dist/scripts/libs/'))
+		.pipe(notify({ message: '<%= file.relative %> 【移动插件完成！】'}));
+});
 // 清理
 gulp.task('clean', function() {
 	return gulp.src(['dist'], {read: false})
@@ -81,7 +89,9 @@ gulp.task('clean-all', function() {
 	return gulp.src([
 			'dist/**/*.js','!dist/node_modules/**/*.js','!dist/scripts/libs/**/*.js',
 			'dist/**/*.css','!dist/node_modules/**/*.css','!dist/libs/**/*.css',
-			'dist/**/*.html','dist/**/*.htm','!dist/node_modules/**/*.html','!dist/libs/**/*.html'], {read: false})
+			'dist/**/*.html','dist/**/*.htm','!dist/node_modules/**/*.html','!dist/libs/**/*.html',
+			'dist/images/**/*.{png,jpg,gif,ico,svg}',
+			'dist/scripts/libs'], {read: false})
 		.pipe(clean())
 		.pipe(notify({ message: '<%= file.relative %>【清空完成】' }));
 });
@@ -109,6 +119,12 @@ gulp.task('cleanhtml', function() {
 		.pipe(clean())
 		.pipe(notify({ message: '<%= file.relative %>【清空HTML完成】' }));
 });
+// 清理插件
+gulp.task('cleanplugin', function() {
+	return gulp.src(['dist/scripts/libs'], {read: false})
+		.pipe(clean())
+		.pipe(notify({ message: '<%= file.relative %>【清空插件完成】' }));
+});
 // 说明
 gulp.task('help',function () {
 	console.log('	gulp build			文件打包');
@@ -130,4 +146,5 @@ gulp.task('build',['clean-all'] , function() {
 	gulp.start('styles');
 	gulp.start('htmls');
 	gulp.start('images');
+	gulp.start('plugins');
 });

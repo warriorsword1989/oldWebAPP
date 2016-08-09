@@ -1,0 +1,78 @@
+<div ng-controller="DirectRouteCtl">
+    <div class="fm-component" >
+        <div class="title">
+            顺行PID
+            <span class="label label-info">{{rdWarningInfoObj.pid}}</span>
+        </div>
+        <div class="content">
+            <ul class="fm-ul fm-ul-form">
+                <li>
+                    <label>进入线</label>
+                    <div >
+                        <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.linkPid"/>
+                    </div>
+                </li>
+                <li>
+                    <label>进入点</label>
+                    <div>
+                        <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.nodePid"/>
+                    </div>
+                </li>
+                <li>
+                    <label>退出线</label>
+                    <div>
+                        <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.outLinkPid"/>
+                    </div>
+                </li>
+                <li>
+                    <label>顺行标志</label>
+                    <div>
+                        <label>
+                            <input type="radio" value=0 ng-model="electronicEyeData.flag">
+                            实地
+                        </label>
+                        <label>
+                            <input type="radio" value=1 ng-model="electronicEyeData.flag">
+                            理论
+                        </label>
+                        <label>
+                            <input type="radio" value=2 ng-model="electronicEyeData.flag">
+                            未验证
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <label>处理标志</label>
+                    <div>
+                        <label>
+                            <input type="radio" value=0 ng-model="electronicEyeData.processFlag">
+                            无
+                        </label>
+                        <label>
+                            <input type="radio" value=1 ng-model="electronicEyeData.processFlag">
+                            人工
+                        </label>
+                        <label>
+                            <input type="radio" value=2 ng-model="electronicEyeData.processFlag">
+                            批处理
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <label>关系类型</label>
+                    <div>
+                        <label>
+                            <input type="radio" value=1 ng-model="electronicEyeData.relationshipType">
+                            路口关系
+                        </label>
+                        <label>
+                            <input type="radio" value=2 ng-model="electronicEyeData.relationshipType">
+                            线线关系
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

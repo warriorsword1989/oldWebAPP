@@ -37,7 +37,9 @@ requirejs.config({
         //'sceneLayerCtr': 'scripts/components/road3/ctrls/layer_switch_ctr/sceneLayersCtrl',
         'layers': "apps/imeep/editor/layerConfig",
         'keyPressFunctions': 'apps/imeep/editor/hotKeyEvent',
-        'z-tree': 'scripts/libs/z-tree/jquery.ztree.all'
+        'z-tree': 'scripts/libs/z-tree/jquery.ztree.all',
+        'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
+        'fmEditView': 'scripts/components/directives/fmEditView/fmEditView',
     },
     shim: {
         'angular': {
@@ -68,7 +70,9 @@ requirejs.config({
         'bootspopover': ['jquery'],
         'keyPressFunctions': ['jquery', 'dataService', 'metaService', 'editService'],
         'z-tree': ['jquery'],
-        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg']
+        'fastmapUikit': ['angular'],
+        'fmEditView': ['fastmapUikit'],
+        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView']
     }
 });
 // Start the main app logic.

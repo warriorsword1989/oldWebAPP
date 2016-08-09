@@ -104,7 +104,23 @@ fastmap.mapApi.ShapeOptionType = {
      */
     "ELECTRANSFORMDIRECT":"elecTransformDirect",
     /*
-     增加poi
+     坡度
      */
-    'RDSLOPE': "rdSlope"
+    'RDSLOPE': "rdSlope",
+    /*
+     CRF点
+     */
+    'CRFINTER': "CRFInter",
+    /*
+     增加顺行
+     */
+    'RDDIRECTROUTE': "rdDirectRoute",
+    /*
+     增加减速带
+     */
+    'RDSPEEDBUMP': "rdSpeedBump",
+    /*
+     增加分叉口提示
+     */
+    'RDSE': "rdSe"
 }
