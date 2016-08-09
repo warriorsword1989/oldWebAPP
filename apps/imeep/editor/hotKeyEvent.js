@@ -32,7 +32,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         var luFace = layerCtrl.getLayerById('luFace');
         var lcLink = layerCtrl.getLayerById('lcLink');
         var lcNode = layerCtrl.getLayerById('lcNode');
-        var lcFace = layerCtrl.getLayerById('luFace');
+        var lcFace = layerCtrl.getLayerById('lcFace');
         var relationData = layerCtrl.getLayerById('relationData');
         if (event.keyCode == 27) {
             resetPage();
@@ -560,7 +560,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luNode.redraw();
                             luFace.redraw();
                         }else if(param["type"] === "LCNODE"){
-                            lcLink.redraw();
+                            //lcLink.redraw();
                             lcNode.redraw();
                             lcFace.redraw();
                         }
