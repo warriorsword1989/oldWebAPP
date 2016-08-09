@@ -30,6 +30,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         var luLink = layerCtrl.getLayerById('luLink');
         var luNode = layerCtrl.getLayerById('luNode');
         var luFace = layerCtrl.getLayerById('luFace');
+        var lcLink = layerCtrl.getLayerById('lcLink');
+        var lcNode = layerCtrl.getLayerById('lcNode');
+        var lcFace = layerCtrl.getLayerById('luFace');
         var relationData = layerCtrl.getLayerById('relationData');
         if (event.keyCode == 27) {
             resetPage();
@@ -240,6 +243,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         showContent = "创建luLink成功";
                         ctrl = 'attr_lu_ctrl/luLinkCtrl';
                         tpl = 'attr_lu_tpl/luLinkTpl.html';
+                    } else if (shapeCtrl.editFeatType === "LCLINK") {
+                        param["type"] = "LCLINK";
+                        showContent = "创建lcLink成功";
+                        //ctrl = 'attr_lu_ctrl/lcLinkCtrl';
+                        //tpl = 'attr_lu_tpl/lcLinkTpl.html';
                     }
                     dsEdit.save(param).then(function(data) {
                         if(data != null){
@@ -258,6 +266,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             } else if (param["type"] === "LULINK") {
                                 luLink.redraw();
                                 luNode.redraw();
+                            } else if (param["type"] === "LCLINK") {
+                                lcLink.redraw();
+                                lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
                         } else {
@@ -549,10 +560,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             zoneLink.redraw();
                             zoneNode.redraw();
                             zoneFace.redraw();
-                        } else if (param["type"] === "lUNODE") {
+                        } else if (param["type"] === "LUNODE") {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
+                        }else if(param["type"] === "LCNODE"){
+                            lcLink.redraw();
+                            lcNode.redraw();
+                            lcFace.redraw();
                         }
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     } else {
@@ -695,6 +710,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     });
                 
+                }else if (shapeCtrl.editFeatType == 'LCFACE') {
+                    param = {
+                        "command": "CREATE",
+                        "type": "LCFACE",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": coordinate
+                            }
+                        }
+                    };
+                    dsEdit.save(param).then(function(data) {
+                        if(data!=null){
+                            lcNode.redraw();
+                            lcFace.redraw();
+                            lcLink.redraw();
+                            //treatmentOfChanged(data, "LUFACE", "创建LC面成功", 'attr_lu_ctrl/luFaceCtrl', 'attr_lu_tpl/luFaceTpl.html');
+                        } else {
+                            resetPage();
+                        }
+                    });
+
                 }
             } else if (shapeCtrl.editType === "addRdGsc") {
                 param = {
