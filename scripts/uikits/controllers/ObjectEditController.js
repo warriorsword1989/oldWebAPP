@@ -144,6 +144,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDSE": //分叉口
                         this.data = fastmap.dataApi.rdSe(obj);
                         break;
+                    case "RDTOLLGATE": //收费站
+                        this.data = fastmap.dataApi.rdTollgate(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

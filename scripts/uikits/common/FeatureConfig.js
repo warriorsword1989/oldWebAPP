@@ -48,6 +48,9 @@ fastmap.uikit.FeatureConfig = {
         "RDSE": {
             name: "分叉口"
         },
+        "RDTOLLGATE": {
+            name: "收费站"
+        },
         "RDGSC": {
             name: "立交"
         },

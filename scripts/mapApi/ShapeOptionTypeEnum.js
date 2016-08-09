@@ -122,5 +122,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      增加分叉口提示
      */
-    'RDSE': "rdSe"
+    'RDSE': "rdSe",
+    /*
+     增加收费站
+     */
+    'RDTOLLGATE': "rdTollgate"
 }

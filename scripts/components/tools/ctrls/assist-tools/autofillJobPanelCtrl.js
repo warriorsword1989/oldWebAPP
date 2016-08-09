@@ -18,7 +18,7 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
                 for (var item in data.data.rows[i]) {
                     tmp = {};
                     tmp.id = item;
-                    tmp.name = fastmap.dataApi.FeatureConfig[item].name;
+                    tmp.name = fastmap.uikit.FeatureConfig.tip[item].name;
                     $scope.tipList.push(tmp);
                 }
             }
