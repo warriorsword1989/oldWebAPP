@@ -31,12 +31,12 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         }
         this.names = [];
         for(var i=0;i<data["names"].length;i++){
-            var name = fastmap.dataApi.rdTollgateName(data["name"]);
+            var name = fastmap.dataApi.rdTollgateName(data["names"][i]);
             this.names.push(name);
         }
         this.passages = [];
         for(var i=0;i<data["passages"].length;i++){
-            var passage = fastmap.dataApi.rdTollgatePassage(data["passage"]);
+            var passage = fastmap.dataApi.rdTollgatePassage(data["passages"][i]);
             this.passages.push(passage);
         }
         this.feeStd = data["feeStd"] || 0;
