@@ -201,6 +201,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'ngTable', 'localytics.direct
                     callback();
                 }
             });
+            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/specialOperationBarCtl.js').then(function() {
+                $scope.specialOperationToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/specialOperationBarTpl.htm';
+            });
             $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
             });

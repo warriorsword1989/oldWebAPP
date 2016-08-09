@@ -83,6 +83,7 @@
                                 <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch')">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
                             </div>
                             <div ng-include="mapToolbar" class="div-float map-toolbar" style="top:0px;left:290px;"></div>
+                            <div ng-include="specialOperationToolbar" class="div-float map-toolbar" style="top:0px;left:580px;"></div>
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                             <div ng-show="advancedTool!=null" class="div-float" style="top:80px;left:290px;min-width:300px;max-width:400px;border-radius:5px;">
                                 <button type="button" class="close" style="padding:0px 4px;" ng-click="closeAdvancedToolsPanel()"><span>&times;</span></button>
