@@ -82,6 +82,7 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 			if (data) {
 				$scope.directRouteData = null;
 				relationData.redraw();
+				highRenderCtrl._cleanHighLight();
 			}
 		})
 	};

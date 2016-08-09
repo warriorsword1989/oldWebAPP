@@ -89,6 +89,7 @@ rdElectronicEyeApp.controller("SpeedBumpCtl", ['$scope', 'dsEdit', function ($sc
 			if (data) {
 				$scope.speedBumpData = null;
 				relationData.redraw();
+				highRenderCtrl._cleanHighLight();
 			}
 		})
 	};

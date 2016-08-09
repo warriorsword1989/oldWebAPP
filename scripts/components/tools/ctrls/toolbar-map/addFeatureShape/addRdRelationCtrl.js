@@ -1278,6 +1278,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 //地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdDirectRoute');
                 tooltipsCtrl.setCurrentTooltip('正要新建顺行,先选择线！');
+                $scope.directRoute = {};
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
