@@ -111,6 +111,23 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 30://LUFace
                     ret = new fastmap.uikit.canvasFeature.LUFace(data);
                     break;
+                case 34://分叉口提示
+                    ret = new fastmap.uikit.canvasFeature.RdSe(data);
+                    break;
+                case 35://顺行
+                    ret = new fastmap.uikit.canvasFeature.RdDirectRoute(data);
+                    break;
+                case 36://减速带
+                    ret = new fastmap.uikit.canvasFeature.RdSpeedBump(data);
+                    break;
+                case 37://同一点
+                    if((data.g[0] >= -3 && data.g[0] <= 258) && (data.g[1] >= -3 && data.g[1] <= 258)) {
+                        ret = new fastmap.uikit.canvasFeature.RdNode(data);
+                    }
+                    break;
+                case 38://同一线
+                    ret = new fastmap.uikit.canvasFeature.RwLink(data);
+                    break;
             }
             return ret;
         },

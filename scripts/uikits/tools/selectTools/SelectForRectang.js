@@ -165,8 +165,10 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
                             var linePoint = transform.PixelToLonlat(i * 256 + pointsLen[0], j * 256 + pointsLen[1], map.getZoom());
                             linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
                             if(polygon.containsPoint(linePoint)) {
+                                var result = {};
                                 data[item].point = linePoint;
-                                dataOfRectangle.push(data[item]);
+                                result["data"] = data[item];
+                                dataOfRectangle.push(result);
                             }
                         }
                     }

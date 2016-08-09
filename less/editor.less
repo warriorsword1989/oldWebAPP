@@ -1640,18 +1640,18 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   border-left:@borderStyle @borderWidth @borderColor;
 }
 
-input[type="text"].ng-dirty,textarea.ng-dirty,select.ng-dirty,input[type="number"].ng-dirty {
+form input[type="text"].ng-dirty,textarea.ng-dirty,select.ng-dirty,input[type="number"].ng-dirty {
   .border-left(solid,2px,@red) !important;
 }
-select.localytics-chosen.ng-dirty + div > a {
+form select.localytics-chosen.ng-dirty + div > a {
   .border-left(solid,2px,@red) !important;
 }
-input[type=radio]:checked.ng-dirty:before{
+form input[type=radio]:checked.ng-dirty:before{
   content:"";
   .border-left(solid,2px,@red) !important;
   margin-left:-2px;
 }
-input[type=checkbox].ng-dirty:before {
+form input[type=checkbox].ng-dirty:before {
   content:"";
   .border-left(solid,2px,@red) !important;
   margin-left:-2px;

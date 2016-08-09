@@ -25,15 +25,11 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
             }
             //重置选择工具
             $scope.resetToolAndMap();
-            // $scope.changeBtnClass(num);
-            // //连续点击两次按钮
-            // if (num !== 7) {
-            //     if (!$scope.classArr[num]) {
-            //         map.currentTool.disable();
-            //         map._container.style.cursor = '';
-            //         return;
-            //     }
-            // }
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
+            $("#popoverTips").hide();
              if (type === 'RDTEST') { //框选测试
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setCurrentTooltip('请框选数据！');

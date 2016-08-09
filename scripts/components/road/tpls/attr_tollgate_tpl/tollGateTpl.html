@@ -1,0 +1,78 @@
+<div ng-controller="TollGateCtl">
+    <div class="fm-component" >
+        <div class="title">
+            收费站
+            <span class="label label-info">{{tollGateData.pid}}</span>
+        </div>
+        <div class="content">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>进入线</label>
+                        <div >
+                            <input type="text" readonly class="fm-control" ng-model="tollGateData.inLinkPid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>进入点</label>
+                        <div>
+                            <input type="text" readonly class="fm-control" ng-model="tollGateData.nodePid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>退出线</label>
+                        <div>
+                            <input type="text" readonly class="fm-control" ng-model="tollGateData.outLinkPid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>通道总数</label>
+                        <div>
+                            <input type="text" readonly class="fm-control" ng-model="tollGateData.passageNum"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>ETC图标代码</label>
+                        <div>
+                            <input type="text" readonly ng-model="tollGateData.etcFigureCode" >
+                        </div>
+                    </li>
+                    <li>
+                        <label>收费类型</label>
+                        <div>
+                            <select ng-model="tollGateData.type" class="fm-control"
+                                    ng-options="value.id as value.label for value in tollTypeObj">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>是否跨省</label>
+                        <div>
+                            <label ng-repeat="(key, value) in locationFlagObj">
+                                <input type="radio" value="{{key}}" ng-model="tollGateData.locationFlag"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="content">
+            <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a ng-click="addLimit()" style="cursor: pointer;color: #ffffff;">名称（共 0 条）</a>
+                    </div>
+                    <div class="list-line"></div>
+                </li>
+                <li class="list-group-item ng-scope" ng-repeat="namesItem in tollGateData.name">
+                    <div ng-repeat="typeItem in typeOptions|filter:namesItem.name " ng-click="showOrdinaryInfo(namesItem)" style="cursor: pointer;padding-left: 15px;" class="ng-scope">
+                        <label class="control-label ng-binding" style="cursor: pointer;" ng-bind="typeItem"></label>
+                    </div>
+                    <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index,0)"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+

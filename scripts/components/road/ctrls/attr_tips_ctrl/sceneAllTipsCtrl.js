@@ -24,7 +24,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
     //全部要素配置
-    $scope.featureConfig = fastmap.dataApi.FeatureConfig;
+    $scope.featureConfig = fastmap.uikit.FeatureConfig.tip;
     //清除地图数据
     $scope.resetToolAndMap = function() {
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
