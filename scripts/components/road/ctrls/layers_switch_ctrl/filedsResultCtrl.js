@@ -76,7 +76,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         objArr = {};
                     obj = transArr[i];
                     for (var item in obj) {
-                        objArr.name = fastmap.dataApi.FeatureConfig[item].name;
+                        objArr.name = fastmap.uikit.FeatureConfig.tip[item].name;
                         objArr.id = item;
                         objArr.flag = true;
                         $scope.tipsObj[item] = true;
