@@ -19,21 +19,47 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		passageNum:2,
 		etcFigureCode:32433,
 		locationFlag:1,
-		passages:{
-			pid:1234,
+		passages:[{
+			pid:12345,
 			seqNum:1234,
 			tollForm:'00000110',
 			cardType:1,
 			vehicle:5
-		},
-		names:{
+		},{
+			pid:123456,
+			seqNum:1234,
+			tollForm:'00000111',
+			cardType:1,
+			vehicle:5
+		},{
+			pid:1234567,
+			seqNum:1234,
+			tollForm:'00000112',
+			cardType:1,
+			vehicle:5
+		}],
+		names:[{
 			nameId:10004,
 			pid:10004,
 			nameGroupid:18,
 			langCode:'CHI',
 			name:'收费站1',
 			phonetic:'Shou Fei Zhan'
-		}
+		},{
+			nameId:10005,
+			pid:10005,
+			nameGroupid:18,
+			langCode:'CHI',
+			name:'收费站2',
+			phonetic:'Shou Fei Zhan'
+		},{
+			nameId:10005,
+			pid:10005,
+			nameGroupid:18,
+			langCode:'CHI',
+			name:'收费站3',
+			phonetic:'Shou Fei Zhan'
+		}]
 	};
 	$scope.initializeData = function () {
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -108,6 +134,24 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		1:'本省',
 		2:'跨省'
 	};
+
+	/*领卡类型*/
+	$scope.cardTypeObj = [
+		{id:0,label:'未调查'},
+		{id:1,label:'ETC'},
+		{id:2,label:'人工'},
+		{id:3,label:'自助'}
+	];
+
+	/*收费方式*/
+	$scope.tollFormObj = [
+		{id:0,label:'ETC'},
+		{id:1,label:'现金'},
+		{id:2,label:'银行卡（借记卡）'},
+		{id:3,label:'信用卡'},
+		{id:4,label:'IC卡'},
+		{id:5,label:'预付卡'}
+	];
 
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
