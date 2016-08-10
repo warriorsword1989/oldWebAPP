@@ -46,6 +46,8 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "id": 4,
         "label": "CRF场景",
         "dataLayers": [{
+            "layerId": "rdNode"
+        },{
             "layerId": "rdLink"
         }, {
             "layerId": "rwLink"
@@ -53,7 +55,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "poi"
         }, {
             "layerId": "crfData",
-            "requestType": "RDINTER,RDROAD,RDOBJECT"
+            "requestType": "RDINTER"
         }]
     },{
         "id": 5,

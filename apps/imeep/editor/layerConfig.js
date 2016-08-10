@@ -162,7 +162,7 @@ App.layersConfig = [{
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'crfData',
-            name: 'CRF',
+            name: '关系',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points

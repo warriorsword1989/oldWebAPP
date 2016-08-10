@@ -5,7 +5,9 @@ fastmap.uikit.canvasFeature.RdInterLinks = fastmap.uikit.canvasFeature.Feature.e
         this.geometry['type'] = 'LineString';
         this.geometry['coordinates'] = data.g;
         this.properties["featType"] = "RDINTER";
-        this.properties['nodeId'] = data.i;
+        this.properties['snode'] = data.s;
+        this.properties['enode'] = data.e;
+        this.properties['linkId'] = data.i;
         this.properties['id'] = id;
 
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
