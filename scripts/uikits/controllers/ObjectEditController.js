@@ -141,6 +141,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDSPEEDBUMP":
                         this.data = fastmap.dataApi.rdSpeedBump(obj);
                         break;
+                    case "RDINTER":
+                        this.data = fastmap.dataApi.rdInter(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

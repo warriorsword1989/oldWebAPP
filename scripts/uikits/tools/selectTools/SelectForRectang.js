@@ -73,7 +73,6 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
                 .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
-
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
             if (this._shape) {
                 this._map.removeLayer(this._shape);
@@ -134,7 +133,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
         var dataOfRectangle = [];
         for(var i = 0; i<this.boxLayers.length; i++){
             var middleArr = this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles,this.boxLayers[i].type);
-            if(middleArr.length>0){
+            if(middleArr && middleArr.length>0){
                 dataOfRectangle = dataOfRectangle.concat(middleArr);
             }
         }

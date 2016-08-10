@@ -111,6 +111,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 30://LUFace
                     ret = new fastmap.uikit.canvasFeature.LUFace(data);
                     break;
+                case 39://CRF交叉点
+                    ret = new fastmap.uikit.canvasFeature.RdInter(data);
+                    break;
             }
             return ret;
         },
