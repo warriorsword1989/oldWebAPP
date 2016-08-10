@@ -51,6 +51,12 @@ fastmap.uikit.FeatureConfig = {
         "RDINTER": {
             name: "CRF交叉点"
         },
+        "RDROAD": {
+            name: "CRF道路"
+        },
+        "RDOBJECT": {
+            name: "CRF对象"
+        },
         "RDTOLLGATE": {
             name: "收费站"
         },

@@ -5,38 +5,34 @@
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <from name="crfInterForm">
-            <div class="fm-panel" >
+            <div class="fm-panel">
                 <div class="title">
                     <div>组成Link（共 <span ng-bind="crfInterData.links.length">0</span> 条）</div>
                 </div>
                 <div class="content">
-                    <div ng-repeat="cItem in crfInterData.links" class="blackTheme module-box">
-                        <ul class="fm-ul fm-ul-form">
-                            <li >
-                                <label>Link号码</label>
-                                <div>
-                                    <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfInterData.links">
+                        <li>
+                            <label>Link{{$index+1}}号码</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="fm-panel" >
+            <div class="fm-panel">
                 <div class="title">
                     <div>组成Node（共 <span ng-bind="crfInterData.nodes.length">0</span> 条）</div>
                 </div>
                 <div class="content">
-                    <div ng-repeat="cItem in crfInterData.nodes" class="blackTheme module-box">
-                        <ul class="fm-ul fm-ul-form">
-                            <li >
-                                <label>Node号码</label>
-                                <div>
-                                    <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfInterData.nodes">
+                        <li>
+                            <label>Node{{$index+1}}号码</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="cItem.nodePid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </from>

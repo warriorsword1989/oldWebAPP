@@ -11,6 +11,8 @@
         "RdSpeedLimit.js",
         "RdSlope.js",
         "RdInter.js",
+        "RdInterNodes.js",
+        "RdInterLinks.js",
         "RdGate.js",
         "RdCross.js",
         "RdLaneConnexity.js",

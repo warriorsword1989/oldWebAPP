@@ -143,6 +143,7 @@ fastmap.uikit.ObjectEditController = (function() {
                         break;
                     case "RDINTER":
                         this.data = fastmap.dataApi.rdInter(obj);
+                        break;
                     case "RDSE": //分叉口
                         this.data = fastmap.dataApi.rdSe(obj);
                         break;
