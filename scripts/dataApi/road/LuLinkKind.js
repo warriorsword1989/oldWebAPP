@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/7/25.
  */
-fastmap.dataApi.LULinkKind = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.LuLinkKind = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -34,7 +34,7 @@ fastmap.dataApi.LULinkKind = fastmap.dataApi.GeoDataModel.extend({
 });
 
 fastmap.dataApi.luLinkKind = function (data, options) {
-    return new fastmap.dataApi.LULinkKind(data, options);
+    return new fastmap.dataApi.LuLinkKind(data, options);
 };
 
 
