@@ -1,9 +1,7 @@
 /**
  * Created by wangmingdong on 2016/8/5.
  */
-
-var rdElectronicEyeApp = angular.module("app");
-rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($scope, dsEdit) {
+angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', function ($scope, dsEdit, appPath) {
 	var layerCtrl = fastmap.uikit.LayerController();
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	var eventController = fastmap.uikit.EventController();
@@ -22,20 +20,20 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		passages:[{
 			pid:12345,
 			seqNum:1234,
-			tollForm:'00000110',
+			tollForm:3,
 			cardType:1,
 			vehicle:5
 		},{
 			pid:123456,
 			seqNum:1234,
-			tollForm:'00000111',
-			cardType:1,
+			tollForm:2,
+			cardType:3,
 			vehicle:5
 		},{
 			pid:1234567,
 			seqNum:1234,
-			tollForm:'00000112',
-			cardType:1,
+			tollForm:4,
+			cardType:2,
 			vehicle:5
 		}],
 		names:[{
@@ -66,6 +64,7 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		// $scope.tollGateData = objCtrl.data;
 		objCtrl.setOriginalData(fastmap.dataApi.rdTollgate(json));
 		$scope.tollGateData = fastmap.dataApi.rdTollgate(json);
+		objCtrl.setCurrentObject("RDTOLLGATE", fastmap.dataApi.rdTollgate(json));
 		var highLightFeatures = [];
 		/*highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -105,6 +104,33 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		});
 	};
 
+	/*查看详情*/
+	$scope.showDetail = function(type,index) {
+		var tempCtr = '', tempTepl = '',detailInfo = {};
+		if(type == 'name') {
+			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgateNameCtrl';
+			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgateNameTpl.html';
+			detailInfo = {
+				"loadType": "subAttrTplContainer",
+				"propertyCtrl": tempCtr,
+				"propertyHtml": tempTepl,
+				"data":$scope.tollGateData.names[index]
+			};
+			objCtrl.namesInfo = $scope.tollGateData.names[index];
+		} else {
+			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgatePassageCtrl';
+			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgatePassageTpl.html';
+			detailInfo = {
+				"loadType": "subAttrTplContainer",
+				"propertyCtrl": tempCtr,
+				"propertyHtml": tempTepl,
+				"data":$scope.tollGateData.passages[index]
+			};
+			objCtrl.passageInfo = $scope.tollGateData.passages[index];
+		}
+		$scope.tollGateNameData = detailInfo;
+		$scope.$emit("transitCtrlAndTpl", detailInfo);
+	};
 	/*收费站类型*/
 	$scope.tollTypeObj = [
 		{id:0,label:'未调查'},
@@ -119,14 +145,6 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		{id:9,label:'验票领卡'},
 		{id:10,label:'交卡不收费'}
 	];
-
-	/*领卡类型*/
-	$scope.cardTypeObj = [
-		{id:0,label:'未调查'},
-		{id:1,label:'ETC'},
-		{id:2,label:'人工'},
-		{id:3,label:'自助'}
-	];
 	
 	/*是否跨省*/
 	$scope.locationFlagObj = {
@@ -137,20 +155,10 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 
 	/*领卡类型*/
 	$scope.cardTypeObj = [
-		{id:0,label:'未调查'},
-		{id:1,label:'ETC'},
-		{id:2,label:'人工'},
-		{id:3,label:'自助'}
-	];
-
-	/*收费方式*/
-	$scope.tollFormObj = [
-		{id:0,label:'ETC'},
-		{id:1,label:'现金'},
-		{id:2,label:'银行卡（借记卡）'},
-		{id:3,label:'信用卡'},
-		{id:4,label:'IC卡'},
-		{id:5,label:'预付卡'}
+		{id:0,label:'未调查',name:'未调查'},
+		{id:1,label:'ETC',name:'ETC通道'},
+		{id:2,label:'人工',name:'人工通道'},
+		{id:3,label:'自助',name:'自助通道'}
 	];
 
 	$scope.langCodeOptions = [

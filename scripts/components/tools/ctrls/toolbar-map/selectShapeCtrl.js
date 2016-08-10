@@ -15,6 +15,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         var workPoint = layerCtrl.getLayerById('workPoint');
         var editLayer = layerCtrl.getLayerById('edit');
         var poiLayer = layerCtrl.getLayerById('poi');
+        var crfData = layerCtrl.getLayerById('crfData');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var originalFeature = []; // 用于poi
@@ -425,6 +426,40 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdSlope_ctrl/rdSlopeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case 'RDINTER':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "增加点线",
+                            'type': "ADDRDINTERPART",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "取消点线",
+                            'type': "DELETERDINTERPART",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdcrf_ctrl/crfInterCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfInterTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDGATE':  //大门
@@ -1750,7 +1785,98 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         });
                     });
                     return;
-                }else if (type.indexOf('BRANCH') > -1 ) {
+                }   else if (type === "ADDRDINTERPART") {
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [crfData,rdNode, rdLink],
+                        snapLayers: [rdNode, rdLink]//将rdnode放前面，优先捕捉
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+
+                    var comPids = [];
+                    var slopeVias = selData.slopeVias;
+                    slopeVias.sort(function (a, b) {
+                        return a.seqNum < b.seqNum ? -1 : 1;
+                    });
+                    var conLinkPids = [];
+                    var param1 = {};
+                    param1["dbId"] = App.Temp.dbId;
+                    param1["type"] = "RDLINK";
+                    param1["data"] = {
+                        "nodePid": selData.nodePid
+                    };
+                    if(slopeVias && slopeVias.length >= 0) {
+                        for (var i = 0; i < slopeVias.length; i++) {
+                            if(conLinkPids.indexOf(slopeVias[i].linkPid) < 0){
+                                conLinkPids.push(slopeVias[i].linkPid);
+                            }
+                        }
+                    }
+                    dsEdit.getByCondition(param1).then(function (exLinks) {//退出线操作
+                        if (exLinks.errcode === -1) {
+                            return;
+                        }
+                        if (exLinks.data) {
+                            if (exLinks.data.length == 1) {
+                                swal("无法改退出线", "此进入点只有一条可选退出线！", "info");
+                                return;
+                            } else if (exLinks.data.length == 2) {
+                                comPids = [];
+                                comPids.push(exLinks.data[0].pid);
+                                comPids.push(exLinks.data[1].pid);
+                                if(exLinks.data[0].pid == selData.linkPid){
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: exLinks.data[1].pid,
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {color: '#FF79BC'}
+                                    });
+                                } else {
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: exLinks.data[0].pid,
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {color: '#FF79BC'}
+                                    });
+                                }
+                                highRenderCtrl.drawHighlight();
+                            }
+                        }
+                    });
+                    tooltipsCtrl.setCurrentTooltip('请选择新的退出线！');
+                    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                        if(comPids.indexOf(parseInt(data.id)) > -1){
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            highRenderCtrl.highLightFeatures.push({
+                                id: selData.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {}
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: data.id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {color: 'red'}
+                            });
+                            highRenderCtrl.drawHighlight();
+                            shapeCtrl.setEditingType("UPDATERDSLOPE");   //设置热键修改时的监听类型;
+                            tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+
+
+                            featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                                "linkPid": data.id.toString(),
+                                "linkPids":conLinkPids,
+                                "objStatus": "UPDATE"
+                            });
+                        }
+                    });
+                    return;
+                } else if (type.indexOf('BRANCH') > -1 ) {
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,

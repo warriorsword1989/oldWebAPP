@@ -31,6 +31,9 @@ App.Temp = {
         RDDIRECTROUTE:'顺行',
         RDSPEEDBUMP:'减速带',
         RDSE:'分叉口',
+        RDINTER:'CRF交叉点',
+        RDROAD:'CRF道路',
+        RDOBJECT:'CRF对象',
         RDTOLLGATE:'收费站'
     }
 };

@@ -1256,7 +1256,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.create('RDINTER',geo).then(function(data) {
                     if(data != null){
                         relationData.redraw();
-                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
+                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
                     } else {
                         resetPage();
                     }
