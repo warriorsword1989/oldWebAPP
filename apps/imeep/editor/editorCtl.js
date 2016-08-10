@@ -477,6 +477,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                     data["callback"]();
                 }
             });
+            if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
+                $scope.$broadcast('refreshTollgateName',{});
+            }
         });
         $scope.$on("refreshPhoto", function(event, data) {
             $scope.$broadcast('refreshImgsData', true);

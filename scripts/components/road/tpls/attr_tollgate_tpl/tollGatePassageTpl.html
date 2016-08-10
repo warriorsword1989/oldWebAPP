@@ -1,0 +1,27 @@
+<div ng-controller="TollGatePassageCtl">
+    <div class="fm-component" >
+        <div class="content">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>收费方式</label>
+                        <div >
+                            <select ng-model="tollGatePassage.tollForm" class="fm-control"
+                                    ng-options="value.id as value.label for value in tollFormObj">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>领卡类型</label>
+                        <div>
+                            <select ng-model="tollGatePassage.cardType" class="fm-control"
+                                    ng-options="value.id as value.label for value in cardTypeObj">
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
