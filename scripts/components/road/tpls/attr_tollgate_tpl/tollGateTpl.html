@@ -70,38 +70,56 @@
                 </li>
             </ul>
         </div>
-        <!--<div class="content">
-            <div class="info-head-well">
-                <div class="list-name">
-                    <a ng-click="addLimit()" style="cursor: pointer;color: #ffffff;">通道信息（共 {{tollGateData.passages.length}} 条）</a>
-                </div>
-                <div class="list-line"></div>
-            </div>
-            <div class="list-group-item" ng-repeat="passagesItem in tollGateData.passages">
-                <div class="info-head-well">
-                    <label class="control-label" style="cursor: pointer;">通道{{$index}}</label>
+        <div class="content">
+            <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a ng-click="addLimit()" style="cursor: pointer;color: #ffffff;">名称（共 {{tollGateData.passages.length}} 条）</a>
+                    </div>
+                    <div class="list-line"></div>
+                </li>
+                <li class="list-group-item ng-scope" ng-repeat="passagesItem in tollGateData.passages">
+                    <label class="control-label" style="cursor: pointer;" ng-bind="cardTypeObj[passagesItem.cardType].name"></label>
                     <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index,0)"></i>
-                    <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
-                </div>
-                <div class="name-group-item">
-                    <div class="d-group">
-                        <div class="d-name">收费方式：</div>
-                        <div class="d-value">
-                            <select ng-model="passagesItem.tollForm" class="fm-control"
-                                    ng-options="value.id as value.label for value in tollFormObj">
-                            </select>
+                </li>
+            </ul>
+        </div>
+        <!--<div class="content">
+            <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a ng-click="addLimit()" style="cursor: pointer;color: #ffffff;">通道信息（共 {{tollGateData.passages.length}} 条）</a>
+                    </div>
+                    <div class="list-line"></div>
+                </li>
+                <li class="list-group-item">
+                    <div ng-repeat="passagesItem in tollGateData.passages">
+                        <div class="info-head-well">
+                            <label class="control-label" style="cursor: pointer;">通道{{$index}}</label>
+                            <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index,0)"></i>
+                            <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
+                        </div>
+                        <div class="name-group-item">
+                            <div class="d-group">
+                                <div class="d-name">收费方式：</div>
+                                <div class="d-value">
+                                    <select ng-model="passagesItem.tollForm" class="fm-control"
+                                            ng-options="value.id as value.label for value in tollFormObj">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-group">
+                                <div class="d-name">领卡类型：</div>
+                                <div class="d-value">
+                                    <select ng-model="passagesItem.cardType" class="fm-control"
+                                            ng-options="value.id as value.label for value in cardTypeObj">
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="d-group">
-                        <div class="d-name">领卡类型：</div>
-                        <div class="d-value">
-                            <select ng-model="passagesItem.cardType" class="fm-control"
-                                    ng-options="value.id as value.label for value in cardTypeObj">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>-->
     </div>
 </div>
