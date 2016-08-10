@@ -2,41 +2,41 @@
     <div class="fm-component" >
         <div class="title">
             顺行PID
-            <span class="label label-info">{{rdWarningInfoObj.pid}}</span>
+            <span class="label label-info">{{directRouteData.pid}}</span>
         </div>
         <div class="content">
             <ul class="fm-ul fm-ul-form">
                 <li>
                     <label>进入线</label>
                     <div >
-                        <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.linkPid"/>
+                        <input type="text" readonly class="fm-control" ng-model="directRouteData.inLinkPid"/>
                     </div>
                 </li>
                 <li>
                     <label>进入点</label>
                     <div>
-                        <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.nodePid"/>
+                        <input type="text" readonly class="fm-control" ng-model="directRouteData.nodePid"/>
                     </div>
                 </li>
                 <li>
                     <label>退出线</label>
                     <div>
-                        <input type="text" readonly class="fm-control" ng-model="rdWarningInfoObj.outLinkPid"/>
+                        <input type="text" readonly class="fm-control" ng-model="directRouteData.outLinkPid"/>
                     </div>
                 </li>
                 <li>
                     <label>顺行标志</label>
                     <div>
                         <label>
-                            <input type="radio" value=0 ng-model="electronicEyeData.flag">
+                            <input type="radio" value=0 ng-model="directRouteData.flag">
                             实地
                         </label>
                         <label>
-                            <input type="radio" value=1 ng-model="electronicEyeData.flag">
+                            <input type="radio" value=1 ng-model="directRouteData.flag">
                             理论
                         </label>
                         <label>
-                            <input type="radio" value=2 ng-model="electronicEyeData.flag">
+                            <input type="radio" value=2 ng-model="directRouteData.flag">
                             未验证
                         </label>
                     </div>
@@ -45,15 +45,15 @@
                     <label>处理标志</label>
                     <div>
                         <label>
-                            <input type="radio" value=0 ng-model="electronicEyeData.processFlag">
+                            <input type="radio" value=0 ng-model="directRouteData.processFlag">
                             无
                         </label>
                         <label>
-                            <input type="radio" value=1 ng-model="electronicEyeData.processFlag">
+                            <input type="radio" value=1 ng-model="directRouteData.processFlag">
                             人工
                         </label>
                         <label>
-                            <input type="radio" value=2 ng-model="electronicEyeData.processFlag">
+                            <input type="radio" value=2 ng-model="directRouteData.processFlag">
                             批处理
                         </label>
                     </div>
@@ -62,13 +62,47 @@
                     <label>关系类型</label>
                     <div>
                         <label>
-                            <input type="radio" value=1 ng-model="electronicEyeData.relationshipType">
+                            <input type="radio" value=1 ng-model="directRouteData.relationshipType">
                             路口关系
                         </label>
                         <label>
-                            <input type="radio" value=2 ng-model="electronicEyeData.relationshipType">
+                            <input type="radio" value=2 ng-model="directRouteData.relationshipType">
                             线线关系
                         </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a>经过线（共 {{directRouteData.vias.length}} 条）</a>
+                    </div>
+                    <div class="list-line"></div>
+                </li>
+                <li ng-if="directRouteData.vias.length > 0">
+                    <div class="fm-ul-container">
+                        <ul class="fm-ul fm-ul-form" ng-repeat="viasItem in directRouteData.vias">
+                            <li>
+                                <label>Link组号</label>
+                                <div>
+                                    <input type="text" readonly class="fm-control" ng-model="viasItem.groupId"/>
+                                </div>
+                            </li>
+                            <li>
+                                <label>Link序号</label>
+                                <div>
+                                    <input type="text" readonly class="fm-control" ng-model="viasItem.seqNum"/>
+                                </div>
+                            </li>
+                            <li>
+                                <label>Link号码</label>
+                                <div>
+                                    <input type="text" readonly class="fm-control" ng-model="viasItem.linkPid"/>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </li>
             </ul>

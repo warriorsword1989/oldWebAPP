@@ -64,7 +64,7 @@
                     </div>
                     <div class="list-line"></div>
                 </li>
-                <li class="list-group-item ng-scope" ng-repeat="namesItem in tollGateData.names">
+                <li class="list-group-item" ng-repeat="namesItem in tollGateData.names">
                     <label class="control-label" style="cursor: pointer;" ng-bind="namesItem.name"></label>
                     <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index,0)"></i>
                 </li>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="list-line"></div>
                 </li>
-                <li class="list-group-item ng-scope" ng-repeat="passagesItem in tollGateData.passages">
+                <li class="list-group-item" ng-repeat="passagesItem in tollGateData.passages">
                     <label class="control-label" style="cursor: pointer;" ng-bind="cardTypeObj[passagesItem.cardType].name"></label>
                     <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index,0)"></i>
                 </li>
