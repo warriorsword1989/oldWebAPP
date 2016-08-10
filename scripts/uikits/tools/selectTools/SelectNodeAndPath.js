@@ -118,6 +118,8 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                         selectFeatures.push({
                             id: data[item].properties.id,
                             optype: data[item].properties.featType,
+                            origType:data[item].geometry.type,
+                            linkId:data[item].properties.linkId,
                             event: event,
                             point: point,
                             properties: data[item].properties,
@@ -129,6 +131,8 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
                         selectFeatures.push({
                             id: data[item].properties.id,
                             optype: data[item].properties.featType,
+                            origType:data[item].geometry.type,
+                            nodeId:data[item].properties.nodeId,
                             name: data[item].properties.name,
                             event: event,
                             layer: this.selectLayers[i]
