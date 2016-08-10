@@ -17,7 +17,7 @@ fastmap.dataApi.RdInterNodes = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.linkPid = data["linkPid"];
+        this.nodePid = data["nodePid"];
     },
 
     /**
@@ -28,7 +28,7 @@ fastmap.dataApi.RdInterNodes = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid;
+        data["nodePid"] = this.nodePid;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -41,7 +41,7 @@ fastmap.dataApi.RdInterNodes = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid;
+        data["nodePid"] = this.nodePid;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

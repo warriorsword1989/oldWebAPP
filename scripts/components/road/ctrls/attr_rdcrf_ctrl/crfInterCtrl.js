@@ -30,7 +30,7 @@ rdSlopeApp.controller("crfInterCtrl",['$scope','dsEdit',function($scope,dsEdit) 
         }
         for (var i = 0, len = points.length; i < len; i++){
             highLightFeatures.push({
-                id:points[i].linkPid.toString(),
+                id:points[i].nodePid.toString(),
                 layerid:'rdLink',
                 type:'rdnode',
                 style:{
