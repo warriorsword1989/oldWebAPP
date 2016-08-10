@@ -29,13 +29,13 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 			pid:123456,
 			seqNum:1234,
 			tollForm:'00000111',
-			cardType:1,
+			cardType:3,
 			vehicle:5
 		},{
 			pid:1234567,
 			seqNum:1234,
 			tollForm:'00000112',
-			cardType:1,
+			cardType:2,
 			vehicle:5
 		}],
 		names:[{
@@ -122,10 +122,10 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 
 	/*领卡类型*/
 	$scope.cardTypeObj = [
-		{id:0,label:'未调查'},
-		{id:1,label:'ETC'},
-		{id:2,label:'人工'},
-		{id:3,label:'自助'}
+		{id:0,label:'未调查',name:'未调查'},
+		{id:1,label:'ETC',name:'ETC通道'},
+		{id:2,label:'人工',name:'人工通道'},
+		{id:3,label:'自助',name:'自助通道'}
 	];
 	
 	/*是否跨省*/
@@ -134,14 +134,6 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		1:'本省',
 		2:'跨省'
 	};
-
-	/*领卡类型*/
-	$scope.cardTypeObj = [
-		{id:0,label:'未调查'},
-		{id:1,label:'ETC'},
-		{id:2,label:'人工'},
-		{id:3,label:'自助'}
-	];
 
 	/*收费方式*/
 	$scope.tollFormObj = [
