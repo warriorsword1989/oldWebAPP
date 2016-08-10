@@ -5,7 +5,7 @@ fastmap.uikit.canvasFeature.RdInterNodes = fastmap.uikit.canvasFeature.Feature.e
         this.geometry['coordinates'] = data.g;
         this.geometry['type'] = 'Point';
         this.properties["featType"] = "RDINTER";
-        this.properties['linkId'] = data.i;
+        this.properties['nodeId'] = data.i;
         this.properties['id'] = id;
 
         this.properties['style'] = {};

@@ -8,6 +8,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
+        var crfData = layerCtrl.getLayerById('crfData');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
         /**
@@ -109,7 +110,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                 $scope.resetOperator("addRelation", type);
                 var highLightFeatures = [];
                 var interData = {links:[],nodes:[]};//推荐的退出线
-
+                var crfPids = [];
                 highRenderCtrl.highLightFeatures = [];
                 highRenderCtrl._cleanHighLight();
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
@@ -120,7 +121,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                 map.currentTool = new fastmap.uikit.SelectForRectang({
                     map: map,
                     shapeEditor: shapeCtrl,
-                    LayersList: [rdLink, rdnode]
+                    LayersList: [rdLink, rdnode ,crfData]
                 });
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETRECTDATA);
@@ -129,8 +130,20 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF交叉点的道路线、点！');
                         return;
                     }
+                    //crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
+                    for(var i = 0;i<data.data.length;i++){
+                        if(data.data[i].data && data.data[i].data.properties.featType == "RDINTER"){
+                            if(data.data[i].data.properties.nodeId != undefined){
+                                crfPids.push(data.data[i].data.properties.nodeId);
+                            } else {
+                                crfPids.push(data.data[i].data.properties.linkId);
+                            }
+                            data.data.splice(i,1);
+                            i--;
+                        }
+                    }
                     for (var i = 0; i < data.data.length; i++) {
-                        if (data.data[i].data && data.data[i].data.geometry.type == "LineString") {
+                        if (data.data[i].data && data.data[i].data.geometry.type == "LineString"  && crfPids.indexOf(data.data[i].data.properties.id) < 0) {
                             if (interData.links.indexOf(parseInt(data.data[i].data.properties.id)) < 0) {
                                 interData.links.push(parseInt(data.data[i].data.properties.id));
                                 highLightFeatures.push({
@@ -142,7 +155,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                                     }
                                 });
                             }
-                        } else {
+                        } else if (data.data[i].data && data.data[i].data.geometry.type == "Point"  && crfPids.indexOf(data.data[i].data.properties.id) < 0) {
                             if (interData.nodes.indexOf(parseInt(data.data[i].data.properties.id)) < 0) {
                                 interData.nodes.push(parseInt(data.data[i].data.properties.id));
                                 highLightFeatures.push({
@@ -164,7 +177,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
-                        selectLayers: [rdnode, rdLink],
+                        selectLayers: [crfData,rdnode, rdLink],
                         snapLayers: [rdnode, rdLink]//将rdnode放前面，优先捕捉
                     });
                     map.currentTool.enable();

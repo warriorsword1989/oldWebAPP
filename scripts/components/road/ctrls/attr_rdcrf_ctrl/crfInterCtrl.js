@@ -25,7 +25,7 @@ rdSlopeApp.controller("crfInterCtrl",['$scope','dsEdit',function($scope,dsEdit) 
                 id:linkArr[i].linkPid.toString(),
                 layerid:'rdLink',
                 type:'line',
-                style:{color:'#00DB00'}
+                style:{color:'#00EC00'}
             });
         }
         for (var i = 0, len = points.length; i < len; i++){
@@ -34,7 +34,7 @@ rdSlopeApp.controller("crfInterCtrl",['$scope','dsEdit',function($scope,dsEdit) 
                 layerid:'rdLink',
                 type:'rdnode',
                 style:{
-                    color: '#0000E3'
+                    color: '#0066CC'
                 }
             });
         }
@@ -47,23 +47,9 @@ rdSlopeApp.controller("crfInterCtrl",['$scope','dsEdit',function($scope,dsEdit) 
 
     $scope.save = function(){
         objCtrl.save();
-        if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
-            return ;
-        }
-        var param = {
-            "command": "UPDATE",
-            "type": "RDINTER",
-            "dbId": App.Temp.dbId,
-            "data": objCtrl.changedProperty
-        };
-        dsEdit.save(param).then(function (data) {
-            if (data) {
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                relationData.redraw();
-                swal("操作成功", "修改CRF交叉点成功！", "success");
-            }
-        })
+        swal("操作成功",'属性值没有变化！', "success");
+        return ;
+
     };
 
     $scope.delete = function(){
