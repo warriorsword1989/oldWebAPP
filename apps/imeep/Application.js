@@ -31,7 +31,8 @@ App.Temp = {
         RDDIRECTROUTE:'顺行',
         RDSPEEDBUMP:'减速带',
         RDSE:'分叉口',
-        RDINTER:'CRF交叉点'
+        RDINTER:'CRF交叉点',
+        RDTOLLGATE:'收费站'
     }
 };
 // web app的公用函数命名空间

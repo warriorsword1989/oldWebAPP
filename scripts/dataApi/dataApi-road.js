@@ -70,7 +70,11 @@
                 "dataApi/road/RdGateCondition.js",
                 "dataApi/road/RdDirectRoute.js",
                 "dataApi/road/RdDirectRouteVia.js",
-                "dataApi/road/RdSpeedBump.js"
+                "dataApi/road/RdSpeedBump.js",
+                "dataApi/road/RdSe.js",
+                "dataApi/road/RdTollgate.js",
+                "dataApi/road/RdTollgateName.js",
+                "dataApi/road/RdTollgatePassage.js"
             ]; // etc.
 
 

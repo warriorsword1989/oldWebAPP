@@ -58,6 +58,30 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "CRF_F"
         }]
+    },{
+        "id": 5,
+        "label": "同一关系场景",
+        "dataLayers": [{
+            "layerId": "rdNode"
+        }, {
+            "layerId": "rdLink"
+        }, {
+            "layerId": "adNode"
+        }, {
+            "layerId": "adLink"
+        }, {
+            "layerId": "zoneLink"
+        }, {
+            "layerId": "zoneNode"
+        }, {
+            "layerId": "luLink"
+        }, {
+            "layerId": "luNode"
+        }, {
+            "layerId": "rdSameNode"
+        }, {
+            "layerId": "rdSameLink"
+        }]
     }];
     $scope.dataLayers = [];
     var reqType;
