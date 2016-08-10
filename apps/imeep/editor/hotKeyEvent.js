@@ -241,8 +241,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else if (shapeCtrl.editFeatType === "LCLINK") {
                         param["type"] = "LCLINK";
                         showContent = "创建lcLink成功";
-                        //ctrl = 'attr_lu_ctrl/lcLinkCtrl';
-                        //tpl = 'attr_lu_tpl/lcLinkTpl.html';
+                        ctrl = 'attr_lc_ctrl/lcLinkCtrl';
+                        tpl = 'attr_lc_tpl/lcLinkTpl.html';
                     }
                     dsEdit.save(param).then(function(data) {
                         if(data != null){
@@ -722,7 +722,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcNode.redraw();
                             lcFace.redraw();
                             lcLink.redraw();
-                            //treatmentOfChanged(data, "LUFACE", "创建LC面成功", 'attr_lu_ctrl/luFaceCtrl', 'attr_lu_tpl/luFaceTpl.html');
+                            //treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lu_ctrl/lcFaceCtrl', 'attr_lu_tpl/lcFaceTpl.html');
                         } else {
                             resetPage();
                         }

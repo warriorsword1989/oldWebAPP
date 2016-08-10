@@ -38,9 +38,8 @@ angular.module('app').controller("addLcShapeCtrl", ['$scope', '$ocLazyLoad', 'ds
                 map.currentTool = shapeCtrl.getCurrentTool();
                 shapeCtrl.editFeatType = "LCNODE";
                 map.currentTool.snapHandler.addGuideLayer(lcLink);
-                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-                tooltipsCtrl.setStyleTooltip("color:black");
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             } else if (type === "LCLINK") {
