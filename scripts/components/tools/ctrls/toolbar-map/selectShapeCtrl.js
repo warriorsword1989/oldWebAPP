@@ -427,6 +427,40 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case 'RDINTER':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "增加点线",
+                            'type': "ADDRDINTER",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "取消点线",
+                            'type': "DELETERDINTER",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdcrf_ctrl/crfInterCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfInterTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
                 case 'RDGATE':  //大门
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_gate_ctrl/rdGateCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html";
