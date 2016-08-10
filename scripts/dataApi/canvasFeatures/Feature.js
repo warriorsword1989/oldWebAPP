@@ -111,10 +111,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 30://LUFace
                     ret = new fastmap.uikit.canvasFeature.LUFace(data);
                     break;
-<<<<<<< HEAD
-                case 39://CRF交叉点
-                    ret = new fastmap.uikit.canvasFeature.RdInter(data);
-=======
+
                 case 34://分叉口提示
                     ret = new fastmap.uikit.canvasFeature.RdSe(data);
                     break;
@@ -131,7 +128,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     break;
                 case 38://同一线
                     ret = new fastmap.uikit.canvasFeature.RwLink(data);
->>>>>>> 5cf6c0d5989e206e5496f341384a8b5df95eee57
+                    break;
+                case 39://CRF交叉点
+                    ret = new fastmap.uikit.canvasFeature.RdInter(data);
                     break;
             }
             return ret;
