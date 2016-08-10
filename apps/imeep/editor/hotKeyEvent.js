@@ -34,6 +34,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         var lcNode = layerCtrl.getLayerById('lcNode');
         var lcFace = layerCtrl.getLayerById('lcFace');
         var relationData = layerCtrl.getLayerById('relationData');
+        var crfData = layerCtrl.getLayerById('crfData');
         if (event.keyCode == 27) {
             resetPage();
             map._container.style.cursor = '';
@@ -1248,14 +1249,39 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDSPEEDBUMP", "编辑RDSPEEDBUMP成功", 'attr_speedbump_ctrl/speedBumpCtrl', 'attr_speedbump_tpl/speedBumpTpl.html');
                 })
-            } else if (shapeCtrl.editType === "CRFInter"){
+            } else if (shapeCtrl.editType === "UPDATEINTER"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDINTER",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.links = featCodeCtrl.getFeatCode().links;
+                param.data.nodes = featCodeCtrl.getFeatCode().nodes;
+                if(param.data.nodes == undefined || param.data.nodes == []){
+                    swal("操作失败", "未选中Node点！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDINTER", "修改CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            }else if (shapeCtrl.editType === "CRFInter"){
                 if(geo.nodes.length == 0){
                     swal("操作失败", "未选中Node点！", "info");
                     return;
                 }
                 dsEdit.create('RDINTER',geo).then(function(data) {
                     if(data != null){
-                        relationData.redraw();
+                        crfData.redraw();
                         treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
                     } else {
                         resetPage();
