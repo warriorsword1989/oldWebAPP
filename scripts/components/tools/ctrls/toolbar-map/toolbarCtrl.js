@@ -78,7 +78,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         };
         //重新设置选择工具
         $scope.resetToolAndMap = function () {
-            eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
             eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETRELATIONID);
@@ -86,6 +86,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             eventCtrl.off(eventCtrl.eventTypes.GETFACEID);
             eventCtrl.off(eventCtrl.eventTypes.RESETCOMPLETE);
             eventCtrl.off(eventCtrl.eventTypes.GETBOXDATA);
+            eventCtrl.off(eventCtrl.eventTypes.GETRECTDATA);
 
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
@@ -121,5 +122,9 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         $scope.$on("resetButtons",function (event) {
             $scope.clearOperator();
         });
+        //用于控制dropdown的收缩与展示
+        $scope.dropdownStatus = {
+            isopen:false
+        };
     }
 ]);

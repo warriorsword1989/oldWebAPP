@@ -1661,3 +1661,69 @@ form input[type=checkbox].ng-dirty:before {
   color: @red !important;
 }
 
+/*屏蔽背景层*/
+.divMsgBack {
+  display:block;
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background-color:#fff;
+  background:-moz-radial-gradient(50% 50%, #fff, #000);
+  background:-webkit-radial-gradient(50% 50%, #fff, #000);
+  background:-webkit-gradient(radial, 0 50%, 0 50%, from(#fff), to(#000));
+  opacity:0.5;
+  filter:Alpha(opacity=50);
+  z-index:9999;
+}
+/*弹出层*/
+.divMsg {
+  display:block;
+  position:fixed;
+  border:solid 5px gray;
+  background-color:white;
+  top:40%;
+  left:50%;
+  width:500px;
+  height:310px;
+  margin-left:-250px;
+  margin-top:-150px;
+  padding:10px;
+  line-height:21px;
+  border-radius:15px;
+  -moz-border-radius:15px;
+  box-shadow:0 5px 27px rgba(0,0,0,0.3);
+  -webkit-box-shadow:0 5px 27px rgba(0,0,0,0.3);
+  -moz-box-shadow:0 5px 27px rgba(0,0,0,0.3);
+  z-index:10000;
+  .content{
+    height: 225px;
+    padding:5px;
+    margin-top: 4px;
+    position:relative;
+  };
+  .table {
+    .tdWidthContent{
+      width: 35%;
+    };
+    .tdWidthInput{
+      width: 15%;
+    };
+    td{
+      line-height:16px;
+    }
+  };
+}
+.divMsgHide{
+  display:none;
+}
+.btn-lev{
+  width: 100px;
+  background: #555;
+  color: #FFFFFF;
+}
+.btn-lev:hover{
+  color:#EEE8CD;
+}
+

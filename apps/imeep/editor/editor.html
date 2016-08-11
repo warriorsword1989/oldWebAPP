@@ -160,6 +160,34 @@
             <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>
         </div>
         <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();"><img src=""></div>
+
+        <!-- sameNodeOrLink -->
+        <div ng-class="{true:'divMsgBack',false:'divMsgHide'}[same.sameNodeOrLink]"></div>
+        <div ng-class="{true:'divMsg',false:'divMsgHide'}[same.sameNodeOrLink]">
+            <div>制作同一点要素确认</div>
+            <div class="content">
+                <div class="fm-fitsize scroll-styled">
+                    <table ng-if="true" class="table">
+                        <thead>
+                            <td>类型</td><td>ID</td><td>制作</td><td>主要素</td>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="node in same.sameNodeList">
+                                <td class="tdWidthContent">{{node.featType}}</td>
+                                <td class="tdWidthContent">{{node.id}}</td>
+                                <td class="tdWidthInput"><input type="checkbox" ng-disabled="$index==same.sameDisabledIndex" ng-model="node.checked"> </td>
+                                <td class="tdWidthInput"> <input ng-if="same.sameNodeList[0].featType == node.featType" type="radio" name="mainElement" ng-click="changeSame($index);"> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-sm btn-lev" ng-click="saveSame();">确 认</button>
+                <button type="button" class="btn btn-sm btn-lev" ng-click="clearSame();">取 消</button>
+            </div>
+        </div>
+
         <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
     </body>
 </html>
