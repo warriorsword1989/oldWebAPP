@@ -59,16 +59,25 @@
                 "dataApi/road/LuFace.js",
                 "dataApi/road/LuLinkKind.js",
                 "dataApi/road/LuFaceName.js",
+                //"dataApi/road/LcNode.js",
+                "dataApi/road/LcLink.js",
+                //"dataApi/road/LcFace.js",
                 "dataApi/road/RdTrafficSignal.js",
                 "dataApi/road/RdElectronicEye.js",
                 "dataApi/road/RdSlope.js",
                 "dataApi/road/RdSlopeLinks.js",
+                "dataApi/road/RdInter.js",
+                "dataApi/road/RdInterNodes.js",
+                "dataApi/road/RdInterLinks.js",
                 "dataApi/road/RdGate.js",
                 "dataApi/road/RdGateCondition.js",
                 "dataApi/road/RdDirectRoute.js",
                 "dataApi/road/RdDirectRouteVia.js",
                 "dataApi/road/RdSpeedBump.js",
-                "dataApi/road/RdSe.js"
+                "dataApi/road/RdSe.js",
+                "dataApi/road/RdTollgate.js",
+                "dataApi/road/RdTollgateName.js",
+                "dataApi/road/RdTollgatePassage.js"
             ]; // etc.
 
 

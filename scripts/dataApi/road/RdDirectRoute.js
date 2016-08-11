@@ -31,11 +31,14 @@ fastmap.dataApi.RdDirectRoute = fastmap.dataApi.GeoDataModel.extend({
         } else {
             this.processFlag = data["processFlag"];
         }
-
+        this.vias = [];
+        for(var i=0;i<data["vias"].length;i++){
+            var via = fastmap.dataApi.rdDirectRouteVia(data["vias"][i]);
+            this.vias.push(via);
+        }
         this.relationshipType = data["relationshipType"] || 1;
         this.uRecord = data["uRecord"] || 0;
         this.uFields = data["uFields"] || null;
-        this.vias = new fastmap.dataApi.rdDirectRouteVia(data['vias']);
     },
 
     /**

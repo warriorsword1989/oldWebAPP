@@ -45,7 +45,7 @@ angular.module('app').controller("addLuShapeCtrl", ['$scope', '$ocLazyLoad', 'ds
                 map.currentTool.snapHandler.addGuideLayer(luLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setStyleTooltip("color:red;");
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             } else if (type === "LULINK") {
@@ -83,7 +83,6 @@ angular.module('app').controller("addLuShapeCtrl", ['$scope', '$ocLazyLoad', 'ds
                 //设置添加类型
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
                 shapeCtrl.startEditing();
-
                 //把工具添加到map中
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();

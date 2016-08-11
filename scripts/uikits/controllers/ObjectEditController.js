@@ -135,14 +135,29 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "LUFACE":
                         this.data = fastmap.dataApi.luFace(obj);
                         break;
+                    //case "LCNODE":
+                    //    this.data = fastmap.dataApi.lcNode(obj);
+                    //    break;
+                    case "LCLINK":
+                        this.data = fastmap.dataApi.lcLink(obj);
+                        break;
+                    //case "LCFACE":
+                    //    this.data = fastmap.dataApi.lcFace(obj);
+                    //    break;
                     case "RDDIRECTROUTE":
                         this.data = fastmap.dataApi.rdDirectRoute(obj);
                         break;
                     case "RDSPEEDBUMP":
                         this.data = fastmap.dataApi.rdSpeedBump(obj);
                         break;
+                    case "RDINTER":
+                        this.data = fastmap.dataApi.rdInter(obj);
+                        break;
                     case "RDSE": //分叉口
                         this.data = fastmap.dataApi.rdSe(obj);
+                        break;
+                    case "RDTOLLGATE": //收费站
+                        this.data = fastmap.dataApi.rdTollgate(obj);
                         break;
                     default:
                         throw "无法解析当前选择的类型!";

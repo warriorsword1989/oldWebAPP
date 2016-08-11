@@ -30,7 +30,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         var luLink = layerCtrl.getLayerById('luLink');
         var luNode = layerCtrl.getLayerById('luNode');
         var luFace = layerCtrl.getLayerById('luFace');
+        var lcLink = layerCtrl.getLayerById('lcLink');
+        var lcNode = layerCtrl.getLayerById('lcNode');
+        var lcFace = layerCtrl.getLayerById('lcFace');
         var relationData = layerCtrl.getLayerById('relationData');
+        var crfData = layerCtrl.getLayerById('crfData');
         if (event.keyCode == 27) {
             resetPage();
             map._container.style.cursor = '';
@@ -235,6 +239,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         showContent = "创建luLink成功";
                         ctrl = 'attr_lu_ctrl/luLinkCtrl';
                         tpl = 'attr_lu_tpl/luLinkTpl.html';
+                    } else if (shapeCtrl.editFeatType === "LCLINK") {
+                        param["type"] = "LCLINK";
+                        showContent = "创建lcLink成功";
+                        ctrl = 'attr_lc_ctrl/lcLinkCtrl';
+                        tpl = 'attr_lc_tpl/lcLinkTpl.html';
                     }
                     dsEdit.save(param).then(function(data) {
                         if(data != null){
@@ -253,6 +262,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             } else if (param["type"] === "LULINK") {
                                 luLink.redraw();
                                 luNode.redraw();
+                            } else if (param["type"] === "LCLINK") {
+                                lcLink.redraw();
+                                lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
                         } else {
@@ -544,10 +556,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             zoneLink.redraw();
                             zoneNode.redraw();
                             zoneFace.redraw();
-                        } else if (param["type"] === "lUNODE") {
+                        } else if (param["type"] === "LUNODE") {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
+                        }else if(param["type"] === "LCNODE"){
+                            //lcLink.redraw();
+                            lcNode.redraw();
+                            lcFace.redraw();
                         }
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     } else {
@@ -690,6 +706,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     });
                 
+                }else if (shapeCtrl.editFeatType == 'LCFACE') {
+                    param = {
+                        "command": "CREATE",
+                        "type": "LCFACE",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": coordinate
+                            }
+                        }
+                    };
+                    dsEdit.save(param).then(function(data) {
+                        if(data!=null){
+                            lcNode.redraw();
+                            lcFace.redraw();
+                            lcLink.redraw();
+                            //treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lu_ctrl/lcFaceCtrl', 'attr_lu_tpl/lcFaceTpl.html');
+                        } else {
+                            resetPage();
+                        }
+                    });
+
                 }
             } else if (shapeCtrl.editType === "addRdGsc") {
                 param = {
@@ -1210,18 +1249,67 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDSPEEDBUMP", "编辑RDSPEEDBUMP成功", 'attr_speedbump_ctrl/speedBumpCtrl', 'attr_speedbump_tpl/speedBumpTpl.html');
                 })
-            } else if (shapeCtrl.editType === "CRFInter"){
+            } else if (shapeCtrl.editType === "UPDATEINTER"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDINTER",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.links = featCodeCtrl.getFeatCode().links;
+                param.data.nodes = featCodeCtrl.getFeatCode().nodes;
+                if(param.data.nodes == undefined || param.data.nodes == []){
+                    swal("操作失败", "未选中Node点！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDINTER", "修改CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            }else if (shapeCtrl.editType === "CRFInter"){
                 if(geo.nodes.length == 0){
                     swal("操作失败", "未选中Node点！", "info");
                     return;
                 }
                 dsEdit.create('RDINTER',geo).then(function(data) {
                     if(data != null){
-                        relationData.redraw();
-                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdSlope_ctrl/rdSlopeCtrl', 'attr_rdSlope_tpl/rdSlopeTpl.html');
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
                     } else {
                         resetPage();
                     }
+                });
+            } else if (shapeCtrl.editType === "rdTollgate") {    //收费站
+                /*var param = {
+                    "command": "CREATE",
+                    "type": "RDTOLLGATE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_directroute_tpl/tollGateTpl.html');
+                });*/
+                scope.$emit("transitCtrlAndTpl", {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
                 });
             }
         }

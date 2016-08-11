@@ -24,7 +24,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         this.kinds = [];
         if (data["kinds"]) {
             for (var i = 0, len = data["kinds"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LULinkKind(data["kinds"][i]));
+                this.kinds.push(fastmap.dataApi.LuLinkKind(data["kinds"][i]));
             }
         }     
         this.scale = data["scale"] || 0;

@@ -13,14 +13,29 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.directRouteData = objCtrl.data;
-		conversionSystem();
 		var highLightFeatures = [];
 		highLightFeatures.push({
-			id: $scope.directRouteData.linkPid.toString(),
+			id: $scope.directRouteData.inLinkPid.toString(),
+			layerid: 'rdLink',
+			type: 'line',
+			style: {
+				color: '#21ed25'
+			}
+		});
+		highLightFeatures.push({
+			id: $scope.directRouteData.outLinkPid.toString(),
 			layerid: 'rdLink',
 			type: 'line',
 			style: {
 				size: 5
+			}
+		});
+		highLightFeatures.push({
+			id: $scope.directRouteData.nodePid.toString(),
+			layerid: 'rdLink',
+			type: 'node',
+			style: {
+				color: 'yellow'
 			}
 		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -82,6 +97,7 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 			if (data) {
 				$scope.directRouteData = null;
 				relationData.redraw();
+				highRenderCtrl._cleanHighLight();
 			}
 		})
 	};
