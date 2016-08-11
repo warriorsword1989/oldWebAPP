@@ -264,7 +264,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 luNode.redraw();
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
-                                lcNode.redraw();
+                                //lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
                         } else {
@@ -332,6 +332,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 } else if (shapeCtrl.editFeatType === "LULINK") {
                     param["type"] = "LULINK";
                     breakPathContent = "打断luLink成功";
+                } else if (shapeCtrl.editFeatType === "LCLINK") {
+                    param["type"] = "LCLINK";
+                    breakPathContent = "打断lcLink成功";
                 }
                 dsEdit.save(param).then(function(data) {
                     if(data != null){
@@ -350,6 +353,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         } else if (param["type"] === "LULINK") {
                             luLink.redraw();
                             luNode.redraw();
+                        } else if (param["type"] === "LCLINK") {
+                            lcLink.redraw();
+                            lcNode.redraw();
                         }
                         treatmentOfChanged(data, param["type"], breakPathContent);
                     } else {
@@ -464,6 +470,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         param["type"] = "LULINK";
                         ctrl = 'attr_lu_ctrl/luLinkCtrl';
                         tpl = 'attr_lu_tpl/luLinkTpl.html';
+                    } else if (shapeCtrl.editFeatType === "LCLINK") {
+                        repairContent = "修改lcLink成功";
+                        param["type"] = "LCLINK";
+                        ctrl = 'attr_lu_ctrl/lcLinkCtrl';
+                        tpl = 'attr_lu_tpl/lcLinkTpl.html';
                     }
                     dsEdit.save(param).then(function(data) {
                         if(data != null){
@@ -483,8 +494,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             } else if (param["type"] === "LULINK") {
                                 luLink.redraw();
                                 luFace.redraw();
+                            } else if (param["type"] === "LCLINK") {
+                                lcLink.redraw();
+                                lcFace.redraw();
                             }
-                            treatmentOfChanged(data, param["type"], "移动link成功");
+                            treatmentOfChanged(data, param["type"], "移动link成功",ctrl,tpl);
                         } else {
                             resetPage();
                         }
