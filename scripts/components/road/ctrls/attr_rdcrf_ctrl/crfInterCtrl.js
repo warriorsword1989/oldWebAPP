@@ -7,7 +7,7 @@ rdSlopeApp.controller("crfInterCtrl",['$scope','dsEdit',function($scope,dsEdit) 
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var relationData = layerCtrl.getLayerById('relationData');
+    var crfData = layerCtrl.getLayerById('crfData');
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -64,7 +64,7 @@ rdSlopeApp.controller("crfInterCtrl",['$scope','dsEdit',function($scope,dsEdit) 
             var info = null;
             if (data) {
                 $scope.crfInterData = null;
-                relationData.redraw();
+                crfData.redraw();
                 if (map.floatMenu) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;

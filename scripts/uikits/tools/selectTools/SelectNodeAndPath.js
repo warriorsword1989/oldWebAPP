@@ -149,26 +149,23 @@ fastmap.uikit.SelectNodeAndPath = L.Handler.extend({
         //     this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
         //     selectFeatures[0].layer.selectedid = selectFeatures[0].id;
         // } else if (selectFeatures.length > 1) {
-        //     var html = '<ul id="layerpopup">';
-        //     //this.overlays = this.unique(this.overlays);
-        //     for (var item in selectFeatures) {
-        //         html += '<li><a href="#" id="' + item + '">' + selectFeatures[item].optype + "-" + selectFeatures[item].id + '</a></li>';
-        //     }
-        //     html += '</ul>';
-        //     this.popup.setLatLng(event.latlng).setContent(html);
-        //     var that = this;
-        //     this._map.on('popupopen', function() {
-        //         document.getElementById('layerpopup').onclick = function(e) {
-        //             that.selectCtrl.selectedFeatures = selectFeatures[e.target.id];
-        //             that.eventController.fire(that.eventController.eventTypes.GETFEATURE, selectFeatures[e.target.id]);
-        //             selectFeatures[e.target.id].layer.selectedid = selectFeatures[e.target.id].id;
-        //             that._map.closePopup(that.popup);
-        //             that._map.off('popupopen');
+        //     var interList = [];
+        //     for(var i = 0;i<selectFeatures.length;i++){
+        //         if(selectFeatures[i].optype == "RDINTER"){
+        //             interList.push(selectFeatures[i].id);
+        //             selectFeatures.splice(i,1);
+        //             i--;
         //         }
-        //     });
-        //     setTimeout(function() {
-        //         that._map.openPopup(that.popup);
-        //     }, 200);
+        //     }
+        //     for (var j = 0;j<selectFeatures.length;j++){
+        //         if(interList.indexOf(selectFeatures[j].id) > -1){
+        //             selectFeatures.splice(j,1);
+        //             j--;
+        //         }
+        //     }
+        //     this.selectCtrl.selectedFeatures = selectFeatures[0];
+        //     this.eventController.fire(this.eventController.eventTypes.GETFEATURE, selectFeatures[0]);
+        //     selectFeatures[0].layer.selectedid = selectFeatures[0].id;
         // }
     },
     /***

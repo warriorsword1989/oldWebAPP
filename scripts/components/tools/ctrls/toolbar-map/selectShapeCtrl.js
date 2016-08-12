@@ -1789,7 +1789,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
-                        selectLayers: [crfData, rdNode, rdLink],
+                        selectLayers: [rdNode, rdLink],
                         snapLayers: [rdNode, rdLink]//将rdnode放前面，优先捕捉
                     });
                     map.currentTool.enable();
@@ -1842,10 +1842,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                                         color: '#02F78E'
                                                     }
                                                 });
-                                                // break;
+                                                highRenderCtrl.drawHighlight();
                                             } else {
                                                 dsEdit.getByPid(exLinks.data[i].pid,"RDLINK").then(function (linkData) {
-                                                    if(nodePids.indexOf(linkData.eNodePid) >-1 || nodePids.indexOf(linkData.sNodePid) >-1){//线正好是中间部分,把线也加入
+                                                    if((nodePids.indexOf(linkData.eNodePid) >-1 && linkData.eNodePid!=parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) >-1  && linkData.sNodePid!=parseInt(data.id))){//线正好是中间部分,把线也加入
                                                         nodePids.push(parseInt(data.id));
                                                         highRenderCtrl.highLightFeatures.push({
                                                             id: data.id.toString(),
@@ -1864,12 +1864,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                                                 color: '#D9B300'
                                                             }
                                                         });
-                                                        // break;
                                                     }
+                                                    highRenderCtrl.drawHighlight();
                                                 })
                                             }
                                         }
                                     }
+
                                 });
                             }
                         } else if(data.optype == "RDLINK"){
@@ -1885,9 +1886,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                         }
                                     });
                                 }
+                                highRenderCtrl.drawHighlight();
                             })
                         }
-                        highRenderCtrl.drawHighlight();
                         shapeCtrl.setEditingType("UPDATEINTER");   //设置热键修改时的监听类型;
                         tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
 
@@ -1903,8 +1904,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,
-                        selectLayers: [crfData, rdNode, rdLink],
-                        snapLayers: [rdNode, rdLink]//将rdnode放前面，优先捕捉
+                        selectLayers: [crfData],
+                        snapLayers: [crfData]//将rdnode放前面，优先捕捉
                     });
                     map.currentTool.enable();
 
@@ -1934,8 +1935,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         highRenderCtrl._cleanHighLight();
                         if(data.optype == "RDINTER"){
                             if(data.origType == "Point"){
-                                if(nodePids.indexOf(data.nodeId) > -1){
-                                    nodePids.splice(nodePids.indexOf(data.nodeId),1);
+                                if(nodePids.indexOf(parseInt(data.nodeId)) > -1){
+                                    nodePids.splice(nodePids.indexOf(parseInt(data.nodeId)),1);
                                     for(var i = 0;i<highRenderCtrl.highLightFeatures.length;i++){
                                         if(highRenderCtrl.highLightFeatures[i].id == data.nodeId){
                                             highRenderCtrl.highLightFeatures.splice(i,1);
@@ -1944,8 +1945,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                                     }
                                 }
                             } else if(data.origType == "LineString"){
-                                if(linkPids.indexOf(data.linkId) > -1){
-                                    linkPids.splice(linkPids.indexOf(data.linkId),1);
+                                if(linkPids.indexOf(parseInt(data.linkId)) > -1){
+                                    linkPids.splice(linkPids.indexOf(parseInt(data.linkId)),1);
                                     for(var i = 0;i<highRenderCtrl.highLightFeatures.length;i++){
                                         if(highRenderCtrl.highLightFeatures[i].id == data.linkId){
                                             highRenderCtrl.highLightFeatures.splice(i,1);
