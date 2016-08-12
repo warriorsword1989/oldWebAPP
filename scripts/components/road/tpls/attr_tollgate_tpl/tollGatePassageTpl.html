@@ -20,7 +20,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="date-well">
+                        <div class="date-well full-width">
                             <div class="date-head">
                                 <label>车辆类型</label>
                                 <div class="pull-right" style="display:inline-flex;color: #fff">
@@ -28,7 +28,7 @@
                                     <input  type="checkbox" id="checkallow" ng-model="checkValue" ng-checked="checkValue" ng-click="checkViche()" >允许
                                 </div>
                             </div>
-                            <div class="date-body">
+                            <div class="date-body full-width">
                                 <div class="date-list col-md-6" ng-repeat="item in carData">
                                     <div style="color:#ffffff;padding: 5px;" ng-bind="item.label">
                                     </div>
@@ -45,7 +45,7 @@
     <div class="carTypeTip tooltip-container" style="display: none;">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">车辆类型</div>
         <div class="pull-right" style="margin-top: -10px;">
-            <button type="button" class="close" aria-label="Close" ng-click="hidePopover($event);"
+            <button type="button" class="close" aria-label="Close" ng-click="showPopover($event);"
                     style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
                 <span aria-hidden="true">&times;</span>
             </button>

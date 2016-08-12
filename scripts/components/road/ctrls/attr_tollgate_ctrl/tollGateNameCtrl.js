@@ -2,10 +2,23 @@
  * Created by wangmingdong on 2016/8/10.
  */
 
-angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit', function ($scope, dsEdit) {
+angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	$scope.tollGateName = objCtrl.namesInfo;
 
+	/*名称语音*/
+	$scope.namePronunciation = function (nameCn) {
+		var param = {
+			"word":nameCn
+		};
+		dsMeta.getNamePronunciation(param).then(function (data) {
+			if(data.errcode == 0){
+				$scope.tollGateName.phonetic = data.data.phonetic;
+			}else{
+				swal("查找失败", "问题原因："+data.errmsg, "error");
+			}
+		});
+	};
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
 		{"id": "CHT", "label": "繁体中文"},

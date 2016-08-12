@@ -39,6 +39,7 @@
         "RdWarningInfo.js",
         "RdTrafficSignal.js",
         "RdElectronicEye.js",
+        "RdTollgate.js",
         "RdSe.js",
         "RdSpeedBump.js",
         "RdDirectRoute.js",

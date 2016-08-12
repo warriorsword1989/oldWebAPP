@@ -36,7 +36,7 @@
                         </div>
                     </li>
                     <li>
-                        <label>ETC图标代码</label>
+                        <label>ETC代码</label>
                         <div>
                             <input type="text" readonly ng-model="tollGateData.etcFigureCode" >
                         </div>
@@ -64,7 +64,7 @@
             <ul class="list-group list-group-lg m-b-none">
                 <li class="list-group-item">
                     <div class="list-name">
-                        <a ng-click="addName()" class="fm-cursor">名称（共 {{tollGateData.names.length}} 条）</a>
+                        <a ng-click="addItem('name')" class="fm-cursor">名称（共 {{tollGateData.names.length}} 条）</a>
                     </div>
                     <div class="list-line"></div>
                 </li>
@@ -78,7 +78,7 @@
             <ul class="list-group list-group-lg m-b-none">
                 <li class="list-group-item">
                     <div class="list-name">
-                        <a ng-click="addPassage()" class="fm-cursor">通道信息（共 {{tollGateData.passages.length}} 条）</a>
+                        <a ng-click="addItem('passage')" class="fm-cursor">通道信息（共 {{tollGateData.passages.length}} 条）</a>
                     </div>
                     <div class="list-line"></div>
                 </li>
