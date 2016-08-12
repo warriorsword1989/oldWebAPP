@@ -65,6 +65,10 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "rdLink"
         }, {
+            "layerId": "rwNode"
+        }, {
+            "layerId": "rwLink"
+        }, {
             "layerId": "adNode"
         }, {
             "layerId": "adLink"

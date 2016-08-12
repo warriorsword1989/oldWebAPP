@@ -298,6 +298,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case "RDSAMENODE":
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_same_tpl/rdSameNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "RDSAMENODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'RDRESTRICTION':
                     //if (data.restrictionType === 1) {
                     ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction";
