@@ -1,7 +1,7 @@
 /**
- * Created by mali on 2016/7/25.
+ * Created by linglong on 2016/7/25.
  */
-fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
 	/**
 	 * 初始化
 	 * @param data
@@ -9,7 +9,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
 	 */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "LULINK";
+        this.geoLiveType = "LCLINK";
         this.setAttributeData(data);
     },
     /*
@@ -23,12 +23,17 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
         this.kinds = [];
+        this.form = [];
         if (data["kinds"]) {
             for (var i = 0, len = data["kinds"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LuLinkKind(data["kinds"][i]));
+                this.kinds.push(fastmap.dataApi.lcLinkKind(data["kinds"][i]));
             }
-        }     
-        this.scale = data["scale"] || 0;
+        }
+        if (data["form"]) {
+            for (var i = 0, len = data["form"].length; i < len; i++) {
+                this.kinds.push(fastmap.dataApi.LcLinkForm(data["form"][i]));
+            }
+        }
         this.editFlag = data["editFlag"] || 1;
         var str = [];
         for (var i = 0; i<data.meshes.length;i++) {
@@ -48,12 +53,17 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         data["geometry"] = this.geometry;
         data["length"] = this.length;
         data["kinds"] = [];
+        data["form"] = [];
         if (this.kinds) {
             for (var i = 0, len = this.kinds.length; i < len; i++) {
                 data["kinds"].push(this.kinds[i].getIntegrate());
             }
         }
-        data["scale"] = this.scale;
+        if (data["form"]) {
+            for (var i = 0, len = data["form"].length; i < len; i++) {
+                this.kinds.push(fastmap.dataApi.lcLinkKind(data["form"][i]));
+            }
+        }
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
         return data;
@@ -68,12 +78,17 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         data["geometry"] = this.geometry;
         data["length"] = this.length;
         data["kinds"] = [];
+        data["form"] = [];
         if (this.kinds) {
             for (var i = 0, len = this.kinds.length; i < len; i++) {
                 data["kinds"].push(this.kinds[i].getIntegrate());
             }
         }
-        data["scale"] = this.scale;
+        if (this.form) {
+            for (var i = 0, len = this.form.length; i < len; i++) {
+                data["form"].push(this.form[i].getIntegrate());
+            }
+        }
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
         return data;
@@ -81,6 +96,6 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
 
 });
 
-fastmap.dataApi.luLink = function (data, options) {
-    return new fastmap.dataApi.LULink(data, options);
+fastmap.dataApi.lcLink = function (data, options) {
+    return new fastmap.dataApi.LCLink(data, options);
 };

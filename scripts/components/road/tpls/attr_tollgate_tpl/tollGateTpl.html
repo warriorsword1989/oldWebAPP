@@ -5,7 +5,7 @@
             <span class="label label-info">{{tollGateData.pid}}</span>
         </div>
         <div class="content">
-            <div class="attr-img-container">
+            <div class="attr-img-container" ng-if="tollGateData.passages.length > 0">
                 <img src="../../../images/road/img/noimg.png" class="attr-img-show">
                 <!--<div class="picMapDesc" ng-bind="tollGateData.etcFigureCode"></div>-->
             </div>
@@ -70,7 +70,7 @@
                 </li>
                 <li class="list-group-item" ng-repeat="namesItem in tollGateData.names">
                     <label class="control-label fm-cursor" ng-click="showDetail('name',$index);" ng-bind="namesItem.name"></label>
-                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeName($index,0)"></i>
+                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'name')"></i>
                 </li>
             </ul>
         </div>
@@ -84,7 +84,7 @@
                 </li>
                 <li class="list-group-item" ng-repeat="passagesItem in tollGateData.passages">
                     <label class="control-label fm-cursor" ng-click="showDetail('passage',$index);" ng-bind="cardTypeObj[passagesItem.cardType].name"></label>
-                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeName($index,0)"></i>
+                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'passage')"></i>
                 </li>
             </ul>
         </div>

@@ -537,7 +537,7 @@ App.layersConfig = [{
             updateWhenIdle: true,
             tileSize: 256,
             type: 'LineString',
-            zIndex: 18,
+            zIndex: 17,
             restrictZoom: 10,
             editable: false,
             visible: false,
@@ -563,7 +563,7 @@ App.layersConfig = [{
             updateWhenIdle: true,
             tileSize: 256,
             type: 'Polygon',
-            zIndex: 17,
+            zIndex: 16,
             restrictZoom: 10,
             editable: false,
             visible: false,
@@ -600,8 +600,8 @@ App.layersConfig = [{
         url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
-            id: 'rdSameNode',
-            name: '同一点',
+            id: 'rdSame',
+            name: '同一关系',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -614,38 +614,12 @@ App.layersConfig = [{
             mecator: new fastmap.mapApi.MecatorTranform(),
             updateWhenIdle: true,
             tileSize: 256,
-            type: 'Point',
-            zIndex: 17,
+            type: 'Marker',
+            zIndex: 6,
             restrictZoom: 10,
             editable: false,
             visible: false,
-            requestType: 'RDSAMENODE',
-            showNodeLevel: 17
-        }
-    },  {
-        url: '/render/obj/getByTileWithGap?',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            id: 'rdSameLink',
-            name: '同一线',
-            maxZoom: 20,
-            debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 5,
-            boolPixelCrs: true,
-            parse: fastmap.uikit.canvasFeature.Feature.transform,
-            boundsArr: [],
-            unloadInvisibleTiles: true,
-            reuseTiles: false,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            updateWhenIdle: true,
-            tileSize: 256,
-            type: 'LineString',
-            zIndex: 17,
-            restrictZoom: 10,
-            editable: false,
-            visible: false,
-            requestType: 'RDSAMELINK',
+            requestType: 'RDSAMENODE',//,RDSAMELINK
             showNodeLevel: 17
         }
     }]

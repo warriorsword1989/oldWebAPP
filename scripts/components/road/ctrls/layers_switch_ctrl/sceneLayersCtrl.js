@@ -76,12 +76,16 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "luLink"
         }, {
             "layerId": "luNode"
-        }, {
-            "layerId": "rdSameNode"
-        }, {
-            "layerId": "rdSameLink"
+        },{
+            "layerId": "rdSame"
         }]
     }];
+
+
+
+    // , {
+    //     "layerId": "rdSameLink"
+    // }
     $scope.dataLayers = [];
     var reqType;
     for (var i = 0; i < layerCtrl.layers.length; i++) {

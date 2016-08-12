@@ -23,6 +23,10 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
         //$scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
+        $scope.same = {};
+        $scope.same.sameNodeOrLink = false; //用于控制同一关系制作面板是否显示
+        //$scope.tdWitdhContent = ""
+        $scope.same.isRdSameNode = true;
         // $scope.outputResult = []; //输出结果
         /*切换项目平台*/
         $scope.changeProject = function(type) {
@@ -480,6 +484,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
                 $scope.$broadcast('refreshTollgateName',{});
             }
+            if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
+                $scope.$broadcast('refreshTollgatePassage',{});
+            }
         });
         $scope.$on("refreshPhoto", function(event, data) {
             $scope.$broadcast('refreshImgsData', true);
@@ -535,5 +542,66 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.$on("clearAttrStyleUp", function(event, data) {
             $scope.$broadcast("clearAttrStyleDown");
         });
+        $scope.clearSame = function (){
+            $scope.same = {};
+            $scope.same.sameNodeOrLink = false;
+            // $scope.same.sameNodeList = [];
+            // $scope.same.sameDisabledIndex = -1;
+        };
+        $scope.$on("showSameNodeOrLink",function (event,data){
+            $scope.same.sameNodeOrLink = true;
+            console.info(data);
+            $scope.same.sameNodeList = data;
+            $scope.$apply();
+        });
+        $scope.changeSame = function (index){
+            $scope.same.sameNodeList[index].checked = true;
+            $scope.same.sameDisabledIndex = index;
+            console.info($scope.same.sameNodeList);
+        };
+        $scope.saveSame = function (){
+            var data = $scope.same.sameNodeList;
+            var types = {};
+            var rdNode = 0, adNode = 0,zoneNode = 0,luNode = 0;
+            for(var i = 0 , len = data.length; i < len ; i ++){
+                if(data[i].checked){
+                    types[data[i].featType] = "";//用户记录node的类型
+                    if(data[i].featType == 'RDNODE'){
+                        rdNode++;
+                    } else if (data[i].featType == 'ADNODE'){
+                        adNode++;
+                    } else if (data[i].featType == 'ZONENODE'){
+                        zoneNode++;
+                    } else if (data[i].featType == 'LUNODE'){
+                        luNode++;
+                    }
+                }
+            }
+            if(!($scope.same.sameDisabledIndex > 0)){
+                swal("提示", '必须选择主要素！', "warning");
+                return ;
+            }
+            if(Object.keys(types).length < 2){
+                swal("提示", '同一node关系中,至少需要两种要素！', "warning");
+                return ;
+            }
+            if(rdNode > 5){
+                swal("提示", '同一node关系中,rdNode不能超过5个！', "warning");
+                return ;
+            }
+            if(adNode > 1){
+                swal("提示", '同一node关系中,adNode不能超过1个！', "warning");
+                return ;
+            }
+            if(zoneNode > 10){
+                swal("提示", '同一node关系中,zoneNode不能超过10个！', "warning");
+                return ;
+            }
+            if(luNode > 2){
+                swal("提示", '同一node关系中,luNode不能超过2个！', "warning");
+                return ;
+            }
+            
+        };
     }
 ]);
