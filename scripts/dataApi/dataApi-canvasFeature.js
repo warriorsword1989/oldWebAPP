@@ -13,6 +13,8 @@
         "RdInter.js",
         "RdInterNodes.js",
         "RdInterLinks.js",
+        "RdRoad.js",
+        "RdRoadLinks.js",
         "RdGate.js",
         "RdCross.js",
         "RdLaneConnexity.js",

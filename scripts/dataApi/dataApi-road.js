@@ -70,6 +70,8 @@
                 "dataApi/road/RdInter.js",
                 "dataApi/road/RdInterNodes.js",
                 "dataApi/road/RdInterLinks.js",
+                "dataApi/road/RdRoad.js",
+                "dataApi/road/RdRoadLinks.js",
                 "dataApi/road/RdGate.js",
                 "dataApi/road/RdGateCondition.js",
                 "dataApi/road/RdDirectRoute.js",
