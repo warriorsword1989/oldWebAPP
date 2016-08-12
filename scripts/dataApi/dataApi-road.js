@@ -61,6 +61,7 @@
                 "dataApi/road/LuFaceName.js",
                 //"dataApi/road/LcNode.js",
                 "dataApi/road/LcLink.js",
+                "dataApi/road/LcLinkKind.js",
                 //"dataApi/road/LcFace.js",
                 "dataApi/road/RdTrafficSignal.js",
                 "dataApi/road/RdElectronicEye.js",
@@ -75,6 +76,8 @@
                 "dataApi/road/RdDirectRouteVia.js",
                 "dataApi/road/RdSpeedBump.js",
                 "dataApi/road/RdSe.js",
+                "dataApi/road/RdSameNode.js",
+                "dataApi/road/RdSameNodePart.js",
                 "dataApi/road/RdTollgate.js",
                 "dataApi/road/RdTollgateName.js",
                 "dataApi/road/RdTollgatePassage.js"

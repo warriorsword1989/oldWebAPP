@@ -1,5 +1,5 @@
 /**
- * Created by mali on 2016/7/25.
+ * Created by linglong on 2016/7/25.
  */
 fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
 	/**
@@ -20,17 +20,18 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
         this.sNodePid = data["sNodePid"];
         this.eNodePid = data["eNodePid"];
         this.geometry = data["geometry"];
+        this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
         this.kinds = [];
         this.form = [];
         if (data["kinds"]) {
             for (var i = 0, len = data["kinds"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LCLinkKind(data["kinds"][i]));
+                this.kinds.push(fastmap.dataApi.lcLinkKind(data["kinds"][i]));
             }
         }
         if (data["form"]) {
             for (var i = 0, len = data["form"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LCLinkKind(data["form"][i]));
+                this.kinds.push(fastmap.dataApi.LcLinkForm(data["form"][i]));
             }
         }
         this.editFlag = data["editFlag"] || 1;
@@ -60,7 +61,7 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
         }
         if (data["form"]) {
             for (var i = 0, len = data["form"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LCLinkKind(data["form"][i]));
+                this.kinds.push(fastmap.dataApi.lcLinkKind(data["form"][i]));
             }
         }
         data["editFlag"] = this.editFlag;

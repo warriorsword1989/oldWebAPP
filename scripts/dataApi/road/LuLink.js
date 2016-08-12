@@ -20,6 +20,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         this.sNodePid = data["sNodePid"];
         this.eNodePid = data["eNodePid"];
         this.geometry = data["geometry"];
+        this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
         this.kinds = [];
         if (data["kinds"]) {
