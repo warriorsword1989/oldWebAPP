@@ -162,6 +162,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDTOLLGATE": //收费站
                         this.data = fastmap.dataApi.rdTollgate(obj);
                         break;
+                    case "RDSAMENODE": //同一点
+                        this.data = fastmap.dataApi.rdSameNode(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

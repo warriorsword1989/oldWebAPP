@@ -20,13 +20,13 @@
                     <li>
                         <label>名称内容</label>
                         <div>
-                            <input type="text" class="fm-control" ng-model="tollGateName.name"/>
+                            <input type="text" class="fm-control" ng-model="tollGateName.name" ng-blur="namePronunciation(tollGateName.name);"/>
                         </div>
                     </li>
                     <li>
                         <label>名称发音</label>
                         <div>
-                            <input type="text" readonly class="fm-control" ng-model="tollGateName.phonetic"/>
+                            <input type="text" class="fm-control" ng-model="tollGateName.phonetic"/>
                         </div>
                     </li>
                 </ul>

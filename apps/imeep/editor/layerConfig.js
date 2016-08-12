@@ -615,7 +615,7 @@ App.layersConfig = [{
             updateWhenIdle: true,
             tileSize: 256,
             type: 'Marker',
-            zIndex: 6,
+            zIndex: 17,
             restrictZoom: 10,
             editable: false,
             visible: false,

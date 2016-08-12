@@ -1302,7 +1302,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "rdTollgate") {    //收费站
-                /*var param = {
+                var param = {
                     "command": "CREATE",
                     "type": "RDTOLLGATE",
                     "dbId": App.Temp.dbId,
@@ -1318,13 +1318,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
-                    treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_directroute_tpl/tollGateTpl.html');
-                });*/
-                scope.$emit("transitCtrlAndTpl", {
+                    treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
+                });
+                /*scope.$emit("transitCtrlAndTpl", {
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
-                });
+                });*/
             }
         }
     });
