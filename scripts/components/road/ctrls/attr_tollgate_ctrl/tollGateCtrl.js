@@ -131,6 +131,16 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		$scope.tollGateNameData = detailInfo;
 		$scope.$emit("transitCtrlAndTpl", detailInfo);
 	};
+	
+	/*移除item*/
+	$scope.removeItem = function(index, type) {
+		if (type == 'name') {
+			$scope.tollGateData.names.splice(index,1);
+		} else {
+			$scope.tollGateData.passages.splice(index,1);
+		}
+		$scope.suspendPanelOpened = flag;
+	};
 	/*收费站类型*/
 	$scope.tollTypeObj = [
 		{id:0,label:'未调查'},
@@ -193,38 +203,6 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		{"id": "TUR", "label": "土耳其语"},
 		{"id": "UKR", "label": "乌克兰语"},
 		{"id": "SCR", "label": "克罗地亚语"}
-	];
-
-	$scope.vehicleOptions = [
-		{"id": 0, "label": "客车(小汽车)","checked":false},
-		{"id": 1, "label": "配送卡车","checked":false},
-		{"id": 2, "label": "运输卡车","checked":false},
-		{"id": 3, "label": "步行车","checked":false},
-		{"id": 4, "label": "自行车","checked":false},
-		{"id": 5, "label": "摩托车","checked":false},
-		{"id": 6, "label": "机动脚踏两用车","checked":false},
-		{"id": 7, "label": "急救车","checked":false},
-		{"id": 8, "label": "出租车","checked":false},
-		{"id": 9, "label": "公交车","checked":false},
-		{"id": 10, "label": "工程车","checked":false},
-		{"id": 11, "label": "本地车辆","checked":false},
-		{"id": 12, "label": "自用车辆","checked":false},
-		{"id": 13, "label": "多人乘坐车辆","checked":false},
-		{"id": 14, "label": "军车","checked":false},
-		{"id": 15, "label": "有拖车的车","checked":false},
-		{"id": 16, "label": "私营公共汽车","checked":false},
-		{"id": 17, "label": "农用车","checked":false},
-		{"id": 18, "label": "载有易爆品的车辆","checked":false},
-		{"id": 19, "label": "载有水污染品的车辆","checked":false},
-		{"id": 20, "label": "载有其他污染品的车辆","checked":false},
-		{"id": 21, "label": "电车","checked":false},
-		{"id": 22, "label": "轻轨","checked":false},
-		{"id": 23, "label": "校车","checked":false},
-		{"id": 24, "label": "四轮驱动车","checked":false},
-		{"id": 25, "label": "装有防雪链的车","checked":false},
-		{"id": 26, "label": "邮政车","checked":false},
-		{"id": 27, "label": "槽罐车","checked":false},
-		{"id": 28, "label": "残疾人车","checked":false}
 	];
 
 	$scope.save = function () {

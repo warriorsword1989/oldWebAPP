@@ -89,6 +89,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             eventCtrl.off(eventCtrl.eventTypes.RESETCOMPLETE);
             eventCtrl.off(eventCtrl.eventTypes.GETBOXDATA);
             eventCtrl.off(eventCtrl.eventTypes.GETRECTDATA);
+            eventCtrl.off(eventCtrl.eventTypes.GETFEATURE);
 
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
