@@ -15,7 +15,8 @@ fastmap.dataApi.LcLinkKind = fastmap.dataApi.GeoDataModel.extend({
      */
     setAttributeData:function(data){
         this.linkPid = data["linkPid"];
-        this.kind = data["kind"] || 1;
+        this.kind = data["kind"] || 0;
+        this.form = data["form"] || 0;
         this.geoLiveType = data["geoLiveType"];
     },
 
@@ -26,6 +27,7 @@ fastmap.dataApi.LcLinkKind = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["linkPid"] = this.linkPid;
         data["kind"] = this.kind;
+        data["form"] = this.form;
         return data;
 
     }

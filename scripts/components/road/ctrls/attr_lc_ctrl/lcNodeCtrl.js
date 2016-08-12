@@ -1,12 +1,12 @@
 /**
- * Created by mali on 2016/7/22.
+ * Created by linglong on 2016/7/22.
  */
-angular.module("app").controller("luNodeController",['$scope','dsEdit',function($scope,dsEdit) {
+angular.module("app").controller("lcNodeController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var luLink = layerCtrl.getLayerById("luLink");
-    var luNode = layerCtrl.getLayerById("luNode");
+    var lcLink = layerCtrl.getLayerById("lcLink");
+    var lcNode = layerCtrl.getLayerById("lcNode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -26,21 +26,21 @@ angular.module("app").controller("luNodeController",['$scope','dsEdit',function(
     ];
     //初始化
     $scope.initializeData = function(){
-        $scope.luNodeData = objCtrl.data;
+        $scope.lcNodeData = objCtrl.data;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        if($scope.luNodeForm) {
-            $scope.luNodeForm.$setPristine();
-        }
+        //if($scope.lcNodeForm) {
+        //    $scope.lcNodeForm.$setPristine();
+        //}
 
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据
         var highlightFeatures = [];
         /**
-         * 根据点去获取多条lulink，再高亮点线
+         * 根据点去获取多条lclink，再高亮点线
          */
         dsEdit.getByCondition({
             dbId: App.Temp.dbId,
-            type: 'LULINK',
-            data: {"nodePid":  $scope.luNodeData.pid}
+            type: 'LCLINK',
+            data: {"nodePid":  $scope.lcNodeData.pid}
         }).then(function (data){
             if (data.errcode === -1) {
                 return;
@@ -58,18 +58,18 @@ angular.module("app").controller("luNodeController",['$scope','dsEdit',function(
                 $scope.linepids.push(data.data[index].pid);
                 highlightFeatures.push({
                     id:data.data[index].pid.toString(),
-                    layerid:'luLink',
+                    layerid:'lcLink',
                     type:'line',
                     style:{}
                 });
             }
             var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
             //存储选择的数据
-            selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.luNodeData.pid});
+            selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.lcNodeData.pid});
             //高亮点和线
             highlightFeatures.push({
-                id:$scope.luNodeData.pid.toString(),
-                layerid:'luLink',
+                id:$scope.lcNodeData.pid.toString(),
+                layerid:'lcLink',
                 type:'node',
                 style:{}
             });
@@ -85,7 +85,7 @@ angular.module("app").controller("luNodeController",['$scope','dsEdit',function(
         objCtrl.save();
         var param = {
             "command": "UPDATE",
-            "type":"LUNODE",
+            "type":"LCNODE",
             "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
@@ -108,26 +108,26 @@ angular.module("app").controller("luNodeController",['$scope','dsEdit',function(
         dsEdit.save(param).then(function (data) {
             if (data) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                luLink.redraw();
-                luNode.redraw();
+                lcLink.redraw();
+                lcNode.redraw();
             }
         });
     };
     //删除
     $scope.delete = function(){
-        var pid = parseInt($scope.luNodeData.pid);
+        var pid = parseInt($scope.lcNodeData.pid);
         var param =
         {
             "command": "DELETE",
-            "type": "LUNODE",
+            "type": "LCNODE",
             "dbId": App.Temp.dbId,
             "objId": pid
         };
         //结束编辑状态
         dsEdit.save(param).then(function (data) {
             if (data) {
-                luLink.redraw();
-                luNode.redraw();
+                lcLink.redraw();
+                lcNode.redraw();
             }
         })
     };

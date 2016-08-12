@@ -1,7 +1,7 @@
-<div class="fm-component" ng-controller="luFaceCtrl">
+<div class="fm-component" ng-controller="lcFaceCtrl">
     <div class="title">
         土地利用面
-        <span class="label label-info">{{luFaceData.pid}}</span>
+        <span class="label label-info">{{lcFaceData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <form name="luFaceForm">
@@ -11,7 +11,7 @@
                         <li>
                             <label>FACE种别</label>
                             <div>
-                                <select ng-model="luFaceData.kind"
+                                <select ng-model="lcFaceData.kind"
                                         ng-options="value.id as value.label for value in kind">
                                 </select>
                             </div>
@@ -19,20 +19,20 @@
                         <li>
                             <label>FACE面积</label>
                             <div>
-                                <input type="text" class="fm-control" ng-model="luFaceData.meshId"
+                                <input type="text" class="fm-control" ng-model="lcFaceData.meshId"
                                        disabled="disabled">
                             </div>
                         </li>
                         <li>
                             <label>FACE周长</label>
                             <div>
-                                <input type="text" class="fm-control" ng-model="luFaceData.area" disabled="disabled">
+                                <input type="text" class="fm-control" ng-model="lcFaceData.area" disabled="disabled">
                             </div>
                         </li>
                         <li>
                             <label>图符号码</label>
                             <div>
-                                <input type="text" class="fm-control" ng-model="luFaceData.perimeter" disabled="disabled">
+                                <input type="text" class="fm-control" ng-model="lcFaceData.perimeter" disabled="disabled">
                             </div>
                         </li>
                     </ul>
@@ -42,7 +42,7 @@
         <!--begin 名称组-->
 	    <div class="module-box show-detail-title" ng-click="showDetail();">
 	        <div class="box-head font-bold">
-	            名称信息（共<span ng-bind="luFaceData.names.length"></span> 条）
+	            名称信息（共<span ng-bind="lcFaceData.names.length"></span> 条）
 	        </div>
 	    </div>
     	<!--end 名称组-->

@@ -22,16 +22,11 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
         this.geometry = data["geometry"];
         this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
+        this.form = data["form"];
         this.kinds = [];
-        this.form = [];
         if (data["kinds"]) {
             for (var i = 0, len = data["kinds"].length; i < len; i++) {
                 this.kinds.push(fastmap.dataApi.lcLinkKind(data["kinds"][i]));
-            }
-        }
-        if (data["form"]) {
-            for (var i = 0, len = data["form"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LcLinkForm(data["form"][i]));
             }
         }
         this.editFlag = data["editFlag"] || 1;
@@ -53,15 +48,10 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
         data["geometry"] = this.geometry;
         data["length"] = this.length;
         data["kinds"] = [];
-        data["form"] = [];
+        data["form"] = this.form;
         if (this.kinds) {
             for (var i = 0, len = this.kinds.length; i < len; i++) {
                 data["kinds"].push(this.kinds[i].getIntegrate());
-            }
-        }
-        if (data["form"]) {
-            for (var i = 0, len = data["form"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.lcLinkKind(data["form"][i]));
             }
         }
         data["editFlag"] = this.editFlag;

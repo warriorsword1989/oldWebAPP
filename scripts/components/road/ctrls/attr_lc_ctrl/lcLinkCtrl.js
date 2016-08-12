@@ -81,36 +81,34 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
 
 
     //保存
-    //$scope.save = function(){
-    //    objCtrl.save();
-    //    var changed = objCtrl.changedProperty;
-    //    if(!changed){
-    //        swal("操作成功",'属性值没有变化！', "success");
-    //        return;
-    //    }
-    //    //保存调用方法
-    //    dsEdit.update($scope.luLinkData.pid, "LULINK", changed).then(function(data) {
-    //        if (data) {
-    //            // zoneLink.redraw();//线重绘
-    //            // zoneNode.redraw();//点重绘
-    //            if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
-    //                if (typeof map.currentTool.cleanHeight === "function") {
-    //                    map.currentTool.cleanHeight();
-    //                }
-    //                if (toolTipsCtrl.getCurrentTooltip()) {
-    //                    toolTipsCtrl.onRemoveTooltip();
-    //                }
-    //                editLayer.drawGeometry = null;
-    //                editLayer.clear();
-    //                shapeCtrl.stopEditing();
-    //                editLayer.bringToBack();
-    //                $(editLayer.options._div).unbind();
-    //            }
-    //            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-    //        }
-    //    })
-    //};
-    //
+    $scope.save = function(){
+        objCtrl.save();
+        var changed = objCtrl.changedProperty;
+        if(!changed){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+        //保存调用方法
+        dsEdit.update($scope.lcLinkData.pid, "LCLINK", changed).then(function(data) {
+            if (data) {
+                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+            }
+        })
+    };
+
     //删除
     $scope.delete = function(){
         dsEdit.delete($scope.lcLinkData.pid, "LCLINK").then(function(data) {

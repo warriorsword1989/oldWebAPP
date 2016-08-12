@@ -1,7 +1,7 @@
-<div class="fm-component" ng-controller="luNodeController">
+<div class="fm-component" ng-controller="lcNodeController">
     <div class="title">
-        LU点PID
-        <span class="label label-info" >{{luNodeData.pid}}</span>
+        LC点PID
+        <span class="label label-info" >{{lcNodeData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <from name="zoneNodeForm">
@@ -11,7 +11,7 @@
 		                <li>
 		                    <label>形态</label>
 		                    <div>
-		                        <select  ng-model="luNodeData.form"
+		                        <select  ng-model="lcNodeData.form"
 		                                 ng-options="value.id as value.label for value in form" >
 		                        </select>
 		                    </div>
@@ -19,7 +19,7 @@
 		                <li>
 		                    <label>图幅号</label>
 		                    <div>
-		                        <input type="text"  ng-model="luNodeData.meshId" disabled="disabled">
+		                        <input type="text"  ng-model="lcNodeData.meshId" disabled="disabled">
 		                    </div>
 		                </li>
 		            </ul>
