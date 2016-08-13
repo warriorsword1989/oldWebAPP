@@ -7,11 +7,13 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdNode = layerCtrl.getLayerById('rdNode');
+        var rwNode = layerCtrl.getLayerById('rwNode');
         var adNode = layerCtrl.getLayerById('adNode');
         var zoneNode = layerCtrl.getLayerById('zoneNode');
         var luNode = layerCtrl.getLayerById('luNode');
-        var highRenderCtrl = fastmap.uikit.HighRenderController();
+        //var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
+        var objCtrl = fastmap.uikit.ObjectEditController();
 
         /**
          * 添加geometry
@@ -52,13 +54,11 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                 map.currentTool = new fastmap.uikit.SelectForRectang({
                     map: map,
                     shapeEditor: shapeCtrl,
-                    LayersList: [rdNode,adNode,zoneNode,luNode] //配置的顺序影响返回框选点的顺序
+                    LayersList: [rdNode,rwNode,adNode,zoneNode,luNode] //配置的顺序影响返回框选点的顺序
                 });
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETRECTDATA);
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    console.log(data.data);
-
                     if(data.data.length <= 0){
                         return ;
                     }
@@ -68,10 +68,20 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                         o.featType = data.data[i].data.properties.featType;
                         o.id = data.data[i].data.properties.id;
                         o.checked = false;
+                        o.isMain = 0;
                         arr.push(o);
                     }
+                    objCtrl.data = arr;
+                    var relationShap = {
+                        "loadType": "sameRelationShapTplContainer",
+                        "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameCtrl',
+                        "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdSameTpl.html',
+                        "callback":function (){
+                            $scope.$emit("showSameNodeOrLink",arr);
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", relationShap);
 
-                    $scope.$emit("showSameNodeOrLink",arr);
                 })
             } else if (type === 'RDSAMELINK'){
                 $scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示

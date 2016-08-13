@@ -153,11 +153,17 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDINTER":
                         this.data = fastmap.dataApi.rdInter(obj);
                         break;
+                    case "RDROAD":
+                        this.data = fastmap.dataApi.rdRoad(obj);
+                        break;
                     case "RDSE": //分叉口
                         this.data = fastmap.dataApi.rdSe(obj);
                         break;
                     case "RDTOLLGATE": //收费站
                         this.data = fastmap.dataApi.rdTollgate(obj);
+                        break;
+                    case "RDSAMENODE": //同一点
+                        this.data = fastmap.dataApi.rdSameNode(obj);
                         break;
                     default:
                         throw "无法解析当前选择的类型!";

@@ -60,13 +60,13 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		}]
 	};
 	$scope.initializeData = function () {
-		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-		// $scope.tollGateData = objCtrl.data;
-		objCtrl.setOriginalData(fastmap.dataApi.rdTollgate(json));
-		$scope.tollGateData = fastmap.dataApi.rdTollgate(json);
-		objCtrl.setCurrentObject("RDTOLLGATE", fastmap.dataApi.rdTollgate(json));
+		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+		$scope.tollGateData = objCtrl.data;
+		// objCtrl.setOriginalData(fastmap.dataApi.rdTollgate(json));
+		// $scope.tollGateData = fastmap.dataApi.rdTollgate(json);
+		// objCtrl.setCurrentObject("RDTOLLGATE", objCtrl.data.getIntegrate());
 		var highLightFeatures = [];
-		/*highLightFeatures.push({
+		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
 			layerid: 'rdLink',
 			type: 'line',
@@ -89,7 +89,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			style: {
 				color: 'yellow'
 			}
-		});*/
+		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
 
@@ -128,18 +128,32 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			};
 			objCtrl.passageInfo = $scope.tollGateData.passages[index];
 		}
+		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateNameData = detailInfo;
 		$scope.$emit("transitCtrlAndTpl", detailInfo);
 	};
-	
+	/*增加item*/
+	$scope.addItem = function(type){
+		console.log(objCtrl)
+		if (type == 'name') {
+			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({}));
+		} else {
+			objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
+			$scope.tollGateData.passageNum ++;
+		}
+	};
 	/*移除item*/
 	$scope.removeItem = function(index, type) {
 		if (type == 'name') {
 			$scope.tollGateData.names.splice(index,1);
 		} else {
 			$scope.tollGateData.passages.splice(index,1);
+			$scope.tollGateData.passageNum --;
 		}
-		$scope.suspendPanelOpened = flag;
+		$scope.$emit('SWITCHCONTAINERSTATE',{
+			'subAttrContainerTpl':false,
+			'attrContainerTpl':true
+		});
 	};
 	/*收费站类型*/
 	$scope.tollTypeObj = [
@@ -251,6 +265,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
+				$scope.$emit('SWITCHCONTAINERSTATE',{
+					'subAttrContainerTpl':false,
+					'attrContainerTpl':false
+				});
 			}
 		})
 	};

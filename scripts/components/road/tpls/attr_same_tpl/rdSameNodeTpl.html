@@ -1,0 +1,26 @@
+<div ng-controller="SameNodeController">
+    <div class="fm-component" >
+        <div class="title">
+            同一点
+            <span class="label label-info">{{rdSameNodeList.pid}}</span>
+        </div>
+        <div class="content">
+            <form>
+                <ul class="fm-ul fm-ul-form" ng-repeat="node in rdSameNodeList.parts">
+                    <li style="padding:5px">
+                        <label>Node{{$index+1}}号码</label>
+                        <div >
+                            <input type="text" readonly class="fm-control" value="{{node.nodePid}}"/>
+                        </div>
+                    </li>
+                    <li style="padding:5px">
+                        <label>Node{{$index+1}}类型</label>
+                        <div>
+                            <input type="text" readonly class="fm-control" value="{{node.tableName}}"/>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
