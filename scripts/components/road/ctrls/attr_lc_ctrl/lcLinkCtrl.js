@@ -113,8 +113,9 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
     $scope.delete = function(){
         dsEdit.delete($scope.lcLinkData.pid, "LCLINK").then(function(data) {
             if (data) {
-                lcLink.redraw();//线重绘
-                lcNode.redraw();//点重绘
+                //重绘点线面;
+                lcLink.redraw();
+                lcNode.redraw();
                 lcFace.redraw();
                 $scope.lcLinkData = null;
                 highRenderCtrl._cleanHighLight();
@@ -123,8 +124,6 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
-                var editorLayer = layerCtrl.getLayerById("edit");
-                editorLayer.clear();
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });

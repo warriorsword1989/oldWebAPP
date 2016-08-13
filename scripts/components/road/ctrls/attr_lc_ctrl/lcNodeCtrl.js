@@ -7,6 +7,7 @@ angular.module("app").controller("lcNodeController",['$scope','dsEdit',function(
     var layerCtrl = fastmap.uikit.LayerController();
     var lcLink = layerCtrl.getLayerById("lcLink");
     var lcNode = layerCtrl.getLayerById("lcNode");
+    var lcFace = layerCtrl.getLayerById("lcFace");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -126,14 +127,22 @@ angular.module("app").controller("lcNodeController",['$scope','dsEdit',function(
         //结束编辑状态
         dsEdit.save(param).then(function (data) {
             if (data) {
+                //重绘点线面;
                 lcLink.redraw();
                 lcNode.redraw();
+                lcFace.redraw();
+                $scope.lcNodeData = null;
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         })
     };
-    $scope.cancel = function(){
-
-    };
+    $scope.cancel = function(){};
 
     //监听 保存 删除 取消 初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);

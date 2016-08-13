@@ -264,7 +264,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 luNode.redraw();
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
-                                //lcNode.redraw();
+                                lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
                         } else {
@@ -537,8 +537,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcLink.redraw();
                             lcNode.redraw();
                             lcFace.redraw();
-                            ctrl = 'attr_lc_ctrl/lcLinkCtrl';
-                            tpl = 'attr_lc_tpl/lcLinkTpl.html';
+                            ctrl = 'attr_lc_ctrl/lcNodeCtrl';
+                            tpl = 'attr_lc_tpl/lcNodeTpl.html';
                         }else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL"){
                             relationData.redraw();
                         }
@@ -581,7 +581,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luNode.redraw();
                             luFace.redraw();
                         }else if(param["type"] === "LCNODE"){
-                            //lcLink.redraw();
+                            lcLink.redraw();
                             lcNode.redraw();
                             lcFace.redraw();
                         }
