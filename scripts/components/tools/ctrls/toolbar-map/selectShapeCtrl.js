@@ -1745,6 +1745,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             })
                         }
                     }
+
                     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                         if(comPids && comPids.indexOf(parseInt(data.id)) > -1){//添加连续link
                             if(conLinkPids.indexOf(parseInt(data.id)) < 0){

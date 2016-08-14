@@ -743,7 +743,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcNode.redraw();
                             lcFace.redraw();
                             lcLink.redraw();
-                            //treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lu_ctrl/lcFaceCtrl', 'attr_lu_tpl/lcFaceTpl.html');
+                            treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lc_ctrl/lcFaceCtrl', 'attr_lc_tpl/lcFaceTpl.html');
                         } else {
                             resetPage();
                         }

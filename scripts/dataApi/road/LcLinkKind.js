@@ -29,7 +29,6 @@ fastmap.dataApi.LcLinkKind = fastmap.dataApi.GeoDataModel.extend({
         data["kind"] = this.kind;
         data["form"] = this.form;
         return data;
-
     }
 
 });

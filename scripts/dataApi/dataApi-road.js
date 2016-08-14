@@ -63,7 +63,7 @@
                 "dataApi/road/LcLink.js",
                 "dataApi/road/LcLinkKind.js",
                 "dataApi/road/LcFace.js",
-                //"dataApi/road/LcFaceName.js",
+                "dataApi/road/LcFaceName.js",
                 "dataApi/road/RdTrafficSignal.js",
                 "dataApi/road/RdElectronicEye.js",
                 "dataApi/road/RdSlope.js",

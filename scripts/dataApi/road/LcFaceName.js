@@ -1,17 +1,17 @@
 /**
- * Created by mali on 2016/7/27.
+ * Created by linglong on 2016/7/27.
  */
-fastmap.dataApi.LuFaceName=fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.LcFaceName=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoLiveType = "LUFACENAME";
+        this.geoLiveType = "LCFACENAME";
         this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
         this.pid = data["pid"];
         this.nameGroupId = data["nameGroupId"] || 1;
-        this.langCode = data["langCode"] || "CHI";
+        this.langCode = data["longCode"] || "CHI";
         this.name = data["name"] || "";
         this.phonetic = data["phonetic"] || "";
         this.srcFlag = data["srcFlag"] || 0;
@@ -40,6 +40,6 @@ fastmap.dataApi.LuFaceName=fastmap.dataApi.GeoDataModel.extend({
     }
 })
 
-fastmap.dataApi.luFaceName = function (data, options) {
-    return new fastmap.dataApi.LuFaceName(data, options);
+fastmap.dataApi.lcFaceName = function (data, options) {
+    return new fastmap.dataApi.LcFaceName(data, options);
 }

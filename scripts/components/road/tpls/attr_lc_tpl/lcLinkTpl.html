@@ -4,7 +4,7 @@
         <span class="label label-info">{{lcLinkData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
-        <form name="zoneLinkForm">
+        <form name="lcLinkForm">
             <div class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
@@ -19,7 +19,7 @@
                         <li>
                             <label>Link形态</label>
                             <div>
-                                <select ng-model="lcLinkData.form[0].form" ng-options="value.id as value.label for value in form">
+                                <select ng-model="lcLinkData.kinds[0].form" ng-options="value.id as value.label for value in form">
                                     <option value="">请选形态种别</option>
                                 </select>
                             </div>

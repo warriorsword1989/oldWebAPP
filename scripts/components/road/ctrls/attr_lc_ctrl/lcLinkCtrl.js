@@ -1,5 +1,5 @@
 /**
- * Created by mali on 2016/7/22.
+ * Created by linglong on 2016/8/12.
  */
 angular.module("app").controller("lcLinkController",["$scope","dsEdit" , function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -14,6 +14,7 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
+    $scope.lcLinkData = null;
     $scope.kind = [
         {"id": 0, "label": "未分类"},
         {"id": 1, "label": "海岸线"},
@@ -43,15 +44,13 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
         {"id": 9, "label": "湖泊(国界外)"},
         {"id": 10, "label": "界河"}
     ];
-    $scope.selected_Kind = '';
-    $scope.selected_Form = '';
     //初始化
     $scope.initializeData = function(){
         $scope.lcLinkData = objCtrl.data;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        //if($scope.luLinkForm) {
-        //    $scope.luLinkForm.$setPristine();
-        //}
+        if($scope.lcLinkForm) {
+            $scope.lcLinkForm.$setPristine();
+        }
         //存储原始数据
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 
@@ -77,8 +76,6 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
-
-
 
     //保存
     $scope.save = function(){

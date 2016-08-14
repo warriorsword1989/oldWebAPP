@@ -29,10 +29,9 @@ angular.module("app").controller("lcNodeController",['$scope','dsEdit',function(
     $scope.initializeData = function(){
         $scope.lcNodeData = objCtrl.data;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        //if($scope.lcNodeForm) {
-        //    $scope.lcNodeForm.$setPristine();
-        //}
-
+        if($scope.lcNodeForm) {
+            $scope.lcNodeForm.$setPristine();
+        }
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据
         var highlightFeatures = [];
         /**

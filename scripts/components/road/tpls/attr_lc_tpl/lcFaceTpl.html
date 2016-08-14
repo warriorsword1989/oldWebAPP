@@ -4,7 +4,7 @@
         <span class="label label-info">{{lcFaceData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
-        <form name="luFaceForm">
+        <form name="lcFaceForm">
             <div class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
@@ -17,22 +17,47 @@
                             </div>
                         </li>
                         <li>
+                            <label>FACE形态</label>
+                            <div>
+                                <select ng-model="lcFaceData.form"
+                                        ng-options="value.id as value.label for value in form">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>显示等级</label>
+                            <div>
+                                <select ng-model="lcFaceData.displayClass"
+                                        ng-options="value.id as value.label for value in displayClass">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>比例尺</label>
+                            <div>
+                                <select ng-model="lcFaceData.scale"
+                                        ng-options="value.id as value.label for value in scale">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>区域标识</label>
+                            <div>
+                                <select ng-model="lcFaceData.detailFlag"
+                                        ng-options="value.id as value.label for value in detailFlag">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
                             <label>FACE面积</label>
                             <div>
-                                <input type="text" class="fm-control" ng-model="lcFaceData.meshId"
-                                       disabled="disabled">
+                                <input type="text" class="fm-control" ng-model="lcFaceData.meshId" disabled="disabled">
                             </div>
                         </li>
                         <li>
                             <label>FACE周长</label>
                             <div>
                                 <input type="text" class="fm-control" ng-model="lcFaceData.area" disabled="disabled">
-                            </div>
-                        </li>
-                        <li>
-                            <label>图符号码</label>
-                            <div>
-                                <input type="text" class="fm-control" ng-model="lcFaceData.perimeter" disabled="disabled">
                             </div>
                         </li>
                     </ul>
