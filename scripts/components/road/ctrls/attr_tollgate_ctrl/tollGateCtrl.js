@@ -8,63 +8,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	var relationData = layerCtrl.getLayerById('relationData');
 	var selectCtrl = fastmap.uikit.SelectController();
 	var highRenderCtrl = fastmap.uikit.HighRenderController();
-	var json = {
-		pid:123,
-		inLinkPid:123,
-		outLinkPid:123,
-		nodePid:123,
-		type:3,
-		passageNum:2,
-		etcFigureCode:32433,
-		locationFlag:1,
-		passages:[{
-			pid:12345,
-			seqNum:1234,
-			tollForm:3,
-			cardType:1,
-			vehicle:5
-		},{
-			pid:123456,
-			seqNum:1234,
-			tollForm:2,
-			cardType:3,
-			vehicle:5
-		},{
-			pid:1234567,
-			seqNum:1234,
-			tollForm:4,
-			cardType:2,
-			vehicle:5
-		}],
-		names:[{
-			nameId:10004,
-			pid:10004,
-			nameGroupid:18,
-			langCode:'CHI',
-			name:'收费站1',
-			phonetic:'Shou Fei Zhan'
-		},{
-			nameId:10005,
-			pid:10005,
-			nameGroupid:18,
-			langCode:'CHI',
-			name:'收费站2',
-			phonetic:'Shou Fei Zhan'
-		},{
-			nameId:10005,
-			pid:10005,
-			nameGroupid:18,
-			langCode:'CHI',
-			name:'收费站3',
-			phonetic:'Shou Fei Zhan'
-		}]
-	};
+
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateData = objCtrl.data;
-		// objCtrl.setOriginalData(fastmap.dataApi.rdTollgate(json));
-		// $scope.tollGateData = fastmap.dataApi.rdTollgate(json);
-		// objCtrl.setCurrentObject("RDTOLLGATE", objCtrl.data.getIntegrate());
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -131,6 +78,13 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateNameData = detailInfo;
 		$scope.$emit("transitCtrlAndTpl", detailInfo);
+	};
+	/*自动计算ETC代码*/
+	$scope.changeEtcCode = function () {
+		var _code = '';
+		for(var i=0,len=$scope.tollGateData.length;i<len;i++) {
+			
+		}
 	};
 	/*增加item*/
 	$scope.addItem = function(type){
