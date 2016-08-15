@@ -135,5 +135,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      增加收费站
      */
-    'RDTOLLGATE': "rdTollgate"
+    'RDTOLLGATE': "rdTollgate",
+    /*
+     可变限速
+     */
+    'VARIABLESPEED':'variableSpeed'
 }
