@@ -1,46 +1,31 @@
 /**
- * Created by liuyang on 2016/8/9.
+ * Created by liuyang on 2016/8/12.
  */
 
-var rdSlopeApp = angular.module("app");
-rdSlopeApp.controller("crfRoadCtrl",['$scope','dsEdit',function($scope,dsEdit) {
+var crfRoadApp = angular.module("app");
+crfRoadApp.controller("crfRoadCtrl",['$scope','dsEdit',function($scope,dsEdit) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var relationData = layerCtrl.getLayerById('relationData');
+    var crfData = layerCtrl.getLayerById('crfData');
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.initializeData = function(){
-        $scope.slopeData = objCtrl.data;
-        $scope.slopeData.slopeVias.sort(function (a, b) {
-            return a.seqNum < b.seqNum ? -1 : 1;
-        });
+        $scope.crfRoadData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var highLightFeatures = [];
         selectCtrl.onSelected({
-            id:$scope.slopeData.pid
+            id:$scope.crfRoadData.pid
         });
-        highLightFeatures.push({
-            id:$scope.slopeData.linkPid.toString(),
-            layerid:'rdLink',
-            type:'line',
-            style:{color: 'red'}
-        });
-        highLightFeatures.push({
-            id:$scope.slopeData.nodePid.toString(),
-            layerid:'rdLink',
-            type:'rdnode',
-            style:{}
-        });
-        var linkArr = $scope.slopeData.slopeVias,points = [];
+        var linkArr = $scope.crfRoadData.links;
         for (var i = 0, len = linkArr.length; i < len; i++){
             highLightFeatures.push({
                 id:linkArr[i].linkPid.toString(),
                 layerid:'rdLink',
                 type:'line',
-                style:{}
+                style:{color:'#00EC00'}
             });
         }
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -52,38 +37,24 @@ rdSlopeApp.controller("crfRoadCtrl",['$scope','dsEdit',function($scope,dsEdit) {
 
     $scope.save = function(){
         objCtrl.save();
-        if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
-            return ;
-        }
-        var param = {
-            "command": "UPDATE",
-            "type": "RDSLOPE",
-            "dbId": App.Temp.dbId,
-            "data": objCtrl.changedProperty
-        };
-        dsEdit.save(param).then(function (data) {
-            if (data) {
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                relationData.redraw();
-                swal("操作成功", "修改坡度成功！", "success");
-            }
-        })
+        swal("操作成功",'属性值没有变化！', "success");
+        return ;
+
     };
 
     $scope.delete = function(){
-        var objId = parseInt($scope.slopeData.pid);
+        var objId = parseInt($scope.crfRoadData.pid);
         var param = {
             "command": "DELETE",
-            "type": "RDSLOPE",
+            "type": "RDROAD",
             "dbId": App.Temp.dbId,
             "objId": objId
         };
         dsEdit.save(param).then(function (data) {
             var info = null;
             if (data) {
-                $scope.slopeData = null;
-                relationData.redraw();
+                $scope.crfRoadData = null;
+                crfData.redraw();
                 if (map.floatMenu) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;

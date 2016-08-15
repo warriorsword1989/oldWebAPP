@@ -1,8 +1,8 @@
 /**
- * Created by wuzhen on 2016/8/10.
+ * Created by wuzhen on 2016/8/11.
  */
-var sameNodeApp = angular.module("app",[]);
-sameNodeApp.controller("SameNodeController",['$scope','dsEdit',function($scope,dsEdit) {
+var sameLinkApp = angular.module("app",[]);
+sameLinkApp.controller("SameLinkController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -12,24 +12,22 @@ sameNodeApp.controller("SameNodeController",['$scope','dsEdit',function($scope,d
      * 初始化方法
      */
     $scope.initializeData = function (){
-        if($scope.rdSameNodeForm) {
-            $scope.rdSameNodeForm.$setPristine();
+        if($scope.rsSameLinkForm) {
+            $scope.rsSameLinkForm.$setPristine();
         }
 
-        $scope.rdSameNodeList = objCtrl.data;//获取数据
+        $scope.rdSameLinkList = objCtrl.data;//获取数据
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据值
-
-
     };
 
 
     $scope.initializeData();
 
     $scope.delete = function (){
-        dsEdit.delete($scope.rdSameNodeList.pid, "RDSAMENODE").then(function(data) {
+        dsEdit.delete($scope.rdSameLinkList.pid, "RDSAMELINK").then(function(data) {
             if (data) {
                 rdSameLayer.redraw();
-                $scope.rdSameNodeList = null;
+                $scope.rdSameLinkList = null;
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });
