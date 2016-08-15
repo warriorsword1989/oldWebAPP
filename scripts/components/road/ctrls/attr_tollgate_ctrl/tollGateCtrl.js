@@ -134,11 +134,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	};
 	/*增加item*/
 	$scope.addItem = function(type){
-		console.log(objCtrl)
 		if (type == 'name') {
-			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({}));
+			objCtrl.data.names.unshift(fastmap.dataApi.rdTollgateName({}));
 		} else {
-			objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
+			objCtrl.data.passages.unshift(fastmap.dataApi.rdTollgatePassage({}));
 			$scope.tollGateData.passageNum ++;
 		}
 	};

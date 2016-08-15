@@ -1320,11 +1320,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
                 });
-                /*scope.$emit("transitCtrlAndTpl", {
-                    "loadType": "attrTplContainer",
-                    "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
-                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
-                });*/
             }
         }
     });

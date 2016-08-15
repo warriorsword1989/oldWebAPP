@@ -139,7 +139,9 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 		{"id": 27, "label": "槽罐车","checked":false},
 		{"id": 28, "label": "残疾人车","checked":false}
 	];
+	$scope.showvehicle($scope.tollGatePassage.vehicle);
 	$scope.$on('refreshTollgatePassage',function(data){
 		$scope.tollGatePassage = objCtrl.passageInfo;
+		$scope.showvehicle($scope.tollGatePassage.vehicle);
 	});
 }]);
