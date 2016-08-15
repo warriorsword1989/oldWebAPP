@@ -69,7 +69,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
         highLightFeatures.push({
             id:$scope.lcFaceData.pid.toString(),
             layerid:'lcFace',
-            type:'polygon',
+            type:'lcFace',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
