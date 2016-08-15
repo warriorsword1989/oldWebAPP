@@ -364,6 +364,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_se_tpl/rdSeTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
+                case 'RDTOLLGATE': //收费站
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_tollgate_tpl/tollGateTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'RDELECTRONICEYE':
                     toolsObj = {
                         items: [{
@@ -723,6 +728,20 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lu_tpl/luLinkTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "LULINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case "LCNODE":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "移动LCNODE点",
+                            'type': "PATHNODEMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lc_tpl/lcNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LCNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
                 case "LCLINK":
                     toolsObj = {
                         items: [{
@@ -754,6 +773,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lc_tpl/lcLinkTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "LCLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case "LCFACE":
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcFaceCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lc_tpl/lcFaceTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LCFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "IXPOI":
                     $scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
@@ -1391,6 +1415,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('pathNodeMove');
                         tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                        tooltipsCtrl.setChangeInnerHtml("按Esc/space取消或保存操作!");
                     } else {
                         tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                         return;
@@ -1725,6 +1750,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             })
                         }
                     }
+
                     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                         if(comPids && comPids.indexOf(parseInt(data.id)) > -1){//添加连续link
                             if(conLinkPids.indexOf(parseInt(data.id)) < 0){

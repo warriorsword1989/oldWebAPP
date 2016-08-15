@@ -264,7 +264,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 luNode.redraw();
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
-                                //lcNode.redraw();
+                                lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
                         } else {
@@ -473,8 +473,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else if (shapeCtrl.editFeatType === "LCLINK") {
                         repairContent = "修改lcLink成功";
                         param["type"] = "LCLINK";
-                        ctrl = 'attr_lu_ctrl/lcLinkCtrl';
-                        tpl = 'attr_lu_tpl/lcLinkTpl.html';
+                        ctrl = 'attr_lc_ctrl/lcLinkCtrl';
+                        tpl = 'attr_lc_tpl/lcLinkTpl.html';
                     }
                     dsEdit.save(param).then(function(data) {
                         if(data != null){
@@ -533,10 +533,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
-                        } else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL"){
+                        }else if (param["type"] === "LCNODE") {
+                            lcLink.redraw();
+                            lcNode.redraw();
+                            lcFace.redraw();
+                            ctrl = 'attr_lc_ctrl/lcNodeCtrl';
+                            tpl = 'attr_lc_tpl/lcNodeTpl.html';
+                        }else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL"){
                             relationData.redraw();
                         }
-                        treatmentOfChanged(data, param["type"], "移动link成功");
+                        treatmentOfChanged(data, param["type"], "移动link成功",ctrl,tpl);
                     } else {
                         resetPage();
                     }
@@ -575,7 +581,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luNode.redraw();
                             luFace.redraw();
                         }else if(param["type"] === "LCNODE"){
-                            //lcLink.redraw();
+                            lcLink.redraw();
                             lcNode.redraw();
                             lcFace.redraw();
                         }
@@ -737,7 +743,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcNode.redraw();
                             lcFace.redraw();
                             lcLink.redraw();
-                            //treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lu_ctrl/lcFaceCtrl', 'attr_lu_tpl/lcFaceTpl.html');
+                            treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lc_ctrl/lcFaceCtrl', 'attr_lc_tpl/lcFaceTpl.html');
                         } else {
                             resetPage();
                         }
@@ -1302,7 +1308,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "rdTollgate") {    //收费站
-                /*var param = {
+                var param = {
                     "command": "CREATE",
                     "type": "RDTOLLGATE",
                     "dbId": App.Temp.dbId,
@@ -1318,13 +1324,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
-                    treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_directroute_tpl/tollGateTpl.html');
-                });*/
-                scope.$emit("transitCtrlAndTpl", {
+                    treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
+                });
+                /*scope.$emit("transitCtrlAndTpl", {
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
-                });
+                });*/
             }
         }
     });

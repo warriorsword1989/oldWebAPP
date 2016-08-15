@@ -553,7 +553,7 @@ label > input[type='checkbox'] {
   margin: 0;
 }
 .full-width {
-  width: 100%;
+  width: 100% !important;
 }
 .fm-target {
   color: #A4A4E1 !important;

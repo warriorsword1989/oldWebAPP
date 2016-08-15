@@ -135,15 +135,15 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "LUFACE":
                         this.data = fastmap.dataApi.luFace(obj);
                         break;
-                    //case "LCNODE":
-                    //    this.data = fastmap.dataApi.lcNode(obj);
-                    //    break;
+                    case "LCNODE":
+                        this.data = fastmap.dataApi.lcNode(obj);
+                        break;
                     case "LCLINK":
                         this.data = fastmap.dataApi.lcLink(obj);
                         break;
-                    //case "LCFACE":
-                    //    this.data = fastmap.dataApi.lcFace(obj);
-                    //    break;
+                    case "LCFACE":
+                        this.data = fastmap.dataApi.lcFace(obj);
+                        break;
                     case "RDDIRECTROUTE":
                         this.data = fastmap.dataApi.rdDirectRoute(obj);
                         break;
@@ -152,6 +152,9 @@ fastmap.uikit.ObjectEditController = (function() {
                         break;
                     case "RDINTER":
                         this.data = fastmap.dataApi.rdInter(obj);
+                        break;
+                    case "RDROAD":
+                        this.data = fastmap.dataApi.rdRoad(obj);
                         break;
                     case "RDSE": //分叉口
                         this.data = fastmap.dataApi.rdSe(obj);

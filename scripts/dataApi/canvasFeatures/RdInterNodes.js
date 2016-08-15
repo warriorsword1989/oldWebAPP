@@ -20,7 +20,7 @@ fastmap.uikit.canvasFeature.RdInterNodes = fastmap.uikit.canvasFeature.Feature.e
         this.properties['markerStyle']["icon"] = [];
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/rdcross/11.png',
+                iconName: '../../../images/road/crf/11.png',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates']

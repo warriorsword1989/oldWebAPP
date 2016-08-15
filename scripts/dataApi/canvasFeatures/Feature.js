@@ -111,15 +111,15 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 30://LUFace
                     ret = new fastmap.uikit.canvasFeature.LUFace(data);
                     break;
-                //case 28://LUNode
-                //    ret = new fastmap.uikit.canvasFeature.LUNode(data);
-                //    break;
+                case 33://LCNode
+                    ret = new fastmap.uikit.canvasFeature.LCNode(data);
+                    break;
                 case 31://LULink
                     ret = new fastmap.uikit.canvasFeature.LCLink(data);
                     break;
-                //case 30://LUFace
-                //    ret = new fastmap.uikit.canvasFeature.LUFace(data);
-                //    break;
+                case 32://LCFace
+                    ret = new fastmap.uikit.canvasFeature.LCFace(data);
+                    break;
                 case 34://分叉口提示
                     ret = new fastmap.uikit.canvasFeature.RdSe(data);
                     break;
@@ -139,6 +139,12 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     break;
                 case 39://CRF交叉点
                     ret = new fastmap.uikit.canvasFeature.RdInter(data);
+                    break;
+                case 40://CRF道路
+                    ret = new fastmap.uikit.canvasFeature.RdRoad(data);
+                    break;
+                case 42://收费站
+                    ret = new fastmap.uikit.canvasFeature.RdTollgate(data);
                     break;
             }
             return ret;

@@ -5,6 +5,7 @@
 
 fastmap.uikit.EventController=(function() {
     var instantiated;
+    var eventsKey = '_leaflet_events';
     function init(options) {
         var eventController = L.Class.extend({
             /**
