@@ -165,6 +165,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDSAMENODE": //同一点
                         this.data = fastmap.dataApi.rdSameNode(obj);
                         break;
+                    case "RDSAMELINK": //同一线
+                        this.data = fastmap.dataApi.rdSameLink(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

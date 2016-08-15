@@ -81,6 +81,8 @@
                 "dataApi/road/RdSe.js",
                 "dataApi/road/RdSameNode.js",
                 "dataApi/road/RdSameNodePart.js",
+                "dataApi/road/RdSameLink.js",
+                "dataApi/road/RdSameLinkPart.js",
                 "dataApi/road/RdTollgate.js",
                 "dataApi/road/RdTollgateName.js",
                 "dataApi/road/RdTollgatePassage.js"

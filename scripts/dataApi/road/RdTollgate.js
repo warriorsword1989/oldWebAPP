@@ -70,8 +70,14 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         data["hwName"] = this.hwName;
         data["feeType"] = this.feeType;
         data["feeStd"] = this.feeStd;
-        data["names"] = this.names;
-        data["passages"] = this.passages;
+        data["names"] = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data["names"].push(this.names[i].getIntegrate());
+        }
+        data["passages"] = [];
+        for (var i = 0; i < this.passages.length; i++) {
+            data["passages"].push(this.passages[i].getIntegrate());
+        }
         data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
         data["uFields"] = this.uFields;
@@ -100,8 +106,14 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         data["hwName"] = this.hwName;
         data["feeType"] = this.feeType;
         data["feeStd"] = this.feeStd;
-        data["names"] = this.names;
-        data["passages"] = this.passages;
+        data["names"] = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data["names"].push(this.names[i].getIntegrate());
+        }
+        data["passages"] = [];
+        for (var i = 0; i < this.passages.length; i++) {
+            data["passages"].push(this.passages[i].getIntegrate());
+        }
         data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
         data["uFields"] = this.uFields;
