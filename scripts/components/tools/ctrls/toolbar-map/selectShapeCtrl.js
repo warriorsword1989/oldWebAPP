@@ -10,6 +10,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var eventController = fastmap.uikit.EventController();
+        var transform = new fastmap.mapApi.MecatorTranform();
+
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rdNode = layerCtrl.getLayerById('rdNode');
         var workPoint = layerCtrl.getLayerById('workPoint');
@@ -1469,9 +1471,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                 } else if (type === "MODIFYSPEEDNODE") {
                     var pid = parseInt(selectCtrl.selectedFeatures.id),
-                        direct = parseInt(selectCtrl.selectedFeatures.direct);
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid);
+
                     if (shapeCtrl.shapeEditorResult) {
-                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
@@ -1486,28 +1489,35 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
-                        dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                            if (data) {
-                                var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
-                                var speedData = {
-                                    pid: pid,
-                                    direct: direct,
-                                    longitude:point.x,
-                                    latitude:point.y,
-                                    objStatus: "UPDATE"
-                                };
-                                selectCtrl.onSelected({
-                                    geometry: data.geometry.coordinates,
-                                    id: data.pid,
-                                    direct: pro.direct,
-                                    point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
-                                });
-                                shapeCtrl.shapeEditorResult.setFinalGeometry(speedData);
-                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
-                                shapeCtrl.setEditingType('updateSpeedNode');
-                            }
-                        })
-
+                        var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
+                        if(actualDistance > 15){
+                            swal("操作失败", '移动距离必须小于15米！', "warning");
+                            return;
+                        }else {
+                            dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                                if (data) {
+                                    var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
+                                    var speedData = {
+                                        pid: pid,
+                                        longitude:point.x,
+                                        latitude:point.y,
+                                        objStatus: "UPDATE"
+                                    };
+                                    if(parseInt(pro.id) != linkPid){
+                                        speedData.linkPid = parseInt(pro.id);
+                                    }
+                                    selectCtrl.onSelected({
+                                        geometry: data.geometry.coordinates,
+                                        id: data.pid,
+                                        direct: pro.direct,
+                                        point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                                    });
+                                    shapeCtrl.shapeEditorResult.setFinalGeometry(speedData);
+                                    shapeCtrl.setEditingType('updateSpeedNode');
+                                    tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
+                                }
+                            })
+                        }
                     });
                     return;
                 } else if (type === "MODIFYNODE") {
@@ -1527,43 +1537,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
-                        function fD(a, b, c) {
-                            for (; a > c;)
-                                a -= c - b;
-                            for (; a < b;)
-                                a += c - b;
-                            return a;
-                        };
-                        function jD(a, b, c) {
-                            b != null && (a = Math.max(a, b));
-                            c != null && (a = Math.min(a, c));
-                            return a;
-                        };
-                        function yk(a) {
-                            return Math.PI * a / 180
-                        };
-                        function Ce(a, b, c, d) {
-                            var dO = 6370996.81;
-                            return dO * Math.acos(Math.sin(c) * Math.sin(d) + Math.cos(c) * Math.cos(d) * Math.cos(b - a));
-                        };
-                        function getDistance(a, b) {
-                            if (!a || !b)
-                                return 0;
-                            a.lng = fD(a.lng, -180, 180);
-                            a.lat = jD(a.lat, -74, 74);
-                            b.lng = fD(b.lng, -180, 180);
-                            b.lat = jD(b.lat, -74, 74);
-                            return Ce(yk(a.lng), yk(b.lng), yk(a.lat), yk(b.lat));
-                        };
-                        var actualDistance = getDistance(
-                            {
-                                lng : $scope.selectedFeature.event.latlng.lng,
-                                lat: $scope.selectedFeature.event.latlng.lat
-                            },
-                            {
-                                lng : shapeCtrl.shapeEditorResult.getFinalGeometry().x,
-                                lat :shapeCtrl.shapeEditorResult.getFinalGeometry().y
-                            });
+                        var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
                         if(actualDistance > 100){
                             swal("操作失败", '移动距离必须小于100米！', "warning");
                             return;

@@ -39,6 +39,7 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
         selectCtrl.onSelected({
             geometry: geo,
             id: $scope.speedLimitData.pid,
+            linkPid:$scope.speedLimitData.linkPid,
             type: "Marker",
             direct: $scope.speedLimitData.direct,
             point: $scope.speedLimitData.geometry.coordinates

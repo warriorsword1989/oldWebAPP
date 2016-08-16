@@ -142,8 +142,8 @@ fastmap.mapApi.MecatorTranform.prototype.PixelToLonlat = function(pixelX, pixelY
  */
 fastmap.mapApi.MecatorTranform.prototype.scale = function(map) {
     /*var titleSize = 256;
-    var res = ((2 * Math.PI * 6378137) / titleSize) / Math.pow(2, zoom);
-    return res;*/
+     var res = ((2 * Math.PI * 6378137) / titleSize) / Math.pow(2, zoom);
+     return res;*/
     var bounds = map.getBounds();
     var centerLat = bounds.getCenter().lat;
     var halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180);
@@ -151,4 +151,21 @@ fastmap.mapApi.MecatorTranform.prototype.scale = function(map) {
     var size = map.getSize();
     var res = dist / size.x;
     return res;
+};
+fastmap.mapApi.MecatorTranform.prototype.rad = function(d) {
+    return d * Math.PI / 180.0;
+};
+/***
+ * 地图经纬度到实际距离转换
+ * @param {number}x
+ * @param {number}y
+ * @returns {Array}
+ */
+fastmap.mapApi.MecatorTranform.prototype.distance = function(lat1,lon1,lat2, lon2) {
+    var radius =6378137;
+    var a = fastmap.mapApi.MecatorTranform.prototype.rad(lat1) - fastmap.mapApi.MecatorTranform.prototype.rad(lat2);
+    var b = fastmap.mapApi.MecatorTranform.prototype.rad(lon1) - fastmap.mapApi.MecatorTranform.prototype.rad(lon2);
+    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat1))*Math.cos(fastmap.mapApi.MecatorTranform.prototype.rad(lat2))*Math.pow(Math.sin(b/2),2)));
+    s = s * radius;
+    return Math.abs(s);
 };
