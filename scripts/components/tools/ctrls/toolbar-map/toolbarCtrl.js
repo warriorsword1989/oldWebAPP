@@ -35,8 +35,12 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                                         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
                                             $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js').then(function () {
                                             });
+                                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/specialOperAdvanceToolsCtl.js').then(function () {
+                                            	$scope.specialOperAdvanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/specialOperAdvanceToolsTpl.htm';
+                                            });
                                             $scope.addShapeTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/addShapeTpl.htm';
                                             $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
+                                            
                                         });
                                     });
                                 });
@@ -60,6 +64,12 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             $scope.selectBtnOpened = false;
             $scope.addBtnOpened = false;
             $scope.advanceBtnOpened = !$scope.advanceBtnOpened;
+        };
+        $scope.togglEspecialOperAdvanceBtn = function() {
+        	$scope.selectBtnOpened = false;
+            $scope.addBtnOpened = false;
+            $scope.advanceBtnOpened = false;
+            $scope.specialOperAdvanceBtnOpened = !$scope.specialOperAdvanceBtnOpened;
         };
         $scope.clearOperator = function() {
             $scope.shapeOperator = "navigate";

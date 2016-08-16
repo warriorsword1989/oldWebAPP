@@ -57,7 +57,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         switch (tagName) {
             case 'base':
                 $ocll.load(appPath.poi + 'ctrls/attr-base/baseInfoCtl').then(function() {
-                    $scope.baseInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/test.html';
+                    $scope.baseInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/baseInfoTpl.html';
                 });
                 break;
             case 'deep':
