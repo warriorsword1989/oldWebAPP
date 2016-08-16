@@ -5,9 +5,6 @@
 angular.module('fastmap.uikit').directive('fmEditView', function() {
     return {
         restrict: 'A',
-        scope: {
-            model: '=ngModel'
-        },
         controller:function ($scope, $element){
             $scope.$on("clearAttrStyleDown",function (){
                 var label = angular.element($element).parents('li').find('label:first');

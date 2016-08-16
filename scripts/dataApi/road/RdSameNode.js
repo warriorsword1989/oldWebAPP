@@ -43,7 +43,7 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
     },
 
     /**
-     * 获取RdDirectRoute详细信息
+     * 获取详细信息
      * @method getIntegrate
      *
      * @return {object} getIntegrate.

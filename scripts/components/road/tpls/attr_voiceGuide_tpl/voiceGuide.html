@@ -1,0 +1,80 @@
+<div ng-controller="voiceGuideCtl">
+    <div class="fm-component" >
+        <div class="title">
+            语音引导PID
+            <span class="label label-info">{{voiceGuide.pid}}</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="display: inline-block;padding-top: 10px;margin: 0px 8px;"  ng-repeat="item in voiceGuide.details">
+                <span class="glyphicon glyphicon-remove-sign topDelete" ng-click="minusDetails($index)"></span>
+                <img class="lanePic" ng-class="{true: 'imageActive',false: ''}[$index == selectIndex]"
+                     ng-click="showDetailsInfo($index)"
+                     ng-src="../../../images/road/voiceGuide/{{imageCode[item.guideCode]}}">
+            </div>
+        </div>
+        <div class="content">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>进入线</label>
+                        <div >
+                            <input fm-edit-view type="text" readonly class="fm-control" ng-model="voiceGuide.inLinkPid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>Node号码</label>
+                        <div>
+                            <input fm-edit-view type="text" readonly class="fm-control" ng-model="voiceGuide.nodePid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>退出线</label>
+                        <div>
+                            <input fm-edit-view type="text" readonly class="fm-control" ng-model="voiceGuide.details[selectIndex].outLinkPid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>语音类型</label>
+                        <div>
+                            <select fm-edit-view class="fm-control" ng-model="voiceGuide.details[selectIndex].guideType" ng-options="value.id as value.label for value in guideTypeList"></select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>语音代码</label>
+                        <div>
+                            <select fm-edit-view class="fm-control" ng-model="voiceGuide.details[selectIndex].guideCode" ng-options="value.id as value.label for value in guideCodeList"></select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>处理标志</label>
+                        <label ng-repeat="(key, value) in progressFlag">
+                            <input fm-edit-view type="radio" value="{{key}}" ng-model="voiceGuide.details[selectIndex].processFlag"> {{value}}
+                        </label>
+                    </li>
+                    <li>
+                        <label>关系类型</label>
+                        <label ng-repeat="(key, value) in relationshipType">
+                            <input fm-edit-view type="radio"  value="{{key}}" ng-model="voiceGuide.details[selectIndex].relationshipType"> {{value}}
+                        </label>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="fm-panel">
+            <div class="title">
+                经过线（共{{details.vias ? details.vias.length : 0}}条）
+            </div>
+            <div class="content">
+                <ul class="fm-ul fm-ul-form">
+                    <li ng-repeat="via in details.vias">
+                        <label>道路线{{$index+1}}</label>
+                        <div>
+                            <input type="text" readonly class="fm-control" ng-model="via.outPutLinkPid"/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
