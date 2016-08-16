@@ -10,7 +10,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('rdLink');
-    var rdCross = layerCtrl.getLayerById("relationData")
+    var rdCross = layerCtrl.getLayerById("relationData");
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.rticData =  objCtrl.data;
@@ -61,6 +61,12 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.rticData.rtics.unshift(newRtic)
     };
     $scope.minusCarRtic = function (id) {
+        $scope.rticData.rtics.splice(id, 1);
+        if ($scope.rticData.rtics.length === 0) {
+
+        }
+    };
+    $scope.showScene = function (id) {
         $scope.rticData.rtics.splice(id, 1);
         if ($scope.rticData.rtics.length === 0) {
 

@@ -64,9 +64,19 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
 
+        // var transform = new fastmap.mapApi.MecatorTranform();
+        // var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
+        // var PointPixel = transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, map.getZoom());
+        // PointPixel[0] = Math.ceil(PointPixel[0]);
+        // PointPixel[1] = Math.ceil(PointPixel[1]);
+        //
+        // var x = PointPixel[0] - 256 * PointLoc[0];
+        // var y = PointPixel[1] - 256 * PointLoc[1];
+
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
 
         for (var j = 1, len = points.length-1; j < len; j++) {
+            // var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), x , y);
             var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
             if (disAB < 5) {
                 this.targetIndex = j;
@@ -81,6 +91,16 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
             this._map.dragging.disable();
         }
         var layerPoint = event.layerPoint;
+        // var transform = new fastmap.mapApi.MecatorTranform();
+        // var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
+        // var PointPixel = transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, map.getZoom());
+        // PointPixel[0] = Math.ceil(PointPixel[0]);
+        // PointPixel[1] = Math.ceil(PointPixel[1]);
+        //
+        // var x = PointPixel[0] - 256 * PointLoc[0];
+        // var y = PointPixel[1] - 256 * PointLoc[1];
+        // var layerPoint = new fastmap.mapApi.point(x,y);
+
         this.targetPoint = this._map.layerPointToLatLng(layerPoint);
         if(this.targetIndex == null){
             return;

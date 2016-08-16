@@ -15,6 +15,7 @@
         "RdInterLinks.js",
         "RdRoad.js",
         "RdRoadLinks.js",
+        "RdRtic.js",
         "RdGate.js",
         "RdCross.js",
         "RdLaneConnexity.js",

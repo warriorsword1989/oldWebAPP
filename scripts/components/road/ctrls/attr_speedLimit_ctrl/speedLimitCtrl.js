@@ -7,6 +7,7 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var speedLimit = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -30,6 +31,18 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
             style: {}
         });
         highRenderCtrl.drawHighlight();
+        var geo = {};
+        geo.points = [];
+        geo.points.push(fastmap.mapApi.point($scope.speedLimitData.geometry.coordinates[0], $scope.speedLimitData.geometry.coordinates[1]));
+        geo.components = geo.points;
+        geo.type = "SpeedLimit";
+        selectCtrl.onSelected({
+            geometry: geo,
+            id: $scope.speedLimitData.pid,
+            type: "Marker",
+            direct: $scope.speedLimitData.direct,
+            point: $scope.speedLimitData.geometry.coordinates
+        });
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if ($scope.speedLimitForm) {
@@ -146,35 +159,35 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
     $scope.changeDirect = function (direct) {
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
-        var containerPoint;
-        var point = {
-            x: $scope.speedLimitData.geometry.coordinates[0],
-            y: $scope.speedLimitData.geometry.coordinates[1]
-        };
-        var pointVertex = {
-            x: $scope.speedLimitData.geometry.coordinates[0],
-            y: $scope.speedLimitData.geometry.coordinates[1]
-        };
-        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
-        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
-        var angle = $scope.angleOfLink(containerPoint, pointVertex);
-        var marker = {
-            flag: true,
-            pid: $scope.speedLimitData.pid,
-            point: point,
-            type: "marker",
-            angle: angle,
-            orientation: direct.toString()
-        };
-        var editLayer = layerCtrl.getLayerById('edit');
-        layerCtrl.pushLayerFront('edit');
-        var sobj = shapeCtrl.shapeEditorResult;
-        editLayer.drawGeometry = marker;
-        editLayer.draw(marker, editLayer);
-        sobj.setOriginalGeometry(marker);
-        sobj.setFinalGeometry(marker);
-        shapeCtrl.setEditingType("transformDirect");
-        shapeCtrl.startEditing();
+        // var containerPoint;
+        // var point = {
+        //     x: $scope.speedLimitData.geometry.coordinates[0],
+        //     y: $scope.speedLimitData.geometry.coordinates[1]
+        // };
+        // var pointVertex = {
+        //     x: $scope.speedLimitData.geometry.coordinates[0],
+        //     y: $scope.speedLimitData.geometry.coordinates[1]
+        // };
+        // containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        // pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        // var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        // var marker = {
+        //     flag: true,
+        //     pid: $scope.speedLimitData.pid,
+        //     point: point,
+        //     type: "marker",
+        //     angle: angle,
+        //     orientation: direct.toString()
+        // };
+        // var editLayer = layerCtrl.getLayerById('edit');
+        // layerCtrl.pushLayerFront('edit');
+        // var sobj = shapeCtrl.shapeEditorResult;
+        // editLayer.drawGeometry = marker;
+        // editLayer.draw(marker, editLayer);
+        // sobj.setOriginalGeometry(marker);
+        // sobj.setFinalGeometry(marker);
+        // shapeCtrl.setEditingType("transformDirect");
+        // shapeCtrl.startEditing();
     };
 
     $scope.angleOfLink = function (pointA, pointB) {
