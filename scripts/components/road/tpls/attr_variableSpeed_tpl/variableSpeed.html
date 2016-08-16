@@ -1,0 +1,79 @@
+<div class="fm-component" ng-controller="variableSpeedCtl">
+    <div class="title">
+        可变限速PID
+        <span class="label label-info">{{variableSpeed.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <div class="fm-panel">
+            <div class="content">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label class="control-label">进入线</label>
+                        <div>
+                            <input type="text" ng-model="variableSpeed.linkPid" disabled="disabled" />
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">退出线</label>
+                        <div>
+                            <input type="text" ng-model="variableSpeed.linkPid" disabled="disabled" />
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">标牌位置</label>
+                        <div>
+                            <label for="left">
+                                <input id="left" type="checkbox" ng-checked="variableSpeed.locationLeft == 1" ng-click="changeLocationLeft();">
+                                左
+                            </label>
+                            <label for="right">
+                                <input id="right" type="checkbox" ng-checked="variableSpeed.locationRight == 1" ng-click="changeLocationRight();">
+                                右
+                            </label>
+                            <label for="top">
+                                <input id="top" type="checkbox" ng-checked="variableSpeed.locationTop == 1" ng-click="changeLocationTop();">
+                                上
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">限速值</label>
+                        <div>
+                            <input type="text" ng-model="variableSpeed.speedLimit"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div ng-include="carPopoverURL" data-type="1" style="width:100%;padding: 5px;"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="fm-panel">
+            <div class="content">
+                <div class="box-head font-bold">
+                    名称信息（共<span ng-bind="lcFaceData.names.length"></span> 条）
+                </div>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label class="control-label">道路线1</label>
+                        <div>
+                            <input type="text" ng-model="variableSpeed.linkPid" disabled="disabled" />
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">道路线2</label>
+                        <div>
+                            <input type="text" ng-model="variableSpeed.linkPid" disabled="disabled" />
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">道路线3</label>
+                        <div>
+                            <input type="text" ng-model="variableSpeed.linkPid" disabled="disabled" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

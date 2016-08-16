@@ -168,6 +168,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDSAMELINK": //同一线
                         this.data = fastmap.dataApi.rdSameLink(obj);
                         break;
+                    case "RDVOICEGUIDE": //语音引导
+                        this.data = fastmap.dataApi.rdVoiceGuide(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

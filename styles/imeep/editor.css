@@ -553,7 +553,7 @@ label > input[type='checkbox'] {
   margin: 0;
 }
 .full-width {
-  width: 100% !important;
+  width: 100%;
 }
 .fm-target {
   color: #A4A4E1 !important;
@@ -1474,6 +1474,7 @@ form input[type=checkbox].ng-dirty:before {
 .modifiedInfo {
   color: #ff0000 !important;
 }
+
 /*屏蔽背景层*/
 .divMsgBack {
   display: block;
@@ -1536,6 +1537,17 @@ form input[type=checkbox].ng-dirty:before {
 }
 .btn-lev:hover {
   color: #EEE8CD;
+}
+.topDelete {
+  float: right;
+  font-size: 12px;
+  top: 5px;
+  margin-top: -10px;
+  color: #fff;
+  cursor: pointer;
+}
+.imageActive {
+  background: black;
 }
 .fm-ul-container {
   margin: 10px;

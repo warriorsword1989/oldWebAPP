@@ -725,7 +725,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             resetPage();
                         }
                     });
-                
+
                 }else if (shapeCtrl.editFeatType == 'LCFACE') {
                     param = {
                         "command": "CREATE",
@@ -865,29 +865,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "addAdFaceLine") {
-                    var adLinksArr = selectCtrl.selectedFeatures.adLinks;
-                    if (!adLinksArr || adLinksArr.length < 2) {
-                        swal("操作失败", "请双击结束增加线段", "error");
-                        return;
+                var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                if (!adLinksArr || adLinksArr.length < 2) {
+                    swal("操作失败", "请双击结束增加线段", "error");
+                    return;
+                }
+                param = {
+                    "command": "CREATE",
+                    "type": "ADFACE",
+                    "linkType": "ADLINK",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPids": adLinksArr
                     }
-                    param = {
-                        "command": "CREATE",
-                        "type": "ADFACE",
-                        "linkType": "ADLINK",
-                        "dbId": App.Temp.dbId,
-                        "data": {
-                            "linkPids": adLinksArr
-                        }
-                    };
-                    dsEdit.save(param).then(function(data) {
-                        if(data != null){
-                            adFace.redraw();
-                            adLink.redraw();
-                            treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
-                        } else {
-                            resetPage();
-                        }
-                    });
+                };
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        adFace.redraw();
+                        adLink.redraw();
+                        treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             } else if (shapeCtrl.editType === "addZoneFaceLine") {
                 var zoneLinksArr = selectCtrl.selectedFeatures.zoneLinks;
                 if (!zoneLinksArr || zoneLinksArr.length < 2) {
@@ -1325,6 +1325,64 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
+                });
+                /*scope.$emit("transitCtrlAndTpl", {
+                 "loadType": "attrTplContainer",
+                 "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
+                 "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
+                 });*/
+            } else if (shapeCtrl.editType === "updateSpeedNode"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDSPEEDLIMIT",
+                    "dbId": App.Temp.dbId,
+                    "data": geo
+                };
+
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "rdVoiceguide") {    //语音引导
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDVOICEGUIDE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPids":featCodeCtrl.getFeatCode().outLinkPids,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDVOICEGUIDE", "编辑RDVOICEGUIDE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
+                });
+            } else if (shapeCtrl.editType === "variableSpeed") {    //可变限速
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDVARIABLESPEED",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeed', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
             }
         }

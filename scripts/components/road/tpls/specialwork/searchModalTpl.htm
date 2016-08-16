@@ -1,0 +1,47 @@
+<div class="fm-panel" ng-controller="searchModalCtl" style="margin:0px;">
+    <div class="title">请选择名称组</div>
+    <div class="content" >
+        <div style="height:400px;">
+			<div class="fm-table-content fm-fitsize scroll-styled" style="top:40px;bottom: 70px">
+		        <div class="table-header">
+		            <!-- <div style="padding: 10px 50px 10px 10px" class="pull-left">
+		            	<lable>道路名称：</lable>
+		            	<input type="text"/>
+		            	<button type="button" class="btn btn-shape" ng-click="">查询 </button>
+		            </div> -->
+		            <div class="table-search fm-inline fm-list-dropdown" style="padding: 10px 50px 10px 10px" class="pull-left">
+			            <div class="btn-group">
+			                <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">
+			                   	 道路名称
+			                </button>
+			            </div>
+			            <input class="fm-search-control" type="text" ng-style="{'width':{true: '94px', false: '160px'}[dataListType==2]}" ng-model="filters[searchType]"/>
+			        	<button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button>
+			        </div>
+		            <!-- <nobr style="padding: 10px 50px 10px 10px;;" class="pull-left">
+	                    <label>备道路名称:</label>
+	                    <nobr class="input-group">
+						  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+						  <span class="input-group-addon">.00</span>
+						</nobr>
+					</nobr> -->
+		        </div>
+	            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
+	                <colgroup>
+	                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+	                </colgroup>
+	                <tr ng-repeat="row in $data" ng-dblClick="openEditPanel()" ng-class="{true:'active'}[itemActive == $index]">
+	                    <td ng-repeat="col in $columns">
+	                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+	                    </td>
+	                </tr>
+	                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="poiListTableMsg"></td></tr>
+	            </table>
+	        </div>
+        </div>
+        <div style="border-bottom: 1px solid #ddd;"></div>
+        <div style="text-align:right;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doChoice()">选择</button>
+        </div>
+    </div>
+</div>

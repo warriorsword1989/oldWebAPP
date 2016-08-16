@@ -4,7 +4,7 @@ fastmap.uikit.canvasFeature.RdWarningInfo = fastmap.uikit.canvasFeature.Feature.
         this.properties['markerStyle'] = {};
         this.properties['markerStyle']["icon"] = [];
         this.properties["featType"] = "RDWARNINGINFO";
-        var imageSrc = '../../../images/road/warningInfo/unknow.png'; //默认空图片
+        var imageSrc = '../../../images/road/warningInfo/13701.png'; //默认危险信息
         if(item.m.a){
             imageSrc = '../../../images/road/warningInfo/'+item.m.a+'.svg';
         }

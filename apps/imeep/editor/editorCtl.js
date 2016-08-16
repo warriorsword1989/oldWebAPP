@@ -20,6 +20,7 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.editorPanelOpened = 'none';
         $scope.suspendPanelOpened = false;
         $scope.consolePanelOpened = false;
+        $scope.workPanelOpened = false;
         $scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
         //$scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
@@ -117,6 +118,12 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                 fillOpacity: 0
             });
             map.addLayer(lineLayer);
+            ////fdsfdsf
+            //$ocLazyLoad.load(appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl').then(function() {
+            //    $scope.attrTplContainer = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+            //    $scope.dataListTpl = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+            //});
+            ////sdsdsd
             map.on("zoomend", function(e) {
                 document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
                 // if(map.getZoom() > 16){
@@ -204,6 +211,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             });
             $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
+            });
+            $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
+            	$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
             });
             //
             // $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
@@ -549,12 +559,34 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.$on("clearAttrStyleUp", function(event, data) {
             $scope.$broadcast("clearAttrStyleDown");
         });
+        //道路作业面板是否展开
+        $scope.$on("WORKPANELOPENCLOSE", function(event, data) {
+        	$scope.workPanelOpened = !$scope.workPanelOpened;
+        });
         /**
          * 接收地图上框选同一点线事件
          */
         $scope.$on("showSameNodeOrLink",function (event,data){
             $scope.$broadcast("showSameRelationshap");
         });
+
+        // $scope.test = function (){
+        //     $scope.attrTplContainerSwitch(true);
+        //     var param = {};
+        //     param.loadType = "attrTplContainer";
+        //     param.propertyCtrl = appPath.road + 'ctrls/attr_voiceGuide_ctrl/voiceGuide';
+        //     param.propertyHtml = appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html";
+        //
+        //     $timeout(function (){
+        //         $ocLazyLoad.load(param["propertyCtrl"]).then(function() {
+        //             $scope[param["loadType"]] = param["propertyHtml"];
+        //         });
+        //     });
+        // };
+        //
+        // $timeout(function (){
+        //     $scope.test();
+        // })
         
     }
 ]);

@@ -1,0 +1,63 @@
+<div ng-controller="RoadNameCtl">
+    <div class="fm-panel">
+    	<div class="content">
+		    <div style="height: 100%;position: absolute;left: 0;right: 0;top: 0;overflow-y: hidden;z-index: -1">
+		        <div class="fm-table-content fm-fitsize scroll-styled" style="top:0px;bottom: 70px">
+			        <div class="table-header">
+			        	<div style="padding: 40px 0px 10px 10px" class=" pull-left">
+			        		<button type="button" class="btn btn-shape" ng-click="openSubModal('search')">查询 </button>
+				            <button type="button" class="btn btn-shape" ng-click="openSubModal('add')">新增 </button>
+				            <button type="button" class="btn btn-shape" ng-click="openSubModal('split')">拆分</button>
+				        	<button type="button" class="btn btn-shape" ng-click="openSubModal('check')">检查 </button>
+			            </div>
+			            <div style="margin: 10px 50px 10px 10px" class="pull-right">
+					        <div class="btn-group dropdown" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+					            <button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+					                <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+					            </button>
+					            <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+					                <li ng-repeat="col in cols">
+					                    <label class="checkbox-inline">
+					                        <input type="checkbox" ng-model-options="{getterSetter: true}" ng-model="col.show"/> {{col.title}}
+					                    </label>
+					                </li>
+					            </ul>
+					        </div>
+			                <!-- <div class="btn-group dropdown" uib-dropdown auto-close="outsideClick">
+			                    <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+			                        <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+			                    </button>
+			                    <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+			                        <li ng-repeat="item in cols" role="menuitem">
+			                        	<label style="padding: 3px 20px;">
+			                        		<input type="checkbox" value="{{item.field}}" ng-model='item.show'> {{item.title}}
+			                        	</label>
+			                        </li>
+			                    </ul>
+			                </div> -->
+			            </div>
+			        </div>
+		            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
+		                <colgroup>
+		                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+		                </colgroup>
+		                <tr ng-repeat="row in $data" ng-dblClick="openEditPanel(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
+		                    <td ng-repeat="col in $columns">
+		                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+		                    </td>
+		                </tr>
+		                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+		            </table>
+		        </div>
+		    </div>
+		</div>
+		<div ng-show="editPanel!=false" class="div-float" style="top:20px;left:20px;width:1000px;border-radius:5px;">
+	        <button type="button" class="close" style="padding:0px 4px;" ng-click="closeEditPanel()"><span>&times;</span></button>
+	        <div ng-include="roadNameEditPanelTpl"></div>
+	    </div>
+	    <div ng-show="subModal!=false" class="div-float" style="top:20px;left:20px;min-width:600px;max-width:1000px;border-radius:5px;">
+	        <button type="button" class="close" style="padding:0px 4px;" ng-click="closeSubModal()"><span>&times;</span></button>
+	        <div ng-include="subModalTpl"></div>
+	    </div>
+    </div>
+</div>

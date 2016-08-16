@@ -85,7 +85,11 @@
                 "dataApi/road/RdSameLinkPart.js",
                 "dataApi/road/RdTollgate.js",
                 "dataApi/road/RdTollgateName.js",
-                "dataApi/road/RdTollgatePassage.js"
+                "dataApi/road/RdTollgatePassage.js",
+                "dataApi/road/RdVoiceGuide.js",
+                "dataApi/road/RdVoiceGuideDetail.js",
+                "dataApi/road/RdVoiceGuideVia.js",
+                "dataApi/road/RoadName.js"
             ]; // etc.
 
 
