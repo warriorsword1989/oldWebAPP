@@ -1,0 +1,39 @@
+<div class="fm-panel" ng-controller="SearchSubModalCtl" style="margin:0px;">
+    <div class="title">道路名信息查询</div>
+    <div class="content" >
+        <div style="height:200px;">
+			<ul class="fm-ul fm-ul-form">
+                <li>
+                    <label>名称:</label>
+                    <div>
+                        <input fm-edit-view type="text" class="fm-control" style="width:200px;" ng-model="poi.address.fullname"/>
+                    </div>
+                </li>
+                <li>
+                    <label>道路名组ID:</label>
+                    <nobr>
+                    	<input fm-edit-view type="text" class="fm-control" style="width:200px;" ng-model="poi.postCode"/>
+                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -30px;" ng-click="openSearchModal()"></a>
+                    </nobr>
+                </li>
+                <li>
+                    <label>行政区划:</label>
+                    <nobr>
+                    	<input fm-edit-view type="text" class="fm-control" style="width:200px;" ng-model="poi.postCode"/>
+                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -30px;" ng-click="openSearchModal()"></a>
+                    </nobr>
+                </li>
+                <li>
+                    <label>自定义SQL语句:</label>
+                    <div>
+                        <textarea fm-edit-view type="text" class="fm-control" ng-model="poi.postCode" style="width:400px;height:50px;"></textarea>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div style="border-bottom: 1px solid #ddd;"></div>
+        <div style="text-align:right;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doChoice()">查询</button>
+        </div>
+    </div>
+</div>

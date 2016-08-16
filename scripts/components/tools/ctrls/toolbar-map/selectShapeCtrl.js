@@ -10,6 +10,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var eventController = fastmap.uikit.EventController();
+        var transform = new fastmap.mapApi.MecatorTranform();
+
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rdNode = layerCtrl.getLayerById('rdNode');
         var workPoint = layerCtrl.getLayerById('workPoint');
@@ -325,9 +327,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDSPEEDLIMIT':
+                    //悬浮工具条的设置
+                    toolsObj = {
+                        items: [  {
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "修改点位",
+                            'type': 'MODIFYSPEEDNODE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'title': "修改方向",
+                            'type': 'TRANSFORMDIRECT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDCROSS':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl';
@@ -1281,6 +1299,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
 
         };
         $scope.sign = 0; //初始值
+        $scope.sign1 = 0; //初始值
         /**
          * 修改方向
          * @param direct
@@ -1303,6 +1322,32 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 case 3: //逆方向
                     orientation = 1;
                     $scope.sign = 1;
+                    break;
+            }
+            return orientation;
+        };
+        /**
+         * 修改点限速方向
+         * @param direct
+         * @returns {*}
+         */
+        $scope.changeSpeedDirect = function(direct) {
+            var orientation;
+            switch (direct) {
+                case 0: //双方向
+                    if ($scope.sign1 === 0) {
+                        orientation = 3; //向左
+                    } else if (this.sign1 === 1) {
+                        orientation = 2; //向右
+                    }
+                    break;
+                case 2: //顺方向
+                    orientation = 0;
+                    $scope.sign1 = 0;
+                    break;
+                case 3: //逆方向
+                    orientation = 0;
+                    $scope.sign1 = 1;
                     break;
             }
             return orientation;
@@ -1352,7 +1397,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                 } else if (type === "TRANSFORMDIRECT") {
                     if (selectCtrl.selectedFeatures) {
-                        selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
+                        if(selectCtrl.selectedFeatures.type == "Marker"){
+                            selectCtrl.selectedFeatures["direct"] = $scope.changeSpeedDirect(selectCtrl.selectedFeatures["direct"]);
+                        }else {
+                            selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
+                        }
                         objCtrl.data["direct"] = selectCtrl.selectedFeatures["direct"];
                         // $scope.$apply();
                         tooltipsCtrl.setEditEventType('transformDirection');
@@ -1425,6 +1474,57 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                         return;
                     }
+                } else if (type === "MODIFYSPEEDNODE") {
+                    var pid = parseInt(selectCtrl.selectedFeatures.id),
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid);
+
+                    if (shapeCtrl.shapeEditorResult) {
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.enable();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                    tooltipsCtrl.setEditEventType('pointVertexAdd');
+                    tooltipsCtrl.setCurrentTooltip('请选择新的位置点！');
+                    tooltipsCtrl.setStyleTooltip("color:black;");
+                    eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                    eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
+                        var pro = e.property;
+                        var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
+                        if(actualDistance > 15){
+                            swal("操作失败", '移动距离必须小于15米！', "warning");
+                            return;
+                        }else {
+                            dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                                if (data) {
+                                    var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
+                                    var speedData = {
+                                        pid: pid,
+                                        longitude:point.x,
+                                        latitude:point.y,
+                                        objStatus: "UPDATE"
+                                    };
+                                    if(parseInt(pro.id) != linkPid){
+                                        speedData.linkPid = parseInt(pro.id);
+                                    }
+                                    selectCtrl.onSelected({
+                                        geometry: data.geometry.coordinates,
+                                        id: data.pid,
+                                        direct: pro.direct,
+                                        point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                                    });
+                                    shapeCtrl.shapeEditorResult.setFinalGeometry(speedData);
+                                    shapeCtrl.setEditingType('updateSpeedNode');
+                                    tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
+                                }
+                            })
+                        }
+                    });
+                    return;
                 } else if (type === "MODIFYNODE") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
@@ -1442,43 +1542,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
-                        function fD(a, b, c) {
-                            for (; a > c;)
-                                a -= c - b;
-                            for (; a < b;)
-                                a += c - b;
-                            return a;
-                        };
-                        function jD(a, b, c) {
-                            b != null && (a = Math.max(a, b));
-                            c != null && (a = Math.min(a, c));
-                            return a;
-                        };
-                        function yk(a) {
-                            return Math.PI * a / 180
-                        };
-                        function Ce(a, b, c, d) {
-                            var dO = 6370996.81;
-                            return dO * Math.acos(Math.sin(c) * Math.sin(d) + Math.cos(c) * Math.cos(d) * Math.cos(b - a));
-                        };
-                        function getDistance(a, b) {
-                            if (!a || !b)
-                                return 0;
-                            a.lng = fD(a.lng, -180, 180);
-                            a.lat = jD(a.lat, -74, 74);
-                            b.lng = fD(b.lng, -180, 180);
-                            b.lat = jD(b.lat, -74, 74);
-                            return Ce(yk(a.lng), yk(b.lng), yk(a.lat), yk(b.lat));
-                        };
-                        var actualDistance = getDistance(
-                            {
-                                lng : $scope.selectedFeature.event.latlng.lng,
-                                lat: $scope.selectedFeature.event.latlng.lat
-                            },
-                            {
-                                lng : shapeCtrl.shapeEditorResult.getFinalGeometry().x,
-                                lat :shapeCtrl.shapeEditorResult.getFinalGeometry().y
-                            });
+                        var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
                         if(actualDistance > 100){
                             swal("操作失败", '移动距离必须小于100米！', "warning");
                             return;
@@ -2126,6 +2190,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     // map.currentTool.snapHandler.addGuideLayer(rdLink);
                     // modified by chenx
                     shapeCtrl.editFeatType = $scope.selectedFeature.optype;
+                    $scope.selectedFeature.optype = "RDLINK" ? "RDSPEEDLIMIT" : $scope.selectedFeature.optype;
                     map.currentTool = shapeCtrl.getCurrentTool();
                     map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype)); //捕捉图层
                 }
@@ -2160,6 +2225,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData,data) {
+                if (data.status == 3){
+                    swal("提示","此数据为已提交数据，不能修改几何！","info");
+                    return;
+                }
                 var locArr = data.geometry.coordinates;
                 // var guideArr = data.guide.coordinates;
                 var points = [];
@@ -2203,11 +2272,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     });
                 }
                 tooltipsCtrl.onRemoveTooltip();
-                if (data.status == 3){
-                    swal("提示","此数据为已提交数据，不能修改几何！","info");
-                    selectCtrl.selectedFeatures = [];
-                    return;
-                }
                 if (!map.floatMenu && toolsObj) {
                     map.floatMenu = new L.Control.FloatMenu("000", selectedData.event.originalEvent, toolsObj);
                     map.addLayer(map.floatMenu);

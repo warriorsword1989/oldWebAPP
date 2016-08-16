@@ -20,6 +20,7 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.editorPanelOpened = 'none';
         $scope.suspendPanelOpened = false;
         $scope.consolePanelOpened = false;
+        $scope.workPanelOpened = false;
         $scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
         //$scope.controlFlag = {}; //用于父Scope控制子Scope
         $scope.outErrorArr = [false, true, true, false]; //输出框样式控制
@@ -211,6 +212,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
             });
+            $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
+            	$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
+            });
             //
             // $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
             //     $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
@@ -379,6 +383,10 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
         };
         $scope.advancedTool = null;
+        /*监听弹窗*/
+        $scope.$on('openModelEvent',function(event,data){
+            $scope.openAdvancedToolsPanel(data);
+        });
         $scope.openAdvancedToolsPanel = function(toolType) {
             if ($scope.advancedTool == toolType) {
                 return;
@@ -401,6 +409,11 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                         $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
                     });
                     // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+                    break;
+                case 'check':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/beginCheckPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/beginCheckPanelTpl.html';
+                    });
                     break;
             }
             $scope.advancedTool = toolType;
@@ -491,6 +504,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
                 $scope.$broadcast('refreshTollgatePassage',{});
             }
+            if(data["type"] == "Rtic"){
+                $scope.$broadcast('refreshRtic',{});
+            }
         });
         $scope.$on("refreshPhoto", function(event, data) {
             $scope.$broadcast('refreshImgsData', true);
@@ -546,12 +562,34 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.$on("clearAttrStyleUp", function(event, data) {
             $scope.$broadcast("clearAttrStyleDown");
         });
+        //道路作业面板是否展开
+        $scope.$on("WORKPANELOPENCLOSE", function(event, data) {
+        	$scope.workPanelOpened = !$scope.workPanelOpened;
+        });
         /**
          * 接收地图上框选同一点线事件
          */
         $scope.$on("showSameNodeOrLink",function (event,data){
             $scope.$broadcast("showSameRelationshap");
         });
+
+        // $scope.test = function (){
+        //     $scope.attrTplContainerSwitch(true);
+        //     var param = {};
+        //     param.loadType = "attrTplContainer";
+        //     param.propertyCtrl = appPath.road + 'ctrls/attr_voiceGuide_ctrl/voiceGuide';
+        //     param.propertyHtml = appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html";
+        //
+        //     $timeout(function (){
+        //         $ocLazyLoad.load(param["propertyCtrl"]).then(function() {
+        //             $scope[param["loadType"]] = param["propertyHtml"];
+        //         });
+        //     });
+        // };
+        //
+        // $timeout(function (){
+        //     $scope.test();
+        // })
         
     }
 ]);

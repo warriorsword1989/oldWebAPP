@@ -137,6 +137,10 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'RDTOLLGATE': "rdTollgate",
     /*
+     增加语音引导
+     */
+    'RDVOICEGUIDE': "rdVoiceguide",
+    /*
      可变限速
      */
     'VARIABLESPEED':'variableSpeed'

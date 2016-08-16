@@ -188,4 +188,23 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /***
+     * 获取道路名数据列表
+     */
+    this.roadNameList = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/websearch", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询道路名列表出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

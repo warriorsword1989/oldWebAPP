@@ -10,7 +10,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('rdLink');
-    var rdCross = layerCtrl.getLayerById("relationData")
+    var rdCross = layerCtrl.getLayerById("relationData");
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.rticData =  objCtrl.data;
@@ -65,12 +65,46 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         if ($scope.rticData.rtics.length === 0) {
 
         }
-    }
+    };
+    $scope.showScene = function (id) {
+        for (var layer in layerCtrl.layers) {
+            if(id == 1){
+                if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
+                    layerCtrl.layers[layer].options.isUpDirect = false;
+                    layerCtrl.layers[layer].options.visible = true;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKRTIC"){
+                    layerCtrl.layers[layer].options.isUpDirect = true;
+                    layerCtrl.layers[layer].options.visible = false;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                }
+            } else if(id == 2){
+                if (layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
+                    layerCtrl.layers[layer].options.isUpDirect = false;
+                    layerCtrl.layers[layer].options.visible = true;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                    layerCtrl.layers[layer].options.isUpDirect = true;
+                    layerCtrl.layers[layer].options.visible = false;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                }
+            }
 
+        }
+    }
 
     $scope.showRticsInfo= function (item) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showRticsInfoObj = {
+            "type":"Rtic",
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
@@ -81,6 +115,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     $scope.showCarInfo = function (cItem) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
         var showCarInfoObj = {
+            "type":"Rtic",
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfCar',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'
@@ -132,4 +167,5 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     objCtrl.updateObject = function () {
         $scope.intitRticData();
     };
+
 })

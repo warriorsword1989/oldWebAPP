@@ -39,11 +39,20 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "rdLink"
         }, {
-            "layerId": "relationData",
-            "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLINKINTRTIC"
+            "layerId": "rdIntRtic"
+        }]
+    }, {
+        "id": 4,
+        "label": "车厂RTIC场景",
+        "dataLayers": [{
+            "layerId": "rdNode"
+        }, {
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rdLinkRtic"
         }]
     },{
-        "id": 4,
+        "id": 5,
         "label": "CRF场景",
         "dataLayers": [{
             "layerId": "rdNode"
@@ -58,7 +67,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "requestType": "RDINTER"
         }]
     },{
-        "id": 5,
+        "id": 6,
         "label": "同一关系场景",
         "dataLayers": [{
             "layerId": "rdNode"
