@@ -59,6 +59,7 @@ fastmap.dataApi.RdVariableSpeed = fastmap.dataApi.GeoDataModel.extend({
         data["speedDependent"] = this.speedDependent;
         data["timedomain"] = this.timedomain;
         data["vehicle"] = this.vehicle;
+        data["geoLiveType"] = this.geoLiveType;
         data["vias"] = [];
         for(var i=0;i<this.vias.length;i++){
             data["vias"].push(this.vias[i].getIntegrate());
