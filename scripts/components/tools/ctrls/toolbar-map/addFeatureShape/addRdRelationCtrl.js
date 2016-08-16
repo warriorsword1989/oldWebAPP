@@ -1843,6 +1843,104 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
                     }
                 });
+            } else if (type === "RDVOICEGUIDE"){ //语音引导
+                $scope.resetOperator("addRelation", type);
+                //保存所有需要高亮的图层数组;线方向
+                var highLightFeatures = [],linkDirect = 0;
+                //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDVOICEGUIDE);
+                //地图编辑相关设置;
+                tooltipsCtrl.setEditEventType('rdVoiceguide');
+                tooltipsCtrl.setCurrentTooltip('请选择进入线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createBranchFlag: true,
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList:['line','point','line']
+                });
+                map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+
+                $scope.rdVoiceguide = {};
+                $scope.rdVoiceguide.outLinkPids = [];
+
+                eventController.off(eventController.eventTypes.GETLINKID);
+                eventController.on(eventController.eventTypes.GETLINKID,function (data){
+                    if (data.index === 0) { //进入线;
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdnode);
+
+                        $scope.rdVoiceguide.inLinkPid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id: $scope.rdVoiceguide.inLinkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {
+                                color: '#21ed25'
+                            }
+                        });
+                        highRenderCtrl.highLightFeatures = highLightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+                        linkDirect = data["properties"]["direct"];
+                        if (linkDirect == 2 || linkDirect == 3) { //单方向
+                            map.currentTool.snapHandler.snaped = false;
+                            map.currentTool.clearCross();
+                            map.currentTool.snapHandler._guides = [];
+
+                            $scope.rdVoiceguide.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                            highLightFeatures.push({
+                                id: $scope.rdVoiceguide.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'node',
+                                style: {
+                                    color: 'yellow'
+                                }
+                            });
+                            highRenderCtrl.drawHighlight();
+                            map.currentTool.selectedFeatures.push($scope.rdVoiceguide.nodePid.toString());
+
+                            tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
+                        }
+                    } else if (data.index === 1){ //进入点
+                        //清除鼠标十字
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdLink); //增加吸附图层
+
+                        $scope.rdVoiceguide.nodePid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id: $scope.rdVoiceguide.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'node',
+                            style: {
+                                color: 'yellow'
+                            }
+                        });
+                        highRenderCtrl.drawHighlight();
+                        map.currentTool.selectedFeatures.push($scope.rdVoiceguide.nodePid.toString());
+                    } else if (data.index >= 2){ //退出线
+                        if($scope.rdVoiceguide.outLinkPids.indexOf(parseInt(data.id)) <= 0){
+                            $scope.rdVoiceguide.outLinkPids.push(parseInt(data.id));
+                            highLightFeatures.push({
+                                id: data.id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                            highRenderCtrl.drawHighlight();
+
+                            featCodeCtrl.setFeatCode($scope.rdVoiceguide);
+                            tooltipsCtrl.setCurrentTooltip("继续选择退出线,或者点击空格键保存!");
+                        }
+                    }
+                });
             }
         }
     }

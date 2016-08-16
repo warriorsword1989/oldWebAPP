@@ -1537,6 +1537,17 @@ form input[type=checkbox].ng-dirty:before {
 .btn-lev:hover {
   color: #EEE8CD;
 }
+.topDelete {
+  float: right;
+  font-size: 12px;
+  top: 5px;
+  margin-top: -10px;
+  color: #fff;
+  cursor: pointer;
+}
+.imageActive {
+  background: black;
+}
 .fm-ul-container {
   margin: 10px;
   border: 1px solid #fff;

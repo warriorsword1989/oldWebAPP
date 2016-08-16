@@ -1331,6 +1331,24 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
                 });*/
+            } else if (shapeCtrl.editType === "rdVoiceguide") {    //语音引导
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDVOICEGUIDE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPids":featCodeCtrl.getFeatCode().outLinkPids,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDVOICEGUIDE", "编辑RDVOICEGUIDE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
+                });
             }
         }
     });

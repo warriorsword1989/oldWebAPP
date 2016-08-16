@@ -35,6 +35,7 @@
         "RdLink.js",
         "RdSameNode.js",
         "RdSameLink.js",
+        "RdVoiceGuide.js",
         "RdBranchPart.js",
         "RdBranch.js",
         "RdGscMarker.js",
