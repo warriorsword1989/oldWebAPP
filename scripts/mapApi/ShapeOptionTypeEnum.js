@@ -139,5 +139,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      增加语音引导
      */
-    'RDVOICEGUIDE': "rdVoiceguide"
+    'RDVOICEGUIDE': "rdVoiceguide",
+    /*
+     可变限速
+     */
+    'VARIABLESPEED':'variableSpeed'
 }

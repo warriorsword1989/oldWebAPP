@@ -26,7 +26,7 @@ fastmap.dataApi.RdVoiceGuide = fastmap.dataApi.GeoDataModel.extend({
         this.details = [];
         if (data["details"]) {
             for (var i = 0, len = data["details"].length; i < len; i++) {
-                this.parts.push(fastmap.dataApi.rdVoiceGuideDetail(data["details"][i]));
+                this.details.push(fastmap.dataApi.rdVoiceGuideDetail(data["details"][i]));
             }
         }
     },
