@@ -264,7 +264,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 luNode.redraw();
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
-                                //lcNode.redraw();
+                                lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
                         } else {
@@ -473,8 +473,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else if (shapeCtrl.editFeatType === "LCLINK") {
                         repairContent = "修改lcLink成功";
                         param["type"] = "LCLINK";
-                        ctrl = 'attr_lu_ctrl/lcLinkCtrl';
-                        tpl = 'attr_lu_tpl/lcLinkTpl.html';
+                        ctrl = 'attr_lc_ctrl/lcLinkCtrl';
+                        tpl = 'attr_lc_tpl/lcLinkTpl.html';
                     }
                     dsEdit.save(param).then(function(data) {
                         if(data != null){
@@ -533,10 +533,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
-                        } else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL"){
+                        }else if (param["type"] === "LCNODE") {
+                            lcLink.redraw();
+                            lcNode.redraw();
+                            lcFace.redraw();
+                            ctrl = 'attr_lc_ctrl/lcNodeCtrl';
+                            tpl = 'attr_lc_tpl/lcNodeTpl.html';
+                        }else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL"){
                             relationData.redraw();
                         }
-                        treatmentOfChanged(data, param["type"], "移动link成功");
+                        treatmentOfChanged(data, param["type"], "移动link成功",ctrl,tpl);
                     } else {
                         resetPage();
                     }
@@ -575,7 +581,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             luNode.redraw();
                             luFace.redraw();
                         }else if(param["type"] === "LCNODE"){
-                            //lcLink.redraw();
+                            lcLink.redraw();
                             lcNode.redraw();
                             lcFace.redraw();
                         }
@@ -719,7 +725,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             resetPage();
                         }
                     });
-                
+
                 }else if (shapeCtrl.editFeatType == 'LCFACE') {
                     param = {
                         "command": "CREATE",
@@ -737,7 +743,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcNode.redraw();
                             lcFace.redraw();
                             lcLink.redraw();
-                            //treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lu_ctrl/lcFaceCtrl', 'attr_lu_tpl/lcFaceTpl.html');
+                            treatmentOfChanged(data, "LCFACE", "创建LC面成功", 'attr_lc_ctrl/lcFaceCtrl', 'attr_lc_tpl/lcFaceTpl.html');
                         } else {
                             resetPage();
                         }
@@ -859,29 +865,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "addAdFaceLine") {
-                    var adLinksArr = selectCtrl.selectedFeatures.adLinks;
-                    if (!adLinksArr || adLinksArr.length < 2) {
-                        swal("操作失败", "请双击结束增加线段", "error");
-                        return;
+                var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                if (!adLinksArr || adLinksArr.length < 2) {
+                    swal("操作失败", "请双击结束增加线段", "error");
+                    return;
+                }
+                param = {
+                    "command": "CREATE",
+                    "type": "ADFACE",
+                    "linkType": "ADLINK",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPids": adLinksArr
                     }
-                    param = {
-                        "command": "CREATE",
-                        "type": "ADFACE",
-                        "linkType": "ADLINK",
-                        "dbId": App.Temp.dbId,
-                        "data": {
-                            "linkPids": adLinksArr
-                        }
-                    };
-                    dsEdit.save(param).then(function(data) {
-                        if(data != null){
-                            adFace.redraw();
-                            adLink.redraw();
-                            treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
-                        } else {
-                            resetPage();
-                        }
-                    });
+                };
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        adFace.redraw();
+                        adLink.redraw();
+                        treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             } else if (shapeCtrl.editType === "addZoneFaceLine") {
                 var zoneLinksArr = selectCtrl.selectedFeatures.zoneLinks;
                 if (!zoneLinksArr || zoneLinksArr.length < 2) {
@@ -1340,6 +1346,26 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else {
                         resetPage();
                     }
+                 });
+            }
+            else if (shapeCtrl.editType === "variableSpeed") {    //可变限速
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDVARIABLESPEED",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeed', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
             }
         }

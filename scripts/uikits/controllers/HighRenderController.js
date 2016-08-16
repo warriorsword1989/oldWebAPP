@@ -54,7 +54,7 @@ fastmap.uikit.HighRenderController = (function() {
                                 drawx: -10,
                                 drawy: -10
                             });
-                        } else {
+                        }else {
                             this.layer._drawLineString(ctx, feature.geometry.coordinates, true, {
                                 strokeWidth: 3,
                                 strokeColor: '#00F5FF'
@@ -122,7 +122,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.highLightFeatures[item].type == 'IXPOI') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace') {
+                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace'||this.highLightFeatures[item].type == 'lcFace') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
                                     }

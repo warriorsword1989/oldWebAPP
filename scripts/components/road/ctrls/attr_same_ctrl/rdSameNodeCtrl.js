@@ -12,8 +12,14 @@ sameNodeApp.controller("SameNodeController",['$scope','dsEdit',function($scope,d
      * 初始化方法
      */
     $scope.initializeData = function (){
+        if($scope.rdSameNodeForm) {
+            $scope.rdSameNodeForm.$setPristine();
+        }
+
         $scope.rdSameNodeList = objCtrl.data;//获取数据
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据值
+
+
     };
 
 

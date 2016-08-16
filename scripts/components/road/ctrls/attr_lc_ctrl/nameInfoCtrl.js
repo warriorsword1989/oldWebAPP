@@ -1,7 +1,7 @@
 /**
- * Created by mali on 2015/7/27.
+ * Created by linglong on 2015/7/27.
  */
-angular.module("app").controller("nameInfoCtrl", function ($scope,$timeout,dsMeta) {
+angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     $scope.nameGroup = [];
@@ -122,7 +122,7 @@ angular.module("app").controller("nameInfoCtrl", function ($scope,$timeout,dsMet
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
         var protoArr = $scope.names;
-        var newName = fastmap.dataApi.luFaceName({
+        var newName = fastmap.dataApi.lcFaceName({
             "pid":0,
             "langCode":$scope.languageCode[0].code,
             "nameGroupid":protoArr.length>0?protoArr[0].nameGroupid + 1:1,
@@ -171,9 +171,4 @@ angular.module("app").controller("nameInfoCtrl", function ($scope,$timeout,dsMet
         {"code":"UKR","name":"乌克兰语"},
         {"code":"SCR","name":"克罗地亚语"}
     ];
-    // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
-//    $scope.$watch('subAttributeData',function(){
-//        $scope.nameGroup = [];
-//        initNameInfo();
-//    });
 });
