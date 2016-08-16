@@ -1325,6 +1325,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
                 });*/
+            } else if (shapeCtrl.editType === "updateSpeedNode"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDSPEEDLIMIT",
+                    "dbId": App.Temp.dbId,
+                    "data": geo
+                };
+
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             }
         }
     });

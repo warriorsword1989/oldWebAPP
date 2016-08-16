@@ -38,6 +38,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 9: //线限速
                     break;
                 case 10: //rtic
+                    ret = new fastmap.uikit.canvasFeature.RdRtic(data);
                     break;
                 case 11: //立交
                     ret = new fastmap.uikit.canvasFeature.RdGsc(data);
