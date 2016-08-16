@@ -373,6 +373,10 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
         };
         $scope.advancedTool = null;
+        /*监听弹窗*/
+        $scope.$on('openModelEvent',function(event,data){
+            $scope.openAdvancedToolsPanel(data);
+        });
         $scope.openAdvancedToolsPanel = function(toolType) {
             if ($scope.advancedTool == toolType) {
                 return;
@@ -395,6 +399,11 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                         $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
                     });
                     // $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+                    break;
+                case 'check':
+                    $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/beginCheckPanelCtrl').then(function() {
+                        $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/beginCheckPanelTpl.html';
+                    });
                     break;
             }
             $scope.advancedTool = toolType;
