@@ -111,7 +111,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         for (var i = 0; i < $scope.modelArray.length; i++) {
             if (ind == i && ind == 4) {
                 for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" || layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
+                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                         layerCtrl.layers[layer].options.isUpDirect = false;
                         layerCtrl.layers[layer].options.visible = true;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
@@ -123,7 +123,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 $scope.modelArray[i] = true;
             } else if (ind == i) {
                 for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" || layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
+                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                         layerCtrl.layers[layer].options.isUpDirect = true;
                         layerCtrl.layers[layer].options.visible = false;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
