@@ -17,7 +17,7 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.projectType = 1; //1--POI作业，其他为道路作业
         $scope.outputType = 1;
         //面板显示控制开关
-        $scope.editorPanelOpened = 'true';
+        $scope.editorPanelOpened = 'none';
         $scope.suspendPanelOpened = false;
         $scope.consolePanelOpened = false;
         $scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
@@ -117,12 +117,12 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                 fillOpacity: 0
             });
             map.addLayer(lineLayer);
-            //fdsfdsf
-            $ocLazyLoad.load(appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl').then(function() {
-                $scope.attrTplContainer = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
-                $scope.dataListTpl = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
-            });
-            //sdsdsd
+            ////fdsfdsf
+            //$ocLazyLoad.load(appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl').then(function() {
+            //    $scope.attrTplContainer = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+            //    $scope.dataListTpl = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+            //});
+            ////sdsdsd
             map.on("zoomend", function(e) {
                 document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
                 // if(map.getZoom() > 16){
