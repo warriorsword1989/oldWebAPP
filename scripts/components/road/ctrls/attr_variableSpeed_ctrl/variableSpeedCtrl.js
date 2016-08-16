@@ -1,7 +1,6 @@
 /**
  * Created by linglong on 2016/8/15.
  */
-
 var rdElectronicEyeApp = angular.module("app");
 rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLoad','$timeout', function ($scope, dsEdit, $ocLazyLoad, $timeout) {
     /*限速类型*/
@@ -35,48 +34,49 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
     });
 
 	$scope.initializeData = function () {
-		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-		$scope.electronicEyeData = objCtrl.data;
+		$scope.variableSpeed = objCtrl.data;
+        objCtrl.setOriginalData($scope.variableSpeed.getIntegrate());
+        //十进制转二进制;
 		conversionSystem();
-		var highLightFeatures = [];
-		highLightFeatures.push({
-			id: $scope.electronicEyeData.linkPid.toString(),
-			layerid: 'rdLink',
-			type: 'line',
-			style: {
-				size: 5
-			}
-		});
-		highRenderCtrl.highLightFeatures = highLightFeatures;
-		highRenderCtrl.drawHighlight();
-
-	};
-	//$scope.initializeData();
-	$scope.refreshData = function () {
-		dsEdit.getByPid(parseInt($scope.electronicEyeData.pid), "RDELECTRONICEYE").then(function (data) {
-			if (data) {
-				objCtrl.setCurrentObject("RDELECTRONICEYE", data);
-				$scope.initializeData();
-			}
-		});
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id: $scope.variableSpeed.inLinkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {color: '#21ed25'}
+        });
+        highLightFeatures.push({
+            id: $scope.variableSpeed.outLinkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {size: 5}
+        });
+        highLightFeatures.push({
+            id: $scope.variableSpeed.nodePid.toString(),
+            layerid: 'rdLink',
+            type: 'node',
+            style: {color: 'yellow',size:8}
+        });
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 	};
 
 	/*十进制转二进制*/
 	function conversionSystem() {
-		$scope.electronicEyeData.location = parseInt(objCtrl.data.location, 10).toString(2);
+		$scope.variableSpeed.location = parseInt(objCtrl.data.location, 10).toString(2);
 		if (objCtrl.data.location) {
 			if (objCtrl.data.location.length == 1) {
-				$scope.electronicEyeData.locationLeft = 0;
-				$scope.electronicEyeData.locationRight = 0;
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location;
+				$scope.variableSpeed.locationLeft = 0;
+				$scope.variableSpeed.locationRight = 0;
+				$scope.variableSpeed.locationTop = $scope.variableSpeed.location;
 			} else if (objCtrl.data.location.length == 2) {
-				$scope.electronicEyeData.locationLeft = 0;
-				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.location.substr(0, 1);
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location.substr(1, 1);
+				$scope.variableSpeed.locationLeft = 0;
+				$scope.variableSpeed.locationRight = $scope.variableSpeed.location.substr(0, 1);
+				$scope.variableSpeed.locationTop = $scope.variableSpeed.location.substr(1, 1);
 			} else if (objCtrl.data.location.length == 3) {
-				$scope.electronicEyeData.locationLeft = $scope.electronicEyeData.location.substr(0, 1);
-				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.location.substr(1, 1);
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location.substr(2, 1);
+				$scope.variableSpeed.locationLeft = $scope.variableSpeed.location.substr(0, 1);
+				$scope.variableSpeed.locationRight = $scope.variableSpeed.location.substr(1, 1);
+				$scope.variableSpeed.locationTop = $scope.variableSpeed.location.substr(2, 1);
 			}
 		}
 	}
@@ -99,57 +99,29 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 	}
 
 	$scope.changeLocationLeft = function () {
-		if ($scope.electronicEyeData.locationLeft == 0) {
-			$scope.electronicEyeData.locationLeft = 1;
+		if ($scope.variableSpeed.locationLeft == 0) {
+			$scope.variableSpeed.locationLeft = 1;
 		} else {
-			$scope.electronicEyeData.locationLeft = 0
+			$scope.variableSpeed.locationLeft = 0
 		}
 	};
 	$scope.changeLocationRight = function () {
-		if ($scope.electronicEyeData.locationRight == 0) {
-			$scope.electronicEyeData.locationRight = 1;
+		if ($scope.variableSpeed.locationRight == 0) {
+			$scope.variableSpeed.locationRight = 1;
 		} else {
-			$scope.electronicEyeData.locationRight = 0
+			$scope.variableSpeed.locationRight = 0
 		}
 	};
 	$scope.changeLocationTop = function () {
-		if ($scope.electronicEyeData.locationTop == 0) {
-			$scope.electronicEyeData.locationTop = 1;
+		if ($scope.variableSpeed.locationTop == 0) {
+			$scope.variableSpeed.locationTop = 1;
 		} else {
-			$scope.electronicEyeData.locationTop = 0
+			$scope.variableSpeed.locationTop = 0
 		}
 	};
 
-	/*删除配对关系*/
-	$scope.deletePairBond = function () {
-		swal({
-			title: "删除确认",
-			text: "确定删除配对关系？",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "删除",
-			closeOnConfirm: false
-		}, function () {
-			var param = {
-				"command": "DELETE",
-				"type": "RDELECEYEPAIR",
-				"dbId": App.Temp.dbId,
-				"objId": $scope.electronicEyeData.parts[0].groupId
-			};
-			dsEdit.save(param).then(function (data) {
-				if (data) {
-					objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-					relationData.redraw();
-					swal("操作成功", "删除配对关系成功！", "success");
-				}
-				$scope.refreshData();
-			})
-		});
-	};
-
 	$scope.save = function () {
-		objCtrl.data.location = bin2dec($scope.electronicEyeData.locationLeft + '' + $scope.electronicEyeData.locationRight + '' + $scope.electronicEyeData.locationTop);
+		objCtrl.data.location = bin2dec($scope.variableSpeed.locationLeft + '' + $scope.variableSpeed.locationRight + '' + $scope.variableSpeed.locationTop);
 		objCtrl.save();
 		if (!objCtrl.changedProperty) {
 			swal("操作成功", '属性值没有变化！', "success");
@@ -182,7 +154,7 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 	};
 
 	$scope.delete = function () {
-		var objId = parseInt($scope.electronicEyeData.pid);
+		var objId = parseInt($scope.variableSpeed.pid);
 		var param = {
 			"command": "DELETE",
 			"type": "RDELECTRONICEYE",
@@ -192,13 +164,17 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		dsEdit.save(param).then(function (data) {
 			var info = null;
 			if (data) {
-				$scope.electronicEyeData = null;
+				$scope.variableSpeed = null;
 				relationData.redraw();
 			}
 		})
 	};
 	$scope.cancel = function () {
 	};
+    //
+    if (objCtrl.data) {
+        $scope.initializeData();
+    }
 	eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
 	eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
 	eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);

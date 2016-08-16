@@ -60,6 +60,9 @@ fastmap.uikit.FeatureConfig = {
         "RDTOLLGATE": {
             name: "收费站"
         },
+        "RDVARIABLESPEED": {
+            name: "可变限速"
+        },
         "RDGSC": {
             name: "立交"
         },

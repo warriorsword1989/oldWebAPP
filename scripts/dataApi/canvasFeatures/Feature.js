@@ -146,6 +146,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 42://收费站
                     ret = new fastmap.uikit.canvasFeature.RdTollgate(data);
                     break;
+                case 43://收费站
+                    ret = new fastmap.uikit.canvasFeature.RdVariableSpeed(data);
+                    break;
             }
             return ret;
         },

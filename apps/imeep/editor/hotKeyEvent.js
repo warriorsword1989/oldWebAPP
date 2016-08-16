@@ -1340,7 +1340,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "data": {
                         "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
                         "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
-                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid,
+                        "vias":featCodeCtrl.getFeatCode().vias
                     }
                 };
                 //调用编辑接口;
@@ -1349,7 +1350,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
-                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeed', 'attr_variableSpeed_tpl/variableSpeed.html');
+                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
             }
         }
