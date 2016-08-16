@@ -46,17 +46,16 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "id": 4,
         "label": "CRF场景",
         "dataLayers": [{
+            "layerId": "rdNode"
+        },{
             "layerId": "rdLink"
         }, {
             "layerId": "rwLink"
         }, {
             "layerId": "poi"
         }, {
-            "layerId": "CRF_C"
-        }, {
-            "layerId": "CRF_R"
-        }, {
-            "layerId": "CRF_F"
+            "layerId": "crfData",
+            "requestType": "RDINTER"
         }]
     },{
         "id": 5,
@@ -65,6 +64,10 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "rdNode"
         }, {
             "layerId": "rdLink"
+        }, {
+            "layerId": "rwNode"
+        }, {
+            "layerId": "rwLink"
         }, {
             "layerId": "adNode"
         }, {
@@ -77,12 +80,16 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "luLink"
         }, {
             "layerId": "luNode"
-        }, {
-            "layerId": "rdSameNode"
-        }, {
-            "layerId": "rdSameLink"
+        },{
+            "layerId": "rdSame"
         }]
     }];
+
+
+
+    // , {
+    //     "layerId": "rdSameLink"
+    // }
     $scope.dataLayers = [];
     var reqType;
     for (var i = 0; i < layerCtrl.layers.length; i++) {

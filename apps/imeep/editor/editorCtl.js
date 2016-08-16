@@ -118,6 +118,12 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                 fillOpacity: 0
             });
             map.addLayer(lineLayer);
+            ////fdsfdsf
+            //$ocLazyLoad.load(appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl').then(function() {
+            //    $scope.attrTplContainer = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+            //    $scope.dataListTpl = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
+            //});
+            ////sdsdsd
             map.on("zoomend", function(e) {
                 document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
                 // if(map.getZoom() > 16){
@@ -471,6 +477,8 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                     $scope.$broadcast("TRANSITTIPSVIDEO", {})
                     return;
                 }
+            } else if (data["loadType"] === 'sameRelationShapTplContainer'){
+
             }
             if (data["data"]) {
                 $scope.subAttributeData = data["data"];
@@ -481,6 +489,12 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
                     data["callback"]();
                 }
             });
+            if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
+                $scope.$broadcast('refreshTollgateName',{});
+            }
+            if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
+                $scope.$broadcast('refreshTollgatePassage',{});
+            }
         });
         $scope.$on("refreshPhoto", function(event, data) {
             $scope.$broadcast('refreshImgsData', true);
@@ -540,5 +554,12 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         $scope.$on("WORKPANELOPENCLOSE", function(event, data) {
         	$scope.workPanelOpened = !$scope.workPanelOpened;
         });
+        /**
+         * 接收地图上框选同一点线事件
+         */
+        $scope.$on("showSameNodeOrLink",function (event,data){
+            $scope.$broadcast("showSameRelationshap");
+        });
+        
     }
 ]);

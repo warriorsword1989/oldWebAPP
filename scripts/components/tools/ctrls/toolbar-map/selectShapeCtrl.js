@@ -15,6 +15,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         var workPoint = layerCtrl.getLayerById('workPoint');
         var editLayer = layerCtrl.getLayerById('edit');
         var poiLayer = layerCtrl.getLayerById('poi');
+        var crfData = layerCtrl.getLayerById('crfData');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var originalFeature = []; // 用于poi
@@ -297,6 +298,16 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case "RDSAMENODE"://同一点
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_same_tpl/rdSameNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "RDSAMENODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case "RDSAMELINK": //同一线
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_same_ctrl/rdSameLinkCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_same_tpl/rdSameLinkTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "RDSAMELINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'RDRESTRICTION':
                     //if (data.restrictionType === 1) {
                     ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction";
@@ -351,6 +362,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                 case 'RDSE': //分叉口
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_se_ctrl/rdSeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_se_tpl/rdSeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
+                case 'RDTOLLGATE': //收费站
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_tollgate_tpl/tollGateTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDELECTRONICEYE':
@@ -425,6 +441,40 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdSlope_ctrl/rdSlopeCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case 'RDINTER':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "增加点",
+                            'type': "ADDRDINTERPART",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "取消点",
+                            'type': "DELETERDINTERPART",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdcrf_ctrl/crfInterCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfInterTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDGATE':  //大门
@@ -677,6 +727,57 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lu_ctrl/luLinkCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lu_tpl/luLinkTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "LULINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case "LCNODE":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "移动LCNODE点",
+                            'type': "PATHNODEMOVE",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcNodeCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lc_tpl/lcNodeTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LCNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case "LCLINK":
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'title': "插入形状点",
+                            'type': 'PATHVERTEXINSERT',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'title': "删除形状点",
+                            'type': 'PATHVERTEXREMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "修改形状点",
+                            'type': 'PATHVERTEXMOVE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'title': "打断link",
+                            'type': 'PATHBREAK',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcLinkCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lc_tpl/lcLinkTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LCLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
+                case "LCFACE":
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_lc_ctrl/lcFaceCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_lc_tpl/lcFaceTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "LCFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "IXPOI":
                     $scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
@@ -1231,6 +1332,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('insertDot');
                         tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
+                        tooltipsCtrl.setChangeInnerHtml("点击继续增加形状点或按Esc/space取消或保存操作!");
                     } else {
                         tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                         return;
@@ -1313,6 +1415,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('pathNodeMove');
                         tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                        tooltipsCtrl.setChangeInnerHtml("按Esc/space取消或保存操作!");
                     } else {
                         tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                         return;
@@ -1647,6 +1750,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             })
                         }
                     }
+
                     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                         if(comPids && comPids.indexOf(parseInt(data.id)) > -1){//添加连续link
                             if(conLinkPids.indexOf(parseInt(data.id)) < 0){
@@ -1750,7 +1854,191 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         });
                     });
                     return;
-                }else if (type.indexOf('BRANCH') > -1 ) {
+                } else if (type === "ADDRDINTERPART") {
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [rdNode],
+                        snapLayers: [rdNode]//将rdnode放前面，优先捕捉
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+
+                    var linkPids = [];
+                    var nodePids = [];
+                    var links = selData.links;
+                    var nodes = selData.nodes;
+
+                    if(links && links.length >= 0) {
+                        for (var i = 0; i < links.length; i++) {
+                            if(linkPids.indexOf(links[i].linkPid) < 0){
+                                linkPids.push(links[i].linkPid);
+                            }
+                        }
+                    }
+                    if(nodes && nodes.length >= 0) {
+                        for (var i = 0; i < nodes.length; i++) {
+                            if(nodePids.indexOf(nodes[i].nodePid) < 0){
+                                nodePids.push(nodes[i].nodePid);
+                            }
+                        }
+                    }
+                    tooltipsCtrl.setCurrentTooltip('请选择需要增加的点！');
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
+                        highRenderCtrl._cleanHighLight();
+                        if(data.optype == "RDNODE"){
+                            if(nodePids.indexOf(parseInt(data.id)) < 0){
+                                var param1 = {};
+                                param1["dbId"] = App.Temp.dbId;
+                                param1["type"] = "RDLINK";
+                                param1["data"] = {
+                                    "nodePid": parseInt(data.id)
+                                };
+                                dsEdit.getByCondition(param1).then(function (exLinks) {
+                                    if (exLinks.errcode === -1) {
+                                        return;
+                                    }
+                                    if (exLinks.data) {
+                                        for (var i = 0;i<exLinks.data.length;i++){
+                                            if(linkPids.indexOf(exLinks.data[i].pid) > -1){//某一条挂接link在crf里
+                                                nodePids.push(parseInt(data.id));
+                                                highRenderCtrl.highLightFeatures.push({
+                                                    id: data.id.toString(),
+                                                    layerid: 'rdLink',
+                                                    type: 'node',
+                                                    style: {
+                                                        color: '#02F78E'
+                                                    }
+                                                });
+                                                highRenderCtrl.drawHighlight();
+                                            } else {
+                                                dsEdit.getByPid(exLinks.data[i].pid,"RDLINK").then(function (linkData) {
+                                                    if((nodePids.indexOf(linkData.eNodePid) >-1 && linkData.eNodePid!=parseInt(data.id)) || (nodePids.indexOf(linkData.sNodePid) >-1  && linkData.sNodePid!=parseInt(data.id))){//线正好是中间部分,把线也加入
+                                                        nodePids.push(parseInt(data.id));
+                                                        highRenderCtrl.highLightFeatures.push({
+                                                            id: data.id.toString(),
+                                                            layerid: 'rdLink',
+                                                            type: 'node',
+                                                            style: {
+                                                                color: '#02F78E'
+                                                            }
+                                                        });
+                                                        linkPids.push(linkData.pid);
+                                                        highRenderCtrl.highLightFeatures.push({
+                                                            id: linkData.pid.toString(),
+                                                            layerid: 'rdLink',
+                                                            type: 'line',
+                                                            style: {
+                                                                color: '#D9B300'
+                                                            }
+                                                        });
+                                                    }
+                                                    highRenderCtrl.drawHighlight();
+                                                })
+                                            }
+                                        }
+                                    }
+
+                                });
+                            }
+                        }
+
+                        shapeCtrl.setEditingType("UPDATEINTER");   //设置热键修改时的监听类型;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+
+                        featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                            "pid": selData.pid,
+                            "nodes": nodePids,
+                            "links":linkPids,
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                } else if (type === "DELETERDINTERPART") {
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [crfData],
+                        snapLayers: [crfData]//将rdnode放前面，优先捕捉
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+                    var linkPids = [];
+                    var nodePids = [];
+                    var links = selData.links;
+                    var nodes = selData.nodes;
+
+                    if(links && links.length >= 0) {
+                        for (var i = 0; i < links.length; i++) {
+                            if(linkPids.indexOf(links[i].linkPid) < 0){
+                                linkPids.push(links[i].linkPid);
+                            }
+                        }
+                    }
+                    if(nodes && nodes.length >= 0) {
+                        for (var i = 0; i < nodes.length; i++) {
+                            if(nodePids.indexOf(nodes[i].nodePid) < 0){
+                                nodePids.push(nodes[i].nodePid);
+                            }
+                        }
+                    }
+                    tooltipsCtrl.setCurrentTooltip('请选择需要删除的点！');
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
+                        highRenderCtrl._cleanHighLight();
+                        if(data.optype == "RDINTER"){
+                            if(data.origType == "Point"){
+                                if(nodePids.indexOf(parseInt(data.nodeId)) > -1){
+                                    nodePids.splice(nodePids.indexOf(parseInt(data.nodeId)),1);
+                                    for(var i = 0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                        if(highRenderCtrl.highLightFeatures[i].id == data.nodeId){
+                                            highRenderCtrl.highLightFeatures.splice(i,1);
+                                            i--;
+                                        }
+                                    }
+                                    var param = {};
+                                    param["dbId"] = App.Temp.dbId;
+                                    param["type"] = "RDLINK";
+                                    param["data"] = {
+                                        "nodePid": parseInt(data.nodeId)
+                                    };
+                                    dsEdit.getByCondition(param).then(function (conLinks) {//找出所有的挂接线，删除存在于范围内的
+                                        highRenderCtrl._cleanHighLight();
+                                        if (conLinks.errcode === -1) {
+                                            return;
+                                        }
+                                        if (conLinks.data) {
+                                            for (var i = 0 ;i<conLinks.data.length;i++){
+                                                if(linkPids.indexOf(conLinks.data[i].pid) > -1){
+                                                    linkPids.splice(linkPids.indexOf(conLinks.data[i].pid),1);
+                                                    for(var j = 0;j<highRenderCtrl.highLightFeatures.length;j++){
+                                                        if(highRenderCtrl.highLightFeatures[j].id == conLinks.data[i].pid){
+                                                            highRenderCtrl.highLightFeatures.splice(j,1);
+                                                            j--;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        highRenderCtrl.drawHighlight();
+                                    });
+                                }
+                            }
+                        }
+                        highRenderCtrl.drawHighlight();
+                        shapeCtrl.setEditingType("UPDATEINTER");   //设置热键修改时的监听类型;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+
+                        featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                            "pid": selData.pid,
+                            "nodes": nodePids,
+                            "links":linkPids,
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                } else if (type.indexOf('BRANCH') > -1 ) {
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,

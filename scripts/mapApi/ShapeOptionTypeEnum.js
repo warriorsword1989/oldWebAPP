@@ -112,6 +112,15 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'CRFINTER': "CRFInter",
     /*
+     CRF道路
+     */
+    'CRFROAD': "CRFRoad",
+    /*
+     /*
+     CRF对象
+     */
+    'CRFFEATURE': "CRFFeature",
+    /*
      增加顺行
      */
     'RDDIRECTROUTE': "rdDirectRoute",
@@ -126,5 +135,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      增加收费站
      */
-    'RDTOLLGATE': "rdTollgate"
+    'RDTOLLGATE': "rdTollgate",
+    /*
+     可变限速
+     */
+    'VARIABLESPEED':'variableSpeed'
 }

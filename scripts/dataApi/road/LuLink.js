@@ -20,11 +20,12 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         this.sNodePid = data["sNodePid"];
         this.eNodePid = data["eNodePid"];
         this.geometry = data["geometry"];
+        this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
         this.kinds = [];
         if (data["kinds"]) {
             for (var i = 0, len = data["kinds"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LULinkKind(data["kinds"][i]));
+                this.kinds.push(fastmap.dataApi.LuLinkKind(data["kinds"][i]));
             }
         }     
         this.scale = data["scale"] || 0;

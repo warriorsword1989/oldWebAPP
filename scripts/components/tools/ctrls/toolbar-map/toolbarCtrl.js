@@ -30,20 +30,21 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                     $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addCRFShapeCtrl.js').then(function () {
                         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addZoneShapeCtrl.js').then(function () {
                             $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLuShapeCtrl.js').then(function () {
-                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addSameFeatureCtrl.js').then(function () {
-                                    $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js').then(function () {
-                                        $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
-                                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js').then(function () {
+                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLcShapeCtrl.js').then(function () {
+                                    $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addSameFeatureCtrl.js').then(function () {
+                                        $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js').then(function () {
+                                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
+                                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js').then(function () {
+                                                });
+                                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/specialOperAdvanceToolsCtl.js').then(function () {
+                                                	$scope.specialOperAdvanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/specialOperAdvanceToolsTpl.htm';
+                                                });
+                                                $scope.addShapeTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/addShapeTpl.htm';
+                                                $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
                                             });
-                                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/specialOperAdvanceToolsCtl.js').then(function () {
-                                            	$scope.specialOperAdvanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/specialOperAdvanceToolsTpl.htm';
-                                            });
-                                            $scope.addShapeTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/addShapeTpl.htm';
-                                            $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
-                                            
                                         });
                                     });
-                                });
+                                })
                             });
                         });
                     });
@@ -65,12 +66,6 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             $scope.addBtnOpened = false;
             $scope.advanceBtnOpened = !$scope.advanceBtnOpened;
         };
-        $scope.togglEspecialOperAdvanceBtn = function() {
-        	$scope.selectBtnOpened = false;
-            $scope.addBtnOpened = false;
-            $scope.advanceBtnOpened = false;
-            $scope.specialOperAdvanceBtnOpened = !$scope.specialOperAdvanceBtnOpened;
-        };
         $scope.clearOperator = function() {
             $scope.shapeOperator = "navigate";
             $scope.featureOperator = null;
@@ -88,7 +83,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         };
         //重新设置选择工具
         $scope.resetToolAndMap = function () {
-            eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除是select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
             eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETRELATIONID);
@@ -96,6 +91,8 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
             eventCtrl.off(eventCtrl.eventTypes.GETFACEID);
             eventCtrl.off(eventCtrl.eventTypes.RESETCOMPLETE);
             eventCtrl.off(eventCtrl.eventTypes.GETBOXDATA);
+            eventCtrl.off(eventCtrl.eventTypes.GETRECTDATA);
+            eventCtrl.off(eventCtrl.eventTypes.GETFEATURE);
 
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
@@ -131,5 +128,12 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         $scope.$on("resetButtons",function (event) {
             $scope.clearOperator();
         });
+        //用于控制dropdown的收缩与展示
+        $scope.dropdownStatus = {
+            isopen:false
+        };
+        $scope.togglEspecialOperAdvanceBtn = function(){
+        	$scope.specialOperAdvanceBtnOpened = !$scope.specialOperAdvanceBtnOpened;
+        };
     }
 ]);

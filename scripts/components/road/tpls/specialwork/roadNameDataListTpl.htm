@@ -1,0 +1,64 @@
+<div ng-controller="DataListCtl">
+    <div>
+        <!-- <div>
+            <span class="fm-list-filter" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+            <button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+                <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                <li ng-repeat="col in cols">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model-options="{getterSetter: true}" ng-model="col.show"/> {{col.title}}
+                    </label>
+                </li>
+            </ul>
+            </span>
+        </div> -->
+        <!-- <div class="table-search fm-inline fm-list-dropdown">
+            <div class="btn-group" uib-dropdown is-open="status.isopen">
+                <button type="button" class="btn btn-xs dropdown-toggle fm-xs-btn fm-group-btn" uib-dropdown-toggle ng-disabled="disabled">
+                    {{radio_select}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li ng-model="radio_select" uib-btn-radio="'名称'" ng-click="changeSearchType('name');" role="menuitem"><a href="#" class="dropdown-menu-name">名称</a></li>
+                    <li ng-model="radio_select" uib-btn-radio="'PID'" ng-click="changeSearchType('pid');" role="menuitem"><a href="#" class="dropdown-menu-name">PID</a></li>
+                </ul>
+            </div>
+            <input class="fm-search-control" type="text" ng-style="{'width':{true: '94px', false: '160px'}[dataListType==2]}" ng-model="filters[searchType]" placeholder="搜索"/>
+            <button class="btn btn-xs btn-purple" ng-style="{'display':{true:'inline',false:'none'}[dataListType==2]}" ng-click="doSubmitData();">数据提交</button>
+        </div> -->
+    </div>
+    <div style="height: 100%;position: absolute;left: 0;right: 0;top: 0;overflow-y: hidden;z-index: -1">
+        <div class="fm-table-content fm-fitsize scroll-styled" style="top:98px;bottom: 40px">
+	        <div class="table-header">
+	        	<div style="margin: 10px" class=" pull-left">
+	        		<button type="button" class="btn btn-shape" ng-click="">查询 </button>
+		            <button type="button" class="btn btn-shape" ng-click="">新增 </button>
+		            <button type="button" class="btn btn-shape" ng-click="">拆分</button>
+		        	<button type="button" class="btn btn-shape" ng-click="">检查 </button>
+	            </div>
+	            <div style="margin: 10px" class="pull-right">
+	                <div class="btn-group dropdown" uib-dropdown auto-close="outsideClick">
+	                    <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+	                        <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+	                    </button>
+	                    <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+	                        <li ng-repeat="item in cols" role="menuitem"><label style="padding: 3px 20px;"><input type="checkbox" value="{{item.field}}" ng-model='item.show'> {{item.title}}</label></li>
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
+                <colgroup>
+                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+                </colgroup>
+                <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-dblClick="test()" ng-class="{true:'active'}[itemActive == $index]">
+                    <td ng-repeat="col in $columns">
+                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+                    </td>
+                </tr>
+                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="poiListTableMsg"></td></tr>
+            </table>
+        </div>
+    </div>
+</div>

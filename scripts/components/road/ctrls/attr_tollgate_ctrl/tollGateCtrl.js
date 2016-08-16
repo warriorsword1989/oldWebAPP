@@ -1,47 +1,19 @@
 /**
  * Created by wangmingdong on 2016/8/5.
  */
-
-var rdElectronicEyeApp = angular.module("app");
-rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($scope, dsEdit) {
+angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', function ($scope, dsEdit, appPath) {
 	var layerCtrl = fastmap.uikit.LayerController();
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	var eventController = fastmap.uikit.EventController();
 	var relationData = layerCtrl.getLayerById('relationData');
 	var selectCtrl = fastmap.uikit.SelectController();
 	var highRenderCtrl = fastmap.uikit.HighRenderController();
-	var json = {
-		pid:123,
-		inLinkPid:123,
-		outLinkPid:123,
-		nodePid:123,
-		type:3,
-		passageNum:2,
-		etcFigureCode:32433,
-		locationFlag:1,
-		passages:{
-			pid:1234,
-			seqNum:1234,
-			tollForm:'00000110',
-			cardType:1,
-			vehicle:5
-		},
-		names:{
-			nameId:10004,
-			pid:10004,
-			nameGroupid:18,
-			langCode:'CHI',
-			name:'收费站1',
-			phonetic:'Shou Fei Zhan'
-		}
-	};
+
 	$scope.initializeData = function () {
-		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-		// $scope.tollGateData = objCtrl.data;
-		objCtrl.setOriginalData(fastmap.dataApi.rdTollgate(json));
-		$scope.tollGateData = fastmap.dataApi.rdTollgate(json);
+		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+		$scope.tollGateData = objCtrl.data;
 		var highLightFeatures = [];
-		/*highLightFeatures.push({
+		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
 			layerid: 'rdLink',
 			type: 'line',
@@ -64,7 +36,7 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 			style: {
 				color: 'yellow'
 			}
-		});*/
+		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
 
@@ -79,6 +51,63 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		});
 	};
 
+	/*查看详情*/
+	$scope.showDetail = function(type,index) {
+		var tempCtr = '', tempTepl = '',detailInfo = {};
+		if(type == 'name') {
+			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgateNameCtrl';
+			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgateNameTpl.html';
+			detailInfo = {
+				"loadType": "subAttrTplContainer",
+				"propertyCtrl": tempCtr,
+				"propertyHtml": tempTepl,
+				"data":$scope.tollGateData.names[index]
+			};
+			objCtrl.namesInfo = $scope.tollGateData.names[index];
+		} else {
+			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgatePassageCtrl';
+			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgatePassageTpl.html';
+			detailInfo = {
+				"loadType": "subAttrTplContainer",
+				"propertyCtrl": tempCtr,
+				"propertyHtml": tempTepl,
+				"data":$scope.tollGateData.passages[index]
+			};
+			objCtrl.passageInfo = $scope.tollGateData.passages[index];
+		}
+		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+		$scope.tollGateNameData = detailInfo;
+		$scope.$emit("transitCtrlAndTpl", detailInfo);
+	};
+	/*自动计算ETC代码*/
+	$scope.changeEtcCode = function () {
+		var _code = '';
+		for(var i=0,len=$scope.tollGateData.length;i<len;i++) {
+			
+		}
+	};
+	/*增加item*/
+	$scope.addItem = function(type){
+		if (type == 'name') {
+			objCtrl.data.names.unshift(fastmap.dataApi.rdTollgateName({}));
+		} else {
+			objCtrl.data.passages.unshift(fastmap.dataApi.rdTollgatePassage({}));
+			$scope.tollGateData.passageNum ++;
+		}
+	};
+	/*移除item*/
+	$scope.removeItem = function(index, type) {
+		if (type == 'name') {
+			$scope.tollGateData.names.splice(index,1);
+		} else {
+			$scope.tollGateData.passages.splice(index,1);
+			$scope.tollGateData.passageNum --;
+		}
+		$scope.$emit('SWITCHCONTAINERSTATE',{
+			'subAttrContainerTpl':false,
+			'attrContainerTpl':true
+		});
+	};
 	/*收费站类型*/
 	$scope.tollTypeObj = [
 		{id:0,label:'未调查'},
@@ -93,14 +122,6 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		{id:9,label:'验票领卡'},
 		{id:10,label:'交卡不收费'}
 	];
-
-	/*领卡类型*/
-	$scope.cardTypeObj = [
-		{id:0,label:'未调查'},
-		{id:1,label:'ETC'},
-		{id:2,label:'人工'},
-		{id:3,label:'自助'}
-	];
 	
 	/*是否跨省*/
 	$scope.locationFlagObj = {
@@ -108,6 +129,14 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		1:'本省',
 		2:'跨省'
 	};
+
+	/*领卡类型*/
+	$scope.cardTypeObj = [
+		{id:0,label:'未调查',name:'未调查'},
+		{id:1,label:'ETC',name:'ETC通道'},
+		{id:2,label:'人工',name:'人工通道'},
+		{id:3,label:'自助',name:'自助通道'}
+	];
 
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
@@ -141,38 +170,6 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 		{"id": "TUR", "label": "土耳其语"},
 		{"id": "UKR", "label": "乌克兰语"},
 		{"id": "SCR", "label": "克罗地亚语"}
-	];
-
-	$scope.vehicleOptions = [
-		{"id": 0, "label": "客车(小汽车)","checked":false},
-		{"id": 1, "label": "配送卡车","checked":false},
-		{"id": 2, "label": "运输卡车","checked":false},
-		{"id": 3, "label": "步行车","checked":false},
-		{"id": 4, "label": "自行车","checked":false},
-		{"id": 5, "label": "摩托车","checked":false},
-		{"id": 6, "label": "机动脚踏两用车","checked":false},
-		{"id": 7, "label": "急救车","checked":false},
-		{"id": 8, "label": "出租车","checked":false},
-		{"id": 9, "label": "公交车","checked":false},
-		{"id": 10, "label": "工程车","checked":false},
-		{"id": 11, "label": "本地车辆","checked":false},
-		{"id": 12, "label": "自用车辆","checked":false},
-		{"id": 13, "label": "多人乘坐车辆","checked":false},
-		{"id": 14, "label": "军车","checked":false},
-		{"id": 15, "label": "有拖车的车","checked":false},
-		{"id": 16, "label": "私营公共汽车","checked":false},
-		{"id": 17, "label": "农用车","checked":false},
-		{"id": 18, "label": "载有易爆品的车辆","checked":false},
-		{"id": 19, "label": "载有水污染品的车辆","checked":false},
-		{"id": 20, "label": "载有其他污染品的车辆","checked":false},
-		{"id": 21, "label": "电车","checked":false},
-		{"id": 22, "label": "轻轨","checked":false},
-		{"id": 23, "label": "校车","checked":false},
-		{"id": 24, "label": "四轮驱动车","checked":false},
-		{"id": 25, "label": "装有防雪链的车","checked":false},
-		{"id": 26, "label": "邮政车","checked":false},
-		{"id": 27, "label": "槽罐车","checked":false},
-		{"id": 28, "label": "残疾人车","checked":false}
 	];
 
 	$scope.save = function () {
@@ -221,6 +218,10 @@ rdElectronicEyeApp.controller("TollGateCtl", ['$scope', 'dsEdit', function ($sco
 				$scope.tollGateData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
+				$scope.$emit('SWITCHCONTAINERSTATE',{
+					'subAttrContainerTpl':false,
+					'attrContainerTpl':false
+				});
 			}
 		})
 	};

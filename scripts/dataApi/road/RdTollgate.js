@@ -30,14 +30,18 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
             this.feeType = 2;
         }
         this.names = [];
-        for(var i=0;i<data["names"].length;i++){
-            var name = fastmap.dataApi.rdTollgateName(data["name"]);
-            this.names.push(name);
+        if(data["names"] && data["names"].length > 0){
+            for(var i=0;i<data["names"].length;i++){
+                var name = fastmap.dataApi.rdTollgateName(data["names"][i]);
+                this.names.push(name);
+            }
         }
         this.passages = [];
-        for(var i=0;i<data["passages"].length;i++){
-            var passage = fastmap.dataApi.rdTollgatePassage(data["passage"]);
-            this.passages.push(passage);
+        if(data["passages"] && data["passages"].length > 0){
+            for(var i=0;i<data["passages"].length;i++){
+                var passage = fastmap.dataApi.rdTollgatePassage(data["passages"][i]);
+                this.passages.push(passage);
+            }
         }
         this.feeStd = data["feeStd"] || 0;
         this.systemId = data["systemId"] || 0;
@@ -66,6 +70,14 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         data["hwName"] = this.hwName;
         data["feeType"] = this.feeType;
         data["feeStd"] = this.feeStd;
+        data["names"] = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data["names"].push(this.names[i].getIntegrate());
+        }
+        data["passages"] = [];
+        for (var i = 0; i < this.passages.length; i++) {
+            data["passages"].push(this.passages[i].getIntegrate());
+        }
         data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
         data["uFields"] = this.uFields;
@@ -94,6 +106,14 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         data["hwName"] = this.hwName;
         data["feeType"] = this.feeType;
         data["feeStd"] = this.feeStd;
+        data["names"] = [];
+        for (var i = 0; i < this.names.length; i++) {
+            data["names"].push(this.names[i].getIntegrate());
+        }
+        data["passages"] = [];
+        for (var i = 0; i < this.passages.length; i++) {
+            data["passages"].push(this.passages[i].getIntegrate());
+        }
         data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
         data["uFields"] = this.uFields;

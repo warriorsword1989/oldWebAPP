@@ -54,7 +54,7 @@ fastmap.uikit.HighRenderController = (function() {
                                 drawx: -10,
                                 drawy: -10
                             });
-                        } else {
+                        }else {
                             this.layer._drawLineString(ctx, feature.geometry.coordinates, true, {
                                 strokeWidth: 3,
                                 strokeColor: '#00F5FF'
@@ -122,7 +122,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.highLightFeatures[item].type == 'IXPOI') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace') {
+                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace'||this.highLightFeatures[item].type == 'lcFace') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
                                     }
@@ -133,11 +133,19 @@ fastmap.uikit.HighRenderController = (function() {
                                     };
                                     var geoOfSNode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                                     //this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
+
+                                    var radius = this.highLightFeatures[item].radius?this.highLightFeatures[item].radius:3 ;
+                                    var style = this.highLightFeatures[item].style;
+                                    var color = 'yellow';
+                                    if(style && style.color){
+                                        color = style.color;
+                                    }
+
                                     this.layer._drawPoint({
                                         boolPixelCrs: true,
                                         ctx: ctxOfSNode,
-                                        fillColor: 'yellow',
-                                        radius: 3,
+                                        fillColor: color,
+                                        radius: radius,
                                         geom: geoOfSNode
                                     })
                                     break;
@@ -149,11 +157,19 @@ fastmap.uikit.HighRenderController = (function() {
                                     var len = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates.length - 1;
                                     var geoOfENode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[len];
                                     //this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
+
+                                    var radius = this.highLightFeatures[item].radius?this.highLightFeatures[item].radius:3 ;
+                                    var style = this.highLightFeatures[item].style;
+                                    var color = 'yellow';
+                                    if(style && style.color){
+                                        color = style.color;
+                                    }
+
                                     this.layer._drawPoint({
                                         boolPixelCrs: true,
                                         ctx: ctxOfENode,
-                                        fillColor: 'yellow',
-                                        radius: 3,
+                                        fillColor: color,
+                                        radius: radius,
                                         geom: geoOfENode
                                     })
                                     break;

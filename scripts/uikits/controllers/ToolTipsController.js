@@ -68,7 +68,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this._map.on('mouseout', this.onMoveOutTooltip,this);
             },
             onClickTooltip:function(event){
-                if(this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPATH){
+                if(this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPATH||this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPOLYGON||this.eventType==fastmap.mapApi.ShapeOptionType.POINTVERTEXADD){
                     this.toolsdiv.innerHTML=this.innervalue;
                     this.toolsdiv.style.cssText+=this.tooltipstyle;
                     this._map.on('dblclick', this.onDbClickTooltip,this);

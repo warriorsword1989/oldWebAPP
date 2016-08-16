@@ -18,10 +18,16 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
      * 设置信息
      */
     setAttributeData:function(data){
+        this.pid = data["pid"];
         this.groupId = data["groupId"];
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || null;
         this.rowId = data["rowId"] || null;
+
+        this.parts = [];
+        if (data["parts"]) {
+            for (var i = 0, len = data["parts"].length; i < len; i++) {
+                this.parts.push(fastmap.dataApi.rdSameNodePart(data["parts"][i]));
+            }
+        }
     },
 
     /**
@@ -29,9 +35,8 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
+        data["pid"] = this.pid;
         data["groupId"] = this.groupId;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
@@ -45,9 +50,8 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
+        data["pid"] = this.pid;
         data["groupId"] = this.groupId;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;

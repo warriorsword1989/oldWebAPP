@@ -73,7 +73,6 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
                 .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
-
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
             if (this._shape) {
                 this._map.removeLayer(this._shape);
@@ -133,15 +132,15 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
         // var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
         var dataOfRectangle = [];
         for(var i = 0; i<this.boxLayers.length; i++){
-            var middleArr = this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles,this.boxLayers[i].type);
-            if(middleArr.length>0){
+            var middleArr = this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles);
+            if(middleArr && middleArr.length>0){
                 dataOfRectangle = dataOfRectangle.concat(middleArr);
             }
         }
         this.eventController.fire(this.eventController.eventTypes.GETRECTDATA,
             {data: dataOfRectangle, layerType: this.type,border:rectangle});
     },
-    _getDataOfRectangle: function (layer, tiles ,type) {
+    _getDataOfRectangle: function (layer, tiles) {
         var points = layer._latlngs, dataOfRectangle = [];
         if(points.length < 4){
             return;
@@ -155,45 +154,35 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
         var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
         var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
         var polygon = new fastmap.mapApi.Polygon([lineString]);
-        if (type == "Point"){
-            for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
-                for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-                    if (tiles[i + ":" + j]) {
-                        var data = tiles[i + ":" + j].data;
-                        for (var item in data) {
-                            var pointsLen = data[item].geometry.coordinates;
-                            var linePoint = transform.PixelToLonlat(i * 256 + pointsLen[0], j * 256 + pointsLen[1], map.getZoom());
-                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
-                            if(polygon.containsPoint(linePoint)) {
-                                var result = {};
-                                data[item].point = linePoint;
-                                result["data"] = data[item];
-                                dataOfRectangle.push(result);
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (type == "LineString"){
-            for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
-                for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-
-                    if (tiles[i + ":" + j]) {
-                        var data = tiles[i + ":" + j].data;
-                        for (var item in data) {
+        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
+            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
+                if (tiles[i + ":" + j]) {
+                    var data = tiles[i + ":" + j].data;
+                    for (var item in data) {
+                        if (data[item].geometry.type == "LineString") {
                             var pointsLen = data[item].geometry.coordinates.length;
                             var linePoints = [];
-                            for(var n=0;n<pointsLen;n++) {
+                            for (var n = 0; n < pointsLen; n++) {
                                 var linePoint = data[item].geometry.coordinates[n];
                                 linePoint = transform.PixelToLonlat(i * 256 + linePoint[0], j * 256 + linePoint[1], map.getZoom());
                                 linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
                                 linePoints.push(linePoint);
                             }
                             var line = new fastmap.mapApi.LineString(linePoints);
-                            if(polygon.intersects(line)) {
+                            if (polygon.intersects(line)) {
                                 var result = {};
                                 result["data"] = data[item];
                                 result["line"] = line;
+                                dataOfRectangle.push(result);
+                            }
+                        } else if (data[item].geometry.type == "Point") {
+                            var pointsLen = data[item].geometry.coordinates;
+                            var linePoint = transform.PixelToLonlat(i * 256 + pointsLen[0], j * 256 + pointsLen[1], map.getZoom());
+                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
+                            if (polygon.containsPoint(linePoint)) {
+                                var result = {};
+                                data[item].point = linePoint;
+                                result["data"] = data[item];
                                 dataOfRectangle.push(result);
                             }
                         }

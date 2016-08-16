@@ -1,0 +1,44 @@
+<div class="fm-component" ng-controller="lcLinkController">
+    <div class="title">
+        土地覆盖PID
+        <span class="label label-info">{{lcLinkData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="lcLinkForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>Link种别</label>
+                            <div>
+                                <select ng-model="lcLinkData.kinds[0].kind" ng-options="value.id as value.label for value in kind">
+                                    <option value="">请选择道路种别</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>Link形态</label>
+                            <div>
+                                <select ng-model="lcLinkData.kinds[0].form" ng-options="value.id as value.label for value in form">
+                                    <option value="">请选形态种别</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>Link长度</label>
+                            <div>
+                                <input type="text" ng-model="lcLinkData.length" disabled="disabled"> m
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号码</label>
+                            <div>
+                                <input type="text" ng-model="lcLinkData.meshId" disabled="disabled">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

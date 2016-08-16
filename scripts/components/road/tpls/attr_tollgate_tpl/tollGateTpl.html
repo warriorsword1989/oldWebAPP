@@ -5,6 +5,10 @@
             <span class="label label-info">{{tollGateData.pid}}</span>
         </div>
         <div class="content">
+            <div class="attr-img-container" ng-if="tollGateData.passages.length > 0">
+                <img src="../../../images/road/img/noimg.png" class="attr-img-show">
+                <!--<div class="picMapDesc" ng-bind="tollGateData.etcFigureCode"></div>-->
+            </div>
             <form>
                 <ul class="fm-ul fm-ul-form">
                     <li>
@@ -32,7 +36,7 @@
                         </div>
                     </li>
                     <li>
-                        <label>ETC图标代码</label>
+                        <label>ETC代码</label>
                         <div>
                             <input type="text" readonly ng-model="tollGateData.etcFigureCode" >
                         </div>
@@ -60,19 +64,30 @@
             <ul class="list-group list-group-lg m-b-none">
                 <li class="list-group-item">
                     <div class="list-name">
-                        <a ng-click="addLimit()" style="cursor: pointer;color: #ffffff;">名称（共 0 条）</a>
+                        <a ng-click="addItem('name')" class="fm-cursor">名称（共 {{tollGateData.names.length}} 条）</a>
                     </div>
                     <div class="list-line"></div>
                 </li>
-                <li class="list-group-item ng-scope" ng-repeat="namesItem in tollGateData.name">
-                    <div ng-repeat="typeItem in typeOptions|filter:namesItem.name " ng-click="showOrdinaryInfo(namesItem)" style="cursor: pointer;padding-left: 15px;" class="ng-scope">
-                        <label class="control-label ng-binding" style="cursor: pointer;" ng-bind="typeItem"></label>
+                <li class="list-group-item" ng-repeat="namesItem in tollGateData.names">
+                    <label class="control-label fm-cursor" ng-click="showDetail('name',$index);" ng-bind="namesItem.name"></label>
+                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'name')"></i>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <ul class="list-group list-group-lg m-b-none">
+                <li class="list-group-item">
+                    <div class="list-name">
+                        <a ng-click="addItem('passage')" class="fm-cursor">通道信息（共 {{tollGateData.passages.length}} 条）</a>
                     </div>
-                    <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index,0)"></i>
+                    <div class="list-line"></div>
+                </li>
+                <li class="list-group-item" ng-repeat="passagesItem in tollGateData.passages">
+                    <label class="control-label fm-cursor" ng-click="showDetail('passage',$index);" ng-bind="cardTypeObj[passagesItem.cardType].name"></label>
+                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'passage')"></i>
                 </li>
             </ul>
         </div>
     </div>
-
 </div>
 

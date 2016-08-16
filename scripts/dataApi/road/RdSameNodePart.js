@@ -21,8 +21,6 @@ fastmap.dataApi.RdSameNodePart = fastmap.dataApi.GeoDataModel.extend({
         this.groupId = data["groupId"];
         this.nodePid = data["nodePid"];
         this.tableName = data["tableName"];
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || null;
         this.rowId = data["rowId"] || null;
     },
 
@@ -34,8 +32,6 @@ fastmap.dataApi.RdSameNodePart = fastmap.dataApi.GeoDataModel.extend({
         data["groupId"] = this.groupId;
         data["nodePid"] = this.nodePid;
         data["tableName"] = this.tableName;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
@@ -52,8 +48,6 @@ fastmap.dataApi.RdSameNodePart = fastmap.dataApi.GeoDataModel.extend({
         data["groupId"] = this.groupId;
         data["nodePid"] = this.nodePid;
         data["tableName"] = this.tableName;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
