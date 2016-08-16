@@ -495,6 +495,9 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
             if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
                 $scope.$broadcast('refreshTollgatePassage',{});
             }
+            if(data["type"] == "Rtic"){
+                $scope.$broadcast('refreshRtic',{});
+            }
         });
         $scope.$on("refreshPhoto", function(event, data) {
             $scope.$broadcast('refreshImgsData', true);
