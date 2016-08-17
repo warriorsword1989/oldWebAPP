@@ -20,8 +20,8 @@ fastmap.dataApi.RdVoiceGuideVia = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData:function(data){
         this.detailId = data["detailId"];
         this.linkPid = data["linkPid"];
-        this.groupId = data["groupId"] (data["groupId"] === undefined || data["groupId"] === '') ? 1 :data["groupId"];
-        this.seqNum = data["seqNum"] (data["seqNum"] === undefined || data["seqNum"] === '') ? 1 :data["seqNum"];
+        this.groupId = (data["groupId"] === undefined || data["groupId"] === '') ? 1 :data["groupId"];
+        this.seqNum = (data["seqNum"] === undefined || data["seqNum"] === '') ? 1 :data["seqNum"];
         this.rowId = data["rowId"] || null;
     },
 

@@ -18,19 +18,19 @@ fastmap.dataApi.RdVoiceGuideDetail = fastmap.dataApi.GeoDataModel.extend({
      * 设置信息
      */
     setAttributeData:function(data){
-        this.detailId = data["detailId"];
+        this.pid = data["pid"];
         this.voiceguidePid = data["voiceguidePid"];
         this.outLinkPid = data["outLinkPid"];
         this.guideCode = data["guideCode"] || 0;
         this.guideType = data["guideType"] || 0;
-        this.processFlag = data["processFlag"] (data["processFlag"] === undefined || data["processFlag"] === '') ? 1 :data["processFlag"];
-        this.relationshipType = data["relationshipType"] (data["relationshipType"] === undefined || data["relationshipType"] === '') ? 1 :data["relationshipType"];
+        this.processFlag =  (data["processFlag"] === undefined || data["processFlag"] === '') ? 1 :data["processFlag"];
+        this.relationshipType = (data["relationshipType"] === undefined || data["relationshipType"] === '') ? 1 :data["relationshipType"];
         this.rowId = data["rowId"] || null;
 
         this.vias = [];
         if (data["vias"]) {
             for (var i = 0, len = data["vias"].length; i < len; i++) {
-                this.parts.push(fastmap.dataApi.rdVoiceGuideVia(data["vias"][i]));
+                this.vias.push(fastmap.dataApi.rdVoiceGuideVia(data["vias"][i]));
             }
         }
     },
@@ -40,7 +40,7 @@ fastmap.dataApi.RdVoiceGuideDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["detailId"] = this.detailId;
+        data["pid"] = this.pid;
         data["voiceguidePid"] = this.voiceguidePid;
         data["outLinkPid"] = this.outLinkPid;
         data["guideCode"] = this.guideCode;
@@ -54,7 +54,7 @@ fastmap.dataApi.RdVoiceGuideDetail = fastmap.dataApi.GeoDataModel.extend({
                 data["vias"].push(this.vias[i].getIntegrate());
             }
         }
-
+        data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -64,7 +64,7 @@ fastmap.dataApi.RdVoiceGuideDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["detailId"] = this.detailId;
+        data["pid"] = this.pid;
         data["voiceguidePid"] = this.voiceguidePid;
         data["outLinkPid"] = this.outLinkPid;
         data["guideCode"] = this.guideCode;
@@ -78,7 +78,7 @@ fastmap.dataApi.RdVoiceGuideDetail = fastmap.dataApi.GeoDataModel.extend({
                 data["vias"].push(this.vias[i].getIntegrate());
             }
         }
-        
+        data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

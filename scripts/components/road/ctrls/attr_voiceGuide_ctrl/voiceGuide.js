@@ -8,7 +8,6 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var relationData = layerCtrl.getLayerById('relationData');
-    var rdLinkLayer = layerCtrl.getLayerById('rdLink');
 
     $scope.guideCodeList = [
         {id:0,label:'未定义'},
@@ -32,17 +31,17 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
     ];
 
     $scope.imageCode = {
-        0:"1.svg",
-        1:"2.svg",
-        2:"3.svg",
-        4:"4.svg",
-        6:"1.svg",
-        7:"1.svg",
-        8:"1.svg",
-        10:"1.svg",
-        12:"1.svg",
-        16:"1.svg",
-        19:"1.svg"
+        0:"test.png",
+        1:"test.png",
+        2:"test.png",
+        4:"test.png",
+        6:"test.png",
+        7:"test.png",
+        8:"test.png",
+        10:"test.png",
+        12:"test.png",
+        16:"test.png",
+        19:"test.png"
     };
     $scope.progressFlag = {
         0: "无",
@@ -50,52 +49,26 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
         2: "批处理"
     };
     $scope.relationshipType = {
-        0: "路口",
-        1: "线线"
+        1: "路口",
+        2: "线线"
     };
 
     $scope.initializeData = function (){
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $scope.voiceGuide = objCtrl.data;
 
         $scope.selectIndex = 0; //用于控制选中图片的样式
-
-        $scope.voiceGuide = {
-            pid:1111,
-            inLinkPid:123,
-            nodePid:333,
-            details:[{
-                outLinkPid:0111,
-                guideCode:0,
-                guideType:0,
-                processFlag:0,
-                relationshipType:0,
-                vias:[{
-                    outPutLinkPid:111
-                },{
-                    outPutLinkPid:222
-                }]
-            },{
-                outLinkPid:0111,
-                guideCode:1,
-                guideType:1,
-                processFlag:1,
-                relationshipType:1,
-                vias:[{
-                    outPutLinkPid:111
-                },{
-                    outPutLinkPid:2552
-                }]
-            }]
-        };
-        $scope.details = $scope.voiceGuide.details[0];
+        //$scope.details = $scope.voiceGuide.details[0];
+        $scope.highLight();
     };
     //删除退出线
     $scope.minusDetails = function (index){
         $scope.voiceGuide.details.splice(index,1);
         if($scope.voiceGuide.details.length > 0){
-            $scope.details = $scope.voiceGuide.details[0];
+            //$scope.details = $scope.voiceGuide.details[0];
             $scope.selectIndex = 0;
         } else {
-            $scope.details = {};
+            //$scope.details = {};
             $scope.selectIndex = -1;
         }
     };
@@ -107,18 +80,20 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
     };
 
     $scope.highLight = function (){
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+
         var highLightFeatures = [];
         var outLinkPid = $scope.voiceGuide.details[$scope.selectIndex].outLinkPid;
+        //outLinkPid = 100005841; //测试
         highLightFeatures.push({
             id: outLinkPid.toString(),
             layerid: 'rdLink',
             type: 'line',
             style: {
-                color:'Green'
-            },
-            radius:5
-        })
-
+                color: '#21ed25'
+            }
+        });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
@@ -133,30 +108,28 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
 
     // 保存数据
     $scope.save  = function () {
-        console.info($scope.rdWarningInfoObj);
+        console.info($scope.voiceGuide);
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
         console.info(objCtrl.changedProperty);
-        dsEdit.update($scope.rdWarningInfoObj.pid, "RDWARNINGINFO", objCtrl.changedProperty).then(function(data) {
+        dsEdit.update($scope.voiceGuide.pid, "RDVOICEGUIDE", objCtrl.changedProperty).then(function(data) {
             if (data) {
-                relationData.redraw();
-
+                //relationData.redraw();
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
     };
     // 删除数据
     $scope.del = function() {
-        dsEdit.delete($scope.rdWarningInfoObj.pid, "RDWARNINGINFO").then(function(data) {
+        dsEdit.delete($scope.voiceGuide.pid, "RDVOICEGUIDE").then(function(data) {
             if (data) {
                 relationData.redraw();
-                $scope.rdWarningInfoObj = null;
-                // var editorLayer = layerCtrl.getLayerById("edit");
-                // editorLayer.clear();
-                highRenderCtrl._cleanHighLight(); //清空高亮
+                $scope.voiceGuide = null;
+                highRenderCtrl._cleanHighLight();//清空高亮
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });
