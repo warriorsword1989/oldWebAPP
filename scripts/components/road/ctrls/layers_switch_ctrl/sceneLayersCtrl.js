@@ -64,7 +64,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "poi"
         }, {
             "layerId": "crfData",
-            "requestType": "RDINTER"
+            "requestType": "RDINTER,RDROAD"
         }]
     },{
         "id": 6,
@@ -73,10 +73,6 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "rdNode"
         }, {
             "layerId": "rdLink"
-        }, {
-            "layerId": "rwNode"
-        }, {
-            "layerId": "rwLink"
         }, {
             "layerId": "adNode"
         }, {
@@ -91,6 +87,19 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "luNode"
         },{
             "layerId": "rdSame"
+        }]
+    },{
+        "id": 7,
+        "label": "限速场景",
+        "dataLayers": [{
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rwLink"
+        }, {
+            "layerId": "poi"
+        }, {
+            "layerId": "relationData",
+            "requestType": "RDSPEEDLIMIT"
         }]
     }];
 

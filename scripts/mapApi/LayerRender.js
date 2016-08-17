@@ -439,6 +439,7 @@ fastmap.mapApi.LayerRender = {
         var g = ctx.canvas.getContext('2d');
         g.strokeStyle = linestyle.strokeColor;
         g.lineWidth = linestyle.strokeWidth;
+        g.globalAlpha = linestyle.strokeOpacity || 1;//Opacity
         g.beginPath();
         for (var j = 0; j < proj.length; j++) {
             var method = (j === 0 ? 'move' : 'line') + 'To';

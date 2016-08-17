@@ -15,13 +15,9 @@ sameNodeApp.controller("SameNodeController",['$scope','dsEdit',function($scope,d
         if($scope.rdSameNodeForm) {
             $scope.rdSameNodeForm.$setPristine();
         }
-
         $scope.rdSameNodeList = objCtrl.data;//获取数据
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据值
-
-
     };
-
 
     $scope.initializeData();
 

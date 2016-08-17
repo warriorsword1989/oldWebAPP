@@ -1,0 +1,26 @@
+<div ng-controller="MainSameLinkController">
+    <div ng-class="{true:'divMsgBack',false:'divMsgHide'}[same.sameRelationShapShow]"></div>
+    <div ng-class="{true:'divMsg',false:'divMsgHide'}[same.sameRelationShapShow]">
+        <div>制作同一线要素确认</div>
+        <div class="content">
+            <div class="fm-fitsize scroll-styled">
+                <table ng-if="true" class="table">
+                    <thead>
+                    <td>类型</td><td>ID</td><td>制作</td>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="node in same.sameLinkList">
+                        <td style="width: 40%;" class="tdWidthContent">{{node.featType}}</td>
+                        <td style="width: 40%;" class="tdWidthContent">{{node.id}}</td>
+                        <td style="width: 20%;" class="tdWidthInput"><input type="checkbox" ng-change="changeSame()" ng-disabled="$index==same.sameDisabledIndex" ng-model="node.checked"> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-sm btn-lev" ng-click="saveSame();">确 认</button>
+            <button type="button" class="btn btn-sm btn-lev" ng-click="clearSame();">取 消</button>
+        </div>
+    </div>
+</div>

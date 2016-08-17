@@ -63,6 +63,9 @@ fastmap.uikit.FeatureConfig = {
         "RDVARIABLESPEED": {
             name: "可变限速"
         },
+        "RDVOICEGUIDE":{
+            name:"语音引导"
+        },
         "RDGSC": {
             name: "立交"
         },

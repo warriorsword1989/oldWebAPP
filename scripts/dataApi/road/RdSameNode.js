@@ -38,6 +38,10 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
         data["pid"] = this.pid;
         data["groupId"] = this.groupId;
         data["rowId"] = this.rowId;
+        data["parts"] = [];
+        for(var i=0;i<this.parts.length;i++){
+            data["parts"].push(this.parts[i].getIntegrate());
+        }
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -54,6 +58,10 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
         data["groupId"] = this.groupId;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
+        data["parts"] = [];
+        for(var i=0;i<this.parts.length;i++){
+            data["parts"].push(this.parts[i].getIntegrate());
+        }
         return data;
     }
 });

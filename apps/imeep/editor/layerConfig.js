@@ -210,7 +210,7 @@ App.layersConfig = [{
             zIndex: 7,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDLINKSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVOICEGUIDE',
             showNodeLevel: 17
         }
     },{
@@ -675,7 +675,7 @@ App.layersConfig = [{
             restrictZoom: 10,
             editable: false,
             visible: false,
-            requestType: 'RDSAMENODE',//,RDSAMELINK
+            requestType: 'RDSAMENODE,RDSAMELINK',
             showNodeLevel: 17
         }
     }]

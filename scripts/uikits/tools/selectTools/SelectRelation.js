@@ -113,8 +113,20 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                     this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
                                 }
                             }
-
-
+                    } else if(data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER'){
+                        if(data[item]['geometry']['type'] == "Point") {
+                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
+                            }
+                        } else if(data[item]['geometry']['type'] == "LineString"){
+                            if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                                this.overlays.push({
+                                    layer: this.currentEditLayers[layer],
+                                    id:data[item].properties.id,
+                                    data: data[item]
+                                });
+                            }
+                        }
                     } else {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
@@ -208,6 +220,46 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         } else {
             return 0;
         }
+    },
+    /***
+     *
+     * @param {Array}d 几何图形
+     * @param {number}x 鼠标x
+     * @param {number}y 鼠标y
+     * @param {number}r 半径
+     * @returns {number}
+     * @private
+     */
+    _TouchesPath: function(d, x, y, r) {
+        var i;
+        var N = d.length;
+        var p1x = d[0][0];
+        var p1y = d[0][1];
+        for (var i = 1; i < N; i += 1) {
+            var p2x = d[i][0];
+            var p2y = d[i][1];
+            var dirx = p2x - p1x;
+            var diry = p2y - p1y;
+            var diffx = x - p1x;
+            var diffy = y - p1y;
+            var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
+            if (t < 0) {
+                t = 0
+            }
+            if (t > 1) {
+                t = 1
+            }
+            var closestx = p1x + t * dirx;
+            var closesty = p1y + t * diry;
+            var dx = x - closestx;
+            var dy = y - closesty;
+            if ((dx * dx + dy * dy) <= r * r) {
+                return 1
+            }
+            p1x = p2x;
+            p1y = p2y
+        }
+        return 0
     }
 
 });
