@@ -2,8 +2,8 @@
  * Created by liwanchong on 2015/10/28.
  * Rebuild by chenx on 2016-07-05
  */
-angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath',
-    function($scope, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath) {
+angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath',
+    function($scope,$q, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -388,9 +388,32 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDVARIABLESPEED': //可变限速;
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "改关联退出线和接续线",
+                            'type': "MODIFYVARIABLESPEED",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html";
-                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDELECTRONICEYE':
                     toolsObj = {
@@ -1395,7 +1418,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                         return;
                     }
-                } else if (type === "TRANSFORMDIRECT") {
+                }else if (type === "TRANSFORMDIRECT") {
                     if (selectCtrl.selectedFeatures) {
                         if(selectCtrl.selectedFeatures.type == "Marker"){
                             selectCtrl.selectedFeatures["direct"] = $scope.changeSpeedDirect(selectCtrl.selectedFeatures["direct"]);
@@ -2165,6 +2188,192 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                         });
                     });
                     return;
+                } else if (type === "MODIFYVARIABLESPEED") {
+                    //地图编辑相关设置;
+                    map.currentTool = new fastmap.uikit.SelectForRestriction({
+                        map: map,
+                        createBranchFlag: true,
+                        currentEditLayer: rdLink,
+                        shapeEditor: shapeCtrl,
+                        operationList:['line','line']
+                    });
+                    map.currentTool.enable();
+                    //热键操作设置;
+                    shapeCtrl.setEditingType("UPDATEVARIABLESPEED");
+                    //添加自动吸附的图层
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                    tooltipsCtrl.setEditEventType('rdvariable');
+                    tooltipsCtrl.setCurrentTooltip('开始修改退出线和接续线！');
+                    //objCtrl.data.vias = [];
+                    var tempObj = objCtrl.data.getIntegrate();
+                    var tempoutlink = tempObj.outLinkPid;
+                    //获取退出线并高亮;
+                    $scope.isOutLink = function(dataId) {
+                        var param = {};
+                        param["dbId"] = App.Temp.dbId;
+                        param["type"] = "RDLINK";
+                        param["data"] = {
+                            "nodePid": objCtrl.data.nodePid
+                        };
+                        var defer = $q.defer();
+                        //查进入点的关联link，如果所选的退出线不在里面，则提示错误;
+                        dsEdit.getByCondition(param).then(function(linkData) {
+                            if (linkData.errcode === -1) {return;}
+                            var outlinks = [];
+                            for(var i=0;i<linkData.data.length;i++){
+                                outlinks.push(linkData.data[i].pid)
+                            }
+                            //如果不衔接;
+                            if(outlinks.indexOf(parseInt(dataId))==-1){
+                                defer.resolve(-1);
+                            }else{
+                                defer.resolve(1);
+                            }
+                        })
+                        return defer.promise;
+                    }
+                    //获得退出线和接续线连接的节点;;
+                    $scope.getOutLinkInfos = function(dataId) {
+                        var defer = $q.defer();
+                        dsEdit.getByPid(objCtrl.data.outLinkPid, "RDLINK").then(function(data) {
+                            var linknodePid = '';
+                            if(data){
+                                if(data.sNodePid==objCtrl.data.nodePid){
+                                    linknodePid = data.eNodePid;
+                                }else{
+                                    linknodePid = data.sNodePid;
+                                }
+                                defer.resolve(linknodePid);
+                            }
+                        })
+                        return defer.promise;
+                    }
+                    //判断接续线是否连接退出线;
+                    $scope.isLinkedLinks = function(linknodePid,dataId){
+                        var defer = $q.defer();
+                        var param = {};
+                        param["dbId"] = App.Temp.dbId;
+                        param["type"] = "RDLINK";
+                        param["data"] = {"nodePid": linknodePid};
+                        dsEdit.getByCondition(param).then(function(linkData) {
+                            if (linkData.errcode === -1) {return;}
+                            var jointLinks = [];
+                            for(var i=0;i<linkData.data.length;i++){
+                                jointLinks.push(linkData.data[i].pid)
+                            }
+                            //如果不衔接;
+                            if(jointLinks.indexOf(parseInt(dataId))==-1 || jointLinks.indexOf(tempoutlink)!=-1){
+                                defer.resolve(-1);
+                            } else{
+                                defer.resolve(1);
+                            }
+                        })
+                        return defer.promise;
+                    }
+
+                    eventController.off(eventController.eventTypes.GETLINKID);
+                    eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
+                        //highRenderCtrl._cleanHighLight();
+                        //highRenderCtrl.highLightFeatures = [];
+                        ////原来的进入线;
+                        //highRenderCtrl.highLightFeatures.push({
+                        //    id: tempObj.inLinkPid.toString(),
+                        //    layerid: 'rdLink',
+                        //    type: 'line',
+                        //    style: {color: '#5FCD3A'}
+                        //});
+                        ////原来的进入点;
+                        //highRenderCtrl.highLightFeatures.push({
+                        //    id: tempObj.nodePid.toString(),
+                        //    layerid: 'rdLink',
+                        //    type: 'rdnode',
+                        //    style: {color: 'yellow'}
+                        //});
+                        ////清空原来的退出线和接续线;
+                        //highRenderCtrl.drawHighlight();
+                        //选择接续线;
+                        $scope.getOutLinkInfos(dataresult.id)
+                            .then(function(linkData){
+                                $scope.isLinkedLinks(linkData,dataresult.id).then(function(data){
+                                    //alert(data)
+                                    if(data>0){
+                                        objCtrl.data.vias.push(parseInt(dataresult.id));
+                                        //高亮显示退出线;
+                                        highRenderCtrl.highLightFeatures.push({
+                                            id: parseInt(objCtrl.data.outLinkPid).toString(),
+                                            layerid: 'rdLink',
+                                            type: 'line',
+                                            style: {}
+                                        });
+                                        //高亮显示接续线;
+                                        for(var i=0;i<objCtrl.data.vias.length;i++){
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: parseInt(objCtrl.data.vias[i]).toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {color:'blue'}
+                                            });
+                                        }
+                                        highRenderCtrl.drawHighlight();
+                                        tooltipsCtrl.setCurrentTooltip("已选则接续线,点击空格键保存或继续选择接续线!");
+                                    }//如果选的是退出线;
+                                    else{
+                                        if(dataresult.id==tempoutlink){alert('重复选');return;}
+                                        $scope.isOutLink(dataresult.id).then(function(linkData) {
+                                            if(linkData>0){
+                                                //objCtrl.data.vias = [];
+                                                tempObj.vias = [];
+                                                //高亮显示退出线;
+                                                //objCtrl.data.outLinkPid = parseInt(dataresult.id);
+                                                tempObj.outLinkPid = parseInt(dataresult.id);
+                                                for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                                    if(highRenderCtrl.highLightFeatures[i].id==tempoutlink){
+                                                        highRenderCtrl.highLightFeatures.splice(i,1);
+                                                    }
+                                                }
+                                                tempoutlink = parseInt(dataresult.id);
+                                                highRenderCtrl.highLightFeatures.push({
+                                                    id: tempoutlink.toString(),
+                                                    layerid: 'rdLink',
+                                                    type: 'line',
+                                                    style: {}
+                                                });
+                                                highRenderCtrl._cleanHighLight();
+                                                highRenderCtrl.drawHighlight();
+                                                tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存或继续选择接续线!");
+                                            }else{
+                                                //if(objCtrl.data.outLinkPid)
+                                                //highRenderCtrl.highLightFeatures.push({
+                                                //    id: parseInt(objCtrl.data.outLinkPid).toString(),
+                                                //    layerid: 'rdLink',
+                                                //    type: 'line',
+                                                //    style: {}
+                                                //});
+                                                ////高亮显示接续线;
+                                                //if(objCtrl.data.vias.length)
+                                                //for(var i=0;i<objCtrl.data.vias.length;i++){
+                                                //    highRenderCtrl.highLightFeatures.push({
+                                                //        id: parseInt(objCtrl.data.vias[i]).toString(),
+                                                //        layerid: 'rdLink',
+                                                //        type: 'line',
+                                                //        style: {color:'blue'}
+                                                //    });
+                                                //}
+                                                //return;
+                                            }
+                                        })
+                                    }
+                                })
+                        });
+                        //设置修改确认的数据;
+                        featCodeCtrl.setFeatCode({
+                            "pid": objCtrl.data.pid.toString(),
+                            "nodePid": objCtrl.data.nodePid.toString(),
+                            "inLinkPid": objCtrl.data.inLinkPid.toString(),
+                            "outLinkPid": objCtrl.data.outLinkPid.toString(),
+                            "vias":objCtrl.data.vias
+                        });
+                    });
                 }
                 if (!selectCtrl.selectedFeatures) {
                     return;

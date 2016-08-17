@@ -1385,6 +1385,27 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
+            } else if (shapeCtrl.editType === "UPDATEVARIABLESPEED") {    //可变限速编辑
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDVARIABLESPEED",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "pid": featCodeCtrl.getFeatCode().pid,
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid,
+                        "vias":featCodeCtrl.getFeatCode().vias
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
+                });
             }
         }
     });

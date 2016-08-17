@@ -43,7 +43,7 @@
                         </div>
                     </li>
                     <li>
-                        <div ng-include="carPopoverURL" data-type="1" style="width:100%;padding: 5px;"></div>
+                        <div ng-include="carPopoverURL" data-type="1" style="width:100%;padding: 5px 15px 5px 0;"></div>
                     </li>
                 </ul>
             </div>
@@ -51,13 +51,13 @@
         <div class="fm-panel">
             <div class="content">
                 <div class="box-head font-bold">
-                    名称信息（共<span ng-bind="variableSpeed.vias.length"></span> 条）
+                    接续道路（共<span ng-bind="variableSpeed.vias.length"></span> 条）
                 </div>
                 <ul class="fm-ul fm-ul-form">
                     <li ng-if="variableSpeed.vias" ng-repeat="item in variableSpeed.vias">
-                        <label class="control-label">道路线1</label>
+                        <label class="control-label">道路线{{$index+1}}</label>
                         <div>
-                            <input type="text" ng-model="variableSpeed.linkPid" disabled="disabled" />
+                            <input type="text" ng-model="item.linkPid" disabled="disabled" />
                         </div>
                     </li>
                 </ul>

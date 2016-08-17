@@ -1,6 +1,6 @@
 /**
  * Created by linglong on 2016/7/29.
- * Class RdSlope连续link
+ * Class RdVariableSpeedLinks
  */
 
 fastmap.dataApi.RdVariableSpeedLinks = fastmap.dataApi.GeoDataModel.extend({
