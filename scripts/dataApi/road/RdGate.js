@@ -26,18 +26,17 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         this.inLinkPid = data["inLinkPid"];
         this.nodePid = data["nodePid"];
         this.outLinkPid = data["outLinkPid"];
-        this.type = data["type"] || 2;
-        this.dir = data["dir"] || 2;
+        this.type =  (data["type"] === undefined || data["type"] === '') ? 2 :data["type"];
+        this.dir = (data["dir"] === undefined || data["dir"] === '') ? 2 :data["dir"];
         this.fee = data["fee"] || 0;
-        this.gateLimits = [];
+        this.condition = [];
         if (data["condition"]&&data["condition"].length > 0) {
             for(var i= 0,len=data["condition"].length;i<len;i++) {
-
-                var gateLimit = fastmap.dataApi.rdGateCondition(data["condition"][i]);
-                this.gateLimits.push(gateLimit);
+                var con = fastmap.dataApi.rdGateCondition(data["condition"][i]);
+                this.condition.push(con);
             }
-
         }
+        this.rowId = data['rowId'];
     },
 
     /**
@@ -55,7 +54,13 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         data["type"] = this.type;
         data["dir"] = this.dir;
         data["fee"] = this.fee;
-        data["condition"] = this.gateLimits;
+
+        var con = [];
+        for (var i = 0, len = this.condition.length; i < len; i++) {
+            con.push(this.condition[i].getIntegrate());
+        }
+        data["condition"] = con;
+        data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -75,6 +80,13 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
         data["type"] = this.type;
         data["dir"] = this.dir;
         data["fee"] = this.fee;
+
+        var con = [];
+        for (var i = 0, len = this.condition.length; i < len; i++) {
+            con.push(this.condition[i].getIntegrate());
+        }
+        data["condition"] = con;
+        data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
@@ -85,5 +97,5 @@ fastmap.dataApi.RdGate = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdGate = function (data, options) {
     return new fastmap.dataApi.RdGate(data, options);
-}
+};
 

@@ -415,7 +415,14 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": data.errcode,
                     "childPid": ""
                 });
-                swal(opDesc + "操作出错：", data.errmsg, "error");
+                //swal(opDesc + "操作出错：", data.errmsg, "error");
+                swal({
+                    title: opDesc + "操作出错",
+                    type: "error",
+                    timer: 1200,
+                    showConfirmButton: false
+                });
+
                 defer.resolve(null);
             }
         }).error(function(rejection) {
