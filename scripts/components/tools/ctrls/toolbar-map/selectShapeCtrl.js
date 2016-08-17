@@ -308,6 +308,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_same_tpl/rdSameLinkTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "RDSAMELINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
+                case "RDVOICEGUIDE": //语音引导
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_voiceGuide_ctrl/voiceGuide';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html";
+                    $scope.getFeatDataCallback(data, data.id, "RDVOICEGUIDE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'RDRESTRICTION':
                     //if (data.restrictionType === 1) {
                     ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction";

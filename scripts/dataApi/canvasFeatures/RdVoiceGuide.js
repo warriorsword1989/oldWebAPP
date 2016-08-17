@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdVoiceGuide = fastmap.uikit.canvasFeature.Feature.e
         this.properties["featType"] = "RDVOICEGUIDE";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/road/voiceGuide/test.svg',
+                    iconName: '../../../images/road/voiceGuide/1306_0_0.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates']

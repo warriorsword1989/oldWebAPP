@@ -60,6 +60,9 @@ fastmap.uikit.FeatureConfig = {
         "RDTOLLGATE": {
             name: "收费站"
         },
+        "RDVOICEGUIDE":{
+            name:"语音引导"
+        },
         "RDGSC": {
             name: "立交"
         },
