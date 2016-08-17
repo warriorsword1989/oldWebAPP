@@ -14,6 +14,7 @@
                 "dataApi/poi/IxPoiConstant.js",
                 "dataApi/poi/IxPoi.js",
                 "dataApi/poi/IxCheckResult.js",
+                "dataApi/poi/IxSearchResult.js",
                 "dataApi/poi/IxOutput.js",
                 "dataApi/poi/IxPoiAddress.js",
                 "dataApi/poi/IxPoiBuilding.js",
