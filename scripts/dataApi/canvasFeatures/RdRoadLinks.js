@@ -5,8 +5,6 @@ fastmap.uikit.canvasFeature.RdRoadLinks = fastmap.uikit.canvasFeature.Feature.ex
         this.geometry['type'] = 'LineString';
         this.geometry['coordinates'] = data.g;
         this.properties["featType"] = "RDROAD";
-        this.properties['snode'] = data.s;
-        this.properties['enode'] = data.e;
         this.properties['linkId'] = data.i;
         this.properties['id'] = id;
 
@@ -14,8 +12,8 @@ fastmap.uikit.canvasFeature.RdRoadLinks = fastmap.uikit.canvasFeature.Feature.ex
         var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
         this.properties['symbol'] = compositeSymbol;
 
-        this.properties['style']['strokeColor'] = '#7AFEC6';
-        this.properties['style']['strokeWidth'] = 1;
-        this.properties['style']['strokeOpacity'] = 1;
+        this.properties['style']['strokeColor'] = '#A3D1D1';
+        this.properties['style']['strokeWidth'] = 6;
+        this.properties['style']['strokeOpacity'] = 0.5;
     }
 });

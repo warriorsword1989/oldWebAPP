@@ -34,7 +34,8 @@ App.Temp = {
         RDINTER:'CRF交叉点',
         RDROAD:'CRF道路',
         RDOBJECT:'CRF对象',
-        RDTOLLGATE:'收费站'
+        RDTOLLGATE:'收费站',
+        RDVOICEGUIDE:'收费站'
     }
 };
 // web app的公用函数命名空间
