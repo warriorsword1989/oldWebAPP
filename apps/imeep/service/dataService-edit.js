@@ -417,7 +417,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                 });
                 //swal(opDesc + "操作出错：", data.errmsg, "error");
                 swal({
-                    title: opDesc + "操作出错",
+                    title: opDesc + "操作出错：" + data.errmsg,
                     type: "error",
                     timer: 1200,
                     showConfirmButton: false

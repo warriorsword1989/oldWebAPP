@@ -569,8 +569,12 @@ angular.module('app', ['oc.lazyLoad','fastmap.uikit', 'ui.layout', 'ngTable', 'l
         /**
          * 接收地图上框选同一点线事件
          */
-        $scope.$on("showSameNodeOrLink",function (event,data){
-            $scope.$broadcast("showSameRelationshap");
+        $scope.$on("showSameNodeOrLink",function (event,type){
+            if(type == 'node'){
+                $scope.$broadcast("showSameNodePanel");
+            } else if (type == 'link'){
+                $scope.$broadcast("showSameLinkPanel");
+            }
         });
 
         // $scope.test = function (){

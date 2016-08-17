@@ -675,7 +675,7 @@ App.layersConfig = [{
             restrictZoom: 10,
             editable: false,
             visible: false,
-            requestType: 'RDSAMENODE',//,RDSAMELINK
+            requestType: 'RDSAMENODE,RDSAMELINK',
             showNodeLevel: 17
         }
     }]
