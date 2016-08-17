@@ -495,6 +495,40 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfInterTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case 'RDROAD':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "增加线",
+                            'type': "ADDRDROADLINK",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "取消线",
+                            'type': "DELETERDROADLINK",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdcrf_ctrl/crfRoadCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfRoadTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
                 case 'RDGATE':  //大门
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_gate_ctrl/rdGateCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html";
@@ -1337,11 +1371,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                     }
                     break;
                 case 2: //顺方向
-                    orientation = 0;
+                    orientation = 3;
                     $scope.sign1 = 0;
                     break;
                 case 3: //逆方向
-                    orientation = 0;
+                    orientation = 2;
                     $scope.sign1 = 1;
                     break;
             }
@@ -2098,6 +2132,98 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
                             "pid": selData.pid,
                             "nodes": nodePids,
                             "links":linkPids,
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                } else if (type === "ADDRDROADLINK") {
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [rdLink],
+                        snapLayers: [rdLink]
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+                    var linkPids = [];
+                    var links = selData.links;
+                    if(links && links.length >= 0) {
+                        for (var i = 0; i < links.length; i++) {
+                            if(linkPids.indexOf(links[i].linkPid) < 0){
+                                linkPids.push(links[i].linkPid);
+                            }
+                        }
+                    }
+                    tooltipsCtrl.setCurrentTooltip('请选择需要增加的线！');
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
+                        highRenderCtrl._cleanHighLight();
+                        if(data.optype == "RDLINK"){
+                            if(linkPids.indexOf(parseInt(data.id)) < 0){
+                                linkPids.push(parseInt(data.id));
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: '#D9B300'
+                                    }
+                                });
+                            }
+                        }
+                        highRenderCtrl.drawHighlight();
+                        shapeCtrl.setEditingType("UPDATERDROAD");   //设置热键修改时的监听类型;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+
+                        featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                            "pid": selData.pid,
+                            "linkPids":linkPids,
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                } else if (type === "DELETERDROADLINK") {
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [crfData],
+                        snapLayers: [crfData]//将rdnode放前面，优先捕捉
+                    });
+                    map.currentTool.enable();
+
+                    var selData = objCtrl.data;
+                    var linkPids = [];
+                    var links = selData.links;
+
+                    if(links && links.length >= 0) {
+                        for (var i = 0; i < links.length; i++) {
+                            if(linkPids.indexOf(links[i].linkPid) < 0){
+                                linkPids.push(links[i].linkPid);
+                            }
+                        }
+                    }
+
+                    tooltipsCtrl.setCurrentTooltip('请选择需要删除的线！');
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
+                        highRenderCtrl._cleanHighLight();
+                        if(data.optype == "RDROAD"){
+                            if(linkPids.indexOf(parseInt(data.linkId)) > -1){
+                                linkPids.splice(linkPids.indexOf(parseInt(data.linkId)),1);
+                                for(var i = 0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                    if(highRenderCtrl.highLightFeatures[i].id == data.linkId){
+                                        highRenderCtrl.highLightFeatures.splice(i,1);
+                                        i--;
+                                    }
+                                }
+                            }
+                        }
+                        highRenderCtrl.drawHighlight();
+                        shapeCtrl.setEditingType("UPDATERDROAD");   //设置热键修改时的监听类型;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+
+                        featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                            "pid": selData.pid,
+                            "linkPids":linkPids,
                             "objStatus": "UPDATE"
                         });
                     });

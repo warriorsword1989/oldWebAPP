@@ -40,7 +40,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        if(L.Browser.touch){
+        if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
         }
         this._map.on('mousemove', this.onMouseMove, this);
@@ -51,7 +51,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        if(L.Browser.touch){
+        if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown, this);
         }
         this._map.off('mousemove', this.onMouseMove, this);
@@ -87,7 +87,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             mousePoint = this.targetPoint;
             if (this.snapHandler.snapIndex == 0) {
                 this.catches.push({
-                    nodePid:parseInt(this.snapHandler.properties.snode),
+                    nodePid: parseInt(this.snapHandler.properties.snode),
                     lon: mousePoint.lng,
                     lat: mousePoint.lat
                 });
@@ -148,7 +148,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
         this.snapHandler.setTargetIndex(0);
         var that = this;
         if (this.snapHandler.snaped == true) {
-            this.eventController.fire( this.eventController.eventTypes.SNAPED, {'snaped': true});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {'snaped': true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0])
             this.insertPoint = fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat);
             if (this.clickcount > 1) {
@@ -167,7 +167,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                 }
             });
         } else {
-            this.eventController.fire( this.eventController.eventTypes.SNAPED, {'snaped': false});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {'snaped': false});
 
             this.insertPoint = fastmap.mapApi.point(this._map.layerPointToLatLng(layerPoint).lng, this._map.layerPointToLatLng(layerPoint).lat);
             if (this.clickcount > 1) {

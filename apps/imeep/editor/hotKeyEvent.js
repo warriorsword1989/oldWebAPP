@@ -1294,7 +1294,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
-            }else if (shapeCtrl.editType === "CRFInter"){
+            } else if (shapeCtrl.editType === "CRFInter"){
                 if(geo.nodes.length == 0){
                     swal("操作失败", "未选中Node点！", "info");
                     return;
@@ -1303,6 +1303,43 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if(data != null){
                         crfData.redraw();
                         treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "CRFRoad"){
+                if(geo.linkPids.length == 0){
+                    swal("操作失败", "未选中Link！", "info");
+                    return;
+                }
+                dsEdit.create('RDROAD',geo).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDROAD", "创建CRF道路成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "UPDATERDROAD"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDROAD",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
+                if(param.data.linkPids == undefined || param.data.linkPids == []){
+                    swal("操作失败", "未选中Link！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDROAD", "修改CRF道路成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
                     } else {
                         resetPage();
                     }
