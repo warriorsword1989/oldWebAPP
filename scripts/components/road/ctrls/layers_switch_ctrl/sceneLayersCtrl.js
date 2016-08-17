@@ -103,7 +103,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "poi"
         }, {
             "layerId": "relationData",
-            "requestType": "RDSPEEDLIMIT,RDLINKSPEEDLIMIT"
+            "requestType": "RDSPEEDLIMIT"
         }]
     }];
 

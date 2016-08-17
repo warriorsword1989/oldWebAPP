@@ -1333,7 +1333,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
 
         };
         $scope.sign = 0; //初始值
-        $scope.sign1 = 0; //初始值
         /**
          * 修改方向
          * @param direct
@@ -1368,20 +1367,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$ocLazyLoad', '$
         $scope.changeSpeedDirect = function(direct) {
             var orientation;
             switch (direct) {
-                case 0: //双方向
-                    if ($scope.sign1 === 0) {
-                        orientation = 3; //向左
-                    } else if (this.sign1 === 1) {
-                        orientation = 2; //向右
-                    }
+                case 0: //无方向
+                    orientation = 2;
                     break;
                 case 2: //顺方向
                     orientation = 3;
-                    $scope.sign1 = 0;
                     break;
                 case 3: //逆方向
                     orientation = 2;
-                    $scope.sign1 = 1;
                     break;
             }
             return orientation;
