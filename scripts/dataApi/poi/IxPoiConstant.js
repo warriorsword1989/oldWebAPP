@@ -177,6 +177,15 @@ FM.dataApi.Constant = {
     sportsVenuesBuildingType: {
         0: "室内",
         1: "室外"
+    },
+    PAYMENT:{   //支付方式
+        10:'八速通',
+        11:'VISA',
+        12:'MasterCard',
+        13:'现金',
+        15:'储值卡',
+        14:'其他'
     }
 
-}
+
+};

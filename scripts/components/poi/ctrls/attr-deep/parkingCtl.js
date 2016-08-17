@@ -2,11 +2,12 @@
  * Created by mali on 2016/5/31.
  */
 angular.module('app').controller('parkingCtl', function($scope) {
-    // $scope.poi.parkings[0] = {};
     $scope.parkingBuildingType = FM.dataApi.Constant.PARKING_TYPE;
     $scope.tollStd = FM.dataApi.Constant.TOLLSTD;
     $scope.tollWay = FM.dataApi.Constant.TOLLWAY;
     $scope.remark = FM.dataApi.Constant.remark_ml;
+    /*支付方式*/
+    $scope.paymentObj = FM.dataApi.Constant.PAYMENT;
     $scope.tollStdChange = function(event){
         var obj = $scope.poi.parkings[0].tollStd;
         var rejectVal = "5";

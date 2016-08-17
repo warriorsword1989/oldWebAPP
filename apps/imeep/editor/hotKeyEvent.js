@@ -1341,7 +1341,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 
                 dsEdit.save(param).then(function(data) {
                     if(data != null){
-                        crfData.redraw();
+                        relationData.redraw();
                         treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
                     } else {
                         resetPage();

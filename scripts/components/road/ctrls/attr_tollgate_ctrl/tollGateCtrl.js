@@ -81,10 +81,15 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	};
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
-		var _code = '';
+		var _code = $scope.tollGateData.length + '';
 		for(var i=0,len=$scope.tollGateData.length;i<len;i++) {
-			
+			if ($scope.tollGateData['cardType'] == 1) {
+				_code =+ 1;
+			} else {
+				_code =+ 0;
+			}
 		}
+		return _code;
 	};
 	/*增加item*/
 	$scope.addItem = function(type){
