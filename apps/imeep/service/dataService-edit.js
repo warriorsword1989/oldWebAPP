@@ -540,4 +540,37 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     }
+    //搜索
+    this.getSearchData = function(num,sType,content) {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            pageNum: num,
+            pageSize: 5,
+            data:{}
+        };
+        if(sType == 'linkPid') {
+            params[type] = 'RDLINK';
+        } else if (sType == 'rdName') {
+            sType = 'name';
+            params[type] = 'RDLINK';
+        } else if (sType == 'pid') {
+            params[type] = 'IXPOI';
+        } else if (sType == 'name') {
+            params[type] = 'IXPOI';
+        }
+        params[data][sType] = content;
+        ajax.get("edit/check/get", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("搜索信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

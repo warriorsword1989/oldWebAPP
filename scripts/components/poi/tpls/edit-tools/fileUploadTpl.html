@@ -6,7 +6,7 @@
         <div class="title">上传文件
             <span class="upload-btn upload-add">
                 <button class="fm-upload-ico">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    <i ng-if="!isSpecialOperation" class="glyphicon glyphicon-plus-sign"></i>
                     <input type="file" nv-file-select="" uploader="uploader" multiple  />
                 </button>
                 <button class="fm-upload-ico" title="全部上传" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
