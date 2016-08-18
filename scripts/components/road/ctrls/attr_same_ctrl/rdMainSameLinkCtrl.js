@@ -125,33 +125,34 @@ mainSameLinkApp.controller("MainSameLinkController",['$scope','$ocLazyLoad','app
             }
         }
 
-        // if(Object.keys(types).length < 2){
-        //     swal("提示", '同一node关系中,至少需要两种要素！', "warning");
-        //     return ;
-        // }
-        // if(rdNode > 5){
-        //     swal("提示", '同一node关系中,rdNode不能超过3个！', "warning");
-        //     return ;
-        // }
-        // if(adNode > 1){
-        //     swal("提示", '同一node关系中,adNode不能超过1个！', "warning");
-        //     return ;
-        // }
-        // if(zoneNode > 10){
-        //     swal("提示", '同一node关系中,zoneNode不能超过10个！', "warning");
-        //     return ;
-        // }
-        // if(luNode > 2){
-        //     swal("提示", '同一node关系中,luNode不能超过2个！', "warning");
-        //     return ;
-        //};
+        if(Object.keys(types).length < 2){
+            swal("提示", '同一node关系中,至少需要两种要素！', "warning");
+            return ;
+        }
+        if(rdLink > 1){
+            swal("提示", '同一node关系中,rdLink不能超过3个！', "warning");
+            return ;
+        }
+        if(adLink > 1){
+            swal("提示", '同一node关系中,adLink不能超过1个！', "warning");
+            return ;
+        }
+        if(zoneLink > 1){
+            swal("提示", '同一node关系中,zoneLink不能超过10个！', "warning");
+            return ;
+        }
+        if(luLink > 2){
+            swal("提示", '同一node关系中,luLink不能超过2个！', "warning");
+            return ;
+        };
 
         resultArr[0].isMain = 1;//默认第一个为主要素
-        console.info(resultArr);
+        
 
         //清除高亮
         highRenderCtrl.highLightFeatures.length = 0;
         highRenderCtrl._cleanHighLight();
+
 
         dsEdit.create('RDSAMELINK',{"links":resultArr}).then(function (callData){
             if(callData){

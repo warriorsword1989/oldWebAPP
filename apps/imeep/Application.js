@@ -35,7 +35,9 @@ App.Temp = {
         RDROAD:'CRF道路',
         RDOBJECT:'CRF对象',
         RDTOLLGATE:'收费站',
-        RDVOICEGUIDE:'收费站'
+        RDVOICEGUIDE:'收费站',
+        RDSAMENODE:'同一点',
+        RDSAMELINK:'同一线'
     }
 };
 // web app的公用函数命名空间
