@@ -120,6 +120,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Point':
                 drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
+            case 'SpeedLimit':
+                drawPoint(currentGeo.components[0], {color: 'red', radius: 3}, false);
+                break;
             case'Polygon':
                 drawPolygon(currentGeo, {color: 'red', outline: 3}, false);
                 break;

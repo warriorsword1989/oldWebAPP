@@ -7,13 +7,18 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdSameLayer = layerCtrl.getLayerById('rdSame');
+    var rdNodeLayer = layerCtrl.getLayerById('rdNode');
+    //var rwNodeLayer = layerCtrl.getLayerById('rwNode');
+    var adNodeLayer = layerCtrl.getLayerById('adNode');
+    var zoneNodeLayer = layerCtrl.getLayerById('zoneNode');
+    var luNodeLayer = layerCtrl.getLayerById('luNode');
 
     $scope.sameRelationshap = objCtrl.data;
     $scope.same = {};
     $scope.same.sameRelationShapShow = false; //用于控制同一关系制作面板是否显示
     $scope.same.isRdSameNode = true;
 
-    $scope.$on('showSameRelationshap',function (data){
+    $scope.$on('showSameNodePanel',function (data){
         $scope.initializeData();
     });
     /**
@@ -190,7 +195,13 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
             if(callData){
                 $scope.clearSame();
                 rdSameLayer.redraw();
+                rdNodeLayer.redraw();
+                //rwNodeLayer.redraw();
+                adNodeLayer.redraw();
+                zoneNodeLayer.redraw();
+                luNodeLayer.redraw();
                 dsEdit.getByPid(callData.pid, "RDSAMENODE").then(function(data) {
+                    objCtrl.setCurrentObject("RDSAMENODE", data);
                     var changedDirectObj = {
                         "loadType": "attrTplContainer",
                         "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl',

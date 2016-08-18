@@ -226,13 +226,11 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
     // 保存数据
     $scope.save  = function () {
-        console.info($scope.rdWarningInfoObj);
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
-        console.info(objCtrl.changedProperty);
         dsEdit.update($scope.rdWarningInfoObj.pid, "RDWARNINGINFO", objCtrl.changedProperty).then(function(data) {
             if (data) {
                 relationData.redraw();

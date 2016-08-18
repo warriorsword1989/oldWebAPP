@@ -59,6 +59,7 @@ fastmap.uikit.canvasFeature.RdSpeedLimit = fastmap.uikit.canvasFeature.Feature.e
             var condition = resArray[2];
             var limitSpeedFlag = resArray[0];
             var conditionObj = {
+                '0': '无',
                 '1': '雨',
                 '2': '雪',
                 '3': '雾',

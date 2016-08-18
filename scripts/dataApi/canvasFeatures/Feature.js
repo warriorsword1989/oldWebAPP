@@ -38,6 +38,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 9: //线限速
                     break;
                 case 10: //rtic
+                    ret = new fastmap.uikit.canvasFeature.RdRtic(data);
                     break;
                 case 11: //立交
                     ret = new fastmap.uikit.canvasFeature.RdGsc(data);
@@ -145,6 +146,14 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     break;
                 case 42://收费站
                     ret = new fastmap.uikit.canvasFeature.RdTollgate(data);
+                case 44://语音导航
+                    ret = new fastmap.uikit.canvasFeature.RdVoiceGuide(data);
+                    break;
+                case 43://收费站
+                    ret = new fastmap.uikit.canvasFeature.RdVariableSpeed(data);
+                    break;
+                case 45: //rtic
+                    ret = new fastmap.uikit.canvasFeature.RdRtic(data);
                     break;
             }
             return ret;

@@ -5,7 +5,7 @@ fastmap.uikit.canvasFeature.RdSameLink = fastmap.uikit.canvasFeature.Feature.ext
         this.properties['snode'] = item.m.a;
         this.properties['enode'] = item.m.b;
         this.properties['kind'] = item.m.c;
-        this.properties['style']['strokeColor'] = 'yellow';
+        this.properties['style']['strokeColor'] = 'black';
         this.properties['style']['strokeWidth'] = 3;
         this.properties['style']['strokeOpacity'] = 1;
     }

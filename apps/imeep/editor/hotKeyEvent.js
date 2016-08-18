@@ -369,29 +369,54 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        var directOfLink = {
-                            "objStatus": "UPDATE",
-                            "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
-                        };
-                        param = {
-                            "type": "RDLINK",
-                            "command": "UPDATE",
-                            "dbId": App.Temp.dbId,
-                            "data": directOfLink
-                        };
-                        dsEdit.save(param).then(function(data) {
-                            if(data != null){
-                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
-                                if (data.errcode === 0) {
-                                    rdLink.redraw();
-                                    rdnode.redraw();
+                        if(feature.type == "Marker"){
+                            var speedData = {
+                                pid: feature.id,
+                                direct:feature.direct,
+                                objStatus: "UPDATE"
+                            };
+                            var param = {
+                                "command": "UPDATE",
+                                "type": "RDSPEEDLIMIT",
+                                "dbId": App.Temp.dbId,
+                                "data": speedData
+                            };
+
+                            dsEdit.save(param).then(function(data) {
+                                if(data != null){
+                                    relationData.redraw();
+                                    treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速方向成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
+                                } else {
+                                    resetPage();
                                 }
-                            } else {
-                                resetPage();
-                            }
-                        });
-                        return;
+                            });
+                            return;
+                        } else {
+                            var directOfLink = {
+                                "objStatus": "UPDATE",
+                                "pid": selectCtrl.selectedFeatures.id,
+                                "direct": parseInt(selectCtrl.selectedFeatures.direct)
+                            };
+                            param = {
+                                "type": "RDLINK",
+                                "command": "UPDATE",
+                                "dbId": App.Temp.dbId,
+                                "data": directOfLink
+                            };
+                            dsEdit.save(param).then(function(data) {
+                                if(data != null){
+                                    treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
+                                    if (data.errcode === 0) {
+                                        rdLink.redraw();
+                                        rdnode.redraw();
+                                    }
+                                } else {
+                                    resetPage();
+                                }
+                            });
+                            return;
+                        }
+
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
@@ -1294,7 +1319,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
-            }else if (shapeCtrl.editType === "CRFInter"){
+            } else if (shapeCtrl.editType === "CRFInter"){
                 if(geo.nodes.length == 0){
                     swal("操作失败", "未选中Node点！", "info");
                     return;
@@ -1303,6 +1328,43 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if(data != null){
                         crfData.redraw();
                         treatmentOfChanged(data, "RDINTER", "创建CRF交叉点成功", 'attr_rdcrf_ctrl/crfInterCtrl', 'attr_rdcrf_tpl/crfInterTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "CRFRoad"){
+                if(geo.linkPids.length == 0){
+                    swal("操作失败", "未选中Link！", "info");
+                    return;
+                }
+                dsEdit.create('RDROAD',geo).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDROAD", "创建CRF道路成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "UPDATERDROAD"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDROAD",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
+                if(param.data.linkPids == undefined || param.data.linkPids == []){
+                    swal("操作失败", "未选中Link！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDROAD", "修改CRF道路成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
                     } else {
                         resetPage();
                     }
@@ -1331,8 +1393,42 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                  "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
                  "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
                  });*/
-            }
-            else if (shapeCtrl.editType === "variableSpeed") {    //可变限速
+            } else if (shapeCtrl.editType === "updateSpeedNode"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDSPEEDLIMIT",
+                    "dbId": App.Temp.dbId,
+                    "data": geo
+                };
+
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "rdVoiceguide") {    //语音引导
+                var param = {
+                    "command": "CREATE",
+                    "type": "RDVOICEGUIDE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPids":featCodeCtrl.getFeatCode().outLinkPids,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                    }
+                };
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    param.propertyCtrl = appPath.road + 'ctrls/attr_voiceGuide_ctrl/voiceGuide';
+                    treatmentOfChanged(data, "RDVOICEGUIDE", "编辑RDVOICEGUIDE成功", 'attr_voiceGuide_ctrl/voiceGuide', 'attr_voiceGuide_tpl/voiceGuide.html');
+                });
+            } else if (shapeCtrl.editType === "variableSpeed") {    //可变限速
                 var param = {
                     "command": "CREATE",
                     "type": "RDVARIABLESPEED",
@@ -1340,7 +1436,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "data": {
                         "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
                         "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
-                        "nodePid":featCodeCtrl.getFeatCode().nodePid
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid,
+                        "vias":featCodeCtrl.getFeatCode().vias
                     }
                 };
                 //调用编辑接口;
@@ -1349,7 +1446,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
-                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeed', 'attr_variableSpeed_tpl/variableSpeed.html');
+                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
+                });
+            } else if (shapeCtrl.editType === "UPDATEVARIABLESPEED") {    //可变限速编辑
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDVARIABLESPEED",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "pid": featCodeCtrl.getFeatCode().pid,
+                        "inLinkPid":featCodeCtrl.getFeatCode().inLinkPid,
+                        "outLinkPid":featCodeCtrl.getFeatCode().outLinkPid,
+                        "nodePid":featCodeCtrl.getFeatCode().nodePid,
+                        "vias":featCodeCtrl.getFeatCode().vias
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function(data) {
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
             }
         }

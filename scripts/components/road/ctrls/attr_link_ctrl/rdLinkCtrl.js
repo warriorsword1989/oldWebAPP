@@ -26,7 +26,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     if (i == 4) {
                         //初始化鼠标提示
                         $scope.toolTipText = '请选择方向！';
-                        tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+                        toolTipsCtrl.setCurrentTooltip($scope.toolTipText);
                         $scope.modelArray[i] = true;
                         map.currentTool.disable();
                     } else {

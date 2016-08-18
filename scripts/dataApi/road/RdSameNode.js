@@ -38,12 +38,16 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
         data["pid"] = this.pid;
         data["groupId"] = this.groupId;
         data["rowId"] = this.rowId;
+        data["parts"] = [];
+        for(var i=0;i<this.parts.length;i++){
+            data["parts"].push(this.parts[i].getIntegrate());
+        }
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
     /**
-     * 获取RdDirectRoute详细信息
+     * 获取详细信息
      * @method getIntegrate
      *
      * @return {object} getIntegrate.
@@ -54,6 +58,10 @@ fastmap.dataApi.RdSameNode = fastmap.dataApi.GeoDataModel.extend({
         data["groupId"] = this.groupId;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
+        data["parts"] = [];
+        for(var i=0;i<this.parts.length;i++){
+            data["parts"].push(this.parts[i].getIntegrate());
+        }
         return data;
     }
 });

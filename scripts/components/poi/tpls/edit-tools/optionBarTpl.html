@@ -31,6 +31,28 @@
         <i class="glyphicon glyphicon-ban-circle"></i>
         清空
         </button>
+        <div class="fm-pagination pull-right" ng-show="tagSelect == 'searchResult'">
+            <div class="check-total pull-left">
+                共
+                <span ng-bind="searchResultTotal"></span>
+                项错误
+            </div>
+            <div class="pull-left">
+                第
+                <span ng-bind="searchPageNow"></span>
+                页 | 共
+                <span ng-bind="searchPageTotal"></span>
+                页
+            </div>
+            <div class="pull-left fm-pagination-btn">
+                <button class="btn btn-xs fm-output-btn fm-page-btn-prev" ng-disabled="searchPageNow == 1" ng-click="turnPage('prev');">
+                    <i class="glyphicon glyphicon-menu-left"></i>
+                </button>
+                <button class="btn btn-xs fm-output-btn fm-page-btn-next" ng-disabled="searchPageNow == searchPageTotal" ng-click="turnPage('next');">
+                    <i class="glyphicon glyphicon-menu-right"></i>
+                </button>
+            </div>
+        </div>
         <div class="fm-pagination pull-right" ng-show="tagSelect == 'errorCheck'">
             <div class="check-total pull-left">
                 共
@@ -53,6 +75,10 @@
                 </button>
             </div>
         </div>
+        <button ng-show="tagSelect == 'errorCheck'" class="btn btn-xs fm-output-btn pull-right" ng-click="startCheckEvent();" style="margin-right: 10px;">
+            <i class="glyphicon glyphicon-hourglass"></i>
+            执行检查
+        </button>
     </div>
     <div class="fm-console-content dark scroll-styled">
         <div ng-include="tagContentTpl"></div>

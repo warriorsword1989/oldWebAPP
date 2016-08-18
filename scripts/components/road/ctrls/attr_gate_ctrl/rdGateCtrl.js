@@ -13,15 +13,16 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.gateTypeOptions={
-        "0": "EG",
-        "1": "KG",
-        "2": "PG"
+        0: "EG",
+        1: "KG",
+        2: "PG"
     };
 
     $scope.gateDirOptions={
-        "0": "单向",
-        "1": "双向",
-        "2": "未调查"
+        0: "未调查",
+        1: "单向",
+        2: "双向"
+
     };
 
     $scope.gateFeeOptions={
@@ -32,14 +33,31 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
 		 0: "机动车辆",
          1: "行人"
     };
-    $scope.showGateInfo = function(item) {
-        var showGateInfo = {
-            "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_gate_ctrl/limitOfGateCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_gate_tpl/limitOfGateTpl.html',
-            data: item
+    $scope.showGateInfo = function(index) {
+        var showBlackObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl": appPath.road + 'ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+            "callback":function (){
+                var showNamesObj = {
+                    "loadType":"subAttrTplContainer",
+                    "propertyCtrl": appPath.road + 'ctrls/attr_gate_ctrl/limitOfGateCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_gate_tpl/limitOfGateTpl.html',
+                    "data":index+"" //必须将数字转成字符串
+                };
+                $scope.$emit("transitCtrlAndTpl", showNamesObj);
+            }
         };
-        $scope.$emit("transitCtrlAndTpl", showGateInfo);
+        $scope.$emit("transitCtrlAndTpl", showBlackObj);
+
+
+        // var showGateInfo = {
+        //     "loadType": "subAttrTplContainer",
+        //     "propertyCtrl": 'scripts/components/road/ctrls/attr_gate_ctrl/limitOfGateCtrl',
+        //     "propertyHtml": '../../../scripts/components/road/tpls/attr_gate_tpl/limitOfGateTpl.html',
+        //     data: item
+        // };
+        // $scope.$emit("transitCtrlAndTpl", showGateInfo);
     };
     $scope.initializeData=function() {
         $scope.rdGateData = {};
@@ -68,7 +86,7 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         $scope.$emit('transitCtrlAndTpl', obj);
     };
     $scope.minusLimit = function(id, index) {
-        $scope.rdGateData.gateLimits.splice(id, 1);
+        $scope.rdGateData.condition.splice(id, 1);
     };
     $scope.save = function () {
         objectEditCtrl.save();
@@ -122,7 +140,7 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
     };
     $scope.cancel=function(){
 
-    }
+    };
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

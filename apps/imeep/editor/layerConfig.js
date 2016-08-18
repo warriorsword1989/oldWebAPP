@@ -136,6 +136,62 @@ App.layersConfig = [{
         url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
+            id: 'rdIntRtic',
+            name: '互联网RTIC',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'rdrticPoint',
+            zIndex: 17,
+            restrictZoom: 10,
+            visible: false,
+            requestType: 'RDLINKINTRTIC',
+            showNodeLevel: 17,
+            isUpDirect: true
+        }
+
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'rdLinkRtic',
+            name: '车厂RTIC',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'rdrticPoint',
+            zIndex: 17,
+            restrictZoom: 10,
+            visible: false,
+            requestType: 'RDLINKRTIC',
+            showNodeLevel: 17,
+            isUpDirect: true
+        }
+
+    },{
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
             id: 'relationData',
             name: '关系',
             maxZoom: 20,
@@ -154,7 +210,7 @@ App.layersConfig = [{
             zIndex: 7,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDLINKSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE',
             showNodeLevel: 17
         }
     },{
@@ -619,7 +675,7 @@ App.layersConfig = [{
             restrictZoom: 10,
             editable: false,
             visible: false,
-            requestType: 'RDSAMENODE',//,RDSAMELINK
+            requestType: 'RDSAMENODE,RDSAMELINK',
             showNodeLevel: 17
         }
     }]

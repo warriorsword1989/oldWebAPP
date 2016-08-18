@@ -39,11 +39,20 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "rdLink"
         }, {
-            "layerId": "relationData",
-            "requestType": "RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLINKINTRTIC"
+            "layerId": "rdIntRtic"
+        }]
+    }, {
+        "id": 4,
+        "label": "车厂RTIC场景",
+        "dataLayers": [{
+            "layerId": "rdNode"
+        }, {
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rdLinkRtic"
         }]
     },{
-        "id": 4,
+        "id": 5,
         "label": "CRF场景",
         "dataLayers": [{
             "layerId": "rdNode"
@@ -55,19 +64,15 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "poi"
         }, {
             "layerId": "crfData",
-            "requestType": "RDINTER"
+            "requestType": "RDINTER,RDROAD"
         }]
     },{
-        "id": 5,
+        "id": 6,
         "label": "同一关系场景",
         "dataLayers": [{
             "layerId": "rdNode"
         }, {
             "layerId": "rdLink"
-        }, {
-            "layerId": "rwNode"
-        }, {
-            "layerId": "rwLink"
         }, {
             "layerId": "adNode"
         }, {
@@ -82,6 +87,19 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "luNode"
         },{
             "layerId": "rdSame"
+        }]
+    },{
+        "id": 7,
+        "label": "限速场景",
+        "dataLayers": [{
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rwLink"
+        }, {
+            "layerId": "poi"
+        }, {
+            "layerId": "relationData",
+            "requestType": "RDSPEEDLIMIT"
         }]
     }];
 

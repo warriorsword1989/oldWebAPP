@@ -5,9 +5,6 @@
 angular.module('fastmap.uikit').directive('fmEditView', function() {
     return {
         restrict: 'A',
-        scope: {
-            model: '=ngModel'
-        },
         controller:function ($scope, $element){
             $scope.$on("clearAttrStyleDown",function (){
                 var label = angular.element($element).parents('li').find('label:first');
@@ -21,11 +18,26 @@ angular.module('fastmap.uikit').directive('fmEditView', function() {
             });
             // $scope.$watch('model', function (a,b,c){ //不能使用watch的原因是，当切换POI的时候model就会发生变化，就会增加样式
             //     label.addClass("modifiedInfo");
-            // });
+            // });;
             //label.removeClass("modifiedInfo");
         },
 
     };
+});
+angular.module('fastmap.uikit').directive('formDisabled',function() {
+    return {
+        restrict:'A',
+        replace:false,
+        link: function ($scope, elem, attrs) {
+            if($scope.isSpecialOperation) {
+                angular.element(elem).find('input').attr('disabled','disabled').addClass('chosen-disabled');
+                angular.element(elem).find('textarea').attr('disabled','disabled').addClass('chosen-disabled');
+                angular.element(elem).find('.lv-radio').attr('disabled','disabled').addClass('chosen-disabled');
+                angular.element(elem).find('select').attr('disabled','disabled').addClass('chosen-disabled');
+                angular.element(elem).find('.select2-option').addClass('chosen-disabled');
+            }
+        }
+    }
 });
 
 //方式二在form中增加指令

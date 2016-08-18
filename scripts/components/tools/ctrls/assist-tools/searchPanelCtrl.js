@@ -21,17 +21,29 @@ angular.module('app').controller("SearchPanelCtrl", ['$scope', '$interval', 'dsE
                 swal("搜索执行中（模拟运行，服务正在调试中）！", "", "success");
                 $scope.progress = 0;
                 var loop = $interval(function() {
-                    $scope.progress += 20;
-                    if ($scope.progress == 100) {
-                        clearInterval(loop);
+                    $scope.progress += 10;
+                    if ($scope.progress == 90) {
+                        $interval.cancel(loop);
                         $scope.running = false;
                         $scope.$emit("job-search", {
                             status: 'end'
                         });
-                        // swal("搜索运行完成！", "", "success");
                     }
-                }, 1000)
-                return;
+                }, 1000);
+                dsEdit.getSearchData(1,$scope.searchType,$scope.searchText).then(function(data){
+                    if ($scope.progress == 100) {
+                        $interval.cancel(loop);
+                        $scope.running = false;
+                        $scope.$emit("job-search", {
+                            status: 'end'
+                        });
+                    }
+                    /*弹出搜索结果*/
+                    $scope.$emit('openConsole',{
+                        type:'searchResult',
+                        data:data
+                    });
+                });
             }
         };
     }

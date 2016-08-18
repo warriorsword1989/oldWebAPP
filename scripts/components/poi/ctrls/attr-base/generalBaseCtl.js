@@ -49,6 +49,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 data.address = address;
             }
         }
+        /*判断是否为专项作业，如果是则其他tab不能编辑*/
+        // $scope.isSpecialOperation = true;
     }
     initData();
     /*切换tag按钮*/

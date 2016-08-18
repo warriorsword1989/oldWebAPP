@@ -109,6 +109,9 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDBRANCH') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDVARIABLESPEED') {
+                                        var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                        this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
                                     } else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, feature, ctx);
