@@ -7,7 +7,7 @@
                     <label>道路名组ID:</label>
                     <nobr>
                     	<input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.nameGroupid"/>
-                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -30px;" ng-click="openSearchModal()"></a>
+                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -20,7 +20,7 @@
                     <label>类型名称:</label>
                     <nobr>
                     	<input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.type"/>
-                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal()"></a>
+                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('type')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -47,7 +47,7 @@
                     <label >行政区划:</label>
                     <nobr>
                     	<input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.adminId"/>
-                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal()"></a>
+                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('admin')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -183,8 +183,8 @@
             <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">保存</button>
         </div>
     </div>
-    <div ng-show="searchModal!=false" class="div-float" style="top:30px;left:120px;width:600px;border-radius:5px;z-index:1000">
-       <button type="button" class="close" style="padding:0px 4px;" ng-click="test()"><span>&times;</span></button>
+    <div ng-show="searchModal!=false" class="div-float" style="top:60px;left:150px;width:600px;border-radius:5px;z-index:1000">
+       <button type="button" class="close" style="padding:0px 4px;" ng-click="closeSearchModal()"><span>&times;</span></button>
        <div ng-include="searchModalTpl"></div>
    </div>
 </div>

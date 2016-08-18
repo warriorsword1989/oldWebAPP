@@ -117,7 +117,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  title: "语音代码",
                  width: '60px',
                  sortable: "langCode",
-                 show: false
+                 show: true
              },
              {
                  field: "errMsg",
@@ -163,7 +163,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
              },
              {
                  field: "srcResume",
-                 title: "来源履历",
+                 title: "tipsID",
                  width: '60px',
                  sortable: "srcResume",
                  show: false
@@ -176,7 +176,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: false
              },
              {
-                 field: "suffixPhonetic",
+                 field: "processFlag",
                  title: "作业状态??",
                  width: '60px',
                  sortable: "suffixPhonetic",
@@ -215,36 +215,41 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  }
              }
          };
-         //表格配置搜索;
-         $scope.filters = {
-             value: '',
-             name: '',
-             pid: 0
-         };
          $scope.searchType = 'name';
          //刷新表格方法;
          var refreshData = function() {
              _self.tableParams.reload();
          };
-
+         //表格配置搜索;
+         $scope.filter = {
+     			name : "",
+     			nameGroup: "",
+     			admin: "",
+     			sql:""
+     	 };
+         //接收高级查询过滤条件
+         $scope.$on("FITERPARAMSCHANGE",function(event,data){
+        	 $scope.filter.name = data["name"];
+        	 $scope.filter.nameGroup = data["nameGroupid"];
+        	 $scope.filter.admin = data["admin"];
+        	 $scope.filter.sql = data["sql"];
+         });
          function initRoadNameTable() {
              _self.tableParams = new NgTableParams({
                  page: 1,
                  count: 20,
-                 filter: $scope.filters
+                 filter: $scope.filter
              }, {
                  counts: [],
                  getData: function($defer, params) {
-                	 console.log('表格参数'+JSON.stringify(params));
                      var param = {
                          subtaskId: parseInt(App.Temp.subTaskId),
                          pageNum: params.page(),
                          pageSize: params.count(),
-                         sortby: "",
-                         params:{}
-//                         pidName: params.filter().name,
-//                         pid: parseInt(params.filter().pid)
+                         sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
                      };
+                     console.log('主页面参数'+JSON.stringify(param))
                      dsMeta.roadNameList(param).then(function(data) {
                          $scope.loadTableDataMsg = '列表无数据';
                          $scope.roadNameList = data.data;
@@ -269,7 +274,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.editPanel = false;
          $scope.openEditPanel = function(data, index){
         	 $scope.editPanel = true;
-        	 console.log('当前行数据：'+JSON.stringify(data));
+//        	 console.log('当前行数据：'+JSON.stringify(data));
         	 $scope.roadNameData = fastmap.dataApi.roadName(data);
 //        	 $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function() {
                  $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
@@ -316,6 +321,24 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           */
          $scope.closeSubModal = function() {
              $scope.subModal = false;
+         };
+         $scope.$on("CLOSECURRENTPANEL",function(event,data){
+        	 $scope.subModal = false;
+         });
+         /***
+          * 道路组名，类型名，行政区划名修改
+          */
+         $scope.selectVal = function(row, index, type) {
+        	 if(type == "admin"){
+        		 $scope.roadNameData.adminId = row.whole;
+        	 }else if(type == "namegroup"){
+        		 $scope.roadNameData.nameGroupid = row.nameGroupid;
+        		 $scope.param.nameGroupid = row.nameGroupid
+        	 }else if(type == "type"){
+        		 $scope.roadNameData.type= row.name;
+        	 }else if(type == "subnameGroup"){
+//        		 $scope.param.nameGroupid = row.nameGroupid;
+        	 }
          };
      }
  ]);
