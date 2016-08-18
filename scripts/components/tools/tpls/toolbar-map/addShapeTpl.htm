@@ -29,12 +29,12 @@
         <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addFace':'active'}[shapeOperator]" data-toggle="dropdown">面 <span class="caret"></span></button>
         <ul class="dropdown-menu shape-well" role="menu">
             <li class="btn-group btn-group-xs">
-                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADFACE')">行政区划Face</button>
-                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADLINKFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADLINKFACE')">Ad线构面</button>
-                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONEFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONEFACE')">ZoneFace</button>
-                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONELINKFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONELINKFACE')">Zone线构面</button>
-                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LUFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LUFACE')">LuFace</button>
-                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LCFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LCFACE')">LcFace</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADFACE',1)">行政区划Face</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADLINKFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADLINKFACE',2)">Ad线构面</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONEFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONEFACE',1)">ZoneFace</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONELINKFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONELINKFACE',2)">Zone线构面</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LUFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LUFACE',1)">LuFace</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LCFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LCFACE',1)">LcFace</button>
             </li>
         </ul>
     </div>
