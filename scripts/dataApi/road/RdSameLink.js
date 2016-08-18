@@ -37,6 +37,14 @@ fastmap.dataApi.RdSameLink = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["pid"] = this.pid;
         data["groupId"] = this.groupId;
+
+        data["parts"] = [];
+        if (this.parts) {
+            for (var i = 0, len = this.parts.length; i < len; i++) {
+                data["parts"].push(this.parts[i].getIntegrate());
+            }
+        }
+
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
@@ -52,6 +60,12 @@ fastmap.dataApi.RdSameLink = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["pid"] = this.pid;
         data["groupId"] = this.groupId;
+        data["parts"] = [];
+        if (this.parts) {
+            for (var i = 0, len = this.parts.length; i < len; i++) {
+                data["parts"].push(this.parts[i].getIntegrate());
+            }
+        }
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;

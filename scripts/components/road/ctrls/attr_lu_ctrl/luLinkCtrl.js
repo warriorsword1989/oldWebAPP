@@ -15,9 +15,32 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.kind = [
-        {"id": 0, "label": "假想线"},
-        {"id": 1, "label": "AOIZONE边界线"},
-        {"id": 2, "label": "KDZONE边界线"}
+        {"id": 0, "label": "未分类"},
+        {"id": 1, "label": "大学"},
+        {"id": 2, "label": "购物中心"},
+        {"id": 3, "label": "医院"},
+        {"id": 4, "label": "体育场"},
+        {"id": 5, "label": "公墓"},
+        {"id": 6, "label": "地上停车场"},
+        {"id": 7, "label": "工业区"},
+        {"id": 11, "label": "机场"},
+        {"id": 12, "label": "机场跑道"},
+        {"id": 21, "label": "BUA面"},
+        {"id": 22, "label": "邮编面"},
+        {"id": 23, "label": "FM面"},
+        {"id": 24, "label": "车场面"},
+        {"id": 30, "label": "休闲娱乐"},
+        {"id": 31, "label": "景区"},
+        {"id": 32, "label": "会展中心"},
+        {"id": 33, "label": "火车站"},
+        {"id": 34, "label": "文化场馆"},
+        {"id": 35, "label": "商务区"},
+        {"id": 36, "label": "商业区"},
+        {"id": 37, "label": "小区"},
+        {"id": 38, "label": "广场"},
+        {"id": 39, "label": "特色区域"},
+        {"id": 40, "label": "地下停车场"},
+        {"id": 41, "label": "地铁出入口面"}
     ];
     $scope.form = [
         {"id": 0, "label": "未调查"},

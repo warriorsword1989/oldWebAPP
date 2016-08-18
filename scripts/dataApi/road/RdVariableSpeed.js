@@ -28,25 +28,6 @@ fastmap.dataApi.RdVariableSpeed = fastmap.dataApi.GeoDataModel.extend({
         }
     },
 
-    getSnapShot:function() {
-        var data = {};
-        data["pid"] = this.pid;
-        data["inLinkPid"] = this.inLinkPid;
-        data["nodePid"]  = this.nodePid;
-        data["outLinkPid"] = this.outLinkPid;
-        data["location"] = this.location;
-        data["speedValue"] = this.speedValue;
-        data["speedType"] = this.speedType;
-        data["speedDependent"] = this.speedDependent;
-        data["timedomain"] = this.timedomain;
-        data["vehicle"] = this.vehicle;
-        data["vias"] = [];
-        for(var i=0;i<this.vias.length;i++){
-            data["vias"].push(this.vias[i].getIntegrate());
-        }
-        return data;
-    },
-
     getIntegrate:function() {
         var data = {};
         data["pid"] = this.pid;
@@ -62,7 +43,27 @@ fastmap.dataApi.RdVariableSpeed = fastmap.dataApi.GeoDataModel.extend({
         data["geoLiveType"] = this.geoLiveType;
         data["vias"] = [];
         for(var i=0;i<this.vias.length;i++){
-            data["vias"].push(this.vias[i].getIntegrate());
+            data["vias"].push(this.vias[i].getIntegrate().linkPid);
+        }
+        return data;
+    },
+
+
+    getSnapShot:function() {
+        var data = {};
+        data["pid"] = this.pid;
+        data["inLinkPid"] = this.inLinkPid;
+        data["nodePid"]  = this.nodePid;
+        data["outLinkPid"] = this.outLinkPid;
+        data["location"] = this.location;
+        data["speedValue"] = this.speedValue;
+        data["speedType"] = this.speedType;
+        data["speedDependent"] = this.speedDependent;
+        data["timedomain"] = this.timedomain;
+        data["vehicle"] = this.vehicle;
+        data["vias"] = [];
+        for(var i=0;i<this.vias.length;i++){
+            data["vias"].push(this.vias[i].getIntegrate().linkPid);
         }
         return data;
     }

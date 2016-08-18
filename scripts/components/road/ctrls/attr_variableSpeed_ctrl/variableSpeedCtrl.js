@@ -150,30 +150,30 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		return dec;
 	}
 
-	$scope.changeLocationLeft = function () {
-		if ($scope.variableSpeed.locationLeft == 0) {
-			$scope.variableSpeed.locationLeft = 1;
-		} else {
-			$scope.variableSpeed.locationLeft = 0
-		}
-	};
-	$scope.changeLocationRight = function () {
-		if ($scope.variableSpeed.locationRight == 0) {
-			$scope.variableSpeed.locationRight = 1;
-		} else {
-			$scope.variableSpeed.locationRight = 0
-		}
-	};
-	$scope.changeLocationTop = function () {
-		if ($scope.variableSpeed.locationTop == 0) {
-			$scope.variableSpeed.locationTop = 1;
-		} else {
-			$scope.variableSpeed.locationTop = 0
-		}
-	};
+	//$scope.changeLocationLeft = function () {
+	//	if ($scope.variableSpeed.locationLeft) {
+	//		$scope.variableSpeed.locationLeft = 1;
+	//	} else {
+	//		$scope.variableSpeed.locationLeft = 0
+	//	}
+	//};
+	//$scope.changeLocationRight = function () {
+	//	if ($scope.variableSpeed.locationRight) {
+	//		$scope.variableSpeed.locationRight = 1;
+	//	} else {
+	//		$scope.variableSpeed.locationRight = 0
+	//	}
+	//};
+	//$scope.changeLocationTop = function () {
+	//	if ($scope.variableSpeed.locationTop) {
+	//		$scope.variableSpeed.locationTop = 1;
+	//	} else {
+	//		$scope.variableSpeed.locationTop = 0
+	//	}
+	//};
 
 	$scope.save = function () {
-		objCtrl.data.location = bin2dec($scope.variableSpeed.locationLeft + '' + $scope.variableSpeed.locationRight + '' + $scope.variableSpeed.locationTop);
+		objCtrl.data.location = bin2dec($scope.variableSpeed.locationLeft + '' + $scope.variableSpeed.locationTop + '' + $scope.variableSpeed.locationRight);
 		objCtrl.save();
 		if (!objCtrl.changedProperty) {
 			swal("操作成功", '属性值没有变化！', "success");
@@ -181,25 +181,13 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		}
 		var param = {
 			"command": "UPDATE",
-			"type": "RDELECTRONICEYE",
+			"type": "RDVARIABLESPEED",
 			"dbId": App.Temp.dbId,
 			"data": objCtrl.changedProperty
 		};
 		dsEdit.save(param).then(function (data) {
 			if (data) {
-				if (selectCtrl.rowkey) {
-					var stageParam = {
-						"rowkey": selectCtrl.rowkey.rowkey,
-						"stage": 3,
-						"handler": 0
-					};
-					dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
-						selectCtrl.rowkey.rowkey = undefined;
-					});
-				}
-				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-				relationData.redraw();
-				swal("操作成功", "修改电子眼成功！", "success");
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 			}
 			$scope.refreshData();
 		})

@@ -219,17 +219,17 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         showContent = "创建道路link成功";
                         ctrl = 'attr_link_ctrl/rdLinkCtrl';
                         tpl = 'attr_link_tpl/rdLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "adLink") {
+                    } else if (shapeCtrl.editFeatType === "ADLINK") {
                         param["type"] = "ADLINK";
                         showContent = "创建AdLink成功";
                         ctrl = 'attr_administratives_ctrl/adLinkCtrl';
                         tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "rwLink") {
+                    } else if (shapeCtrl.editFeatType === "RWLINK") {
                         param["type"] = "RWLINK";
                         showContent = "创建rwLink成功";
                         ctrl = 'attr_link_ctrl/rwLinkCtrl';
                         tpl = 'attr_link_tpl/rwLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "zoneLink") {
+                    } else if (shapeCtrl.editFeatType === "ZONELINK") {
                         param["type"] = "ZONELINK";
                         showContent = "创建zoneLink成功";
                         ctrl = 'attr_zone_ctrl/zoneLinkCtrl';
@@ -369,54 +369,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        if(feature.type == "Marker"){
-                            var speedData = {
-                                pid: feature.id,
-                                direct:feature.direct,
-                                objStatus: "UPDATE"
-                            };
-                            var param = {
-                                "command": "UPDATE",
-                                "type": "RDSPEEDLIMIT",
-                                "dbId": App.Temp.dbId,
-                                "data": speedData
-                            };
-
-                            dsEdit.save(param).then(function(data) {
-                                if(data != null){
-                                    relationData.redraw();
-                                    treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速方向成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
-                                } else {
-                                    resetPage();
+                        var directOfLink = {
+                            "objStatus": "UPDATE",
+                            "pid": selectCtrl.selectedFeatures.id,
+                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
+                        };
+                        param = {
+                            "type": "RDLINK",
+                            "command": "UPDATE",
+                            "dbId": App.Temp.dbId,
+                            "data": directOfLink
+                        };
+                        dsEdit.save(param).then(function(data) {
+                            if(data != null){
+                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
+                                if (data.errcode === 0) {
+                                    rdLink.redraw();
+                                    rdnode.redraw();
                                 }
-                            });
-                            return;
-                        } else {
-                            var directOfLink = {
-                                "objStatus": "UPDATE",
-                                "pid": selectCtrl.selectedFeatures.id,
-                                "direct": parseInt(selectCtrl.selectedFeatures.direct)
-                            };
-                            param = {
-                                "type": "RDLINK",
-                                "command": "UPDATE",
-                                "dbId": App.Temp.dbId,
-                                "data": directOfLink
-                            };
-                            dsEdit.save(param).then(function(data) {
-                                if(data != null){
-                                    treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
-                                    if (data.errcode === 0) {
-                                        rdLink.redraw();
-                                        rdnode.redraw();
-                                    }
-                                } else {
-                                    resetPage();
-                                }
-                            });
-                            return;
-                        }
-
+                            } else {
+                                resetPage();
+                            }
+                        });
+                        return;
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
@@ -688,7 +663,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === 'drawPolygon') {
                 coordinate.push([geo.components[0].x, geo.components[0].y]);
-                if (shapeCtrl.editFeatType == 'adFace') {
+                if (shapeCtrl.editFeatType == "ADFACE") {
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",
@@ -706,7 +681,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         adLink.redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     });
-                } else if (shapeCtrl.editFeatType == 'zoneFace') {
+                } else if (shapeCtrl.editFeatType == "ZONEFACE") {
                     param = {
                         "command": "CREATE",
                         "type": "ZONEFACE",
@@ -889,8 +864,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         map.currentTool.enable();
                     }
                 })
-            } else if (shapeCtrl.editType === "addAdFaceLine") {
-                var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+            } else if (shapeCtrl.editType === "ADLINKFACE") {
+                var adLinksArr = selectCtrl.selectedFeatures.links;
                 if (!adLinksArr || adLinksArr.length < 2) {
                     swal("操作失败", "请双击结束增加线段", "error");
                     return;
@@ -913,8 +888,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
-            } else if (shapeCtrl.editType === "addZoneFaceLine") {
-                var zoneLinksArr = selectCtrl.selectedFeatures.zoneLinks;
+            } else if (shapeCtrl.editType === "ZONELINKFACE") {
+                var zoneLinksArr = selectCtrl.selectedFeatures.links;
                 if (!zoneLinksArr || zoneLinksArr.length < 2) {
                     swal("操作失败", "请双击结束增加线段", "error");
                     return;
@@ -1388,19 +1363,41 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
                 });
-                /*scope.$emit("transitCtrlAndTpl", {
-                 "loadType": "attrTplContainer",
-                 "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
-                 "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
-                 });*/
-            } else if (shapeCtrl.editType === "updateSpeedNode"){
+s            } else if (shapeCtrl.editType === "updateSpeedNode"){
                 var param = {
                     "command": "UPDATE",
                     "type": "RDSPEEDLIMIT",
                     "dbId": App.Temp.dbId,
                     "data": geo
                 };
-
+                if(geo.direct == objEditCtrl.data.direct){
+                    swal("操作失败", "方向未改变！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "transformSpeedDirect"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDSPEEDLIMIT",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.direct = featCodeCtrl.getFeatCode().direct;
+                if(param.data.direct == undefined || param.data.direct == oriData.direct){
+                    swal("操作失败", "方向未改变！", "info");
+                    return;
+                }
                 dsEdit.save(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();

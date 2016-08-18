@@ -13,6 +13,11 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
     var zoneNodeLayer = layerCtrl.getLayerById('zoneNode');
     var luNodeLayer = layerCtrl.getLayerById('luNode');
 
+    var rdLinkLayer = layerCtrl.getLayerById('rdLink');
+    var adLinkLayer = layerCtrl.getLayerById('adLink');
+    var zoneLinkLayer = layerCtrl.getLayerById('zoneLink');
+    var luLinkLayer = layerCtrl.getLayerById('luLink');
+
     $scope.sameRelationshap = objCtrl.data;
     $scope.same = {};
     $scope.same.sameRelationShapShow = false; //用于控制同一关系制作面板是否显示
@@ -196,10 +201,15 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
                 $scope.clearSame();
                 rdSameLayer.redraw();
                 rdNodeLayer.redraw();
-                //rwNodeLayer.redraw();
                 adNodeLayer.redraw();
                 zoneNodeLayer.redraw();
                 luNodeLayer.redraw();
+
+                rdLinkLayer.redraw();
+                adLinkLayer.redraw();
+                zoneLinkLayer.redraw();
+                luLinkLayer.redraw();
+
                 dsEdit.getByPid(callData.pid, "RDSAMENODE").then(function(data) {
                     objCtrl.setCurrentObject("RDSAMENODE", data);
                     var changedDirectObj = {

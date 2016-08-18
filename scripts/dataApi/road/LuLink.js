@@ -23,10 +23,10 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         this.geometry = data["geometry"];
         this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
-        this.kinds = [];
-        if (data["kinds"]) {
-            for (var i = 0, len = data["kinds"].length; i < len; i++) {
-                this.kinds.push(fastmap.dataApi.LuLinkKind(data["kinds"][i]));
+        this.linkKinds = [];
+        if (data["linkKinds"]) {
+            for (var i = 0, len = data["linkKinds"].length; i < len; i++) {
+                this.linkKinds.push(fastmap.dataApi.luLinkKind(data["linkKinds"][i]));
             }
         }     
         this.scale = data["scale"] || 0;
@@ -49,10 +49,10 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         data["eNodePid"] = this.eNodePid;
         data["geometry"] = this.geometry;
         data["length"] = this.length;
-        data["kinds"] = [];
-        if (this.kinds) {
-            for (var i = 0, len = this.kinds.length; i < len; i++) {
-                data["kinds"].push(this.kinds[i].getIntegrate());
+        data["linkKinds"] = [];
+        if (this.linkKinds) {
+            for (var i = 0, len = this.linkKinds.length; i < len; i++) {
+                data["linkKinds"].push(this.linkKinds[i].getIntegrate());
             }
         }
         data["scale"] = this.scale;
@@ -70,10 +70,10 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         data["eNodePid"] = this.eNodePid;
         data["geometry"] = this.geometry;
         data["length"] = this.length;
-        data["kinds"] = [];
-        if (this.kinds) {
-            for (var i = 0, len = this.kinds.length; i < len; i++) {
-                data["kinds"].push(this.kinds[i].getIntegrate());
+        data["linkKinds"] = [];
+        if (this.linkKinds) {
+            for (var i = 0, len = this.linkKinds.length; i < len; i++) {
+                data["linkKinds"].push(this.linkKinds[i].getIntegrate());
             }
         }
         data["scale"] = this.scale;
