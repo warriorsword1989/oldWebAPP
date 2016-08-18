@@ -4,7 +4,9 @@
 angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad', 'appPath', '$interval', 'dsMeta',
     function($scope, $ocLazyLoad, appPath, $interval, dsMeta) {
     	var objectCtrl = fastmap.uikit.ObjectEditController();
+    	objectCtrl.setOriginalData(fastmap.dataApi.roadName($scope.roadName));
 		$scope.roadNameData = fastmap.dataApi.roadName($scope.roadName);
+		
 		$scope.langCodeOpt = [
             {"id": "CHI", "label": "简体中文"},
             {"id": "CHT", "label": "繁体中文"},
@@ -131,7 +133,6 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        		 $scope.roadNameData.adminId = row.whole;
        	 }else if(type == "namegroup"){
        		 $scope.roadNameData.nameGroupid = row.nameGroupid;
-       		 $scope.param.nameGroupid = row.nameGroupid;
        	 }else if(type == "type"){
        		 $scope.roadNameData.type= row.name;
        		var param = {
@@ -169,39 +170,12 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
          * 保存
          */
         $scope.doSave = function() {
-
+        	//roadName为原始类型，查询返回里没有type,不能调用objectCtrl.setCurrentObject
+        	objectCtrl.data = $scope.roadNameData;
             objectCtrl.save();
             var chaged =  objectCtrl.changedProperty;
-            if(!chaged){
-                swal({
-                    title: "属性值没有变化，是否保存？",
-                    type: "warning",
-                    animation: 'slide-from-top',
-                    showCancelButton: true,
-                    closeOnConfirm: true,
-                    confirmButtonText: "是的，我要保存",
-                    cancelButtonText: "取消"
-                }, function(f) {
-                    if(f){
-                    	alert()
-//                        dsEdit.update($scope.poi.pid, "IXPOI", {
-//                            "rowId": objectCtrl.data.rowId,
-//                            "pid": objectCtrl.data.pid,
-//                            "objStatus": "UPDATE"
-//                        }).then(function(data) {
-//                            if(data){
-//                                if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
-//                                    if (map.floatMenu) {
-//                                        map.removeLayer(map.floatMenu);
-//                                        map.floatMenu = null;
-//                                    }
-//                                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
-//                                }
-//                            }
-//                        });
-                    }
-                });
-                return;
+            if(chaged){
+            	
             }
         };
     }
