@@ -219,17 +219,17 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         showContent = "创建道路link成功";
                         ctrl = 'attr_link_ctrl/rdLinkCtrl';
                         tpl = 'attr_link_tpl/rdLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "adLink") {
+                    } else if (shapeCtrl.editFeatType === "ADLINK") {
                         param["type"] = "ADLINK";
                         showContent = "创建AdLink成功";
                         ctrl = 'attr_administratives_ctrl/adLinkCtrl';
                         tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "rwLink") {
+                    } else if (shapeCtrl.editFeatType === "RWLINK") {
                         param["type"] = "RWLINK";
                         showContent = "创建rwLink成功";
                         ctrl = 'attr_link_ctrl/rwLinkCtrl';
                         tpl = 'attr_link_tpl/rwLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "zoneLink") {
+                    } else if (shapeCtrl.editFeatType === "ZONELINK") {
                         param["type"] = "ZONELINK";
                         showContent = "创建zoneLink成功";
                         ctrl = 'attr_zone_ctrl/zoneLinkCtrl';
