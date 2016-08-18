@@ -35,7 +35,7 @@
             <div class="check-total pull-left">
                 共
                 <span ng-bind="searchResultTotal"></span>
-                项错误
+                条结果
             </div>
             <div class="pull-left">
                 第
@@ -45,10 +45,10 @@
                 页
             </div>
             <div class="pull-left fm-pagination-btn">
-                <button class="btn btn-xs fm-output-btn fm-page-btn-prev" ng-disabled="searchPageNow == 1" ng-click="turnPage('prev');">
+                <button class="btn btn-xs fm-output-btn fm-page-btn-prev" ng-disabled="searchPageNow == 1" ng-click="turnSearchPage('prev');">
                     <i class="glyphicon glyphicon-menu-left"></i>
                 </button>
-                <button class="btn btn-xs fm-output-btn fm-page-btn-next" ng-disabled="searchPageNow == searchPageTotal" ng-click="turnPage('next');">
+                <button class="btn btn-xs fm-output-btn fm-page-btn-next" ng-disabled="searchPageNow == searchPageTotal" ng-click="turnSearchPage('next');">
                     <i class="glyphicon glyphicon-menu-right"></i>
                 </button>
             </div>

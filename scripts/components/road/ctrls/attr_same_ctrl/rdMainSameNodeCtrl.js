@@ -146,33 +146,15 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
             }
         }
 
-        // var changedDirectObj = {
-        //     "loadType": "attrTplContainer",
-        //     "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl',
-        //     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdSameNodeTpl.html'
-        // };
-        // $scope.clearSame();
-        //
-        // $timeout(function (){
-        //     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
-        // },1000);
-        //
-        // return ;
-        //
-        // dsEdit.getByPid('100022122', "RDSAMENODE").then(function(data) {
-        //
-        //
-        //
-        // });
-        // return ;
-
         if(!($scope.same.sameDisabledIndex >= 0)){
             swal("提示", '必须选择主要素！', "warning");
             return ;
         }
         if(Object.keys(types).length < 2){
-            swal("提示", '同一node关系中,至少需要两种要素！', "warning");
-            return ;
+            if(!(resultArr[0].type == "LUNODE")){ //有一种特殊情况排除在外，就只当值选择了luNode，并且符合后面代码的规则时，也是可以做同一点的
+                swal("提示", '同一node关系中,至少需要两种要素！', "warning");
+                return ;
+            }
         }
         if(rdNode > 5){
             swal("提示", '同一node关系中,rdNode不能超过5个！', "warning");

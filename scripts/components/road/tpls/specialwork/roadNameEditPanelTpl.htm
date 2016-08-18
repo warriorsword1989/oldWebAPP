@@ -6,54 +6,54 @@
                 <li>
                     <label>道路名组ID:</label>
                     <nobr>
-                    	<input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.nameGroupid"/>
+                    	<input type="text" class="fm-control" ng-model="roadNameData.nameGroupid"/>
                     	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a>
                     </nobr>
                 </li>
                 <li>
                     <label>道路名发音:</label>
                     <div>
-                        <input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.namePhonetic"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.namePhonetic"/>
                     </div>
                 </li>
                 <li>
                     <label>类型名称:</label>
                     <nobr>
-                    	<input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.type"/>
+                    	<input type="text" class="fm-control" ng-model="roadNameData.type"/>
                     	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('type')"></a>
                     </nobr>
                 </li>
                 <li>
                     <label>基本名发音:</label>
                     <div>
-                        <input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.basePhonetic"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.basePhonetic"/>
                     </div>
                 </li>
                 <li>
                     <label>中缀名称:</label>
                     <div>
-                        <select fm-edit-view class="fm-control"  ng-model="roadNameData.infix"
+                        <select class="fm-control"  ng-model="roadNameData.infix"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in infixOpt"
-                                ng-change="infixChange($event, this)">
+                                ng-change="getPy($event, this, 'infix', 'infixPhonetic')">
                         </select>
                     </div>
                 </li>
                 <li>
                     <label>后缀发音:</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.suffixPhonetic"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.suffixPhonetic"/></div>
                 </li>
                 <li>
                     <label >行政区划:</label>
                     <nobr>
-                    	<input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.adminId"/>
+                    	<input type="text" class="fm-control" ng-model="roadNameData.adminId"/>
                     	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('admin')"></a>
                     </nobr>
                 </li>
                 <li>
                     <label >拆分标识:</label>
                     <div>
-                        <select fm-edit-view class="fm-control"  ng-model="roadNameData.splitFlag"
+                        <select class="fm-control"  ng-model="roadNameData.splitFlag"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in splitFlagOpt"
                                 ng-change="splitFlagChange($event, this)">
@@ -65,7 +65,7 @@
                 <li>
                     <label>语言类型:</label>
                     <div>
-                        <select fm-edit-view class="fm-control"  ng-model="roadNameData.langCode"
+                        <select class="fm-control"  ng-model="roadNameData.langCode"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in langCodeOpt"
                                 ng-change="langCodeChange($event, this)">
@@ -73,33 +73,33 @@
                     </div>
                 </li>
                 <li>
-                    <label>名称语言:</label>
+                    <label>名称语音:</label>
                     <div>
-                        <input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.voiceFile"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.voiceFile"/>
                     </div>
                 </li>
                 <li>
                     <label>类型名发音:</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.typePhonetic"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.typePhonetic"/></div>
                 </li>
                 <li>
                     <label>前缀名称:</label>
                     <div>
-                        <select fm-edit-view class="fm-control" ng-model="roadNameData.prefix"
+                        <select class="fm-control" ng-model="roadNameData.prefix"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in prefixOpt"
-                                ng-change="kindChange($event, this)">
+                                ng-change="getPy($event, this, 'prefix', 'prefixPhonetic')">
                         </select>
                     </div>
                 </li>
                 <li>
                     <label>中缀发音</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.infixPhonetic"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.infixPhonetic"/></div>
                 </li>
                 <li>
                     <label>道路类型</label>
                     <div>
-                        <select fm-edit-view class="fm-control" ng-model="roadNameData.roadType"
+                        <select class="fm-control" ng-model="roadNameData.roadType"
                                 placeholder_text_single="'--请选择--'" 
                                 ng-options="value.id as value.label for value in roadTypeOpt"
                                 ng-change="roadTypeChange($event, this)">
@@ -108,20 +108,20 @@
                 </li>
                 <li>
                     <label >路线号码??</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model=""/></div>
+                    <div><input type="text" class="fm-control" /></div>
                 </li>
             </ul>
             <ul class="fm-ul fm-ul-form col-md-4">
                 <li>
                     <label>道路名称</label>
                     <div >
-                        <input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.name"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.name"/>
                     </div>
                 </li>
                 <li>
                     <label>名称来源:</label>
                     <div>
-                        <select fm-edit-view class="fm-control" ng-model="roadNameData.srcFlag"
+                        <select class="fm-control" ng-model="roadNameData.srcFlag"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in srcFlagOpt"
                                 ng-change="srcFlagChange($event, this)">
@@ -130,26 +130,26 @@
                 </li>
                 <li>
                     <label>基本名称:</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.base"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.base"/></div>
                 </li>
                 <li>
                     <label>前缀发音:</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.prefixPhonetic"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.prefixPhonetic"/></div>
                 </li>
                 <li>
                     <label>后缀名称:</label>
                     <div>
-                        <select fm-edit-view class="fm-control"  ng-model="roadNameData.suffix"
+                        <select class="fm-control"  ng-model="roadNameData.suffix"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in suffixOpt"
-                                ng-change="suffixChange($event, this)">
+                                ng-change="getPy($event, this, 'suffix', 'suffixPhonetic')">
                         </select>
                     </div>
                 </li>
                 <li>
                     <label>国家编号:</label>
                     <div>
-                        <select fm-edit-view class="fm-control"  ng-model="roadNameData.codeType"
+                        <select class="fm-control"  ng-model="roadNameData.codeType"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in codeTypeOpt"
                                 ng-change="codeTypeChange($event, this)">
@@ -158,12 +158,12 @@
                 </li>
                 <li>
                     <label >来源履历:</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.srcResume"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.srcResume"/></div>
                 </li>
                 <li>
                     <label >HIGHWAY信息标识??:</label>
                     <div>
-                        <select fm-edit-view class="fm-control"  ng-model="hwInfoFlag"
+                        <select class="fm-control"  ng-model="hwInfoFlag"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in hwInfoFlagOpt"
                                 ng-change="hwInfoFlagChange($event, this)">
@@ -174,13 +174,13 @@
             <ul class="fm-ul fm-ul-form col-md-4">
             	<li>
                     <label >备注信息:</label>
-                    <div><input fm-edit-view type="text" class="fm-control" ng-model="roadNameData.memo"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.memo"/></div>
                 </li>
             </ul>
         </div>
         <div style="border-bottom: 1px solid #ddd;"></div>
         <div style="text-align:right;">
-            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">保存</button>
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doSave()">保存</button>
         </div>
     </div>
     <div ng-show="searchModal!=false" class="div-float" style="top:60px;left:150px;width:600px;border-radius:5px;z-index:1000">

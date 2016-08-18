@@ -6,7 +6,8 @@
         </div>
         <div class="content">
             <div class="attr-img-container" ng-if="tollGateData.passages.length > 0">
-                <img src="../../../images/road/img/noimg.png" class="attr-img-show">
+                <img src="../../../images/road/img/noimg.png" ng-if="!tollGateData.etcFigureCode" class="attr-img-show">
+                <img src="../../../images/road/etc/{{tollGateData.etcFigureCode}}.png" ng-if="tollGateData.etcFigureCode" class="attr-img-show">
                 <!--<div class="picMapDesc" ng-bind="tollGateData.etcFigureCode"></div>-->
             </div>
             <form>
@@ -44,7 +45,7 @@
                     <li>
                         <label>收费类型</label>
                         <div>
-                            <select ng-model="tollGateData.type" class="fm-control"
+                            <select ng-model="tollGateData.type" class="fm-control" ng-change="changeChargeType();"
                                     ng-options="value.id as value.label for value in tollTypeObj">
                             </select>
                         </div>
