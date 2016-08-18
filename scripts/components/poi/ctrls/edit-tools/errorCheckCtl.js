@@ -28,7 +28,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
         dsEdit.updateCheckType(rowid, selectInd).then(function (data) {
-            // console.log('修改成功')
+            console.log('修改成功')
         });
     };
     /*高亮地图上poi*/
@@ -140,7 +140,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             });
-            initPoiData(selectedData,data);
+            // initPoiData(selectedData,data);
         } else {
             $scope.$emit("transitCtrlAndTpl", {
                 "loadType": 'attrTplContainer',

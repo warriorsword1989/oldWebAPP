@@ -46,7 +46,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
 		if (type == 'outputResult') {     //输出结果
 			dsOutput.clear();
 		} else {      //搜索结果
-
+			$scope.searchResultData = [];
 		}
 	};
 	/*刷新检查*/
