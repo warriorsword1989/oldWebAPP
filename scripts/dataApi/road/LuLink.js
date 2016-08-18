@@ -17,6 +17,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
      */
     setAttributeData:function(data){
         this.pid = data["pid"];
+        this.rowId = data["rowId"];
         this.sNodePid = data["sNodePid"];
         this.eNodePid = data["eNodePid"];
         this.geometry = data["geometry"];
@@ -43,6 +44,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate: function () {
         var data = {};
         data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
         data["geometry"] = this.geometry;
@@ -63,6 +65,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot: function () {
         var data = {};
         data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
         data["geometry"] = this.geometry;
