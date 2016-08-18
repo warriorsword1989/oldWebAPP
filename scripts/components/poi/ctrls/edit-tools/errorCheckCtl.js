@@ -28,7 +28,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
         dsEdit.updateCheckType(rowid, selectInd).then(function (data) {
-            console.log('修改成功')
+            // console.log('修改成功')
         });
     };
     /*高亮地图上poi*/

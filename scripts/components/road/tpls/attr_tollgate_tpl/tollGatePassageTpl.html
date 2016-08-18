@@ -3,7 +3,7 @@
         <div class="content">
             <form>
                 <ul class="fm-ul fm-ul-form">
-                    <li>
+                    <li ng-if="tollGateType == 0 ||tollGateType == 2 ||tollGateType == 3 ||tollGateType == 4 || tollGateType == 5 ||tollGateType == 6 ||tollGateType == 7">
                         <label>收费方式</label>
                         <div >
                             <select ng-model="tollGatePassage.tollForm" class="fm-control"
@@ -11,10 +11,10 @@
                             </select>
                         </div>
                     </li>
-                    <li>
+                    <li ng-if="tollGateType == 1 ||tollGateType == 8 ||tollGateType == 9 ||tollGateType == 10">
                         <label>领卡类型</label>
                         <div>
-                            <select ng-model="tollGatePassage.cardType" class="fm-control"
+                            <select ng-model="tollGatePassage.cardType" ng-change="changeCardType();" class="fm-control"
                                     ng-options="value.id as value.label for value in cardTypeObj">
                             </select>
                         </div>

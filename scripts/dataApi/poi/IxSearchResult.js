@@ -9,13 +9,13 @@ FM.dataApi.IxSearchResult = FM.dataApi.DataModel.extend({
 	setAttributes: function(data) {
 		this.pid = data['pid'];
 		this.name = data['name'];
-		this.typeName = data['typeName'];
+		this.type = data['type'];
 	},
 	getIntegrate: function(){
 		var ret = {};
 		ret["pid"] = this.pid;
 		ret["name"] = this.name;
-		ret["typeName"] = this.typeName;
+		ret["type"] = this.type;
 		return ret;
 	}
 });

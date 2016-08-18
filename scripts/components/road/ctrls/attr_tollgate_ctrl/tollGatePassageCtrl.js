@@ -5,7 +5,11 @@
 var tollApp = angular.module("app");
 tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, dsEdit) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
-	$scope.tollGatePassage = objCtrl.passageInfo;
+	$scope.initPassage = function(){
+		$scope.tollGatePassage = objCtrl.passageInfo;
+		$scope.tollGateType = objCtrl.tollGateType;
+	};
+	$scope.initPassage();
 	$scope.carData=[];
 	$scope.carSelect=function(item){
 		if(item.checked){
@@ -141,7 +145,11 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 	];
 	$scope.showvehicle($scope.tollGatePassage.vehicle);
 	$scope.$on('refreshTollgatePassage',function(data){
-		$scope.tollGatePassage = objCtrl.passageInfo;
+		$scope.initPassage();
 		$scope.showvehicle($scope.tollGatePassage.vehicle);
 	});
+	/*切换领卡类型*/
+	$scope.changeCardType = function(){
+		$scope.$emit('tollGateCardType',true);
+	}
 }]);
