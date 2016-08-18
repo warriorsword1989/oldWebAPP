@@ -2328,7 +2328,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     tooltipsCtrl.setEditEventType('rdvariable');
                     tooltipsCtrl.setCurrentTooltip('开始修改退出线和接续线！');
-                    //objCtrl.data.vias = [];
+                    //可变限速当前数据模型的拷贝;
                     var tempObj = objCtrl.data.getIntegrate();
                     var tempOutLink = tempObj.outLinkPid;
                     //获取退出线并高亮;
@@ -2336,9 +2336,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         var param = {};
                         param["dbId"] = App.Temp.dbId;
                         param["type"] = "RDLINK";
-                        param["data"] = {
-                            "nodePid": objCtrl.data.nodePid
-                        };
+                        param["data"] = {"nodePid": tempObj.nodePid};
                         var defer = $q.defer();
                         //查进入点的关联link，如果所选的退出线不在里面，则提示错误;
                         dsEdit.getByCondition(param).then(function(linkData) {
@@ -2362,11 +2360,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         dsEdit.getByPid(tempObj.outLinkPid, "RDLINK").then(function(data) {
                             var linknodePid = '';
                             if(data){
-                                if(data.sNodePid==tempObj.nodePid){
-                                    linknodePid = data.eNodePid;
-                                }else{
-                                    linknodePid = data.sNodePid;
-                                }
+                                linknodePid = (data.sNodePid==tempObj.nodePid)?data.eNodePid:data.sNodePid;
                                 defer.resolve(linknodePid);
                             }
                         })
@@ -2394,7 +2388,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         })
                         return defer.promise;
                     }
-
                     eventController.off(eventController.eventTypes.GETLINKID);
                     eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
                         //选择接续线;
@@ -2406,22 +2399,29 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                      * 否则判断是否为"退出线";否则选择失败
                                      */
                                     if(data!=-1){
-                                        tempObj.vias.push(parseInt(dataresult.id));
-                                        //高亮显示接续线;
-                                        highRenderCtrl.highLightFeatures.push({
-                                            id: parseInt(data).toString(),
-                                            layerid: 'rdLink',
-                                            type: 'line',
-                                            style: {color:'blue'}
-                                        });
+                                        //直接该接续线  如果已选过  则取消  如果没有则加入
+                                        if(tempObj.vias.indexOf(parseInt(dataresult.id))!=-1){
+                                            tempObj.vias.splice(tempObj.vias.indexOf(parseInt(dataresult.id)), 1);
+                                            for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                                if(highRenderCtrl.highLightFeatures[i].id==parseInt(data)){
+                                                    highRenderCtrl.highLightFeatures.splice(i,1);
+                                                }
+                                            }
+                                        }else{
+                                            tempObj.vias.push(parseInt(dataresult.id));
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: parseInt(data).toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {color:'blue'}
+                                            });
+                                        }
+                                        //重新高亮;
+                                        highRenderCtrl._cleanHighLight();
                                         highRenderCtrl.drawHighlight();
                                         tooltipsCtrl.setCurrentTooltip("已选则接续线,点击空格键保存或继续选择接续线!");
-                                    }//如果选的是退出线;
-                                    else{
-                                        if(dataresult.id==tempOutLink){
-                                            tooltipsCtrl.setCurrentTooltip("修改退出线或继续改变接续线或保存")
-                                            return;
-                                        }
+                                    }
+                                    else{//如果选的是退出线的逻辑部分;
                                         $scope.isOutLink(dataresult.id).then(function(linkData) {
                                             if(linkData>0){
                                                 highRenderCtrl.highLightFeatures = [];
@@ -2454,8 +2454,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                                 tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存或继续选择接续线!");
                                             }else{
                                                 tooltipsCtrl.setCurrentTooltip("操作错误!");
+                                                setTimeout(function(){
+                                                    tooltipsCtrl.onRemoveTooltip();
+                                                },1500)
                                                 return;
-                                                //alert('提示选择有误')
                                             }
                                         })
                                     }
