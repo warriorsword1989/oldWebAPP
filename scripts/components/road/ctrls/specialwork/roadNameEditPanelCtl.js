@@ -4,10 +4,10 @@
 angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad', 'appPath', '$interval', 'dsEdit',
     function($scope, $ocLazyLoad, appPath, $interval, dsEdit) {
 		$scope.langCodeOpt = [
-            {"id": 0, "label": "简体中文"},
-            {"id": 1, "label": "繁体中文"},
-            {"id": 2, "label": "英文"},
-            {"id": 3, "label": "葡萄牙文"}
+            {"id": "CHI", "label": "简体中文"},
+            {"id": "CHT", "label": "繁体中文"},
+            {"id": "ENG", "label": "英文"},
+            {"id": "POR", "label": "葡萄牙文"}
         ];
 		$scope.srcFlagOpt = [
 			{"id": 0, "label": "未定义"},
@@ -83,17 +83,30 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
          * 弹出编辑面板
          */
         $scope.searchModal = false;
-        $scope.openSearchModal = function(){
+        $scope.openSearchModal = function(type){
        	 	$scope.searchModal = true;
-       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/searchModalCtl.js').then(function () {
-            	$scope.searchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchModalTpl.htm';
-            });
+       	 	if("nameGroup" == type) {
+	       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/nameGroupTableCtl.js').then(function () {
+	            	$scope.searchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/nameGroupTableTpl.htm';
+	            });
+       	 	}else if("type" == type) {
+	       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/typeTableCtl.js').then(function () {
+	            	$scope.searchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/typeTableTpl.htm';
+	            });
+       	 	}else if("admin" == type) {
+	       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/adminTableCtl.js').then(function () {
+	            	$scope.searchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/adminTableTpl.htm';
+	            });
+       	 	}else{
+       	 		return;
+       	 	}
+       	 	
        	 	console.log("查询");
         };
         /***
          * 关闭编辑面板
          */
-        $scope.test = function() {
+        $scope.closeSearchModal = function() {
         	console.log("关闭")
             $scope.searchModal = false;
         };

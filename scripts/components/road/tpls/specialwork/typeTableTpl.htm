@@ -1,0 +1,35 @@
+<div class="fm-panel" ng-controller="typeTableCtl" style="margin:0px;">
+    <div class="title">请选择类型名称</div>
+    <div class="content" >
+        <div style="height:400px;">
+			<div class="fm-table-content fm-fitsize scroll-styled" style="top:40px;bottom: 70px">
+		        <div class="table-header">
+		            <div class="table-search fm-inline fm-list-dropdown" style="padding: 10px 50px 10px 10px" class="pull-left">
+			            <div class="btn-group">
+			                <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">
+			                   	 名称
+			                </button>
+			            </div>
+			            <input class="fm-search-control" type="text" ng-model="filters[name]"/>
+			        	<button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button>
+			        </div>
+		        </div>
+	            <table ng-table-dynamic="typeTableParams with typeTableCols" class="table table-condensed table-bordered">
+	                <colgroup>
+	                <col ng-repeat="col in typeTableCols | filter:{show: true}" width="{{col.width || '100'}}"/>
+	                </colgroup>
+	                <tr ng-repeat="row in $data" ng-dblClick="selectVal(row,$index,'type')" ng-class="{true:'active'}[itemActive == $index]">
+	                    <td ng-repeat="col in $columns">
+	                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+	                    </td>
+	                </tr>
+	                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+	            </table>
+	        </div>
+        </div>
+        <div style="border-bottom: 1px solid #ddd;"></div>
+        <div style="text-align:right;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doChoice()">选择</button>
+        </div>
+    </div>
+</div>

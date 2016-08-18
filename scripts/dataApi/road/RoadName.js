@@ -29,14 +29,14 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         this.prefixPhonetic = data["prefixPhonetic"];
         this.infixPhonetic = data["infixPhonetic"];
         this.suffixPhonetic = data["suffixPhonetic"];
-        this.srcFlag = data["srcFlag"];
+        this.srcFlag = (data["srcFlag"] === undefined || data["srcFlag"] === '') ? 0 :data["srcFlag"];
         this.roadType = data["roadType"];
         this.adminId = data["adminId"];
-        this.codeType = data["codeType"];
+        this.codeType = (data["codeType"] === undefined || data["codeType"] === '') ? 0 :data["codeType"];
         this.voiceFile = data["voiceFile"];
         this.srcResume = data["srcResume"];
         this.paRegionId = data["paRegionId"];
-        this.splitFlag = data["splitFlag"];
+        this.splitFlag = (data["splitFlag"] === undefined || data["splitFlag"] === '') ? 0 :data["splitFlag"];
         this.memo = data["memo"];
         this.routeId = data["routeId"];
         this.uRecord = data["uRecord"];

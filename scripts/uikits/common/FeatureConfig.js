@@ -95,6 +95,15 @@ fastmap.uikit.FeatureConfig = {
         },
         "ZONEFACE": {
             name: "ZONE面"
+        },
+        "RDSAMENODE":{
+            name:"同一点"
+        },
+        "RDSAMELINK":{
+            name:"同一线"
+        },
+        "RDLINKSPEEDLIMIT":{
+            name:"线限速"
         }
     },
     tip: {
