@@ -369,54 +369,29 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        if(feature.type == "Marker"){
-                            var speedData = {
-                                pid: feature.id,
-                                direct:feature.direct,
-                                objStatus: "UPDATE"
-                            };
-                            var param = {
-                                "command": "UPDATE",
-                                "type": "RDSPEEDLIMIT",
-                                "dbId": App.Temp.dbId,
-                                "data": speedData
-                            };
-
-                            dsEdit.save(param).then(function(data) {
-                                if(data != null){
-                                    relationData.redraw();
-                                    treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速方向成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
-                                } else {
-                                    resetPage();
+                        var directOfLink = {
+                            "objStatus": "UPDATE",
+                            "pid": selectCtrl.selectedFeatures.id,
+                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
+                        };
+                        param = {
+                            "type": "RDLINK",
+                            "command": "UPDATE",
+                            "dbId": App.Temp.dbId,
+                            "data": directOfLink
+                        };
+                        dsEdit.save(param).then(function(data) {
+                            if(data != null){
+                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
+                                if (data.errcode === 0) {
+                                    rdLink.redraw();
+                                    rdnode.redraw();
                                 }
-                            });
-                            return;
-                        } else {
-                            var directOfLink = {
-                                "objStatus": "UPDATE",
-                                "pid": selectCtrl.selectedFeatures.id,
-                                "direct": parseInt(selectCtrl.selectedFeatures.direct)
-                            };
-                            param = {
-                                "type": "RDLINK",
-                                "command": "UPDATE",
-                                "dbId": App.Temp.dbId,
-                                "data": directOfLink
-                            };
-                            dsEdit.save(param).then(function(data) {
-                                if(data != null){
-                                    treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
-                                    if (data.errcode === 0) {
-                                        rdLink.redraw();
-                                        rdnode.redraw();
-                                    }
-                                } else {
-                                    resetPage();
-                                }
-                            });
-                            return;
-                        }
-
+                            } else {
+                                resetPage();
+                            }
+                        });
+                        return;
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
@@ -1388,19 +1363,41 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
                 });
-                /*scope.$emit("transitCtrlAndTpl", {
-                 "loadType": "attrTplContainer",
-                 "propertyCtrl": appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateCtrl',
-                 "propertyHtml": appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateTpl.html'
-                 });*/
-            } else if (shapeCtrl.editType === "updateSpeedNode"){
+s            } else if (shapeCtrl.editType === "updateSpeedNode"){
                 var param = {
                     "command": "UPDATE",
                     "type": "RDSPEEDLIMIT",
                     "dbId": App.Temp.dbId,
                     "data": geo
                 };
-
+                if(geo.direct == objEditCtrl.data.direct){
+                    swal("操作失败", "方向未改变！", "info");
+                    return;
+                }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        relationData.redraw();
+                        treatmentOfChanged(data, "RDSPEEDLIMIT", "修改点限速成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "transformSpeedDirect"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDSPEEDLIMIT",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.direct = featCodeCtrl.getFeatCode().direct;
+                if(param.data.direct == undefined || param.data.direct == oriData.direct){
+                    swal("操作失败", "方向未改变！", "info");
+                    return;
+                }
                 dsEdit.save(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();
