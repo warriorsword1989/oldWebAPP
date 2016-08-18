@@ -1,21 +1,21 @@
 /**
- * Created by zhaohang on 2016/4/12.
+ * Created by liuyang on 2016/8/18.
  */
-var addAdShapeApp = angular.module('app');
-addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
+var addFaceShapeApp = angular.module('app');
+addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
     function($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-        var adLink = layerCtrl.getLayerById('adLink');
-        var adNode = layerCtrl.getLayerById('adNode');
         var eventController = fastmap.uikit.EventController();
-        var adAdmin = layerCtrl.getLayerById('adAdmin');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
-        var rdLink = layerCtrl.getLayerById('rdLink');
 
-        $scope.addShape = function(type) {
+        var adLink = layerCtrl.getLayerById('adLink');
+        var zoneLink = layerCtrl.getLayerById('zoneLink');
+
+        //type 必须是类型的大写，如："ADFACE"
+        $scope.addFace = function(type ,index) {
             $scope.resetToolAndMap();
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
@@ -27,80 +27,62 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                 swal("提示","地图缩放等级必须大于16级才可操作","info");
                 return;
             }
-            // $scope.changeBtnClass(num);
-            if (type === "ADLINK") {
-                $scope.resetOperator("addLink", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    //初始化编辑工具
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                shapeCtrl.editFeatType = "adLink";
-                //重置捕捉工具中的值
-                shapeCtrl.getCurrentTool().clickcount = 1;
-                shapeCtrl.getCurrentTool().catches.length = 0;
-                shapeCtrl.getCurrentTool().snodePid = 0;
-                shapeCtrl.getCurrentTool().enodePid = 0;
-                //把点和线图层加到捕捉工具中，先加的优先捕捉
-                map.currentTool.snapHandler._guides.length = 0;
-                map.currentTool.snapHandler.addGuideLayer(adNode);
-                map.currentTool.snapHandler.addGuideLayer(adLink);
-                //提示信息
-                tooltipsCtrl.setEditEventType('drawAdLink');
-                tooltipsCtrl.setCurrentTooltip('开始画线！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === "ADFACE") {
-                $scope.resetOperator("addFace", type);
+            $scope.resetOperator("addFace", type);
+            if(index == 1){//普通的面
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
                 //设置添加类型
-                shapeCtrl.setEditingType('drawPolygon');
-                shapeCtrl.setEditFeatType('adFace');
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
                 shapeCtrl.startEditing();
+                shapeCtrl.editFeatType = type;
                 //把工具添加到map中
                 map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.enable();
+                map.currentTool.snapHandler._guides = [];
                 //提示信息
-                tooltipsCtrl.setEditEventType('drawPolygon');
+                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
                 tooltipsCtrl.setCurrentTooltip('开始画面！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === "ADLINKFACE") { //把闭合的线添加成面
-                $scope.resetOperator("addFace", type);
+            } else if(index == 2){//线构面
                 layerCtrl.pushLayerFront('edit');
-                map.currentTool = new fastmap.uikit.SelectPath({
-                    map: map,
-                    currentEditLayer: adLink,
-                    linksFlag: true,
-                    shapeEditor: shapeCtrl
-                });
-                map.currentTool.snapHandler._guides.length = 0;
-                map.currentTool.snapHandler.addGuideLayer(adLink);
-                map.currentTool.enable();
-                shapeCtrl.editType = "addAdFaceLine";
-                //初始化鼠标提示
-                // $scope.toolTipText = '请选择线！';
-                tooltipsCtrl.setCurrentTooltip('请选择行政区划线！');
-                adLink.options.editable = true;
+                var snapLayer = null;
+                var layerId = "";
                 var selectCount = 0,
                     linksArr = [],
                     sNode, eNode;
+                if(type === "ADLINKFACE"){
+                    snapLayer = adLink;
+                    tooltipsCtrl.setCurrentTooltip('请选择行政区划线！');
+                    layerId = 'adLink';
+                } else if(type === "ZONELINKFACE"){
+                    snapLayer = zoneLink;
+                    tooltipsCtrl.setCurrentTooltip('请选择zone线！');
+                    layerId = 'zoneLink';
+                }
+                map.currentTool = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: snapLayer,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.snapHandler._guides = [];
+                map.currentTool.snapHandler.addGuideLayer(snapLayer);
+                map.currentTool.enable();
+                shapeCtrl.editType = type;
+                snapLayer.options.editable = true;
+
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     //第一次选择一个线
                     if (selectCount === 0) {
                         tooltipsCtrl.setCurrentTooltip('选择了第一条线！');
                         highRenderCtrl.highLightFeatures.push({
                             id: data["id"].toString(),
-                            layerid: 'adLink',
+                            layerid: layerId,
                             type: 'line',
                             style: {}
                         });
@@ -122,7 +104,7 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                             linksArr.push(data["id"]);
                             highRenderCtrl.highLightFeatures.push({
                                 id: data["id"].toString(),
-                                layerid: 'adLink',
+                                layerid: layerId,
                                 type: 'line',
                                 style: {}
                             });
@@ -137,7 +119,7 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                             linksArr.push(data["id"]);
                             highRenderCtrl.highLightFeatures.push({
                                 id: data["id"].toString(),
-                                layerid: 'adLink',
+                                layerid: layerId,
                                 type: 'line',
                                 style: {}
                             });
@@ -152,7 +134,7 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                             linksArr.push(data["id"]);
                             highRenderCtrl.highLightFeatures.push({
                                 id: data["id"].toString(),
-                                layerid: 'adLink',
+                                layerid: layerId,
                                 type: 'line',
                                 style: {}
                             });
@@ -167,7 +149,7 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                             linksArr.push(data["id"]);
                             highRenderCtrl.highLightFeatures.push({
                                 id: data["id"].toString(),
-                                layerid: 'adLink',
+                                layerid: layerId,
                                 type: 'line',
                                 style: {}
                             });
@@ -184,7 +166,7 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                             $scope.endNode = data["properties"]["enode"];
                             highRenderCtrl.highLightFeatures.push({
                                 id: data["id"].toString(),
-                                layerid: 'adLink',
+                                layerid: layerId,
                                 type: 'line',
                                 style: {}
                             });
@@ -198,7 +180,7 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                             $scope.endNode = data["properties"]["snode"];
                             highRenderCtrl.highLightFeatures.push({
                                 id: data["id"].toString(),
-                                layerid: 'adLink',
+                                layerid: layerId,
                                 type: 'line',
                                 style: {}
                             });
@@ -215,43 +197,10 @@ addAdShapeApp.controller("addAdShapeCtrl", ['$scope', '$ocLazyLoad',
                         tooltipsCtrl.setStyleTooltip("color:black;");
                         tooltipsCtrl.setChangeInnerHtml("选择的线已闭合,请点击空格，生成面");
                         selectCtrl.onSelected({
-                            'adLinks': linksArr
+                            'links': linksArr
                         })
                     }
                 });
-            } else if (type === "ADNODE") {
-                $scope.resetOperator("addNode", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                map.currentTool.enable();
-                //shapeCtrl.editFeatType = "adNode";
-                shapeCtrl.editFeatType = "ADNODE";
-                map.currentTool.snapHandler._guides.length = 0;
-                map.currentTool.snapHandler.addGuideLayer(adLink);
-                tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-            } else if (type === "ADADMIN") {
-                $scope.resetOperator("addPointFeature", type);
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType('addAdAdmin');
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
-                tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             }
         }
     }

@@ -207,4 +207,80 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /***
+     * 道路名称类型查询
+     */
+    this.nametypeList = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/nametype", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询道路名类型列表出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名行政区划查询
+     */
+    this.adminareaList = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/adminarea", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询道路名行政区划列表出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 中文转拼音
+     */
+    this.convert = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/pinyin/convert", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("中文转拼音出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名称保存
+     */
+    this.roadNameSave = function() {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/websave", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("道路名称保存出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

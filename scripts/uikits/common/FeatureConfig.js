@@ -60,6 +60,9 @@ fastmap.uikit.FeatureConfig = {
         "RDTOLLGATE": {
             name: "收费站"
         },
+        "RDVARIABLESPEED": {
+            name: "可变限速"
+        },
         "RDVOICEGUIDE":{
             name:"语音引导"
         },
@@ -92,6 +95,15 @@ fastmap.uikit.FeatureConfig = {
         },
         "ZONEFACE": {
             name: "ZONE面"
+        },
+        "RDSAMENODE":{
+            name:"同一点"
+        },
+        "RDSAMELINK":{
+            name:"同一线"
+        },
+        "RDLINKSPEEDLIMIT":{
+            name:"线限速"
         }
     },
     tip: {

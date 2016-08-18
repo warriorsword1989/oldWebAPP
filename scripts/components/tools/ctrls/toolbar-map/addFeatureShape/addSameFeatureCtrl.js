@@ -11,6 +11,13 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
         var adNode = layerCtrl.getLayerById('adNode');
         var zoneNode = layerCtrl.getLayerById('zoneNode');
         var luNode = layerCtrl.getLayerById('luNode');
+
+        var rdLink = layerCtrl.getLayerById('rdLink');
+        var rwLink = layerCtrl.getLayerById('rwLink');
+        var adLink = layerCtrl.getLayerById('adLink');
+        var zoneLink = layerCtrl.getLayerById('zoneLink');
+        var luLink = layerCtrl.getLayerById('luLink');
+
         //var highRenderCtrl = fastmap.uikit.HighRenderController();
         var eventController = fastmap.uikit.EventController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -34,27 +41,15 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                 "subAttrContainerTpl": false
             });
             $("#popoverTips").hide();
-            if (type === 'RDTEST') { //框选测试
-                $scope.resetOperator("addRelation", type);
-                tooltipsCtrl.setCurrentTooltip('请框选数据！');
-                map.currentTool = new fastmap.uikit.SelectForRectang({
-                    map: map,
-                    shapeEditor: shapeCtrl,
-                    LayersList: [rdLink, rdNode]
-                });
-                map.currentTool.enable();
-                eventController.off(eventController.eventTypes.GETRECTDATA);
-                eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    console.log(data.data);
-                })
-            } else if (type === 'RDSAMENODE'){
+
+            if (type === 'RDSAMENODE'){
                 $scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示,如果彻底的取消dropdown的显示,需要注销掉resetToolAndMap方法中的event.stopPropagation();
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setCurrentTooltip('请框选同一点要素点！');
                 map.currentTool = new fastmap.uikit.SelectForRectang({
                     map: map,
                     shapeEditor: shapeCtrl,
-                    LayersList: [rdNode,rwNode,adNode,zoneNode,luNode] //配置的顺序影响返回框选点的顺序
+                    LayersList: [rdNode,adNode,zoneNode,luNode] //配置的顺序影响返回框选点的顺序
                 });
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETRECTDATA);
@@ -74,10 +69,10 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                     objCtrl.data = arr;
                     var relationShap = {
                         "loadType": "sameRelationShapTplContainer",
-                        "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameCtrl',
-                        "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdSameTpl.html',
+                        "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdMainSameNodeCtrl',
+                        "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdMainSameNodeTpl.html',
                         "callback":function (){
-                            $scope.$emit("showSameNodeOrLink",arr);
+                            $scope.$emit("showSameNodeOrLink",'node');
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", relationShap);
@@ -90,14 +85,44 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                 map.currentTool = new fastmap.uikit.SelectForRectang({
                     map: map,
                     shapeEditor: shapeCtrl,
-                    LayersList: [rdNode,adNode,zoneNode,luNode]
+                    LayersList: [rdLink,adLink,zoneLink,luLink] //配置的顺序影响返回框选点的顺序
                 });
                 map.currentTool.enable();
                 eventController.off(eventController.eventTypes.GETRECTDATA);
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
-                    console.log(data.data);
 
+                    if(data.length <= 0){
+                        return ;
+                    }
+                    //根据ID去重
+                    var removeRepeatArr = []; //去重后的数据
+                    var removeRepeatIdArr = [];
+                    for(var i = 0 , len = data.data.length; i<len; i++){
+                        if(removeRepeatIdArr.indexOf(data.data[i].data.properties.id) < 0 ){
+                            removeRepeatIdArr.push(data.data[i].data.properties.id);
+                            removeRepeatArr.push(data.data[i]);
+                        }
+                    }
 
+                    var arr = [];
+                    for (var i = 0 , len = removeRepeatArr.length; i<len; i++){
+                        var o = {};
+                        o.featType = removeRepeatArr[i].data.properties.featType;
+                        o.id = removeRepeatArr[i].data.properties.id;
+                        o.checked = false;
+                        arr.push(o);
+                    }
+                    objCtrl.data = arr;
+
+                    var relationShap = {
+                        "loadType": "sameRelationShapTplContainer",
+                        "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdMainSameLinkCtrl',
+                        "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdMainSameLinkTpl.html',
+                        "callback":function (){
+                            $scope.$emit("showSameNodeOrLink","link");
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", relationShap);
                     $scope.sameNodeOrLink = true;
                 })
             }

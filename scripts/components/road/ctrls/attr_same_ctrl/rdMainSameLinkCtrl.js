@@ -1,19 +1,23 @@
 /**
  * Created by wuzhen on 2016/8/10.
  */
-var sameRelationshapApp = angular.module("app",[]);
-sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLoad','appPath','dsEdit','$timeout',function($scope,$ocLazyLoad,appPath,dsEdit,$timeout) {
+var mainSameLinkApp = angular.module("app",[]);
+mainSameLinkApp.controller("MainSameLinkController",['$scope','$ocLazyLoad','appPath','dsEdit','$timeout',function($scope,$ocLazyLoad,appPath,dsEdit,$timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdSameLayer = layerCtrl.getLayerById('rdSame');
+    var rdLinkLayer = layerCtrl.getLayerById('rdLink');
+    //var rwLinkLayer = layerCtrl.getLayerById('rwLink');
+    var adLinkLayer = layerCtrl.getLayerById('adLink');
+    var zoneLinkLayer = layerCtrl.getLayerById('zoneLink');
+    var luLinkLayer = layerCtrl.getLayerById('luLink');
 
     $scope.sameRelationshap = objCtrl.data;
     $scope.same = {};
     $scope.same.sameRelationShapShow = false; //用于控制同一关系制作面板是否显示
-    $scope.same.isRdSameNode = true;
 
-    $scope.$on('showSameRelationshap',function (data){
+    $scope.$on('showSameLinkPanel',function (data){
         $scope.initializeData();
     });
     /**
@@ -33,21 +37,7 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
         $scope.sameRelationshap = objCtrl.data;
         $scope.same.sameRelationShapShow = true;
         $scope.same.sameDisabledIndex = -1;
-        $scope.same.sameNodeList = $scope.sameRelationshap;
-    };
-    /**
-     * 切换主要素
-     * @param index
-     */
-    $scope.changeSameMain = function (index){
-        //全部设置为非主要素
-        for(var i = 0 , len = $scope.same.sameNodeList.length; i < len ; i ++){
-            $scope.same.sameNodeList[i].isMain = 0 ;
-        }
-
-        $scope.same.sameNodeList[index].isMain = 1; //主要素
-        $scope.same.sameNodeList[index].checked = true;
-        $scope.same.sameDisabledIndex = index;
+        $scope.same.sameLinkList = $scope.sameRelationshap;
     };
 
     $scope.changeSame = function (){
@@ -55,44 +45,44 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
         highRenderCtrl._cleanHighLight();
 
         var highLightFeatures = [];
-        var data = $scope.same.sameNodeList;
+        var data = $scope.same.sameLinkList;
         for(var i = 0 , len = data.length; i < len ; i ++){
             if(data[i].checked){
-                if(data[i].featType == "RDNODE"){
+                if(data[i].featType == "RDLINK"){
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'rdLink',
-                        type: 'node',
+                        type: 'line',
                         style: {
                             color:'black'
                         },
                         radius:5
                     })
-                } else if (data[i].featType == "ADNODE"){
+                } else if (data[i].featType == "ADLINK"){
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'adLink',
-                        type: 'node',
+                        type: 'line',
                         style: {
                             color:'red'
                         },
                         radius:5
                     })
-                } else if (data[i].featType == "ZONENODE"){
+                } else if (data[i].featType == "ZONELINK"){
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'zoneLink',
-                        type: 'node',
+                        type: 'line',
                         style: {
                             color:'Blue'
                         },
                         radius:5
                     })
-                } else if (data[i].featType == "LUNODE"){
+                } else if (data[i].featType == "LULINK"){
                     highLightFeatures.push({
                         id: data[i].id.toString(),
                         layerid: 'luLink',
-                        type: 'node',
+                        type: 'line',
                         style: {
                             color:'Green'
                         },
@@ -111,90 +101,73 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
      * 保存
      */
     $scope.saveSame = function (){
-        var data = $scope.same.sameNodeList;
+        var data = $scope.same.sameLinkList;
         var types = {};
-        var rdNode = 0, adNode = 0,zoneNode = 0,luNode = 0;
+        var rdLink = 0, adLink = 0,zoneLink = 0,luLink = 0;
         var resultArr = [];
         for(var i = 0 , len = data.length; i < len ; i ++){
             if(data[i].checked){
                 var obj = {};
-                obj.nodePid = data[i].id;
+                obj.linkPid = data[i].id;
                 obj.type = data[i].featType;
-                obj.isMain = data[i].isMain;
                 resultArr.push(obj);
-
+                obj.isMain = 0;//非主要素
                 types[data[i].featType] = "";//用户记录node的类型
-                if(data[i].featType == 'RDNODE'){
-                    rdNode++;
-                } else if (data[i].featType == 'ADNODE'){
-                    adNode++;
-                } else if (data[i].featType == 'ZONENODE'){
-                    zoneNode++;
-                } else if (data[i].featType == 'LUNODE'){
-                    luNode++;
+                if(data[i].featType == 'RDLINK'){
+                    rdLink++;
+                } else if (data[i].featType == 'ADLINK'){
+                    adLink++;
+                } else if (data[i].featType == 'ZONELINK'){
+                    zoneLink++;
+                } else if (data[i].featType == 'LULINK'){
+                    luLink++;
                 }
             }
         }
 
-        // var changedDirectObj = {
-        //     "loadType": "attrTplContainer",
-        //     "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl',
-        //     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdSameNodeTpl.html'
-        // };
-        // $scope.clearSame();
-        //
-        // $timeout(function (){
-        //     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
-        // },1000);
-        //
-        // return ;
-        //
-        // dsEdit.getByPid('100022122', "RDSAMENODE").then(function(data) {
-        //
-        //
-        //
-        // });
-        // return ;
-
-        if(!($scope.same.sameDisabledIndex >= 0)){
-            swal("提示", '必须选择主要素！', "warning");
-            return ;
-        }
         if(Object.keys(types).length < 2){
             swal("提示", '同一node关系中,至少需要两种要素！', "warning");
             return ;
         }
-        if(rdNode > 5){
-            swal("提示", '同一node关系中,rdNode不能超过5个！', "warning");
+        if(rdLink > 1){
+            swal("提示", '同一node关系中,rdLink不能超过3个！', "warning");
             return ;
         }
-        if(adNode > 1){
-            swal("提示", '同一node关系中,adNode不能超过1个！', "warning");
+        if(adLink > 1){
+            swal("提示", '同一node关系中,adLink不能超过1个！', "warning");
             return ;
         }
-        if(zoneNode > 10){
-            swal("提示", '同一node关系中,zoneNode不能超过10个！', "warning");
+        if(zoneLink > 1){
+            swal("提示", '同一node关系中,zoneLink不能超过10个！', "warning");
             return ;
         }
-        if(luNode > 2){
-            swal("提示", '同一node关系中,luNode不能超过2个！', "warning");
+        if(luLink > 2){
+            swal("提示", '同一node关系中,luLink不能超过2个！', "warning");
             return ;
-        }
+        };
+
+        resultArr[0].isMain = 1;//默认第一个为主要素
+        
 
         //清除高亮
         highRenderCtrl.highLightFeatures.length = 0;
         highRenderCtrl._cleanHighLight();
 
 
-        dsEdit.create('RDSAMENODE',{"nodes":resultArr}).then(function (callData){
+        dsEdit.create('RDSAMELINK',{"links":resultArr}).then(function (callData){
             if(callData){
                 $scope.clearSame();
                 rdSameLayer.redraw();
-                dsEdit.getByPid(callData.pid, "RDSAMENODE").then(function(data) {
+                rdLinkLayer.redraw();
+                adLinkLayer.redraw() ;
+                zoneLinkLayer.redraw() ;
+                luLinkLayer.redraw() ;
+                dsEdit.getByPid(callData.pid, "RDSAMELINK").then(function(data) {
+                    objCtrl.setCurrentObject("RDSAMELINK", data);
                     var changedDirectObj = {
                         "loadType": "attrTplContainer",
-                        "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameNodeCtrl',
-                        "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdSameNodeTpl.html'
+                        "propertyCtrl": appPath.road + 'ctrls/attr_same_ctrl/rdSameLinkCtrl',
+                        "propertyHtml": appPath.root + appPath.road + 'tpls/attr_same_tpl/rdSameLinkTpl.html'
                     };
                     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
                 });

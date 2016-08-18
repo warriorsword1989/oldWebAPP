@@ -591,23 +591,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("tollGateCardType", function (event, data) {
 			$scope.$broadcast('refreshEtcCode',true);
 		});
-		// $scope.test = function (){
-		//     $scope.attrTplContainerSwitch(true);
-		//     var param = {};
-		//     param.loadType = "attrTplContainer";
-		//     param.propertyCtrl = appPath.road + 'ctrls/attr_voiceGuide_ctrl/voiceGuide';
-		//     param.propertyHtml = appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html";
-		//
-		//     $timeout(function (){
-		//         $ocLazyLoad.load(param["propertyCtrl"]).then(function() {
-		//             $scope[param["loadType"]] = param["propertyHtml"];
-		//         });
-		//     });
-		// };
-		//
-		// $timeout(function (){
-		//     $scope.test();
-		// })
 
 	}
 ]);

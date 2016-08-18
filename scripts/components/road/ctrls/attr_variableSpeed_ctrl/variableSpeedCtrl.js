@@ -1,9 +1,14 @@
 /**
  * Created by linglong on 2016/8/15.
  */
-
 var rdElectronicEyeApp = angular.module("app");
 rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLoad','$timeout', function ($scope, dsEdit, $ocLazyLoad, $timeout) {
+    var layerCtrl = fastmap.uikit.LayerController();
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    var eventController = fastmap.uikit.EventController();
+    var relationData = layerCtrl.getLayerById('relationData');
+    var selectCtrl = fastmap.uikit.SelectController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     /*限速类型*/
     $scope.speedType = [
         {"id": 0, "label": "普通(General)"},
@@ -22,61 +27,108 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
         {id: 11, label: '车道限制(Line-Dependent)'},
         {id: 12, label: '季节时段(Aproximate Seasonal Time)'}
     ];
-	var layerCtrl = fastmap.uikit.LayerController();
-	var objCtrl = fastmap.uikit.ObjectEditController();
-	var eventController = fastmap.uikit.EventController();
-	var relationData = layerCtrl.getLayerById('relationData');
-	var selectCtrl = fastmap.uikit.SelectController();
-	var highRenderCtrl = fastmap.uikit.HighRenderController();
+    /*限速条件*/
+    $scope.vehicleOptions = [
+        {"id": 0, "label": "客车(小汽车)","checked":false},
+        {"id": 1, "label": "配送卡车","checked":false},
+        {"id": 2, "label": "运输卡车","checked":false},
+        {"id": 3, "label": "步行车","checked":false},
+        {"id": 4, "label": "自行车","checked":false},
+        {"id": 5, "label": "摩托车","checked":false},
+        {"id": 6, "label": "机动脚踏两用车","checked":false},
+        {"id": 7, "label": "急救车","checked":false},
+        {"id": 8, "label": "出租车","checked":false},
+        {"id": 9, "label": "公交车","checked":false},
+        {"id": 10, "label": "工程车","checked":false},
+        {"id": 11, "label": "本地车辆","checked":false},
+        {"id": 12, "label": "自用车辆","checked":false},
+        {"id": 13, "label": "多人乘坐车辆","checked":false},
+        {"id": 14, "label": "军车","checked":false},
+        {"id": 15, "label": "有拖车的车","checked":false},
+        {"id": 16, "label": "私营公共汽车","checked":false},
+        {"id": 17, "label": "农用车","checked":false},
+        {"id": 18, "label": "载有易爆品的车辆","checked":false},
+        {"id": 19, "label": "载有水污染品的车辆","checked":false},
+        {"id": 20, "label": "载有其他污染品的车辆","checked":false},
+        {"id": 21, "label": "电车","checked":false},
+        {"id": 22, "label": "轻轨","checked":false},
+        {"id": 23, "label": "校车","checked":false},
+        {"id": 24, "label": "四轮驱动车","checked":false},
+        {"id": 25, "label": "装有防雪链的车","checked":false},
+        {"id": 26, "label": "邮政车","checked":false},
+        {"id": 27, "label": "槽罐车","checked":false},
+        {"id": 28, "label": "残疾人车","checked":false}
+    ];
 
     //加载车辆类型;
     $ocLazyLoad.load('scripts/components/road/ctrls/attr_variableSpeed_ctrl/carTypeCtrl').then(function() {
         $scope.carPopoverURL = '../../../scripts/components/road/tpls/attr_variableSpeed_tpl/carTypeTpl.html';
     });
-
+    //初始化函数;
 	$scope.initializeData = function () {
-		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-		$scope.electronicEyeData = objCtrl.data;
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $scope.variableSpeed = objCtrl.data;
+        objCtrl.setOriginalData($scope.variableSpeed.getIntegrate());
+        //十进制转二进制;
 		conversionSystem();
-		var highLightFeatures = [];
-		highLightFeatures.push({
-			id: $scope.electronicEyeData.linkPid.toString(),
-			layerid: 'rdLink',
-			type: 'line',
-			style: {
-				size: 5
-			}
-		});
-		highRenderCtrl.highLightFeatures = highLightFeatures;
-		highRenderCtrl.drawHighlight();
-
-	};
-	//$scope.initializeData();
-	$scope.refreshData = function () {
-		dsEdit.getByPid(parseInt($scope.electronicEyeData.pid), "RDELECTRONICEYE").then(function (data) {
-			if (data) {
-				objCtrl.setCurrentObject("RDELECTRONICEYE", data);
-				$scope.initializeData();
-			}
-		});
+        var highLightFeatures = [];
+        //进入线;
+        highLightFeatures.push({
+            id: $scope.variableSpeed.inLinkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {color: '#21ed25'}
+        });
+        //进入点;
+        highLightFeatures.push({
+            id: $scope.variableSpeed.nodePid.toString(),
+            layerid: 'rdLink',
+            type: 'node',
+            style: {color: 'yellow',size:12}
+        });
+        //退出线
+        highLightFeatures.push({
+            id: $scope.variableSpeed.outLinkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {size: 5}
+        });
+        //接续线
+        for(var i=0;i<$scope.variableSpeed.vias.length;i++){
+            highLightFeatures.push({
+                id: $scope.variableSpeed.vias[i].linkPid.toString(),
+                layerid: 'rdLink',
+                type: 'line',
+                style: {size: 5,color:'#660066'}
+            });
+        }
+        //高亮可变限速图标;
+        highLightFeatures.push({
+            id:$scope.variableSpeed.pid.toString(),
+            layerid:'relationData',
+            type:'relationData',
+            style:{}
+        });
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 	};
 
 	/*十进制转二进制*/
 	function conversionSystem() {
-		$scope.electronicEyeData.location = parseInt(objCtrl.data.location, 10).toString(2);
+		$scope.variableSpeed.location = parseInt(objCtrl.data.location, 10).toString(2);
 		if (objCtrl.data.location) {
 			if (objCtrl.data.location.length == 1) {
-				$scope.electronicEyeData.locationLeft = 0;
-				$scope.electronicEyeData.locationRight = 0;
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location;
+				$scope.variableSpeed.locationLeft = 0;
+				$scope.variableSpeed.locationRight = 0;
+				$scope.variableSpeed.locationTop = $scope.variableSpeed.location;
 			} else if (objCtrl.data.location.length == 2) {
-				$scope.electronicEyeData.locationLeft = 0;
-				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.location.substr(0, 1);
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location.substr(1, 1);
+				$scope.variableSpeed.locationLeft = 0;
+				$scope.variableSpeed.locationRight = $scope.variableSpeed.location.substr(0, 1);
+				$scope.variableSpeed.locationTop = $scope.variableSpeed.location.substr(1, 1);
 			} else if (objCtrl.data.location.length == 3) {
-				$scope.electronicEyeData.locationLeft = $scope.electronicEyeData.location.substr(0, 1);
-				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.location.substr(1, 1);
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location.substr(2, 1);
+				$scope.variableSpeed.locationLeft = $scope.variableSpeed.location.substr(0, 1);
+				$scope.variableSpeed.locationRight = $scope.variableSpeed.location.substr(1, 1);
+				$scope.variableSpeed.locationTop = $scope.variableSpeed.location.substr(2, 1);
 			}
 		}
 	}
@@ -98,58 +150,30 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		return dec;
 	}
 
-	$scope.changeLocationLeft = function () {
-		if ($scope.electronicEyeData.locationLeft == 0) {
-			$scope.electronicEyeData.locationLeft = 1;
-		} else {
-			$scope.electronicEyeData.locationLeft = 0
-		}
-	};
-	$scope.changeLocationRight = function () {
-		if ($scope.electronicEyeData.locationRight == 0) {
-			$scope.electronicEyeData.locationRight = 1;
-		} else {
-			$scope.electronicEyeData.locationRight = 0
-		}
-	};
-	$scope.changeLocationTop = function () {
-		if ($scope.electronicEyeData.locationTop == 0) {
-			$scope.electronicEyeData.locationTop = 1;
-		} else {
-			$scope.electronicEyeData.locationTop = 0
-		}
-	};
-
-	/*删除配对关系*/
-	$scope.deletePairBond = function () {
-		swal({
-			title: "删除确认",
-			text: "确定删除配对关系？",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "删除",
-			closeOnConfirm: false
-		}, function () {
-			var param = {
-				"command": "DELETE",
-				"type": "RDELECEYEPAIR",
-				"dbId": App.Temp.dbId,
-				"objId": $scope.electronicEyeData.parts[0].groupId
-			};
-			dsEdit.save(param).then(function (data) {
-				if (data) {
-					objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-					relationData.redraw();
-					swal("操作成功", "删除配对关系成功！", "success");
-				}
-				$scope.refreshData();
-			})
-		});
-	};
+	//$scope.changeLocationLeft = function () {
+	//	if ($scope.variableSpeed.locationLeft) {
+	//		$scope.variableSpeed.locationLeft = 1;
+	//	} else {
+	//		$scope.variableSpeed.locationLeft = 0
+	//	}
+	//};
+	//$scope.changeLocationRight = function () {
+	//	if ($scope.variableSpeed.locationRight) {
+	//		$scope.variableSpeed.locationRight = 1;
+	//	} else {
+	//		$scope.variableSpeed.locationRight = 0
+	//	}
+	//};
+	//$scope.changeLocationTop = function () {
+	//	if ($scope.variableSpeed.locationTop) {
+	//		$scope.variableSpeed.locationTop = 1;
+	//	} else {
+	//		$scope.variableSpeed.locationTop = 0
+	//	}
+	//};
 
 	$scope.save = function () {
-		objCtrl.data.location = bin2dec($scope.electronicEyeData.locationLeft + '' + $scope.electronicEyeData.locationRight + '' + $scope.electronicEyeData.locationTop);
+		objCtrl.data.location = bin2dec($scope.variableSpeed.locationLeft + '' + $scope.variableSpeed.locationTop + '' + $scope.variableSpeed.locationRight);
 		objCtrl.save();
 		if (!objCtrl.changedProperty) {
 			swal("操作成功", '属性值没有变化！', "success");
@@ -157,48 +181,45 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		}
 		var param = {
 			"command": "UPDATE",
-			"type": "RDELECTRONICEYE",
+			"type": "RDVARIABLESPEED",
 			"dbId": App.Temp.dbId,
 			"data": objCtrl.changedProperty
 		};
 		dsEdit.save(param).then(function (data) {
 			if (data) {
-				if (selectCtrl.rowkey) {
-					var stageParam = {
-						"rowkey": selectCtrl.rowkey.rowkey,
-						"stage": 3,
-						"handler": 0
-					};
-					dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
-						selectCtrl.rowkey.rowkey = undefined;
-					});
-				}
-				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-				relationData.redraw();
-				swal("操作成功", "修改电子眼成功！", "success");
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 			}
 			$scope.refreshData();
 		})
 	};
 
 	$scope.delete = function () {
-		var objId = parseInt($scope.electronicEyeData.pid);
+		var objId = parseInt($scope.variableSpeed.pid);
 		var param = {
 			"command": "DELETE",
-			"type": "RDELECTRONICEYE",
+			"type": "RDVARIABLESPEED",
 			"dbId": App.Temp.dbId,
 			"objId": objId
 		};
 		dsEdit.save(param).then(function (data) {
 			var info = null;
 			if (data) {
-				$scope.electronicEyeData = null;
-				relationData.redraw();
+				$scope.variableSpeed = null;
+                relationData.redraw();
+                highRenderCtrl.highLightFeatures = null
+                highRenderCtrl._cleanHighLight();
+                $scope.$emit('SWITCHCONTAINERSTATE',{
+                    'subAttrContainerTpl':false,
+                    'attrContainerTpl':false
+                });
 			}
 		})
 	};
-	$scope.cancel = function () {
-	};
+	$scope.cancel = function () {};
+    //
+    if (objCtrl.data) {
+        $scope.initializeData();
+    }
 	eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
 	eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
 	eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);

@@ -103,7 +103,8 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
 
 
     $scope.cancel = function (){
-        
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
     };
 
     // 保存数据

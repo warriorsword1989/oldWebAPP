@@ -25,12 +25,10 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         //     $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
         // });
         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addShapeCtrl.js').then(function () {
-            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRwShapeCtrl.js').then(function () {
-                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addAdShapeCtrl.js').then(function () {
+            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addNodeFeatureCtrl.js').then(function () {
+                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLinkFeatureCtrl.js').then(function () {
                     $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addCRFShapeCtrl.js').then(function () {
-                        $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addZoneShapeCtrl.js').then(function () {
-                            $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLuShapeCtrl.js').then(function () {
-                                $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLcShapeCtrl.js').then(function () {
+                        $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addFaceFeatureCtrl.js').then(function () {
                                     $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addSameFeatureCtrl.js').then(function () {
                                         $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js').then(function () {
                                             $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js').then(function () {
@@ -43,8 +41,6 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                                                 $scope.advanceToolsTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/advanceToolsTpl.htm';
                                             });
                                         });
-                                    });
-                                })
                             });
                         });
                     });

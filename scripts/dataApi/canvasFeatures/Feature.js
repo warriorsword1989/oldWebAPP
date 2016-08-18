@@ -150,6 +150,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 44://语音导航
                     ret = new fastmap.uikit.canvasFeature.RdVoiceGuide(data);
                     break;
+                case 43://收费站
+                    ret = new fastmap.uikit.canvasFeature.RdVariableSpeed(data);
+                    break;
                 case 45: //rtic
                     ret = new fastmap.uikit.canvasFeature.RdRtic(data);
                     break;

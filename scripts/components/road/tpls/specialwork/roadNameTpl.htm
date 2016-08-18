@@ -10,8 +10,8 @@
 				            <button type="button" class="btn btn-shape" ng-click="openSubModal('split')">拆分</button>
 				        	<button type="button" class="btn btn-shape" ng-click="openSubModal('check')">检查 </button>
 			            </div>
-			            <div style="margin: 10px 50px 10px 10px" class="pull-right">
-					        <div class="btn-group dropdown" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+			            <div class="pull-right">
+					        <div style="padding: 40px 60px 0px 10px" class="btn-group dropdown" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
 					            <button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
 					                <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
 					            </button>
@@ -46,7 +46,7 @@
 		                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
 		                    </td>
 		                </tr>
-		                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+		                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length+1}}" ng-bind="loadTableDataMsg"></td></tr>
 		            </table>
 		        </div>
 		    </div>
@@ -55,7 +55,7 @@
 	        <button type="button" class="close" style="padding:0px 4px;" ng-click="closeEditPanel()"><span>&times;</span></button>
 	        <div ng-include="roadNameEditPanelTpl"></div>
 	    </div>
-	    <div ng-show="subModal!=false" class="div-float" style="top:20px;left:20px;min-width:600px;max-width:1000px;border-radius:5px;">
+	    <div ng-show="subModal!=false" class="div-float" style="top:80px;left:120px;min-width:600px;max-width:1000px;border-radius:5px;">
 	        <button type="button" class="close" style="padding:0px 4px;" ng-click="closeSubModal()"><span>&times;</span></button>
 	        <div ng-include="subModalTpl"></div>
 	    </div>

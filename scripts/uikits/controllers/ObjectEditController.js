@@ -162,11 +162,17 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDTOLLGATE": //收费站
                         this.data = fastmap.dataApi.rdTollgate(obj);
                         break;
+                    case "RDTOLLGATE": //收费站
+                        this.data = fastmap.dataApi.rdTollgate(obj);
+                        break;
                     case "RDSAMENODE": //同一点
                         this.data = fastmap.dataApi.rdSameNode(obj);
                         break;
                     case "RDSAMELINK": //同一线
                         this.data = fastmap.dataApi.rdSameLink(obj);
+                        break;
+                    case "RDVARIABLESPEED": //可变限速
+                        this.data = fastmap.dataApi.rdVariableSpeed(obj);
                         break;
                     case "RDVOICEGUIDE": //语音引导
                         this.data = fastmap.dataApi.rdVoiceGuide(obj);
