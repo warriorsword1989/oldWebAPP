@@ -156,52 +156,6 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
 
     };
 
-    //箭头方向
-    $scope.changeDirect = function (direct) {
-        map.currentTool = shapeCtrl.getCurrentTool();
-        map.currentTool.disable();
-        // var containerPoint;
-        // var point = {
-        //     x: $scope.speedLimitData.geometry.coordinates[0],
-        //     y: $scope.speedLimitData.geometry.coordinates[1]
-        // };
-        // var pointVertex = {
-        //     x: $scope.speedLimitData.geometry.coordinates[0],
-        //     y: $scope.speedLimitData.geometry.coordinates[1]
-        // };
-        // containerPoint = map.latLngToContainerPoint([point.y, point.x]);
-        // pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
-        // var angle = $scope.angleOfLink(containerPoint, pointVertex);
-        // var marker = {
-        //     flag: true,
-        //     pid: $scope.speedLimitData.pid,
-        //     point: point,
-        //     type: "marker",
-        //     angle: angle,
-        //     orientation: direct.toString()
-        // };
-        // var editLayer = layerCtrl.getLayerById('edit');
-        // layerCtrl.pushLayerFront('edit');
-        // var sobj = shapeCtrl.shapeEditorResult;
-        // editLayer.drawGeometry = marker;
-        // editLayer.draw(marker, editLayer);
-        // sobj.setOriginalGeometry(marker);
-        // sobj.setFinalGeometry(marker);
-        // shapeCtrl.setEditingType("transformDirect");
-        // shapeCtrl.startEditing();
-    };
-
-    $scope.angleOfLink = function (pointA, pointB) {
-        var PI = Math.PI, angle;
-        if ((pointA.x - pointB.x) === 0) {
-            angle = PI / 2;
-        } else {
-            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
-        }
-        return angle;
-
-    };
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);

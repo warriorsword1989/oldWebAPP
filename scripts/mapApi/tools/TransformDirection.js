@@ -68,7 +68,6 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
                         } else {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
                         }
-
                         break;
                 }
             } else {

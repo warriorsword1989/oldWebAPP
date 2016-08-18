@@ -127,6 +127,20 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 });
                             }
                         }
+                    } else if(data[item].properties.featType == 'RDSAMELINK'){
+                        if(data[item]['geometry']['type'] == "Point") {
+                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
+                            }
+                        } else if(data[item]['geometry']['type'] == "LineString"){
+                            if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                                this.overlays.push({
+                                    layer: this.currentEditLayers[layer],
+                                    id:data[item].properties.id,
+                                    data: data[item]
+                                });
+                            }
+                        }
                     } else {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});

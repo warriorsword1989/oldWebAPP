@@ -24,6 +24,16 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
         var selectCount = 0; // 用于poi
         var popup = L.popup();
         $scope.toolTipText = "";
+        $scope.angleOfLink = function (pointA, pointB) {
+            var PI = Math.PI, angle;
+            if ((pointA.x - pointB.x) === 0) {
+                angle = PI / 2;
+            } else {
+                angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
+            }
+            return angle;
+
+        };
 
         /**
          *  显示属性栏
@@ -343,7 +353,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }, {
                             'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
                             'title': "修改方向",
-                            'type': 'TRANSFORMDIRECT',
+                            'type': 'TRANSFORMSPEEDDIRECT',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }]
@@ -1529,6 +1539,55 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                         return;
                     }
+                } else if (type === "TRANSFORMSPEEDDIRECT") {
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.disable();
+                    var containerPoint;
+                    dsEdit.getByPid(objCtrl.data.linkPid,"RDLINK").then(function (data) {
+                        if (data) {
+                            var endNum = parseInt(data.geometry.coordinates.length / 2);
+                            var point = {
+                                x: data.geometry.coordinates[0][0],
+                                y: data.geometry.coordinates[0][1]
+                            };
+                            var pointVertex = {
+                                x: data.geometry.coordinates[endNum][0],
+                                y: data.geometry.coordinates[endNum][1]
+                            };
+                            containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+                            pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+                            var angle = $scope.angleOfLink(containerPoint, pointVertex);
+                            if(parseInt(objCtrl.data.direct) ==3) {
+                                angle = angle + Math.PI;
+                            }
+                            var marker = {
+                                flag: false,
+                                pid: objCtrl.data.pid,
+                                point: point,
+                                type: "marker",
+                                angle: angle,
+                                orientation: objCtrl.data.direct.toString()
+                            };
+                            var editLayer = layerCtrl.getLayerById('edit');
+                            layerCtrl.pushLayerFront('edit');
+                            var sobj = shapeCtrl.shapeEditorResult;
+                            editLayer.drawGeometry = marker;
+                            editLayer.draw(marker, editLayer);
+                            sobj.setOriginalGeometry(marker);
+                            sobj.setFinalGeometry(marker);
+                            shapeCtrl.setEditingType("transformSpeedDirect");
+                            shapeCtrl.startEditing();
+                            tooltipsCtrl.setCurrentTooltip('点击方向图标开始修改方向！');
+                            eventController.off(eventController.eventTypes.DIRECTEVENT);
+                            eventController.on(eventController.eventTypes.DIRECTEVENT,function(event){
+                                featCodeCtrl.setFeatCode({
+                                    pid: objCtrl.data.pid,
+                                    direct:parseInt(event.geometry.orientation)
+                                });
+                            })
+                        }
+                    });
+                    return;
                 } else if (type === "MODIFYSPEEDNODE") {
                     var pid = parseInt(selectCtrl.selectedFeatures.id),
                         linkPid = parseInt(selectCtrl.selectedFeatures.linkPid);
