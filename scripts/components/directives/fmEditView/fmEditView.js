@@ -7,13 +7,15 @@ angular.module('fastmap.uikit').directive('fmEditView', function() {
         restrict: 'A',
         controller:function ($scope, $element){
             $scope.$on("clearAttrStyleDown",function (){
-                var label = angular.element($element).parents('li').find('label:first');
+                //var label = angular.element($element).parents('li').find('label:first');
+                var label = $($element).parents('li').find('label:first');
                 label.removeClass("modifiedInfo");
             });
         },
-        link: function ($scope, element, attrs) {
-            var label = angular.element(element).parents('li').find('label:first');
-            element.bind('change',function (){
+        link: function ($scope, $element, attrs) {
+            //var label = angular.element($element).parents('li').find('label:first');
+            var label = $($element).parents('li').find('label:first');
+            $element.bind('change',function (){
                 label.addClass("modifiedInfo");
             });
             // $scope.$watch('model', function (a,b,c){ //不能使用watch的原因是，当切换POI的时候model就会发生变化，就会增加样式

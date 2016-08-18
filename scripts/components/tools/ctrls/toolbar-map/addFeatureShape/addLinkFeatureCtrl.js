@@ -13,7 +13,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
         var adNode = layerCtrl.getLayerById('adNode');
 
         var rdLink = layerCtrl.getLayerById('rdLink');
-        var rdnode = layerCtrl.getLayerById('rdNode');
+        var rdNode = layerCtrl.getLayerById('rdNode');
 
         var lcNode = layerCtrl.getLayerById('lcNode');
         var lcLink = layerCtrl.getLayerById('lcLink');
@@ -60,23 +60,47 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
             shapeCtrl.editFeatType = type;
             //把点和线图层加到捕捉工具中，先加的优先捕捉
             if (type === "ADLINK") {
-                map.currentTool.snapHandler.addGuideLayer(adNode);
-                map.currentTool.snapHandler.addGuideLayer(adLink);
+                if($scope.nodeChecked){
+                    map.currentTool.snapHandler.addGuideLayer(adNode);
+                }
+                if($scope.linkChecked){
+                    map.currentTool.snapHandler.addGuideLayer(adLink);
+                }
             } else if (type === "RDLINK") {
-                map.currentTool.snapHandler.addGuideLayer(rdnode);
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                if($scope.nodeChecked){
+                    map.currentTool.snapHandler.addGuideLayer(rdNode);
+                }
+                if($scope.linkChecked){
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                }
             } else if (type === "RWLINK") {
-                map.currentTool.snapHandler.addGuideLayer(rwNode);
-                map.currentTool.snapHandler.addGuideLayer(rwLink);
+                if($scope.nodeChecked){
+                    map.currentTool.snapHandler.addGuideLayer(rwNode);
+                }
+                if($scope.linkChecked){
+                    map.currentTool.snapHandler.addGuideLayer(rwLink);
+                }
             } else if (type === "ZONELINK") {
-                map.currentTool.snapHandler.addGuideLayer(zoneNode);
-                map.currentTool.snapHandler.addGuideLayer(zoneLink);
+                if($scope.nodeChecked){
+                    map.currentTool.snapHandler.addGuideLayer(zoneNode);
+                }
+                if($scope.linkChecked){
+                    map.currentTool.snapHandler.addGuideLayer(zoneLink);
+                }
             } else if (type === "LCLINK") {
-                map.currentTool.snapHandler.addGuideLayer(lcNode);
-                map.currentTool.snapHandler.addGuideLayer(lcLink);
+                if($scope.nodeChecked){
+                    map.currentTool.snapHandler.addGuideLayer(lcNode);
+                }
+                if($scope.linkChecked){
+                    map.currentTool.snapHandler.addGuideLayer(lcLink);
+                }
             } else if (type === "LULINK") {
-                map.currentTool.snapHandler.addGuideLayer(luNode);
-                map.currentTool.snapHandler.addGuideLayer(luLink);
+                if($scope.nodeChecked){
+                    map.currentTool.snapHandler.addGuideLayer(luNode);
+                }
+                if($scope.linkChecked){
+                    map.currentTool.snapHandler.addGuideLayer(luLink);
+                }
             }
             tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
             tooltipsCtrl.setCurrentTooltip('开始画线！');

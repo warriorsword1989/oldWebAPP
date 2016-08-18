@@ -14,7 +14,7 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
         var adLink = layerCtrl.getLayerById('adLink');
         var zoneLink = layerCtrl.getLayerById('zoneLink');
 
-        //type 必须是类型的大写，如："ADFACE"
+        //type 必须是类型的大写,与hotKeyEvent里对应，如："ADFACE"
         $scope.addFace = function(type ,index) {
             $scope.resetToolAndMap();
             $scope.$emit("SWITCHCONTAINERSTATE", {
