@@ -988,7 +988,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 }
                                 angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
-                                    flag: true,
+                                    flag: false,
                                     point: point,
                                     type: "marker",
                                     angle: angle,
