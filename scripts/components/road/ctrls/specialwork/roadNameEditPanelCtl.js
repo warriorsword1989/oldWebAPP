@@ -1,8 +1,10 @@
 /**
  * Created by mali on 2016/8/11.
  */
-angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad', 'appPath', '$interval', 'dsEdit',
-    function($scope, $ocLazyLoad, appPath, $interval, dsEdit) {
+angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad', 'appPath', '$interval', 'dsMeta',
+    function($scope, $ocLazyLoad, appPath, $interval, dsMeta) {
+    	var objectCtrl = fastmap.uikit.ObjectEditController();
+		$scope.roadNameData = fastmap.dataApi.roadName($scope.roadName);
 		$scope.langCodeOpt = [
             {"id": "CHI", "label": "简体中文"},
             {"id": "CHT", "label": "繁体中文"},
@@ -16,42 +18,53 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
 			{"id": 3, "label": "现场标牌"}              
 		];
 		$scope.prefixOpt = [
-			{"id": 0, "label": "东"},
-			{"id": 1, "label": "西"},
-			{"id": 2, "label": "南"},
-			{"id": 3, "label": "北"},
-			{"id": 4, "label": "中"},
-			{"id": 5, "label": "前"},
-			{"id": 6, "label": "后"},
-			{"id": 7, "label": "左"},
-			{"id": 8, "label": "右"}
+			{"id": "东", "label": "东"},
+			{"id": "西", "label": "西"},
+			{"id": "南", "label": "南"},
+			{"id": "北", "label": "北"},
+			{"id": "中", "label": "中"},
+			{"id": "前", "label": "前"},
+			{"id": "后", "label": "后"},
+			{"id": "左", "label": "左"},
+			{"id": "右", "label": "右"}
 		];
+//		var prefixOption = {
+//				0: "东",
+//				1: "西",
+//				2: "南",
+//				3: "北",
+//				4: "中",
+//				5: "前",
+//				6: "后",
+//				7: "左",
+//				8: "右"
+//		};
 		$scope.infixOpt = [
-			{"id": 0, "label": "南"},
-			{"id": 1, "label": "西"},
-			{"id": 2, "label": "北"},
-			{"id": 3, "label": "前"},
-			{"id": 4, "label": "后"},
-			{"id": 5, "label": "左"},
-			{"id": 6, "label": "右"},
-			{"id": 7, "label": "中"},
-			{"id": 8, "label": "东"},
-			{"id": 9, "label": "省"},
-			{"id": 10, "label": "市"},
-			{"id": 11, "label": "县"},
-			{"id": 12, "label": "辅"},
-			{"id": 13, "label": "外"},
-			{"id": 14, "label": "上"},
-			{"id": 15, "label": "正"},
-			{"id": 16, "label": "下"},
-			{"id": 17, "label": "内"}
+			{"id": "南", "label": "南"},
+			{"id": "西", "label": "西"},
+			{"id": "北", "label": "北"},
+			{"id": "前", "label": "前"},
+			{"id": "后", "label": "后"},
+			{"id": "左", "label": "左"},
+			{"id": "右", "label": "右"},
+			{"id": "中", "label": "中"},
+			{"id": "东", "label": "东"},
+			{"id": "省", "label": "省"},
+			{"id": "市", "label": "市"},
+			{"id": "县", "label": "县"},
+			{"id": "辅", "label": "辅"},
+			{"id": "外", "label": "外"},
+			{"id": "上", "label": "上"},
+			{"id": "正", "label": "正"},
+			{"id": "下", "label": "下"},
+			{"id": "内", "label": "内"}
 		];
 		$scope.suffixOpt = [
-			{"id": 0, "label": "东"},
-			{"id": 1, "label": "西"},
-			{"id": 2, "label": "南"},
-			{"id": 3, "label": "北"},
-			{"id": 4, "label": "中"}
+			{"id": "东", "label": "东"},
+			{"id": "西", "label": "西"},
+			{"id": "南", "label": "南"},
+			{"id": "北", "label": "北"},
+			{"id": "中", "label": "中"}
 		];
 		$scope.roadTypeOpt = [
 			{"id": 0, "label": "未区分"},
@@ -109,6 +122,87 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         $scope.closeSearchModal = function() {
         	console.log("关闭")
             $scope.searchModal = false;
+        };
+        /***
+         * 道路组名，类型名，行政区划名修改
+         */
+        $scope.selectVal = function(row, index, type) {
+       	 if(type == "admin"){
+       		 $scope.roadNameData.adminId = row.whole;
+       	 }else if(type == "namegroup"){
+       		 $scope.roadNameData.nameGroupid = row.nameGroupid;
+       		 $scope.param.nameGroupid = row.nameGroupid;
+       	 }else if(type == "type"){
+       		 $scope.roadNameData.type= row.name;
+       		var param = {
+            		word : row.name	
+        	};
+        	dsMeta.convert(param).then(function(data) {
+        		$scope.roadNameData.typePhonetic = data.phonetic;
+            });
+       	 }
+       	 $scope.searchModal = false;
+        };
+        /**
+         * 前缀名称变化
+         */
+        $scope.prefixChange = function(event, obj) {
+        	var param = {
+        		word : obj.roadNameData.prefix	
+        	};
+        	dsMeta.convert(param).then(function(data) {
+        		$scope.roadNameData.prefixPhonetic = data.phonetic;
+            });
+        };
+        /***
+         * 转拼音
+         */
+        $scope.getPy = function(event, obj, field, pyfield) {
+        	var param = {
+            		word : obj.roadNameData[field]	
+        	};
+        	dsMeta.convert(param).then(function(data) {
+        		$scope.roadNameData[pyfield] = data.phonetic;
+            });
+        };
+        /***
+         * 保存
+         */
+        $scope.doSave = function() {
+
+            objectCtrl.save();
+            var chaged =  objectCtrl.changedProperty;
+            if(!chaged){
+                swal({
+                    title: "属性值没有变化，是否保存？",
+                    type: "warning",
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    confirmButtonText: "是的，我要保存",
+                    cancelButtonText: "取消"
+                }, function(f) {
+                    if(f){
+                    	alert()
+//                        dsEdit.update($scope.poi.pid, "IXPOI", {
+//                            "rowId": objectCtrl.data.rowId,
+//                            "pid": objectCtrl.data.pid,
+//                            "objStatus": "UPDATE"
+//                        }).then(function(data) {
+//                            if(data){
+//                                if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+//                                    if (map.floatMenu) {
+//                                        map.removeLayer(map.floatMenu);
+//                                        map.floatMenu = null;
+//                                    }
+//                                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
+//                                }
+//                            }
+//                        });
+                    }
+                });
+                return;
+            }
         };
     }
 ]);

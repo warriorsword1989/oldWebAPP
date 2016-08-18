@@ -219,17 +219,17 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         showContent = "创建道路link成功";
                         ctrl = 'attr_link_ctrl/rdLinkCtrl';
                         tpl = 'attr_link_tpl/rdLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "adLink") {
+                    } else if (shapeCtrl.editFeatType === "ADLINK") {
                         param["type"] = "ADLINK";
                         showContent = "创建AdLink成功";
                         ctrl = 'attr_administratives_ctrl/adLinkCtrl';
                         tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "rwLink") {
+                    } else if (shapeCtrl.editFeatType === "RWLINK") {
                         param["type"] = "RWLINK";
                         showContent = "创建rwLink成功";
                         ctrl = 'attr_link_ctrl/rwLinkCtrl';
                         tpl = 'attr_link_tpl/rwLinkTpl.html';
-                    } else if (shapeCtrl.editFeatType === "zoneLink") {
+                    } else if (shapeCtrl.editFeatType === "ZONELINK") {
                         param["type"] = "ZONELINK";
                         showContent = "创建zoneLink成功";
                         ctrl = 'attr_zone_ctrl/zoneLinkCtrl';
@@ -663,7 +663,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === 'drawPolygon') {
                 coordinate.push([geo.components[0].x, geo.components[0].y]);
-                if (shapeCtrl.editFeatType == 'adFace') {
+                if (shapeCtrl.editFeatType == "ADFACE") {
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",
@@ -681,7 +681,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         adLink.redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     });
-                } else if (shapeCtrl.editFeatType == 'zoneFace') {
+                } else if (shapeCtrl.editFeatType == "ZONEFACE") {
                     param = {
                         "command": "CREATE",
                         "type": "ZONEFACE",
@@ -864,8 +864,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         map.currentTool.enable();
                     }
                 })
-            } else if (shapeCtrl.editType === "addAdFaceLine") {
-                var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+            } else if (shapeCtrl.editType === "ADLINKFACE") {
+                var adLinksArr = selectCtrl.selectedFeatures.links;
                 if (!adLinksArr || adLinksArr.length < 2) {
                     swal("操作失败", "请双击结束增加线段", "error");
                     return;
@@ -888,8 +888,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
-            } else if (shapeCtrl.editType === "addZoneFaceLine") {
-                var zoneLinksArr = selectCtrl.selectedFeatures.zoneLinks;
+            } else if (shapeCtrl.editType === "ZONELINKFACE") {
+                var zoneLinksArr = selectCtrl.selectedFeatures.links;
                 if (!zoneLinksArr || zoneLinksArr.length < 2) {
                     swal("操作失败", "请双击结束增加线段", "error");
                     return;

@@ -550,17 +550,17 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             data:{}
         };
         if(sType == 'linkPid') {
-            params[type] = 'RDLINK';
+            params.type = 'RDLINK';
         } else if (sType == 'rdName') {
             sType = 'name';
-            params[type] = 'RDLINK';
+            params.type = 'RDLINK';
         } else if (sType == 'pid') {
-            params[type] = 'IXPOI';
+            params.type = 'IXPOI';
         } else if (sType == 'name') {
-            params[type] = 'IXPOI';
+            params.type = 'IXPOI';
         }
-        params[data][sType] = content;
-        ajax.get("edit/check/get", {
+        params.data[sType] = content;
+        ajax.get("edit/getByElementCondition", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
