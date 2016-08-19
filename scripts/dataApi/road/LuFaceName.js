@@ -9,6 +9,7 @@ fastmap.dataApi.LuFaceName=fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
+        this.rowId = data["rowId"];
         this.pid = data["pid"];
         this.nameGroupId = data["nameGroupId"] || 1;
         this.langCode = data["langCode"] || "CHI";
@@ -25,6 +26,7 @@ fastmap.dataApi.LuFaceName=fastmap.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
+        data["rowId"] = this.rowId;
         return data;
     },
 
@@ -36,6 +38,7 @@ fastmap.dataApi.LuFaceName=fastmap.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
+        data["rowId"] = this.rowId;
         return data;
     }
 })

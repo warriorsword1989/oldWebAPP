@@ -43,7 +43,7 @@ fastmap.dataApi.RdVariableSpeed = fastmap.dataApi.GeoDataModel.extend({
         data["geoLiveType"] = this.geoLiveType;
         data["vias"] = [];
         for(var i=0;i<this.vias.length;i++){
-            data["vias"].push(this.vias[i].getIntegrate().linkPid);
+            data["vias"].push(this.vias[i].getIntegrate());
         }
         return data;
     },
@@ -63,7 +63,7 @@ fastmap.dataApi.RdVariableSpeed = fastmap.dataApi.GeoDataModel.extend({
         data["vehicle"] = this.vehicle;
         data["vias"] = [];
         for(var i=0;i<this.vias.length;i++){
-            data["vias"].push(this.vias[i].getIntegrate().linkPid);
+            data["vias"].push(this.vias[i].getIntegrate());
         }
         return data;
     }
