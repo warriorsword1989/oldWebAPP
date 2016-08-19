@@ -57,11 +57,22 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                     if(data.data.length <= 0){
                         return ;
                     }
+
+                    //根据ID去重
+                    var removeRepeatArr = []; //去重后的数据
+                    var removeRepeatIdArr = [];
+                    for(var i = 0 , len = data.data.length; i<len; i++){
+                        if(removeRepeatIdArr.indexOf(data.data[i].data.properties.id) < 0 ){
+                            removeRepeatIdArr.push(data.data[i].data.properties.id);
+                            removeRepeatArr.push(data.data[i]);
+                        }
+                    }
+
                     var arr = [];
-                    for (var i = 0 , len = data.data.length; i<len; i++){
+                    for (var i = 0 , len = removeRepeatArr.length; i<len; i++){
                         var o = {};
-                        o.featType = data.data[i].data.properties.featType;
-                        o.id = data.data[i].data.properties.id;
+                        o.featType = removeRepeatArr[i].data.properties.featType;
+                        o.id = removeRepeatArr[i].data.properties.id;
                         o.checked = false;
                         o.isMain = 0;
                         arr.push(o);
