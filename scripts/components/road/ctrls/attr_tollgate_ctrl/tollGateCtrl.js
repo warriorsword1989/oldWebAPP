@@ -100,11 +100,15 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	};
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
+		var _code = '';
 		if ($scope.tollGateData.passages.length == 0) {
-			var _code = '';
 			return _code;
 		} else {
-			var _code = 'T0' + $scope.tollGateData.passages.length + '';
+			if ($scope.tollGateData.passages.length < 6) {
+				_code = 'T0' + $scope.tollGateData.passages.length;
+			} else {
+				_code = 'T00';
+			}
 			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
 				if ($scope.tollGateData.passages[i]['cardType'] == 1) {
 					_code += '1';
@@ -125,7 +129,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		if (type == 'name') {
 			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({}));
 		} else {
-			if(objCtrl.data.passages.length < 32){
+			if (objCtrl.data.passages.length < 32) {
 				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
 				$scope.tollGateData.passageNum++;
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();

@@ -60,15 +60,21 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
         {"id": 28, "label": "残疾人车","checked":false}
     ];
 
+
     //加载车辆类型;
     $ocLazyLoad.load('scripts/components/road/ctrls/attr_variableSpeed_ctrl/carTypeCtrl').then(function() {
         $scope.carPopoverURL = '../../../scripts/components/road/tpls/attr_variableSpeed_tpl/carTypeTpl.html';
     });
     //初始化函数;
 	$scope.initializeData = function () {
+        //orging Data
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        $scope.variableSpeed = objCtrl.data;
-        objCtrl.setOriginalData($scope.variableSpeed.getIntegrate());
+        $scope.variableSpeed = objCtrl.data//.getIntegrate();
+        eventController.fire(eventController.eventTypes.SELECTEDVEHICLECHANGE)
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.variableSpeedForm) {
+            $scope.variableSpeedForm.$setPristine();
+        }
         //十进制转二进制;
 		conversionSystem();
         var highLightFeatures = [];
@@ -94,6 +100,7 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
             style: {size: 5}
         });
         //接续线
+        if($scope.variableSpeed.vias.length)
         for(var i=0;i<$scope.variableSpeed.vias.length;i++){
             highLightFeatures.push({
                 id: $scope.variableSpeed.vias[i].linkPid.toString(),
@@ -113,25 +120,25 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
         highRenderCtrl.drawHighlight();
 	};
 
-	/*十进制转二进制*/
-	function conversionSystem() {
-		$scope.variableSpeed.location = parseInt(objCtrl.data.location, 10).toString(2);
-		if (objCtrl.data.location) {
-			if (objCtrl.data.location.length == 1) {
-				$scope.variableSpeed.locationLeft = 0;
-				$scope.variableSpeed.locationRight = 0;
-				$scope.variableSpeed.locationTop = $scope.variableSpeed.location;
-			} else if (objCtrl.data.location.length == 2) {
-				$scope.variableSpeed.locationLeft = 0;
-				$scope.variableSpeed.locationRight = $scope.variableSpeed.location.substr(0, 1);
-				$scope.variableSpeed.locationTop = $scope.variableSpeed.location.substr(1, 1);
-			} else if (objCtrl.data.location.length == 3) {
-				$scope.variableSpeed.locationLeft = $scope.variableSpeed.location.substr(0, 1);
-				$scope.variableSpeed.locationRight = $scope.variableSpeed.location.substr(1, 1);
-				$scope.variableSpeed.locationTop = $scope.variableSpeed.location.substr(2, 1);
-			}
-		}
-	}
+    /*十进制转二进制*/
+    function conversionSystem() {
+        $scope.variableSpeed.location = parseInt(objCtrl.data.location, 10).toString(2);
+        if ($scope.variableSpeed.location.length) {
+            if ($scope.variableSpeed.location.length == 1) {
+                $scope.variableSpeed.locationLeft = false;
+                $scope.variableSpeed.locationRight = false;
+                $scope.variableSpeed.locationTop = true;
+            } else if ($scope.variableSpeed.location.length == 2) {
+                $scope.variableSpeed.locationLeft = false;
+                $scope.variableSpeed.locationRight = true;
+                $scope.variableSpeed.locationTop = true;
+            } else if ($scope.variableSpeed.location.length == 3) {
+                $scope.variableSpeed.locationLeft = true;
+                $scope.variableSpeed.locationRight = true;
+                $scope.variableSpeed.locationTop = true;
+            }
+        }
+    }
 
 	/*二进制转十进制*/
 	function bin2dec(bin) {
@@ -150,31 +157,9 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		return dec;
 	}
 
-	//$scope.changeLocationLeft = function () {
-	//	if ($scope.variableSpeed.locationLeft) {
-	//		$scope.variableSpeed.locationLeft = 1;
-	//	} else {
-	//		$scope.variableSpeed.locationLeft = 0
-	//	}
-	//};
-	//$scope.changeLocationRight = function () {
-	//	if ($scope.variableSpeed.locationRight) {
-	//		$scope.variableSpeed.locationRight = 1;
-	//	} else {
-	//		$scope.variableSpeed.locationRight = 0
-	//	}
-	//};
-	//$scope.changeLocationTop = function () {
-	//	if ($scope.variableSpeed.locationTop) {
-	//		$scope.variableSpeed.locationTop = 1;
-	//	} else {
-	//		$scope.variableSpeed.locationTop = 0
-	//	}
-	//};
-
 	$scope.save = function () {
-		objCtrl.data.location = bin2dec($scope.variableSpeed.locationLeft + '' + $scope.variableSpeed.locationTop + '' + $scope.variableSpeed.locationRight);
-		objCtrl.save();
+		objCtrl.data.location = bin2dec(Number($scope.variableSpeed.locationLeft) + '' + Number($scope.variableSpeed.locationTop) + '' + Number($scope.variableSpeed.locationRight));
+        objCtrl.save();
 		if (!objCtrl.changedProperty) {
 			swal("操作成功", '属性值没有变化！', "success");
 			return;
@@ -187,9 +172,13 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		};
 		dsEdit.save(param).then(function (data) {
 			if (data) {
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                relationData.redraw();
+                $scope.initializeData();
+                //objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                if($scope.variableSpeedForm) {
+                    $scope.variableSpeedForm.$setPristine();
+                }
 			}
-			$scope.refreshData();
 		})
 	};
 
@@ -216,7 +205,6 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 		})
 	};
 	$scope.cancel = function () {};
-    //
     if (objCtrl.data) {
         $scope.initializeData();
     }

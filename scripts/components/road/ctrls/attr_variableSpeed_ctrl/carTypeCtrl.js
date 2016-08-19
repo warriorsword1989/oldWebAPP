@@ -2,7 +2,7 @@ var oridinaryInfoApp = angular.module("app",[]);
 oridinaryInfoApp.controller("carTypeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
-    $scope.rdWarningInfoObj = objCtrl.data;
+//    $scope.rdWarningInfoObj = objCtrl.data.getIntegrate();
 
     $scope.carData=[];
     $scope.vehicleOptions = [
@@ -34,7 +34,9 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
         {"id": 25, "label": "装有防雪链的车","checked":false},
         {"id": 26, "label": "邮政车","checked":false},
         {"id": 27, "label": "槽罐车","checked":false},
-        {"id": 28, "label": "残疾人车","checked":false}
+        {"id": 28, "label": "残疾人车","checked":false},
+        {"id": 29, "label": "预留","checked":false},
+        {"id": 30, "label": "预留","checked":false}
     ];
     /*********如果窗口打开状态，窗口关闭*/
     if($('body .carTypeTip:last').show()){
@@ -127,20 +129,15 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
                 }
             }
         }
-        //objCtrl.data.vehicle = newArray.join(",");
         objCtrl.data.vehicle = parseInt(bin2dec(result));
     };
 
-
-
-
     $scope.initializeData = function (){
-        $scope.rdWarningInfoObj = objCtrl.data;
+        $scope.rdWarningInfoObj = objCtrl.data.getIntegrate();
         $scope.showvehicle($scope.rdWarningInfoObj.vehicle);
     };
 
     $scope.initializeData();
-
     eventCtrl.off(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE);
     eventCtrl.on(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE, $scope.initializeData);
 

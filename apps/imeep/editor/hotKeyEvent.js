@@ -1041,55 +1041,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 
                 });
             } else if (shapeCtrl.editType === "electronicEye") {    //电子眼
-                var disFromStart, disFromEnd, direct, pointOfArrow,
-                    feature = selectCtrl.selectedFeatures;
-                var startPoint = feature.geometry[0],
-                    point = feature.point;
-                if (geo) {
-                    if (!geo.flag) {
-                        var directOfLink = {
-                            "objStatus": "UPDATE",
-                            "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
-                        };
-                        param = {
-                            "type": "RDLINK",
-                            "command": "UPDATE",
-                            "dbId": App.Temp.dbId,
-                            "data": directOfLink
-                        };
-                        dsEdit.save(param).then(function(data) {
-                            if(data != null){
-                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
-                                if (data.errcode === 0) {
-                                    rdLink.redraw();
-                                    rdnode.redraw();
-                                }
-                            } else {
-                                resetPage();
-                            }
-                        });
-                        return;
-                    } else {
-                        pointOfArrow = geo.pointForDirect;
-                        var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
-                        startPoint = map.latLngToContainerPoint([startPoint[1], startPoint[0]]);
-                        disFromStart = distance(pointOfContainer, startPoint);
-                        disFromEnd = distance(pointOfArrow, startPoint);
-                        if (disFromStart > disFromEnd) {
-                            direct = 2;
-                        } else {
-                            direct = 3;
-                        }
-                    }
-                } else {
-                    direct = feature.direct;
-                }
-                param = {
+                var feature = selectCtrl.selectedFeatures;
+                var param = {
                     "linkPid": parseInt(feature.id),
-                    "direct": direct,
-                    "longitude": point.x,
-                    "latitude": point.y
+                    "direct": feature.direct,
+                    "longitude": feature.point.x,
+                    "latitude": feature.point.y
                 };
                 dsEdit.create('RDELECTRONICEYE',param).then(function(data) {
                     if(data != null){
@@ -1100,25 +1057,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             }
-            // else if (shapeCtrl.editType === "RDELECTRONICEYE"){
-            //     var feature = selectCtrl.selectedFeatures,
-            //         point = feature.point;
-            //     param = {
-            //         "linkPid": parseInt(feature.id),
-            //         "direct": parseInt(feature.direct),
-            //         "longitude": point.x,
-            //         "latitude": point.y
-            //     };
-            //     dsEdit.create('RDELECTRONICEYE',param).then(function(data) {
-            //         if(data != null){
-            //             relationData.redraw();
-            //             treatmentOfChanged(data, "RDELECTRONICEYE", "创建电子眼成功", 'attr_electronic_ctrl/electronicEyeCtrl', 'attr_electronic_tpl/electronicEyeTpl.html');
-            //         } else {
-            //             resetPage();
-            //         }
-            //     });
-            //
-            // }
             else if (shapeCtrl.editType === "UPDATEELECTRONICEYE") {
                 var param = {
                     "command": "UPDATE",
