@@ -8,10 +8,10 @@
                     {{searchType || '搜索项'}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu>
-                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'linkPid'"><a href="#" class="dropdown-menu-name">道路Pid</a></li>
-                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'rdName'"><a href="#" class="dropdown-menu-name">道路名称</a></li>
-                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'pid'"><a href="#" class="dropdown-menu-name">POI Pid</a></li>
-                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'name'"><a href="#" class="dropdown-menu-name">POI名称</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'道路Pid'"><a href="#" class="dropdown-menu-name">道路Pid</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'道路名称'"><a href="#" class="dropdown-menu-name">道路名称</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'POI Pid'"><a href="#" class="dropdown-menu-name">POI Pid</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'POI名称'"><a href="#" class="dropdown-menu-name">POI名称</a></li>
                     </ul>
                 </div>
                 <input type="text" class="form-control" placeholder="搜 索" ng-keydown="keyDoExecute($event);" ng-model="searchText"/>

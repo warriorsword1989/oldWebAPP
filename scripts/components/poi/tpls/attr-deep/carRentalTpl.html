@@ -1,0 +1,41 @@
+<div ng-controller="CarRentalCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>营业时间</label>
+                        <div>
+                            <input fm-edit-view type="text" class="fm-control" ng-model="poi.parkings[0].openHour"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>地址描述</label>
+                        <div>
+                            <input fm-edit-view type="text" class="fm-control" ng-model="poi.parkings[0].address"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>交通线路</label>
+                        <div>
+                            <input fm-edit-view type="text" class="fm-control" ng-model="poi.parkings[0].howToGo"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>400电话</label>
+                        <div>
+                            <input fm-edit-view type="text" class="fm-control" ng-model="poi.parkings[0].phone400"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>主页网址</label>
+                        <div>
+                            <input fm-edit-view type="text" class="fm-control" ng-model="poi.parkings[0].webSite"/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
