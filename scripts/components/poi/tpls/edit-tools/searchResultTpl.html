@@ -13,7 +13,9 @@
             </tr>
             <tr ng-repeat="item in searchResultData">
                 <td>{{$index + 1}}</td>
-                <td>{{item.pid}}</td>
+                <td>
+                    <a href="#" class="fm-target" ng-click="showOnMap(item.pid,item.type)">{{item.pid}}</a>
+                </td>
                 <td>{{item.type}}</td>
                 <td>{{item.name}}</td>
                 <td></td>
