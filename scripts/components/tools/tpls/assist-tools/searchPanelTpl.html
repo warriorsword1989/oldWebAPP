@@ -14,7 +14,7 @@
                         <li role="menuitem" ng-model="searchType" uib-btn-radio="'name'"><a href="#" class="dropdown-menu-name">POI名称</a></li>
                     </ul>
                 </div>
-                <input type="text" class="form-control" placeholder="搜 索" ng-model="searchText"/>
+                <input type="text" class="form-control" placeholder="搜 索" ng-keydown="keyDoExecute($event);" ng-model="searchText"/>
             </div>
         </div>
         <div class="progress fm-progress" style="margin:8px;">

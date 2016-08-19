@@ -140,7 +140,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
                 "propertyCtrl": ctrl,
                 "propertyHtml": tpl
             });
-            initPoiData(selectedData,data);
+            // initPoiData(selectedData,data);
         } else {
             $scope.$emit("transitCtrlAndTpl", {
                 "loadType": 'attrTplContainer',

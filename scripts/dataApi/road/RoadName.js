@@ -14,6 +14,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+    	this.pid = data["nameId"];
         this.nameId = data["nameId"];
         this.nameGroupid = data["nameGroupid"];
         this.langCode = data["langCode"];

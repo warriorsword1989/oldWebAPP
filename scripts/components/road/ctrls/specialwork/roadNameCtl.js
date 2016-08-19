@@ -274,11 +274,9 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.editPanel = false;
          $scope.openEditPanel = function(data, index){
         	 $scope.editPanel = true;
-//        	 console.log('当前行数据：'+JSON.stringify(data));
-        	 $scope.roadNameData = fastmap.dataApi.roadName(data);
-//        	 $ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function() {
-                 $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
-//             });
+        	 $scope.roadName = data;
+//        	 $scope.roadNameData = fastmap.dataApi.roadName(data);
+             $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
         	 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
              	$scope.roadNameEditPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
              });
@@ -325,20 +323,5 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.$on("CLOSECURRENTPANEL",function(event,data){
         	 $scope.subModal = false;
          });
-         /***
-          * 道路组名，类型名，行政区划名修改
-          */
-         $scope.selectVal = function(row, index, type) {
-        	 if(type == "admin"){
-        		 $scope.roadNameData.adminId = row.whole;
-        	 }else if(type == "namegroup"){
-        		 $scope.roadNameData.nameGroupid = row.nameGroupid;
-        		 $scope.param.nameGroupid = row.nameGroupid
-        	 }else if(type == "type"){
-        		 $scope.roadNameData.type= row.name;
-        	 }else if(type == "subnameGroup"){
-//        		 $scope.param.nameGroupid = row.nameGroupid;
-        	 }
-         };
      }
  ]);

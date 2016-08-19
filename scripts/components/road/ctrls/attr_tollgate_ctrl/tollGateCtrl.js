@@ -51,17 +51,35 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		});
 	};
 
+	/*切换收费类型*/
+	$scope.changeChargeType = function () {
+		if ($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10) {
+			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
+				$scope.tollGateData.passages[i]['cardType'] = 2;
+				$scope.tollGateData.passages[i]['tollForm'] = 0;
+			}
+		} else if ($scope.tollGateData.type == 2 || $scope.tollGateData.type == 3 || $scope.tollGateData.type == 4 || $scope.tollGateData.type == 5 || $scope.tollGateData.type == 6 || $scope.tollGateData.type == 7) {
+			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
+				$scope.tollGateData.passages[i]['cardType'] = 0;
+				$scope.tollGateData.passages[i]['tollForm'] = 1;
+			}
+		}
+		$scope.$emit('SWITCHCONTAINERSTATE', {
+			'subAttrContainerTpl': false,
+			'attrContainerTpl': true
+		});
+	};
 	/*查看详情*/
-	$scope.showDetail = function(type,index) {
-		var tempCtr = '', tempTepl = '',detailInfo = {};
-		if(type == 'name') {
+	$scope.showDetail = function (type, index) {
+		var tempCtr = '', tempTepl = '', detailInfo = {};
+		if (type == 'name') {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgateNameCtrl';
 			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgateNameTpl.html';
 			detailInfo = {
 				"loadType": "subAttrTplContainer",
 				"propertyCtrl": tempCtr,
 				"propertyHtml": tempTepl,
-				"data":$scope.tollGateData.names[index]
+				"data": $scope.tollGateData.names[index]
 			};
 			objCtrl.namesInfo = $scope.tollGateData.names[index];
 		} else {
@@ -71,9 +89,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				"loadType": "subAttrTplContainer",
 				"propertyCtrl": tempCtr,
 				"propertyHtml": tempTepl,
-				"data":$scope.tollGateData.passages[index]
+				"data": $scope.tollGateData.passages[index]
 			};
 			objCtrl.passageInfo = $scope.tollGateData.passages[index];
+			objCtrl.tollGateType = $scope.tollGateData.type;
 		}
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateNameData = detailInfo;
@@ -81,66 +100,88 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	};
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
-		var _code = $scope.tollGateData.length + '';
-		for(var i=0,len=$scope.tollGateData.length;i<len;i++) {
-			if ($scope.tollGateData['cardType'] == 1) {
-				_code =+ 1;
+		var _code = '';
+		if ($scope.tollGateData.passages.length == 0) {
+			return _code;
+		} else {
+			if ($scope.tollGateData.passages.length < 6) {
+				_code = 'T0' + $scope.tollGateData.passages.length;
 			} else {
-				_code =+ 0;
+				_code = 'T00';
 			}
+			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
+				if ($scope.tollGateData.passages[i]['cardType'] == 1) {
+					_code += '1';
+				} else {
+					_code += '0';
+				}
+			}
+			if (_code.length < 8) {
+				for (var i = 0, len = 8 - _code.length; i < len; i++) {
+					_code += '0';
+				}
+			}
+			return _code;
 		}
-		return _code;
 	};
 	/*增加item*/
-	$scope.addItem = function(type){
+	$scope.addItem = function (type) {
 		if (type == 'name') {
-			objCtrl.data.names.unshift(fastmap.dataApi.rdTollgateName({}));
+			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({}));
 		} else {
-			objCtrl.data.passages.unshift(fastmap.dataApi.rdTollgatePassage({}));
-			$scope.tollGateData.passageNum ++;
+			if (objCtrl.data.passages.length < 32) {
+				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
+				$scope.tollGateData.passageNum++;
+				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
+			}
 		}
 	};
 	/*移除item*/
-	$scope.removeItem = function(index, type) {
+	$scope.removeItem = function (index, type) {
 		if (type == 'name') {
-			$scope.tollGateData.names.splice(index,1);
+			$scope.tollGateData.names.splice(index, 1);
 		} else {
-			$scope.tollGateData.passages.splice(index,1);
-			$scope.tollGateData.passageNum --;
+			$scope.tollGateData.passages.splice(index, 1);
+			$scope.tollGateData.passageNum--;
+			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 		}
-		$scope.$emit('SWITCHCONTAINERSTATE',{
-			'subAttrContainerTpl':false,
-			'attrContainerTpl':true
+		$scope.$emit('SWITCHCONTAINERSTATE', {
+			'subAttrContainerTpl': false,
+			'attrContainerTpl': true
 		});
 	};
+	/*监听刷新ETC代码*/
+	$scope.$on('refreshEtcCode', function (event, data) {
+		$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
+	});
 	/*收费站类型*/
 	$scope.tollTypeObj = [
-		{id:0,label:'未调查'},
-		{id:1,label:'领卡'},
-		{id:2,label:'交卡付费'},
-		{id:3,label:'固定收费（次费）'},
-		{id:4,label:'交卡付费后再领卡'},
-		{id:5,label:'交卡付费并代收固定费用'},
-		{id:6,label:'验票（无票收费）值先保留'},
-		{id:7,label:'领卡并代收固定费用'},
-		{id:8,label:'持卡达标识不收费'},
-		{id:9,label:'验票领卡'},
-		{id:10,label:'交卡不收费'}
+		{id: 0, label: '未调查'},
+		{id: 1, label: '领卡'},
+		{id: 2, label: '交卡付费'},
+		{id: 3, label: '固定收费（次费）'},
+		{id: 4, label: '交卡付费后再领卡'},
+		{id: 5, label: '交卡付费并代收固定费用'},
+		{id: 6, label: '验票（无票收费）值先保留'},
+		{id: 7, label: '领卡并代收固定费用'},
+		{id: 8, label: '持卡达标识不收费'},
+		{id: 9, label: '验票领卡'},
+		{id: 10, label: '交卡不收费'}
 	];
-	
+
 	/*是否跨省*/
 	$scope.locationFlagObj = {
-		0:'未调查',
-		1:'本省',
-		2:'跨省'
+		0: '未调查',
+		1: '本省',
+		2: '跨省'
 	};
 
 	/*领卡类型*/
 	$scope.cardTypeObj = [
-		{id:0,label:'未调查',name:'未调查'},
-		{id:1,label:'ETC',name:'ETC通道'},
-		{id:2,label:'人工',name:'人工通道'},
-		{id:3,label:'自助',name:'自助通道'}
+		{id: 0, label: '未调查', name: '未调查'},
+		{id: 1, label: 'ETC', name: 'ETC通道'},
+		{id: 2, label: '人工', name: '人工通道'},
+		{id: 3, label: '自助', name: '自助通道'}
 	];
 
 	$scope.langCodeOptions = [
@@ -223,9 +264,9 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
-				$scope.$emit('SWITCHCONTAINERSTATE',{
-					'subAttrContainerTpl':false,
-					'attrContainerTpl':false
+				$scope.$emit('SWITCHCONTAINERSTATE', {
+					'subAttrContainerTpl': false,
+					'attrContainerTpl': false
 				});
 			}
 		})
