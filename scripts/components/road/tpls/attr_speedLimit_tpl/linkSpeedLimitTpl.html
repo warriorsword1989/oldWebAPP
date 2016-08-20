@@ -1,0 +1,137 @@
+<div class="fm-component" ng-controller="linkSpeedlimitController" style="overflow-y: auto">
+    <div class="title">
+        线限速
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="speedLimitForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="list-group list-group-lg m-b-none"  ng-if="speedLimitsData.speedType===0">
+                        <li class="list-group-item">
+                            <div><label class="control-label">限速类型</label></div>
+                            <div class="inline">
+                                <select ng-model="speedLimitsData.speedType"
+                                        ng-options="value.id as value.label for value in speedTypeOption" disabled="disabled">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">顺向速度</label></div>
+                            <div class="inline">
+                                <input type="text"
+                                       placeholder="0530" id="{{speedLimitsData.rowid}}fromSpeedLimit"
+                                       ng-model="speedLimitsData.fromSpeedLimit"
+                                       ng-disabled="toEditable">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">顺向来源</label></div>
+                            <div class="inline">
+                                <select ng-model="item.fromLimitSrc"
+                                        ng-options="value.id as value.label for value in fromLimitSrcOption"
+                                        ng-disabled="toEditable">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">逆向速度</label></div>
+                            <div class="inline">
+                                <input type="text"
+                                       placeholder="0530" id="{{item.rowid}}toSpeedLimit"
+                                       ng-model="speedLimitsData.toSpeedLimit"
+                                       ng-disabled="fromEditable">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">逆向来源</label></div>
+                            <div class="inline">
+                                <select ng-model="item.toLimitSrc"
+                                        ng-options="value.id as value.label for value in fromLimitSrcOption"
+                                        ng-disabled="fromEditable">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">等级赋值</label></div>
+                            <div class="radio inline" style="text-align: left">
+                                <label>
+                                    <input type="radio" name="speedClassWorkRadio" value=0 ng-model="speedLimitsData.speedClassWork">
+                                    手工
+                                </label>
+                                <label>
+                                    <input type="radio" name="speedClassWorkRadio" value=1 ng-model="speedLimitsData.speedClassWork">
+                                    程序
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-group list-group-lg m-b-none"  ng-if="speedLimitsData.speedType===3">
+                        <li class="list-group-item">
+                            <div><label class="control-label">限速类型</label></div>
+                            <div class="inline">
+                                <select ng-model="speedLimitsData.speedType"
+                                        ng-options="value.id as value.label for value in speedTypeOption" disabled="disabled">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                        <div><label class="control-label">限速条件</label></div>
+                        <div class="inline">
+                        <select ng-model="speedLimitsData.speedDependent"
+                        ng-options="value.id as value.label for value in speedDependentOption">
+                        <option>--</option>
+
+                        </select>
+                        </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">顺向速度</label></div>
+                            <div class="inline">
+                                <input type="text"
+                                       placeholder="0530"
+                                       ng-model="speedLimitsData.fromSpeedLimit"
+                                       ng-disabled="toEditable">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">顺向来源</label></div>
+                            <div class="inline">
+                                <select ng-model="item.fromLimitSrc"
+                                        ng-options="value.id as value.label for value in fromLimitSrcOption"
+                                        ng-disabled="toEditable">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">逆向速度</label></div>
+                            <div class="inline">
+                                <input type="text"
+                                       placeholder="0530"
+                                       ng-model="speedLimitsData.toSpeedLimit"
+                                       ng-disabled="fromEditable">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div><label class="control-label">逆向来源</label></div>
+                            <div class="inline">
+                                <select ng-model="item.toLimitSrc"
+                                        ng-options="value.id as value.label for value in fromLimitSrcOption"
+                                        ng-disabled="fromEditable">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div ng-include="dateURL" class="muti-date" date-str='{{speedLimitsData.timeDomain}}' style="width:100%;padding: 5px;"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

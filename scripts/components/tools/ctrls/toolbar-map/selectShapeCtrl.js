@@ -362,6 +362,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case 'DBRDLINKSPEEDLIMIT':
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html";
+                    $scope.getLinkSpeedLimit(data.speedData.properties, data.orgtype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'RDCROSS':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html";
@@ -2572,6 +2577,115 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     }
                 }
             }
+        };
+        $scope.getLinkSpeedLimit = function (data, type, ctrl, tpl) {
+            if(data.direct == 0){
+                swal("提示","点限速方向为：未调查！","info");
+                return;
+            }
+            var linkSpeedLimit = {
+                linkPid:data.linkPid,
+                speedType:parseInt(data.speedType)
+            };
+            var linkPids = [];
+            var obj = {
+                "queryType": type,
+                "linkPid": data.linkPid,
+                "direct": data.direct
+            };
+            var param = {
+                "dbId": App.Temp.dbId,
+                "type": "RDLINK",
+                "data": obj
+            };
+            if(data.direct == 2){
+                linkSpeedLimit.fromSpeedLimit = parseInt(data.speedValue);
+            } else if(data.direct == 3){
+                linkSpeedLimit.toSpeedLimit = parseInt(data.speedValue);
+            }
+            if (parseInt(data.speedType) == 3){//条件限速
+                linkSpeedLimit.speedDependent = parseInt(data.condition);
+            }
+            dsEdit.getByCondition(param).then(function(links) {//查找link串
+                if(links.errcode == 0){
+                    if(links.data){
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                        for (var i = 0;i<links.data.length;i++){
+                            linkPids.push(links.data[i]);
+                            highRenderCtrl.highLightFeatures.push({
+                                id: links.data[i].toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                        }
+                        highRenderCtrl.drawHighlight();
+                        objCtrl.setCurrentObject("RDLINKSPEEDLIMIT", linkSpeedLimit);
+                        $scope.$emit("transitCtrlAndTpl", {
+                            "loadType": 'attrTplContainer',
+                            "propertyCtrl": ctrl,
+                            "propertyHtml": tpl
+                        });
+                        dsEdit.getByPid(links.data[links.data.length-1],"RDLINK").then(function (linkDetail) {
+                           var linkNodes = [];
+                            linkNodes.push(linkDetail.eNodePid);
+                            linkNodes.push(linkDetail.sNodePid);
+                            //增加或者删除link
+                            map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                                map: map,
+                                shapeEditor: shapeCtrl,
+                                selectLayers: [rdLink],
+                                snapLayers: [rdLink]
+                            });
+                            map.currentTool.enable();
+                            tooltipsCtrl.setCurrentTooltip('请选择需要增加或者删除的线！');
+                            eventController.on(eventController.eventTypes.GETFEATURE, function(selectLink) {
+                                highRenderCtrl._cleanHighLight();
+                                if(selectLink.optype == "RDLINK"){
+                                    if(linkPids.indexOf(parseInt(selectLink.id)) < 0){//不在当前的link串里
+                                        if(linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 || linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1){//选择的link是link串里最后一条的挂接link
+                                            linkPids.push(parseInt(selectLink.id));
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: selectLink.id.toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {
+                                                    color: '#D9B300'
+                                                }
+                                            });
+                                        }
+                                    } else {//在当前的link串里
+                                        linkPids.length = linkPids.indexOf(parseInt(selectLink.id));
+                                        highRenderCtrl.highLightFeatures = [];
+                                        for(var i = 0 ;i<linkPids.length;i++){
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: linkPids[i].toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {}
+                                            });
+                                        }
+                                        dsEdit.getByPid(linkPids[linkPids.length-1],"RDLINK").then(function (lastLinkDetail) {
+                                            var linkNodes = [];
+                                            linkNodes.push(lastLinkDetail.eNodePid);
+                                            linkNodes.push(lastLinkDetail.sNodePid);
+                                        });
+                                    }
+                                }
+                                highRenderCtrl.drawHighlight();
+
+                                featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                                    "direct": data.direct,
+                                    "linkPids":linkPids,
+                                });
+                            });
+                        });
+
+                    }
+                }
+
+            });
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,toolsObj) {
             if (type == 'RDBRANCH') {

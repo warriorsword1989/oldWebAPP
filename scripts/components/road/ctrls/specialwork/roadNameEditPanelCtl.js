@@ -5,6 +5,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
     function($scope, $ocLazyLoad, appPath, $interval, dsMeta) {
     	var objectCtrl = fastmap.uikit.ObjectEditController();
     	var eventCtrl = fastmap.uikit.EventController();
+    	$scope.srcFlagDisable = false;
 		$scope.langCodeOpt = [
             {"id": "CHI", "label": "简体中文"},
             {"id": "CHT", "label": "繁体中文"},
@@ -137,23 +138,28 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
     	};
     	//初始化各个字段是否可编辑
     	$scope.initFieldEditable = function(){
-    		$scope.hwInfoFlagEditable = false;//highway信息标识
+    		$scope.hwInfoFlagDisable = true;//highway信息标识
     		$scope.typeEditable = true;//类型名称
     		$scope.typePhoneticEditable = true;//类型名发音
     		$scope.baseEditable = true;//基本名称
     		$scope.basePhoneticEditable = true;//基本名发音
-    		$scope.prefixEditable = true;//前缀名称
-    		$scope.infixEditable = true;//中缀名称
-    		$scope.suffixEditable = true;//后缀名称
+    		$scope.prefixDisable = false;//前缀名称
+    		$scope.infixDisable = false;//中缀名称
+    		$scope.suffixDisable = false;//后缀名称
     		$scope.voiceFileEditable = true;//名称语音
-    		$scope.srcFlagEditable = true;//名称来源
-    		
+    		$scope.srcFlagDisable = false;//名称来源
+    		$scope.roadNameEditable = false;
+    		$scope.langCodeDisable = true;//语言类型
     		if($scope.roadNameData.langCode == "ENG"){
-    			$scope.codeTypeEditalbe = false;//国家编号
+    			$scope.codeTypeDisable = true;//国家编号
     			$scope.adminIdEditable = false;//行政区划
+    			$scope.roadTypeDisable = true;//道路类型
+    			$scope.roadNameDataEditable = true;//道路名称
     		}else if($scope.roadNameData.langCode == "CHI"){
-    			$scope.codeTypeEditalbe = true;//国家编号
+    			$scope.codeTypeDisable = false;//国家编号
     			$scope.adminIdEditable = true;//行政区划
+    			$scope.roadTypeDisable = false;//道路类型
+    			$scope.roadNameDataEditable = false;//道路名称
     		}
     	};
     	$scope.initializeData();
@@ -185,7 +191,6 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
          * 关闭编辑面板
          */
         $scope.closeSearchModal = function() {
-        	console.log("关闭")
             $scope.searchModal = false;
         };
         /***
@@ -195,7 +200,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        	 if(type == "admin"){
        		 $scope.roadNameData.adminId = row.whole;
        	 }else if(type == "namegroup"){
-       		 $scope.roadNameData.nameGroupid = row.nameGroupid;
+       		 $scope.roadNameData.nameGroupId = row.nameGroupId;
        	 }else if(type == "type"){
        		 if("ENG" == $scope.roadNameData.langCode){
        			$scope.roadNameData.type= row.englishname;
@@ -245,17 +250,18 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
             objectCtrl.save();
             var changed =  objectCtrl.changedProperty;
             if(changed){
+//            	'key' in obj; obj.hasOwnProperty('key')
+            	changed.name = $scope.roadNameData.name;
+            	changed.roadType = $scope.roadNameData.roadType;
+            	changed.adminId = $scope.roadNameData.adminId;
             	changed.nameId = $scope.roadNameData.nameId;
+            	changed.nameGroupId = $scope.roadNameData.nameGroupId;
             	var param = {
-            			data : changed
+            			data : $scope.roadNameData
             	};
             	dsMeta.roadNameSave(param).then(function(data) {
-//                    $scope.loadTableDataMsg = '列表无数据';
-//                    $scope.roadNameList = data.data;
-//                    _self.tableParams.total(data.total);
-//                    $defer.resolve(data.data);
+            		$scope.$emit("REFRESHROADNAMELIST");
                 });
-            	$scope.$emit("REFRESHROADNAMELIST");
             	
             }else{
             	swal("属性值没有变化", "", "info");
@@ -266,31 +272,32 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
          * 道路类型切换
          */
         $scope.roadTypeChange = function(event, obj){
+        	var test = {a:1,b:3,c:3};
         	if(obj.roadNameData.roadType == 1){//高速
-        		$scope.hwInfoFlagEditable = true;
+        		$scope.hwInfoFlagDisable = false;
         		$scope.roadNameData.voiceFile = $scope.roadNameData.memo;
         	}else if(obj.roadNameData.roadType == 3){//铁路
         		$scope.typeEditable = false;//类型名称
         		$scope.typePhoneticEditable = false;//类型名发音
         		$scope.baseEditable = false;//基本名称
         		$scope.basePhoneticEditable = false;//基本名发音
-        		$scope.prefixEditable = false;//前缀名称
-        		$scope.infixEditable = false;//中缀名称
-        		$scope.suffixEditable = false;//后缀名称
+        		$scope.prefixDisable = true;//前缀名称
+        		$scope.infixDisable = true;//中缀名称
+        		$scope.suffixDisable = true;//后缀名称
         		$scope.voiceFileEditable = false;//名称语音
-        		$scope.srcFlagEditable = false;//名称来源
-        		$scope.codeTypeEditalbe = false;//国家编号
+        		$scope.srcFlagDisable = true;//名称来源
+        		$scope.codeTypeDisable = true;//国家编号
     			$scope.adminIdEditable = false;//行政区划
-    			$scope.hwInfoFlagEditable = false;
+    			$scope.hwInfoFlagDisable = true;
         	}else if(obj.roadNameData.roadType == 3){//出口编号
         		$scope.typeEditable = false;//类型名称
         		$scope.typePhoneticEditable = false;//类型名发音
         		$scope.baseEditable = false;//基本名称
         		$scope.basePhoneticEditable = false;//基本名发音
-        		$scope.prefixEditable = false;//前缀名称
-        		$scope.infixEditable = false;//中缀名称
-        		$scope.suffixEditable = false;//后缀名称
-        		$scope.hwInfoFlagEditable = false;
+        		$scope.prefixDisable = true;//前缀名称
+        		$scope.infixDisable = true;//中缀名称
+        		$scope.suffixDisable = true;//后缀名称
+        		$scope.hwInfoFlagDisable = true;
         	}else{
         		$scope.initFieldEditable();
         	}

@@ -29,8 +29,8 @@
                 <li>
                     <label>道路名组ID:</label>
                     <nobr>
-                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupid"/>
-                    	<!-- <a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a> -->
+                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupId"/>
+                    	<a ng-show="roadNameEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -42,8 +42,8 @@
                 <li>
                     <label>类型名称:</label>
                     <nobr>
-                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.type"/>
-                    	<a ng-show="typeEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('type')"></a>
+                    	<input type="text" class="fm-control" ng-model="roadNameData.type" disabled/>
+                    	<a ng-show="typeEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('type')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -58,7 +58,7 @@
                         <select class="fm-control"  ng-model="roadNameData.infix"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in infixOpt"
-                                ng-change="getPy($event, this, 'infix', 'infixPhonetic')" ng-class="{false:'disedit'}[infixEditable]">
+                                ng-change="getPy($event, this, 'infix', 'infixPhonetic')" ng-disabled=infixDisable>
                         </select>
                     </div>
                 </li>
@@ -70,7 +70,7 @@
                     <label >行政区划:</label>
                     <nobr>
                     	<input type="text" class="fm-control disedit" ng-model="roadNameData.adminId"/>
-                    	<a ng-show="adminIdEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('admin')"></a>
+                    	<a ng-show="adminIdEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('admin')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -88,10 +88,10 @@
                 <li>
                     <label>语言类型:</label>
                     <div>
-                        <select class="fm-control disedit"  ng-model="roadNameData.langCode"
+                        <select class="fm-control"  ng-model="roadNameData.langCode"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in langCodeOpt"
-                                ng-change="langCodeChange($event, this)">
+                                ng-change="langCodeChange($event, this)" ng-disabled=langCodeDisable>
                         </select>
                     </div>
                 </li>
@@ -111,7 +111,7 @@
                         <select class="fm-control" ng-model="roadNameData.prefix"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in prefixOpt"
-                                ng-change="getPy($event, this, 'prefix', 'prefixPhonetic')" ng-class="{false:'disedit'}[prefixEditable]">
+                                ng-change="getPy($event, this, 'prefix', 'prefixPhonetic')" ng-disabled=prefixDisable>
                         </select>
                     </div>
                 </li>
@@ -125,20 +125,20 @@
                         <select class="fm-control" ng-model="roadNameData.roadType"
                                 placeholder_text_single="'--请选择--'" 
                                 ng-options="value.id as value.label for value in roadTypeOpt"
-                                ng-change="roadTypeChange($event, this)" ng-class="{true:'chosen-disabled'}['ENG' == roadNameData.langCode]">
+                                ng-change="roadTypeChange($event, this)" ng-disabled=roadTypeDisable>
                         </select>
                     </div>
                 </li>
                 <li>
-                    <label >路线号码??</label>
-                    <div><input type="text" class="fm-control" /></div>
+                    <label >路线号码</label>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.routeId"/></div>
                 </li>
             </ul>
             <ul class="fm-ul fm-ul-form col-md-4">
                 <li>
                     <label>道路名称</label>
                     <div >
-                        <input type="text" class="fm-control" ng-model="roadNameData.name" ng-class="{true:'disedit'}['CHI' == roadNameData.langCode]"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.name" ng-class="{true:'disedit'}[roadNameDataEditable]"/>
                     </div>
                 </li>
                 <li>
@@ -147,7 +147,7 @@
                         <select class="fm-control" ng-model="roadNameData.srcFlag"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in srcFlagOpt"
-                                ng-change="srcFlagChange($event, this)" ng-class="{false:'disedit'}[srcFlagEditable]">
+                                ng-change="srcFlagChange($event, this)" ng-disabled=srcFlagDisable>
                         </select>
                     </div>
                 </li>
@@ -165,7 +165,7 @@
                         <select class="fm-control"  ng-model="roadNameData.suffix"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in suffixOpt"
-                                ng-change="getPy($event, this, 'suffix', 'suffixPhonetic')" ng-class="{false:'disedit'}[suffixEditable]">
+                                ng-change="getPy($event, this, 'suffix', 'suffixPhonetic')" ng-disabled=suffixDisable>
                         </select>
                     </div>
                 </li>
@@ -175,7 +175,7 @@
                         <select class="fm-control"  ng-model="roadNameData.codeType"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in codeTypeOpt"
-                                ng-change="codeTypeChange($event, this)" ng-class="{false:'disedit'}[codeTypeEditalbe]">
+                                ng-change="codeTypeChange($event, this)" ng-disabled=codeTypeDisable>
                         </select>
                     </div>
                 </li>
@@ -186,10 +186,10 @@
                 <li>
                     <label >HIGHWAY信息标识??:</label>
                     <div>
-                        <select ng-model="hwInfoFlag"
+                        <select class="fm-control" ng-model="hwInfoFlag"
                                 placeholder_text_single="'--请选择--'"
                                 ng-options="value.id as value.label for value in hwInfoFlagOpt"
-                                ng-change="hwInfoFlagChange($event, this)" ng-class="{false:'fm-control disedit',true:'fm-control'}[hwInfoFlagEditable]">
+                                ng-change="hwInfoFlagChange($event, this)" ng-disabled=hwInfoFlagDisable>
                         </select>
                     </div>
                 </li>

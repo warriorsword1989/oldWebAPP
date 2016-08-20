@@ -3,7 +3,7 @@
     	<div class="content">
 		    <div style="height: 100%;position: absolute;left: 0;right: 0;top: 0;overflow-y: hidden;z-index: -1">
 		        <div class="fm-table-content fm-fitsize scroll-styled" style="top:0px;bottom: 70px">
-			        <div class="table-header">
+			        <div id="box" class="table-header">
 			        	<div style="padding: 40px 0px 10px 10px" class=" pull-left">
 			        		<button type="button" class="btn btn-shape" ng-click="openSubModal('search')">查询 </button>
 				            <button type="button" class="btn btn-shape" ng-click="openSubModal('add')">新增 </button>
@@ -23,30 +23,22 @@
 					                </li>
 					            </ul>
 					        </div>
-			                <!-- <div class="btn-group dropdown" uib-dropdown auto-close="outsideClick">
-			                    <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
-			                        <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
-			                    </button>
-			                    <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-			                        <li ng-repeat="item in cols" role="menuitem">
-			                        	<label style="padding: 3px 20px;">
-			                        		<input type="checkbox" value="{{item.field}}" ng-model='item.show'> {{item.title}}
-			                        	</label>
-			                        </li>
-			                    </ul>
-			                </div> -->
 			            </div>
 			        </div>
+                    <script type="text/ng-template" id="headerCheckbox.html">
+                        <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
+                    </script>
 		            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
 		                <colgroup>
-		                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+		                    <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100px'}}"/>
 		                </colgroup>
-		                <tr ng-repeat="row in $data" ng-dblClick="openEditPanel(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
-		                    <td ng-repeat="col in $columns">
-		                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+		                <tr ng-repeat="row in $data" ng-dblClick="openEditPanel(row,$index)" ng-class="{true:'tr-backcolor',false:''}[row.checked]">
+		                    <td ng-repeat="col in $columns" ng-switch="col.field">
+                                <input ng-switch-when="selector" type="checkbox" ng-model="row.checked" />
+		                        <p class="text-ellipsis" title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
 		                    </td>
 		                </tr>
-		                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length+1}}" ng-bind="loadTableDataMsg"></td></tr>
+		                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
 		            </table>
 		        </div>
 		    </div>
