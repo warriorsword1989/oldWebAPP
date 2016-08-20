@@ -9,6 +9,8 @@
         "AdNode.js",
         "RdRestriction.js",
         "RdSpeedLimit.js",
+        "RdLinkSpeedLimit.js",
+        "RdLinkSpeedLimitPart.js",
         "RdSlope.js",
         "RdInter.js",
         "RdInterNodes.js",

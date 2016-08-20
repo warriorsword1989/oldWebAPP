@@ -30,7 +30,7 @@
                     <label>道路名组ID:</label>
                     <nobr>
                     	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupId"/>
-                    	<a ng-show="roadNameEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a>
+                    	<a ng-show="nameGroupIdEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a>
                     </nobr>
                 </li>
                 <li>
@@ -138,7 +138,7 @@
                 <li>
                     <label>道路名称</label>
                     <div >
-                        <input type="text" class="fm-control" ng-model="roadNameData.name" ng-class="{true:'disedit'}[roadNameDataEditable]"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.name" ng-class="{true:'disedit'}[nameEditable]"/>
                     </div>
                 </li>
                 <li>

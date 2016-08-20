@@ -6,12 +6,18 @@ fastmap.uikit.canvasFeature.RdSpeedLimit = fastmap.uikit.canvasFeature.Feature.e
         var type = item.m.a;
         this.geometry['type'] = 'Point';
         this.properties['markerStyle'] = {};
+        this.properties['speedType'] = item.m.a;
+        this.properties['direct'] = item.m.d;
+        this.properties['linkPid'] = item.m.e;
+        this.properties['speedValue'] = 0;
+        this.properties['condition'] = 0;
         this.properties['markerStyle']["icon"] = [];
         this.properties["featType"] = "RDSPEEDLIMIT";
         if (type == 0) {
             var fieldCollection = resArray[0];//采集标志（0,现场采集;1,理论判断）
             var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
             var speedValue = resArray[2];//限速值
+            this.properties['speedValue'] = speedValue;
             if (fieldCollection === "1") {//理论判断，限速开始和结束都为蓝色
                 if (speedFlag === "0") {//解除限速
                     iconName = '../../../images/road/1101/theory_speedlimit_start' + '.svg';
@@ -56,7 +62,9 @@ fastmap.uikit.canvasFeature.RdSpeedLimit = fastmap.uikit.canvasFeature.Feature.e
             );
         } else if (type == 3) {
             var limitSpeed = resArray[1];
+            this.properties['speedValue'] = limitSpeed;
             var condition = resArray[2];
+            this.properties['condition'] = condition;
             var limitSpeedFlag = resArray[0];
             var conditionObj = {
                 '0': '无',

@@ -177,6 +177,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDVOICEGUIDE": //语音引导
                         this.data = fastmap.dataApi.rdVoiceGuide(obj);
                         break;
+                    case "RDLINKSPEEDLIMIT": //线限速
+                        this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
+                        break;
                     case "ROADNAME"://道路名称
                     	this.data = fastmap.dataApi.roadName(obj);
                     	break;
