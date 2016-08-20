@@ -48,9 +48,9 @@
 	                </div>
 	            </div>
 	        </div>
-            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
+            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-striped poi-list">
                 <colgroup>
-                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+                    <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
                 </colgroup>
                 <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-dblClick="test()" ng-class="{true:'active'}[itemActive == $index]">
                     <td ng-repeat="col in $columns">
