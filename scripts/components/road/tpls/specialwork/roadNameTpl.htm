@@ -30,12 +30,12 @@
                     </script>
 		            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
 		                <colgroup>
-		                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
+		                    <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100px'}}"/>
 		                </colgroup>
 		                <tr ng-repeat="row in $data" ng-dblClick="openEditPanel(row,$index)" ng-class="{true:'tr-backcolor',false:''}[row.checked]">
 		                    <td ng-repeat="col in $columns" ng-switch="col.field">
                                 <input ng-switch-when="selector" type="checkbox" ng-model="row.checked" />
-		                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
+		                        <p class="text-ellipsis" title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
 		                    </td>
 		                </tr>
 		                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
