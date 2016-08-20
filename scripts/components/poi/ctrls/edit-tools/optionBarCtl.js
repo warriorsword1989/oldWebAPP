@@ -103,7 +103,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     }
     /*初始化搜索结果数据*/
     function initSearchResultData() {
-        initSearchDataCount();
         getSearchResultData(1);
     }
 
@@ -153,6 +152,9 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     };
     /*判断默认显示哪个tab*/
     function initShowTag() {
+				$scope.searchResultTotal = 0;
+				$scope.searchPageNow = 1;
+				$scope.searchPageTotal = 1;
         $scope.tagSelect = 'outputResult';
         $scope.changeTag('outputResult');
     }
