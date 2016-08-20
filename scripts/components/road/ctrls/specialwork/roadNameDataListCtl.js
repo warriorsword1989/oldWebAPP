@@ -109,7 +109,8 @@ angular.module('app').controller('DataListCtl', ['$scope', 'NgTableParams', 'ngT
                 field: "num_index",
                 title: "序号",
                 width: '35px',
-                show: true
+                show: true,
+                getValue: formatHtmlfn
             }, {
                 field: "name",
                 title: "名称",

@@ -16,7 +16,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData:function(data){
     	this.pid = data["nameId"];
         this.nameId = data["nameId"];
-        this.nameGroupid = data["nameGroupid"];
+        this.nameGroupId = data["nameGroupId"];
         this.langCode = data["langCode"];
         this.name = data["name"];
         this.type = data["type"];
@@ -51,7 +51,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate: function () {
         var data = {};
         data["nameId"] = this.nameId;
-        data["nameGroupid"] = this.nameGroupid;
+        data["nameGroupId"] = this.nameGroupId;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["type"] = this.type;
@@ -78,13 +78,14 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["city"] = this.city;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
     getSnapShot: function () {
     	var data = {};
         data["nameId"] = this.nameId;
-        data["nameGroupid"] = this.nameGroupid;
+        data["nameGroupId"] = this.nameGroupId;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["type"] = this.type;
@@ -111,6 +112,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["city"] = this.city;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 

@@ -169,7 +169,7 @@ fastmap.uikit.ObjectEditController = (function() {
                         this.data = fastmap.dataApi.rdSameNode(obj);
                         break;
                     case "RDSAMELINK": //同一线
-                        this.data = fastmap.dataApi.rdSame(obj);
+                        this.data = fastmap.dataApi.rdSameLink(obj);
                         break;
                     case "RDVARIABLESPEED": //可变限速
                         this.data = fastmap.dataApi.rdVariableSpeed(obj);
@@ -180,6 +180,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDLINKSPEEDLIMIT": //线限速
                         this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
                         break;
+                    case "ROADNAME"://道路名称
+                    	this.data = fastmap.dataApi.roadName(obj);
+                    	break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

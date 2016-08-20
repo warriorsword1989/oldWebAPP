@@ -100,28 +100,74 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	};
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
-		var _code = '';
-		if ($scope.tollGateData.passages.length == 0) {
+		var _code = '',
+				passageLen = $scope.tollGateData.passages.length;
+		if (passageLen == 0) {
 			return _code;
 		} else {
-			if ($scope.tollGateData.passages.length < 6) {
-				_code = 'T0' + $scope.tollGateData.passages.length;
+			if (passageLen < 6) {
+				_code = 'T0' + passageLen;
+				for (var i = 0, len = passageLen; i < len; i++) {
+					if ($scope.tollGateData.passages[i]['cardType'] == 1) {
+						_code += '1';
+					} else {
+						_code += '0';
+					}
+				}
+				if (_code.length < 8) {
+					for (var i = 0, len = 8 - _code.length; i < len; i++) {
+						_code += '0';
+					}
+				}
+				return _code;
 			} else {
 				_code = 'T00';
-			}
-			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
-				if ($scope.tollGateData.passages[i]['cardType'] == 1) {
-					_code += '1';
-				} else {
-					_code += '0';
+				var _times = Math.floor(passageLen/3),
+						_left = 0,
+						_middle = 0,
+						_right = 0;
+				if(passageLen%3 == 0){
+					for (var i = 1; i <= passageLen; i+=_times) {
+						for(var j=i;j<i+_times;j++){
+							if($scope.tollGateData.passages[j-1]['cardType'] == 1){
+								if(i < _times+1){
+									_left = 1;
+								}else if(i < passageLen-_times+1 ){
+									_middle = 1;
+								}else {
+									_right = 1;
+								}
+							}
+						}
+					}
+				}else if(passageLen%3 == 1){
+					for(var i=1;i<=passageLen;i++){
+							if($scope.tollGateData.passages[i-1]['cardType'] == 1){
+								if(i<_times+1){
+									_left = 1;
+								}else if(i < passageLen-_times+1 ){
+									_middle = 1;
+								}else{
+									_right = 1;
+								}
+							}
+					}
+				}else if(passageLen%3 == 2){
+					for(var i=1;i<=passageLen;i++){
+							if($scope.tollGateData.passages[i-1]['cardType'] == 1){
+								if(i<_times+2){
+									_left = 1;
+								}else if(i < passageLen-_times+1 ){
+									_middle = 1;
+								}else{
+									_right = 1;
+								}
+							}
+					}
 				}
+				_code = _code + _left + _middle + _right + '00';
+				return _code;
 			}
-			if (_code.length < 8) {
-				for (var i = 0, len = 8 - _code.length; i < len; i++) {
-					_code += '0';
-				}
-			}
-			return _code;
 		}
 	};
 	/*增加item*/
