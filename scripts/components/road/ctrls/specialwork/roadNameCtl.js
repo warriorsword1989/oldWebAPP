@@ -1,9 +1,10 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('RoadNameCtl', ['$scope','$element', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$compile', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta',
-     function($scope,$element, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $compile, dsEdit, $document, appPath, $interval, $timeout, dsMeta) {
-         var _self = $scope;
+angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta', 
+     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta) {
+		var objectCtrl = fastmap.uikit.ObjectEditController();
+		var _self = $scope;
          /*初始化显示table提示*/
          $scope.loadTableDataMsg = '数据加载中...';
          $scope.checkboxes = {
@@ -321,6 +322,8 @@ angular.module('app').controller('RoadNameCtl', ['$scope','$element', '$ocLazyLo
          $scope.openEditPanel = function(data, index){
         	 $scope.editPanel = true;
         	 $scope.roadName = data;
+        	 objectCtrl.setCurrentObject("ROADNAME",data);
+//        	 console.log('当条数据'+JSON.stringify(data))
 //        	 $scope.roadNameData = fastmap.dataApi.roadName(data);
              $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
         	 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
@@ -368,6 +371,13 @@ angular.module('app').controller('RoadNameCtl', ['$scope','$element', '$ocLazyLo
          };
          $scope.$on("CLOSECURRENTPANEL",function(event,data){
         	 $scope.subModal = false;
+         });
+         /***
+          * 编辑界面保存后，列表界面刷新，并关闭编辑界面
+          */
+         $scope.$on("REFRESHROADNAMELIST",function(event,data){
+        	 refreshData();
+        	 $scope.closeEditPanel();
          });
      }
  ]);

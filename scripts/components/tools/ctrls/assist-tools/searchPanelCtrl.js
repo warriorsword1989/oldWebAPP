@@ -6,6 +6,12 @@ angular.module('app').controller("SearchPanelCtrl", ['$scope', '$interval', 'dsE
 		$scope.searchText = null;
 		$scope.running = false;
 		$scope.progress = 0;
+		var searchMapping = {
+			'道路Pid': 'linkPid',
+			'道路名称': 'rdName',
+			'POI Pid': 'pid',
+			'POI名称': 'name'
+		};
 		$scope.doExecute = function () {
 			if (!$scope.searchType) {
 				swal("请选择一个搜索项", "", "info");
@@ -19,7 +25,7 @@ angular.module('app').controller("SearchPanelCtrl", ['$scope', '$interval', 'dsE
 					status: 'begin'
 				});
 				$scope.progress = 0;
-				dsEdit.getSearchData(1, $scope.searchType, $scope.searchText).then(function (data) {
+				dsEdit.getSearchData(1, searchMapping[$scope.searchType], $scope.searchText).then(function (data) {
 					$scope.progress = 100;
 					$scope.running = false;
 					$scope.$emit("job-search", {

@@ -267,7 +267,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
     /***
      * 道路名称保存
      */
-    this.roadNameSave = function() {
+    this.roadNameSave = function(params) {
         var defer = $q.defer();
         ajax.get("metadata/rdname/websave", {
         	parameter: JSON.stringify(params)

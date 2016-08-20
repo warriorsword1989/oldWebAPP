@@ -1474,7 +1474,6 @@ form input[type=checkbox].ng-dirty:before {
 .modifiedInfo {
   color: #ff0000 !important;
 }
-
 /*屏蔽背景层*/
 .divMsgBack {
   display: block;
@@ -1643,4 +1642,7 @@ form input[type=checkbox].ng-dirty:before {
 }
 .date-body {
   color: #FFF;
+}
+.tr-backcolor {
+  background-color: rgba(85, 85, 85, 0.5);
 }
