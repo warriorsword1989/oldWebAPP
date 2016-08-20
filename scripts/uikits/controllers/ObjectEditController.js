@@ -177,6 +177,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDVOICEGUIDE": //语音引导
                         this.data = fastmap.dataApi.rdVoiceGuide(obj);
                         break;
+                    case "RDLINKSPEEDLIMIT": //线限速
+                        this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
