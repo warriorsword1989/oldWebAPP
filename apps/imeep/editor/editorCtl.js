@@ -260,7 +260,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 		//页面初始化方法调用
 		var initPage = function () {
-			var subtaskId = App.Util.getUrlParam("subtaskId");
+			var subtaskId = App.Util.getUrlParam("subtaskId"),
+					specialWork = App.Util.getUrlParam("specialWork");	//专项作业
 			App.Temp.subTaskId = subtaskId;
 			dsManage.getSubtaskById(subtaskId).then(function (data) {
 				if (data) {
@@ -288,6 +289,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					});
 				}
 			});
+			if(specialWork) {
+				/*判断是否为专项作业，如果是则其他tab不能编辑*/
+				$scope.isSpecialOperation = true;
+			}
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
