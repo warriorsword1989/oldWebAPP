@@ -33,10 +33,10 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: true
              },
              {
-                 field: "nameGroupid",
+                 field: "nameGroupId",
                  title: "名称组ID",
+                 sortable: "nameGroupId",
                  width: '100px',
-                 sortable: "nameGroupid",
                  show: true
              },
              {
@@ -249,7 +249,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          //接收高级查询过滤条件
          $scope.$on("FITERPARAMSCHANGE",function(event,data){
         	 $scope.filter.name = data["name"];
-        	 $scope.filter.nameGroup = data["nameGroupid"];
+        	 $scope.filter.nameGroup = data["nameGroupId"];
         	 $scope.filter.admin = data["admin"];
         	 $scope.filter.sql = data["sql"];
          });
@@ -267,7 +267,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                          pageNum: params.page(),
                          pageSize: params.count(),
                          sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+                         params:{"name":params.filter().name,"nameGroupId":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
                      };
                      console.log('主页面参数'+JSON.stringify(param))
                      dsMeta.roadNameList(param).then(function(data) {
@@ -297,6 +297,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           */
          $scope.editPanel = false;
          $scope.openEditPanel = function(data, index){
+        	 $scope.roadNameFlag = "edit";
         	 $scope.editPanel = true;
         	 $scope.roadName = data;
         	 objectCtrl.setCurrentObject("ROADNAME",data);
@@ -325,6 +326,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                   	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchSubModalTpl.htm';
                   });
         	 }else if("add" == type) {
+        		 $scope.openSubModal = "add";
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
                    });
