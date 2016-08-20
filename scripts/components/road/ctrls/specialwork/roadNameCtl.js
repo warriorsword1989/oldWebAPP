@@ -1,19 +1,50 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta', 
-     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta) {
+angular.module('app').controller('RoadNameCtl', ['$scope','$element', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$compile', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta',
+     function($scope,$element, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $compile, dsEdit, $document, appPath, $interval, $timeout, dsMeta) {
          var _self = $scope;
          /*初始化显示table提示*/
          $scope.loadTableDataMsg = '数据加载中...';
-         //初始化ng-table表头;
+         $scope.checkboxes = {
+             checked: false,
+             items: {}
+         };
+         //监控全选;
+         $scope.$watch(function() {
+             return $scope.checkboxes.checked;
+         }, function(value) {
+             angular.forEach($scope.roadNameList, function(item) {
+                 $scope.checkboxes.items[item.id] = value;
+             });
+         });
+         //// watch for data checkboxes
+         //$scope.$watch(function() {return $scope.checkboxes.items;}, function(values) {
+         //    var checked = 0, unchecked = 0, total = 10;
+         //    angular.forEach($scope.roadNameList, function(item) {
+         //        checked   +=  ($scope.checkboxes.items[item.id]) || 0;
+         //        unchecked += (!$scope.checkboxes.items[item.id]) || 0;
+         //    });
+         //    if ((unchecked == 0) || (checked == 0)) {
+         //        $scope.checkboxes.checked = (checked == total);
+         //    }
+         //    // grayed checkbox
+         //    angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+         //}, true);
+
          $scope.cols = [
-//             {
-//                 field: "num_index",
-//                 title: "序号",
-//                 width: '35px',
-//                 show: true
-//             },
+             {
+                 field: "selector",
+                 title: "",
+                 headerTemplateURL: "headerCheckbox.html",
+                 show: true
+             },
+             {
+                 field: "num_index",
+                 title: "abc",
+                 width: '25px',
+                 show: true
+             },
              {
                  field: "nameGroupid",
                  title: "名称组ID",
@@ -38,28 +69,28 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
              {
                  field: "base",
                  title: "基本名称",
-                 width: '40px',
+                 width: '50px',
                  sortable: "base",
                  shozw: true
              },
              {
                  field: "prefix",
                  title: "前缀",
-                 width: '60px',
+                 width: '50px',
                  sortable: "prefix",
                  show: true
              },
              {
                  field: "infix",
                  title: "中缀",
-                 width: '60px',
+                 width: '50px',
                  sortable: "infix",
                  show: true
              },
              {
                  field: "suffix",
                  title: "后缀",
-                 width: '60px',
+                 width: '50px',
                  sortable: "suffix",
                  show: true
              },
@@ -197,6 +228,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: true
              }
          ];
+
          //初始化显示表格字段方法;
          $scope.initShowField = function(params) {
              for (var i = 0; i < $scope.cols.length; i++) {
@@ -234,6 +266,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         	 $scope.filter.admin = data["admin"];
         	 $scope.filter.sql = data["sql"];
          });
+
          function initRoadNameTable() {
              _self.tableParams = new NgTableParams({
                  page: 1,
@@ -259,6 +292,17 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  }
              });
          };
+
+         //生成复选框函数;
+         function formatHtmlfn(scope, row){
+             //return (row.base)
+             //var template =  $compile('<input name="dataList" ng-click="getThisData(this.value)" value="'+row+'" type="checkbox" />');
+             //var newDom = template($scope);
+             //return newDom;
+            return  $compile($sce.trustAsHtml(row.checkboxhtml))($scope.$parent);
+             //return $sce.trustAsHtml(row.checkboxhtml);
+         }
+
          //给每条数据安排序号;
          ngTableEventsChannel.onAfterReloadData(function() {
              $scope.itemActive = -1;
@@ -266,8 +310,10 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  data.num_index = ($scope.tableParams.page() - 1) * $scope.tableParams.count() + index + 1;
              });
          });
+
          /*初始化方法*/
          initRoadNameTable();
+
          /***
           * 弹出编辑面板
           */

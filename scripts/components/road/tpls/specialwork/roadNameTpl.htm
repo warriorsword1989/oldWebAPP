@@ -3,8 +3,8 @@
     	<div class="content">
 		    <div style="height: 100%;position: absolute;left: 0;right: 0;top: 0;overflow-y: hidden;z-index: -1">
 		        <div class="fm-table-content fm-fitsize scroll-styled" style="top:0px;bottom: 70px">
-			        <div class="table-header">
-			        	<div style="padding: 40px 0px 10px 10px" class=" pull-left">
+			        <div id="box" class="table-header">
+			        	<div style="padding: 40px 0px 10px 10px" class=" pull-left">1212
 			        		<button type="button" class="btn btn-shape" ng-click="openSubModal('search')">查询 </button>
 				            <button type="button" class="btn btn-shape" ng-click="openSubModal('add')">新增 </button>
 				            <button type="button" class="btn btn-shape" ng-click="openSubModal('split')">拆分</button>
@@ -37,12 +37,16 @@
 			                </div> -->
 			            </div>
 			        </div>
+                    <script type="text/ng-template" id="headerCheckbox.html">
+                        <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
+                    </script>
 		            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
 		                <colgroup>
 		                <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100'}}"/>
 		                </colgroup>
 		                <tr ng-repeat="row in $data" ng-dblClick="openEditPanel(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
-		                    <td ng-repeat="col in $columns">
+		                    <td ng-repeat="col in $columns" ng-switch="col.field">
+                                <input ng-switch-when="selector" type="checkbox" ng-model="checkboxes.items[row.id]" />
 		                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
 		                    </td>
 		                </tr>
