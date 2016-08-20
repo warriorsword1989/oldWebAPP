@@ -2390,7 +2390,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     //可变限速当前数据模型的拷贝;
                     var tempObj = objCtrl.data.getIntegrate();
                     var tempOutLink = tempObj.outLinkPid;
-                    //获取退出线并高亮;
+                    //获取退出线是否满足条件;
+                    $scope.getSelectLinkInfos = function(param){
+                        var defer = $q.defer();
+                        dsEdit.getByPid(param, "RDLINK").then(function(data) {
+                            if(data){defer.resolve(data);}
+                        })
+                        return defer.promise;
+                    }
                     $scope.isOutLink = function(dataId) {
                         var param = {};
                         param["dbId"] = App.Temp.dbId;
@@ -2404,11 +2411,24 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             for(var i=0;i<linkData.data.length;i++){
                                 outlinks.push(linkData.data[i].pid)
                             }
-                            //如果不衔接;
                             if(outlinks.indexOf(parseInt(dataId))==-1){
+                                //如果不衔接;
                                 defer.resolve(-1);
                             }else{
-                                defer.resolve(1);
+                                $scope.getSelectLinkInfos(dataId).then(function(outLinkData){
+                                    //如果衔接;
+                                    if(outLinkData)
+                                    if((tempObj.nodePid==outLinkData.sNodePid&&outLinkData.direct==2)||(tempObj.nodePid==outLinkData.eNodePid&&outLinkData.direct==3)||(outLinkData.direct==1)){
+                                        /**
+                                         * 如果衔接需要判断方向性;
+                                         * (1)如果退出线的startNode==nodePid(进入点)&&退出出线为顺方向2  才满足;
+                                         * (2)如果退出线的endNode==nodePid(进入点) && 退出线为逆方向3  才满足
+                                         */
+                                        defer.resolve(1);
+                                    }else{
+                                        defer.resolve(2);
+                                    }
+                                })
                             }
                         })
                         return defer.promise;
@@ -2419,8 +2439,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         dsEdit.getByPid(tempObj.outLinkPid, "RDLINK").then(function(data) {
                             var linknodePid = '';
                             if(data){
-                                linknodePid = (data.sNodePid==tempObj.nodePid)?data.eNodePid:data.sNodePid;
-                                defer.resolve(linknodePid);
+                                defer.resolve(data);
                             }
                         })
                         return defer.promise;
@@ -2451,7 +2470,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
                         //选择接续线;
                         $scope.getOutLinkInfos(dataresult.id)
-                            .then(function(linkData){
+                            .then(function(dataRes){
+                                var linkData = (dataRes.sNodePid==tempObj.nodePid)?dataRes.eNodePid:dataRes.sNodePid;
                                 $scope.isLinkedLinks(linkData,dataresult.id).then(function(data){
                                     /**
                                      * 如果多点的线与当前的退出线挂接，则提示继续选"接续线";
@@ -2482,7 +2502,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                     }
                                     else{//如果选的是退出线的逻辑部分;
                                         $scope.isOutLink(dataresult.id).then(function(linkData) {
-                                            if(linkData>0){
+                                            if(linkData==1){
                                                 highRenderCtrl.highLightFeatures = [];
                                                 //高亮进入线;
                                                 highRenderCtrl.highLightFeatures.push({
@@ -2511,11 +2531,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                                 highRenderCtrl._cleanHighLight();
                                                 highRenderCtrl.drawHighlight();
                                                 tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存或继续选择接续线!");
+                                            }else if(linkData==2){
+                                                tooltipsCtrl.setCurrentTooltip("方向错误或该路的方向不确定!");
                                             }else{
                                                 tooltipsCtrl.setCurrentTooltip("操作错误!");
-                                                setTimeout(function(){
-                                                    tooltipsCtrl.onRemoveTooltip();
-                                                },1500)
                                                 return;
                                             }
                                         })
