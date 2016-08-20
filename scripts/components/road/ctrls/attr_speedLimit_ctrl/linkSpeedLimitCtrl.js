@@ -8,7 +8,8 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var selectCtrl = fastmap.uikit.SelectController();
-    var speedLimit = layerCtrl.getLayerById('relationData');
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
+    var relationData = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
@@ -122,23 +123,6 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
         {"id":8,"label":"缓速行驶"},
         {"id":9,"label":"未调查"}
     ];
-    $scope.addSpeedLimit = function () {
-        var newLimits = new fastmap.dataApi.linkspeedlimit({"linkPid":objCtrl.data.pid,"speedType":3});
-        $scope.speedLimitsData.unshift(newLimits);
-
-    };
-    $scope.minusSpeedlimit = function (id) {
-        $scope.speedLimitsData.splice(id, 1);
-        if ( $scope.speedLimitsData.length === 0) {
-        }
-    };
-
-    $scope.changeColor=function(ind){
-        $("#minusSpan"+ind).css("color","#FFF");
-    }
-    $scope.backColor=function(ind){
-        $("#minusSpan"+ind).css("color","darkgray");
-    }
     function timeoutLoad() {
         $timeout(function() {
             $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function() {
@@ -176,7 +160,31 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
     timeoutLoad();
 
     $scope.save = function () {
+        var linkSpeedLimitData = {
+            linkPids:featCodeCtrl.getFeatCode().linkPids,
+            direct:featCodeCtrl.getFeatCode().direct,
+            linkSpeedLimit:{
+                speedType:$scope.speedLimitsData.speedType,
+                fromSpeedLimit:$scope.speedLimitsData.fromSpeedLimit,
+                fromSpeedSrc:$scope.speedLimitsData.fromSpeedSrc,
+                toSpeedLimit:$scope.speedLimitsData.toSpeedLimit,
+                toSpeedSrc:$scope.speedLimitsData.toSpeedSrc,
+                speedClassWork:$scope.speedLimitsData.speedClassWork
+            }
+        };
 
+        var param = {
+            "command": "BATCH",
+            "type": "RDLINKSPEEDLIMIT",
+            "dbId": App.Temp.dbId,
+            "data": linkSpeedLimitData
+        };
+        dsEdit.save(param).then(function (data) {
+            if (data) {
+                relationData.redraw();
+                swal("操作成功", "创建线限速成功！", "success");
+            }
+        })
     };
     $scope.delete = function () {
 

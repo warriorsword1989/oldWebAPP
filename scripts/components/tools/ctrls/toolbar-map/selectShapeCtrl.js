@@ -2640,20 +2640,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             });
                             map.currentTool.enable();
                             tooltipsCtrl.setCurrentTooltip('请选择需要增加或者删除的线！');
+                            eventController.off(eventController.eventTypes.GETRELATIONID);
                             eventController.on(eventController.eventTypes.GETFEATURE, function(selectLink) {
                                 highRenderCtrl._cleanHighLight();
                                 if(selectLink.optype == "RDLINK"){
                                     if(linkPids.indexOf(parseInt(selectLink.id)) < 0){//不在当前的link串里
                                         if(linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 || linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1){//选择的link是link串里最后一条的挂接link
-                                            linkPids.push(parseInt(selectLink.id));
-                                            highRenderCtrl.highLightFeatures.push({
-                                                id: selectLink.id.toString(),
-                                                layerid: 'rdLink',
-                                                type: 'line',
-                                                style: {
-                                                    color: '#D9B300'
-                                                }
-                                            });
+                                            if((linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 && ((parseInt(selectLink.properties.direct) == 3)||(parseInt(selectLink.properties.direct) == 1))) || (linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1 && ((parseInt(selectLink.properties.direct) == 2)||(parseInt(selectLink.properties.direct) == 1)))){
+                                                linkPids.push(parseInt(selectLink.id));
+                                                highRenderCtrl.highLightFeatures.push({
+                                                    id: selectLink.id.toString(),
+                                                    layerid: 'rdLink',
+                                                    type: 'line',
+                                                    style: {
+                                                        color: '#D9B300'
+                                                    }
+                                                });
+                                            }
                                         }
                                     } else {//在当前的link串里
                                         linkPids.length = linkPids.indexOf(parseInt(selectLink.id));
@@ -2674,10 +2677,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                     }
                                 }
                                 highRenderCtrl.drawHighlight();
-
                                 featCodeCtrl.setFeatCode({  //设置修改确认的数据;
                                     "direct": data.direct,
-                                    "linkPids":linkPids,
+                                    "linkPids":linkPids
                                 });
                             });
                         });
