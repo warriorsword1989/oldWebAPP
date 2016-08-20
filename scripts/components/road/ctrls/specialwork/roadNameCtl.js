@@ -58,7 +58,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  title: "基本名称",
                  width: '120px',
                  sortable: "base",
-                 shozw: true
+                 show: true
              },
              {
                  field: "prefix",
@@ -135,7 +135,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  title: "语音代码",
                  width: '60px',
                  sortable: "langCode",
-                 show: true
+                 show: false
              },
              {
                  field: "errMsg",
