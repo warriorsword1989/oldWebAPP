@@ -7,10 +7,8 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
 		var _self = $scope;
          /*初始化显示table提示*/
          $scope.loadTableDataMsg = '数据加载中...';
-         $scope.checkboxes = {
-             checked: false,
-             items: {}
-         };
+         $scope.checkboxes = {checked: false};
+
          //监控全选;
          $scope.$watch(function() {
              return $scope.checkboxes.checked;
@@ -19,88 +17,88 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  item.checked = value;
              });
          });
-         //
-         $()
+
          $scope.cols = [
              {
                  field: "selector",
                  title: "",
                  headerTemplateURL: "headerCheckbox.html",
+                 width:'50px',
                  show: true
              },
              {
                  field: "num_index",
-                 title: "abc",
-                 width: '25px',
+                 title: "序号",
+                 width: '50px',
                  show: true
              },
              {
                  field: "nameGroupid",
                  title: "名称组ID",
-                 width: '60px',
+                 width: '100px',
                  sortable: "nameGroupid",
                  show: true
              },
              {
                  field: "name",
                  title: "道路名称",
-                 width: '60px',
+                 width: '100px',
                  sortable: "name",
                  show: true
              },
              {
                  field: "type",
-                 title: "类型名称",
-                 width: '60px',
+                 title: "类型",
+                 width: '80px',
                  sortable: "type",
                  show: true
              },
              {
                  field: "base",
                  title: "基本名称",
-                 width: '50px',
+                 width: '120px',
                  sortable: "base",
                  shozw: true
              },
              {
                  field: "prefix",
                  title: "前缀",
-                 width: '50px',
+                 width: '70px',
                  sortable: "prefix",
                  show: true
              },
              {
                  field: "infix",
                  title: "中缀",
-                 width: '50px',
+                 width: '70px',
                  sortable: "infix",
                  show: true
              },
              {
                  field: "suffix",
                  title: "后缀",
-                 width: '50px',
+                 width: '70px',
                  sortable: "suffix",
                  show: true
              },
              {
                  field: "namePhonetic",
                  title: "道路名发音",
-                 width: '60px',
+                 width: '120px',
                  sortable: "namePhonetic",
                  show: true
              },
              {
                  field: "tipsId",
                  title: "TipsID",
-                 width: '60px',
+                 width: '70px',
                  sortable: "tipsId",
                  show: true
              },
              {
                  field: "basePhonetic",
                  title: "基本名发音",
-                 width: '60px',
+                 width: '120px',
                  sortable: "basePhonetic",
                  show: true
              },

@@ -153,6 +153,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 getValue: getFreshnessVefication
             }
         ];
+
         //初始化显示表格字段方法;
         scope.initShowField = function(params) {
             for (var i = 0; i < scope.cols.length; i++) {
