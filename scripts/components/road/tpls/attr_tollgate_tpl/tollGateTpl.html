@@ -6,8 +6,8 @@
         </div>
         <div class="content">
             <div class="attr-img-container" ng-if="tollGateData.passages.length > 0">
-                <img src="../../../images/road/img/noimg.png" ng-if="!tollGateData.etcFigureCode" class="attr-img-show">
-                <img src="../../../images/road/etc/{{tollGateData.etcFigureCode}}.png" ng-if="tollGateData.etcFigureCode" class="attr-img-show">
+                <img ng-src="../../../images/road/img/noimg.png" ng-if="!tollGateData.etcFigureCode" class="attr-img-show">
+                <img ng-src="../../../images/road/etc/{{tollGateData.etcFigureCode}}.png" ng-if="tollGateData.etcFigureCode" class="attr-img-show">
                 <!--<div class="picMapDesc" ng-bind="tollGateData.etcFigureCode"></div>-->
             </div>
             <form>
@@ -91,4 +91,3 @@
         </div>
     </div>
 </div>
-

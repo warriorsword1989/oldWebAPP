@@ -78,6 +78,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["city"] = this.city;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -111,6 +112,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["city"] = this.city;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 
