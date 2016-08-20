@@ -159,9 +159,13 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 
 	$scope.save = function () {
 		objCtrl.data.location = bin2dec(Number($scope.variableSpeed.locationLeft) + '' + Number($scope.variableSpeed.locationTop) + '' + Number($scope.variableSpeed.locationRight));
+        if($scope.variableSpeed.speedValue>9999){
+            swal("警告", '限速值超过最大值！', "warning");
+            return;
+        }
         objCtrl.save();
 		if (!objCtrl.changedProperty) {
-			swal("操作成功", '属性值没有变化！', "success");
+			swal("提示", '属性值没有变化！', "warning");
 			return;
 		}
 		var param = {
@@ -174,7 +178,6 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 			if (data) {
                 relationData.redraw();
                 $scope.initializeData();
-                //objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 if($scope.variableSpeedForm) {
                     $scope.variableSpeedForm.$setPristine();
                 }
@@ -203,6 +206,10 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
                 });
 			}
 		})
+        if (map.floatMenu) {
+            map.removeLayer(map.floatMenu);
+            map.floatMenu = null;
+        }
 	};
 	$scope.cancel = function () {};
     if (objCtrl.data) {
