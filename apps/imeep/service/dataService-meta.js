@@ -283,4 +283,24 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /***
+     * 道路名组下英文/葡文检查
+     */
+    this.rdnameGroup = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/group", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("道路名组下英文/葡文检查出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    
 }]);

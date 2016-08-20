@@ -123,8 +123,22 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
 		];
 		$scope.hwInfoFlag = 1;
 		$scope.initializeData = function(){
-    		$scope.roadNameData = objectCtrl.data;
-    		objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+			var type = $scope.roadNameFlag;
+			if("add" == type){
+//				var defautdata = {
+//						langCode : "CHI",
+//						srcFlag : 0,
+//						roadType : 0,
+//						codeType : 0,
+//						routeId : 0,
+//						splitFlag : 0
+//						
+//				};
+				$scope.roadNameData = fastmap.dataApi.roadName({});
+			}else if("edit" == type){
+				$scope.roadNameData = objectCtrl.data;
+	    		objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+			}
     		if($scope.roadNameData.langCode == "ENG"){
     			$scope.prefixOpt = prefixOpt_ENG;
     			$scope.infixOpt = infixOpt_ENG;
@@ -138,28 +152,48 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
     	};
     	//初始化各个字段是否可编辑
     	$scope.initFieldEditable = function(){
-    		$scope.hwInfoFlagDisable = true;//highway信息标识
-    		$scope.typeEditable = true;//类型名称
-    		$scope.typePhoneticEditable = true;//类型名发音
-    		$scope.baseEditable = true;//基本名称
-    		$scope.basePhoneticEditable = true;//基本名发音
-    		$scope.prefixDisable = false;//前缀名称
-    		$scope.infixDisable = false;//中缀名称
-    		$scope.suffixDisable = false;//后缀名称
-    		$scope.voiceFileEditable = true;//名称语音
-    		$scope.srcFlagDisable = false;//名称来源
-    		$scope.roadNameEditable = false;
-    		$scope.langCodeDisable = true;//语言类型
-    		if($scope.roadNameData.langCode == "ENG"){
-    			$scope.codeTypeDisable = true;//国家编号
-    			$scope.adminIdEditable = false;//行政区划
-    			$scope.roadTypeDisable = true;//道路类型
-    			$scope.roadNameDataEditable = true;//道路名称
-    		}else if($scope.roadNameData.langCode == "CHI"){
-    			$scope.codeTypeDisable = false;//国家编号
+    		var type = $scope.roadNameFlag;
+    		if("edit" == type){
+    			$scope.hwInfoFlagDisable = true;//highway信息标识
+        		$scope.typeEditable = true;//类型名称
+        		$scope.typePhoneticEditable = true;//类型名发音
+        		$scope.baseEditable = true;//基本名称
+        		$scope.basePhoneticEditable = true;//基本名发音
+        		$scope.prefixDisable = false;//前缀名称
+        		$scope.infixDisable = false;//中缀名称
+        		$scope.suffixDisable = false;//后缀名称
+        		$scope.voiceFileEditable = true;//名称语音
+        		$scope.srcFlagDisable = false;//名称来源
+        		$scope.nameGroupIdEditable = false;
+        		$scope.langCodeDisable = true;//语言类型
+        		if($scope.roadNameData.langCode == "ENG"){
+        			$scope.codeTypeDisable = true;//国家编号
+        			$scope.adminIdEditable = false;//行政区划
+        			$scope.roadTypeDisable = true;//道路类型
+        			$scope.nameEditable = false;//道路名称
+        		}else if($scope.roadNameData.langCode == "CHI"){
+        			$scope.codeTypeDisable = false;//国家编号
+        			$scope.adminIdEditable = true;//行政区划
+        			$scope.roadTypeDisable = false;//道路类型
+        			$scope.nameEditable = true;//道路名称
+        		}
+    		}else if("add" == type){
+    			$scope.hwInfoFlagDisable = true;//highway信息标识
+        		$scope.typeEditable = true;//类型名称
+        		$scope.typePhoneticEditable = true;//类型名发音
+        		$scope.baseEditable = true;//基本名称
+        		$scope.basePhoneticEditable = true;//基本名发音
+        		$scope.prefixDisable = false;//前缀名称
+        		$scope.infixDisable = false;//中缀名称
+        		$scope.suffixDisable = false;//后缀名称
+        		$scope.voiceFileEditable = true;//名称语音
+        		$scope.srcFlagDisable = false;//名称来源
+        		$scope.nameGroupIdEditable = true;//道路组id
+        		$scope.langCodeDisable = false;//语言类型
+        		$scope.codeTypeDisable = false;//国家编号
     			$scope.adminIdEditable = true;//行政区划
     			$scope.roadTypeDisable = false;//道路类型
-    			$scope.roadNameDataEditable = false;//道路名称
+    			$scope.nameEditable = false;//道路名称
     		}
     	};
     	$scope.initializeData();
@@ -170,6 +204,21 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         $scope.openSearchModal = function(type){
        	 	$scope.searchModal = true;
        	 	if("nameGroup" == type) {
+       	 		if($scope.roadNameFlag == "add") {
+       	 			if("CHI" == $scope.roadNameData.langCode || "CHT" == $scope.roadNameData.langCode){
+       	 				swal("道路名组在语言类型为中文时系统会自动分配，不能选择", "", "info");
+       	 				return;
+       	 			}
+//       	 			else{
+//	       	 			var param = {
+//	       	 					nameGroupId : parseInt($scope.roadNameData.nameGroupId)
+//		                	};
+//	                	dsMeta.rdnameGroup(param).then(function(data) {
+//	                		alert()
+//	                		return;
+//	                    });
+//       	 			}
+       	 		}
 	       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/nameGroupTableCtl.js').then(function () {
 	            	$scope.searchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/nameGroupTableTpl.htm';
 	            });
@@ -199,8 +248,24 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         $scope.selectVal = function(row, index, type) {
        	 if(type == "admin"){
        		 $scope.roadNameData.adminId = row.whole;
+       		 $scope.searchModal = false;
        	 }else if(type == "namegroup"){
-       		 $scope.roadNameData.nameGroupId = row.nameGroupId;
+       		 if("add" == $scope.roadNameFlag){
+       			var param = {
+   	 					nameGroupId : parseInt(row.nameGroupId)
+                	};
+            	dsMeta.rdnameGroup(param).then(function(data) {
+            		if(data.data){
+            			swal("该道路名组内已经存在两条记录，不可再添加。请选择其他道路名组", "", "info");
+            		}else{
+            			$scope.roadNameData.nameGroupId = row.nameGroupId;
+            			$scope.searchModal = false;
+            		}
+                });
+       		 }else{
+       			$scope.roadNameData.nameGroupId = row.nameGroupId;
+       			$scope.searchModal = false;
+       		 }
        	 }else if(type == "type"){
        		 if("ENG" == $scope.roadNameData.langCode){
        			$scope.roadNameData.type= row.englishname;
@@ -213,8 +278,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 });
        			$scope.roadNameData.type= row.name;
        		 }
+       		$scope.searchModal = false;
        	 }
-       	 $scope.searchModal = false;
         };
         /**
          * 前缀名称变化
@@ -246,27 +311,52 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
          */
         $scope.doSave = function() {
         	//roadName为原始类型，查询返回里没有type,不能调用objectCtrl.setCurrentObject
-        	objectCtrl.data = $scope.roadNameData;
-            objectCtrl.save();
-            var changed =  objectCtrl.changedProperty;
-            if(changed){
-//            	'key' in obj; obj.hasOwnProperty('key')
-            	changed.name = $scope.roadNameData.name;
-            	changed.roadType = $scope.roadNameData.roadType;
-            	changed.adminId = $scope.roadNameData.adminId;
-            	changed.nameId = $scope.roadNameData.nameId;
-            	changed.nameGroupId = $scope.roadNameData.nameGroupId;
-            	var param = {
-            			data : $scope.roadNameData
-            	};
-            	dsMeta.roadNameSave(param).then(function(data) {
-            		$scope.$emit("REFRESHROADNAMELIST");
-                });
-            	
-            }else{
-            	swal("属性值没有变化", "", "info");
-				return;
+        	
+            if("add" == $scope.roadNameFlag){
+            	if($scope.roadNameData.name == undefined || $scope.roadNameData.name == null || $scope.roadNameData.name == ""){
+            		swal("道路名不能为空", "", "info");
+            		return;
+            	}else if($scope.roadNameData.adminId == undefined || $scope.roadNameData.adminId == null || $scope.roadNameData.adminId == ""){
+            		swal("行政区划不能为空", "", "info");
+            		return;
+            	}
+            	if($scope.roadNameData.langCode == "ENG" || $scope.roadNameData.langCode == "POR"){
+            		if($scope.roadNameData.nameGroupId == undefined || $scope.roadNameData.nameGroupId == null || $scope.roadNameData.nameGroupId == ""){
+                		swal("非中文的语言类型，必须选择一个名称组", "", "info");
+                		return;
+                	}
+            	}else{
+            		var param = {
+                			data : $scope.roadNameData
+                	};
+                	dsMeta.roadNameSave(param).then(function(data) {
+                		$scope.$emit("REFRESHROADNAMELIST");
+                    });
+            	}
+            }else if("edit" == $scope.roadNameFlag){
+            	objectCtrl.data = $scope.roadNameData;
+                objectCtrl.save();
+                var changed =  objectCtrl.changedProperty;
+                if(changed){
+//                	'key' in obj; obj.hasOwnProperty('key')
+                	changed.name = $scope.roadNameData.name;
+                	changed.roadType = $scope.roadNameData.roadType;
+                	changed.adminId = $scope.roadNameData.adminId;
+                	changed.nameId = $scope.roadNameData.nameId;
+                	changed.nameGroupId = $scope.roadNameData.nameGroupId;
+                	var param = {
+                			data : $scope.roadNameData
+                	};
+                	dsMeta.roadNameSave(param).then(function(data) {
+                		$scope.$emit("REFRESHROADNAMELIST");
+                    });
+                	
+                }else{
+                	swal("属性值没有变化", "", "info");
+    				return;
+                }
             }
+            
         };
         /***
          * 道路类型切换
