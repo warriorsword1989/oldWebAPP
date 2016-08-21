@@ -106,7 +106,7 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
                 id: $scope.variableSpeed.vias[i].linkPid.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {size: 5,color:'#660066'}
+                style: {size: 5,color:'blue'}
             });
         }
         //高亮可变限速图标;
