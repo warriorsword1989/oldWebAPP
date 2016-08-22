@@ -29,7 +29,7 @@ oridinaryInfoApp.controller("oridinaryCarController",function($scope) {
     if($scope.ordinaryCarForm) {
         $scope.ordinaryCarForm.$setPristine();
     }
-    $scope.$on('refreshRtic',function(data){
+    $scope.$on('refreshPage',function(data){
         $scope.realtimeData = objCtrl.data;
         for(var i= 0,len=$scope.realtimeData.rtics.length;i<len;i++) {
             if($scope.realtimeData.rtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
