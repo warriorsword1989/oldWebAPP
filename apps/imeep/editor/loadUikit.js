@@ -12,6 +12,7 @@
         "controllers/LayerController.js",
         "controllers/ObjectEditController.js",
         "controllers/OutPutController.js",
+        "controllers/LogMsgController.js",
         "controllers/SelectController.js",
         "controllers/ShapeEditorController.js",
         "controllers/ToolTipsController.js",

@@ -1846,3 +1846,32 @@ form input[type=checkbox].ng-dirty:before {
 .tr-backcolor{
   background-color: rgba(85, 85, 85, 0.5);
 }
+
+.log-message-container {
+    .absolute-position(auto,auto,0,40px);
+    width: 250px;
+    z-index: 99;
+    .log-message {
+      color: #fff;
+      background-color: #222;
+      padding: 13px;
+      height: 40px;
+      margin-top: 3px;
+      .log-message-remove{
+        height:100%;
+        width:20px;
+        position: absolute;
+        right: 0;
+        // background-color: #222;
+        color:#fff;
+        opacity: .5;
+        top: 0;
+        cursor: pointer;
+        padding: 4px;
+        padding-top: 13px;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+}
