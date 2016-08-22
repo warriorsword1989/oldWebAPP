@@ -302,5 +302,24 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /***
+     * 道路名拆分
+     */
+    this.rdnameSplit = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/webteilen", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("道路名拆分出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     
 }]);

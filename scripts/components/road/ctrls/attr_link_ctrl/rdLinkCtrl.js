@@ -121,15 +121,27 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     }
                 }
                 $scope.modelArray[i] = true;
+            } else if (ind == i && ind == 2) {
+                for (var layer in layerCtrl.layers) {
+                    if (layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
+                        layerCtrl.layers[layer].options.isUpDirect = false;
+                        layerCtrl.layers[layer].options.visible = true;
+                        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                            layerArr: layerCtrl.layers
+                        });
+                        break;
+                    }
+                }
+                $scope.modelArray[i] = true;
             } else if (ind == i) {
                 for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
+                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" || layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
                         layerCtrl.layers[layer].options.isUpDirect = true;
                         layerCtrl.layers[layer].options.visible = false;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                             layerArr: layerCtrl.layers
                         });
-                        break;
+                        // break;
                     }
                 }
                 $scope.modelArray[i] = true;

@@ -13,16 +13,10 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
     /*
      * 返回参数赋值
      */
-//    langCode : "CHI",
-//	srcFlag : 0,
-//	roadType : 0,
-//	codeType : 0,
-//	routeId : 0,
-//	splitFlag : 0
     setAttributeData:function(data){
     	this.pid = data["nameId"] || null;
         this.nameId = data["nameId"] || null;
-        this.nameGroupId = data["nameGroupId"] || null;
+        this.nameGroupid = data["nameGroupid"] || null;
         this.langCode = data["langCode"] || "CHI";
         this.name = data["name"] || "";
         this.type = data["type"] || "";
@@ -49,6 +43,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         this.uRecord = data["uRecord"] || "";
         this.uFields = data["uFields"] || "";
         this.city = data["city"] || "";
+        this.adminName = data["adminName"] || "";
     },
 
     /*
@@ -57,7 +52,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate: function () {
         var data = {};
         data["nameId"] = this.nameId;
-        data["nameGroupId"] = this.nameGroupId;
+        data["nameGroupid"] = this.nameGroupid;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["type"] = this.type;
@@ -84,6 +79,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["city"] = this.city;
+        data["adminName"] = this.adminName;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -91,7 +87,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot: function () {
     	var data = {};
         data["nameId"] = this.nameId;
-        data["nameGroupId"] = this.nameGroupId;
+        data["nameGroupid"] = this.nameGroupid;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["type"] = this.type || "";
@@ -118,6 +114,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["city"] = this.city;
+        data["adminName"] = this.adminName;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

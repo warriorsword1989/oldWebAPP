@@ -5,13 +5,11 @@
 var selectApp = angular.module("app");
 selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazyLoad', 'dsEdit', function ($scope, $timeout, $ocLazyLoad, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
-    var selectCtrl = fastmap.uikit.SelectController();
     var featCodeCtrl = fastmap.uikit.FeatCodeController();
-    var relationData = layerCtrl.getLayerById('relationData');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var relationData = layerCtrl.getLayerById('rdLinkSpeedLimit');
     var eventController = fastmap.uikit.EventController();
-    var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     $scope.speedLimitsData = objCtrl.data;
     $scope.fromEditable = true;
@@ -22,13 +20,13 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
     if(objCtrl.data.toSpeedLimit == 0){
         $scope.toEditable = false;
     }
-    $scope.carSpeedType = false;
-    $scope.initializeData = function () {
-
-    };
-    if (objCtrl.data) {
-        $scope.initializeData();
-    }
+    // $scope.carSpeedType = false;
+    // $scope.initializeData = function () {
+    //
+    // };
+    // if (objCtrl.data) {
+    //     $scope.initializeData();
+    // }
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},
         {"id":55,"label":"服务区内道路"},
@@ -47,48 +45,6 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
         {"id":1,"label":"收费"},
         {"id":2,"label":"免费"},
         {"id":3,"label":"收费道路的免费区间"}
-    ];
-    $scope.fromOfWayOption = [
-        {"id": "0", "label": "未调查"},
-        {"id": "1", "label": "无属性"},
-        {"id": "2", "label": "其他"},
-        {"id": "10", "label": "IC"},
-        {"id": "11", "label": "JCT"},
-        {"id": "12", "label": "SA"},
-        {"id": "13", "label": "PA"},
-        {"id": "14", "label": "全封闭道路"},
-        {"id": "15", "label": "匝道"},
-        {"id": "16", "label": "跨线天桥"},
-        {"id": "17", "label": "跨线地道"},
-        {"id": "18", "label": "私道"},
-        {"id": "20", "label": "步行街"},
-        {"id": "21", "label": "过街天桥"},
-        {"id": "22", "label": "公交专用道"},
-        {"id": "23", "label": "自行车道"},
-        {"id": "24", "label": "跨线立交桥"},
-        {"id": "30", "label": "桥"},
-        {"id": "31", "label": "隧道"},
-        {"id": "32", "label": "立交桥"},
-        {"id": "33", "label": "环岛"},
-        {"id": "34", "label": "辅路"},
-        {"id": "35", "label": "掉头口"},
-        {"id": "36", "label": "POI连接路"},
-        {"id": "37", "label": "提右"},
-        {"id": "38", "label": "提左"},
-        {"id": "39", "label": "主辅路入口"},
-        {"id": "43", "label": "窄道路"},
-        {"id": "48", "label": "主路"},
-        {"id": "49", "label": "侧道"},
-        {"id": "50", "label": "交叉点内道路"},
-        {"id": "51", "label": "未定义交通区域"},
-        {"id": "52", "label": "区域内道路"},
-        {"id": "53", "label": "停车场出入口连接路"},
-        {"id": "54", "label": "停车场出入口虚拟连接路"},
-        {"id": "57", "label": "Highway对象外JCT"},
-        {"id": "60", "label": "风景路线"},
-        {"id": "80", "label": "停车位引导道路"},
-        {"id": "81", "label": "停车位引导道路"},
-        {"id": "82", "label": "虚拟提左提右"}
     ];
     $scope.speedTypeOption=[
         {"id":0,"label":"普通"},
@@ -165,10 +121,10 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
             direct:featCodeCtrl.getFeatCode().direct,
             linkSpeedLimit:{
                 speedType:$scope.speedLimitsData.speedType,
-                fromSpeedLimit:$scope.speedLimitsData.fromSpeedLimit,
-                fromSpeedSrc:$scope.speedLimitsData.fromSpeedSrc,
-                toSpeedLimit:$scope.speedLimitsData.toSpeedLimit,
-                toSpeedSrc:$scope.speedLimitsData.toSpeedSrc,
+                fromSpeedLimit:parseInt($scope.speedLimitsData.fromSpeedLimit)*10 || 0,
+                fromLimitSrc:$scope.speedLimitsData.fromLimitSrc || 0,
+                toSpeedLimit:parseInt($scope.speedLimitsData.toSpeedLimit)*10 || 0,
+                toLimitSrc:$scope.speedLimitsData.toLimitSrc || 0,
                 speedClassWork:$scope.speedLimitsData.speedClassWork
             }
         };
@@ -181,6 +137,8 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
         };
         dsEdit.save(param).then(function (data) {
             if (data) {
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures = [];
                 relationData.redraw();
                 swal("操作成功", "创建线限速成功！", "success");
             }
@@ -192,7 +150,17 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
     $scope.cancel = function () {
 
     };
-
+    $scope.$on('refreshPage',function(data){
+        $scope.speedLimitsData = objCtrl.data;
+        $scope.fromEditable = true;
+        $scope.toEditable = true;
+        if(objCtrl.data.fromSpeedLimit == 0){
+            $scope.fromEditable = false;
+        }
+        if(objCtrl.data.toSpeedLimit == 0){
+            $scope.toEditable = false;
+        }
+    });
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);

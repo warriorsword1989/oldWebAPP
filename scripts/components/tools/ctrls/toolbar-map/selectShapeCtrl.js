@@ -362,6 +362,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case 'RDLINKSPEEDLIMIT':
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html";
+                    $scope.getLinkSpeedLimit(data.selectData.properties, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case 'DBRDLINKSPEEDLIMIT':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html";
@@ -2631,7 +2636,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             var linkPids = [];
             var obj = {
                 "queryType": type,
-                "linkPid": data.linkPid,
+                "linkPid": parseInt(data.linkPid),
                 "direct": data.direct
             };
             var param = {
@@ -2641,8 +2646,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             };
             if(data.direct == 2){
                 linkSpeedLimit.fromSpeedLimit = parseInt(data.speedValue);
+                linkSpeedLimit.fromLimitSrc = parseInt(data.fromLimitSrc);
             } else if(data.direct == 3){
                 linkSpeedLimit.toSpeedLimit = parseInt(data.speedValue);
+                linkSpeedLimit.toLimitSrc = parseInt(data.toLimitSrc);
             }
             if (parseInt(data.speedType) == 3){//条件限速
                 linkSpeedLimit.speedDependent = parseInt(data.condition);
@@ -2664,6 +2671,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         highRenderCtrl.drawHighlight();
                         objCtrl.setCurrentObject("RDLINKSPEEDLIMIT", linkSpeedLimit);
                         $scope.$emit("transitCtrlAndTpl", {
+                            "type":"refreshPage",
                             "loadType": 'attrTplContainer',
                             "propertyCtrl": ctrl,
                             "propertyHtml": tpl
@@ -2681,13 +2689,17 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             });
                             map.currentTool.enable();
                             tooltipsCtrl.setCurrentTooltip('请选择需要增加或者删除的线！');
+                            featCodeCtrl.setFeatCode({  //设置修改确认的数据;
+                                "direct": data.direct,
+                                "linkPids":linkPids
+                            });
                             eventController.off(eventController.eventTypes.GETRELATIONID);
                             eventController.on(eventController.eventTypes.GETFEATURE, function(selectLink) {
                                 highRenderCtrl._cleanHighLight();
                                 if(selectLink.optype == "RDLINK"){
                                     if(linkPids.indexOf(parseInt(selectLink.id)) < 0){//不在当前的link串里
                                         if(linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 || linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1){//选择的link是link串里最后一条的挂接link
-                                            if((linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 && ((parseInt(selectLink.properties.direct) == 3)||(parseInt(selectLink.properties.direct) == 1))) || (linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1 && ((parseInt(selectLink.properties.direct) == 2)||(parseInt(selectLink.properties.direct) == 1)))){
+                                            if((linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 && ((parseInt(selectLink.properties.direct) == 2)||(parseInt(selectLink.properties.direct) == 1))) || (linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1 && ((parseInt(selectLink.properties.direct) == 3)||(parseInt(selectLink.properties.direct) == 1)))){
                                                 linkPids.push(parseInt(selectLink.id));
                                                 highRenderCtrl.highLightFeatures.push({
                                                     id: selectLink.id.toString(),

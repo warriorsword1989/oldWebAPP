@@ -1,5 +1,5 @@
 fastmap.uikit.canvasFeature.RdLinkSpeedLimitPart = fastmap.uikit.canvasFeature.Feature.extend({
-    setAttribute: function(linkPid,mac,mbd) {
+    setAttribute: function(linkPid,mac,mbd,direct) {
         var startEndArrow = null;//箭头图片
         var iconName = '';
         var resArray = mbd.split(",");
@@ -10,14 +10,20 @@ fastmap.uikit.canvasFeature.RdLinkSpeedLimitPart = fastmap.uikit.canvasFeature.F
         this.properties['markerStyle'] = {};
 
         this.properties['speedValue'] = 0;
+        this.properties['direct'] = direct;
         this.properties['condition'] = 0;
         this.properties['markerStyle']["icon"] = [];
         this.properties["featType"] = "RDLINKSPEEDLIMIT";
 
         var speedValue = resArray[0];//限速值
-        var limitSrc = resArray[1];//限速来源
+        var limitSrc = parseInt(resArray[1]);//限速来源
         var rotate = resArray[2];//rotate
-        this.properties['speedValue'] = speedValue;
+        this.properties['speedValue'] = parseInt(speedValue)/10;
+        if(direct == 2){
+            this.properties['fromLimitSrc'] = limitSrc;
+        }else if(direct == 3){
+            this.properties['toLimitSrc'] = limitSrc;
+        }
         // if (limitSrc === "1") {//红色
         //     iconName = '../../../images/road/1101/normal_speedlimit_start' + '.svg';
         //     startEndArrow = "../../../images/road/1101/1101_0_0_s.svg";
@@ -46,9 +52,8 @@ fastmap.uikit.canvasFeature.RdLinkSpeedLimitPart = fastmap.uikit.canvasFeature.F
         //     iconName = '../../../images/road/1101/normal_speedlimit_start' + '.svg';
         //     startEndArrow = "../../../images/road/1101/1101_0_0_s.svg";
         // }
-        var index = parseInt(limitSrc);
-            iconName = '../../../images/road/1101/linkspeedlimit_' +index+ '.svg';
-            startEndArrow = '../../../images/road/1101/arrow_' +index+ '.svg';
+            iconName = '../../../images/road/1101/linkspeedlimit_' +limitSrc+ '.svg';
+            startEndArrow = '../../../images/road/1101/arrow_' +limitSrc+ '.svg';
 
         this.properties['markerStyle']["icon"].push(
             {
@@ -65,12 +70,12 @@ fastmap.uikit.canvasFeature.RdLinkSpeedLimitPart = fastmap.uikit.canvasFeature.F
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
                     iconName: startEndArrow,
-                    row: 1,
+                    row: 3,
                     column: 1,
                     location:  this.geometry['coordinates'],
                     rotate: (parseFloat(rotate) - 90) * (Math.PI / 180),
-                    dx: 0,//解除限速时，要使箭头冲着自己,
-                    dy: 3
+                    dx: 0,
+                    dy: -11
                 }
             )
         );
