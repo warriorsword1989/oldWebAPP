@@ -14,7 +14,7 @@ angular.module('app').controller("nameGroupTableCtl", ['$scope', '$ocLazyLoad', 
 				  show: true
 			  },
 			  {
-				  field: "adminCode",
+				  field: "nameId",
 				  title: "道路名ID",
 				  width: '35px',
 				  show: true
@@ -88,5 +88,9 @@ angular.module('app').controller("nameGroupTableCtl", ['$scope', '$ocLazyLoad', 
                 data.num_index = ($scope.nameGroupTableParams.page() - 1) * $scope.nameGroupTableParams.count() + index + 1;
             });
         });
+        //向主界面发送当前查询的子界面类型
+        $scope.selectVal = function(row, index, type) {
+        	$scope.$emit("SUBCTLTYPECHANGE", {flag:$scope.roadNameFlag,data:row});
+        };
 	}
 ]);

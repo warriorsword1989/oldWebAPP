@@ -6,12 +6,11 @@ angular.module('app').controller("SearchSubModalCtl", ['$scope', '$ocLazyLoad', 
 		$scope.param = {
 			"name" : "",
 			"nameGroupid": "",
- 			"admin": "",
- 			"sql":""
+ 			"adminId": ""
 		};
-		
+		$scope.admin = "";
 		$scope.doSearch = function(){
-			if(!$scope.param.name && !$scope.param.admin && !$scope.param.nameGroupId && !$scope.param.admin){
+			if(!$scope.param.name && !$scope.param.adminId && !$scope.param.nameGroupid){
 				swal("请先输入查询条件", "", "info");
 				return;
 			}
@@ -28,11 +27,11 @@ angular.module('app').controller("SearchSubModalCtl", ['$scope', '$ocLazyLoad', 
        	 	$scope.subSearchModal = true;
        	 	if("nameGroup" == type) {
 	       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/nameGroupTableCtl.js').then(function () {
-	            	$scope.subSearchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/nameGroupTableTpl.htm';
+	            	$scope.subSearchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/nameGroupTableSearchTpl.htm';
 	            });
        	 	}else if("admin" == type) {
 	       	 	$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/adminTableCtl.js').then(function () {
-	            	$scope.subSearchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/adminTableTpl.htm';
+	            	$scope.subSearchModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/adminTableSearchTpl.htm';
 	            });
        	 	}else{
        	 		return;
@@ -43,6 +42,20 @@ angular.module('app').controller("SearchSubModalCtl", ['$scope', '$ocLazyLoad', 
          */
         $scope.closeSubSearchModal = function(){
         	$scope.subSearchModal = false;
+        };
+        /***
+         * 道路组名，行政区划名参数
+         */
+        $scope.selectedVal = function(row, index, type) {
+	       	 if(type == "admin"){
+       			$scope.admin = row.whole;
+       			$scope.param.adminId = row.adminareacode;
+       			$scope.admin = row.whole;
+          		$scope.subSearchModal = false;
+	       	 }else if(type == "namegroup"){
+	   			$scope.param.nameGroupid = row.nameGroupid;
+	   			$scope.subSearchModal = false;
+	       	 }
         };
 	}
 ]);
