@@ -1398,6 +1398,10 @@ s            } else if (shapeCtrl.editType === "updateSpeedNode"){
                 };
                 //调用编辑接口;
                 dsEdit.save(param).then(function(data) {
+                    if(data=='属性值未发生变化'){
+                        swal("提示","几何属性未发生变化!","info");
+                        return;
+                    }
                     relationData.redraw();
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
