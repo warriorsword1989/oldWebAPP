@@ -58,11 +58,17 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1107://收费站
                     ret = new fastmap.uikit.canvasTips.TipsTollGate(item);
                     break;
+                case 1108://减速带
+                    ret = new fastmap.uikit.canvasTips.TipsSpeedBump(item);
+                    break;
                 case 1109://电子眼
                     ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
                     break;
                 case 1111://条件限速 *
                     ret = new fastmap.uikit.canvasTips.TipsSpeedlimit(item);
+                    break;
+                case 1112://可变限速
+                    ret = new fastmap.uikit.canvasTips.TipsVariableSpeed(item);
                     break;
                 case 1113://车道限速 *
                     ret = new fastmap.uikit.canvasTips.TipsDrivewayLimit(item);
