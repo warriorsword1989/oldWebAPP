@@ -7,6 +7,11 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             {id:1,name:'道路检查'},
             {id:2,name:'POI检查'}
         ];
+        $scope.checkCondition = [
+          {id:1,label:'结构性检查'},
+          {id:2,label:'属性类检查'},
+          {id:3,label:'关键要素检查'}
+        ];
         $scope.selectedTips = {};
         var stages;
         if (App.Temp.mdFlag == "d") { //日编

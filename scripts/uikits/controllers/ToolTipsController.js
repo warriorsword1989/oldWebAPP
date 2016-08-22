@@ -104,6 +104,9 @@ fastmap.uikit.ToolTipsController=(function() {
                 this.toolsdiv=tools;
                 this.orginStyle=tools.style.cssText;
             },
+            setCurrentTooltipText: function(tooltiptext){
+                this.toolsdiv.innerHTML = tooltiptext;
+            },
             getCurrentTooltip:function(){
                 return this.toolsdiv.innerHTML;
             }

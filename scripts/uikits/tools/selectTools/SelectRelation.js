@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['relationData','crfData','rdSame'];
+        this.editLayerIds = ['relationData','crfData','rdSame','rdLinkSpeedLimit'];
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -27,10 +27,12 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.redrawTiles = [];
         this.layerController = new fastmap.uikit.LayerController();
         this.highlightLayer = this.layerController.getLayerById('highlightLayer');
+        this.eventController = fastmap.uikit.EventController();
         for (var item in this.editLayerIds) {
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
         this.popup = L.popup();
+        this.clickcount = 0;
 
     },
 
@@ -38,7 +40,8 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('click', this.onMouseDown, this);
+        this._map.on('dblclick', this.onDbClick, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
         }
@@ -49,16 +52,72 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function () {
-        this._map.off('mousedown', this.onMouseDown, this);
+        this._map.off('click', this.onMouseDown, this);
+        this._map.off('dblclick', this.onDbClick, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown, this);
         }
     },
     onMouseDown: function (event) {
+        this.clickcount++;
         this.tiles = [];
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
-        this.drawGeomCanvasHighlight(tileCoordinate, event);
+        var that = this;
+        //双击的时候不执行单击的事件
+        setTimeout(function () {
+            if(that.clickcount > 1){
+                that.clickcount = 0;
+                return;
+            }else if(that.clickcount == 1){
+                that.clickcount = 0;
+                that.drawGeomCanvasHighlight(tileCoordinate, event);
+
+            }
+        },200);
+
+    },
+    onDbClick: function (event) {
+        this.tiles = [];
+        var mouseLatlng = event.latlng;
+        var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
+        this.overlays = [];
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
+        var PointPixel = transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, map.getZoom());
+        PointPixel[0] = Math.ceil(PointPixel[0]);
+        PointPixel[1] = Math.ceil(PointPixel[1]);
+
+        var x = PointPixel[0] - 256 * PointLoc[0];
+        var y = PointPixel[1] - 256 * PointLoc[1];
+        for (var layer in this.currentEditLayers) {
+
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tileCoordinate))
+
+            if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]] && !this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data) {
+                return;
+            }
+            if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]] && this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data) {
+                var data = this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data;
+                // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+
+                for (var item in data) {
+                    if (data[item].properties.featType == 'RDSPEEDLIMIT') {
+                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                            this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+            speedData: this.overlays[0].data,
+            optype: 'DBRDLINKSPEEDLIMIT',
+            orgtype: 'RDSPEEDLIMIT',
+            event:event
+        })
     },
 
     /***
@@ -113,21 +172,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                     this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
                                 }
                             }
-                    } else if(data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER'){
-                        if(data[item]['geometry']['type'] == "Point") {
-                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                                this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
-                            }
-                        } else if(data[item]['geometry']['type'] == "LineString"){
-                            if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
-                                this.overlays.push({
-                                    layer: this.currentEditLayers[layer],
-                                    id:data[item].properties.id,
-                                    data: data[item]
-                                });
-                            }
-                        }
-                    } else if(data[item].properties.featType == 'RDSAMELINK'){
+                    } else if(data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER' ||data[item].properties.featType == 'RDSAMELINK'){
                         if(data[item]['geometry']['type'] == "Point") {
                             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                 this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
@@ -160,9 +205,18 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         }
         this.overlays = tempLays;
         if (this.overlays.length == 1) {
-            frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
-            frs.tiles = this.tiles;
-            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType,event);
+            // frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
+            // frs.tiles = this.tiles;
+            // frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType,event);
+
+            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                id: this.overlays[0].data.properties.id,
+                rowId:this.overlays[0].data.properties.rowId,
+                optype: this.overlays[0].data.properties.featType,
+                selectData: this.overlays[0].data,
+                branchType:this.overlays[0].data.properties.branchType,
+                event:event
+            })
         } else if (this.overlays.length > 1) {
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
@@ -188,9 +242,17 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                             }
                         }
 
-                        frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
-                        frs.tiles = that.tiles;
-                        frs.drawGeomCanvasHighlight(d, layertype, event);
+                        // frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
+                        // frs.tiles = that.tiles;
+                        // frs.drawGeomCanvasHighlight(d, layertype, event);
+                        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                            id: d.properties.id,
+                            rowId:d.properties.rowId,
+                            optype: layertype,
+                            selectData: d,
+                            branchType:d.properties.branchType,
+                            event:event
+                        })
                     }
                 }
             });

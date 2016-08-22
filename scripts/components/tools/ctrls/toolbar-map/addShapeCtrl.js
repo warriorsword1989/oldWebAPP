@@ -14,6 +14,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
         var rdnode = layerCtrl.getLayerById('rdNode');
         var luNode = layerCtrl.getLayerById('luNode');
         var luLink = layerCtrl.getLayerById('luLink');
+        var adAdmin = layerCtrl.getLayerById('adAdmin');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
@@ -2022,6 +2023,19 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
                     console.log(data.data);
                 })
+            } else if (type === "ADADMIN") {
+                $scope.resetOperator("addPointFeature", type);
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType('addAdAdmin');
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
+                tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             }
         }
     }

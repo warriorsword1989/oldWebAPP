@@ -38,14 +38,22 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
         {"id": 29, "label": "预留","checked":false},
         {"id": 30, "label": "预留","checked":false}
     ];
-    /*********如果窗口打开状态，窗口关闭*/
-    if($('body .carTypeTip:last').show()){
-        $('body .carTypeTip:last').hide()
+
+    //初始化vehicleOptions方法
+    $scope.initVehicleOptions = function(){
+        /*********如果窗口打开状态，窗口关闭*/
+        if($('body .carTypeTip:last').show()){
+            $('body .carTypeTip:last').hide()
+        }
+        angular.forEach($scope.vehicleOptions,function(item){
+            item.checked = false;
+        })
     }
-
     $scope.showvehicle=function(vehicle){
+        //每次初始化vehicleOptions
+        $scope.initVehicleOptions();
         var towbin=dec2bin(vehicle);
-
+        $scope.carData = [];
         //循环车辆值域，根据数据库数据取出新的数组显示在页面
         var originArray=[];
         $scope.checkValue=false;
@@ -140,5 +148,4 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
     $scope.initializeData();
     eventCtrl.off(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE);
     eventCtrl.on(eventCtrl.eventTypes.SELECTEDVEHICLECHANGE, $scope.initializeData);
-
 });

@@ -36,6 +36,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     ret = new fastmap.uikit.canvasFeature.RdCross(data);
                     break;
                 case 9: //线限速
+                    ret = new fastmap.uikit.canvasFeature.RdLinkSpeedLimit(data);
                     break;
                 case 10: //rtic
                     ret = new fastmap.uikit.canvasFeature.RdRtic(data);

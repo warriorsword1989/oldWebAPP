@@ -104,7 +104,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     $scope.showRticsInfo= function (item) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showRticsInfoObj = {
-            "type":"Rtic",
+            "type":"refreshPage",
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
@@ -115,7 +115,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     $scope.showCarInfo = function (cItem) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
         var showCarInfoObj = {
-            "type":"Rtic",
+            "type":"refreshPage",
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfCar',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'

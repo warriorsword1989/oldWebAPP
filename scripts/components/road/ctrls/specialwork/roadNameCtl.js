@@ -7,10 +7,8 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
 		var _self = $scope;
          /*初始化显示table提示*/
          $scope.loadTableDataMsg = '数据加载中...';
-         $scope.checkboxes = {
-             checked: false,
-             items: {}
-         };
+         $scope.checkboxes = {checked: false};
+
          //监控全选;
          $scope.$watch(function() {
              return $scope.checkboxes.checked;
@@ -19,88 +17,88 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  item.checked = value;
              });
          });
-         //
-         $()
+
          $scope.cols = [
              {
                  field: "selector",
                  title: "",
                  headerTemplateURL: "headerCheckbox.html",
+                 width:'50px',
                  show: true
              },
              {
                  field: "num_index",
-                 title: "abc",
-                 width: '25px',
+                 title: "序号",
+                 width: '50px',
                  show: true
              },
              {
                  field: "nameGroupid",
                  title: "名称组ID",
-                 width: '60px',
                  sortable: "nameGroupid",
+                 width: '100px',
                  show: true
              },
              {
                  field: "name",
                  title: "道路名称",
-                 width: '60px',
+                 width: '100px',
                  sortable: "name",
                  show: true
              },
              {
                  field: "type",
-                 title: "类型名称",
-                 width: '60px',
+                 title: "类型",
+                 width: '80px',
                  sortable: "type",
                  show: true
              },
              {
                  field: "base",
                  title: "基本名称",
-                 width: '50px',
+                 width: '120px',
                  sortable: "base",
-                 shozw: true
+                 show: true
              },
              {
                  field: "prefix",
                  title: "前缀",
-                 width: '50px',
+                 width: '70px',
                  sortable: "prefix",
                  show: true
              },
              {
                  field: "infix",
                  title: "中缀",
-                 width: '50px',
+                 width: '70px',
                  sortable: "infix",
                  show: true
              },
              {
                  field: "suffix",
                  title: "后缀",
-                 width: '50px',
+                 width: '70px',
                  sortable: "suffix",
                  show: true
              },
              {
                  field: "namePhonetic",
                  title: "道路名发音",
-                 width: '60px',
+                 width: '120px',
                  sortable: "namePhonetic",
                  show: true
              },
              {
                  field: "tipsId",
                  title: "TipsID",
-                 width: '60px',
+                 width: '70px',
                  sortable: "tipsId",
                  show: true
              },
              {
                  field: "basePhonetic",
                  title: "基本名发音",
-                 width: '60px',
+                 width: '120px',
                  sortable: "basePhonetic",
                  show: true
              },
@@ -137,7 +135,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  title: "语音代码",
                  width: '60px',
                  sortable: "langCode",
-                 show: true
+                 show: false
              },
              {
                  field: "errMsg",
@@ -161,7 +159,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: false
              },
              {
-                 field: "adminId",
+                 field: "adminName",
                  title: "行政区划",
                  width: '60px',
                  sortable: "adminId",
@@ -245,15 +243,14 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.filter = {
      			name : "",
      			nameGroup: "",
-     			admin: "",
-     			sql:""
+     			adminId: ""
      	 };
          //接收高级查询过滤条件
          $scope.$on("FITERPARAMSCHANGE",function(event,data){
         	 $scope.filter.name = data["name"];
-        	 $scope.filter.nameGroup = data["nameGroupid"];
-        	 $scope.filter.admin = data["admin"];
-        	 $scope.filter.sql = data["sql"];
+        	 $scope.filter.nameGroupid = data["nameGroupid"];
+        	 $scope.filter.adminId = data["adminId"];
+//        	 $scope.filter.sql = data["sql"];
          });
 
          function initRoadNameTable() {
@@ -269,9 +266,8 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                          pageNum: params.page(),
                          pageSize: params.count(),
                          sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroupid,"adminId":params.filter().adminId}
                      };
-                     console.log('主页面参数'+JSON.stringify(param))
                      dsMeta.roadNameList(param).then(function(data) {
                          $scope.loadTableDataMsg = '列表无数据';
                          $scope.roadNameList = data.data;
@@ -299,6 +295,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           */
          $scope.editPanel = false;
          $scope.openEditPanel = function(data, index){
+        	 $scope.roadNameFlag = "edit";
         	 $scope.editPanel = true;
         	 $scope.roadName = data;
         	 objectCtrl.setCurrentObject("ROADNAME",data);
@@ -323,10 +320,12 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.openSubModal = function(type) {
         	 $scope.subModal = true;
         	 if("search" == type) {
+        		 //
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/searchSubModalCtl.js').then(function () {
                   	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchSubModalTpl.htm';
                   });
         	 }else if("add" == type) {
+        		 $scope.roadNameFlag = "add";
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
                    });
@@ -346,6 +345,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           * 关闭子面板
           */
          $scope.closeSubModal = function() {
+        	 alert()
              $scope.subModal = false;
          };
          $scope.$on("CLOSECURRENTPANEL",function(event,data){
@@ -356,7 +356,25 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           */
          $scope.$on("REFRESHROADNAMELIST",function(event,data){
         	 refreshData();
-        	 $scope.closeEditPanel();
          });
+         $scope.getSelectedData = function(){
+        	 var selectedRoadNameList = [];
+        	 for(var i=0;i<$scope.roadNameList.length;i++){
+        		 if($scope.roadNameList[i].checked){
+//        			 selectedRoadNameList[i].nameId = $scope.roadNameList[i].nameId;
+//        			 selectedRoadNameList[i].nameGroupid = $scope.roadNameList[i].nameGroupid;
+//        			 selectedRoadNameList[i].langCode = $scope.roadNameList[i].langCode;
+//        			 selectedRoadNameList[i].roadType = $scope.roadNameList[i].roadType;
+        			 selectedRoadNameList.push({
+        				 nameId : $scope.roadNameList[i].nameId,
+        				 nameGroupid : $scope.roadNameList[i].nameGroupid,
+        				 langCode : $scope.roadNameList[i].langCode,
+        				 roadType : $scope.roadNameList[i].roadType
+        			 });
+        		 }
+        	 }
+        	 return selectedRoadNameList;
+         };
+         
      }
  ]);
