@@ -12,12 +12,12 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     $scope.speedLimitsData = objCtrl.data.speedlimits;
     $scope.roadlinkData = objCtrl.data;
 
-
-    for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
-        if($scope.speedLimitsData[i]["rowId"]===$scope.roadlinkData["oridiRowId"]) {
-            $scope.oridiData = $scope.speedLimitsData[i];
-        }
-    }
+    $scope.oridiData = $scope.speedLimitsData[$scope.roadlinkData["oridiRowId"]];
+    // for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
+    //     if($scope.speedLimitsData[i]["rowId"]===$scope.roadlinkData["oridiRowId"]) {
+    //         $scope.oridiData = $scope.speedLimitsData[i];
+    //     }
+    // }
 
     //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
     if($scope.ordinarySpeedForm) {
@@ -105,7 +105,11 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         })
 
     };
-
+    $scope.$on('refreshPage',function(data){
+        $scope.speedLimitsData = objCtrl.data.speedlimits;
+        $scope.roadlinkData = objCtrl.data;
+        $scope.oridiData = $scope.speedLimitsData[$scope.roadlinkData["oridiRowId"]];
+    });
 
  /*   $scope.angleOfLink=function(pointA,pointB) {
         var PI = Math.PI,angle;

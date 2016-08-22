@@ -35,6 +35,7 @@ fastmap.uikit.SelectObject = (function () {
                         id: data.properties.id,
                         rowId:data.properties.rowId,
                         optype: type,
+                        linkPid: data.properties.linkPid,
                         branchType:data.properties.branchType,
                         event:event
                     })

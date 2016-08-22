@@ -9,14 +9,14 @@
                     <div class="block">
                         <div>
                                 <label>
-                                    <input fm-edit-view type="radio" name="indoor" value="3" ng-model="poi.indoor">
+                                    <input type="radio" name="dataFlag" value="1" ng-model="dataFlag">
                                     选中的数据
                                 </label>
                                 </br>
                                 </br>
                                 </br>
                                 <label>
-                                    <input fm-edit-view type="radio" name="indoor" value="0" ng-model="poi.indoor">
+                                    <input type="radio" name="dataFlag" value="2" ng-model="dataFlag">
                                     所有的数据
                                 </label>
                             </div>
@@ -26,7 +26,7 @@
         </div>
         <div style="border-bottom: 1px solid #ddd;"></div>
         <div style="text-align:right;">
-            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doChoice()">确定</button>
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doSplit()">确定</button>
         </div>
     </div>
 </div>

@@ -188,6 +188,33 @@ App.layersConfig = [{
             isUpDirect: true
         }
 
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'rdLinkSpeedLimit',
+            name: '线限速',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Marker',
+            zIndex: 17,
+            restrictZoom: 10,
+            visible: false,
+            requestType: 'RDLINKSPEEDLIMIT',
+            showNodeLevel: 17,
+            isUpDirect: true
+        }
     },{
         url: '/render/obj/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
@@ -210,7 +237,7 @@ App.layersConfig = [{
             zIndex: 7,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDLINKSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE',
             showNodeLevel: 17
         }
     },{

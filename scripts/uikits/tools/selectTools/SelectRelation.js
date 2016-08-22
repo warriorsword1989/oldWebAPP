@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['relationData','crfData','rdSame'];
+        this.editLayerIds = ['relationData','crfData','rdSame','rdLinkSpeedLimit'];
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -205,9 +205,18 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         }
         this.overlays = tempLays;
         if (this.overlays.length == 1) {
-            frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
-            frs.tiles = this.tiles;
-            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType,event);
+            // frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
+            // frs.tiles = this.tiles;
+            // frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType,event);
+
+            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                id: this.overlays[0].data.properties.id,
+                rowId:this.overlays[0].data.properties.rowId,
+                optype: this.overlays[0].data.properties.featType,
+                selectData: this.overlays[0].data,
+                branchType:this.overlays[0].data.properties.branchType,
+                event:event
+            })
         } else if (this.overlays.length > 1) {
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
@@ -233,9 +242,17 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                             }
                         }
 
-                        frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
-                        frs.tiles = that.tiles;
-                        frs.drawGeomCanvasHighlight(d, layertype, event);
+                        // frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
+                        // frs.tiles = that.tiles;
+                        // frs.drawGeomCanvasHighlight(d, layertype, event);
+                        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                            id: d.properties.id,
+                            rowId:d.properties.rowId,
+                            optype: layertype,
+                            selectData: d,
+                            branchType:d.properties.branchType,
+                            event:event
+                        })
                     }
                 }
             });

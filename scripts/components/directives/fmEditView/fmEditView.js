@@ -41,6 +41,21 @@ angular.module('fastmap.uikit').directive('formDisabled',function() {
         }
     }
 });
+/**
+ * 用于ng-table表格cell编辑
+ */
+angular.module('fastmap.uikit').directive('fmBindCompiledHtml',function (){
+    return {
+        restrict: "A",
+        controller: function ($scope, $element, $attrs, $compile){
+            $scope.$watch($attrs.fmBindCompiledHtml, function (html){
+                var compiledElements = $compile(html)($scope);
+                $element.empty();
+                $element.append(compiledElements);
+            });
+        }
+    }
+});
 
 //方式二在form中增加指令
 //angular.module('fastmap.uikit', []).directive('myForm',function (){

@@ -7,6 +7,11 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
 	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
 		var eventCtrl = new fastmap.uikit.EventController();
+		var logMsgCtrl = fastmap.uikit.LogMsgController();
+		// $scope.addLogMsg = function(){
+		// 	logMsgCtrl.pushMsg('提示信息');
+		// }
+		$scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
@@ -90,13 +95,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
 		$scope.changeBtnClass = function (id) {
 			$scope.$broadcast("resetButtons", {});
-			// for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
-			//     if (claFlag === id) {
-			//         $scope.classArr[claFlag] = !$scope.classArr[claFlag];
-			//     } else {
-			//         $scope.classArr[claFlag] = false;
-			//     }
-			// }
 			$timeout(function () { //为了解决按esc键后工具条按钮不能恢复的bug
 				$scope.$apply();
 			}, 1);
@@ -118,12 +116,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				fillOpacity: 0
 			});
 			map.addLayer(lineLayer);
-			////fdsfdsf
-			//$ocLazyLoad.load(appPath.road + 'ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl').then(function() {
-			//    $scope.attrTplContainer = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
-			//    $scope.dataListTpl = appPath.root + appPath.road + 'tpls/attr_variableSpeed_tpl/variableSpeed.html';
-			//});
-			////sdsdsd
 			map.on("zoomend", function (e) {
 				document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
 				// if(map.getZoom() > 16){
@@ -220,43 +212,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 			});
-			//
-			// $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectShapeCtrl').then(function() {
-			//     $scope.selectShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectShapeTpl.html';
-			//     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function() {
-			//         $scope.addShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addShapeTpl.html';
-			//         $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function() {
-			//             $scope.selectPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/selectPoiTpl.html';
-			//             $ocLazyLoad.load(appPath.poi + 'ctrls/toolBar_cru_ctrl/addPoiCtrl').then(function() {
-			//                 $scope.addPoiURL = appPath.root + appPath.poi + 'tpls/toolBar_cru_tpl/addPoiTpl.html';
-			//                 $ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function() {
-			//                     $scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-			//                     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectAdShapeCtrl').then(function() {
-			//                         $scope.selectAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectAdShapeTpl.html';
-			//                         $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addAdShapeCtrl').then(function() {
-			//                             $scope.addAdShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addAdShapeTpl.html';
-			//                             $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectRwShapeCtrl').then(function() {
-			//                                 $scope.selectRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectRwShapTpl.html';
-			//                                 $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addRwShapeCtrl').then(function() {
-			//                                     $scope.addRwShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRwShapTpl.html';
-			//                                     $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/selectZoneShapeCtrl').then(function() {
-			//                                         $scope.selectZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/selectZoneShapeTpl.html';
-			//                                         $ocLazyLoad.load(appPath.road + 'ctrls/toolBar_cru_ctrl/addZoneShapeCtrl').then(function() {
-			//                                             $scope.addZoneShapeURL = appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addZoneShapeTpl.html';
-			//                                             if (callback) {
-			//                                                 callback();
-			//                                             }
-			//                                         });
-			//                                     });
-			//                                 });
-			//                             });
-			//                         });
-			//                     });
-			//                 });
-			//             });
-			//         });
-			//     });
-			// });
 		};
 		//页面初始化方法调用
 		var initPage = function () {
@@ -329,27 +284,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					}
 				}
 			}
-			//function loopPolygonfunc(parmas){
-			//    if(typeof parmas==='object'){
-			//        if(parmas.length){
-			//            for(var i=0;i<parmas.length;i++){
-			//                loopPolygonfunc(parmas[i])
-			//            }
-			//        }else{
-			//            pointsArr.push(new L.latLng(parmas.y,parmas.x))
-			//        }
-			//    }
-			//}
-			//function loopmutiPolygonfunc(){
-			//
-			//}
-			//
-			//if(polygon.type=='polygon'){
-			//    loopPolygonfunc(polygon.components);
-			//}else{
-			//    loopPolygonfunc(polygon.components);
-			//}
-			//return pointsArr;
 		}
 
 		/**
@@ -515,8 +449,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
 				$scope.$broadcast('refreshTollgatePassage', {});
 			}
-			if (data["type"] == "Rtic") {
-				$scope.$broadcast('refreshRtic', {});
+			//刷新二级菜单
+			if (data["type"] == "refreshPage") {
+				$scope.$broadcast('refreshPage', {});
 			}
 		});
 		$scope.$on("refreshPhoto", function (event, data) {

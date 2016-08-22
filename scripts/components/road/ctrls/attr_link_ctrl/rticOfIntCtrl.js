@@ -118,7 +118,7 @@ oridinaryInfoApp.controller("oridinaryRticsController",['$scope','dsEdit',functi
             }
         });
     }
-    $scope.$on('refreshRtic',function(data){
+    $scope.$on('refreshPage',function(data){
         $scope.realtimeData = objCtrl.data;
         for(var i= 0,len=$scope.realtimeData.intRtics.length;i<len;i++) {
             if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {

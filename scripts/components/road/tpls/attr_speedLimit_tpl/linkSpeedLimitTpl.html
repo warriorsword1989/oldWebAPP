@@ -28,7 +28,7 @@
                         <li class="list-group-item">
                             <div><label class="control-label">顺向来源</label></div>
                             <div class="inline">
-                                <select ng-model="item.fromLimitSrc"
+                                <select ng-model="speedLimitsData.fromLimitSrc"
                                         ng-options="value.id as value.label for value in fromLimitSrcOption"
                                         ng-disabled="toEditable">
                                     <option>--</option>
@@ -47,7 +47,7 @@
                         <li class="list-group-item">
                             <div><label class="control-label">逆向来源</label></div>
                             <div class="inline">
-                                <select ng-model="item.toLimitSrc"
+                                <select ng-model="speedLimitsData.toLimitSrc"
                                         ng-options="value.id as value.label for value in fromLimitSrcOption"
                                         ng-disabled="fromEditable">
                                     <option>--</option>
@@ -100,7 +100,7 @@
                         <li class="list-group-item">
                             <div><label class="control-label">顺向来源</label></div>
                             <div class="inline">
-                                <select ng-model="item.fromLimitSrc"
+                                <select ng-model="speedLimitsData.fromLimitSrc"
                                         ng-options="value.id as value.label for value in fromLimitSrcOption"
                                         ng-disabled="toEditable">
                                     <option>--</option>
@@ -119,7 +119,7 @@
                         <li class="list-group-item">
                             <div><label class="control-label">逆向来源</label></div>
                             <div class="inline">
-                                <select ng-model="item.toLimitSrc"
+                                <select ng-model="speedLimitsData.toLimitSrc"
                                         ng-options="value.id as value.label for value in fromLimitSrcOption"
                                         ng-disabled="fromEditable">
                                     <option>--</option>

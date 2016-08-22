@@ -72,6 +72,7 @@ requirejs.config({
         'z-tree': ['jquery'],
         'fastmapUikit': ['angular'],
         'fmEditView': ['fastmapUikit'],
+        'fmBindCompiledHtml': ['fastmapUikit'],
         'EditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView']
     }
 });
