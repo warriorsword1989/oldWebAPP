@@ -33,9 +33,9 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: true
              },
              {
-                 field: "nameGroupId",
+                 field: "nameGroupid",
                  title: "名称组ID",
-                 sortable: "nameGroupId",
+                 sortable: "nameGroupid",
                  width: '100px',
                  show: true
              },
@@ -159,7 +159,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: false
              },
              {
-                 field: "adminId",
+                 field: "adminName",
                  title: "行政区划",
                  width: '60px',
                  sortable: "adminId",
@@ -243,15 +243,14 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.filter = {
      			name : "",
      			nameGroup: "",
-     			admin: "",
-     			sql:""
+     			adminId: ""
      	 };
          //接收高级查询过滤条件
          $scope.$on("FITERPARAMSCHANGE",function(event,data){
         	 $scope.filter.name = data["name"];
-        	 $scope.filter.nameGroup = data["nameGroupId"];
-        	 $scope.filter.admin = data["admin"];
-        	 $scope.filter.sql = data["sql"];
+        	 $scope.filter.nameGroupid = data["nameGroupid"];
+        	 $scope.filter.adminId = data["adminId"];
+//        	 $scope.filter.sql = data["sql"];
          });
 
          function initRoadNameTable() {
@@ -267,9 +266,8 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                          pageNum: params.page(),
                          pageSize: params.count(),
                          sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                         params:{"name":params.filter().name,"nameGroupId":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroupid,"adminId":params.filter().adminId}
                      };
-                     console.log('主页面参数'+JSON.stringify(param))
                      dsMeta.roadNameList(param).then(function(data) {
                          $scope.loadTableDataMsg = '列表无数据';
                          $scope.roadNameList = data.data;
@@ -322,6 +320,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.openSubModal = function(type) {
         	 $scope.subModal = true;
         	 if("search" == type) {
+        		 //
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/searchSubModalCtl.js').then(function () {
                   	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/searchSubModalTpl.htm';
                   });
@@ -346,6 +345,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           * 关闭子面板
           */
          $scope.closeSubModal = function() {
+        	 alert()
              $scope.subModal = false;
          };
          $scope.$on("CLOSECURRENTPANEL",function(event,data){
@@ -356,7 +356,25 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           */
          $scope.$on("REFRESHROADNAMELIST",function(event,data){
         	 refreshData();
-        	 $scope.closeEditPanel();
          });
+         $scope.getSelectedData = function(){
+        	 var selectedRoadNameList = [];
+        	 for(var i=0;i<$scope.roadNameList.length;i++){
+        		 if($scope.roadNameList[i].checked){
+//        			 selectedRoadNameList[i].nameId = $scope.roadNameList[i].nameId;
+//        			 selectedRoadNameList[i].nameGroupid = $scope.roadNameList[i].nameGroupid;
+//        			 selectedRoadNameList[i].langCode = $scope.roadNameList[i].langCode;
+//        			 selectedRoadNameList[i].roadType = $scope.roadNameList[i].roadType;
+        			 selectedRoadNameList.push({
+        				 nameId : $scope.roadNameList[i].nameId,
+        				 nameGroupid : $scope.roadNameList[i].nameGroupid,
+        				 langCode : $scope.roadNameList[i].langCode,
+        				 roadType : $scope.roadNameList[i].roadType
+        			 });
+        		 }
+        	 }
+        	 return selectedRoadNameList;
+         };
+         
      }
  ]);

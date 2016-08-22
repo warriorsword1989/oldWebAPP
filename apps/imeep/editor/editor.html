@@ -167,7 +167,16 @@
             <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>
         </div>
         <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();"><img src=""></div>
-
+        <!-- logMsg提示 -->
+        <div class="log-message-container">
+          <div class="log-message animated-fast fadeInLeft" ng-repeat="msg in logMessage">
+            {{msg.value}}
+            <div class="log-message-remove" ng-click="msg.remove(msg);">
+              <i class="glyphicon glyphicon-remove-sign"></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div style="position:absolute;left:0;bottom:0;width:40px;height:40px;background-color:red;" ng-click="addLogMsg();"></div> -->
         <!-- 统一关系 -->
         <div ng-include="sameRelationShapTplContainer"></div>
 

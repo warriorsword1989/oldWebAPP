@@ -145,7 +145,9 @@
         "TipsNarrowChannels.js",
         "TipsNarrowChannel.js",
         "TipsElevatedRoads.js",
-        "TipsElevatedRoad.js"
+        "TipsElevatedRoad.js",
+        "TipsSpeedBump.js",
+        "TipsVariableSpeed.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
