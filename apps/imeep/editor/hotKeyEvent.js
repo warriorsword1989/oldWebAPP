@@ -76,7 +76,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 map.floatMenu = null;
             }
             highRenderCtrl._cleanHighLight();
-            highRenderCtrl.highLightFeatures.length = 0;
+            highRenderCtrl.highLightFeatures = [];
             editLayer.drawGeometry = null;
             shapeCtrl.stopEditing();
             editLayer.bringToBack();

@@ -2624,9 +2624,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                 }
             }
         };
+        //线限速相关逻辑
         $scope.getLinkSpeedLimit = function (data, type, ctrl, tpl) {
             if(data.direct == 0){
                 swal("提示","点限速方向为：未调查！","info");
+                return;
+            }
+            if(parseInt(data.speedType) == 3){
+                swal("提示","暂时不支持条件线限速哦！","info");
                 return;
             }
             var linkSpeedLimit = {
@@ -2681,6 +2686,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             linkNodes.push(linkDetail.eNodePid);
                             linkNodes.push(linkDetail.sNodePid);
                             //增加或者删除link
+                            map.currentTool.disable();
                             map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                                 map: map,
                                 shapeEditor: shapeCtrl,
@@ -2701,6 +2707,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                         if(linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 || linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1){//选择的link是link串里最后一条的挂接link
                                             if((linkNodes.indexOf(parseInt(selectLink.properties.snode)) > -1 && ((parseInt(selectLink.properties.direct) == 2)||(parseInt(selectLink.properties.direct) == 1))) || (linkNodes.indexOf(parseInt(selectLink.properties.enode)) > -1 && ((parseInt(selectLink.properties.direct) == 3)||(parseInt(selectLink.properties.direct) == 1)))){
                                                 linkPids.push(parseInt(selectLink.id));
+                                                linkNodes = [];
+                                                linkNodes.push(parseInt(selectLink.properties.snode));
+                                                linkNodes.push(parseInt(selectLink.properties.enode));
                                                 highRenderCtrl.highLightFeatures.push({
                                                     id: selectLink.id.toString(),
                                                     layerid: 'rdLink',
@@ -2712,21 +2721,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                             }
                                         }
                                     } else {//在当前的link串里
-                                        linkPids.length = linkPids.indexOf(parseInt(selectLink.id));
-                                        highRenderCtrl.highLightFeatures = [];
-                                        for(var i = 0 ;i<linkPids.length;i++){
-                                            highRenderCtrl.highLightFeatures.push({
-                                                id: linkPids[i].toString(),
-                                                layerid: 'rdLink',
-                                                type: 'line',
-                                                style: {}
+                                        if(linkPids.indexOf(parseInt(selectLink.id)) > 0){//不能删除第一个
+                                            linkPids.length = linkPids.indexOf(parseInt(selectLink.id));
+                                            highRenderCtrl.highLightFeatures = [];
+                                            for(var i = 0 ;i<linkPids.length;i++){
+                                                highRenderCtrl.highLightFeatures.push({
+                                                    id: linkPids[i].toString(),
+                                                    layerid: 'rdLink',
+                                                    type: 'line',
+                                                    style: {}
+                                                });
+                                            }
+                                            dsEdit.getByPid(linkPids[linkPids.length-1],"RDLINK").then(function (lastLinkDetail) {
+                                                linkNodes = [];
+                                                linkNodes.push(lastLinkDetail.eNodePid);
+                                                linkNodes.push(lastLinkDetail.sNodePid);
                                             });
                                         }
-                                        dsEdit.getByPid(linkPids[linkPids.length-1],"RDLINK").then(function (lastLinkDetail) {
-                                            var linkNodes = [];
-                                            linkNodes.push(lastLinkDetail.eNodePid);
-                                            linkNodes.push(lastLinkDetail.sNodePid);
-                                        });
                                     }
                                 }
                                 highRenderCtrl.drawHighlight();
