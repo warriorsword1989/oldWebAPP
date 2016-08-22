@@ -65,12 +65,12 @@ fastmap.uikit.canvasFeature.RdLinkSpeedLimitPart = fastmap.uikit.canvasFeature.F
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
                     iconName: startEndArrow,
-                    row: 1,
+                    row: 3,
                     column: 1,
                     location:  this.geometry['coordinates'],
                     rotate: (parseFloat(rotate) - 90) * (Math.PI / 180),
-                    dx: 0,//解除限速时，要使箭头冲着自己,
-                    dy: 3
+                    dx: 0,
+                    dy: -11
                 }
             )
         );
