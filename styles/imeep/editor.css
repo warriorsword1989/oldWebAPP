@@ -1453,9 +1453,9 @@ a.fm-panel-controlArrowRight > span {
 }
 /*** 表单修改后样式 ***/
 form input[type="text"].ng-dirty,
-textarea.ng-dirty,
-select.ng-dirty,
-input[type="number"].ng-dirty {
+form textarea.ng-dirty,
+form select.ng-dirty,
+form input[type="number"].ng-dirty {
   border-left: solid 2px #ff0000 !important;
 }
 form select.localytics-chosen.ng-dirty + div > a {
@@ -1645,4 +1645,11 @@ form input[type=checkbox].ng-dirty:before {
 }
 .tr-backcolor {
   background-color: rgba(85, 85, 85, 0.5);
+}
+.table-input {
+  color: white;
+  background-color: black;
+  height: 24px;
+  font-size: 12px;
+  padding: 2px 4px;
 }
