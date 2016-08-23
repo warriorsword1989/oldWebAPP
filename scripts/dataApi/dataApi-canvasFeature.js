@@ -147,7 +147,10 @@
         "TipsElevatedRoads.js",
         "TipsElevatedRoad.js",
         "TipsSpeedBump.js",
-        "TipsVariableSpeed.js"
+        "TipsVariableSpeed.js",
+        "TipsScenicRoutes.js",
+        "TipsScenicRoute.js",
+        "TipsScenicRoutePart.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
