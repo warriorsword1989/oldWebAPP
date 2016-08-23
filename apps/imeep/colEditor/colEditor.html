@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>FastMap一体化编辑平台</title>
+        <link href="../../../images/favicon.ico" rel="icon" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor-road.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/imeep/animate.min.css">
+        <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+        <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
+        <script type="text/javascript" src="../Application.js"></script>
+        <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
+        <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataApi-poi.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataApi-road.js"></script>
+        <script src="loadMapApi.js"></script>
+        <script src="loadUikit.js"></script>
+    </head>
+    <body ng-controller="ColEditorCtl">
+        <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
+                <div class="banner-top"><a><strong>FM</strong></a></div>
+                <div class="banner-center">
+                    <div class="selected" ng-click="changeEditTool('tipsPanel')">
+                        <a tooltip-class="subTooltip" uib-tooltip="中文名称" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true>中文名称</a>
+                        <div class="fill-azure pin-left"></div>
+                    </div>
+                </div>
+                <div class="banner-bottom">
+                    <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
+                    <div><a href="javascript:void(0);" ng-click="goback()"><i title="返回" class="glyphicon glyphicon-log-out"></i></a></div>
+                </div>
+            </div>
+            <div ui-layout-container>
+                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
+                    <div ui-layout-container class="fm-container fm-col animated fadeInLeft" size="250px">
+                        <!--<div class="fm-tabs" ng-if="showTab" style="padding:0px;">-->
+                            <!--<a href="#" class="tab col-sm-6" ng-class="{1:'active'}[projectType]" ng-click="changeProject(1)">POI作业</a>-->
+                            <!--<a href="#" class="tab col-sm-6" ng-class="{2:'active'}[projectType]" ng-click="changeProject(2)">道路作业</a>-->
+                        <!--</div>-->
+                        <div style="padding-top: 20px;">
+                            <!--左侧数据列表
+                            <div ng-include="dataListTpl"></div>-->
+                            <div ng-repeat="na in names[nameType]" style="color: red;padding: 14px;">
+                                <a><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+                                    <span style="padding-left:6px;">{{na.text}}</span>
+                                    <span>({{na.worked}}</span>/<span>{{na.count}})</span>
+                                </a>
+                            </div>
+                            <div style="position: absolute;bottom: 20px;left: 50px;">
+                                <button type="button" class="btn btn-xs btn-shape"  ng-click=""> 申请数据 </button>
+                                <button type="button" class="btn btn-xs btn-shape"  ng-click=""> 提交数据 </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ui-layout-container class="fm-no-scroll">
+                        <div style="background-color:black;width: 100%;height: 100%;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
+        <div id="dataTipsOriginModal" style="display:none">
+            <div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
+        </div>
+        <script type="text/javascript" data-main="colEditor-require" src="../../../scripts/libs/require/require.js"></script>
+    </body>
+</html>

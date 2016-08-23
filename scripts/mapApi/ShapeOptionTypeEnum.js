@@ -119,7 +119,7 @@ fastmap.mapApi.ShapeOptionType = {
      /*
      CRF对象
      */
-    'CRFFEATURE': "CRFFeature",
+    'CRFOBJECT': "CRFObject",
     /*
      增加顺行
      */

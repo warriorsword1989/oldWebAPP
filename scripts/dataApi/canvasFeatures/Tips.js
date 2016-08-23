@@ -85,10 +85,10 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1204://可逆车道
                     ret = new fastmap.uikit.canvasTips.TipsReversibleLane(item);
                     break;
-                case 1205://SE
+                case 1205://SA
                     ret = new fastmap.uikit.canvasTips.TipsRoadSA(item);
                     break;
-                case 1206://PE
+                case 1206://PA
                     ret = new fastmap.uikit.canvasTips.TipsRoadPA(item);
                     break;
                 case 1207://匝道 *
