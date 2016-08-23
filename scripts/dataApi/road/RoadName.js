@@ -40,7 +40,7 @@ fastmap.dataApi.RoadName = fastmap.dataApi.GeoDataModel.extend({
         this.splitFlag = (data["splitFlag"] === undefined || data["splitFlag"] === '') ? 0 :data["splitFlag"];
         this.memo = data["memo"] || "";
         this.routeId = (data["routeId"] === undefined || data["routeId"] === '') ? 0 :data["routeId"];
-        this.uRecord = data["uRecord"] || "";
+        this.uRecord = data["uRecord"] || null;
         this.uFields = data["uFields"] || "";
         this.city = data["city"] || "";
         this.adminName = data["adminName"] || "";

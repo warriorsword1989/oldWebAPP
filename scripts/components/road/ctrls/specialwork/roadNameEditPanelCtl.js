@@ -339,7 +339,18 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 			data : $scope.roadNameData
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
-                		$scope.$emit("REFRESHROADNAMELIST");
+                		swal({
+    						title: "保存成功",
+    						type: "info",
+    						showCancelButton: false,
+    						closeOnConfirm: true,
+    						confirmButtonText: "确定",
+    					}, function (f) {
+    						if(f){
+    							$scope.$emit("REFRESHROADNAMELIST");
+//    							$scope.$apply();
+    						}
+    					});
                     });
                 	
                 }else{

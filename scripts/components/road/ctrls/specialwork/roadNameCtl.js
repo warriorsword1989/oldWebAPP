@@ -197,7 +197,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  field: "processFlag",
                  title: "作业状态??",
                  width: '60px',
-                 sortable: "suffixPhonetic",
+                 sortable: "processFlag",
                  show: true
              },
              {
@@ -206,14 +206,15 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  width: '60px',
                  sortable: "splitFlag",
                  show: false
-             },
-             {
-                 field: "city",
-                 title: "地级市名称",
-                 width: '60px',
-                 sortable: "city",
-                 show: true
              }
+//             ,
+//             {
+//                 field: "city",
+//                 title: "地级市名称",
+//                 width: '60px',
+//                 sortable: "city",
+//                 show: true
+//             }
          ];
 
          //初始化显示表格字段方法;
@@ -345,7 +346,6 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
           * 关闭子面板
           */
          $scope.closeSubModal = function() {
-        	 alert()
              $scope.subModal = false;
          };
          $scope.$on("CLOSECURRENTPANEL",function(event,data){
@@ -361,10 +361,6 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         	 var selectedRoadNameList = [];
         	 for(var i=0;i<$scope.roadNameList.length;i++){
         		 if($scope.roadNameList[i].checked){
-//        			 selectedRoadNameList[i].nameId = $scope.roadNameList[i].nameId;
-//        			 selectedRoadNameList[i].nameGroupid = $scope.roadNameList[i].nameGroupid;
-//        			 selectedRoadNameList[i].langCode = $scope.roadNameList[i].langCode;
-//        			 selectedRoadNameList[i].roadType = $scope.roadNameList[i].roadType;
         			 selectedRoadNameList.push({
         				 nameId : $scope.roadNameList[i].nameId,
         				 nameGroupid : $scope.roadNameList[i].nameGroupid,
