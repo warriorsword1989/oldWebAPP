@@ -95,7 +95,7 @@
         "TipsSketchs.js",
         "TipsSketch.js",
         "TipsSketchPart.js",
-        "TipSelectroniceye.js",
+        "TipElectroniceye.js",
         "TipsJVCBranch.js",
         "TipsWarningInfo.js",
         "TipsWarningInfos.js",
@@ -147,7 +147,18 @@
         "TipsElevatedRoads.js",
         "TipsElevatedRoad.js",
         "TipsSpeedBump.js",
-        "TipsVariableSpeed.js"
+        "TipsVariableSpeed.js",
+        "TipsScenicRoutes.js",
+        "TipsScenicRoute.js",
+        "TipsScenicRoutePart.js",
+        "TipsDeleteTag.js",
+        "TipsMileagePeg.js",
+        "TipsGPSDot.js",
+        "TipsRailwayCrossing.js",
+        "TipsObstacle.js",
+        "TipsHighSpeedEntrance.js",
+        "TipsReversibleLane.js",
+        "TipsBusDriveway.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
