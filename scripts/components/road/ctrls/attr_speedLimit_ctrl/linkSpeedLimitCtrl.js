@@ -21,12 +21,12 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
         $scope.toEditable = false;
     }
     // $scope.carSpeedType = false;
-    // $scope.initializeData = function () {
-    //
-    // };
-    // if (objCtrl.data) {
-    //     $scope.initializeData();
-    // }
+    $scope.initializeData = function () {
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+    };
+    if (objCtrl.data) {
+        $scope.initializeData();
+    }
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},
         {"id":55,"label":"服务区内道路"},
@@ -140,6 +140,12 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures = [];
                 relationData.redraw();
+                if (map.currentTool.snapHandler) {
+                    map.currentTool.snapHandler._enabled = true;
+                    map.currentTool.snapHandler.snaped = false;
+                }
+                map.currentTool._enabled = true;
+                map.currentTool.disable();
                 swal("操作成功", "创建线限速成功！", "success");
             }
         })

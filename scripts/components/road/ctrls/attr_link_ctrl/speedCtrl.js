@@ -49,6 +49,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     $scope.showOridinarySpeedInfo= function (item) {
         objCtrl.data["oridiRowId"] = item.rowId;
         var oridinarySpeedObj = {
+            "type":"refreshPage",
             "loadType":"subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/speedOfOrdinaryCtrl',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/speedOfOrdinaryTpl.html'
@@ -57,9 +58,11 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     }
 
     //条件限速
-    $scope.showspeedlimitInfo= function (cItem) {
-        objCtrl.data["oridiRowId"] = cItem.rowId;
+    $scope.showspeedlimitInfo= function (cItem ,index) {
+        objCtrl.data["oridiRowId"] = index;
+        // objCtrl.data["oridiRowId"] = cItem.rowId;
         var speedlimitInfoObj = {
+            "type":"refreshPage",
             "loadType":"subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/speedOfConditionCtrl',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/speedOfConditionTpl.html'

@@ -61,6 +61,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 'deep':
+                $ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
+                });
                 break;
             case 'relate':
                 $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function() {
