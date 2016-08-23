@@ -878,6 +878,19 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1702") {    //铁路道口
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1703") { //分叉口提示
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                     var ctrlAndTplOfForks = {
