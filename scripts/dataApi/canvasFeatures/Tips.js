@@ -130,6 +130,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1409://普通路口模式图
                     ret = new fastmap.uikit.canvasTips.TipsNormalCross(item);
                     break;
+                case 1410://高速入口模式图
+                    ret = new fastmap.uikit.canvasTips.TipsHighSpeedEntrance(item);
+                    break;
                 case 1501://上下线分离
                     ret = new fastmap.uikit.canvasTips.TipsMultiDigitizeds(item);
                     break;

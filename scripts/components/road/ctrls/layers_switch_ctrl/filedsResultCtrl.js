@@ -635,6 +635,19 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
+                } else if (pItemId === "1410") { //高速入口模式图
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTplOfD = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle != 3) { //3表示新增
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                 } else if (pItemId === "1501") { //上下线分离
                     if (data.geo != null) {
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
