@@ -1,0 +1,89 @@
+<style type="text/css">
+    .carTypeTip > .form-group > .btn-group > label {
+        transition: all 0.5s;
+        padding: 5px;
+        border-radius: 0;
+    }
+
+    .arrow_right {
+        position: absolute;
+        background: url('../../../scripts/libs/timepicki/images/top_arr_dark.png') no-repeat;
+        width: 18px;
+        height: 10px;
+        z-index: 3;
+        right: -14px;
+        top: 100px;
+        transform: rotate(90deg);
+    }
+    .carTypeTip {
+        width: 270px;
+        display: none;
+        padding: 10px;
+        padding-bottom: 0;
+        margin-top: 10px;
+        box-shadow: 1px 1px 10px 0 #080808;
+        background-color: #555;
+        opacity: 1;
+        font-size: 12px;
+        color: #fff;
+        border-radius: 3px;
+        position: absolute;
+        z-index: 1070;
+        text-decoration: none;
+        text-shadow: none;
+        text-transform: none;
+        letter-spacing: normal;
+        word-break: normal;
+        word-spacing: normal;
+        word-wrap: normal;
+        white-space: normal;
+        -webkit-transition: margin .15s ease-in-out;
+        -moz-transition: margin .15s ease-in-out;
+    }
+
+    .slide-well {
+        border: 1px solid #ddd;
+        padding: 10px 5px;
+        border-radius: 3px;
+        background-color: #494949;
+        height:300px;
+        overflow-y: auto;
+    }
+</style>
+<div class="date-well" style="border: none" ng-controller="commonDeepTimeController">
+    <div class="carTypeTip">
+        <div class="pull-left" style="margin-top: -8px;color: #FFF;">{{currentHandleStatus}}营业时间 {{currentHandleTimeDataIndex+1}}</div>
+        <div class="pull-right" style="margin-top: -10px;">
+            <button type="button" class="close" aria-label="Close" ng-click="hidePopover(this);" style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="clearfix"></div>
+        <div style="height: 300px">
+            <div class="col-md-3">开始日月</div>
+            <div class="col-md-9">
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!--<div class="form-group fix-time slide-well">-->
+            <!--<ul class="fm-ul fm-ul-form">-->
+                <!--<li>-->
+                    <!--<label>营业时</label>-->
+                    <!--<div class="input-group">-->
+                        <!--<input fm-edit-view type="text" class="fm-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close">-->
+                        <!--<span class="input-group-btn">-->
+                            <!--<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+        <div class='arrow_right'></div>
+    </div>
+</div>
