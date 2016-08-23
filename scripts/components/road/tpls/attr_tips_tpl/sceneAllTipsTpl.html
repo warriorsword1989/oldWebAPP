@@ -689,6 +689,27 @@
                             </div>
                         </div>
                         <!--end Usage Fee Required-->
+                        <!--begin 里程桩 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.mileageNm">
+                            <label class="col-sm-5 control-label" style="padding: 4px">名称或编号:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label " ng-bind="dataTipsData.mileageNm"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.mileageNum">
+                            <label class="col-sm-5 control-label" style="padding: 4px">里程桩编号:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label " ng-bind="dataTipsData.mileageNum"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isUsageFeeRequired">
+                            <label class="col-sm-5 control-label" style="padding: 4px">来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span ng-if="dataTipsData.tp == 1" class="label ">外业采集</span>
+                                <span ng-if="dataTipsData.tp == 2" class="label ">内插制作</span>
+                            </div>
+                        </div>
+                        <!-- end 里程桩 -->
                     </form>
                 </div>
             </div>

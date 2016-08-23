@@ -691,6 +691,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.fData = $scope.dataTipsData;
                 $scope.dataTipsData.isCrossRoad = true;
                 break;
+            case "1707": //里程桩
+                $scope.mileageNum = $scope.dataTipsData.num;
+                $scope.mileageNm = $scope.dataTipsData.rdNm;
+                $scope.mileageSrc = $scope.dataTipsData.src;
+                break;
             case "1801": //立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;

@@ -4,7 +4,7 @@ fastmap.uikit.canvasTips.TipsMileagePeg = fastmap.uikit.canvasTips.Tips.extend({
         this.properties['rotate'] = item.m.c;
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1107/0.svg',
+                iconName: '../../../images/road/tips/1707/0.svg',
                 rotate: (item.m.c) * (Math.PI / 180),
                 row: 0,
                 column: 1,
