@@ -49,6 +49,28 @@
         height:300px;
         overflow-y: auto;
     }
+    input.selectMd{
+        height: 24px;
+        background: #333;
+        color: #fff;
+    }
+    button.dateButton{
+        padding: 1px 6px;
+        background: #333;
+    }
+    .dataDivList{
+        margin-top: 7px;
+        height: 24px;
+    }
+    .dataDivList div.col-md-3{
+        line-height: 24px;
+    }
+    input.dayTime{
+        background: #333;
+        border-radius: 4px;
+        width: 35px;
+        border: 1px solid #ccc;
+    }
 </style>
 <div class="date-well" style="border: none" ng-controller="commonDeepTimeController">
     <div class="carTypeTip">
@@ -59,31 +81,52 @@
             </button>
         </div>
         <div class="clearfix"></div>
-        <div style="height: 300px">
-            <div class="col-md-3">开始日月</div>
-            <div class="col-md-9">
-                <p class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+        <div style="height: 230px">
+            <div class="dataDivList">
+                <div class="col-md-3">开始月日</div>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <input type="text" class="form-control selectMd" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-default dateButton" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
-                </p>
+                    </div>
+                </div>
+            </div>
+            <div class="dataDivList">
+                <div class="col-md-3">结束月日</div>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <input type="text" class="form-control selectMd" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default dateButton" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <!-- -->
+            <div class="dataDivList">
+                <div class="col-md-3">周营业日</div>
+                <div class="col-md-9">
+                    <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
+                        <label class="btn week-group" check-code='{{week.code}}'
+                               check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values"
+                               style="font-size: 12px;width: 14.28%;">
+                            {{week.value}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="dataDivList">
+                <div class="col-md-3">营业时间</div>
+                <div class="col-md-9">
+                    <div class="dataDivList"><input ng-click="selectTime($event)" class="dayTime" type="text" /> : <input class="dayTime" type="text" /> ~ <input class="dayTime" type="text" /> : <input class="dayTime" type="text" /></div>
+                    <div class="dataDivList"><input class="dayTime" type="text" /> : <input class="dayTime" type="text" /> ~ <input class="dayTime" type="text" /> : <input class="dayTime" type="text" /></div>
+                        <div class="dataDivList"><input class="dayTime" type="text" /> : <input class="dayTime" type="text" /> ~ <input class="dayTime" type="text" /> : <input class="dayTime" type="text" /></div>
+                </div>
             </div>
         </div>
-        <!--<div class="form-group fix-time slide-well">-->
-            <!--<ul class="fm-ul fm-ul-form">-->
-                <!--<li>-->
-                    <!--<label>营业时</label>-->
-                    <!--<div class="input-group">-->
-                        <!--<input fm-edit-view type="text" class="fm-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close">-->
-                        <!--<span class="input-group-btn">-->
-                            <!--<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-
         <div class='arrow_right'></div>
     </div>
 </div>

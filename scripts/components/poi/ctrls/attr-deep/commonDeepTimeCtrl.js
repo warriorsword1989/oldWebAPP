@@ -3,11 +3,23 @@ oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
 
-
+    var wks = $scope.wks = {};
+    wks.values = [
+        {code: '1', value: '日',name: '周日'},
+        {code: '2', value: '一',name: '周一'},
+        {code: '3', value: '二',name: '周二'},
+        {code: '4', value: '三',name: '周三'},
+        {code: '5', value: '四',name: '周四'},
+        {code: '6', value: '五',name: '周五'},
+        {code: '7', value: '六',name: '周六'}
+    ];
     //隐藏时间面板;
     $scope.hidePopover = function (t){
         $('body .carTypeTip:last').hide();
     };
+    $scope.selectTime = function(e){
+        $(e.target).timepicki($scope,$(e.target).attr('ng-model'));
+    }
 
 
 
@@ -62,7 +74,7 @@ oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
     };
 
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
+    $scope.format = $scope.formats[1];
     $scope.altInputFormats = ['M!/d!/yyyy'];
 
     $scope.popup1 = {
