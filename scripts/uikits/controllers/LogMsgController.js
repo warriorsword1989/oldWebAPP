@@ -20,11 +20,12 @@ fastmap.uikit.LogMsgController = (function() {
                     for(var i=0;i<messageArr.length;i++){
                       if(messageArr[i] == msg){
                         messageArr.splice(i,1);
+                        console.log(messageArr)
                       }
                     }
-                  }
+                  };
                   return _msg;
-                }
+                };
             },
             /***
              * 添加massage
@@ -59,5 +60,5 @@ fastmap.uikit.LogMsgController = (function() {
             instantiated = init(options);
         }
         return instantiated;
-    }
+    };
 })();
