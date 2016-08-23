@@ -163,4 +163,13 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         }, 100);
     };
     timeoutLoad();
+    $scope.$on('refreshPage',function(data){
+        $scope.speedLimitsData = objCtrl.data.speedlimits;
+        $scope.realtimeData = objCtrl.data;
+        for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
+            if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+                $scope.oridiData = $scope.speedLimitsData[i];
+            }
+        }
+    });
 })
