@@ -192,6 +192,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1607://风景路线
                     ret = new fastmap.uikit.canvasTips.TipsScenicRoutes(item);
                     break;
+                case 1701://障碍物
+                    ret = new fastmap.uikit.canvasTips.TipsObstacle(item);
+                    break;
                 case 1702://铁路道口
                     ret = new fastmap.uikit.canvasTips.TipsRailwayCrossing(item);
                     break;

@@ -154,7 +154,8 @@
         "TipsDeleteTag.js",
         "TipsMileagePeg.js",
         "TipsGPSDot.js",
-        "TipsRailwayCrossing"
+        "TipsRailwayCrossing.js",
+        "TipsObstacle.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
