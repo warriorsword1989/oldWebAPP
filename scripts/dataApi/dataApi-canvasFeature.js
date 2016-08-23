@@ -152,7 +152,8 @@
         "TipsScenicRoute.js",
         "TipsScenicRoutePart.js",
         "TipsDeleteTag.js",
-        "TipsMileagePeg.js"
+        "TipsMileagePeg.js",
+        "TipsGPSDot.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

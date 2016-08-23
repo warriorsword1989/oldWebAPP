@@ -198,6 +198,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1704://交叉路口
                     ret = fastmap.uikit.canvasTips.TipsRoadCross(item);
                     break;
+                case 1706://GPS打点
+                    ret = fastmap.uikit.canvasTips.TipsGPSDot(item);
+                    break;
                 case 1707://里程桩
                     ret = fastmap.uikit.canvasTips.TipsMileagePeg(item);
                     break;
