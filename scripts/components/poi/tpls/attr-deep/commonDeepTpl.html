@@ -47,80 +47,97 @@
         <div class="fm-panel" >
             <div class="content" style="padding-bottom: 10px;">
                 <ul class="fm-ul fm-ul-form">
-                    <li>
-                        <label>起始月</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
+                    <li style="border-bottom: 1px dashed #fff;margin-bottom: 3px;">
+                        <label style="display: block;width: 100%">营业时间</label>
+                        <i class="glyphicon glyphicon-plus-sign pull-right" aria-hidden="true"></i>
                     </li>
                     <li>
-                        <label>终止月</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>起始</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>终止</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>月内起始周</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>月内终止周</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>周  营  业</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>月内起始日</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>月内终止日</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>营业开始</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>营业时</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
+                        <label style="display: block;width: 100%">营业时间[1] 08::00~23:30</label>
+                        <i class="glyphicon glyphicon-edit pull-right" style="margin-right: 10px" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-remove-circle pull-right" aria-hidden="true"></i>
                     </li>
                 </ul>
             </div>
+            <!--<div class="content" style="padding-bottom: 10px;">-->
+                <!--<ul class="fm-ul fm-ul-form">-->
+                    <!--<li style="border-bottom: 1px dashed #fff;margin-bottom: 3px;">-->
+                        <!--<label style="display: block;width: 100%">营业时间</label>-->
+                        <!--<i class="glyphicon glyphicon-plus-sign pull-right" aria-hidden="true"></i>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>起始月</label>-->
+                        <!--<div>-->
+                            <!--<select class="fm-control" ng-model="" ng-options="">-->
+                                <!--<option>未调查</option>-->
+                                <!--<option>三级甲等</option>-->
+                                <!--<option>三级乙等</option>-->
+                                <!--<option>三级丙等</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>终止月</label>-->
+                        <!--<div>-->
+                            <!--<select class="fm-control" ng-model="" ng-options="">-->
+                                <!--<option>未调查</option>-->
+                                <!--<option>三级甲等</option>-->
+                                <!--<option>三级乙等</option>-->
+                                <!--<option>三级丙等</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>起始</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>终止</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>月内起始周</label>-->
+                        <!--<div>-->
+                            <!--<select class="fm-control" ng-model="" ng-options="">-->
+                                <!--<option>未调查</option>-->
+                                <!--<option>三级甲等</option>-->
+                                <!--<option>三级乙等</option>-->
+                                <!--<option>三级丙等</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>月内终止周</label>-->
+                        <!--<div>-->
+                            <!--<select class="fm-control" ng-model="" ng-options="">-->
+                                <!--<option>未调查</option>-->
+                                <!--<option>三级甲等</option>-->
+                                <!--<option>三级乙等</option>-->
+                                <!--<option>三级丙等</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>周  营  业</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>月内起始日</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>月内终止日</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>营业开始</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<label>营业时</label>-->
+                        <!--<div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
