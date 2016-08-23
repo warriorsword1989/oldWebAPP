@@ -559,6 +559,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
                 break;
+            case "1310": //公交车道
+                $scope.busDriveway = $scope.dataTipsData.bus.join(',');
+                break;
             case "1401": //方向看板
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;

@@ -157,7 +157,8 @@
         "TipsRailwayCrossing.js",
         "TipsObstacle.js",
         "TipsHighSpeedEntrance.js",
-        "TipsReversibleLane.js"
+        "TipsReversibleLane.js",
+        "TipsBusDriveway.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
