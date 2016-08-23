@@ -83,7 +83,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
          * @param num
          * @param event
          */
-        $scope.addShape = function (type) {
+        $scope.addCRFShape = function (type) {
             //大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
                 swal("提示", "地图缩放等级必须大于16级才可操作", "info");
@@ -318,6 +318,102 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                              }
                              data.data.splice(i,1);
                              i--;
+                         }
+                     }
+                     for (var i = 0; i < data.data.length; i++) {
+                         if (data.data[i].data && data.data[i].data.geometry.type == "LineString"  && crfPids.indexOf(data.data[i].data.properties.id) < 0) {
+                             if (interData.linkPids.indexOf(parseInt(data.data[i].data.properties.id)) < 0 && crfPids.indexOf(parseInt(data.data[i].data.properties.id))< 0) {
+                                 interData.linkPids.push(parseInt(data.data[i].data.properties.id));
+                                 highLightFeatures.push({
+                                     id: data.data[i].data.properties.id.toString(),
+                                     layerid: 'rdLink',
+                                     type: 'line',
+                                     style: {
+                                         color: '#D9B300'
+                                     }
+                                 });
+                             }
+                         }
+                     }
+                     highRenderCtrl.highLightFeatures = highLightFeatures;
+                     highRenderCtrl.drawHighlight();
+                     tooltipsCtrl.setCurrentTooltip("请追加或取消道路线!");
+                     eventController.off(eventController.eventTypes.GETRECTDATA);
+                     map.currentTool = {};
+                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                         map: map,
+                         shapeEditor: shapeCtrl,
+                         selectLayers: [crfData,rdLink],
+                         snapLayers: [rdLink]
+                     });
+                     map.currentTool.enable();
+                     eventController.off(eventController.eventTypes.GETFEATURE);
+                     eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                         highRenderCtrl._cleanHighLight();
+                         if(data.optype == "RDLINK"){
+                             if(interData.linkPids.indexOf(parseInt(data.id)) < 0){
+                                 interData.linkPids.push(parseInt(data.id));
+                                 highLightFeatures.push({
+                                     id: data.id.toString(),
+                                     layerid: 'rdLink',
+                                     type: 'line',
+                                     style: {
+                                         color: '#D9B300'
+                                     }
+                                 });
+                             } else {
+                                 interData.linkPids.splice(interData.linkPids.indexOf(parseInt(data.id)),1);
+                                 for(var i = 0;i<highLightFeatures.length;i++){
+                                     if(highLightFeatures[i].id == data.id){
+                                         highLightFeatures.splice(i,1);
+                                         i--;
+                                     }
+                                 }
+                             }
+                         }
+                         highRenderCtrl.highLightFeatures = highLightFeatures;
+                         highRenderCtrl.drawHighlight();
+                     });
+                     shapeCtrl.shapeEditorResult.setFinalGeometry(interData);
+                     tooltipsCtrl.setCurrentTooltip("点击空格保存CRF道路信息,或者按ESC键取消!");
+                 });
+             } else if (type === 'CRFOBJECT') { //CRF道路
+                 $scope.resetOperator("addRelation", type);
+                 var highLightFeatures = [];
+                 var objData = {links:[],inters:[],roads:[],longitude:null,latitude:null};//要创建的对象.
+                 var lineList = [];
+                 var crfPids = [];
+                 highRenderCtrl.highLightFeatures = [];
+                 highRenderCtrl._cleanHighLight();
+                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
+                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.CRFOBJECT);
+                 //地图编辑相关设置;
+                 tooltipsCtrl.setEditEventType('crfObject');
+                 tooltipsCtrl.setCurrentTooltip('请框选制作CRF对象的要素！');
+                 map.currentTool = new fastmap.uikit.SelectForRectang({
+                     map: map,
+                     shapeEditor: shapeCtrl,
+                     LayersList: [rdLink ,crfData]
+                 });
+                 map.currentTool.enable();
+
+                 eventController.off(eventController.eventTypes.GETRECTDATA);
+                 eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+                     if (data == []){
+                         tooltipsCtrl.setCurrentTooltip('请重新框选制作CRF对象的要素！');
+                         return;
+                     }
+                     //crf中的node和link与常规的node、link的pid是一样的，要排除掉常规中的这些数据
+                     for(var i = 0;i<data.data.length;i++){
+                         //将所有的link放进去
+                         if(data.data[i].data && data.data[i].data.properties.featType != "RDINTER" && data.data[i].data.properties.featType != "RDROAD" && data.data[i].data.geometry.type == "LineString"){
+                             lineList.push(data.data[i].data.properties.id);
+                         }
+                         //将crf的pid放进去
+                         if(data.data[i].data && data.data[i].data.properties.featType == "RDINTER" || data.data[i].data.properties.featType == "RDROAD"){
+                             if(crfPids.indexOf(data.data[i].data.properties.id) < 0){
+                                 crfPids.push(data.data[i].data.properties.id);
+                             }
                          }
                      }
                      for (var i = 0; i < data.data.length; i++) {

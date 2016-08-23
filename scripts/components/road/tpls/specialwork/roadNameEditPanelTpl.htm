@@ -28,10 +28,15 @@
             <ul class="fm-ul fm-ul-form col-md-4">
                 <li>
                     <label>道路名组ID:</label>
-                    <nobr>
-                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupid"/>
-                    	<a ng-show="nameGroupidEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;" ng-click="openSearchModal('nameGroup')"></a>
-                    </nobr>
+                    <!-- <nobr>
+                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupid" style="width:100%"/>
+                    	<span ng-show="nameGroupidEditable != false" title="搜索" class="glyphicon glyphicon-search" aria-hidden="true" ng-click="openSearchModal('nameGroup')"></span>
+                    	<a ng-show="nameGroupidEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('nameGroup')"></a>
+                    </nobr> -->
+                    <div>
+                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupid" style="width:98%"/>
+                    	<a ng-show="nameGroupidEditable != false" title="搜索" class="glyphicon glyphicon-search" aria-hidden="true" ng-click="openSearchModal('nameGroup')" style="margin-left: -17px;"></a>
+                    </div>
                 </li>
                 <li>
                     <label>道路名发音:</label>
@@ -41,10 +46,15 @@
                 </li>
                 <li>
                     <label>类型名称:</label>
-                    <nobr>
+                    <!-- <nobr>
                     	<input type="text" class="fm-control" ng-model="roadNameData.type" disabled/>
                     	<a ng-show="typeEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('type')"></a>
-                    </nobr>
+                    </nobr> -->
+                    <div>
+                    	<input type="text" class="fm-control" ng-model="roadNameData.type" disabled style="width:98%"/>
+                    	<!-- <a ng-show="typeEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('type')"></a> -->
+                    	<a ng-show="typeEditable != false" title="搜索" class="glyphicon glyphicon-search" aria-hidden="true" ng-click="openSearchModal('type')" style="margin-left: -17px;"></a>
+                    </div>
                 </li>
                 <li>
                     <label>基本名发音:</label>
@@ -68,10 +78,10 @@
                 </li>
                 <li>
                     <label >行政区划:</label>
-                    <nobr>
-                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.adminName"/>
-                    	<a ng-show="adminIdEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('admin')"></a>
-                    </nobr>
+                    <div>
+                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.adminName" style="width:98%"/>
+                    	<a ng-show="adminIdEditable != false" href="#" title="搜索" class="glyphicon glyphicon-search" style="margin-left: -17px;" ng-click="openSearchModal('admin')"></a>
+                    </div>
                 </li>
                 <li>
                     <label >拆分标识:</label>
