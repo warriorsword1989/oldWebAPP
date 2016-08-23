@@ -14,5 +14,4 @@ fastmap.uikit.canvasTips.TipsSpeedBump = fastmap.uikit.canvasTips.Tips.extend({
             })
         );
       }
-    }
 });
