@@ -450,8 +450,8 @@
                         <!--end 实景图-->
                         <!--begin 维修-->
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.idGate && !dataTipsData.isNoDriveIn">
-                            <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.isNoCrossing">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
-                            <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.isNoCrossing">限制时间:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.isNoCrossing && !dataTipsData.isReversibleLine">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.isNoCrossing || dataTipsData.isReversibleLine">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <div ng-repeat="item in timeDomain" class="text-ellipsis">
                                     <span class="label" title="{{item}}">{{item}}</span>
@@ -690,26 +690,34 @@
                         </div>
                         <!--end Usage Fee Required-->
                         <!--begin 里程桩 -->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.mileageNm">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="mileageNm">
                             <label class="col-sm-5 control-label" style="padding: 4px">名称或编号:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label " ng-bind="dataTipsData.mileageNm"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.mileageNum">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="mileageNum">
                             <label class="col-sm-5 control-label" style="padding: 4px">里程桩编号:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label " ng-bind="dataTipsData.mileageNum"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isUsageFeeRequired">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="mileageSrc">
                             <label class="col-sm-5 control-label" style="padding: 4px">来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span ng-if="dataTipsData.tp == 1" class="label ">外业采集</span>
-                                <span ng-if="dataTipsData.tp == 2" class="label ">内插制作</span>
+                                <span ng-if="mileageSrc == 1" class="label ">外业采集</span>
+                                <span ng-if="mileageSrc == 2" class="label ">内插制作</span>
                             </div>
                         </div>
                         <!-- end 里程桩 -->
+                        <!-- begin 可逆车道 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="reversibleRev">
+                            <label class="col-sm-5 control-label" style="padding: 4px">可逆车道:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="reversibleRev"></span>
+                            </div>
+                        </div>
+                        <!-- end 可逆车道 -->
                     </form>
                 </div>
             </div>
