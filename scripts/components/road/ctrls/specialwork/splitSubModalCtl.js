@@ -8,7 +8,7 @@ angular.module('app').controller("SplitSubModalCtl", ['$scope', '$ocLazyLoad', '
 			var param = {};
 			if(1 == $scope.dataFlag){//拆分选中的数据
 				if(0 == $scope.getSelectedData().length){
-					swal("请先选择要拆分的数据", "", "info");
+//					swal("请先选择要拆分的数据", "", "info");
 					swal({
 						title: "请先选择要拆分的数据",
 						type: "info",
