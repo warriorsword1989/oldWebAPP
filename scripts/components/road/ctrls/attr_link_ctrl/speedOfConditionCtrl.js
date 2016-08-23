@@ -7,11 +7,7 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
     $scope.speedLimitsData = objCtrl.data.speedlimits;
 
     $scope.realtimeData = objCtrl.data;
-    for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
-        if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
-            $scope.oridiData = $scope.speedLimitsData[i];
-        }
-    }
+    $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["oridiRowId"]];
 
     //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
     if($scope.conditForm) {
@@ -166,10 +162,6 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
     $scope.$on('refreshPage',function(data){
         $scope.speedLimitsData = objCtrl.data.speedlimits;
         $scope.realtimeData = objCtrl.data;
-        for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
-            if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
-                $scope.oridiData = $scope.speedLimitsData[i];
-            }
-        }
+        $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["oridiRowId"]];
     });
 })
