@@ -109,6 +109,12 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1305://禁止驶入 *
                     ret = new fastmap.uikit.canvasTips.TipsNoEntry(item);
                     break;
+                case 1306://路口语音引导
+                    ret = new fastmap.uikit.canvasTips.TipsCrossVoiceGuides(item);
+                    break;
+                case 1307://自然语音引导
+                    // ret = new fastmap.uikit.canvasTips.TipsNatureVoiceGuides(item);
+                    break;
                 case 1308://禁止卡车驶入
                     ret = new fastmap.uikit.canvasTips.TipsBanTrucksIn(item);
                     break;
@@ -182,7 +188,8 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsSideRoads(item);
                     break;
                 case 1513://窄道
-                	ret = new fastmap.uikit.canvasTips.TipsNarrowChannels(item);
+                  	ret = new fastmap.uikit.canvasTips.TipsNarrowChannels(item);
+                    break;
                 case 1514://施工
                     ret = new fastmap.uikit.canvasTips.TipsMaintenances(item);
                     break;

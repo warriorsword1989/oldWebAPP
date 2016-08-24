@@ -93,6 +93,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.wArrayitem = $scope.dataTipsData.w_array[index];
     };
 
+    // 切换路口语音引导
+    $scope.showVoiceGuideItem = function (index) {
+      $scope.oArrayItem = $scope.dataTipsData.o_array[index];
+    };
     //初始化DataTips相关数据
     $scope.initializeDataTips = function(data) {
         if(data == -1){
@@ -133,6 +137,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             }
         }
         $scope.wArrayitem = {};
+        $scope.oArrayItem = {};
         $scope.schemaType = '';
         $scope.timeDomain = '';
         $scope.sceneExit = '';
@@ -143,6 +148,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.tollGateTp = '';
         $scope.TollETC = '';
         $scope.tollGateLoc = '';
+        $scope.mileageNum = '';
+        $scope.mileageNm = '';
+        $scope.mileageSrc = '';
+        $scope.busDriveway = '';
+        $scope.variableDirectionInfo = '';
         switch ($scope.allTipsType) {
             case "1101": //点限速
                 $scope.speedDirectTypeOptions = [{
@@ -558,6 +568,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
+                break;
+            case "1306"://路口语音引导
+                $scope.oArrayItem = $scope.dataTipsData.o_array[0];
                 break;
             case "1308": //外埠车辆限制
                 $scope.outsideCarLimit = $scope.dataTipsData.c_array[0].out;

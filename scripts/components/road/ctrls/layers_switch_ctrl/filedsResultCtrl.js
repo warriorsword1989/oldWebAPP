@@ -526,6 +526,19 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1306") {    //路口语音引导
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1308") {    //禁止卡车驶入
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTpl = {

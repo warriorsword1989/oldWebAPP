@@ -168,6 +168,15 @@
             </div>
         </div>
     </div>
+    <!-- begin 路口语音引导 -->
+    <div class="right" ng-if="allTipsType==1306" >
+        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
+            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
+                <img ng-src="../../../images/road/tips/1306/1306_{{item.sq}}_0.svg" style="cursor: pointer" ng-click="showVoiceGuideItem($index)">
+            </div>
+        </div>
+    </div>
+    <!-- end 路口语音引导 -->
     <div class="middle">
         <div class="tip-left">
             <div class="panel panel-default" style="background-color: #555;margin-bottom: 0px;" >
@@ -796,6 +805,20 @@
                             </div>
                         </div>
                         <!-- end 可变导向车道 -->
+                        <!-- begin 路口语音引导 -->
+                        <!-- <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('in')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="oArrayItem.in" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.in,'RDLINK')"></span>
+                            </div>
+                        </div> -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.hasOwnProperty('in')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="oArrayItem.in" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.in,'RDLINK')"></span>
+                            </div>
+                        </div>
+                        <!-- end 路口语音引导 -->
                     </form>
                 </div>
             </div>
