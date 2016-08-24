@@ -15,6 +15,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.nameId = data["nameId"] || "";
+        this.pid = data["pid"] || "";
         this.nameGroupid = data["nameGroupid"] || 1;
         this.langCode = data["langCode"] || "";
         this.name = data["name"] || "";
@@ -31,6 +32,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot:function() {
         var data = {};
         data["nameId"] = this.nameId;
+        data["pid"] = this.pid;
         data["nameGroupid"] = this.nameGroupid;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
@@ -49,6 +51,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function() {
         var data = {};
         data["nameId"] = this.nameId;
+        data["pid"] = this.pid;
         data["nameGroupid"] = this.nameGroupid;
         data["langCode"] = this.langCode;
         data["name"] = this.name;

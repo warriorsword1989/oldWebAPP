@@ -15,7 +15,7 @@ fastmap.uikit.canvasFeature.RdObjectLinks = fastmap.uikit.canvasFeature.Feature.
         var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
         this.properties['symbol'] = compositeSymbol;
 
-        this.properties['style']['strokeColor'] = '#9F4D95';
+        this.properties['style']['strokeColor'] = '#DAB1D5';
         this.properties['style']['strokeWidth'] = 6;
         this.properties['style']['strokeOpacity'] = 0.5;
     }

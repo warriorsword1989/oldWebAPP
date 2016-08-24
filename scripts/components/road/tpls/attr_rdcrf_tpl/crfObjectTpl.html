@@ -1,72 +1,68 @@
-<div class="fm-component" ng-controller="rdSlopeCtl">
+<div class="fm-component" ng-controller="crfObjectCtrl">
     <div class="title">
-        坡度PID
-        <span class="label label-info">{{slopeData.pid}}</span>
+        CRF对象
+        <span class="label label-info">{{crfObjData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
-        <from name="rdSlopeForm">
-            <div class="fm-panel" >
+        <from name="crfObjForm">
+            <div class="fm-panel">
+                <div class="title">
+                    <div><a ng-click="addRdName()" style="cursor: pointer;color:#FFF;">名称组（共<span ng-if="crfObjData.names!=undefined">{{crfObjData.names.length}}</span>条）</a></div>
+                </div>
                 <div class="content">
-                    <ul class="fm-ul fm-ul-form">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.names">
                         <li>
-                            <label>关联点</label>
-                            <div>
-                                <input type="text" class="fm-control" ng-model="slopeData.nodePid" disabled />
-                            </div>
-                        </li>
-                        <li>
-                            <label>退出线</label>
-                            <div>
-                                <input type="text" class="fm-control" ng-model="slopeData.linkPid" disabled />
-                            </div>
-                        </li>
-                        <li>
-                            <label>坡度类型</label>
-                            <div>
-                                <label>
-                                    <input type="radio" value=1 ng-model="slopeData.type">
-                                    水平
-                                </label>
-                                <label>
-                                    <input type="radio" value=2 ng-model="slopeData.type">
-                                    上坡
-                                </label>
-                                <label>
-                                    <input type="radio" value=3 ng-model="slopeData.type">
-                                    下坡
-                                </label>
-                            </div>
-                        </li>
-                        <li>
-                            <label>坡度角度</label>
-                            <div>
-                                <input type="text" class="fm-control" ng-model="slopeData.angle" />
+                            <div ng-click="showNames(cItem,$index)" style="cursor: pointer;">
+                                <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
+                                <span id="nameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minusName($index)"></span>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="fm-panel" >
+            <div class="fm-panel">
                 <div class="title">
-                    <div>连续Link（共 <span ng-bind="slopeData.slopeVias.length">0</span> 条）</div>
+                    <div>组成Link（共 <span ng-bind="crfObjData.links.length">0</span> 条）</div>
                 </div>
                 <div class="content">
-                    <div ng-repeat="cItem in slopeData.slopeVias" class="blackTheme module-box">
-                        <ul class="fm-ul fm-ul-form">
-                            <li >
-                                <label>Link序号</label>
-                                <div>
-                                    <input type="text" class="fm-control" ng-model="cItem.seqNum" disabled/>
-                                </div>
-                            </li>
-                            <li >
-                                <label>Link号码</label>
-                                <div>
-                                    <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.links">
+                        <li>
+                            <label>Link{{$index+1}}号码</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fm-panel">
+                <div class="title">
+                    <div>组成道路（共 <span ng-bind="crfObjData.roads.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.roads">
+                        <li>
+                            <label>道路ID{{$index+1}}</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="cItem.roadPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fm-panel">
+                <div class="title">
+                    <div>组成交叉点（共 <span ng-bind="crfObjData.inters.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.inters">
+                        <li>
+                            <label>交叉点{{$index+1}}</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="cItem.interPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </from>

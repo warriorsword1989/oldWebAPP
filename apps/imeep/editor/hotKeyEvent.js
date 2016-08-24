@@ -1290,7 +1290,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.create('RDOBJECT',geo).then(function(data) {
                     if(data != null){
                         crfData.redraw();
-                        treatmentOfChanged(data, "RDOBJECT", "创建CRF对象成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
+                        treatmentOfChanged(data, "RDOBJECT", "创建CRF对象成功", 'attr_rdcrf_ctrl/crfObjectCtrl', 'attr_rdcrf_tpl/crfObjectTpl.html');
                     } else {
                         resetPage();
                     }

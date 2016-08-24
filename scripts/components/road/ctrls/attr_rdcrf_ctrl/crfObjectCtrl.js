@@ -13,28 +13,25 @@ rdSlopeApp.controller("crfObjectCtrl",['$scope','dsEdit',function($scope,dsEdit)
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.initializeData = function(){
-        $scope.slopeData = objCtrl.data;
-        $scope.slopeData.slopeVias.sort(function (a, b) {
-            return a.seqNum < b.seqNum ? -1 : 1;
-        });
+        $scope.crfObjData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var highLightFeatures = [];
         selectCtrl.onSelected({
-            id:$scope.slopeData.pid
+            id:$scope.crfObjData.pid
         });
         highLightFeatures.push({
-            id:$scope.slopeData.linkPid.toString(),
+            id:$scope.crfObjData.linkPid.toString(),
             layerid:'rdLink',
             type:'line',
             style:{color: 'red'}
         });
         highLightFeatures.push({
-            id:$scope.slopeData.nodePid.toString(),
+            id:$scope.crfObjData.nodePid.toString(),
             layerid:'rdLink',
             type:'rdnode',
             style:{}
         });
-        var linkArr = $scope.slopeData.slopeVias,points = [];
+        var linkArr = $scope.crfObjData.slopeVias,points = [];
         for (var i = 0, len = linkArr.length; i < len; i++){
             highLightFeatures.push({
                 id:linkArr[i].linkPid.toString(),
@@ -50,6 +47,43 @@ rdSlopeApp.controller("crfObjectCtrl",['$scope','dsEdit',function($scope,dsEdit)
         $scope.initializeData();
     }
 
+    $scope.showNames = function (nameItem,index) {
+        var showBlackObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback":function (){
+                var showNamesObj = {
+                    "loadType":"subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_rdcrf_ctrl/crfObjectNameCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_rdcrf_tpl/crfObjectNameTpl.html',
+                    "data":index+"" //必须将数字转成字符串
+                };
+                $scope.$emit("transitCtrlAndTpl", showNamesObj);
+            }
+        };
+        $scope.$emit("transitCtrlAndTpl", showBlackObj);
+
+
+    };
+
+    $scope.addRdName = function () {
+        var newName = fastmap.dataApi.rdObjectNames({"pid": $scope.crfObjData.pid});
+        $scope.crfObjData.names.unshift(newName)
+    };
+
+
+    $scope.minusName = function (id) {
+        $scope.crfObjData.names.splice(id, 1);
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl": false});
+    }
+
+    $scope.changeColor = function (ind, ord) {
+        $("#nameSpan" + ind).css("color", "#FFF");
+    }
+    $scope.backColor = function (ind, ord) {
+        $("#nameSpan" + ind).css("color", "darkgray");
+    }
     $scope.save = function(){
         objCtrl.save();
         if(!objCtrl.changedProperty){
@@ -72,7 +106,7 @@ rdSlopeApp.controller("crfObjectCtrl",['$scope','dsEdit',function($scope,dsEdit)
     };
 
     $scope.delete = function(){
-        var objId = parseInt($scope.slopeData.pid);
+        var objId = parseInt($scope.crfObjData.pid);
         var param = {
             "command": "DELETE",
             "type": "RDSLOPE",
@@ -82,7 +116,7 @@ rdSlopeApp.controller("crfObjectCtrl",['$scope','dsEdit',function($scope,dsEdit)
         dsEdit.save(param).then(function (data) {
             var info = null;
             if (data) {
-                $scope.slopeData = null;
+                $scope.crfObjData = null;
                 relationData.redraw();
                 if (map.floatMenu) {
                     map.removeLayer(map.floatMenu);
