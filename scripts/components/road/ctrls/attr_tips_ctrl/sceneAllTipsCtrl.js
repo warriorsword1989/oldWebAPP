@@ -559,6 +559,17 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
                 break;
+            case "1308": //外埠车辆限制
+                $scope.outsideCarLimit = $scope.dataTipsData.c_array[0].out;
+                $scope.outsideCarObj = {
+                  0:'不应用',
+                  1:'仅限制外埠车辆',
+                  2:'仅限制本埠车辆'
+                };
+                if($scope.dataTipsData.c_array[0].time){
+                    $scope.timeDomain = $scope.dataTipsData.c_array[0].time.split(';');
+                }
+                break;
             case "1310": //公交车道
                 $scope.busDriveway = $scope.dataTipsData.bus.join(',');
                 break;

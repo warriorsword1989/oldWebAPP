@@ -726,6 +726,50 @@
                             </div>
                         </div>
                         <!-- end 公交车道 -->
+                        <!-- begin 禁止卡车驶入 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].trl">
+                            <label class="col-sm-5 control-label" style="padding: 4px">拖挂车限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-if="dataTipsData.c_array[0].trl == 0" ng-bind="dataTipsData.c_array[0].trl"></span>
+                                <span class="label" ng-if="dataTipsData.c_array[0].trl == 1" ng-bind="dataTipsData.c_array[0].trl"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].wt">
+                            <label class="col-sm-5 control-label" style="padding: 4px">车辆限重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-if="dataTipsData.c_array[0].wt != 0">{{dataTipsData.c_array[0].wt}}T</span>
+                                <span class="label" ng-if="dataTipsData.c_array[0].wt == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].ax">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制轴重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                              <span class="label" ng-if="dataTipsData.c_array[0].ax != 0">{{dataTipsData.c_array[0].ax}}T</span>
+                              <span class="label" ng-if="dataTipsData.c_array[0].ax == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].ac">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制轴数:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                              <span class="label" ng-if="dataTipsData.c_array[0].ac != 0">{{dataTipsData.c_array[0].ac}}</span>
+                              <span class="label" ng-if="dataTipsData.c_array[0].ac == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="outsideCarLimit">
+                            <label class="col-sm-5 control-label" style="padding: 4px">本外埠限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="outsideCarObj[outsideCarLimit]"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].out">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <div ng-repeat="item in timeDomain" class="text-ellipsis">
+                                    <span class="label" title="{{item}}">{{item}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end 禁止卡车驶入 -->
                     </form>
                 </div>
             </div>

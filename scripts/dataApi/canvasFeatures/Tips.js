@@ -109,6 +109,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1305://禁止驶入 *
                     ret = new fastmap.uikit.canvasTips.TipsNoEntry(item);
                     break;
+                case 1308://禁止卡车驶入
+                    ret = new fastmap.uikit.canvasTips.TipsBanTrucksIn(item);
+                    break;
                 case 1310://公交车道
                     ret = new fastmap.uikit.canvasTips.TipsBusDriveway(item);
                     break;
