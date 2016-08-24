@@ -31,10 +31,16 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.editFlag = data['editFlag'] || 1;
         this.state = data['state'] || 0;
         this.fieldState = data['fieldState'] || null;
-        var labelArr =  data["label"] ? data["label"].split("|") : [];
-        this.label = {};
-        for (var i = 0; i < labelArr.length; i++) {
-            this.label[labelArr[i]] = true;
+        // var labelArr =  data["label"] ? data["label"].split("|") : [];
+        // this.label = {};
+        // for (var i = 0; i < labelArr.length; i++) {
+        //     this.label[labelArr[i]] = true;
+        // }
+
+        var sportsVenueArr =  data["sportsVenue"] ? data["sportsVenue"].split("|") : [];
+        this.sportsVenue = {};
+        for (var i = 0; i < sportsVenueArr.length; i++) {
+            this.sportsVenue[sportsVenueArr[i]] = true;
         }
         //this.label = data['label'] || null;
         this.type = data['type'] || 0;
@@ -212,13 +218,13 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret["editFlag"] = this.editFlag;
         ret["state"] = this.state;
         ret["fieldState"] = this.fieldState;
-        var checkedLabelArr = [];
-        for (var key in this.label) {
-            if (this.label[key] == true) {
-                checkedLabelArr.push(key);
+        var sportsVenueArr = [];
+        for (var key in this.sportsVenue) {
+            if (this.sportsVenue[key]) {
+                sportsVenueArr.push(key);
             }
         }
-        ret["label"] = checkedLabelArr.join("|").substr(0,3);
+        ret["sportsVenue"] = sportsVenueArr.join("|").substr(0,3);
         ret["type"] = this.type;
         ret["addressFlag"] = this.addressFlag;
         ret["exPriority"] = this.exPriority;

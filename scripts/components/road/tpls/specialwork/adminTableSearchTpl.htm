@@ -4,15 +4,15 @@
         <div style="height:400px;">
 			<div class="fm-table-content fm-fitsize scroll-styled" style="top:40px;bottom: 70px">
 		        <div class="table-header">
-		            <div class="table-search fm-inline fm-list-dropdown" style="padding: 10px 50px 10px 10px" class="pull-left">
+		            <div class="table-search fm-inline" style="padding: 10px 50px 10px 10px" class="pull-left">
 			            <div class="btn-group">
 			                <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">
-			                   	 行政区划名称：
+			                   	 行政区划名称:
 			                </button>
 			            </div>
-			            <input class="fm-search-control" type="text" ng-model="filters[name]"/>
-			        	<button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button>
-			        </div>
+			            <input class="fm-search-control" type="text" ng-model="filters.whole" style="color:black"/>
+			        	<!-- <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button> -->
+			        </div>	
 		        </div>
 	            <table ng-table-dynamic="adminTableParams with adminTableCols" class="table table-condensed table-bordered poi-list">
 	                <colgroup>

@@ -1680,6 +1680,9 @@ form input[type=checkbox].ng-dirty:before {
 .log-message-container .log-message .log-message-remove:hover {
   opacity: 1;
 }
+.menuActive {
+  color: rgba(255, 255, 255, 0.5);
+}
 .table-input {
   color: white;
   background-color: black;

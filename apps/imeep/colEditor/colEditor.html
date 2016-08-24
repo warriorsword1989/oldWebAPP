@@ -28,7 +28,7 @@
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div class="selected" ng-click="changeEditTool('tipsPanel')">
-                        <a tooltip-class="subTooltip" uib-tooltip="中文名称" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true>中文名称</a>
+                        <a tooltip-class="subTooltip" uib-tooltip="{{menus[nameType]}}" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true>{{menus[nameType]}}</a>
                         <div class="fill-azure pin-left"></div>
                     </div>
                 </div>
@@ -40,17 +40,12 @@
             <div ui-layout-container>
                 <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
                     <div ui-layout-container class="fm-container fm-col animated fadeInLeft" size="250px">
-                        <!--<div class="fm-tabs" ng-if="showTab" style="padding:0px;">-->
-                            <!--<a href="#" class="tab col-sm-6" ng-class="{1:'active'}[projectType]" ng-click="changeProject(1)">POI作业</a>-->
-                            <!--<a href="#" class="tab col-sm-6" ng-class="{2:'active'}[projectType]" ng-click="changeProject(2)">道路作业</a>-->
-                        <!--</div>-->
                         <div style="padding-top: 20px;">
-                            <!--左侧数据列表
-                            <div ng-include="dataListTpl"></div>-->
                             <div ng-repeat="na in names[nameType]" style="color: red;padding: 14px;">
-                                <a><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
-                                    <span style="padding-left:6px;">{{na.text}}</span>
-                                    <span>({{na.worked}}</span>/<span>{{na.count}})</span>
+                                <a ng-click="changeMenu(na.id);"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+                                    <span style="padding-left:6px;" ng-bind="na.text"></span>
+                                    (<span ng-bind="na.worked"></span>/<span ng-bind="na.count"></span>)
+                                    <span ng-if="na.id==menuSelectedId" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 </a>
                             </div>
                             <div style="position: absolute;bottom: 20px;left: 50px;">
@@ -61,7 +56,7 @@
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
                         <div style="background-color:black;width: 100%;height: 100%;">
-
+                            <div ng-include="columnListTpl"></div>
                         </div>
                     </div>
                 </div>
