@@ -57,30 +57,26 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
 			{"id": "内", "label": "内"}
 		];
 		var infixOpt_ENG = [
-			{"id": "East", "label": "E"},
-			{"id": "West", "label": "W"},
-			{"id": "South", "label":"S"},
-			{"id": "North", "label":"N"},
-			{"id": "Front", "label":"F"},
-   			{"id": "南", "label": "南"},
-   			{"id": "西", "label": "西"},
-   			{"id": "北", "label": "北"},
-   			{"id": "前", "label": "前"},
-   			{"id": "后", "label": "后"},
-   			{"id": "左", "label": "左"},
-   			{"id": "右", "label": "右"},
-   			{"id": "中", "label": "中"},
-   			{"id": "东", "label": "东"},
-   			{"id": "省", "label": "省"},
-   			{"id": "市", "label": "市"},
-   			{"id": "县", "label": "县"},
-   			{"id": "辅", "label": "辅"},
-   			{"id": "外", "label": "外"},
-   			{"id": "上", "label": "上"},
-   			{"id": "正", "label": "正"},
-   			{"id": "下", "label": "下"},
-   			{"id": "内", "label": "内"}
-		       		];
+			{"id": "East", "label": "East"},
+			{"id": "West", "label": "West"},
+			{"id": "South", "label":"South"},
+			{"id": "North", "label":"North"},
+			{"id": "Front", "label":"Front"},
+   			{"id": "Back", "label": "Back"},
+   			{"id": "Left", "label": "Left"},
+   			{"id": "Right", "label": "Right"},
+   			{"id": "Middle", "label": "Middle"},
+   			{"id": "Provincial", "label": "Provincial"},
+   			{"id": "City", "label": "city"},
+   			{"id": "Country", "label": "Country"},
+   			{"id": "Side", "label": "Side"},
+   			{"id": "Frontage", "label": "Frontage"},
+   			{"id": "Outer", "label": "Outer"},
+   			{"id": "Upper", "label": "Upper"},
+   			{"id": "Main", "label": "Main"},
+   			{"id": "Down", "label": "Down"},
+   			{"id": "Inner", "label": "Inner"}
+		];
 		var suffixOpt_CHI = [
 			{"id": "东", "label": "东"},
 			{"id": "西", "label": "西"},
@@ -123,18 +119,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
 		];
 		$scope.hwInfoFlag = 1;
 		$scope.initializeData = function(){
-			console.log('初始化')
 			var type = $scope.roadNameFlag;
 			if("add" == type){
-//				var defautdata = {
-//						langCode : "CHI",
-//						srcFlag : 0,
-//						roadType : 0,
-//						codeType : 0,
-//						routeId : 0,
-//						splitFlag : 0
-//						
-//				};
 				$scope.roadNameData = fastmap.dataApi.roadName({});
 			}else if("edit" == type){
 				$scope.roadNameData = objectCtrl.data;
@@ -243,7 +229,6 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
    			$scope.roadNameData.adminName = row.whole;
    			$scope.searchModal = false;
        	 }else if(type == "namegroup"){
-       		 alert( $scope.roadNameFlag)
        		 if("add" == $scope.roadNameFlag){
        			var param = {
    	 					nameGroupid : parseInt(row.nameGroupid)
@@ -302,7 +287,6 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         };
         $scope.test = function(row, index, type){
         	if(type == "namegroup"){
-          		 alert( $scope.roadNameFlag)
           		 if("add" == $scope.roadNameFlag){
           			var param = {
       	 					nameGroupid : parseInt(row.nameGroupid)
@@ -320,7 +304,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
           			$scope.searchModal = false;
           		 }
           	 }
-        }
+        };
         /***
          * 保存
          */
@@ -416,6 +400,23 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.hwInfoFlagDisable = true;
         	}else{
         		$scope.initFieldEditable();
+        	}
+        };
+        /***
+         * 语言切换事件
+         */
+        $scope.langCodeChange = function(event, obj) {
+        	if(obj.roadNameData.langCode == "ENG" || obj.roadNameData.langCode == "POR"){
+        		$scope.prefixOpt = prefixOpt_ENG;
+        		$scope.roadNameData.prefixPhonetic = "";
+        		$scope.infixOpt = infixOpt_ENG;
+        		$scope.roadNameData.infixPhonetic = "";
+        		$scope.suffixOpt = suffixOpt_ENG;
+        		$scope.roadNameData.suffixPhonetic = "";
+        	}else if(obj.roadNameData.langCode == "CHI" || obj.roadNameData.langCode == "CHT"){
+        		$scope.prefixOpt = prefixOpt_CHI;
+        		$scope.infixOpt = infixOpt_CHI;
+        		$scope.suffixOpt = suffixOpt_CHI;
         	}
         };
         /*start 事件监听 *********************************************************/
