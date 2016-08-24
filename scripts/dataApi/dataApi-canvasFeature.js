@@ -160,7 +160,8 @@
         "TipsReversibleLane.js",
         "TipsBusDriveway.js",
         "TipsBanTrucksIn.js",
-        "TipsVariableDirectionLane.js"
+        "TipsVariableDirectionLane.js",
+        "TipsCrossLineOverpasses.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
