@@ -3,34 +3,67 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 	meta: "scripts/components/meta/",
 	road: "scripts/components/road/",
 	poi: "scripts/components/poi/",
+	column: "scripts/components/column/",
 	tool: "scripts/components/tools/"
 }).controller('ColEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
 	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
 		var eventCtrl = new fastmap.uikit.EventController();
+		$scope.showLoading = true;
+		$timeout(function (){
+			$scope.showLoading = false;
+		},1000);
+
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
-		$scope.showLoading = true;
-		$scope.showTab = true;
-		$scope.selectedTool = 1;
-		$scope.dataListType = 1;
-		$scope.projectType = 1; //1--POI作业，其他为道路作业
-		$scope.outputType = 1;
-		//面板显示控制开关
-		$scope.editorPanelOpened = 'none';
-		$scope.suspendPanelOpened = false;
-		$scope.consolePanelOpened = false;
-		$scope.workPanelOpened = false;
 
-		$scope.names = {
-			"name_chi":[{'text':'中文名称统一','worked':20,'count':30},
-				{'text':'中文简称作业','worked':20,'count':30},
-				{'text':'中文拼音作业','worked':10,'count':20}],
-			"address_chi":[{'text':'中文地址','worked':20,'count':30},
-				{'text':'中文拼音作业','worked':20,'count':30}]
+		$scope.menus = {
+			'chinaName':'中文名称',
+			'chinaAddress':'中文地址',
+			'englishName':'英文名称',
+			'englishAddress':'英文地址'
 		};
-		$scope.nameType = 'name_chi';
-		
+		$scope.names = {
+			"chinaName":[{'text':'中文名称统一','worked':20,'count':30,'id':'nameUnify'},
+				{'text':'中文简称作业','worked':20,'count':30,'id':'shortName'},
+				{'text':'中文拼音作业','worked':10,'count':20,'id':'namePinyin'}],
+			"chinaAddress":[{'text':'中文地址','worked':20,'count':30,'id':'addrSplit'},
+				{'text':'中文拼音作业','worked':20,'count':30,'id':'addrPinyin'}],
+			"englishName":[{'text':'照片录入英文名','worked':20,'count':30,'id':'photoEngName'},
+				{'text':'中文即是英文','worked':20,'count':30,'id':'chiEngName'},
+				{'text':'人工确认英文名','worked':10,'count':20,'id':'confirmEngName'},
+				{'text':'官方标准英文名','worked':20,'count':30,'id':'officalStandardEngName'},
+				{'text':'非重要分类英文超长','worked':10,'count':20,'id':'nonImportantLongEngName'}
+			],
+			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'engMapAddress'},
+				{'text':'非重要分类地址英文超长作业','worked':20,'count':30,'id':'nonImportantLongEngAddress'}]
+		};
+		$scope.nameType = 'chinaAddress'; //默认显示中文地址
+		$scope.menuSelectedId = 'addrSplit';
+
+
+		$scope.changeMenu = function (id){
+			$scope.menuSelectedId = id;
+			if($scope.menuSelectedId == 'nameUnify'){
+
+			} else if($scope.menuSelectedId == 'addrSplit') {
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddressCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
+					$scope.showLoading = false;
+				});
+			}
+		};
+
+		$scope.initPage = function (){
+			$scope.changeMenu('addrSplit');
+		};
+		$scope.initPage();
+
+
+
+
+
+
 		/*切换项目平台*/
 		$scope.changeProject = function (type) {
 			$scope.showLoading = true;
@@ -161,7 +194,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 		//页面初始化方法调用
 		var initPage = function () {
-			$scope.changeProject(1);
+			//$scope.changeProject(1);
 			// var subtaskId = App.Util.getUrlParam("subtaskId");
 			// App.Temp.subTaskId = subtaskId;
 			// dsManage.getSubtaskById(subtaskId).then(function (data) {
