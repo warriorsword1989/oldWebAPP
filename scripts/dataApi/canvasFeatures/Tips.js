@@ -103,14 +103,29 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1302://普通交限
                     ret = new fastmap.uikit.canvasTips.TipsNomalRestriction(item);
                     break;
+                case 1303://卡车交限
+                    ret = new fastmap.uikit.canvasTips.TipsTruckRestrictions(item);
+                    break;
                 case 1304://禁止穿行 *
                     ret = new fastmap.uikit.canvasTips.TipsNoCrossing(item);
                     break;
                 case 1305://禁止驶入 *
                     ret = new fastmap.uikit.canvasTips.TipsNoEntry(item);
                     break;
+                case 1306://路口语音引导
+                    ret = new fastmap.uikit.canvasTips.TipsCrossVoiceGuides(item);
+                    break;
+                case 1307://自然语音引导
+                    // ret = new fastmap.uikit.canvasTips.TipsNatureVoiceGuides(item);
+                    break;
+                case 1308://禁止卡车驶入
+                    ret = new fastmap.uikit.canvasTips.TipsBanTrucksIn(item);
+                    break;
                 case 1310://公交车道
                     ret = new fastmap.uikit.canvasTips.TipsBusDriveway(item);
+                    break;
+                case 1311://可变导向车道
+                    ret = new fastmap.uikit.canvasTips.TipsVariableDirectionLane(item);
                     break;
                 case 1401://方向看板
                     ret = new fastmap.uikit.canvasTips.TipsOrientation(item);
@@ -163,6 +178,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1508://公交专用道路
                     ret = new fastmap.uikit.canvasTips.TipsBusLanes(item);
                     break;
+                case 1509://跨线立交桥
+                    ret = new fastmap.uikit.canvasTips.TipsCrossLineOverpasses(item);
+                    break;
                 case 1510://桥
                     ret = new fastmap.uikit.canvasTips.TipsBridges(item);
                     break;
@@ -173,7 +191,8 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsSideRoads(item);
                     break;
                 case 1513://窄道
-                	ret = new fastmap.uikit.canvasTips.TipsNarrowChannels(item);
+                  	ret = new fastmap.uikit.canvasTips.TipsNarrowChannels(item);
+                    break;
                 case 1514://施工
                     ret = new fastmap.uikit.canvasTips.TipsMaintenances(item);
                     break;

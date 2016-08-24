@@ -168,6 +168,24 @@
             </div>
         </div>
     </div>
+    <!-- begin 卡车交限 -->
+    <div class="right" ng-if="allTipsType==1303" >
+        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
+            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
+                <img ng-src="../../../images/road/tips/1303/1303_{{item.sq}}_0.svg" style="cursor: pointer" ng-click="showMutiInfoItem($index)">
+            </div>
+        </div>
+    </div>
+    <!-- end 卡车交限 -->
+    <!-- begin 路口语音引导 -->
+    <div class="right" ng-if="allTipsType==1306" >
+        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
+            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
+                <img ng-src="../../../images/road/tips/1306/1306_{{item.sq}}_0.svg" style="cursor: pointer" ng-click="showMutiInfoItem($index)">
+            </div>
+        </div>
+    </div>
+    <!-- end 路口语音引导 -->
     <div class="middle">
         <div class="tip-left">
             <div class="panel panel-default" style="background-color: #555;margin-bottom: 0px;" >
@@ -225,7 +243,7 @@
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight && !dataTipsData.isVariableDirectionLane">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
                                 <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array">
@@ -238,6 +256,24 @@
                             <div class="col-sm-7">
                                 <span class="label" ng-bind="dataTipsData.o_array[0].out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.o_array[0].out.id,'RDLINK')"></span>
                             </div>
+                        </div>
+                        <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isVariableDirectionLane" ng-repeat="lane in dataTipsData.o_array">
+                          <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                              <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;出Link:</label>
+                              <div class="col-sm-7">
+                                  <div class="col-sm-12" style="padding: 3px">
+                                      <span class="label" ng-bind="lane.id" style="cursor:pointer;" ng-click="getFeatDataCallback(lane.id,'RDLINK')"></span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="lane.time">
+                              <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
+                              <div class="col-sm-7" style="padding: 4px">
+                                  <div ng-repeat="item in lane.time.split(';')" class="text-ellipsis">
+                                      <span class="label" title="{{item}}">{{item}}</span>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_orray')">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
@@ -690,42 +726,152 @@
                         </div>
                         <!--end Usage Fee Required-->
                         <!--begin 里程桩 -->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="mileageNm">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMileage && dataTipsData.hasOwnProperty('rdNm')">
                             <label class="col-sm-5 control-label" style="padding: 4px">名称或编号:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " ng-bind="dataTipsData.mileageNm"></span>
+                                <span class="label " ng-bind="dataTipsData.rdNm"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="mileageNum">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMileage && dataTipsData.hasOwnProperty('num')">
                             <label class="col-sm-5 control-label" style="padding: 4px">里程桩编号:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label " ng-bind="dataTipsData.mileageNum"></span>
+                                <span class="label " ng-bind="dataTipsData.num"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="mileageSrc">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMileage && dataTipsData.hasOwnProperty('src')">
                             <label class="col-sm-5 control-label" style="padding: 4px">来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span ng-if="mileageSrc == 1" class="label ">外业采集</span>
-                                <span ng-if="mileageSrc == 2" class="label ">内插制作</span>
+                                <span ng-if="dataTipsData.src == 1" class="label ">外业采集</span>
+                                <span ng-if="dataTipsData.src == 2" class="label ">内插制作</span>
                             </div>
                         </div>
                         <!-- end 里程桩 -->
                         <!-- begin 可逆车道 -->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="reversibleRev">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('rev')">
                             <label class="col-sm-5 control-label" style="padding: 4px">可逆车道:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="reversibleRev"></span>
+                                <span class="label" ng-bind="dataTipsData.rev.join(',')"></span>
                             </div>
                         </div>
                         <!-- end 可逆车道 -->
                         <!-- begin 公交车道 -->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="busDriveway">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('bus')">
                             <label class="col-sm-5 control-label" style="padding: 4px">公交车道:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="busDriveway"></span>
+                                <span class="label" ng-bind="dataTipsData.bus.join(',')"></span>
                             </div>
                         </div>
                         <!-- end 公交车道 -->
+                        <!-- begin 禁止卡车驶入 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('trl')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">拖挂车限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-if="dataTipsData.c_array[0].trl == 0" ng-bind="dataTipsData.c_array[0].trl"></span>
+                                <span class="label" ng-if="dataTipsData.c_array[0].trl == 1" ng-bind="dataTipsData.c_array[0].trl"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('wt')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">车辆限重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-if="dataTipsData.c_array[0].wt != 0">{{dataTipsData.c_array[0].wt}}T</span>
+                                <span class="label" ng-if="dataTipsData.c_array[0].wt == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('ax')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制轴重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                              <span class="label" ng-if="dataTipsData.c_array[0].ax != 0">{{dataTipsData.c_array[0].ax}}T</span>
+                              <span class="label" ng-if="dataTipsData.c_array[0].ax == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('ac')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制轴数:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                              <span class="label" ng-if="dataTipsData.c_array[0].ac != 0">{{dataTipsData.c_array[0].ac}}</span>
+                              <span class="label" ng-if="dataTipsData.c_array[0].ac == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('out')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">本外埠限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="outsideCarObj[outsideCarLimit]"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('out')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <div ng-repeat="item in timeDomain" class="text-ellipsis">
+                                    <span class="label" title="{{item}}">{{item}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end 禁止卡车驶入 -->
+                        <!-- begin 可变导向车道 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('var')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">可变导向车道:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="variableDirectionInfo"></span>
+                            </div>
+                        </div>
+                        <!-- end 可变导向车道 -->
+                        <!-- begin 路口语音引导 -->
+                        <!-- <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('in')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="oArrayItem.in" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.in,'RDLINK')"></span>
+                            </div>
+                        </div> -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.hasOwnProperty('out')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="oArrayItem.out[0].id" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.out[0].id,'RDLINK')"></span>
+                            </div>
+                        </div>
+                        <!-- end 路口语音引导 -->
+                        <!-- begin 卡车交限 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('trl')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">拖挂车限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-if="oArrayItem.c_array[0].trl == 0" ng-bind="oArrayItem.c_array[0].trl"></span>
+                                <span class="label" ng-if="oArrayItem.c_array[0].trl == 1" ng-bind="oArrayItem.c_array[0].trl"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('wt')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">车辆限重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-if="oArrayItem.c_array[0].wt != 0">{{oArrayItem.c_array[0].wt}}T</span>
+                                <span class="label" ng-if="oArrayItem.c_array[0].wt == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('ax')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制轴重:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                              <span class="label" ng-if="oArrayItem.c_array[0].ax != 0">{{oArrayItem.c_array[0].ax}}T</span>
+                              <span class="label" ng-if="oArrayItem.c_array[0].ax == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('ac')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制轴数:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                              <span class="label" ng-if="oArrayItem.c_array[0].ac != 0">{{oArrayItem.c_array[0].ac}}</span>
+                              <span class="label" ng-if="oArrayItem.c_array[0].ac == 0">无</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('out')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">本外埠限制:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="outsideCarObj[oArrayItem.c_array[0].out]"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('time')">
+                            <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <div ng-repeat="item in oArrayItem.c_array[0].time.split(';')" class="text-ellipsis">
+                                    <span class="label" title="{{item}}">{{item}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end 卡车交限 -->
                     </form>
                 </div>
             </div>
