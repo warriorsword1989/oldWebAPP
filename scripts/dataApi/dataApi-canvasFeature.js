@@ -162,8 +162,10 @@
         "TipsBanTrucksIn.js",
         "TipsVariableDirectionLane.js",
         "TipsCrossLineOverpasses.js",
-        "TipsCrossVoiceGuidess.js",
-        "TipsCrossVoiceGuides.js"
+        "TipsCrossVoiceGuides.js",
+        "TipsCrossVoiceGuide.js",
+        "TipsTruckRestrictions.js",
+        "TipsTruckRestriction.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
