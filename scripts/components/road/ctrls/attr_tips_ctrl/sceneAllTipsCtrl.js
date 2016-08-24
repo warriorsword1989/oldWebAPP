@@ -573,6 +573,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1310": //公交车道
                 $scope.busDriveway = $scope.dataTipsData.bus.join(',');
                 break;
+            case "1311": //可变导向车道
+                $scope.variableDirectionInfo = $scope.dataTipsData.var.join(',');
+                $scope.dataTipsData.isVariableDirectionLane = true;
+                break;
             case "1401": //方向看板
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in;

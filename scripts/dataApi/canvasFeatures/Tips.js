@@ -115,6 +115,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1310://公交车道
                     ret = new fastmap.uikit.canvasTips.TipsBusDriveway(item);
                     break;
+                case 1311://可变导向车道
+                    ret = new fastmap.uikit.canvasTips.TipsVariableDirectionLane(item);
+                    break;
                 case 1401://方向看板
                     ret = new fastmap.uikit.canvasTips.TipsOrientation(item);
                     break;

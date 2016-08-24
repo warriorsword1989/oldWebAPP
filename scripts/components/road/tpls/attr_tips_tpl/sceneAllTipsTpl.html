@@ -225,7 +225,7 @@
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight && !dataTipsData.isVariableDirectionLane">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
                                 <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array">
@@ -238,6 +238,24 @@
                             <div class="col-sm-7">
                                 <span class="label" ng-bind="dataTipsData.o_array[0].out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.o_array[0].out.id,'RDLINK')"></span>
                             </div>
+                        </div>
+                        <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isVariableDirectionLane" ng-repeat="lane in dataTipsData.o_array">
+                          <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
+                              <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;出Link:</label>
+                              <div class="col-sm-7">
+                                  <div class="col-sm-12" style="padding: 3px">
+                                      <span class="label" ng-bind="lane.id" style="cursor:pointer;" ng-click="getFeatDataCallback(lane.id,'RDLINK')"></span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="lane.time">
+                              <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
+                              <div class="col-sm-7" style="padding: 4px">
+                                  <div ng-repeat="item in lane.time.split(';')" class="text-ellipsis">
+                                      <span class="label" title="{{item}}">{{item}}</span>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_orray')">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
@@ -770,6 +788,14 @@
                             </div>
                         </div>
                         <!-- end 禁止卡车驶入 -->
+                        <!-- begin 可变导向车道 -->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="variableDirectionInfo">
+                            <label class="col-sm-5 control-label" style="padding: 4px">可变导向车道:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="variableDirectionInfo"></span>
+                            </div>
+                        </div>
+                        <!-- end 可变导向车道 -->
                     </form>
                 </div>
             </div>
