@@ -5,4 +5,3 @@ fastmap.uikit.canvasTips.TipsWarningInfos = function(data) {
     }
     return parts;
 }
-
