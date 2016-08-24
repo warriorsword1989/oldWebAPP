@@ -8,9 +8,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController();
-		// $scope.addLogMsg = function(){
-		// 	logMsgCtrl.pushMsg('提示信息');
-		// }
+		$scope.addLogMsg = function(){
+			logMsgCtrl.pushMsg('提示信息');
+		};
 		$scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据

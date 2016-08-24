@@ -484,6 +484,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.fData = $scope.dataTipsData.f;
                 $scope.time = $scope.dataTipsData.time;
                 break;
+            case "1204":  //可逆车道
+                $scope.reversibleRev = $scope.dataTipsData.rev.join(',');
+                $scope.dataTipsData.isReversibleLine = true;
+                break;
             case "1205": //SA
                 $scope.fData = $scope.dataTipsData.f;
                 break;
@@ -554,6 +558,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
+                break;
+            case "1310": //公交车道
+                $scope.busDriveway = $scope.dataTipsData.bus.join(',');
                 break;
             case "1401": //方向看板
                 /*进入*/
@@ -690,6 +697,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1704": //交叉路口
                 $scope.fData = $scope.dataTipsData;
                 $scope.dataTipsData.isCrossRoad = true;
+                break;
+            case "1707": //里程桩
+                $scope.mileageNum = $scope.dataTipsData.num;
+                $scope.mileageNm = $scope.dataTipsData.rdNm;
+                $scope.mileageSrc = $scope.dataTipsData.src;
                 break;
             case "1801": //立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
@@ -895,7 +907,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     inNode = parseInt(data.sNodePid);
                 }
             };
-            restrictObj["nodePid"] = inNode;
+            restrictObj['nodePid'] = inNode;
             dsEdit.create("RDRESTRICTION", restrictObj).then(function(data) {
                 if (data.errcode === -1) {
                     info = [{
@@ -918,14 +930,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         "propertyHtml": "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html"
                     };
                     $scope.$emit("transitCtrlAndTpl", restrictObj);
-                })
+                });
             });
         });
     };
     /*转换*/
     $scope.transBridge = function(e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
-        var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
+        var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]['stage']);
         if ($scope.dataTipsData.s_sourceType === "2001") { //测线
             //修改测线的数据格式
             var paramOfLink = {
@@ -956,7 +968,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 var info = null;
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
-                    if (data.errcode == 0) {
+                    if (data.errcode === 0) {
                         if (workPoint) workPoint.redraw();
                         var sInfo = {
                             "op": "测线转换操作成功",
@@ -996,8 +1008,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             if (stage === 1) {
                 dsEdit.update(parseInt($scope.dataTipsData.f.id), "RDLINK", kindObj).then(function(data) {
                     $scope.$parent.$parent.$apply();
-                    if (data.errcode == 0) {
-                        objCtrl.data["kind"] = $scope.dataTipsData.kind;
+                    if (data.errcode === 0) {
+                        objCtrl.data['kind'] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         restrictLayer.redraw();
                         workPoint.redraw();
@@ -1018,12 +1030,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         swal("操作失败", data.errmsg, "error");
                     }
                     $scope.$emit('getConsoleInfo', info);
-                })
+                });
             } else {
                 swal("操作失败", '数据已经转换', "error");
             }
         } else if ($scope.dataTipsData.s_sourceType === "1302") {
-            $scope.createRestrictByTips()
+            $scope.createRestrictByTips();
         }
     };
     //修改状态
@@ -1051,11 +1063,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                     $scope.$emit('getConsoleInfo', info);
                     $scope.rowkey = undefined;
-                })
+                });
             }
-        }
+        };
         //关闭窗口
     $scope.closeTips = function() {
         $scope.$emit('closePopoverTips', false);
-    }
+    };
 }]);

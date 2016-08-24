@@ -49,7 +49,9 @@ angular.module('app').controller("typeTableCtl", ['$scope', '$ocLazyLoad', 'NgTa
                     var parameter = {
                         pageNum: params.page(),
                         pageSize: params.count(),
-                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join("")
+                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+//                        params: {"name":params.filter().name}
+                        name: params.filter().name
                     };
                     dsMeta.nametypeList(parameter).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';

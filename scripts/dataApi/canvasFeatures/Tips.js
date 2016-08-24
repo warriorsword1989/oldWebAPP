@@ -62,7 +62,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsSpeedBump(item);
                     break;
                 case 1109://电子眼
-                    ret = new fastmap.uikit.canvasTips.TipSelectroniceye(item);
+                    ret = new fastmap.uikit.canvasTips.TipElectroniceye(item);
                     break;
                 case 1111://条件限速 *
                     ret = new fastmap.uikit.canvasTips.TipsSpeedlimit(item);
@@ -81,6 +81,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1203://道路方向
                     ret = new fastmap.uikit.canvasTips.TipsRoadDirection(item);
+                    break;
+                case 1204://可逆车道
+                    ret = new fastmap.uikit.canvasTips.TipsReversibleLane(item);
                     break;
                 case 1205://SA
                     ret = new fastmap.uikit.canvasTips.TipsRoadSA(item);
@@ -106,6 +109,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1305://禁止驶入 *
                     ret = new fastmap.uikit.canvasTips.TipsNoEntry(item);
                     break;
+                case 1310://公交车道
+                    ret = new fastmap.uikit.canvasTips.TipsBusDriveway(item);
+                    break;
                 case 1401://方向看板
                     ret = new fastmap.uikit.canvasTips.TipsOrientation(item);
                     break;
@@ -129,6 +135,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1409://普通路口模式图
                     ret = new fastmap.uikit.canvasTips.TipsNormalCross(item);
+                    break;
+                case 1410://高速入口模式图
+                    ret = new fastmap.uikit.canvasTips.TipsHighSpeedEntrance(item);
                     break;
                 case 1501://上下线分离
                     ret = new fastmap.uikit.canvasTips.TipsMultiDigitizeds(item);
@@ -189,11 +198,26 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1606://收费开放道路
                     ret = new fastmap.uikit.canvasTips.TipsChargeOpenRoads(item);
                     break;
+                case 1607://风景路线
+                    ret = new fastmap.uikit.canvasTips.TipsScenicRoutes(item);
+                    break;
+                case 1701://障碍物
+                    ret = new fastmap.uikit.canvasTips.TipsObstacle(item);
+                    break;
+                case 1702://铁路道口
+                    ret = new fastmap.uikit.canvasTips.TipsRailwayCrossing(item);
+                    break;
                 case 1703://分叉路口提示
                     ret = new fastmap.uikit.canvasTips.TipsRoadCrossProm(item);
                     break;
                 case 1704://交叉路口
                     ret = fastmap.uikit.canvasTips.TipsRoadCross(item);
+                    break;
+                case 1706://GPS打点
+                    ret = fastmap.uikit.canvasTips.TipsGPSDot(item);
+                    break;
+                case 1707://里程桩
+                    ret = fastmap.uikit.canvasTips.TipsMileagePeg(item);
                     break;
                 case 1801://立交
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);
@@ -212,6 +236,12 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 2001://侧线
                     ret = new fastmap.uikit.canvasTips.TipsLinks(item);
+                    break;
+                case 2101://删除标记
+                    ret = new fastmap.uikit.canvasTips.TipsDeleteTag(item);
+                    break;
+                case 2102://万能标记
+                    // ret = new fastmap.uikit.canvasTips.TipsLinks(item);
                     break;
             }
             return ret;
