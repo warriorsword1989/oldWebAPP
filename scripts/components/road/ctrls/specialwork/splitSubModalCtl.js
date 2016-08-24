@@ -26,7 +26,7 @@ angular.module('app').controller("SplitSubModalCtl", ['$scope', '$ocLazyLoad', '
 				}
 				param = {
 						flag : 1,
-						data : $scope.selectedRoadNameList
+						data : $scope.getSelectedData()
 					};
 				
 			}else if(2 == $scope.dataFlag){//拆分子任务下所有的数据
