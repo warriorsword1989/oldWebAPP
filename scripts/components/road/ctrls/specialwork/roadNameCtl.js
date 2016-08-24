@@ -8,7 +8,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          /*初始化显示table提示*/
          $scope.loadTableDataMsg = '数据加载中...';
          $scope.checkboxes = {checked: false};
-
+         var eventCtrl = fastmap.uikit.EventController();
          //监控全选;
          $scope.$watch(function() {
              return $scope.checkboxes.checked;
@@ -330,6 +330,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameEditPanelCtl.js').then(function () {
                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameEditPanelTpl.htm';
                    });
+        		 eventCtrl.fire(eventCtrl.eventTypes.SELECTEDFEATURECHANGE);
         	 }else if("split" == type) {
         		 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
                    	$scope.subModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';

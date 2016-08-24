@@ -4,21 +4,21 @@
         <div style="height:400px;">
 			<div class="fm-table-content fm-fitsize scroll-styled" style="top:40px;bottom: 70px">
 		        <div class="table-header">
-		            <div class="table-search fm-inline fm-list-dropdown" style="padding: 10px 50px 10px 10px" class="pull-left">
+		            <div class="table-search fm-inline" style="padding: 10px 50px 10px 10px" class="pull-left">
 			            <div class="btn-group">
 			                <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">
-			                   	 道路名称
+			                   	 道路名称:
 			                </button>
 			            </div>
-			            <input class="fm-search-control" type="text" ng-model="filters[name]"/>
-			        	<button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button>
+			            <input class="fm-search-control" type="text" ng-model="filters.name" style="color:black"/>
+			        	<!-- <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button> -->
 			        </div>
 		        </div>
 	            <table ng-table-dynamic="nameGroupTableParams with nameGroupTableCols" class="table table-condensed table-bordered">
 	                <colgroup>
 	                <col ng-repeat="col in nameGroupTableCols | filter:{show: true}" width="{{col.width || '100'}}"/>
 	                </colgroup>
-	                <tr ng-repeat="row in $data" ng-dblClick="selectVal(row,$index,'namegroup')" ng-class="{true:'active'}[itemActive == $index]">
+	                <tr ng-repeat="row in $data" ng-dblClick="test(row,$index,'namegroup')" ng-class="{true:'active'}[itemActive == $index]">
 	                    <td ng-repeat="col in $columns">
 	                        <p title="{{row[col.field]}}" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></p>
 	                    </td>

@@ -123,6 +123,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
 		];
 		$scope.hwInfoFlag = 1;
 		$scope.initializeData = function(){
+			console.log('初始化')
 			var type = $scope.roadNameFlag;
 			if("add" == type){
 //				var defautdata = {
@@ -240,7 +241,9 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        	 if(type == "admin"){
    			$scope.roadNameData.adminId = parseInt(row.adminareacode);
    			$scope.roadNameData.adminName = row.whole;
+   			$scope.searchModal = false;
        	 }else if(type == "namegroup"){
+       		 alert( $scope.roadNameFlag)
        		 if("add" == $scope.roadNameFlag){
        			var param = {
    	 					nameGroupid : parseInt(row.nameGroupid)
@@ -297,6 +300,27 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.roadNameData[pyfield] = data.phonetic;
             });
         };
+        $scope.test = function(row, index, type){
+        	if(type == "namegroup"){
+          		 alert( $scope.roadNameFlag)
+          		 if("add" == $scope.roadNameFlag){
+          			var param = {
+      	 					nameGroupid : parseInt(row.nameGroupid)
+                   	};
+               	dsMeta.rdnameGroup(param).then(function(data) {
+               		if(data.data){
+               			swal("该道路名组内已经存在两条记录，不可再添加。请选择其他道路名组", "", "info");
+               		}else{
+               			$scope.roadNameData.nameGroupid = row.nameGroupid;
+               			$scope.searchModal = false;
+               		}
+                   });
+          		 }else if("edit" == $scope.roadNameFlag){
+          			$scope.roadNameData.nameGroupid = row.nameGroupid;
+          			$scope.searchModal = false;
+          		 }
+          	 }
+        }
         /***
          * 保存
          */
