@@ -13,7 +13,7 @@
                     <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.names">
                         <li>
                             <div ng-click="showNames(cItem,$index)" style="cursor: pointer;">
-                                <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
+                                <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name||"无名称"}}</label>
                                 <span id="nameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minusName($index)"></span>
                             </div>
                         </li>

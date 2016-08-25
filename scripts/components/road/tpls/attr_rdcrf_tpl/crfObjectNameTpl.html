@@ -9,10 +9,18 @@
                 <div class="inline"><input type="text" ng-model="oridiData.nameGroupid" disabled/></div>
             </li>
             <li class="list-group-item">
-                <div><label class="control-label">道路名称</label></div>
+                <div><label class="control-label">代码语言</label></div>
                 <div class="inline">
-                    <input type="text" ng-model="oridiData.name" style="width: 150px"/>
-                    <span  class="glyphicon glyphicon-search"
+                    <select  ng-model="oridiData.langCode"
+                             ng-options="value.id as value.label for value in routeAttOptions">
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">名称内容</label></div>
+                <div class="inline">
+                    <input type="text" ng-model="oridiData.name" style="width: 150px" ng-change="changePinyin(oridiData.name)"/>
+                    <span  class="glyphicon glyphicon-search" title="查找推荐名称"
                            ng-click="searchGroupidByNames($index)">
                 </span>
                 </div>
@@ -23,85 +31,53 @@
                         <span aria-hidden="true" class="glyphicon glyphicon-remove-sign" ng-click="hidePicSelect($event)"></span>
                     </div>
                     <div class="pic-show-well">
-                        <div class="img-well" ng-repeat="nitem in pictures"
-                             ng-click="selectNmaesId(nitem.nameId,nitem.name)">
-                            <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp;
-                                {{nitem.name}} &nbsp;&nbsp; {{nitem.province}}
+                        <div class="img-well" ng-repeat="nitem in objNames"
+                             ng-click="selectNamesId($index)">
+                            <div class="img-describe">
+                                {{nitem}}&nbsp;&nbsp;
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
-                    <div class="pull-left num-well">
-                        第 <span class="pic-num" ng-bind="picNowNum+1">1</span> 页
-                        |
-                        共 <span class="pic-total" ng-bind="picTotal">1</span>
-                        页<br>
-                        <!--每页条数<input style="width:40px;" type="text" id="pagesize"-->
-                        <!--value="5">-->
-                    </div>
-                    <div class="pic-show-btn pull-right">
-                        <div class="pull-right btn-group">
-                            <a  style="color: #fff;" class="btn  btn-xs pic-pre"
-                                ng-click="picPre()" disabled>
-                                <i class="glyphicon glyphicon-menu-left"></i>
-                            </a>
-                            <a style="color: #fff;" class="btn btn-xs pic-next"
-                               ng-click="picNext()">
-                                <i class="glyphicon glyphicon-menu-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <!--<div class="clearfix"></div>-->
+                    <!--<div class="pull-left num-well">-->
+                        <!--第 <span class="pic-num" ng-bind="picNowNum+1">1</span> 页-->
+                        <!--|-->
+                        <!--共 <span class="pic-total" ng-bind="picTotal">1</span>-->
+                        <!--页<br>-->
+                        <!--&lt;!&ndash;每页条数<input style="width:40px;" type="text" id="pagesize"&ndash;&gt;-->
+                        <!--&lt;!&ndash;value="5">&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<div class="pic-show-btn pull-right">-->
+                        <!--<div class="pull-right btn-group">-->
+                            <!--<a  style="color: #fff;" class="btn  btn-xs pic-pre"-->
+                                <!--ng-click="picPre()" disabled>-->
+                                <!--<i class="glyphicon glyphicon-menu-left"></i>-->
+                            <!--</a>-->
+                            <!--<a style="color: #fff;" class="btn btn-xs pic-next"-->
+                               <!--ng-click="picNext()">-->
+                                <!--<i class="glyphicon glyphicon-menu-right"></i>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </li>
+
             <li class="list-group-item">
-                <div><label class="control-label" >名称分类</label></div>
+                <div><label class="control-label">名称发音</label></div>
+                <div class="inline"><input type="text" ng-model="oridiData.phoneTic"/></div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label" >名称来源</label></div>
                 <div class="radio inline" style="text-align: left">
                     <label>
-                        <input type="radio" name="originOfName" value=1 ng-model="oridiData.nameClass">
-                        官方
+                        <input type="radio" name="originOfName" value=0 ng-model="oridiData.srcFlag">
+                        未定义
                     </label>
                     <label>
-                        <input type="radio" name="originOfName" value=2 ng-model="oridiData.nameClass">
-                        别名
-                    </label>
-                    <label>
-                        <input type="radio" name="originOfName" value=3 ng-model="oridiData.nameClass">
-                        曾用
+                        <input type="radio" name="originOfName" value=1 ng-model="oridiData.srcFlag">
+                        翻译
                     </label>
                 </div>
-            </li>
-            <li class="list-group-item">
-                <div><label class="control-label">名称来源</label></div>
-                <div class="inline">
-                    <select  ng-model="oridiData.srcFlag"
-                             ng-options="value.id as value.label for value in srcFlagOptions">
-                    </select>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div><label class="control-label">路线属性</label></div>
-                <div class="inline">
-                    <select  ng-model="oridiData.routeAtt"
-                             ng-options="value.id as value.label for value in routeAttOptions">
-                    </select>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div><label class="control-label" >主从CODE</label></div>
-                <div class="radio inline" style="text-align: left">
-                    <label>
-                        <input type="radio" name="code" value=0 ng-model="oridiData.code">
-                        主
-                    </label>
-                    <label>
-                        <input type="radio" name="code" value=1 ng-model="oridiData.code">
-                        从
-                    </label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div><label class="control-label">录入时间</label></div>
-                <div class="inline"><input type="text" ng-model="oridiData.inputTime" disabled/></div>
             </li>
         </ul>
     </form>

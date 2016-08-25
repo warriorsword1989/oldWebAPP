@@ -92,7 +92,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         var y = PointPixel[1] - 256 * PointLoc[1];
         for (var layer in this.currentEditLayers) {
 
-            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tileCoordinate))
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tileCoordinate));
 
             if (this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]] && !this.currentEditLayers[layer].tiles[tileCoordinate[0] + ":" + tileCoordinate[1]].data) {
                 return;
@@ -172,7 +172,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                     this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
                                 }
                             }
-                    } else if(data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER' ||data[item].properties.featType == 'RDSAMELINK'){
+                    } else if(data[item].properties.featType == 'RDROAD' || data[item].properties.featType == 'RDINTER'|| data[item].properties.featType == 'RDOBJECT' ||data[item].properties.featType == 'RDSAMELINK'){
                         if(data[item]['geometry']['type'] == "Point") {
                             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                 this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
@@ -241,11 +241,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 d = that.overlays[key].data;
                             }
                         }
-
-                        // frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
-                        // frs.tiles = that.tiles;
-                        // frs.drawGeomCanvasHighlight(d, layertype, event);
-                        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                        that.eventController.fire(that.eventController.eventTypes.GETRELATIONID, {
                             id: d.properties.id,
                             rowId:d.properties.rowId,
                             optype: layertype,
@@ -258,7 +254,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             });
 
             //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
-            // var that = this;
             if (this.overlays && this.overlays.length >= 1) {
                 setTimeout(function () {
                     that._map.openPopup(that.popup);
