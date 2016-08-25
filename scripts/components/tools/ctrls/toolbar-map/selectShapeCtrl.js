@@ -582,6 +582,40 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfRoadTpl.html";
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case 'RDOBJECT':
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "增加要素",
+                            'type': "ADDRDOBJECT",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'title': "取消要素",
+                            'type': "DELETERDOBJECT",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
+                    //当在移动端进行编辑时,弹出此按钮
+                    if (L.Browser.touch) {
+                        toolsObj.items.push({
+                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'title': "保存",
+                            'type': shapeCtrl.editType,
+                            'class': "feaf",
+                            callback: function() {
+                                var e = $.Event("keydown");
+                                e.keyCode = 32;
+                                $(document).trigger(e);
+                            }
+                        })
+                    }
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdcrf_ctrl/crfObjectCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_rdcrf_tpl/crfObjectTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
+                    break;
                 case 'RDGATE':  //大门
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_gate_ctrl/rdGateCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html";
@@ -2321,6 +2355,191 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             "linkPids":linkPids,
                             "objStatus": "UPDATE"
                         });
+                    });
+                    return;
+                } else if (type === "ADDRDOBJECT") {
+                    var selectCRFData = featCodeCtrl.getFeatCode().selectCRFData;
+                    var objData = featCodeCtrl.getFeatCode().objData;
+                    var crfPids = featCodeCtrl.getFeatCode().crfPids;
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [crfData, rdLink],
+                        snapLayers: [rdLink]
+                    });
+                    map.currentTool.enable();
+                    eventController.off(eventController.eventTypes.GETFEATURE);
+                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                        highRenderCtrl._cleanHighLight();
+                        if (data.optype == "RDLINK") {
+                            if (objData.links.indexOf(parseInt(data.id)) < 0) {
+                                objData.links.push(parseInt(data.id));
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: '#D9B300'
+                                    }
+                                });
+                            }
+                        } else if (data.optype == "RDINTER") {
+                            if (crfPids.indexOf(data.id) < 0) {
+                                objData.inters.push(parseInt(data.id));
+                                dsEdit.getByPid(parseInt(data.id), "RDINTER").then(function (interData) {
+                                    crfPids.push(interData.pid.toString());
+                                    var tempData = {
+                                        pid: interData.pid,
+                                        highLightId: []
+                                    };
+                                    var linkArr = interData.links, points = interData.nodes;
+                                    for (var i = 0, len = linkArr.length; i < len; i++) {
+                                        tempData.highLightId.push(linkArr[i].linkPid);
+                                        highRenderCtrl.highLightFeatures.push({
+                                            id: linkArr[i].linkPid.toString(),
+                                            layerid: 'rdLink',
+                                            type: 'line',
+                                            style: {color: '#00FFFF'}
+                                        });
+                                    }
+                                    for (var i = 0, len = points.length; i < len; i++) {
+                                        tempData.highLightId.push(points[i].nodePid);
+                                        highRenderCtrl.highLightFeatures.push({
+                                            id: points[i].nodePid.toString(),
+                                            layerid: 'rdLink',
+                                            type: 'rdnode',
+                                            style: {
+                                                color: '#4A4AFF'
+                                            }
+                                        });
+                                    }
+                                    shapeCtrl.setEditingType("UPDATERDOBJECT");   //设置热键修改时的监听类型;
+                                    tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+                                    highRenderCtrl.drawHighlight();
+                                    selectCRFData.push(tempData);
+                                    featCodeCtrl.setFeatCode({
+                                        "selectCRFData": selectCRFData,
+                                        "objData":objData,
+                                        "crfPids":crfPids,
+                                        "pid":objCtrl.data.pid
+                                    });
+                                })
+                            }
+                        } else if (data.optype == "RDROAD") {
+                            if (crfPids.indexOf(data.id) < 0) {
+                                objData.roads.push(parseInt(data.id));
+                                dsEdit.getByPid(parseInt(data.id), "RDROAD").then(function (roadData) {
+                                    crfPids.push(roadData.pid.toString());
+                                    var tempData = {
+                                        pid: roadData.pid,
+                                        highLightId: []
+                                    };
+                                    var linkArr = roadData.links;
+                                    for (var i = 0, len = linkArr.length; i < len; i++) {
+                                        tempData.highLightId.push(linkArr[i].linkPid);
+                                        highRenderCtrl.highLightFeatures.push({
+                                            id: linkArr[i].linkPid.toString(),
+                                            layerid: 'rdLink',
+                                            type: 'line',
+                                            style: {color: '#DAB1D5'}
+                                        });
+                                    }
+                                    shapeCtrl.setEditingType("UPDATERDOBJECT");   //设置热键修改时的监听类型;
+                                    tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+                                    highRenderCtrl.drawHighlight();
+                                    selectCRFData.push(tempData);
+                                    featCodeCtrl.setFeatCode({
+                                        "selectCRFData": selectCRFData,
+                                        "objData":objData,
+                                        "crfPids":crfPids,
+                                        "pid":objCtrl.data.pid
+                                    });
+                                })
+                            }
+                        }
+                        shapeCtrl.setEditingType("UPDATERDOBJECT");   //设置热键修改时的监听类型;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+                        highRenderCtrl.drawHighlight();
+                        featCodeCtrl.setFeatCode({
+                            "selectCRFData": selectCRFData,
+                            "objData":objData,
+                            "crfPids":crfPids,
+                            "pid":objCtrl.data.pid
+                        });
+                    });
+                    return;
+                } else if (type === "DELETERDOBJECT") {
+                    var selectCRFData = featCodeCtrl.getFeatCode().selectCRFData;
+                    var objData = featCodeCtrl.getFeatCode().objData;
+                    var crfPids = featCodeCtrl.getFeatCode().crfPids;
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [crfData, rdLink],
+                        snapLayers: [rdLink]
+                    });
+                    map.currentTool.enable();
+                    eventController.off(eventController.eventTypes.GETFEATURE);
+                    eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
+                        highRenderCtrl._cleanHighLight();
+                        if(data.optype == "RDOBJECT" && parseInt(data.id) ==objCtrl.data.pid){//属于rdobject的要素
+                            if (data.properties.orgType == "RDLINK") {
+                                if (objData.links.indexOf(parseInt(data.linkId)) > -1) {
+                                    objData.links.splice(objData.links.indexOf(parseInt(data.linkId)), 1);
+                                    for (var i = 0; i < highRenderCtrl.highLightFeatures.length; i++) {
+                                        if (highRenderCtrl.highLightFeatures[i].id == data.linkId) {
+                                            highRenderCtrl.highLightFeatures.splice(i, 1);
+                                            i--;
+                                        }
+                                    }
+                                }
+                            } else if (data.properties.orgType == "RDINTER") {
+                                if (crfPids.indexOf(data.properties.rdInterPid) > -1) {//存在于现有数据中,删除之
+                                    for (var i = 0; i < selectCRFData.length; i++) {
+                                        if (selectCRFData[i].pid == data.properties.rdInterPid) {
+                                            for (var j = 0; j < selectCRFData[i].highLightId.length; j++) {
+                                                for (var k = 0; k < highRenderCtrl.highLightFeatures.length; k++) {
+                                                    if (parseInt(highRenderCtrl.highLightFeatures[k].id) == selectCRFData[i].highLightId[j]) {
+                                                        highRenderCtrl.highLightFeatures.splice(k, 1);
+                                                        k--;
+                                                    }
+                                                }
+                                            }
+                                            selectCRFData.splice(i, 1);
+                                            i--;
+                                            crfPids.splice(crfPids.indexOf(data.properties.rdInterPid), 1);
+                                        }
+                                    }
+                                }
+                            } else if (data.properties.optype == "RDROAD") {
+                                if (crfPids.indexOf(data.properties.rdRoadPid) > -1) {//存在于现有数据中,删除之
+                                    for (var i = 0; i < selectCRFData.length; i++) {
+                                        if (selectCRFData[i].pid == parseInt(data.properties.rdRoadPid)) {
+                                            for (var j = 0; j < selectCRFData[i].highLightId.length; j++) {
+                                                for (var k = 0; k < highRenderCtrl.highLightFeatures.length; k++) {
+                                                    if (parseInt(highRenderCtrl.highLightFeatures[k].id) == selectCRFData[i].highLightId[j]) {
+                                                        highRenderCtrl.highLightFeatures.splice(k, 1);
+                                                        k--;
+                                                    }
+                                                }
+                                            }
+                                            selectCRFData.splice(i, 1);
+                                            i--;
+                                            crfPids.splice(crfPids.indexOf(data.properties.rdRoadPid), 1);
+                                        }
+                                    }
+                                }
+                            }
+                            shapeCtrl.setEditingType("UPDATERDOBJECT");   //设置热键修改时的监听类型;
+                            tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');     //退出线选完后的鼠标提示;
+                            highRenderCtrl.drawHighlight();
+                            featCodeCtrl.setFeatCode({
+                                "selectCRFData": selectCRFData,
+                                "objData":objData,
+                                "crfPids":crfPids,
+                                "pid":objCtrl.data.pid
+                            });
+                        }
                     });
                     return;
                 } else if (type.indexOf('BRANCH') > -1 ) {

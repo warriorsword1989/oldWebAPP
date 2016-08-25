@@ -140,20 +140,6 @@ otherApp.controller("adAdminNameController",['$scope','dsMeta' ,function ($scope
         var param = {
             "word":name
         };
-//        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-//            $scope.$apply();
-//            if(data.errcode == 0){
-//                $.each($scope.names,function(i,v){
-//                    if(v.nameGroupId == id){
-//                        v.phonetic = data.data.phonetic;
-//                        v.voiceFile = data.data.voicefile;
-//                    }
-//                });
-//                $scope.$apply();
-//            }else{
-//                swal("查找失败", "问题原因："+data.errmsg, "error");
-//            }
-//        });
         dsMeta.getNamePronunciation(param).then(function(data){
         	// $scope.$apply();
             if(data!=-1){

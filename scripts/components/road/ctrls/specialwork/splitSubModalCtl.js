@@ -37,10 +37,20 @@ angular.module('app').controller("SplitSubModalCtl", ['$scope', '$ocLazyLoad', '
 			};
 			dsMeta.rdnameSplit(param).then(function(data) {
 				if(data){
-					$scope.$emit("REFRESHROADNAMELIST");
-					swal("拆分成功", "", "info");
+					swal({
+						title: "拆分成功",
+						type: "info",
+						showCancelButton: false,
+						closeOnConfirm: true,
+						confirmButtonText: "确定",
+					}, function (f) {
+						if(f){
+							$scope.$emit("REFRESHROADNAMELIST");
+//							$scope.$apply();
+							$scope.closeSplitSubModal();
+						}
+					});
 				}
-				$scope.closeSubModal();
             });
 		};
 	}

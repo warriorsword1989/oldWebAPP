@@ -64,7 +64,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "poi"
         }, {
             "layerId": "crfData",
-            "requestType": "RDINTER,RDROAD"
+            "requestType": "RDINTER,RDROAD,RDOBJECT"
         }]
     },{
         "id": 6,
