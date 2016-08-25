@@ -114,6 +114,8 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		{"id": 19, "label": "交通标线摄像头"},
 		{"id": 20, "label": "区间测速开始"},
 		{"id": 21, "label": "区间测速结束"},
+		{"id": 22, "label": "违章停车摄像头"},
+		{"id": 23, "label": "限行限号摄像头"},
 		{"id": 98, "label": "其他"}
 	];
 

@@ -34,12 +34,12 @@ angular.module('fastmap.uikit').directive('formDisabled',function() {
             if($scope.isSpecialOperation) {
                 angular.element(elem).find('input').attr('disabled','disabled').addClass('chosen-disabled');
                 angular.element(elem).find('textarea').attr('disabled','disabled').addClass('chosen-disabled');
-                angular.element(elem).find('.lv-radio').attr('disabled','disabled').addClass('chosen-disabled');
+                angular.element(elem).find('.lv-container').addClass('chosen-disabled');
                 angular.element(elem).find('select').attr('disabled','disabled').addClass('chosen-disabled');
-                angular.element(elem).find('.select2-option').addClass('chosen-disabled');
+                // angular.element(elem).find('.select2-option').addClass('chosen-disabled');
             }
         }
-    }
+    };
 });
 /**
  * 用于ng-table表格cell编辑
@@ -54,7 +54,7 @@ angular.module('fastmap.uikit').directive('fmBindCompiledHtml',function (){
                 $element.append(compiledElements);
             });
         }
-    }
+    };
 });
 
 //方式二在form中增加指令

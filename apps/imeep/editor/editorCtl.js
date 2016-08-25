@@ -7,9 +7,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
 	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
 		var eventCtrl = new fastmap.uikit.EventController();
-		var logMsgCtrl = fastmap.uikit.LogMsgController();
+		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
 		$scope.addLogMsg = function(){
-			logMsgCtrl.pushMsg('提示信息');
+			logMsgCtrl.pushMsg($scope,'提示信息');
 		};
 		$scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;

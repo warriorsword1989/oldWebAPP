@@ -5,10 +5,10 @@
 fastmap.uikit.LogMsgController = (function() {
     var instantiated;
 
-    function init(options) {
+    function init() {
         var logMsgController = L.Class.extend({
             options: {},
-            initialize: function(options) {
+            initialize: function() {
                 this.messages = [];
                 this.updateOutPuts = "";
                 var messageArr = this.messages;
@@ -16,6 +16,7 @@ fastmap.uikit.LogMsgController = (function() {
                   var _msg = {};
                   _msg.value = data.value || '没有描述';
                   _msg.type = data.type || 'success';
+                  _msg.time = data.time || 5000;
                   _msg.remove = function(msg){
                     for(var i=0;i<messageArr.length;i++){
                       if(messageArr[i] == msg){
@@ -30,19 +31,20 @@ fastmap.uikit.LogMsgController = (function() {
              * 添加massage
              * @param {Object}massage
              */
-            pushMsg: function(msg) {
+            pushMsg: function($scope,msg) {
               var _this = this;
               if (typeof msg == 'object') {
                 this.messages.push(this.msgObj(msg));
                 setTimeout(function(){
                   _this.msgObj(msg).remove(_this.msgObj(msg));
-                },3000);
+                  $scope.$apply();
+                },_this.msgObj(msg).time);
               } else if (typeof msg == 'string') {
                 this.messages.push(this.msgObj({value:msg}));
                 setTimeout(function(){
                   _this.msgObj({value:msg}).remove(_this.messages[_this.messages.length-1]);
-                    // _this.msgObj({value:msg}).remove(_this.msgObj({value:msg}));
-                },3000);
+                  $scope.$apply();
+                },_this.msgObj(msg).time);
               }
             },
             /***
@@ -52,11 +54,11 @@ fastmap.uikit.LogMsgController = (function() {
                 this.messages = [];
             }
         });
-        return new logMsgController(options);
+        return new logMsgController();
     }
     return function(options) {
         if (!instantiated) {
-            instantiated = init(options);
+            instantiated = init();
         }
         return instantiated;
     };

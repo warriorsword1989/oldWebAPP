@@ -48,7 +48,7 @@ a:hover {
   position: absolute;
 }
 .text-success {
-  color: #34b734;
+  color: #34B734;
 }
 .text-muted {
   color: #A2A2A2;
@@ -82,7 +82,7 @@ a:hover {
   width: 100%;
 }
 .fill-azure {
-  background: #49a7da;
+  background: #49A7DA;
 }
 .pin-left {
   top: 0;
@@ -185,7 +185,7 @@ a:hover {
 .fm-tabs a.tab.active {
   color: #fff;
   border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-  background-color: #555555;
+  background-color: #555;
   transition: all .3s;
 }
 .fm-panel {
@@ -195,7 +195,7 @@ a:hover {
   opacity: 1;
   margin-bottom: 10px;
   color: #fff;
-  background-color: #555555;
+  background-color: #555;
 }
 .fm-panel > div.title {
   padding: 6px 8px;
@@ -228,7 +228,7 @@ ul.fm-ul > li div {
   margin: 0;
 }
 ul.fm-ul-form > li > label {
-  color: #f3f6fa;
+  color: #F3F6FA;
   font-weight: normal;
   width: 25%;
 }
@@ -242,12 +242,12 @@ ul.fm-ul-form > li > div > label {
   margin: 2px 5px;
 }
 ul.fm-ul-list > li > label {
-  color: #f3f6fa;
+  color: #F3F6FA;
   font-weight: normal;
   width: 40%;
 }
 ul.fm-ul-list > li > div:first-child {
-  color: #f3f6fa;
+  color: #F3F6FA;
   font-weight: normal;
   width: 75%;
 }
@@ -259,30 +259,30 @@ input.fm-control {
   -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 100%;
-  color: #f3f6fa;
+  color: #F3F6FA;
   padding: 1px 5px;
   border: 1px ridge #FFFFFF;
-  background-color: #333333;
+  background-color: #333;
 }
 select.fm-control {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 100%;
-  color: #f3f6fa;
+  color: #F3F6FA;
   padding: 1px 5px;
   border: 1px ridge #FFFFFF;
-  background-color: #333333;
+  background-color: #333;
 }
 textarea.fm-control {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 100%;
-  color: #f3f6fa;
+  color: #F3F6FA;
   padding: 1px 5px;
   border: 1px ridge #FFFFFF;
-  background-color: #333333;
+  background-color: #333;
 }
 label.fm-control {
   margin: 2px 5px;
@@ -341,9 +341,9 @@ label > input[type='checkbox'] {
   padding-top: 6px;
   padding-bottom: 7px;
   background-color: #333;
-  box-shadow: 4px 4px 7px 0px #777777;
-  -webkit-box-shadow: 4px 4px 7px 0px #777777;
-  -moz-box-shadow: 4px 4px 7px 0px #777777;
+  box-shadow: 4px 4px 7px 0px #777;
+  -webkit-box-shadow: 4px 4px 7px 0px #777;
+  -moz-box-shadow: 4px 4px 7px 0px #777;
   min-width: 60%;
   min-height: 193px;
   width: 70%;
@@ -362,7 +362,7 @@ label > input[type='checkbox'] {
 .fm-pic-show .fm-pic-show-well .fm-img-well {
   float: left;
   padding: 3px;
-  border: solid 1px #f3f6fa;
+  border: solid 1px #F3F6FA;
   border-radius: 4px;
   margin: 4px;
   cursor: pointer;
@@ -458,7 +458,7 @@ label > input[type='checkbox'] {
   right: 10px;
 }
 .fm-flag-ico > .glyphicon-ok {
-  color: #34b734;
+  color: #34B734;
 }
 .fm-flag-ico > .glyphicon-remove {
   color: #FF3252;
@@ -653,7 +653,7 @@ a.fm-panel-controlArrowRight > span {
   height: 100%;
   background-color: #313131;
   padding: 10px;
-  border: 1px solid #555555;
+  border: 1px solid #555;
 }
 .dragAble {
   top: 0;
@@ -713,6 +713,12 @@ a.fm-panel-controlArrowRight > span {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
+.animated-slow {
+  -webkit-animation-duration: 3s !important;
+  animation-duration: 3s !important;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
 /*重写了部分angular-chosen的样式*/
 .chosen-container {
   font-size: 12px;
@@ -720,43 +726,43 @@ a.fm-panel-controlArrowRight > span {
 }
 .chosen-container .chosen-results {
   max-height: 120px;
-  color: #f3f6fa;
+  color: #F3F6FA;
 }
 .chosen-container .chosen-results li {
   padding: 2px 6px;
 }
 .chosen-container .chosen-results li.no-results {
-  color: #f3f6fa;
-  background: #333333;
+  color: #F3F6FA;
+  background: #333;
 }
 .chosen-container .chosen-drop {
-  background-color: #333333;
+  background-color: #333;
 }
 .chosen-container-single .chosen-default {
-  color: #f3f6fa;
-  background-color: #333333;
+  color: #F3F6FA;
+  background-color: #333;
 }
 .chosen-container-single .chosen-single {
-  box-shadow: 0 1px 0 #333333 inset;
-  -webkit-box-shadow: 0 1px 0 #333333 inset;
-  -moz-box-shadow: 0 1px 0 #333333 inset;
+  box-shadow: 0 1px 0 #333 inset;
+  -webkit-box-shadow: 0 1px 0 #333 inset;
+  -moz-box-shadow: 0 1px 0 #333 inset;
   padding: 0 5px;
-  color: #f3f6fa;
-  background-image: linear-gradient(#333333 100%, #333333 100%);
+  color: #F3F6FA;
+  background-image: linear-gradient(#333 100%, #333 100%);
   height: 22px;
 }
 .chosen-container-single > span {
   margin-top: -2px;
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333333), color-stop(80%, #333333));
-  color: #f3f6fa;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(80%, #333));
+  color: #F3F6FA;
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
-  box-shadow: 0 1px 0 #333333 inset;
-  -webkit-box-shadow: 0 1px 0 #333333 inset;
-  -moz-box-shadow: 0 1px 0 #333333 inset;
-  background-image: linear-gradient(#333333 100%, #333333 100%);
+  box-shadow: 0 1px 0 #333 inset;
+  -webkit-box-shadow: 0 1px 0 #333 inset;
+  -moz-box-shadow: 0 1px 0 #333 inset;
+  background-image: linear-gradient(#333 100%, #333 100%);
 }
 .tel-empty {
   border: solid #ff8888 1px !important;
@@ -772,7 +778,7 @@ a.fm-panel-controlArrowRight > span {
 .panel-tips {
   -webkit-font-smoothing: antialiased;
   line-height: 1.42857143;
-  background-color: #555555;
+  background-color: #555;
   margin-bottom: 0;
   width: 100%;
 }
@@ -790,7 +796,7 @@ a.fm-panel-controlArrowRight > span {
   border-radius: 3px;
   height: 200px;
   margin-bottom: 10px;
-  background-color: #555555;
+  background-color: #555;
   cursor: pointer;
 }
 .img-preview {
@@ -807,7 +813,7 @@ a.fm-panel-controlArrowRight > span {
   position: absolute;
   color: #fff;
   height: 100%;
-  background-color: #555555;
+  background-color: #555;
   opacity: .8;
   width: 20px;
   border: 0;
@@ -821,7 +827,7 @@ a.fm-panel-controlArrowRight > span {
   position: absolute;
   color: #fff;
   height: 100%;
-  background-color: #555555;
+  background-color: #555;
   opacity: .8;
   width: 20px;
   border: 0;
@@ -1262,7 +1268,7 @@ a.fm-panel-controlArrowRight > span {
 .fm-dropdown-menu > li > a:focus {
   color: #e5e5e5;
   background-color: #1D1B1B;
-  background-image: linear-gradient(to bottom, #1f1e1e 0%, #1f1e1e 100%);
+  background-image: linear-gradient(to bottom, #1F1E1E 0%, #1F1E1E 100%);
 }
 .dropdown-menu-name {
   margin-left: -10px;
@@ -1362,10 +1368,10 @@ a.fm-panel-controlArrowRight > span {
 }
 .btn.btn-purple:hover {
   color: #FFF;
-  background: #49a7da;
+  background: #49A7DA;
 }
 .btn.btn-purple.active {
-  background: #49a7da;
+  background: #49A7DA;
 }
 .btn.btn-purple:focus {
   box-shadow: none;
@@ -1399,36 +1405,36 @@ a.fm-panel-controlArrowRight > span {
 .btn-shape-cap {
   background-color: rgba(119, 119, 119, 0.8);
   color: #ccc;
-  border: 1px solid #555555;
+  border: 1px solid #555;
 }
 .btn-shape-cap:hover,
 .btn-shape-cap:focus {
   color: #fff;
 }
 .btn-shape-cap.active {
-  background-color: #555555;
+  background-color: #555;
   color: #fff;
 }
 .btn-shape {
   background-color: rgba(119, 119, 119, 0.8);
   color: #ddd;
-  border: 1px solid #555555;
+  border: 1px solid #555;
 }
 .btn-shape:hover,
 .btn-shape:focus {
   color: #fff;
 }
 .btn-shape.active {
-  background-color: #333333;
+  background-color: #333;
   color: #fff;
 }
 .shape-well {
-  background: #555555;
+  background: #555;
   padding: 5px;
 }
 .btn-feat {
   border-radius: 0 !important;
-  border: 1px solid #555555;
+  border: 1px solid #555;
   background: #777;
   color: #ddd;
 }
@@ -1437,7 +1443,7 @@ a.fm-panel-controlArrowRight > span {
   color: #fff;
 }
 .btn-feat.active {
-  background-color: #333333;
+  background-color: #333;
   color: #fff;
 }
 /*分页样式*/
@@ -1483,9 +1489,9 @@ form input[type=checkbox].ng-dirty:before {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  background: -moz-radial-gradient(50% 50%, #ffffff, #000000);
-  background: -webkit-radial-gradient(50% 50%, #ffffff, #000000);
-  background: -webkit-gradient(radial, 0 50%, 0 50%, from(#ffffff), to(#000000));
+  background: -moz-radial-gradient(50% 50%, #fff, #000);
+  background: -webkit-radial-gradient(50% 50%, #fff, #000);
+  background: -webkit-gradient(radial, 0 50%, 0 50%, from(#fff), to(#000));
   opacity: 0.5;
   filter: alpha(opacity=50);
   z-index: 9999;
@@ -1660,7 +1666,7 @@ form input[type=checkbox].ng-dirty:before {
 }
 .log-message-container .log-message {
   color: #fff;
-  background-color: #222;
+  background-color: #49A7DA;
   padding: 13px;
   height: 40px;
   margin-top: 3px;
