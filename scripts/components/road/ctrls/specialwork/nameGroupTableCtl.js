@@ -52,8 +52,7 @@ angular.module('app').controller("nameGroupTableCtl", ['$scope', '$ocLazyLoad', 
 		 ];
 		//表格配置搜索;
         $scope.filters = {
-    			name : "",
-    			langCode : "",
+    			name : ""
     	 };
 		//初始化ng-table表格
 		function initNameGroupTable() {
@@ -69,7 +68,7 @@ angular.module('app').controller("nameGroupTableCtl", ['$scope', '$ocLazyLoad', 
                         pageNum: params.page(),
                         pageSize: params.count(),
                         sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                        params:{"langCode":"CHI"}
+                        params:{"langCode":"CHI","name":params.filter().name}
                     };
                     dsMeta.roadNameList(parameter).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';

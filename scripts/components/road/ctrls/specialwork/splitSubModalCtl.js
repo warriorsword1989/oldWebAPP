@@ -26,7 +26,7 @@ angular.module('app').controller("SplitSubModalCtl", ['$scope', '$ocLazyLoad', '
 				}
 				param = {
 						flag : 1,
-						data : $scope.selectedRoadNameList
+						data : $scope.getSelectedData()
 					};
 				
 			}else if(2 == $scope.dataFlag){//拆分子任务下所有的数据
@@ -36,8 +36,10 @@ angular.module('app').controller("SplitSubModalCtl", ['$scope', '$ocLazyLoad', '
 				};
 			};
 			dsMeta.rdnameSplit(param).then(function(data) {
-				$scope.$emit("REFRESHROADNAMELIST");
-				swal("拆分成功", "", "info");
+				if(data){
+					$scope.$emit("REFRESHROADNAMELIST");
+					swal("拆分成功", "", "info");
+				}
 				$scope.closeSubModal();
             });
 		};

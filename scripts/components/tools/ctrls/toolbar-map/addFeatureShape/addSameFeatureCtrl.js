@@ -43,7 +43,7 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
             $("#popoverTips").hide();
 
             if (type === 'RDSAMENODE'){
-                $scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示,如果彻底的取消dropdown的显示,需要注销掉resetToolAndMap方法中的event.stopPropagation();
+                //$scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示,如果彻底的取消dropdown的显示,需要注销掉resetToolAndMap方法中的event.stopPropagation();
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setCurrentTooltip('请框选同一点要素点！');
                 map.currentTool = new fastmap.uikit.SelectForRectang({
@@ -90,7 +90,7 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
 
                 })
             } else if (type === 'RDSAMELINK'){
-                $scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示
+                //$scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;//控制下拉菜单显示
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setCurrentTooltip('请框选同一线要素线！');
                 map.currentTool = new fastmap.uikit.SelectForRectang({

@@ -156,6 +156,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "RDROAD":
                         this.data = fastmap.dataApi.rdRoad(obj);
                         break;
+                    case "RDOBJECT":
+                        this.data = fastmap.dataApi.rdObject(obj);
+                        break;
                     case "RDSE": //分叉口
                         this.data = fastmap.dataApi.rdSe(obj);
                         break;

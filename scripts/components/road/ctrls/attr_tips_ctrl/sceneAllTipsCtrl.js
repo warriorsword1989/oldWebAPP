@@ -93,6 +93,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.wArrayitem = $scope.dataTipsData.w_array[index];
     };
 
+    $scope.showMutiInfoItem = function (index) {
+        $scope.oArrayItem = $scope.dataTipsData.o_array[index];
+    };
     //初始化DataTips相关数据
     $scope.initializeDataTips = function(data) {
         if(data == -1){
@@ -133,6 +136,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             }
         }
         $scope.wArrayitem = {};
+        $scope.oArrayItem = {};
         $scope.schemaType = '';
         $scope.timeDomain = '';
         $scope.sceneExit = '';
@@ -143,6 +147,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.tollGateTp = '';
         $scope.TollETC = '';
         $scope.tollGateLoc = '';
+        $scope.mileageNum = '';
+        $scope.mileageNm = '';
+        $scope.mileageSrc = '';
+        $scope.busDriveway = '';
+        $scope.variableDirectionInfo = '';
         switch ($scope.allTipsType) {
             case "1101": //点限速
                 $scope.speedDirectTypeOptions = [{
@@ -485,7 +494,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.time = $scope.dataTipsData.time;
                 break;
             case "1204":  //可逆车道
-                $scope.reversibleRev = $scope.dataTipsData.rev.join(',');
                 $scope.dataTipsData.isReversibleLine = true;
                 break;
             case "1205": //SA
@@ -542,6 +550,14 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 break;
+            case "1303"://卡车交限
+                $scope.oArrayItem = $scope.dataTipsData.o_array[0];
+                $scope.outsideCarObj = {
+                  0:'不应用',
+                  1:'仅限制外埠车辆',
+                  2:'仅限制本埠车辆'
+                };
+                break;
             case "1304": //禁止穿行
                 $scope.dataTipsData.isNoCrossing = true;
                 break;
@@ -559,8 +575,23 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
                 break;
-            case "1310": //公交车道
-                $scope.busDriveway = $scope.dataTipsData.bus.join(',');
+            case "1306"://路口语音引导
+                $scope.oArrayItem = $scope.dataTipsData.o_array[0];
+                break;
+            case "1308": //外埠车辆限制
+                $scope.outsideCarLimit = $scope.dataTipsData.c_array[0].out;
+                $scope.outsideCarObj = {
+                  0:'不应用',
+                  1:'仅限制外埠车辆',
+                  2:'仅限制本埠车辆'
+                };
+                if($scope.dataTipsData.c_array[0].time){
+                    $scope.timeDomain = $scope.dataTipsData.c_array[0].time.split(';');
+                }
+                break;
+            case "1311": //可变导向车道
+                $scope.variableDirectionInfo = $scope.dataTipsData.var.join(',');
+                $scope.dataTipsData.isVariableDirectionLane = true;
                 break;
             case "1401": //方向看板
                 /*进入*/
@@ -699,9 +730,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.dataTipsData.isCrossRoad = true;
                 break;
             case "1707": //里程桩
-                $scope.mileageNum = $scope.dataTipsData.num;
-                $scope.mileageNm = $scope.dataTipsData.rdNm;
-                $scope.mileageSrc = $scope.dataTipsData.src;
+                $scope.dataTipsData.isMileage = true;
                 break;
             case "1801": //立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;

@@ -17,6 +17,11 @@
         "RdInterLinks.js",
         "RdRoad.js",
         "RdRoadLinks.js",
+        "RdObject.js",
+        "RdObjectMarker.js",
+        "RdObjectNodes.js",
+        "RdObjectLinks.js",
+        "RdObjectFace.js",
         "RdRtic.js",
         "RdGate.js",
         "RdCross.js",
@@ -158,7 +163,14 @@
         "TipsObstacle.js",
         "TipsHighSpeedEntrance.js",
         "TipsReversibleLane.js",
-        "TipsBusDriveway.js"
+        "TipsBusDriveway.js",
+        "TipsBanTrucksIn.js",
+        "TipsVariableDirectionLane.js",
+        "TipsCrossLineOverpasses.js",
+        "TipsCrossVoiceGuides.js",
+        "TipsCrossVoiceGuide.js",
+        "TipsTruckRestrictions.js",
+        "TipsTruckRestriction.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

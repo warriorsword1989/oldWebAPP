@@ -3,7 +3,7 @@ fastmap.uikit.canvasTips.TipsSpeedBump = fastmap.uikit.canvasTips.Tips.extend({
         this.geometry['coordinates'] = item.g;
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: item.m.e == 1?'../../../images/road/tips/1108/1108_1_0.svg':'../../../images/road/tips/1108/1108_0_0.svg',
+                iconName: item.m.e == 1?'../../../images/road/tips/1108/1108_2_0.svg':'../../../images/road/tips/1108/1108_1_0.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],

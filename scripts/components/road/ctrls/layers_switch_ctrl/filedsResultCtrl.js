@@ -500,6 +500,19 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, appPath.road + "ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", appPath.root + appPath.road + "tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                 } else if (pItemId === "1302") { //交限
                     $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                } else if (pItemId === "1303") {    //卡车交限
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1304") {    //禁止穿行
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTpl = {
@@ -526,7 +539,52 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1306") {    //路口语音引导
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1308") {    //禁止卡车驶入
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1310") { //公交车道
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback:function(){
+                          if(data.t_lifecycle !=3){
+                            highCtrl.highLightFeatures.push({
+                                id: data.f.id,
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {color:'yellow'}
+                            });
+                            highCtrl.drawHighlight();
+                          }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1311") { //可变导向车道
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -759,6 +817,24 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1509") { //跨线立交桥
+                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                    };
+                    highCtrl.highLightFeatures.push({
+                        id:data.in.id.toString(),
+                        layerid:'rdLink',
+                        type:'line',
+                        style:{
+                            color: '#21ed25',
+                            strokeWidth:50
+                        }
+                    });
+                    highCtrl.drawHighlight();
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1510") { //桥1510
                     var points = [];

@@ -1282,6 +1282,19 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         resetPage();
                     }
                 });
+            }  else if (shapeCtrl.editType === "CRFObject"){
+                if(geo.links.length == 0){
+                    swal("操作失败", "未选中Link！", "info");
+                    return;
+                }
+                dsEdit.create('RDOBJECT',geo).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDOBJECT", "创建CRF对象成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
             } else if (shapeCtrl.editType === "rdTollgate") {    //收费站
                 var param = {
                     "command": "CREATE",

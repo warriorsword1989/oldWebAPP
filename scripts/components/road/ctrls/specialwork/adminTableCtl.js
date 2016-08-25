@@ -3,34 +3,39 @@
  */
 angular.module('app').controller("adminTableCtl", ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'appPath', '$interval', 'dsEdit', 'dsMeta',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, appPath, $interval, dsEdit, dsMeta) {
-		
 		$scope.loadTableDataMsg = '数据加载中...';
+		$scope.whole = "";
 		//初始化ng-table表头
 		$scope.adminTableCols = [
 			  {
 				  field: "num_index",
 				  title: "序号",
 				  width: '35px',
-				  show: true
+				  show: true,
+				  sortable:"num_index"
 			  },
 			  {
 				  field: "adminareacode",
 				  title: "行政区划代码",
 				  width: '35px',
-				  show: true
+				  show: true,
+				  sortable : "adminareacode"
 			  },
 			  {
 				  field: "whole",
 				  title: "行政区划名称",
 				  width: '35px',
-				  show: true
+				  show: true,
+				  sortable:"whole"
 			  }
 		 ];
 		//表格配置搜索;
         $scope.filters = {
-    			name : "",
-    			langCode : "",
+    			whole : ""
     	 };
+		$scope.$on("CHANGEADMINTABLEFITERPARAM",function(event,data){
+				$scope.filters.whole = data.whole;	
+		});
 		//初始化ng-table表格
 		function initAdminTable() {
 			$scope.adminTableParams = new NgTableParams({
@@ -43,7 +48,9 @@ angular.module('app').controller("adminTableCtl", ['$scope', '$ocLazyLoad', 'NgT
                     var parameter = {
                         pageNum: params.page(),
                         pageSize: params.count(),
-                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join("")
+                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+//                        params:{"whole":params.filter().whole}
+                        whole: params.filter().whole
                     };
                     dsMeta.adminareaList(parameter).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
