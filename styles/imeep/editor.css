@@ -1996,21 +1996,31 @@ form input[type=checkbox].ng-dirty:before {
   font-size: 12px;
   padding: 2px 4px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031890}}
+.fm-subtable-content {
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031895}}
+.fm-subtable-content table + div {
+  position: fixed;
+}
 /*深度信息任务列表嵌套ul/li样式*/
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031891}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031900}}
 ul.fm-ul-insert {
   font-size: 14px;
   list-style: none;
   padding: 10px 0 0 15px;
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031897}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031906}}
 ul.fm-ul-insert ul {
   list-style: none;
   padding-left: 25px;
   font-size: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031902}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031911}}
 ul.fm-ul-insert ul li {
   padding: 5px 0 3px 0;
 }

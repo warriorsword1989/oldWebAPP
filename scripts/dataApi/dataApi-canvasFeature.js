@@ -21,7 +21,7 @@
         "RdObjectMarker.js",
         "RdObjectNodes.js",
         "RdObjectLinks.js",
-        "RdObjectFace.js",
+        "RdObjectOutLine.js",
         "RdRtic.js",
         "RdGate.js",
         "RdCross.js",

@@ -2,7 +2,7 @@
     <div class="title">请选择名称组</div>
     <div class="content" >
         <div style="height:400px;">
-			<div class="fm-table-content fm-fitsize scroll-styled" style="top:40px;bottom: 70px">
+			<div class="fm-subtable-content fm-fitsize dark scroll-styled" style="top:40px;bottom: 70px">
 		        <div class="table-header">
 		            <div class="table-search fm-inline" style="padding: 10px 50px 10px 10px" class="pull-left">
 			            <div class="btn-group">
@@ -14,7 +14,7 @@
 			        	<!-- <button type="button" class="btn btn-xs fm-xs-btn fm-group-btn" ng-disabled="disabled">查询</button> -->
 			        </div>
 		        </div>
-	            <table ng-table-dynamic="nameGroupTableParams with nameGroupTableCols" class="table table-condensed table-bordered">
+	            <table ng-table-dynamic="nameGroupTableParams with nameGroupTableCols" class="table table-condensed table-bordered poi-list">
 	                <colgroup>
 	                <col ng-repeat="col in nameGroupTableCols | filter:{show: true}" width="{{col.width || '100'}}"/>
 	                </colgroup>
@@ -27,9 +27,9 @@
 	            </table>
 	        </div>
         </div>
-        <div style="border-bottom: 1px solid #ddd;"></div>
+        <!-- <div style="border-bottom: 1px solid #ddd;"></div>
         <div style="text-align:right;">
             <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doChoice()">选择</button>
-        </div>
+        </div> -->
     </div>
 </div>

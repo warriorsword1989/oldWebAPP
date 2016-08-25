@@ -143,13 +143,13 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
     		if("edit" == type){
     			$scope.hwInfoFlagDisable = true;//highway信息标识
         		$scope.typeEditable = true;//类型名称
-        		$scope.typePhoneticEditable = true;//类型名发音
-        		$scope.baseEditable = true;//基本名称
+        		$scope.basePhoneticDisable = false;//类型名发音
+        		$scope.baseDisable = false;//基本名称
         		$scope.basePhoneticEditable = true;//基本名发音
         		$scope.prefixDisable = false;//前缀名称
         		$scope.infixDisable = false;//中缀名称
         		$scope.suffixDisable = false;//后缀名称
-        		$scope.voiceFileEditable = true;//名称语音
+        		$scope.voiceFileDisable = false;//名称语音
         		$scope.srcFlagDisable = false;//名称来源
         		$scope.nameGroupidEditable = false;
         		$scope.langCodeDisable = true;//语言类型
@@ -157,30 +157,30 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         			$scope.codeTypeDisable = true;//国家编号
         			$scope.adminIdEditable = false;//行政区划
         			$scope.roadTypeDisable = true;//道路类型
-        			$scope.nameEditable = false;//道路名称
+        			$scope.nameDisable = true;//道路名称
         		}else if($scope.roadNameData.langCode == "CHI"){
         			$scope.codeTypeDisable = false;//国家编号
         			$scope.adminIdEditable = true;//行政区划
         			$scope.roadTypeDisable = false;//道路类型
-        			$scope.nameEditable = true;//道路名称
+        			$scope.nameDisable = false;//道路名称
         		}
     		}else if("add" == type){
     			$scope.hwInfoFlagDisable = true;//highway信息标识
         		$scope.typeEditable = true;//类型名称
-        		$scope.typePhoneticEditable = true;//类型名发音
-        		$scope.baseEditable = true;//基本名称
+        		$scope.basePhoneticDisable = false;//类型名发音
+        		$scope.baseDisable = false;//基本名称
         		$scope.basePhoneticEditable = true;//基本名发音
         		$scope.prefixDisable = false;//前缀名称
         		$scope.infixDisable = false;//中缀名称
         		$scope.suffixDisable = false;//后缀名称
-        		$scope.voiceFileEditable = true;//名称语音
+        		$scope.voiceFileDisable = false;//名称语音
         		$scope.srcFlagDisable = false;//名称来源
         		$scope.nameGroupidEditable = true;//道路组id
         		$scope.langCodeDisable = false;//语言类型
         		$scope.codeTypeDisable = false;//国家编号
     			$scope.adminIdEditable = true;//行政区划
     			$scope.roadTypeDisable = false;//道路类型
-    			$scope.nameEditable = false;//道路名称
+    			$scope.nameDisable = true;//道路名称
     		}
     	};
     	$scope.initializeData();
@@ -194,6 +194,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        	 		if($scope.roadNameFlag == "add") {
        	 			if("CHI" == $scope.roadNameData.langCode || "CHT" == $scope.roadNameData.langCode){
        	 				swal("道路名组在语言类型为中文时系统会自动分配，不能选择", "", "info");
+       	 				$scope.searchModal = false;
        	 				return;
        	 			}
        	 		}
@@ -378,21 +379,21 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.roadNameData.voiceFile = $scope.roadNameData.memo;
         	}else if(obj.roadNameData.roadType == 3){//铁路
         		$scope.typeEditable = false;//类型名称
-        		$scope.typePhoneticEditable = false;//类型名发音
-        		$scope.baseEditable = false;//基本名称
+        		$scope.basePhoneticDisable = true;//类型名发音
+        		$scope.baseDisable = true;//基本名称
         		$scope.basePhoneticEditable = false;//基本名发音
         		$scope.prefixDisable = true;//前缀名称
         		$scope.infixDisable = true;//中缀名称
         		$scope.suffixDisable = true;//后缀名称
-        		$scope.voiceFileEditable = false;//名称语音
+        		$scope.voiceFileDisable = true;//名称语音
         		$scope.srcFlagDisable = true;//名称来源
         		$scope.codeTypeDisable = true;//国家编号
     			$scope.adminIdEditable = false;//行政区划
     			$scope.hwInfoFlagDisable = true;
         	}else if(obj.roadNameData.roadType == 3){//出口编号
         		$scope.typeEditable = false;//类型名称
-        		$scope.typePhoneticEditable = false;//类型名发音
-        		$scope.baseEditable = false;//基本名称
+        		$scope.basePhoneticDisable = true;//类型名发音
+        		$scope.baseDisable = true;//基本名称
         		$scope.basePhoneticEditable = false;//基本名发音
         		$scope.prefixDisable = true;//前缀名称
         		$scope.infixDisable = true;//中缀名称

@@ -22,7 +22,7 @@
     </div>
     <div class="col-sm-12 task-box">
         <div class="col-sm-5 text-control">
-            <select class="fm-control" ng-model="photoTagType" ng-options="item.id as item.label for item in photoTagOptions"></select>
+            <select ng-class="{'fm-control':true,'chosen-disabled':isSpecialOperation}" class="fm-control" ng-model="photoTagType" ng-options="item.id as item.label for item in photoTagOptions" ng-disabled="isSpecialOperation"></select>
         </div>
         <div class="col-sm-7 text-right">
             <label class="col-sm-8 text-control">
