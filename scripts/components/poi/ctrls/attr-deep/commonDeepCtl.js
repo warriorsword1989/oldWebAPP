@@ -50,10 +50,10 @@ angular.module('app').controller('commonDeep', function($scope,$ocLazyLoad) {
         //当前的操作状态;
         $scope.currentHandleStatus = '编辑';
         //在这里赋值当前的编辑数据更新数据编辑面板的数据显示；
-        var dateTimeWell = $('.date-well').parent();
-        $('body').append($(".date-well").find(".carTypeTip"));
+        var dateTimeWell = $('.timeSelect-panel').parent();
+        $('body').append($(".timeSelect-panel").find(".carTypeTip"));
+        $(".carTypeTip").css({'top':($(e.target).offset().top-113)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
         if($('body .carTypeTip:last').css('display') == 'none'){
-            $(".carTypeTip").css({'top':($(e.target).offset().top-120)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
             $('body .carTypeTip:last').show();
         }
     };

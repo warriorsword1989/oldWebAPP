@@ -36,8 +36,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.showPopoverTips = false;
 			$scope.tipsPanelOpened = false;
 			if (type == 1) { //poi
-				$ocLazyLoad.load(appPath.poi + 'ctrls/attr-deep/deepDataListCtl').then(function () {
-					$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-deep/deepDataListTpl.html';
+				$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
+					$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
 					$scope.showLoading = false;
 				});
 			} else { //道路
