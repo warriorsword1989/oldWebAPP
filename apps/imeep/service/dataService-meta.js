@@ -311,10 +311,12 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         	parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
+            	data = 1;
                 defer.resolve(data);
             } else {
+            	data = 0;
                 swal("道路名拆分出错：", data.errmsg, "error");
-                defer.resolve([]);
+                defer.resolve(data);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
