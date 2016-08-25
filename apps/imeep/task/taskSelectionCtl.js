@@ -359,12 +359,20 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     }
                 }
                 $scope.currentSubTaskList = data;
+                console.log(data)
             });
         }
 
         function loadDeepTaskFn(){
-            $scope.currentSubTaskList = [];
+            var data = [
+                {name:'通用深度信息作业',count:2,data:[{'subtaskId':1,'name':'北京中文名子任务','flag':'1'},{'subtaskId':2,'name':'北京中文名子任务','flag':'1'}]},
+                {name:'汽车租赁作业',count:2,data:[{'subtaskId':3,'name':'北京中文名子任务','flag':'1'},{'subtaskId':4,'name':'北京中文名子任务','flag':'1'}]},
+                {name:'停车场作业',count:2,data:[{'subtaskId':5,'name':'北京中文名子任务','flag':'1'},{'subtaskId':6,'name':'北京中文名子任务','flag':'1'}]}
+            ]
+            $scope.currentSubTaskList = data;
         }
+
+
         function loadPoiDetailTaskFn(){
             $scope.currentSubTaskList = [];
         }
