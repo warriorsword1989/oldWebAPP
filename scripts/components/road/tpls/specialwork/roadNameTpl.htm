@@ -1,6 +1,6 @@
 <div ng-controller="RoadNameCtl">
     <div class="fm-panel">
-        <div class="content fm-table-content fm-fitsize scroll-styled" style="top:0px;bottom: 70px">
+        <div class="content fm-table-content fm-fitsize dark scroll-styled" style="top:0px;bottom: 70px">
 	        <div class="table-header" style="margin:10px 0px 10px 0px">
         		<button type="button" class="btn btn-shape" ng-click="openSubModal('search')">查询 </button>
 	            <button type="button" class="btn btn-shape" ng-click="openSubModal('add')">新增 </button>
@@ -19,10 +19,10 @@
 		            </ul>
 		        </div>
 	        </div>
-                  <script type="text/ng-template" id="headerCheckbox.html">
-                        <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
-                    </script>
-            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
+            <script type="text/ng-template" id="headerCheckbox.html">
+                 <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value=""/>
+            </script>
+            <table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered poi-list">
                 <colgroup>
                     <col ng-repeat="col in cols | filter:{show: true}" width="{{col.width || '100px'}}"/>
                 </colgroup>
