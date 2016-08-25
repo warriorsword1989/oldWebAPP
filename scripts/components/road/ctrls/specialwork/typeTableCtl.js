@@ -41,7 +41,7 @@ angular.module('app').controller("typeTableCtl", ['$scope', '$ocLazyLoad', 'NgTa
 		function initTypeTable() {
 			$scope.typeTableParams = new NgTableParams({
                 page: 1,
-                count: 20,
+                count: 10,
                 filter: $scope.filters
             }, {
                 counts: [],

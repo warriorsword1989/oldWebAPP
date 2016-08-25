@@ -343,6 +343,19 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         		 return;
         	 }
          };
+         /**
+          * 拆分窗口显示和关闭
+          */
+         $scope.splitSubModal = false;
+         $scope.openSplitSubModal = function(){
+        	 $scope.splitSubModal = true;
+        	 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
+                	$scope.splitSubModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
+                });
+         };
+         $scope.closeSplitSubModal = function(){
+        	 $scope.splitSubModal = false;
+         };
          /***
           * 关闭子面板
           */

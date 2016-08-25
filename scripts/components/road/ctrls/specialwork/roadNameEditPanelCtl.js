@@ -194,6 +194,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        	 		if($scope.roadNameFlag == "add") {
        	 			if("CHI" == $scope.roadNameData.langCode || "CHT" == $scope.roadNameData.langCode){
        	 				swal("道路名组在语言类型为中文时系统会自动分配，不能选择", "", "info");
+       	 				$scope.searchModal = false;
        	 				return;
        	 			}
        	 		}
