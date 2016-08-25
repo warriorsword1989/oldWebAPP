@@ -161,7 +161,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsPavementCover(item);
                     break;
                 case 1503://高架路
-                    ret = new fastmap.uikit.canvasTips.TipsElevateRoads(item);
+                    ret = new fastmap.uikit.canvasTips.TipsElevatedRoads(item);
                     break;
                 case 1504://overpass
                     ret = new fastmap.uikit.canvasTips.TipsOverpasses(item);
