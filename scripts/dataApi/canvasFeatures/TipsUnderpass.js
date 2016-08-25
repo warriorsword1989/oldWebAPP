@@ -14,7 +14,7 @@ fastmap.uikit.canvasTips.TipsUnderpass = fastmap.uikit.canvasTips.Tips.extend({
         }
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1505/1505_1_0.svg',
+                iconName: '../../../images/road/tips/1505/1505_0_0.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],

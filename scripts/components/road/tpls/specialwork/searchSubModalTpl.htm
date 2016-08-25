@@ -31,13 +31,13 @@
                 </li> -->
             </ul>
         </div>
-        <div style="border-bottom: 1px solid #ddd;"></div>
-        <div style="text-align:right;">
-            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doSearch()">查询</button>
-        </div>
-        <div ng-show="subSearchModal!=false" class="div-float" style="top:60px;left:150px;width:600px;border-radius:5px;z-index:1000">
-	       <button type="button" class="close" style="padding:0px 4px;" ng-click="closeSubSearchModal()"><span>&times;</span></button>
-	       <div ng-include="subSearchModalTpl"></div>
-	   </div>
     </div>
+    <div style="border-bottom: 1px solid #ddd;"></div>
+    <div style="text-align:right;">
+        <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doSearch()" style="margin:6px 8px">查询</button>
+    </div>
+   <div ng-show="subSearchModal" class="div-float" style="top:60px;left:150px;width:600px;border-radius:5px;z-index:1000">
+	   <button type="button" class="close" style="padding:0px 4px;" ng-click="closeSubSearchModal()"><span>&times;</span></button>
+	   <div ng-include="subSearchModalTpl"></div>
+   </div>
 </div>

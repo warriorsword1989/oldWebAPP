@@ -58,7 +58,7 @@ angular.module('app').controller("nameGroupTableCtl", ['$scope', '$ocLazyLoad', 
 		function initNameGroupTable() {
 			$scope.nameGroupTableParams = new NgTableParams({
                 page: 1,
-                count: 20,
+                count: 10,
                 filter: $scope.filters
             }, {
                 counts: [],

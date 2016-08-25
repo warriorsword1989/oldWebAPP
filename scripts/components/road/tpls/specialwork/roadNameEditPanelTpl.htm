@@ -1,5 +1,5 @@
 <style>
- 	input[type="text"][disabled]{
+ 	/* input[type="text"][disabled]{
         cursor: not-allowed;
   		opacity: 0.5;
     }
@@ -19,7 +19,7 @@
     .disedit {
     	cursor: not-allowed;
   		opacity: 0.5;
-    }
+    } */
  </style>
 <div class="fm-panel" ng-controller="RoadNameEditPanelCtl" style="margin:0px;">
     <div class="title">编辑道路名信息</div>
@@ -34,14 +34,14 @@
                     	<a ng-show="nameGroupidEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('nameGroup')"></a>
                     </nobr> -->
                     <div>
-                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.nameGroupid" style="width:98%"/>
+                    	<input type="text" class="fm-control chosen-disabled"  ng-model="roadNameData.nameGroupid" style="width:98%" ng-disabled=true>
                     	<a ng-show="nameGroupidEditable != false" title="搜索" class="glyphicon glyphicon-search" aria-hidden="true" ng-click="openSearchModal('nameGroup')" style="margin-left: -17px;"></a>
                     </div>
                 </li>
                 <li>
                     <label>道路名发音:</label>
                     <div>
-                        <input type="text" class="fm-control" ng-model="roadNameData.namePhonetic"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.namePhonetic">
                     </div>
                 </li>
                 <li>
@@ -51,7 +51,7 @@
                     	<a ng-show="typeEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('type')"></a>
                     </nobr> -->
                     <div>
-                    	<input type="text" class="fm-control" ng-model="roadNameData.type" disabled style="width:98%"/>
+                    	<input type="text" class="fm-control chosen-disabled" ng-model="roadNameData.type" style="width:98%" ng-disabled=true>
                     	<!-- <a ng-show="typeEditable != false" href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: 0px;height:15px;" ng-click="openSearchModal('type')"></a> -->
                     	<a ng-show="typeEditable != false" title="搜索" class="glyphicon glyphicon-search" aria-hidden="true" ng-click="openSearchModal('type')" style="margin-left: -17px;"></a>
                     </div>
@@ -59,7 +59,7 @@
                 <li>
                     <label>基本名发音:</label>
                     <div>
-                        <input type="text" class="fm-control" ng-model="roadNameData.basePhonetic" ng-class="{false:'disedit'}[basePhoneticEditable]"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.basePhonetic" ng-class="{false:'disedit'}[basePhoneticEditable]">
                     </div>
                 </li>
                 <li>
@@ -74,12 +74,12 @@
                 </li>
                 <li>
                     <label>后缀发音:</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.suffixPhonetic" disabled/></div>
+                    <div><input type="text" class="fm-control chosen-disabled" ng-model="roadNameData.suffixPhonetic" ng-disabled=true></div>
                 </li>
                 <li>
                     <label >行政区划:</label>
                     <div>
-                    	<input type="text" class="fm-control disedit" ng-model="roadNameData.adminName" style="width:98%"/>
+                    	<input type="text" class="fm-control chosen-disabled" ng-model="roadNameData.adminName" style="width:98%" ng-disabled=true>
                     	<a ng-show="adminIdEditable != false" href="#" title="搜索" class="glyphicon glyphicon-search" style="margin-left: -17px;" ng-click="openSearchModal('admin')"></a>
                     </div>
                 </li>
@@ -108,12 +108,12 @@
                 <li>
                     <label>名称语音:</label>
                     <div>
-                        <input type="text" class="fm-control" ng-model="roadNameData.voiceFile" ng-class="{false:'disedit'}[voiceFileEditable]"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.voiceFile" ng-class="{false:'disedit'}[voiceFileEditable]">
                     </div>
                 </li>
                 <li>
                     <label>类型名发音:</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.typePhonetic" ng-class="{false:'disedit'}[typePhoneticEditable]"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.typePhonetic" ng-class="{false:'disedit'}[typePhoneticEditable]"></div>
                 </li>
                 <li>
                     <label>前缀名称:</label>
@@ -127,7 +127,7 @@
                 </li>
                 <li>
                     <label>中缀发音</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.infixPhonetic" disabled/></div>
+                    <div><input type="text" class="fm-control chosen-disabled" ng-model="roadNameData.infixPhonetic" ng-disabled=true></div>
                 </li>
                 <li>
                     <label>道路类型</label>
@@ -141,14 +141,14 @@
                 </li>
                 <li>
                     <label >路线号码</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.routeId"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.routeId"></div>
                 </li>
             </ul>
             <ul class="fm-ul fm-ul-form col-md-4">
                 <li>
                     <label>道路名称</label>
                     <div >
-                        <input type="text" class="fm-control" ng-model="roadNameData.name" ng-class="{true:'disedit'}[nameEditable]"/>
+                        <input type="text" class="fm-control" ng-model="roadNameData.name" ng-class="{true:'disedit'}[nameEditable]">
                     </div>
                 </li>
                 <li>
@@ -163,11 +163,11 @@
                 </li>
                 <li>
                     <label>基本名称:</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.base" ng-blur="getPy($event, this, 'base', 'basePhonetic')" ng-class="{false:'disedit'}[baseEditable]"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.base" ng-blur="getPy($event, this, 'base', 'basePhonetic')" ng-class="{false:'disedit'}[baseEditable]"></div>
                 </li>
                 <li>
                     <label>前缀发音:</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.prefixPhonetic" disabled/></div>
+                    <div><input type="text" class="fm-control chosen-disabled" ng-model="roadNameData.prefixPhonetic" ng-disabled=true></div>
                 </li>
                 <li>
                     <label>后缀名称:</label>
@@ -191,10 +191,10 @@
                 </li>
                 <li>
                     <label >来源履历:</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.srcResume"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.srcResume"></div>
                 </li>
                 <li>
-                    <label >HIGHWAY信息标识??:</label>
+                    <label >HIGHWAY信息标识:</label>
                     <div>
                         <select class="fm-control" ng-model="hwInfoFlag"
                                 placeholder_text_single="'--请选择--'"
@@ -207,17 +207,17 @@
             <ul class="fm-ul fm-ul-form col-md-4">
             	<li>
                     <label >备注信息:</label>
-                    <div><input type="text" class="fm-control" ng-model="roadNameData.memo"/></div>
+                    <div><input type="text" class="fm-control" ng-model="roadNameData.memo"></div>
                 </li>
             </ul>
         </div>
-        <div style="border-bottom: 1px solid #ddd;"></div>
-        <div style="text-align:right;">
-            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doSave()">保存</button>
-        </div>
     </div>
-    <div ng-show="searchModal!=false" class="div-float" style="top:60px;left:150px;width:600px;border-radius:5px;z-index:1000">
-       <button type="button" class="close" style="padding:0px 4px;" ng-click="closeSearchModal()"><span>&times;</span></button>
+    <div style="border-bottom: 1px solid #ddd;"></div>
+    <div style="text-align:right;">
+        <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doSave()" style="margin:6px 8px">保存</button>
+    </div>
+    <div ng-show="searchModal" class="div-float" style="top:60px;left:150px;width:600px;border-radius:5px;z-index:1000">
+       <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeSearchModal()"><span>&times;</span></button>
        <div ng-include="searchModalTpl"></div>
    </div>
 </div>
