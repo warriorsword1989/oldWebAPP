@@ -2024,3 +2024,7 @@ ul.fm-ul-insert ul {
 ul.fm-ul-insert ul li {
   padding: 5px 0 3px 0;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031914}}
+ul.fm-ul-insert > li {
+  margin-bottom: 5px;
+}

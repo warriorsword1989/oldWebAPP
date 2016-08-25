@@ -99,15 +99,11 @@
                                         <li>暂时没有子任务数据</li>
                                     </ul>
                                     <ul class="fm-ul-insert">
-                                        <!--<li ng-if="dataLoaded" ng-repeat="item in currentSubTaskList">-->
-                                            <!--<a href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　-->
-                                            <!--<i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check col-lg-1" aria-hidden="true"></i>-->
-                                        <!--</li>-->
                                         <li ng-repeat="list in currentSubTaskList">
-                                            <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>　{{list.name}}　<span style="font-size: 12px" class="text-muted" ng-bind="list.count"></span>
-                                            <ul>
+                                            <a ng-click="showSubList(list)"><span ng-class="{true:'glyphicon glyphicon-folder-open',false:'glyphicon glyphicon-folder-close'}[currentDeepClass.name==list.name]" aria-hidden="true"></span>　{{list.name}}</a>　<span style="font-size: 12px" class="text-muted" ng-bind="list.count"></span>
+                                            <ul ng-show="currentDeepClass.name==list.name">
                                                 <li ng-if="dataLoaded" ng-repeat="item in list.data">
-                                                    <a href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
+                                                    <a href='javascript:void(0);' class="col-sm-10 text-ellipsis pull-left" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
                                                     <i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check col-lg-1 pull-right" aria-hidden="true"></i>
                                                 </li>
                                             </ul>
