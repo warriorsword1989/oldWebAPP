@@ -19,7 +19,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
         this.nameGroupid = data["nameGroupid"] || 1;
         this.langCode = data["langCode"] || "";
         this.name = data["name"] || "";
-        this.phoneTic = data["phoneTic"] || "";
+        this.phonetic = data["phonetic"] || "";
         this.srcFlag = data["srcFlag"] || 0;
     },
 
@@ -36,7 +36,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
         data["nameGroupid"] = this.nameGroupid;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
-        data["phoneTic"] = this.phoneTic;
+        data["phonetic"] = this.phonetic;
         data["srcFlag"]= this.srcFlag;
         data["geoLiveType"] = this.geoLiveType;
         return data;
@@ -55,7 +55,7 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
         data["nameGroupid"] = this.nameGroupid;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
-        data["phoneTic"] = this.phoneTic;
+        data["phonetic"] = this.phonetic;
         data["srcFlag"]= this.srcFlag;
         data["geoLiveType"] = this.geoLiveType;
         return data;
