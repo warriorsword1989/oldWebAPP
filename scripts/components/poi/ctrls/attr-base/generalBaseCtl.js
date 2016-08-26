@@ -6,6 +6,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     function initData() {
+        if($scope.generalPoiForm) {
+            $scope.generalPoiForm.$setPristine();
+        }
         $scope.poi = objectCtrl.data;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         _retreatData($scope.poi);

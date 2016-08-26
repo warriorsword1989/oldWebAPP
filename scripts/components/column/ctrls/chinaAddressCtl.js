@@ -4,99 +4,58 @@
 angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
         var _self = $scope;
+        $scope.editPanelIsOpen = false;
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
+        $scope.editorLines = 10;
 
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
-
         };
-
-
-        //初始化ng-table表头;
-
-        // function htmlValue($scope, row) {
-        //     var html = "<input type='checkbox'>";
-        //     return $sce.trustAsHtml(html);
-        // }
-
-        $scope.testType = [
-            {"id": 0, "label": "未调查"},
-            {"id": 1, "label": "限速摄像头"},
-            {"id": 2, "label": "雷达测速摄像头"}
-        ];
         $scope.cols = [
-            { field: "selector",headerTemplateURL: "headerCheckboxId",title:'勾选', show: true,width:'50px'},
-            { field: "num_index", title: "序号", show: true},
-            { field: "operateType", title: "作业类型",getValue:rendeOperType,show: true},
-            { field: "nameGroupid", title: "名称组ID", show: true},
-            { field: "names", title: "道路名称",getValue: getNames, show: true},
-            { field: "radios", title: "测试单选",getValue: testRadio, show: true},
-            { field: "base", title: "基本名称", show: true,getValue: renderedInput,inputType: "text"},
-            { field: "processFlag", title: "标示", show: true,getValue: renderedInput,inputType: "number"},
-            { field: "codeType", title: "标示", show: true,getValue: renderedSelect}
+            { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
+            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true},
+            { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true},
+            { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
         function getNames($scope, row){
-            var html = "";
-            //输入一个字母就会重新绘制input框
-            // html = '<div ng-repeat="simpleName in row[col.field]">' +
-            //     '<input type="text" ng-model="row[col.field][$index]" class="form-control input-sm table-input" >' +
-            //     '</div>';
-
-            //无作用
-            // html = '<div ng-repeat="simpleName in row[col.field]">' +
-            //     '<input type="text" ng-model="simpleName" class="form-control input-sm table-input" >' +
-            //     '</div>';
-            //html += '<button type="button" >增   加</button>';
-            for(var i = 0 ,len = row.names.length; i < len; i++){
-                // html += "<input type='" + this.inputType + "' class='form-control input-sm table-input' " +
-                //    "title='{{row[col.field][0]}}' ng-model='row[col.field]["+i+"]' />";
-
-                var ht = '<div class="input-group" style="padding-bottom: 3px;">'
-                    +'<input type="' + this.inputType + '" class="form-control input-sm table-input"'
-                    +'title="{{row[col.field][0]}}" ng-model="row[col.field]['+i+']" />'
-                    +'<span class="input-group-btn">'
-                    +'<button type="button" class="btn btn-primary btn-xs" ng-click="deleteNames(row,'+i+')" style="padding-bottom: 3px;">-</button>'
-                    +'<button type="button" class="btn btn-primary btn-xs" ng-click="addNames(row)" style="padding-bottom: 3px;">+</button>'
-                    +'</span>'
-                    +'</div>';
-                html += ht;
-            }
-            return html;
+            return row.name11Chi.name;
         }
-        $scope.addNames = function(row){
-            row.names.push("测试名称");
-        };
-        $scope.deleteNames = function(row,i){
-            row.names.splice(i,1);
-        };
-        function testRadio($scope, row){
-            var html = '<label class="radio-inline"><input type="radio" ng-click="radioClick(this);" ng-model="row[col.field][0]" name="testRadio" value="row[col.field][0]">1</label>'
-                +'<label class="radio-inline"><input type="radio" ng-click="radioClick(this);" ng-model="row[col.field][1]"  name="testRadio" value="row[col.field][1]">2</label>'
-                +'<label class="radio-inline"><input type="radio" ng-click="radioClick(this);" ng-model="row[col.field][2]"  name="testRadio" value="row[col.field][2]">3</label>';
-            return html;
+        function getFullName($scope, row){
+            return row.addressChi.fullName;
         }
-        $scope.radioClick = function (t){
-            console.info(t);
-        };
-        function rendeOperType($scope, row){
-            var type = row.operateType;
+        function getClassifyRules($scope, row){
+            var type = row.classifyRules;
             var html = '';
             for(var i = 0 ; i < type.length ; i++){
                 html +='<span class="badge">'+type[i]+'</span>'
             }
             return html;
         }
-        function renderedInput($scope, row) {
-            var html = "<input type='" + this.inputType + "' class='form-control input-sm table-input' title='{{row[col.field]}}' ng-model='row[col.field]' />";
-            return html;
-        }
-        function renderedSelect($scope, row){
-            var html = "<select ng-model='row[col.field]' class='form-control table-input' ng-options='value.id as value.label for value in testType'> </select>"
-            return html;
-        }
+        $scope.editDataList = [];
+        $scope.selectData = function (row,index){
+            var temp = $scope.tableParams.data;
+            var checkedArr = [];
+            for (var i = 0 ,len = temp.length ;i < len ; i ++){
+                if(temp[i].checked){
+                    checkedArr.push(temp[i]);
+                }
+            }
+            var editorArr = [];
+            if(checkedArr.length > 0){
+                editorArr = checkedArr;
+            } else {
+                editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
+            }
+            console.info(editorArr);
+            console.info($scope.tableParams.data);
+            $scope.editDataList = editorArr;
+            $scope.editPanelIsOpen = true;
+            initEditorTable();
+        };
 
         $scope._test = function (){
             console.info($scope.tableParams.data);
@@ -113,10 +72,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         };
 
         $scope.searchType = 'name';
-        //刷新表格方法;
-        var refreshData = function() {
-            _self.tableParams.reload();
-        };
+
         //表格配置搜索;
         $scope.filter = {
             name : "",
@@ -146,11 +102,17 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
                         sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
                     };
-                    dsMeta.roadNameList(param).then(function(data) {
+                    dsMeta.columnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
-                        $scope.roadNameList = data.data;
+                        // $scope.roadNameList = data.data;
+                        // _self.tableParams.total(data.total);
+                        // $defer.resolve(data.data);
+
+                        var temp = new FM.dataApi.ColPoiList(data.data);
+                        console.info(temp);
+                        $scope.roadNameList = temp.dataList;
                         _self.tableParams.total(data.total);
-                        $defer.resolve(data.data);
+                        $defer.resolve(temp.dataList);
                     });
                 }
             });
@@ -160,23 +122,113 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             $scope.tableParams.data.checkedAll = false;
             $scope.itemActive = -1;
             angular.forEach($scope.tableParams.data, function(data, index) {
-                data.num_index = ($scope.tableParams.page() - 1) * $scope.tableParams.count() + index + 1;
+                //data.num_index = ($scope.tableParams.page() - 1) * $scope.tableParams.count() + index + 1;
                 data.checked = false;//默认增加checked属性
-                data.radios = [1,2,3];
-                if(true){ //这是测试数据 ,可以删掉
-                    if(index%2){
-                        data.codeType = 2;
-                        data.operateType = ["未名称统一POI作业"];
-                        data.names = ['名称','一中'];
-                    } else {
-                        data.codeType = 1;
-                        data.operateType = ["未名称统一POI作业","名称统一POI作业"];
-                        data.names = ['测试'];
-                    }
-                }
             });
         });
+
+        /**************** 工具条begin ***************/
+        $scope.submitData = function (){
+            $scope.editDataList = $scope.editDataList.reverse();
+            _self.editorTable.reload();
+        };
+        /**************** 工具条end   ***************/
+
+        /*******************  编辑页面begin  ****************/
+        $scope.editor = {};
+        $scope.editor.editorCols = [
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'100'},
+            { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true,width:'100'},
+            { field: "province", title: "省名",getValue: getProvince,html:true,show: true},
+            { field: "city", title: "市名",getValue: getCity,html:true,show: true},
+            { field: "county", title: "区县名",getValue: getCounty,html:true,show: true},
+            { field: "town", title: "乡镇街道办",getValue: getTown,html:true,show: true,width:'80'},
+            { field: "place", title: "地区小区名",getValue: getPlace,html:true,show: true,width:'80'},
+            { field: "street", title: "街巷名",getValue: getStreet,html:true,show: true},
+            { field: "landmark", title: "标志物名",getValue: getLandmark,html:true,show: true},
+            { field: "prefix", title: "前缀",getValue: getPrefix,html:true,show: true},
+            { field: "housenum", title: "门牌号",getValue: getHousenum,html:true,show: true},
+            { field: "type", title: "类型名",getValue: getType,html:true,show: true},
+            { field: "subnum", title: "字号",getValue: getSubnum,html:true,show: true},
+            { field: "subfix", title: "后缀",getValue: getSubfix,html:true,show: true},
+            { field: "estab", title: "附属设施名",getValue: getEstab,html:true,show: true,width:'80'},
+            { field: "building", title: "楼栋名",getValue: getBuilding,html:true,show: true},
+            { field: "floor", title: "楼层",getValue: getFloor,html:true,show: true},
+            { field: "unit", title: "楼门号",getValue: getUnit,html:true,show: true},
+            { field: "room", title: "房间号",getValue: getRoom,html:true,show: true},
+            { field: "addons", title: "附加",getValue: getAddons,html:true,show: true},
+            { field: "details", title: "详情",getValue: getDetails,html:true,show: true}
+        ];
+
+        $scope.test = function (){
+            console.info("++",$scope.editorTable);
+        };
+        var html = "";
+        if('CHI' == 'CHI'){ //测试用，大陆数据
+            html = "<input type='text' class='form-control input-sm table-input' title='{{row[col.field]}}' value='row[col.field]' ng-model='row.addressChi[col.field]' />";
+        }
+        function getProvince($scope,row){ return html;
+        }
+        function getCity($scope,row){ return html;
+        }
+        function getCounty($scope,row){ return html;
+        }
+        function getTown($scope,row){ return html;
+        }
+        function getPlace($scope,row){ return html;
+        }
+        function getStreet($scope,row){  return html;
+        }
+        function getLandmark($scope,row){ return html;
+        }
+        function getPrefix($scope,row){ return html;
+        }
+        function getHousenum($scope,row){ return html;
+        }
+        function getType($scope,row){ return html;
+        }
+        function getSubnum($scope,row){  return html;
+        }
+        function getSubfix($scope,row){ return html;
+        }
+        function getEstab($scope,row){ return html;
+        }
+        function getBuilding($scope,row){  return html;
+        }
+        function getFloor($scope,row){ return html;
+        }
+        function getUnit($scope,row){ return html;
+        }
+        function getRoom($scope,row){ return html;
+        }
+        function getAddons($scope,row){ return html;
+        }
+        function getDetails($scope,row){
+            return '<span class="badge pointer">查看</span>';
+        }
+
+
+
+        function initEditorTable() {
+            _self.editorTable = new NgTableParams({
+            }, {
+                counts:[],
+                dataset: $scope.editDataList
+            });
+        };
+
+        $scope.closeEditPanel = function (){
+            $scope.editPanelIsOpen = false;
+            _self.tableParams.reload();
+        };
+
+        /*******************  编辑页面end  ******************/
+
         /*初始化方法*/
-        initRoadNameTable();
+        function initPage(){
+            initRoadNameTable();
+            //initEditorTable();
+        }
+        initPage();
     }
 ]);

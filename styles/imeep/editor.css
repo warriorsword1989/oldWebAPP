@@ -206,6 +206,10 @@ a:hover {
   padding: 5px;
   overflow: auto;
 }
+.fm-panel > div.footer {
+  padding: 6px 8px;
+  border-top: 1px solid #ddd;
+}
 ul.fm-ul {
   list-style: none;
   padding: 0px;
@@ -1689,6 +1693,41 @@ form input[type=checkbox].ng-dirty:before {
   height: 24px;
   font-size: 12px;
   padding: 2px 4px;
+}
+.btn-ls {
+  line-height: 1.0em;
+}
+/****************** 精编样式begin ********************/
+.testView {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 9999;
+}
+.testViewHiden {
+  z-index: -1;
+  display: none;
+}
+.tablePosition {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow-y: hidden;
+}
+.footerPotistion {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  text-align: right;
+}
+/******************* 精编样式end *******************/
+.pointer {
+  cursor: pointer;
 }
 .fm-subtable-content {
   width: 100%;

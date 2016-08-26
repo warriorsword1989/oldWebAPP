@@ -1,0 +1,140 @@
+{
+    "total":1,
+    "data": [{
+        "addresses": [
+            {
+                "nameId": 10831992,
+                "nameGroupid": 1,
+                "poiPid": 1079,
+                "langCode": "CHI",
+                "srcFlag": 0,
+                "fullName": "北京市顺义区杨镇沙岭村",
+                "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
+                "roadname": "",
+                "roadnamePhonetic": "",
+                "addrname": "",
+                "addrnamePhonetic": "",
+                "province": "北京市",
+                "city": "顺义区",
+                "county": "",
+                "town": "杨镇",
+                "place": "沙岭村",
+                "street": "",
+                "landmark": "",
+                "prefix": "",
+                "housenum": "",
+                "type": "",
+                "subnum": "",
+                "subfix": "",
+                "estab": "",
+                "building": "",
+                "floor": "",
+                "unit": "",
+                "room": "",
+                "addons": "",
+                "uRecord": 0,
+                "uFields": "",
+                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+            }
+        ],
+        "kindCode": "120201",
+        "pid":1079,
+        "names": [
+            {
+                "nameId": "60034310",
+                "poiPid": 1079,
+                "nameGroupid": 1,
+                "nameClass": 1,
+                "nameType": 2,
+                "langCode": "CHI",
+                "name": "荣盛衣萨洗衣天通西苑旗舰店",
+                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+            },{
+                "nameId": "60034310",
+                "poiPid": 1079,
+                "nameGroupid": 1,
+                "nameClass": 1,
+                "nameType": 1,
+                "langCode": "CHI",
+                "name": "荣盛衣萨洗衣天通西苑旗舰店",
+                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+            }
+        ],
+        "classifyRules":["FM-A04-04"],
+        "rowId": "3524E56B29346E1AE050A8C08304BA17"
+    },{
+        "addresses": [
+            {
+                "nameId": 10831992,
+                "nameGroupid": 1,
+                "poiPid": 1079,
+                "langCode": "CHI",
+                "srcFlag": 0,
+                "fullName": "北京啦啦啦",
+                "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
+                "roadname": "",
+                "roadnamePhonetic": "",
+                "addrname": "",
+                "addrnamePhonetic": "",
+                "province": "北京市",
+                "city": "顺义区",
+                "county": "county",
+                "town": "11镇",
+                "place": "22村",
+                "street": "street",
+                "landmark": "landmark",
+                "prefix": "prefix",
+                "housenum": "housenum",
+                "type": "type",
+                "subnum": "subnum",
+                "subfix": "subfix",
+                "estab": "estab",
+                "building": "building",
+                "floor": "floor",
+                "unit": "unit",
+                "room": "room",
+                "addons": "addons",
+                "uRecord": 0,
+                "uFields": "",
+                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+            }
+        ],
+        "kindCode": "120201",
+        "pid":1079,
+        "names": [
+            {
+                "nameId": "60034310",
+                "poiPid": 1079,
+                "nameGroupid": 1,
+                "nameClass": 1,
+                "nameType": 2,
+                "langCode": "CHI",
+                "name": "北京",
+                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+            },{
+                "nameId": "60034310",
+                "poiPid": 1079,
+                "nameGroupid": 1,
+                "nameClass": 1,
+                "nameType": 1,
+                "langCode": "CHI",
+                "name": "北京",
+                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA18"
+            }
+        ],
+        "classifyRules":["FM-A05-05"],
+        "rowId": "3524E56B29346E1AE050A8C08304BA18"
+    }]
+}

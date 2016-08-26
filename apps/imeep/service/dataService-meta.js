@@ -208,6 +208,18 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         return defer.promise;
     };
     /***
+     * 获取道路名数据列表
+     */
+    this.columnDataList = function(params) {
+        var defer = $q.defer();
+        ajax.getLocalJson("../colEditor/test.json", {}).success(function(data) {
+            defer.resolve(data);
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
      * 道路名称类型查询
      */
     this.nametypeList = function(params) {
