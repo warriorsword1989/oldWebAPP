@@ -1680,8 +1680,8 @@ form input[type=checkbox].ng-dirty:before {
 .log-message-container .log-message .log-message-remove:hover {
   opacity: 1;
 }
-.menuActive {
-  color: rgba(255, 255, 255, 0.5);
+.btn-ls {
+  line-height: 1.0em;
 }
 .table-input {
   color: white;
@@ -1689,4 +1689,24 @@ form input[type=checkbox].ng-dirty:before {
   height: 24px;
   font-size: 12px;
   padding: 2px 4px;
+}
+.testView {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 9999;
+}
+.testViewHiden {
+  z-index: -1;
+  display: none;
+}
+.tablePosition {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow-y: hidden;
 }
