@@ -10,11 +10,11 @@
 		<div class="content">
 			<div style="clear: both;">
 				<div style="padding: 2px;" class="pull-left">
-					<button type="button" class="btn btn-shape btn-ls" ng-click="openSubModal('search')">查询</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="openSubModal('add')">选择</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="openSubModal('split')">在线检查</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="openSubModal('check')">批量作业</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="openSubModal('check')">提交数据</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="">查询</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="">选择</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="submitData();">提交数据</button>
 				</div>
 				<div class="pull-right">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
@@ -32,11 +32,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="fm-table-content fm-fitsize dark scroll-styled" style="top:64px;color: white;">
+			<div class="fm-fitsize dark scroll-styled" style="top:64px;color: white;">
 				<table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
 					<colgroup>
 						<col ng-repeat="col in cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
 					</colgroup>
+
 					<tr ng-repeat="row in $data" ng-class="{true:'tr-backcolor',flase:''}[row.checked]">
 						<td ng-repeat="col in $columns" ng-dblclick="selectData(row,$index)" ng-switch="col.field">
 							<input ng-switch-when="selector" type="checkbox" ng-model="row.checked" />
@@ -53,10 +54,10 @@
 	<div ng-class="{true:'testView',false:'testViewHiden'}[editPanelIsOpen]">
 		<div class="fm-panel">
 			<div class="title">
-				<span>地址作业</span>
+				<span style="cursor: pointer" ng-click="test()">地址作业</span>
 				<button type="button" class="close" ng-click="closeEditPanel()" style="color: white;opacity: 1;margin: -4px 0px;"><span>&times;</span></button>
 			</div>
-			<div style="">
+			<div>
 				<div class="fm-fitsize dark scroll-styled tablePosition" style="top:30px;color: white;">
 					<table ng-table-dynamic="editorTable with editor.editorCols" class="table table-condensed table-bordered">
 						<colgroup>
@@ -64,12 +65,16 @@
 						</colgroup>
 						<tr ng-repeat="row in $data">
 							<td ng-repeat="col in $columns">
-								<span ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
+								<span ng-if="!col.html" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
+								<span ng-if="col.html" fm-bind-compiled-html="col.getValue(this, row)"></span>
 							</td>
 						</tr>
 						<tr class="text-center" ng-show="!$data.length"><td colspan="{{(editor.editorCols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
 					</table>
 				</div>
+			</div>
+			<div class="footer footerPotistion" >
+				<button type="button" class="btn btn-shape btn-ls" ng-click="">保  存</button>
 			</div>
 		</div>
 	</div>

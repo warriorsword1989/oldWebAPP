@@ -54,6 +54,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             console.info($scope.tableParams.data);
             $scope.editDataList = editorArr;
             $scope.editPanelIsOpen = true;
+            initEditorTable();
         };
 
         $scope._test = function (){
@@ -101,13 +102,6 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
                         sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
                         params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
                     };
-                    // dsMeta.roadNameList(param).then(function(data) {
-                    //     $scope.loadTableDataMsg = '列表无数据';
-                    //     $scope.roadNameList = data.data;
-                    //     _self.tableParams.total(data.total);
-                    //     $defer.resolve(data.data);
-                    // });
-
                     dsMeta.columnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
                         // $scope.roadNameList = data.data;
@@ -133,34 +127,92 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             });
         });
 
+        /**************** 工具条begin ***************/
+        $scope.submitData = function (){
+            $scope.editDataList = $scope.editDataList.reverse();
+            _self.editorTable.reload();
+        };
+        /**************** 工具条end   ***************/
+
         /*******************  编辑页面begin  ****************/
         $scope.editor = {};
         $scope.editor.editorCols = [
             { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'100'},
             { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true,width:'100'},
-            { field: "province", title: "省名",show: true},
-            { field: "city", title: "市名",show: true},
-            { field: "county", title: "区县名",show: true},
-            { field: "town", title: "乡镇街道办",show: true},
-            { field: "place", title: "地区小区名",show: true},
-            { field: "street", title: "街巷名",show: true},
-            { field: "landmark", title: "标志物名",show: true},
-            { field: "prefix", title: "前缀",show: true},
-            { field: "housenum", title: "门牌号",show: true},
-            { field: "type", title: "类型名",show: true},
-            { field: "subnum", title: "字号",show: true},
-            { field: "subfix", title: "后缀",show: true},
-            { field: "estab", title: "附属设施名",show: true},
-            { field: "building", title: "楼栋名",show: true},
-            { field: "floor", title: "楼层",show: true},
-            { field: "unit", title: "楼门号",show: true},
-            { field: "room", title: "房间号",show: true},
-            { field: "addons", title: "附加",show: true},
-            { field: "details", title: "详情",show: true}
+            { field: "province", title: "省名",getValue: getProvince,html:true,show: true},
+            { field: "city", title: "市名",getValue: getCity,html:true,show: true},
+            { field: "county", title: "区县名",getValue: getCounty,html:true,show: true},
+            { field: "town", title: "乡镇街道办",getValue: getTown,html:true,show: true,width:'80'},
+            { field: "place", title: "地区小区名",getValue: getPlace,html:true,show: true,width:'80'},
+            { field: "street", title: "街巷名",getValue: getStreet,html:true,show: true},
+            { field: "landmark", title: "标志物名",getValue: getLandmark,html:true,show: true},
+            { field: "prefix", title: "前缀",getValue: getPrefix,html:true,show: true},
+            { field: "housenum", title: "门牌号",getValue: getHousenum,html:true,show: true},
+            { field: "type", title: "类型名",getValue: getType,html:true,show: true},
+            { field: "subnum", title: "字号",getValue: getSubnum,html:true,show: true},
+            { field: "subfix", title: "后缀",getValue: getSubfix,html:true,show: true},
+            { field: "estab", title: "附属设施名",getValue: getEstab,html:true,show: true,width:'80'},
+            { field: "building", title: "楼栋名",getValue: getBuilding,html:true,show: true},
+            { field: "floor", title: "楼层",getValue: getFloor,html:true,show: true},
+            { field: "unit", title: "楼门号",getValue: getUnit,html:true,show: true},
+            { field: "room", title: "房间号",getValue: getRoom,html:true,show: true},
+            { field: "addons", title: "附加",getValue: getAddons,html:true,show: true},
+            { field: "details", title: "详情",getValue: getDetails,html:true,show: true}
         ];
+
+        $scope.test = function (){
+            console.info("++",$scope.editorTable);
+        };
+        var html = "";
+        if('CHI' == 'CHI'){ //测试用，大陆数据
+            html = "<input type='text' class='form-control input-sm table-input' title='{{row[col.field]}}' value='row[col.field]' ng-model='row.addressChi[col.field]' />";
+        }
+        function getProvince($scope,row){ return html;
+        }
+        function getCity($scope,row){ return html;
+        }
+        function getCounty($scope,row){ return html;
+        }
+        function getTown($scope,row){ return html;
+        }
+        function getPlace($scope,row){ return html;
+        }
+        function getStreet($scope,row){  return html;
+        }
+        function getLandmark($scope,row){ return html;
+        }
+        function getPrefix($scope,row){ return html;
+        }
+        function getHousenum($scope,row){ return html;
+        }
+        function getType($scope,row){ return html;
+        }
+        function getSubnum($scope,row){  return html;
+        }
+        function getSubfix($scope,row){ return html;
+        }
+        function getEstab($scope,row){ return html;
+        }
+        function getBuilding($scope,row){  return html;
+        }
+        function getFloor($scope,row){ return html;
+        }
+        function getUnit($scope,row){ return html;
+        }
+        function getRoom($scope,row){ return html;
+        }
+        function getAddons($scope,row){ return html;
+        }
+        function getDetails($scope,row){
+            return '<span class="badge pointer">查看</span>';
+        }
+
+
+
         function initEditorTable() {
             _self.editorTable = new NgTableParams({
             }, {
+                counts:[],
                 dataset: $scope.editDataList
             });
         };
@@ -175,7 +227,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         /*初始化方法*/
         function initPage(){
             initRoadNameTable();
-            initEditorTable();
+            //initEditorTable();
         }
         initPage();
     }
