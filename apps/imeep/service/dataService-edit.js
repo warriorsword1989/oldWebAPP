@@ -108,7 +108,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     /*获取poi列表*/
     this.getPoiList = function(params) {
         var defer = $q.defer();
-        ajax.get("edit/poi/base/list", {
+        ajax.get("editrow/poi/base/list", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
@@ -220,7 +220,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "type": type,
             "objId": pid,
             "data": data
-        }
+        };
         return this.save(param);
     };
     /***
@@ -350,20 +350,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         return this.save(param);
     };
     this.updateTopo = function(pid, type, data) {
-            var param = {
-                "command": "UPDATETOPO",
-                "dbId": App.Temp.dbId,
-                "type": type,
-                "objId": pid,
-                "data": data
-            }
-            return this.save(param);
+        var param = {
+            "command": "UPDATETOPO",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
         }
-        /***
-         * 属性和几何编辑相关 editGeometryOrProperty
-         * @param param
-         * @param func
-         */
+        return this.save(param);
+    };
+    /***
+     * 属性和几何编辑相关 editGeometryOrProperty
+     * @param param
+     * @param func
+     */
     this.save = function(param) {
         var opDesc = {
             "CREATE": "创建" + [param.type],
@@ -387,9 +387,14 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         if (param.command === 'UPDATETOPO') {
             param.command = 'UPDATE'
         }
-        param = JSON.stringify(param);
+
         var defer = $q.defer();
-        ajax.get("edit/run/", {
+        var url = "edit/run/";
+        if(param.type == "IXPOI"){
+            url = "editrow/run/";
+        }
+        param = JSON.stringify(param);
+        ajax.get(url, {
             parameter: param.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
@@ -481,7 +486,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      */
     this.submitPoi = function(param) {
         var defer = $q.defer();
-        ajax.get("edit/poi/base/release", {
+        ajax.get("editrow/poi/base/release", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {

@@ -295,7 +295,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         if (jobId) {
                             var timer = $interval(function() {
                                 dsEdit.getJobById(jobId).then(function(data) {
-                                    if (data.status == 3 || data.status == 4) { //3-成功 4-失败
+                                    if (data.status == 3 || data.status == 4) { //1-创建，2-执行中 3-成功 4-失败
                                         scope.$parent.$parent.showLoading = false;
                                         refreshData();
                                         poiLayer.redraw();
