@@ -102,7 +102,7 @@
                         <select class="fm-control" ng-model="roadNameData.roadType"
                                 placeholder_text_single="'--请选择--'" 
                                 ng-options="value.id as value.label for value in roadTypeOpt"
-                                ng-change="roadTypeChange($event, this)" ng-class="{true:'chosen-disabled'}[roadTypeDisable]" ng-disabled=roadTypeDisable>
+                                ng-change="roadTypeChange($event, this)" ng-class="{true:'chosen-disabled'}[roadTypeDisable]" ng-disabled="false">
                         </select>
                     </div>
                 </li>

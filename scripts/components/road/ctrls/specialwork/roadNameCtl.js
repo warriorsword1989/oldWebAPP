@@ -331,6 +331,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         	 }else if("check" == type) {
         		 alert("暂无");
         		 $scope.subModalTpl = "";
+        		 $scope.subModal = false;
         		 return;
         	 }else {
         		 return;
