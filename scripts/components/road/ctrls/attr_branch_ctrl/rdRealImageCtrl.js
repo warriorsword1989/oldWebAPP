@@ -412,6 +412,10 @@ namesOfBranch.controller("RealImageOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                     highRenderCtrl.highLightFeatures = null
                     highRenderCtrl._cleanHighLight();
                     rdBranch.redraw();
+                    $scope.$emit('SWITCHCONTAINERSTATE', {
+            					'subAttrContainerTpl': false,
+            					'attrContainerTpl': false
+            				});
                 }
             }
         );
