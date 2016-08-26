@@ -46,8 +46,8 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
 
 
     //普通限速
-    $scope.showOridinarySpeedInfo= function (item) {
-        objCtrl.data["oridiRowId"] = item.rowId;
+    $scope.showOridinarySpeedInfo= function (item,index) {
+        objCtrl.data["oridiRowId"] = index;
         var oridinarySpeedObj = {
             "type":"refreshPage",
             "loadType":"subAttrTplContainer",
