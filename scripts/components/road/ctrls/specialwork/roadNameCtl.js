@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta', 
+angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta',  
      function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta) {
 		var objectCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
@@ -21,7 +21,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          $scope.cols = [
              {
                  field: "selector",
-                 title: "",
+                 title: "选择",
                  headerTemplateURL: "headerCheckbox.html",
                  width:'40px',
                  show: true
@@ -91,7 +91,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
              {
                  field: "tipsId",
                  title: "TipsID",
-                 width: '40px',
+                 width: '50px',
                  sortable: "tipsId",
                  show: true
              },
@@ -105,21 +105,21 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
              {
                  field: "prefixPhonetic",
                  title: "前缀发音",
-                 width: '50px',
+                 width: '60px',
                  sortable: "prefixPhonetic",
                  show: true
              },
              {
                  field: "infixPhonetic",
                  title: "中缀发音",
-                 width: '50px',
+                 width: '60px',
                  sortable: "infixPhonetic",
                  show: true
              },
              {
                  field: "suffixPhonetic",
                  title: "后缀发音",
-                 width: '50px',
+                 width: '60px',
                  sortable: "suffixPhonetic",
                  show: true
              },
@@ -180,16 +180,9 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  show: false
              },
              {
-                 field: "srcResume",
-                 title: "tipsID",
-                 width: '60px',
-                 sortable: "srcResume",
-                 show: false
-             },
-             {
                  field: "paRegionId",
                  title: "点门牌区划代码",
-                 width: '60px',
+                 width: '100px',
                  sortable: "paRegionId",
                  show: false
              },
