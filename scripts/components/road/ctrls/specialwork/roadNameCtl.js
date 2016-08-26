@@ -23,103 +23,103 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                  field: "selector",
                  title: "",
                  headerTemplateURL: "headerCheckbox.html",
-                 width:'50px',
+                 width:'40px',
                  show: true
              },
-             {
-                 field: "num_index",
-                 title: "序号",
-                 width: '50px',
-                 show: true
-             },
+//             {
+//                 field: "num_index",
+//                 title: "序号",
+//                 width: '50px',
+//                 show: true
+//             },
              {
                  field: "nameGroupid",
-                 title: "名称组ID",
+                 title: "组ID",
                  sortable: "nameGroupid",
-                 width: '100px',
+                 width: '40px',
                  show: true
              },
              {
                  field: "name",
                  title: "道路名称",
-                 width: '100px',
+                 width: '',
                  sortable: "name",
                  show: true
              },
              {
                  field: "type",
                  title: "类型",
-                 width: '80px',
+                 width: '40px',
                  sortable: "type",
                  show: true
              },
              {
                  field: "base",
                  title: "基本名称",
-                 width: '120px',
+                 width: '',
                  sortable: "base",
                  show: true
              },
              {
                  field: "prefix",
                  title: "前缀",
-                 width: '70px',
+                 width: '40px',
                  sortable: "prefix",
                  show: true
              },
              {
                  field: "infix",
                  title: "中缀",
-                 width: '70px',
+                 width: '40px',
                  sortable: "infix",
                  show: true
              },
              {
                  field: "suffix",
                  title: "后缀",
-                 width: '70px',
+                 width: '40px',
                  sortable: "suffix",
                  show: true
              },
              {
                  field: "namePhonetic",
                  title: "道路名发音",
-                 width: '120px',
+                 width: '',
                  sortable: "namePhonetic",
                  show: true
              },
              {
                  field: "tipsId",
                  title: "TipsID",
-                 width: '70px',
+                 width: '40px',
                  sortable: "tipsId",
                  show: true
              },
              {
                  field: "basePhonetic",
                  title: "基本名发音",
-                 width: '120px',
+                 width: '',
                  sortable: "basePhonetic",
                  show: true
              },
              {
                  field: "prefixPhonetic",
                  title: "前缀发音",
-                 width: '60px',
+                 width: '50px',
                  sortable: "prefixPhonetic",
                  show: true
              },
              {
                  field: "infixPhonetic",
                  title: "中缀发音",
-                 width: '60px',
+                 width: '50px',
                  sortable: "infixPhonetic",
                  show: true
              },
              {
                  field: "suffixPhonetic",
                  title: "后缀发音",
-                 width: '60px',
+                 width: '50px',
                  sortable: "suffixPhonetic",
                  show: true
              },
@@ -195,7 +195,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
              },
              {
                  field: "processFlag",
-                 title: "作业状态??",
+                 title: "作业状态",
                  width: '60px',
                  sortable: "processFlag",
                  show: true
@@ -342,6 +342,19 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
         	 }else {
         		 return;
         	 }
+         };
+         /**
+          * 拆分窗口显示和关闭
+          */
+         $scope.splitSubModal = false;
+         $scope.openSplitSubModal = function(){
+        	 $scope.splitSubModal = true;
+        	 $ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/splitSubModalCtl.js').then(function () {
+                	$scope.splitSubModalTpl = appPath.root + 'scripts/components/road/tpls/specialwork/splitSubModalTpl.htm';
+                });
+         };
+         $scope.closeSplitSubModal = function(){
+        	 $scope.splitSubModal = false;
          };
          /***
           * 关闭子面板

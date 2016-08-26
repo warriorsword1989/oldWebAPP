@@ -15,6 +15,6 @@ fastmap.uikit.canvasFeature.RdObject = function (data) {
             parts.push(new fastmap.uikit.canvasFeature.RdObjectNodes(data.m.b[idx], data.i));
         }
     }
-    parts.push(new fastmap.uikit.canvasFeature.RdObjectFace(data.m.c, data.i));
+    parts.push(new fastmap.uikit.canvasFeature.RdObjectOutLine(data.m.c, data.i));
     return parts;
 };

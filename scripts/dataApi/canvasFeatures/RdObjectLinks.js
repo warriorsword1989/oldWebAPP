@@ -5,6 +5,16 @@ fastmap.uikit.canvasFeature.RdObjectLinks = fastmap.uikit.canvasFeature.Feature.
 	geometry: {},
     properties: {},
     setAttribute: function(data,id) {
+        if(data.t == 2){
+            this.properties['rdRoadPid'] = data.p;
+            this.properties['orgType'] = "RDROAD";
+        }else if(data.t == 1){
+            this.properties['rdInterPid'] = data.p;
+            this.properties['orgType'] = "RDINTER";
+        } else if(data.t == 0){
+            this.properties['orgType'] = "RDLINK";
+        }
+
         this.geometry['type'] = 'LineString';
         this.geometry['coordinates'] = data.g;
         this.properties["featType"] = "RDOBJECT";
@@ -15,7 +25,7 @@ fastmap.uikit.canvasFeature.RdObjectLinks = fastmap.uikit.canvasFeature.Feature.
         var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
         this.properties['symbol'] = compositeSymbol;
 
-        this.properties['style']['strokeColor'] = '#9F4D95';
+        this.properties['style']['strokeColor'] = '#DAB1D5';
         this.properties['style']['strokeWidth'] = 6;
         this.properties['style']['strokeOpacity'] = 0.5;
     }

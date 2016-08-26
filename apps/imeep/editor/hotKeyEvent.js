@@ -1290,7 +1290,33 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.create('RDOBJECT',geo).then(function(data) {
                     if(data != null){
                         crfData.redraw();
-                        treatmentOfChanged(data, "RDOBJECT", "创建CRF对象成功", 'attr_rdcrf_ctrl/crfRoadCtrl', 'attr_rdcrf_tpl/crfRoadTpl.html');
+                        treatmentOfChanged(data, "RDOBJECT", "创建CRF对象成功", 'attr_rdcrf_ctrl/crfObjectCtrl', 'attr_rdcrf_tpl/crfObjectTpl.html');
+                    } else {
+                        resetPage();
+                    }
+                });
+            } else if (shapeCtrl.editType === "UPDATERDOBJECT"){
+                var param = {
+                    "command": "UPDATE",
+                    "type": "RDOBJECT",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "objStatus":"UPDATE"
+                    }
+                };
+                var oriData = objEditCtrl.data;
+                param.data.pid = featCodeCtrl.getFeatCode().pid;
+                param.data.links = featCodeCtrl.getFeatCode().objData.links;
+                param.data.roads = featCodeCtrl.getFeatCode().objData.roads;
+                param.data.inters = featCodeCtrl.getFeatCode().objData.inters;
+                // if(param.data.linkPids == undefined || param.data.linkPids == []){
+                //     swal("操作失败", "未选中Link！", "info");
+                //     return;
+                // }
+                dsEdit.save(param).then(function(data) {
+                    if(data != null){
+                        crfData.redraw();
+                        treatmentOfChanged(data, "RDOBJECT", "修改CRF对象成功", 'attr_rdcrf_ctrl/crfObjectCtrl', 'attr_rdcrf_tpl/crfObjectTpl.html');
                     } else {
                         resetPage();
                     }

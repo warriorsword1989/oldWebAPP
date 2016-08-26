@@ -25,7 +25,7 @@ fastmap.dataApi.RdObject = fastmap.dataApi.GeoDataModel.extend({
         this.names = [];
 
         for(var i=0;i<data["links"].length;i++){
-            var link = fastmap.dataApi.RdObjectLinks(data["links"][i]);
+            var link = fastmap.dataApi.rdObjectLinks(data["links"][i]);
             this.links.push(link);
         }
         for(var i=0;i<data["nodes"].length;i++){
@@ -33,16 +33,16 @@ fastmap.dataApi.RdObject = fastmap.dataApi.GeoDataModel.extend({
             this.nodes.push(node);
         }
         for(var i=0;i<data["inters"].length;i++){
-            var inter = fastmap.dataApi.rdObjectNodes(data["inters"][i]);
-            this.nodes.push(inter);
+            var inter = fastmap.dataApi.rdObjectInters(data["inters"][i]);
+            this.inters.push(inter);
         }
         for(var i=0;i<data["roads"].length;i++){
-            var road = fastmap.dataApi.rdObjectNodes(data["roads"][i]);
-            this.nodes.push(road);
+            var road = fastmap.dataApi.rdObjectRoads(data["roads"][i]);
+            this.roads.push(road);
         }
         for(var i=0;i<data["names"].length;i++){
-            var name = fastmap.dataApi.rdObjectNodes(data["names"][i]);
-            this.nodes.push(name);
+            var name = fastmap.dataApi.rdObjectNames(data["names"][i]);
+            this.names.push(name);
         }
     },
 

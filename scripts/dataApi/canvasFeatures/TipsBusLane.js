@@ -14,7 +14,7 @@ fastmap.uikit.canvasTips.TipsBusLane = fastmap.uikit.canvasTips.Tips.extend({
         }
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1508/1_0.svg',
+                iconName: '../../../images/road/tips/1508/1508_0_0.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],

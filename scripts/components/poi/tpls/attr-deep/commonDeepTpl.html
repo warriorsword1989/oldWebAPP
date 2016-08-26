@@ -1,28 +1,28 @@
-<div ng-controller="parkingCtl">
-    <div ng-show="propertyType=='deep'">
+<div ng-controller="commonDeep">
+    <div>
         <div class="fm-panel" >
             <div class="content">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>主页网址</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model="" readonly></div>
+                        <div><input fm-edit-view type="text" class="fm-control" readonly></div>
                     </li>
                     <li>
                         <label style="letter-spacing: 1px">传 真 号</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model="" min="-5" maxLength="6" onkeyup="" onafterpaste=""/></div>
+                        <div><input fm-edit-view type="text" class="fm-control" min="-5" maxLength="6" onkeyup="" onafterpaste=""/></div>
                     </li>
                     <li>
                         <label>区划号码</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""/></div>
+                        <div><input fm-edit-view type="text" class="fm-control" /></div>
                     </li>
                     <li>
                         <label>宾馆星级</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""/></div>
+                        <div><input fm-edit-view type="text" class="fm-control" /></div>
                     </li>
                     <li>
                         <label>医院等级</label>
                         <div>
-                            <select class="fm-control" ng-model="" ng-options="">
+                            <select class="fm-control">
                                 <option>未调查</option>
                                 <option>三级甲等</option>
                                 <option>三级乙等</option>
@@ -33,95 +33,34 @@
                     <li>
                         <label>付费广告</label>
                         <div>
-                            <label><input type="radio" value="1" ng-model=""> 是</label>
-                            <label><input type="radio" value="1" ng-model=""> 否</label>
+                            <label><input type="radio" value="1"> 是</label>
+                            <label><input type="radio" value="1"> 否</label>
                         </div>
                     </li>
                     <li>
                         <label>简　　介</label>
-                        <div><textarea style="width: 170px;resize: none" fm-edit-view class="fm-control" ng-model="" rows=""></textarea></div>
+                        <div><textarea style="width: 170px;resize: none" fm-edit-view class="fm-control" rows=""></textarea></div>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="fm-panel" >
-            <div class="content" style="padding-bottom: 10px;">
+            <div class="content" style="padding-bottom: 10px;min-height: 150px">
                 <ul class="fm-ul fm-ul-form">
-                    <li>
-                        <label>起始月</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
+                    <li style="border-bottom: 1px dashed #fff;margin-bottom: 3px;">
+                        <label style="display: block;width: 100%">营业时间列表 <span style="padding:.1em .6em .1em;font-weight: normal" class="label label-default">{{timeItems.length}} 条</span></label>
+                        <i class="glyphicon glyphicon-plus-sign pull-right" title="增加" ng-click="addBusinessHour()" aria-hidden="true"></i>
                     </li>
-                    <li>
-                        <label>终止月</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>起始</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>终止</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>月内起始周</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>月内终止周</label>
-                        <div>
-                            <select class="fm-control" ng-model="" ng-options="">
-                                <option>未调查</option>
-                                <option>三级甲等</option>
-                                <option>三级乙等</option>
-                                <option>三级丙等</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>周  营  业</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>月内起始日</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>月内终止日</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>营业开始</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
-                    </li>
-                    <li>
-                        <label>营业时</label>
-                        <div><input fm-edit-view type="text" class="fm-control" ng-model=""></div>
+                    <li ng-repeat="timeItem in timeItems">
+                        <label style="display: block;width: 100%">营业时间[{{$index+1}}] 08::00~23:30</label>
+                        <i class="glyphicon glyphicon-edit pull-right" title="编辑" ng-click="showPopover($event,$index)" style="margin-right: 10px" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-remove-circle pull-right" title="删除" ng-click="removeBusinessHour(timeItem,$index)" aria-hidden="true"></i>
                     </li>
                 </ul>
             </div>
         </div>
+        <!-- 时间面板 -->
+        <div ng-include="carPopoverURL" data-type="1" style="width:100%;padding: 5px 15px 5px 0;"></div>
     </div>
 </div>
 

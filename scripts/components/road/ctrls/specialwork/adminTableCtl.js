@@ -40,7 +40,7 @@ angular.module('app').controller("adminTableCtl", ['$scope', '$ocLazyLoad', 'NgT
 		function initAdminTable() {
 			$scope.adminTableParams = new NgTableParams({
                 page: 1,
-                count: 20,
+                count: 10,
                 filter: $scope.filters
             }, {
                 counts: [],

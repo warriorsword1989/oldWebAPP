@@ -415,7 +415,6 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                         //将所有的单独的link放进去
                         if (data.data[i].data && data.data[i].data.properties.featType != "RDINTER" && data.data[i].data.properties.featType != "RDROAD" && data.data[i].data.properties.featType != "RDOBJECT" && data.data[i].data.geometry.type == "LineString") {
                             allLinks.push(data.data[i].data.properties.id);
-
                         }
                         //将crf的pid放进去
                         if (data.data[i].data && data.data[i].data.properties.featType == "RDINTER" || data.data[i].data.properties.featType == "RDROAD") {
@@ -596,7 +595,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                             } else {//不在，查之
                                 objData.roads.push(parseInt(data.id));
                                 dsEdit.getByPid(parseInt(data.id), "RDROAD").then(function (roadData) {
-                                    crfPids.push(interData.pid.toString());
+                                    crfPids.push(roadData.pid.toString());
                                     var tempData = {
                                         pid: roadData.pid,
                                         highLightId: []

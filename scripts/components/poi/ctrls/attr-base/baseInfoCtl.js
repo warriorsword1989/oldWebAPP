@@ -114,5 +114,5 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             }
         }
     };
-    
+
 }]);

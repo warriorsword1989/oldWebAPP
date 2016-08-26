@@ -30,7 +30,10 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         layerCtrl.setLayersVisible(['grid','mesh','rdLink']);
         //layerCtrl.setLayersVisible(['mesh']);
         /***********************************控制器初始化以及事件监听绑定***********************************/
-
+        //是否显示精编任务列表（头部控制）;
+        $scope.showDetailEdit = false;
+        //是否显示深度信息任务列表（内容控制）;
+        $scope.isDeepTask = false;
         //当前高亮的格网数组;
         $scope.currentHighLight = [];
         //编辑开关;
@@ -54,6 +57,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.currentHighligtGrid = [];
         //控制页面tab页切换;
         $scope.changeDataList = function(val) {
+            $scope.showDetailEdit = false;
+            $scope.isDeepTask = false;
             $scope.requestParams = {};
             $scope.startBtnDisabled = true;
             $scope.dataListType = val;
@@ -79,6 +84,18 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 case 5:
                     $scope.requestParams.classType = 3;
                     break;
+                case 6:
+                    $scope.isDeepTask = true;
+                    loadDeepTaskFn();
+                    return;
+                    break;
+                case 7:
+                    //顶标签初始状态;
+                    $scope.taskStatus = 9;
+                    $scope.showDetailEdit = true;
+                    loadPoiDetailTaskFn();
+                    return;
+                    break;
             }
             loadSubTaskfn($scope.requestParams)
         };
@@ -87,13 +104,38 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             $scope.taskStatus = val;
             switch ($scope.taskStatus) {
                 case 6:
+                    if($scope.isDeepTask){
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
                     delete $scope.requestParams.currentStatus;
                     break;
                 case 7:
+                    if($scope.isDeepTask){
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
                     $scope.requestParams.currentStatus = 1;
                     break;
                 case 8:
+                    if($scope.isDeepTask){
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
                     $scope.requestParams.currentStatus = 0;
+                    break;
+                /*poi精编分类部分*/
+                case 9:
+                    return;
+                    break;
+                case 10:
+                    return;
+                    break;
+                case 11:
+                    return;
+                    break;
+                case 12:
+                    return;
                     break;
             }
             loadSubTaskfn($scope.requestParams)
@@ -162,9 +204,9 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             var _southWest = $scope.currentHighLight.getBounds()._southWest;
             console.log($scope.currentHighLight.getBounds())
             var centerPonit = {}
-            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.05;
+            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.1;
             centerPonit.y = (_northEast.lat-_southWest.lat)/2+_southWest.lat;
-            map.setView([centerPonit.y,centerPonit.x],13);
+            map.setView([centerPonit.y,centerPonit.x],12);
             map.addLayer($scope.currentHighLight);
             //去查找当前的substask概要信息;
             getCurrentSubtaskSummary();
@@ -317,7 +359,28 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     }
                 }
                 $scope.currentSubTaskList = data;
+                console.log(data)
             });
+        }
+
+        $scope.showSubList = function(param){
+            $scope.currentDeepClass = param;
+            $scope.isSubTaskListShow = !$scope.isSubTaskListShow;
+        }
+        $scope.isSubTaskListShow = false;
+
+        function loadDeepTaskFn(){
+            var data = [
+                {name:'通用深度信息作业',count:3,data:[{'subtaskId':110,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"},{'subtaskId':120,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"},{'subtaskId':117,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}]},
+                {name:'汽车租赁信息作业',count:2,data:[{'subtaskId':250,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"},{'subtaskId':116,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}]},
+                {name:'停车场信息作业',count:2,data:[{'subtaskId':160,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}]}
+            ]
+            $scope.currentSubTaskList = data;
+        }
+
+
+        function loadPoiDetailTaskFn(){
+            $scope.currentSubTaskList = [];
         }
         //子任务查询
         loadSubTaskfn($scope.requestParams);

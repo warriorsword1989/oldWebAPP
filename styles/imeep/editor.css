@@ -1680,8 +1680,8 @@ form input[type=checkbox].ng-dirty:before {
 .log-message-container .log-message .log-message-remove:hover {
   opacity: 1;
 }
-.btn-ls {
-  line-height: 1.0em;
+.menuActive {
+  color: rgba(255, 255, 255, 0.5);
 }
 .table-input {
   color: white;
@@ -1690,6 +1690,7 @@ form input[type=checkbox].ng-dirty:before {
   font-size: 12px;
   padding: 2px 4px;
 }
+/**************************************/
 .testView {
   height: 100%;
   width: 100%;
@@ -1709,4 +1710,31 @@ form input[type=checkbox].ng-dirty:before {
   left: 0;
   right: 0;
   overflow-y: hidden;
+}
+/**************************************/
+.fm-subtable-content {
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.fm-subtable-content table + div {
+  position: fixed;
+}
+/*深度信息任务列表嵌套ul/li样式*/
+ul.fm-ul-insert {
+  font-size: 14px;
+  list-style: none;
+  padding: 10px 0 0 15px;
+  margin: 0;
+}
+ul.fm-ul-insert ul {
+  list-style: none;
+  padding-left: 25px;
+  font-size: 12px;
+}
+ul.fm-ul-insert ul li {
+  padding: 5px 0 3px 0;
+}
+ul.fm-ul-insert > li {
+  margin-bottom: 5px;
 }
