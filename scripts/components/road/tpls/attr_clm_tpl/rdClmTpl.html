@@ -1,0 +1,35 @@
+<div class="fm-component" ng-controller="ClmCtl">
+    <div class="title">
+        详细车道
+        <span class="label label-info">{{clmData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <div class="attr-img-container">
+          <div class="">
+
+          </div>
+        </div>
+        <form name="rdGscForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>道路线</label>
+                            <div>
+                                <input type="text" ng-model="clmData.linkPid"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label>中央隔离带</label>
+                            <div>
+                                <select ng-model="clmData.centerDivider"
+                                        ng-options="value.id as value.label for value in centerDividerObj">
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
