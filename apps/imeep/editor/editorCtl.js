@@ -36,10 +36,17 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.showPopoverTips = false;
 			$scope.tipsPanelOpened = false;
 			if (type == 1) { //poi
-				$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
-					$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
-					$scope.showLoading = false;
-				});
+				if ($scope.isSpecialOperation) {
+					$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/specialWorkListCtl').then(function () {
+						$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/specialWorkListTpl.html';
+						$scope.showLoading = false;
+					});
+				} else {
+					$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
+						$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
+						$scope.showLoading = false;
+					});
+				}
 			} else { //道路
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 					$scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
