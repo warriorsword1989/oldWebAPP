@@ -4,6 +4,7 @@
 var realtimeTrafficApp = angular.module("app");
 realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
     $scope.rticData =  objCtrl.data;
 
     $scope.rticDroption =[
@@ -38,7 +39,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     //条件限速
     $scope.addspeedLimit = function () {
         var newRtic = fastmap.dataApi.rdLinkSpeedLimit({"linkPid": $scope.rticData.pid,"speedType":3});
-        $scope.rticData.speedlimits.unshift(newRtic)
+        $scope.rticData.speedlimits.push(newRtic)
     };
     $scope.minusspeedLimit=function(id){
         $scope.rticData.speedlimits.splice(id, 1);
@@ -60,7 +61,9 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     //条件限速
     $scope.showspeedlimitInfo= function (cItem,index ) {
         objCtrl.data["oridiRowId"] = cItem.rowId;
-        objCtrl.data["index"] = index;
+        featCodeCtrl.setFeatCode({
+            "index": index
+        });
         var speedlimitInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
