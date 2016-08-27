@@ -6,11 +6,10 @@ fastmap.uikit.canvasFeature.RdGate = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties["featType"] = "RDGATE";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/rdGate/' + parseInt(item.m.a) + '.svg',
+                iconName: item.m.b == 1?'../../../images/road/rdGate/' + parseInt(item.m.a) + '_1.svg':'../../../images/road/rdGate/' + parseInt(item.m.a) + '_1.svg',
                 row: 0,
                 column: 1,
-                location: this.geometry['coordinates'],
-                rotate: (item.m.b - 180) * (Math.PI / 180)
+                location: this.geometry['coordinates']
             })
         );
     }

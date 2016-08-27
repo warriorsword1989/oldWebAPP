@@ -96,6 +96,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "IXPOI":
                         this.data = new fastmap.dataApi.IxPoi(obj);
                         break;
+                    case "COMMONDEEP":
+                        this.data = new fastmap.dataApi.IxPoiDetail(obj);
+                        break;
                     case "RWLINK":
                         this.data = fastmap.dataApi.rwLink(obj);
                         break;

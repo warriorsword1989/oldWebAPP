@@ -1340,7 +1340,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDTOLLGATE", "编辑RDTOLLGATE成功", 'attr_tollgate_ctrl/tollGateCtrl', 'attr_tollgate_tpl/tollGateTpl.html');
                 });
-s            } else if (shapeCtrl.editType === "updateSpeedNode"){
+            } else if (shapeCtrl.editType === "updateSpeedNode"){
                 var param = {
                     "command": "UPDATE",
                     "type": "RDSPEEDLIMIT",
