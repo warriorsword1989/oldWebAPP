@@ -33,6 +33,7 @@
     .dropdown-menu{
         background-color: #555 !important;
     }
+    /*三个按钮样式*/
     .timelist .uib-button-bar button.btn-info,
     .timelist .uib-button-bar button.btn-danger,
     .timelist .uib-button-bar button.btn-success{
@@ -41,8 +42,59 @@
         border-color: #ccc!important;
         background-image: none !important;
     }
+    /**/
+    table .btn-default.disabled,
+    table .btn-default[disabled],
+    table fieldset[disabled] .btn-default,
+    table .btn-default.disabled:hover,
+    table .btn-default[disabled]:hover,
+    table fieldset[disabled] .btn-default:hover,
+    table .btn-default.disabled:focus,
+    table .btn-default[disabled]:focus,
+    table fieldset[disabled] .btn-default:focus,
+    table .btn-default.disabled.focus,
+    table .btn-default[disabled].focus,
+    table fieldset[disabled] .btn-default.focus,
+    table .btn-default.disabled:active,
+    table .btn-default[disabled]:active,
+    table fieldset[disabled] .btn-default:active,
+    table .btn-default.disabled.active,
+    table .btn-default[disabled].active,
+    table fieldset[disabled] .btn-default.active {
+        background-color: #555;
+        background-image: none;
+        color: #111;
+    }
+    table .btn-default{
+        color: #ffffff;
+        background-color: #555;
+        background-image: none;
+         text-shadow: none!important;
+    }
+    table th .btn-default:hover,
+    table th .btn-default:focus{
+        background-color: #555;
+        color: #ffffff;
+    }
+    table .btn-default:hover,
+    table .btn-default:focus {
+        color: #ffffff;
+        background-color: #222;
+        background-position: 0 -15px;
+    }
+    table .btn-default:active,
+    table .btn-default.active {
+        background-color: #222;
+        border-color: #dbdbdb;
+    }
 
-    /*修改datepicker的样式*/
+    .uib-datepicker.ng-isolate-scope:focus,
+    table.uib-daypicker:focus{
+        outline: none !important;
+    }
+
+    /*----------------------修改datepicker的样式----------------------*/
+
     .carTypeTip > .form-group > .btn-group > label {
         transition: all 0.5s;
         padding: 5px;
@@ -177,8 +229,28 @@
         left: 52px;
         transform: rotate(0deg);
     }
+    .timelist div.col-md-3{
+        height: 24px;
+        line-height: 24px;
+    }
+
 </style>
 <div class="timeSelect-panel" ng-controller="commonDeepTimeController">
+    <div class="fm-panel" >
+        <div class="content" style="padding-bottom: 10px;min-height: 150px">
+            <ul class="fm-ul fm-ul-form">
+                <li style="border-bottom: 1px dashed #fff;margin-bottom: 3px;">
+                    <label style="display: block;width: 100%">营业时间列表 <span style="padding:.1em .6em .1em;font-weight: normal" class="label label-default">{{timeItems.length}} 条</span></label>
+                    <i class="glyphicon glyphicon-plus-sign pull-right" title="增加" ng-click="addBusinessHour()" aria-hidden="true"></i>
+                </li>
+                <li ng-repeat="timeItem in timeItems">
+                    <label style="display: block;width: 100%">营业时间[{{$index+1}}] 08::00~23:30</label>
+                    <i class="glyphicon glyphicon-edit pull-right" title="编辑" ng-click="showPopover($event,$index)" style="margin-right: 10px" aria-hidden="true"></i>
+                    <i class="glyphicon glyphicon-remove-circle pull-right" title="删除" ng-click="removeBusinessHour(timeItem,$index)" aria-hidden="true"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="container carTypeTip">
         <div class="row timelist">
             <div class="col-md-12">
@@ -196,7 +268,7 @@
                 <div class="col-md-3">开始月日</div>
                 <div class="col-md-9">
                     <div class="input-group">
-                        <input readonly="readonly" type="text" class="form-control selectMd" uib-datepicker-popup ng-model="TimeSelectModel.startOpenMonthDay" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" />
+                        <input readonly="readonly" type="text" class="form-control selectMd" uib-datepicker-popup ng-model="TimeSelectModel.startOpenMonthDay" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" current-text="今天" clear-text="清除" close-text="关闭" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default dateButton" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -208,7 +280,7 @@
                 <div class="col-md-3">结束月日</div>
                 <div class="col-md-9">
                     <div class="input-group">
-                        <input readonly="readonly" type="text" class="form-control selectMd" uib-datepicker-popup ng-model="TimeSelectModel.endOpenMonthDay" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" />
+                        <input readonly="readonly" type="text" class="form-control selectMd" uib-datepicker-popup ng-model="TimeSelectModel.endOpenMonthDay" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" current-text="今天" clear-text="清除" close-text="关闭" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default dateButton" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>

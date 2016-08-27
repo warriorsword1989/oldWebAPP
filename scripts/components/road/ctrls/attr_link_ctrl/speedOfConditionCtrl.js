@@ -4,10 +4,11 @@
 var conditionSpeedApp = angular.module("app");
 conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
-
+    $scope.selectIndex = featCodeCtrl.getFeatCode().index;
     $scope.realtimeData = objCtrl.data;
-    $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["index"]];
+    $scope.oridiData = $scope.speedLimitsData[$scope.selectIndex];
     // for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
     //     if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
     //         $scope.oridiData = $scope.speedLimitsData[i];

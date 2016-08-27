@@ -226,6 +226,10 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
     // 保存数据
     $scope.save  = function () {
+        if($scope.rdWarningInfoObj.typeCode && $scope.rdWarningInfoObj.typeCode.length != 5){
+            swal("操作提示",'标牌类型输入有误！', "warning");
+            return ;
+        }
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
