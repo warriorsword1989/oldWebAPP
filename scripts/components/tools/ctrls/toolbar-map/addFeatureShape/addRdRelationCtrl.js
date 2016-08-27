@@ -748,7 +748,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     param["type"] = "RDLINK";
                     param["data"] = { "nodePid": $scope.gate.nodePid };
                     dsEdit.getByCondition(param).then(function(continueLinks) {
-                        console.info(continueLinks);
                         if (continueLinks.errcode === -1) {
                             return;
                         }
@@ -838,7 +837,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             layerid: 'rdLink',
                             type: 'node',
                             style: {
-                                color: '#21ed25'
+                                color: 'yellow'
                             }
                         });
                         highRenderCtrl.drawHighlight();
