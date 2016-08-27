@@ -709,32 +709,34 @@ App.layersConfig = [{
 }, {
     groupId: 'worklayer',
     groupName: '作业图层',
-    layers: [{
-        url: '/render/tip/getByTileWithGap?', //暂时未用到此图层
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            id: 'workLine',
-            name: '外业线数据',
-            maxZoom: 20,
-            debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 7,
-            boolPixelCrs: true,
-            parse: fastmap.uikit.canvasTips.Tips.transformation,
-            boundsArr: [],
-            unloadInvisibleTiles: true,
-            reuseTiles: false,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            updateWhenIdle: true,
-            tileSize: 256,
-            type: 'TipLineString',
-            zIndex: 7,
-            restrictZoom: 10,
-            visible: false,
-            requestType: "12",
-            showNodeLevel: 17
-        }
-    }, {
+    layers: [
+    //     {
+    //     url: '/render/tip/getByTileWithGap?', //暂时未用到此图层
+    //     clazz: fastmap.mapApi.tileJSON,
+    //     options: {
+    //         id: 'workLine',
+    //         name: '外业线数据',
+    //         maxZoom: 20,
+    //         debug: false,
+    //         // this value should be equal to 'radius' of your points
+    //         buffer: 7,
+    //         boolPixelCrs: true,
+    //         parse: fastmap.uikit.canvasTips.Tips.transformation,
+    //         boundsArr: [],
+    //         unloadInvisibleTiles: true,
+    //         reuseTiles: false,
+    //         mecator: new fastmap.mapApi.MecatorTranform(),
+    //         updateWhenIdle: true,
+    //         tileSize: 256,
+    //         type: 'TipLineString',
+    //         zIndex: 7,
+    //         restrictZoom: 10,
+    //         visible: false,
+    //         requestType: "12",
+    //         showNodeLevel: 17
+    //     }
+    // },
+        {
         url: '/render/tip/getByTileWithGap?',
         clazz: fastmap.mapApi.tileJSON,
         options: {
