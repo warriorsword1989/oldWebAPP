@@ -23,7 +23,7 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
     $scope.same.sameRelationShapShow = false; //用于控制同一关系制作面板是否显示
     $scope.same.isRdSameNode = true;
 
-    $scope.$on('showSameNodePanel',function (data){
+    $scope.$on('showSameRelationshap',function (data){
         $scope.initializeData();
     });
     /**

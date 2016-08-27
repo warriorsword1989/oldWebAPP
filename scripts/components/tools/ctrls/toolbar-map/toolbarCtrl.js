@@ -81,7 +81,6 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         };
         //重新设置选择工具
         $scope.resetToolAndMap = function () {
-            $scope.dropdownStatus.isopen = !$scope.dropdownStatus.isopen;
 
             eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
             eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
@@ -98,9 +97,9 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
             }
-            if (event) {
-                event.stopPropagation();
-            }
+            // if (event) { //取消点击菜单自动回收功能
+            //     event.stopPropagation();
+            // }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
 

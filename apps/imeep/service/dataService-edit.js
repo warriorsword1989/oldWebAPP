@@ -490,8 +490,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
+                dsOutput.push({
+                    "op": "POI提交操作成功",
+                    "type": "succ",
+                    "pid": "0",
+                    "childPid": ""
+                });
                 defer.resolve(data.data);
             } else {
+                dsOutput.push({
+                    "op": "POI提交操作失败",
+                    "type": "fail",
+                    "pid": "0",
+                    "childPid": ""
+                });
                 defer.resolve("提交POI出错：" + data.errmsg);
             }
         }).error(function(rejection) {
