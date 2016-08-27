@@ -62,7 +62,7 @@ fastmap.dataApi.RdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
         data["geoLiveType"] = this.geoLiveType;
         data["topos"] = [];
         for (var i = 0; i < this.topos.length; i++) {
-            data["topos"].push(this.topos[i].getIntegrate())
+            data["topos"].push(this.topos[i])
         }
 
         return data;
