@@ -1,7 +1,7 @@
 var oridinaryInfoApp = angular.module("app",['ui.bootstrap']);
 oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
     /**
-     * 设置时间选择的对象模型;
+     * 设置时间选择的一条数据的对象模型;
      *(1)开始月日@time;
      *(2)结束月日@time；
      *(3)周营业日@Array；
@@ -11,7 +11,7 @@ oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
         startOpenMonthDay: null,
         endOpenMonthDay: null,
         weekOpenDays: [
-            {code: '1', value: '日', status: true },
+            {code: '1', value: '日', status: false},
             {code: '2', value: '一', status: false},
             {code: '3', value: '二', status: false},
             {code: '4', value: '三', status: false},
@@ -19,10 +19,10 @@ oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
             {code: '6', value: '五', status: false},
             {code: '7', value: '六', status: false}
         ],
-        selectedOpenDays:[],
         dayOpenTimeZones: []
     }
-    /*当前的时分秒输入文本框*/
+
+    /*当前的时分秒输入文本框对象*/
     $scope.currentDayTimeTarget =  null;
 
     /*增加一条新的时间*/
@@ -75,11 +75,13 @@ oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
 
     //
     $scope.dateOptions = {
-        dateDisabled: disabled,
+        //dateDisabled: disabled,
         formatYear: 'yy',
         maxDate: new Date(2020, 5, 22),
         minDate: new Date(),
-        startingDay: 1
+        startingDay: 1,
+        formatMonth:'MM'+'月',
+        formatDayTitle:'yyyy MM'+'月'
     };
 
     // Disable weekend selection
@@ -107,5 +109,58 @@ oridinaryInfoApp.controller("commonDeepTimeController",function($scope) {
     $scope.popup1 = {opened: false};
 
     $scope.popup2 = {opened: false};
+
+
+
+
+    ////
+    $scope.maxTimeItemsLength = 3;
+    $scope.timeItems = [];
+    $scope.currentHandleTimeData = '';
+    $scope.currentHandleStatus = '';//编辑和查看两种；
+    //增加营业时间方法;
+    $scope.addBusinessHour = function(){
+        if($scope.timeItems.length>=3){
+            swal("警告", "营业时间不能超过"+$scope.maxTimeItemsLength+"条", "warning");
+            return;
+        }
+        $scope.timeItems.push(Math.random());
+    }
+
+    //移除营业时间方法;
+    $scope.removeBusinessHour = function(currentData,timeDataIndex){
+        //删除一个营业时间，对应的时间面板也应该隐藏;
+        if($scope.timeItems[timeDataIndex]==$scope.currentHandleTimeData){
+            $('body .carTypeTip:last').hide();
+        }
+        $scope.timeItems.splice($scope.timeItems.indexOf(currentData),1);
+        //更新当前编辑对象的索引；
+        $scope.currentHandleTimeDataIndex = $scope.timeItems.indexOf($scope.currentHandleTimeData);
+    }
+
+    //显示编辑时间对话框;
+    $scope.showPopover=function(e,timeDataIndex){
+        //当前编辑对象数据;
+        $scope.currentHandleTimeData = $scope.timeItems[timeDataIndex];
+        //更新当前编辑对象的索引；
+        $scope.currentHandleTimeDataIndex = $scope.timeItems.indexOf($scope.currentHandleTimeData);
+        //当前的操作状态;
+        $scope.currentHandleStatus = '编辑';
+        //在这里赋值当前的编辑数据更新数据编辑面板的数据显示；
+        var dateTimeWell = $('.timeSelect-panel').parent();
+        $('body').append($(".timeSelect-panel").find(".carTypeTip"));
+        $(".carTypeTip").css({'top':($(e.target).offset().top-113)+'px','right':'300px'});
+        if($('body .carTypeTip:last').css('display') == 'none'){
+            $('body .carTypeTip:last').show();
+        }
+    };
+
+
+    //$scope.initializeData = function (){
+    //    $scope.commonDeepTimeData = [];
+    //    $scope.showCommonDeepTime($scope.commonDeepTimeData);
+    //};
+    //
+    //$scope.initializeData();
 
 });

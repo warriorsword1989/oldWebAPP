@@ -2,7 +2,6 @@ var oridinaryInfoApp = angular.module("app",[]);
 oridinaryInfoApp.controller("carTypeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
-//    $scope.rdWarningInfoObj = objCtrl.data.getIntegrate();
 
     $scope.carData=[];
     $scope.vehicleOptions = [
