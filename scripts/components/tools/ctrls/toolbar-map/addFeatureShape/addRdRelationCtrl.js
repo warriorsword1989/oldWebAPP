@@ -469,7 +469,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 }
                                 angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
-                                    flag: true,
+                                    flag: false,
                                     point: point,
                                     type: "marker",
                                     angle: angle,
@@ -485,7 +485,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.setEditingType("transformDirect");
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
-                                tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                                eventController.on(eventController.eventTypes.DIRECTEVENT,function(event){
+                                    selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
+                                    tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                                })
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
