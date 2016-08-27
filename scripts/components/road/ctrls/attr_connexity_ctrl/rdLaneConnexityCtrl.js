@@ -241,7 +241,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $.each($('.lanePic'),function(i,v){
             $(v).removeClass('active');
         });
-    }
+    };
     //REACH_DIR
     $scope.showLanesInfo = function (item, index, event) {
         $scope.removeTipsActive();
@@ -254,12 +254,21 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $scope.changeItem = item;
 
         $scope.lanesData["index"] = index;
-        var showInfoObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/showInfoCtrl',
-            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/showInfoTpl.html'
+        var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var showInfoObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/showInfoCtrl',
+                    "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/showInfoTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", showInfoObj);
+            }
         };
-        $scope.$emit("transitCtrlAndTpl", showInfoObj);
+        $scope.$emit("transitCtrlAndTpl", rdlaneInfoObj);
+
     };
     //增加车道
     $scope.addLane = function () {
