@@ -47,7 +47,7 @@ rdcrfObjectApp.controller("crfObjectCtrl", ['$scope', 'dsEdit', function ($scope
                         id: linkArr[i].linkPid.toString(),
                         layerid: 'rdLink',
                         type: 'line',
-                        style: {color: '#DAB1D5'}
+                        style: {}
                     });
                 }
                 highRenderCtrl.drawHighlight();
@@ -69,7 +69,7 @@ rdcrfObjectApp.controller("crfObjectCtrl", ['$scope', 'dsEdit', function ($scope
                         id: linkArr[i].linkPid.toString(),
                         layerid: 'rdLink',
                         type: 'line',
-                        style: {color: '#00FFFF'}
+                        style: {}
                     });
                 }
                 for (var i = 0, len = points.length; i < len; i++) {
@@ -78,9 +78,7 @@ rdcrfObjectApp.controller("crfObjectCtrl", ['$scope', 'dsEdit', function ($scope
                         id: points[i].nodePid.toString(),
                         layerid: 'rdLink',
                         type: 'rdnode',
-                        style: {
-                            color: '#4A4AFF'
-                        }
+                        style: {}
                     });
                 }
                 highRenderCtrl.drawHighlight();
