@@ -17,7 +17,7 @@ mainSameLinkApp.controller("MainSameLinkController",['$scope','$ocLazyLoad','app
     $scope.same = {};
     $scope.same.sameRelationShapShow = false; //用于控制同一关系制作面板是否显示
 
-    $scope.$on('showSameLinkPanel',function (data){
+    $scope.$on('showSameRelationshap',function (data){
         $scope.initializeData();
     });
     /**

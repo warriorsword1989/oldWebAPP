@@ -7,7 +7,7 @@ angular.module('app').controller('GasStationCtl', function($scope) {
     $scope.paymentHM = FM.dataApi.Constant.payment_hm;
     $scope.serviceML = FM.dataApi.Constant.service_ml;
     $scope.serviceHM = FM.dataApi.Constant.service_hm;
-    $scope.fuelTypeML = FM.dataApi.Constant.fuelType_ml;
-    $scope.fuelTypeHM = FM.dataApi.Constant.fuelType_hm;
+    $scope.fuelTypeML = FM.dataApi.Constant.gasFuelType_ml;
+    $scope.fuelTypeHM = FM.dataApi.Constant.gasFuelType_hm;
 
 });

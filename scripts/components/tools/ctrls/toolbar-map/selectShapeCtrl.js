@@ -2826,7 +2826,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     // map.currentTool.snapHandler.addGuideLayer(rdLink);
                     // modified by chenx
                     shapeCtrl.editFeatType = $scope.selectedFeature.optype;
-                    $scope.selectedFeature.optype = "RDLINK" ? "RDSPEEDLIMIT" : $scope.selectedFeature.optype;
                     map.currentTool = shapeCtrl.getCurrentTool();
                     map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype)); //捕捉图层
                 }

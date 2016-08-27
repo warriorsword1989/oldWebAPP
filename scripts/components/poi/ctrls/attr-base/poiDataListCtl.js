@@ -1,5 +1,5 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout','dsOutput',
+    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout,dsOutput) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -301,8 +301,20 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                                         poiLayer.redraw();
                                         $interval.cancel(timer);
                                         if (data.status == 3) {
+                                            dsOutput.push({
+                                                "op": "POI提交JOB执行成功",
+                                                "type": "succ",
+                                                "pid": "0",
+                                                "childPid": ""
+                                            });
                                             swal("提交提示", '提交完成', "info");
                                         } else {
+                                            dsOutput.push({
+                                                "op": "POI提交JOB执行失败",
+                                                "type": "fail",
+                                                "pid": "0",
+                                                "childPid": ""
+                                            });
                                             swal("提交提示", '提交失败,' + data.latestStepMsg, "warning");
                                         }
                                     }

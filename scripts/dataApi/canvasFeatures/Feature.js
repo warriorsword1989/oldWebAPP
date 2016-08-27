@@ -80,9 +80,10 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     }
                     break;
                 case 21: //poi
-                    if((data.g[0] >= -5 && data.g[0] <= 260) && (data.g[1] >= -5 && data.g[1] <= 260)){
-                        ret = new fastmap.uikit.canvasFeature.IXPOI(data);
-                    }
+                    // if((data.g[0] >= -5 && data.g[0] <= 260) && (data.g[1] >= -5 && data.g[1] <= 260)){
+                    //     ret = new fastmap.uikit.canvasFeature.IXPOI(data);
+                    // }
+                    ret = new fastmap.uikit.canvasFeature.IXPOI(data);
                     break;
                 case 22://rwNode
                     if((data.g[0] >= -3 && data.g[0] <= 258) && (data.g[1] >= -3 && data.g[1] <= 258)) {
