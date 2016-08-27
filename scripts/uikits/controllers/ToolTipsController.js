@@ -64,7 +64,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this.toolsdiv.style.marginLeft = event.originalEvent.clientX+10+ 'px';
                 this.toolsdiv.style.marginTop = event.originalEvent.clientY -10+ 'px';
                 this.toolsdiv.style.position = "fixed";
-                this._map.on('click', this.onClickTooltip,this);
+                this._map.on('mousedown', this.onClickTooltip,this);
                 this._map.on('mouseout', this.onMoveOutTooltip,this);
             },
             onClickTooltip:function(event){
@@ -84,7 +84,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this.eventType="";
                 this.toolsdiv.innerHTML = "";
                 this.toolsdiv.style.display = 'none';
-                this._map.off('click', this.onClickTooltip,this);
+                this._map.off('mousedown', this.onClickTooltip,this);
                 this._map.off('mousemove', this.onMoveTooltip,this);
                 this._map.off('dblclick', this.onDbClickTooltip,this);
             },

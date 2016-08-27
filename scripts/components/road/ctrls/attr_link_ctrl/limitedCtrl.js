@@ -119,6 +119,9 @@ limitedApp.controller("limitedController", function($scope, $timeout, $ocLazyLoa
         "id": 6,
         "label": "Usage Fee Required"
     }, {
+    	"id": 7,
+        "label": "超车限制"
+    },{
         "id": 8,
         "label": "外地车限行"
     }, {
