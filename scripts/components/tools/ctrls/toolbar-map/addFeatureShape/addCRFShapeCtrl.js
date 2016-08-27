@@ -417,7 +417,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                             allLinks.push(data.data[i].data.properties.id);
                         }
                         //将crf的pid放进去
-                        if (data.data[i].data && data.data[i].data.properties.featType == "RDINTER" || data.data[i].data.properties.featType == "RDROAD") {
+                        if (data.data[i].data && data.data[i].data.properties.featType == "RDINTER" || data.data[i].data.properties.featType == "RDROAD" || data.data[i].data.properties.featType == "RDOBJECT") {
                             if (data.data[i].data.properties.linkId != undefined) {
                                 crfLinkPids.push(data.data[i].data.properties.linkId);
                             }
