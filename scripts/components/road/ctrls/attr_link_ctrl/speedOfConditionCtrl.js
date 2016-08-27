@@ -7,8 +7,12 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
     $scope.speedLimitsData = objCtrl.data.speedlimits;
 
     $scope.realtimeData = objCtrl.data;
-    $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["oridiRowId"]];
-
+    $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["index"]];
+    // for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
+    //     if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+    //         $scope.oridiData = $scope.speedLimitsData[i];
+    //     }
+    // }
     //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
     if($scope.conditForm) {
         $scope.conditForm.$setPristine();
@@ -159,9 +163,9 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         }, 100);
     };
     timeoutLoad();
-    $scope.$on('refreshPage',function(data){
-        $scope.speedLimitsData = objCtrl.data.speedlimits;
-        $scope.realtimeData = objCtrl.data;
-        $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["oridiRowId"]];
-    });
+    // $scope.$on('refreshPage',function(data){
+    //     $scope.speedLimitsData = objCtrl.data.speedlimits;
+    //     $scope.realtimeData = objCtrl.data;
+    //     $scope.oridiData = $scope.speedLimitsData[$scope.realtimeData["oridiRowId"]];
+    // });
 })
