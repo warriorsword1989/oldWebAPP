@@ -18,7 +18,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['workPoint']
+        this.editLayerIds = ['workPoint'];
 
         this.currentEditLayers = [];
         this.tiles = [];
