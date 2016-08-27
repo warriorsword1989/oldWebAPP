@@ -71,7 +71,7 @@ angular.module("app").controller("lcNodeController",['$scope','dsEdit',function(
                 id:$scope.lcNodeData.pid.toString(),
                 layerid:'lcLink',
                 type:'node',
-                style:{color:'yellow'}
+                style:{}
             });
             highRenderCtrl .highLightFeatures =highlightFeatures;
             highRenderCtrl .drawHighlight();
