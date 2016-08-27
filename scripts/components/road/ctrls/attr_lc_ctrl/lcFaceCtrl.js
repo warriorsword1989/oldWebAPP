@@ -77,11 +77,11 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
     };
 
     $scope.save = function(){
-        objCtrl.save();
-        if(!changed){
-            swal("操作成功",'属性值没有变化！', "success");
-            return;
-        }
+        //objCtrl.save();
+        //if(!changed){
+        //    swal("操作成功",'属性值没有变化！', "success");
+        //    return;
+        //}
         ////保存调用方法
         //dsEdit.update($scope.lcLinkData.pid, "LCLINK", changed).then(function(data) {
         //    if (data) {
@@ -104,7 +104,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
         //        }
         //    }
         //})
-        //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };
 
     //删除
