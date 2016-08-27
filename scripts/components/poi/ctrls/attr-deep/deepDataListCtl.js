@@ -26,5 +26,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 }
             });
         }
+
     }
 ]);
