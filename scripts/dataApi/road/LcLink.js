@@ -23,7 +23,7 @@ fastmap.dataApi.LCLink = fastmap.dataApi.GeoDataModel.extend({
         this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
         this.kinds = [];
-        if (data["kinds"]) {
+        if (data["kinds"].length) {
             for (var i = 0, len = data["kinds"].length; i < len; i++) {
                 this.kinds.push(fastmap.dataApi.lcLinkKind(data["kinds"][i]));
             }

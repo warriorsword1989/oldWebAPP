@@ -102,6 +102,9 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
                     $(editLayer.options._div).unbind();
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                if($scope.lcLinkForm) {
+                    $scope.lcLinkForm.$setPristine();
+                }
             }
         })
     };

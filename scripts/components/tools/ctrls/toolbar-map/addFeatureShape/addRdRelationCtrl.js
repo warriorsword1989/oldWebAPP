@@ -2116,7 +2116,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
-
             }
         }
     }
