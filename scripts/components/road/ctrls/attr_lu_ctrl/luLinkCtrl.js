@@ -111,6 +111,9 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
                     $(editLayer.options._div).unbind();
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                if($scope.zoneLinkForm) {
+                    $scope.zoneLinkForm.$setPristine();
+                }
             }
         })
     };
