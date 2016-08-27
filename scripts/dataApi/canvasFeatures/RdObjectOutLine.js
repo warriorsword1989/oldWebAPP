@@ -5,7 +5,7 @@ fastmap.uikit.canvasFeature.RdObjectOutLine = fastmap.uikit.canvasFeature.Featur
     geometry: {},
     properties: {},
     setAttribute: function(data,id) {
-        this.geometry['coordinates'] = data[0];
+        this.geometry['coordinates'] = data;
         this.properties["featType"] = "RDOBJECT";
         this.geometry['type'] = 'LineString';
         this.properties['id'] = id;

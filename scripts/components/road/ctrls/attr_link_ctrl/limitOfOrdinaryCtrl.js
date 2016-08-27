@@ -39,6 +39,9 @@ oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout
         "id": 5,
         "label": "季节性关闭道路"
     }, {
+    	"id": 7,
+        "label": "超车限制"
+    }, {
         "id": 6,
         "label": "Usage Fee Required"
     }, {

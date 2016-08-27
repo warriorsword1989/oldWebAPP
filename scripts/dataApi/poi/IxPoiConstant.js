@@ -159,21 +159,21 @@ FM.dataApi.Constant = {
         61: "超勁慳油配方汽油",
         62: "清潔配方低硫柴油"
     },
-    // fuelType_ml: {
-    //     3: "其他",
-    //     4: "液化石油气",
-    //     5: "天然气",
-    //     7: "氢燃料",
-    //     //        8: "生物柴油",
-    //     9: "液化天然气"
-    // },
-    // fuelType_hm: {
-    //     14: "LPG",
-    //     24: "LPG",
-    //     35: "AutoGas石油氣",
-    //     44: "AutoGas石油氣",
-    //     54: "AutoGas石油氣"
-    // },
+     gasFuelType_ml: {
+         3: "其他",
+         4: "液化石油气",
+         5: "天然气",
+         7: "氢燃料",
+         8: "生物柴油",
+         9: "液化天然气"
+     },
+     gasFuelType_hm: {
+         14: "LPG",
+         24: "LPG",
+         35: "AutoGas石油氣",
+         44: "AutoGas石油氣",
+         54: "AutoGas石油氣"
+     },
     sportsVenuesBuildingType: {
         0: "室内",
         1: "室外"

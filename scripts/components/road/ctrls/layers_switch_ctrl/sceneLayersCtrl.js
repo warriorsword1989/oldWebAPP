@@ -113,7 +113,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
     $scope.dataLayers = [];
     var reqType;
     for (var i = 0; i < layerCtrl.layers.length; i++) {
-        if (layerCtrl.layers[i].options.groupId == "dataLayers") {
+        if (layerCtrl.layers[i].options.groupId == "dataLayers" || layerCtrl.layers[i].options.groupId == "worklayer") {
             reqType = layerCtrl.layers[i].options.requestType.split(",");
             for (var j = 0; j < reqType.length; j++) {
                 $scope.dataLayers.push({

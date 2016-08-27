@@ -4,6 +4,7 @@
 var realtimeTrafficApp = angular.module("app");
 realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
     $scope.rticData =  objCtrl.data;
 
     $scope.rticDroption =[
@@ -38,7 +39,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     //条件限速
     $scope.addspeedLimit = function () {
         var newRtic = fastmap.dataApi.rdLinkSpeedLimit({"linkPid": $scope.rticData.pid,"speedType":3});
-        $scope.rticData.speedlimits.unshift(newRtic)
+        $scope.rticData.speedlimits.push(newRtic)
     };
     $scope.minusspeedLimit=function(id){
         $scope.rticData.speedlimits.splice(id, 1);
@@ -46,29 +47,38 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
 
 
     //普通限速
-    $scope.showOridinarySpeedInfo= function (item,index) {
-        objCtrl.data["oridiRowId"] = index;
+    $scope.showOridinarySpeedInfo= function (item) {
+        objCtrl.data["oridiRowId"] = item.rowId;
         var oridinarySpeedObj = {
             "type":"refreshPage",
             "loadType":"subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/speedOfOrdinaryCtrl',
             "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/speedOfOrdinaryTpl.html'
-        }
+        };
         $scope.$emit("transitCtrlAndTpl", oridinarySpeedObj);
-    }
+    };
 
     //条件限速
-    $scope.showspeedlimitInfo= function (cItem ,index) {
-        objCtrl.data["oridiRowId"] = index;
-        // objCtrl.data["oridiRowId"] = cItem.rowId;
-        var speedlimitInfoObj = {
-            "type":"refreshPage",
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/speedOfConditionCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/speedOfConditionTpl.html'
-        }
+    $scope.showspeedlimitInfo= function (cItem,index ) {
+        objCtrl.data["oridiRowId"] = cItem.rowId;
+        featCodeCtrl.setFeatCode({
+            "index": index
+        });
+        var speedlimitInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var speedlimitObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/speedOfConditionCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/speedOfConditionTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", speedlimitObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", speedlimitInfoObj);
-    }
+    };
 
 
 
