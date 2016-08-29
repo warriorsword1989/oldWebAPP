@@ -134,14 +134,22 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
                 }
                 var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
             }
         });
     };
     $scope.cancel = function(){
 
     };
-
+    //修改道路形态
+    $scope.addKind = function() {
+        var addKindObj={
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl":'scripts/components/road/ctrls/attr_lu_ctrl/luKindCtrl',
+            "propertyHtml":'../../../scripts/components/road/tpls/attr_lu_tpl/luKindTpl.html'
+        }
+        $scope.$emit("transitCtrlAndTpl", addKindObj);
+    };
     //监听保存，修改,删除，取消，和初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
