@@ -3,12 +3,17 @@
  */
 angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+        var objCtrl = fastmap.uikit.ObjectEditController();
         var _self = $scope;
         $scope.editPanelIsOpen = false;
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 10;
+        $scope.editorLines = 2; //每页编辑的条数
+        $scope.editorCurrentPage = 1; //当前编辑的页码
+        $scope.editAllDataList = []; //查询列表数据
+        $scope.currentEditOrig = []; //当前编辑的数据原始值
+        $scope.currentEdited = []; //当前编辑的数据
 
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
@@ -35,7 +40,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             }
             return html;
         }
-        $scope.editDataList = [];
+
         $scope.selectData = function (row,index){
             var temp = $scope.tableParams.data;
             var checkedArr = [];
@@ -51,24 +56,11 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
                 editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
             }
             console.info(editorArr);
-            console.info($scope.tableParams.data);
-            $scope.editDataList = editorArr;
+            $scope.editAllDataList = $scope.tableParams.data;
+            $scope.currentEditOrig = angular.copy(editorArr);
+            $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
             initEditorTable();
-        };
-
-        $scope._test = function (){
-            console.info($scope.tableParams.data);
-            $scope.tableParams.data[0].names = ['s','vv','22'];
-            var flag  = false;
-            if($scope.tableParams.data.checkedAll){
-                flag = true;
-            } else {
-                flag = false;
-            }
-            angular.forEach($scope.tableParams.data, function(data, index) {
-                data.checked = flag;
-            });
         };
 
         $scope.searchType = 'name';
@@ -95,13 +87,14 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             }, {
                 counts: [],
                 getData: function($defer, params) {
-                    var param = {
-                        subtaskId: parseInt(App.Temp.subTaskId),
-                        pageNum: params.page(),
-                        pageSize: params.count(),
-                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                        params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
-                    };
+                    // var param = {
+                    //     subtaskId: parseInt(App.Temp.subTaskId),
+                    //     pageNum: params.page(),
+                    //     pageSize: params.count(),
+                    //     sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+                    //     params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+                    // };
+                    var param = {};
                     dsMeta.columnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
                         // $scope.roadNameList = data.data;
@@ -129,8 +122,27 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
 
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
-            $scope.editDataList = $scope.editDataList.reverse();
             _self.editorTable.reload();
+        };
+        function getIntegrateData (arrData){
+            var returnArr = [];
+            for(var i = 0 ,len = arrData.length ; i < len ; i ++){
+                returnArr.push(arrData[i].getIntegrate());
+            }
+            return returnArr;
+        };
+        $scope.saveData = function (){
+            console.info($scope.currentEditOrig);
+            console.info($scope.currentEdited);
+            //objCtrl.setOriginalData(getIntegrateData($scope.currentEditOrig));
+            //objCtrl.data = getIntegrateData($scope.currentEdited);
+            //objCtrl.compareJson("11",getIntegrateData($scope.currentEditOrig),getIntegrateData($scope.currentEdited),"UPDATE");
+            objCtrl.compareJson("11",
+                {'pp':'111','dataList':getIntegrateData($scope.currentEditOrig)},
+                {'pp':'111','dataList':getIntegrateData($scope.currentEdited)},
+                "UPDATE");
+            console.info(objCtrl.changedProperty);
+
         };
         /**************** 工具条end   ***************/
 
@@ -213,7 +225,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             _self.editorTable = new NgTableParams({
             }, {
                 counts:[],
-                dataset: $scope.editDataList
+                dataset: $scope.currentEdited
             });
         };
 

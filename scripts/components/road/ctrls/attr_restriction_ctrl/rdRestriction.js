@@ -435,6 +435,9 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         dsEdit.save(param).then(function (data) {
             var restrict = layerCtrl.getLayerById("relationData");
             restrict.redraw();
+            highRenderCtrl.highLightFeatures.length = 0;
+            highRenderCtrl._cleanHighLight();
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
         });
         if (selectCtrl.rowkey) {
             var stageParam = {
