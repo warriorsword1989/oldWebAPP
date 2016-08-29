@@ -109,7 +109,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                 "connexityPid": $scope.laneInfo["pid"],
                 "inLaneInfo": parseInt($scope.intToDecial($scope.laneInfo["selectNum"]+1)),
                 "outLinkPid": 0,
-                "reachDir": $scope.changeData($scope.item.id),
+                "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                 "relationshipType": 1
             }
             for (var m= 0,lenM=$scope.laneInfo["topos"].length;m<lenM;m++) {
@@ -140,7 +140,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                     "connexityPid": $scope.laneInfo["pid"],
                     "inLaneInfo": parseInt($scope.intToDecial($scope.laneInfo["topos"].length-1)),
                     "outLinkPid": 0,
-                    "reachDir": $scope.changeData($scope.item.id),
+                    "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                     "relationshipType": 1
                 }
                 $scope.lanesArr.splice($scope.lanesArr.length - 1, 0, $scope.item.id);
@@ -165,7 +165,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                     "connexityPid": $scope.laneInfo["pid"],
                     "inLaneInfo":newNum,
                     "outLinkPid": 0,
-                    "reachDir": $scope.changeData($scope.item.id),
+                    "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                     "relationshipType": 1
                 }
                 $scope.laneInfo["topos"].unshift(obj);

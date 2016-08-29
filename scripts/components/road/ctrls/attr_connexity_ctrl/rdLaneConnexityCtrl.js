@@ -441,7 +441,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         dsEdit.save(param).then(function (data) {
             if (data) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-            } 
+            }
             rdConnexity.redraw();
         })
     };
@@ -456,7 +456,11 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdConnexity.redraw();
-                $scope.rdCrossData = null;
+                $scope.rdCrossData = null
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                  'subAttrContainerTpl': false,
+                  'attrContainerTpl': false
+                });
             }
         })
     };
@@ -468,4 +472,3 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
 }]);
-
