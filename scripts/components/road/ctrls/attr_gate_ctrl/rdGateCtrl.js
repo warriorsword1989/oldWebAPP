@@ -107,7 +107,7 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         }
         dsEdit.update($scope.rdGateData.pid, "RDGATE", objectEditCtrl.changedProperty).then(function(data) {
             if (data) {
-                //rdLink.redraw();
+            	   relationData.redraw();
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
