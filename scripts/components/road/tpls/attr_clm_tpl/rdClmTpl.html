@@ -5,11 +5,29 @@
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
         <div class="attr-img-container">
-          <div class="">
-
+          <div class="col-md-12 lane-top-container">
+            <label class="col-md-3">车道总数</label>
+            <div class="col-md-9">
+              <span class="range-min">0</span>
+              <input type="range" name="range" min="0" max="16" step="1" ng-model="laneLength" ng-change="changeCarLane();"/>
+              <span class="range-max">16</span>{{laneData.length}}
+            </div>
+          </div>
+          <div class="lane-img-container" ng-style="laneStyle">
+            <div class="roadside-left"></div>
+            <div class="lane-driveway" ng-repeat="item in laneData track by $index">
+              <span class="top">{{$index + 1}}</span>
+              <div class="middle" ng-click="showLaneDirect();">
+                <img src="../../../images/road/1301/1301_0_{{item}}.svg" alt="" />
+              </div>
+              <span class="bottom" ng-click="removeLane($index);">
+                <i class="glyphicon glyphicon-remove"></i>
+              </span>
+            </div>
+            <div class="roadside-left"></div>
           </div>
         </div>
-        <form name="rdGscForm">
+        <form name="rdGscForm" style="margin-top:100px;">
             <div class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
