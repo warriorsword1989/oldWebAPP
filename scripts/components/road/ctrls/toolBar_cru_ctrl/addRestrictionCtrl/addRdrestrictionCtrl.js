@@ -16,10 +16,25 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     $scope.clickFlag = true;
     $scope.excitLineArr = [];
     $scope.highFeatures = [];
-    var changedDirectObj = {
+    // var changedDirectObj = {
+    //     "loadType": "subAttrTplContainer",
+    //     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
+    //     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
+    // };
+    // $scope.$emit("transitCtrlAndTpl", changedDirectObj);
+
+    var changedDirectObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载speedOfConditionCtrl。
         "loadType": "subAttrTplContainer",
-        "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
-        "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
+        "propertyCtrl": appPath.road  + 'ctrls/blank_ctrl/blankCtrl',
+        "propertyHtml": appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+        "callback": function () {
+            var obj = {
+                "loadType": "subAttrTplContainer",
+                "propertyCtrl": appPath.road  + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
+                "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/directOfRestrictionTpl.html'
+            };
+            $scope.$emit("transitCtrlAndTpl", obj);
+        }
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
 
@@ -63,7 +78,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             highRenderCtrl.highLightFeatures = $scope.highFeatures;
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
-            tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
+            tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
             $scope.limitRelation.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
@@ -74,7 +89,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             });
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
-            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+            tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
         } else if (data.index > 1) {
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
@@ -85,7 +100,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             });
             highRenderCtrl.drawHighlight();
             $scope.limitRelation.outLinkPids = $scope.excitLineArr;
-            tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+            tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
         }
         $scope.directData["limitRelation"] = $scope.limitRelation
     })
