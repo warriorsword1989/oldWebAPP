@@ -212,12 +212,12 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             style: {}
         });
 
-        highLightFeatures.push({
-            id: item.outLinkPid.toString(),
-            layerid: 'restriction',
-            type: 'restriction',
-            style: {}
-        });
+        // highLightFeatures.push({
+        //     id: item.outLinkPid.toString(),
+        //     layerid: 'restriction',
+        //     type: 'restriction',
+        //     style: {}
+        // });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
 
