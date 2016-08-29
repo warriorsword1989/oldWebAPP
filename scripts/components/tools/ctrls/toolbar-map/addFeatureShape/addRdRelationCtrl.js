@@ -413,7 +413,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
             if (type === "RDRESTRICTION") {
                 $scope.resetOperator("addRelation", type);
                 $scope.$emit("SWITCHCONTAINERSTATE", {
-                    "attrContainerTpl": true
+                    "attrContainerTpl": false
                 });
                 var restrictionObj = {};
                 restrictionObj["showTransitData"] = [];
@@ -421,10 +421,27 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 restrictionObj["showNormalData"] = [];
                 restrictionObj["inLaneInfoArr"] = [];
                 objCtrl.setOriginalData(restrictionObj);
-                var addRestrictionObj = {
+                // var addRestrictionObj = {
+                //     "loadType": "attrTplContainer",
+                //     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                //     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html',
+                //     "callback":function (){
+                //
+                //     }
+                // };
+
+                var addRestrictionObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载speedOfConditionCtrl。
                     "loadType": "attrTplContainer",
-                    "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
-                    "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                    "propertyCtrl": appPath.road  + 'ctrls/blank_ctrl/blankCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+                    "callback": function () {
+                        var obj = {
+                            "loadType": "attrTplContainer",
+                            "propertyCtrl": appPath.road  + 'ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                            "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                        };
+                        $scope.$emit("transitCtrlAndTpl", obj);
+                    }
                 };
                 $scope.$emit("transitCtrlAndTpl", addRestrictionObj);
             }  else if (type === "RDSPEEDLIMIT") {

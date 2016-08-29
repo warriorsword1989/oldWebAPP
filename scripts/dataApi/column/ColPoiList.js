@@ -14,7 +14,6 @@ FM.dataApi.ColPoiList = FM.dataApi.GeoDataModel.extend({
                 this.dataList.push(obj);
             }
         }
-
     },
     /*
      * UI-->DB

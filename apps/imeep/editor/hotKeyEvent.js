@@ -281,6 +281,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 } else {
                     laneStr = laneData.join(",");
                 }
+                if( laneStr == undefined){
+                    swal("提示",'请选择交限！', "warning");
+                    return ;
+                }
                 laneInfo["infos"] = laneStr;
                 param = {
                     "command": "CREATE",

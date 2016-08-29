@@ -57,8 +57,24 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function() {
         var ret = {};
-        ret['pid'] = this.pid;
-        ret['status'] = this.status;
+        ret['rowId'] = this.rowId;
+        ret['kindCode'] = this.kindCode;
+        ret['classifyRules'] = this.classifyRules;
+
+        ret["addresses"] = [];
+        if(!FM.Util.isEmptyObject(this.addressChi)){
+            ret["addresses"].push(this.addressChi.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.addressEng)){
+            ret["addresses"].push(this.addressEng.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.addressCht)){
+            ret["addresses"].push(this.addressCht.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.addressPor)){
+            ret["addresses"].push(this.addressPor.getIntegrate());
+        }
+
         ret["names"] = [];
         if (this.names) {
             if (this.names.length > 0) {
@@ -83,30 +99,7 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
                 }
             }
         }
-        ret["addresses"] = [];
-        if (this.addresses) {
-            if (this.addresses.length > 0) {
-                if (this.address && !FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
-                    var flag = true;
-                    for (var i = 0, len = this.addresses.length; i < len; i++) {
-                        if (this.address.langCode == this.addresses[i].langCode) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        this.addresses.push(this.address);
-                    }
-                }
-                for (var i = 0, len = this.addresses.length; i < len; i++) {
-                    ret["addresses"].push(this.addresses[i].getIntegrate());
-                }
-            } else {
-                if (!FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
-                    ret["addresses"].push(this.address.getIntegrate());
-                }
-            }
-        }
+
         ret["geoLiveType"] = this.geoLiveType;
         return ret;
     }

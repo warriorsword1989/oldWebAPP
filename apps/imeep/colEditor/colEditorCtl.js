@@ -38,14 +38,17 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'engMapAddress'},
 				{'text':'非重要分类地址英文超长作业','worked':20,'count':30,'id':'nonImportantLongEngAddress'}]
 		};
-		$scope.nameType = 'chinaAddress'; //默认显示中文地址
-		$scope.menuSelectedId = 'addrSplit';
+		$scope.nameType = 'chinaName'; //默认显示中文地址
+		$scope.menuSelectedId = 'nameUnify';
 
 
 		$scope.changeMenu = function (id){
 			$scope.menuSelectedId = id;
 			if($scope.menuSelectedId == 'nameUnify'){
-
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaName/nameUnifyCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/nameUnifyTpl.html';
+					$scope.showLoading = false;
+				});
 			} else if($scope.menuSelectedId == 'addrSplit') {
 				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddressCtl').then(function () {
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
@@ -55,7 +58,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 
 		$scope.initPage = function (){
-			$scope.changeMenu('addrSplit');
+			$scope.changeMenu('nameUnify');
 		};
 		$scope.initPage();
 

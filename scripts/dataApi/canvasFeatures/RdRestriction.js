@@ -12,9 +12,6 @@ fastmap.uikit.canvasFeature.RdRestriction = fastmap.uikit.canvasFeature.Feature.
             geomnew[0] = parseInt(geom[0]) + j * 15 * Math.cos(item.m.c * (Math.PI / 180));
             geomnew[1] = parseInt(geom[1]) + j * 15 * Math.sin(item.m.c * (Math.PI / 180));
             var restrictICon = {};
-            if(item.i == "100000426"){
-                console.info(restrictArr);
-            }
 
             if (restrictArr[j].indexOf("[") !== -1) {
                 if(restrictArr[j] == "["){
