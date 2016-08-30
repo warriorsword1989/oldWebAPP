@@ -137,6 +137,13 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.editDataList = $scope.editDataList.reverse();
             _self.editorTable.reload();
         };
+        $scope.saveData = function (){
+            //获取改变的数据
+            var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
+            console.info(chage);
+            //调用接口
+
+        };
         /**************** 工具条end   ***************/
 
         /*******************  编辑页面begin  ****************/
