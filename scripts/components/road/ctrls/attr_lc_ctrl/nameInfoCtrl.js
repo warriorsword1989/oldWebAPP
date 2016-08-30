@@ -4,15 +4,24 @@
 angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    $scope.nameGroup = [];
-    $scope.names = objCtrl.data.names;
-    $scope.nameGroup = [];
-    /*根据nameGroupId排序*/
-    $scope.names.sort(function(a,b){
-        return b.nameGroupId >= a.nameGroupId;
-    });
+
+    $scope.initFn = function(){
+        $scope.nameGroup = [];
+        $scope.names = objCtrl.data.names;
+        $scope.nameGroup = [];
+        /*根据nameGroupId排序*/
+        if($scope.names.length){
+            $scope.names.sort(function(a,b){
+                return b.nameGroupId >= a.nameGroupId;
+            });
+            sortNameGroup($scope.names);
+        }
+    }
+
+
+
     /*重组源数据用新建变量nameGroup显示*/
-    $scope.sortNameGroup = function(arr){
+    function sortNameGroup(arr){
         $scope.nameGroup = [];
         for (var i = 0; i <= arr.length - 1; i++) {
             var tempArr = [];
@@ -32,10 +41,7 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
             $scope.nameGroup.push(tempArr);
         };
     };
-    $scope.sortNameGroup($scope.names);
-    $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
-        return b.nameGroupid >= a.nameGroupid;
-    });
+
     /*上移或者下移*/
     $scope.changeOrder = function(item,type){
         if(type == 1){
@@ -60,8 +66,9 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
          $scope.names.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
          });
-        $scope.sortNameGroup($scope.names);
+        sortNameGroup($scope.names);
     };
+
     /*删除名称信息*/
     $scope.removeNameInfo = function(item){
         var nameLength = 0;
@@ -117,7 +124,7 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
                 }
             }
         }
-        $scope.sortNameGroup($scope.names);
+        sortNameGroup($scope.names);
     };
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
@@ -129,7 +136,7 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
             "seqNum":this.nameGroupid
         });
         protoArr.unshift(newName);
-        $scope.sortNameGroup(protoArr);
+        sortNameGroup(protoArr);
     };
     /*名称来源*/
     $scope.nameSource = [
@@ -171,4 +178,8 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
         {"code":"UKR","name":"乌克兰语"},
         {"code":"SCR","name":"克罗地亚语"}
     ];
+
+    $scope.initFn();
+    eventController.off('SHOWNAMEGROUP');
+    eventController.on('SHOWNAMEGROUP',$scope.initFn)
 });

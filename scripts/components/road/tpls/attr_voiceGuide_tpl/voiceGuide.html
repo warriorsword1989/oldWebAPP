@@ -18,19 +18,20 @@
                     <li>
                         <label>进入线</label>
                         <div >
-                            <input type="text" readonly class="fm-control" ng-model="voiceGuide.inLinkPid"/>
+                            <input type="text" readonly ng-disabled=true class="fm-control chosen-disabled
+" ng-model="voiceGuide.inLinkPid"/>
                         </div>
                     </li>
                     <li>
                         <label>Node号码</label>
                         <div>
-                            <input type="text" readonly class="fm-control" ng-model="voiceGuide.nodePid"/>
+                            <input type="text" readonly ng-disabled=true  class="fm-control chosen-disabled" ng-model="voiceGuide.nodePid"/>
                         </div>
                     </li>
                     <li>
                         <label>退出线</label>
                         <div>
-                            <input type="text" readonly class="fm-control" ng-model="voiceGuide.details[selectIndex].outLinkPid"/>
+                            <input type="text" readonly ng-disabled=true class="fm-control chosen-disabled" ng-model="voiceGuide.details[selectIndex].outLinkPid"/>
                         </div>
                     </li>
                     <li>

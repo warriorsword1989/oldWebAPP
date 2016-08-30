@@ -1,11 +1,6 @@
-<div ng-controller="luKindCtrl">
-    <div style="padding: 5px;color:#FFF;"><label class="control-label">改变土地利用种别</label></div>
+<div style="padding: 5px;color:#FFF;" ng-controller="luKindCtrl">
+    <div><label class="control-label">改变土地利用种别</label></div>
     <div ng-repeat="addItem in kindOpt">
-          <span ng-if="addItem.isCheck==true" style="padding: 5px;color:#FFF;">
-              <input type="checkbox" checked="checked" ng-click="remove(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
-          </span>
-          <span ng-if="addItem.isCheck==false" style="padding: 5px;color:#FFF;">
-              <input type="checkbox" ng-click="getCheck(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
-          </span>
+        <input type="checkbox" ng-model="addItem.isCheck" ng-click="getCheck(addItem)" value="{{addItem.id}}"> {{addItem.label}}</br>
     </div>
 </div>

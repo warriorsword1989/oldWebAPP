@@ -77,33 +77,20 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
     };
 
     $scope.save = function(){
-        //objCtrl.save();
-        //if(!changed){
-        //    swal("操作成功",'属性值没有变化！', "success");
-        //    return;
-        //}
-        ////保存调用方法
-        //dsEdit.update($scope.lcLinkData.pid, "LCLINK", changed).then(function(data) {
-        //    if (data) {
-        //        if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
-        //            if (typeof map.currentTool.cleanHeight === "function") {
-        //                map.currentTool.cleanHeight();
-        //            }
-        //            if (toolTipsCtrl.getCurrentTooltip()) {
-        //                toolTipsCtrl.onRemoveTooltip();
-        //            }
-        //            editLayer.drawGeometry = null;
-        //            editLayer.clear();
-        //            shapeCtrl.stopEditing();
-        //            editLayer.bringToBack();
-        //            $(editLayer.options._div).unbind();
-        //        }
-        //        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        //        if($scope.lcLinkForm) {
-        //            $scope.lcLinkForm.$setPristine();
-        //        }
-        //    }
-        //})
+        objCtrl.save();
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+        //保存调用方法
+        dsEdit.update($scope.lcFaceData.pid, "LCFACE", objCtrl.changedProperty).then(function(data) {
+            if (data) {
+                //objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                if($scope.lcLinkForm) {
+                    $scope.lcLinkForm.$setPristine();
+                }
+            }
+        })
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };
 
@@ -137,6 +124,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
             "data":objCtrl.data.names
         };
         $scope.$emit("transitCtrlAndTpl", detailInfo);
+        eventController.fire('SHOWNAMEGROUP')
     };
 
     //初始化;
