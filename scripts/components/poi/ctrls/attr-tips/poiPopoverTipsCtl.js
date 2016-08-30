@@ -42,11 +42,11 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         $scope.tipsBtnDisabled = $scope.tipsPage == Math.ceil($scope.poi.photos.length / 4);
     });
     /*数据状态*/
-    $scope.stateObject = {
+    $scope.recordObject = {
         0: '无',
-        1: '删除',
-        2: '修改',
-        3: '新增'
+        1: '新增',
+        2: '删除',
+        3: '修改'
     };
     /*审核状态*/
     $scope.statusObject = {
