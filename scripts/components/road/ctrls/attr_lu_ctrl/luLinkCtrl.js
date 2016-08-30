@@ -14,52 +14,44 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
-    $scope.kind = [
-        {"id": 0, "label": "未分类"},
-        {"id": 1, "label": "大学"},
-        {"id": 2, "label": "购物中心"},
-        {"id": 3, "label": "医院"},
-        {"id": 4, "label": "体育场"},
-        {"id": 5, "label": "公墓"},
-        {"id": 6, "label": "地上停车场"},
-        {"id": 7, "label": "工业区"},
-        {"id": 11, "label": "机场"},
-        {"id": 12, "label": "机场跑道"},
-        {"id": 21, "label": "BUA面"},
-        {"id": 22, "label": "邮编面"},
-        {"id": 23, "label": "FM面"},
-        {"id": 24, "label": "车场面"},
-        {"id": 30, "label": "休闲娱乐"},
-        {"id": 31, "label": "景区"},
-        {"id": 32, "label": "会展中心"},
-        {"id": 33, "label": "火车站"},
-        {"id": 34, "label": "文化场馆"},
-        {"id": 35, "label": "商务区"},
-        {"id": 36, "label": "商业区"},
-        {"id": 37, "label": "小区"},
-        {"id": 38, "label": "广场"},
-        {"id": 39, "label": "特色区域"},
-        {"id": 40, "label": "地下停车场"},
-        {"id": 41, "label": "地铁出入口面"}
+    $scope.kindOpt = [
+        {"id": 0, "label": "未分类","isCheck":false},
+        {"id": 1, "label": "大学","isCheck":false},
+        {"id": 2, "label": "购物中心","isCheck":false},
+        {"id": 3, "label": "医院","isCheck":false},
+        {"id": 4, "label": "体育场","isCheck":false},
+        {"id": 5, "label": "公墓","isCheck":false},
+        {"id": 6, "label": "地上停车场","isCheck":false},
+        {"id": 7, "label": "工业区","isCheck":false},
+        {"id": 11, "label": "机场","isCheck":false},
+        {"id": 12, "label": "机场跑道","isCheck":false},
+        {"id": 21, "label": "BUA面","isCheck":false},
+        {"id": 22, "label": "邮编面","isCheck":false},
+        {"id": 23, "label": "FM面","isCheck":false},
+        {"id": 24, "label": "车场面","isCheck":false},
+        {"id": 30, "label": "休闲娱乐","isCheck":false},
+        {"id": 31, "label": "景区","isCheck":false},
+        {"id": 32, "label": "会展中心","isCheck":false},
+        {"id": 33, "label": "火车站","isCheck":false},
+        {"id": 34, "label": "文化场馆","isCheck":false},
+        {"id": 35, "label": "商务区","isCheck":false},
+        {"id": 36, "label": "商业区","isCheck":false},
+        {"id": 37, "label": "小区","isCheck":false},
+        {"id": 38, "label": "广场","isCheck":false},
+        {"id": 39, "label": "特色区域","isCheck":false},
+        {"id": 40, "label": "地下停车场","isCheck":false},
+        {"id": 41, "label": "地铁出入口面","isCheck":false}
     ];
-    $scope.form = [
-        {"id": 0, "label": "未调查"},
-        {"id": 1, "label": "无属性"}
-    ];
-    $scope.scale = [
-        {"id": 0, "label": "2.5w"},
-        {"id": 1, "label": "20w"},
-        {"id": 2, "label": "100w"}
-    ];
+
 
     //初始化
     $scope.initializeData = function(){
         $scope.luLinkData = objCtrl.data;
+        $scope.initialForms();
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.luLinkForm) {
             $scope.luLinkForm.$setPristine();
         }
-
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//存储原始数据
         var linkArr =$scope.luLinkData.geometry.coordinates, points = [];
         for (var i = 0, len = linkArr.length; i < len; i++) {
@@ -81,6 +73,23 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };
+
+    $scope.initialForms = function(){
+        $scope.showData = [];
+        //显示选中的中别;
+        for(var i=0;i<$scope.kindOpt.length;i++){
+            for(var j=0;j<$scope.luLinkData.linkKinds.length;j++){
+                if($scope.luLinkData.linkKinds[j].kind==$scope.kindOpt[i].id){
+                    $scope.kindOpt[i].isCheck = true;
+                    $scope.showData.push($scope.kindOpt[i])
+                }
+            }
+        }
+    }
+    objCtrl.objRefresh=function() {
+        $scope.initialForms();
+    };
+
     if (objCtrl.data) {
         $scope.initializeData();
     }
@@ -110,6 +119,8 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
+                //关掉面板;
+                $scope.subAttrTplContainerSwitch(false);
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 if($scope.zoneLinkForm) {
                     $scope.zoneLinkForm.$setPristine();
@@ -149,6 +160,7 @@ angular.module("app").controller("luLinkController",["$scope","dsEdit" , functio
             "propertyHtml":'../../../scripts/components/road/tpls/attr_lu_tpl/luKindTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", addKindObj);
+        eventController.fire(eventController.eventTypes.SELECTEDVEHICLECHANGE)
     };
     //监听保存，修改,删除，取消，和初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
