@@ -441,6 +441,122 @@ fastmap.uikit.ObjectEditController = (function() {
                     return false;
                 }
             },
+            compareColumData:function (oriData, data){
+                function getIntegrateData(arrData){
+                    var returnArr = [];
+                    for(var i = 0 ,len = arrData.length ; i < len ; i ++){
+                        returnArr.push(arrData[i].getIntegrate());
+                    }
+                    return returnArr;
+                };
+                var changeData = this.compareJsonColum({"dataList":getIntegrateData(oriData)}, {"dataList":getIntegrateData(data)},"UPDATE");
+                if(!changeData){ //特殊处理，如果数据没有发生变化就会返回false
+                    changeData = {};
+                    changeData["dataList"] = [];
+                }
+                //属性没有发生变化，需要将pid和rowId返回
+                for (var i = 0, len = oriData.length; i < len; i++){
+                    var flag = true;
+                    for(var j = 0 ,le = changeData["dataList"].length; j < le ; j ++ ){
+                        if(oriData[i].rowId == changeData["dataList"][j].rowId){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        var temp = {};
+                        if (oriData[i]["rowId"]) {
+                            temp["rowId"] = oriData[i]["rowId"];
+                        }
+                        if (oriData[i]["pid"]) {
+                            temp["pid"] = oriData[i]["pid"];
+                        }
+                        changeData["dataList"].push(temp);
+                    }
+                }
+
+                return changeData;
+            },
+            compareJsonColum: function(oriData, data, type) {
+                var retObj = {},
+                    arrFlag = this.isContainArr(oriData);
+                for (var item in oriData) {
+                    if (typeof oriData[item] === "string") {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            }
+                            if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+                            retObj["objStatus"] = type;
+                        }
+                    } else if (data[item] && oriData[item] && oriData[item].constructor == Array && data[item].constructor == Array) {
+                        if (oriData[item].length === data[item].length) {
+                            var objArr = [];
+                            for (var i = 0, len = oriData[item].length; i < len; i++) {
+                                var obj = null ;
+                                obj = this.compareJsonColum(oriData[item][i], data[item][i], "UPDATE");
+                                if (obj) {
+                                    objArr.push(obj);
+                                } else {
+                                    // var temp = {};
+                                    // if (oriData["rowId"]) {
+                                    //     temp["rowId"] = oriData["rowId"];
+                                    // }
+                                    // if (oriData["pid"]) {
+                                    //     temp["pid"] = oriData["pid"];
+                                    // }
+                                    // objArr.push(temp);
+                                }
+                            }
+                            if (objArr.length !== 0) {
+                                retObj[item] = objArr;
+                            }
+                        }
+                    } else if (!isNaN(oriData[item])) {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            }
+                            if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+
+                            retObj["objStatus"] = type;
+                        }
+                    } else {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            }
+                            if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+
+                            retObj["objStatus"] = type;
+                        }
+                    }
+                }
+                if (!this.isEmptyObject(retObj)) {
+                    if (arrFlag) {
+                        if (oriData["rowId"]) {
+                            retObj["rowId"] = oriData["rowId"];
+                        }
+                        if (oriData["pid"]) {
+                            retObj["pid"] = oriData["pid"];
+                        }
+
+                        arrFlag = false;
+                    }
+                    return retObj;
+                } else {
+                    return false;
+                }
+            },
             isContainArr: function(obj) {
                 var flag = false;
                 for (var item in obj) {

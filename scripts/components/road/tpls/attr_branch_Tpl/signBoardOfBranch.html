@@ -17,14 +17,14 @@
             <div class="d-group">
                 <div class="d-name">进入线：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="入" ng-model="diverObj.inLinkPid">
-                </div> 
+                    <input type="text" class="d-input rounded chosen-disabled" placeholder="入" ng-model="diverObj.inLinkPid" disabled>
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">退出线：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="出" ng-model="diverObj.outLinkPid">
-                </div> 
+                    <input type="text" class="d-input rounded chosen-disabled" placeholder="出" ng-model="diverObj.outLinkPid" disabled>
+                </div>
             </div>
             <div class="d-group info-group">
                 <div class="d-name">关系类型：</div>
@@ -34,7 +34,7 @@
                         <input type="radio" name="relationType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">方向看板号：</div>
