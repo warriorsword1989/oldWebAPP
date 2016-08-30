@@ -38,8 +38,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'engMapAddress'},
 				{'text':'非重要分类地址英文超长作业','worked':20,'count':30,'id':'nonImportantLongEngAddress'}]
 		};
-		$scope.nameType = 'chinaName'; //默认显示中文地址
-		$scope.menuSelectedId = 'nameUnify';
+		$scope.nameType = 'chinaAddress'; //默认显示中文地址
+		$scope.menuSelectedId = 'addrSplit';
 
 
 		$scope.changeMenu = function (id){
@@ -58,7 +58,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 
 		$scope.initPage = function (){
-			$scope.changeMenu('nameUnify');
+			$scope.changeMenu('addrSplit');
 		};
 		$scope.initPage();
 

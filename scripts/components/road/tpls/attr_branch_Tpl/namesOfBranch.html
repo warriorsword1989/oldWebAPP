@@ -17,14 +17,14 @@
             <div class="d-group">
                 <div class="d-name">进入线：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="入" ng-model="diverObj.inLinkPid">
-                </div> 
+                    <input type="text" class="d-input rounded chosen-disabled" placeholder="入" ng-model="diverObj.inLinkPid" disabled>
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">退出线：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="出" ng-model="diverObj.outLinkPid">
-                </div> 
+                    <input type="text" class="d-input rounded chosen-disabled" placeholder="出" ng-model="diverObj.outLinkPid" disabled>
+                </div>
             </div>
             <div class="d-group info-group">
                 <div class="d-name">关系类型：</div>
@@ -34,13 +34,13 @@
                         <input type="radio" name="relationType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">分歧类型：</div>
                 <div class="d-value">
                     <select class="rounded d-input" ng-change="changeBranchType(diverObj.details[0].branchType);" ng-model="diverObj.details[0].branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
@@ -102,7 +102,7 @@
                 <div class="d-name">出口编号：</div>
                 <div class="d-value">
                     <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="diverObj.details[0].exitNum">
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">箭头标志：</div>
@@ -112,34 +112,34 @@
                         <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">设施类型：</div>
                 <div class="d-value">
                     <select class="rounded d-input"  ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">名称种别：</div>
                 <div class="d-value">
                     <select class="d-input" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
                     </select>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">声音方向：</div>
                 <div class="d-value">
                     <select class="d-input" ng-model="diverObj.details[0].voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
                     </select>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">向导代码：</div>
                 <div class="d-value">
                     <select class="d-input" ng-model="diverObj.details[0].guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
                     </select>
-                </div> 
+                </div>
             </div>
         </div>
     </div>

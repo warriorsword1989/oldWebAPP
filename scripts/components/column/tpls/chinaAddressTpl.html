@@ -77,5 +77,52 @@
 				<button type="button" class="btn btn-shape btn-ls" ng-click="saveData();">保  存</button>
 			</div>
 		</div>
+		<!-- 编辑界面弹出层 -->
+		<div class="div-float" ng-show="showImgInfo" drag style="height: 400px;width: 700px;">
+			<div class="fm-panel"  >
+				<div class="title">
+					<span style="cursor: pointer">详细信息</span>
+					<span class="toolRight">
+						<i class="fa fa-arrows" drag-handle></i>
+						<i class="fa fa-close" ng-click="closeView()"></i>
+					</span>
+				</div>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-8">
+							<img src="../../../images/road/img/noimg.png" alt="">
+						</div>
+						<div class="col-md-4">
+							<table class="table">
+								<tr>
+									<td style="width: 25%;">PID:</td>
+									<td>12345678</td>
+								</tr>
+								<tr>
+									<td>作业员:</td>
+									<td>张三</td>
+								</tr>
+								<tr>
+									<td>FID:</td>
+									<td>1111111111111</td>
+								</tr>
+								<tr>
+									<td>地域:</td>
+									<td>北京凉山彝族自治州会理县</td>
+								</tr>
+								<tr>
+									<td>图符号:</td>
+									<td>898989</td>
+								</tr>
+								<tr>
+									<td>图片:</td>
+									<td>0张</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
