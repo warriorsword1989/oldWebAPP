@@ -11,6 +11,7 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         this.pid = data['pid'];
         this.kindCode = data['kindCode'] || null;
         this.classifyRules = data['classifyRules'];
+        this.refMsg = data['refMsg'];
 
         this.addressChi = {};//大陆地址
         this.addressEng = {};//英文地址
@@ -60,7 +61,8 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         ret['rowId'] = this.rowId;
         ret['kindCode'] = this.kindCode;
         ret['classifyRules'] = this.classifyRules;
-
+        ret['refMsg'] = this.refMsg;
+        
         ret["addresses"] = [];
         if(!FM.Util.isEmptyObject(this.addressChi)){
             ret["addresses"].push(this.addressChi.getIntegrate());
