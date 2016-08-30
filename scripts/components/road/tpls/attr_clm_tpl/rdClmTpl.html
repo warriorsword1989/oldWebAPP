@@ -9,16 +9,16 @@
             <label class="col-md-3">车道总数</label>
             <div class="col-md-9">
               <span class="range-min">0</span>
-              <input type="range" name="range" min="0" max="16" step="1" ng-model="laneLength" ng-change="changeCarLane();"/>
-              <span class="range-max">16</span>{{laneData.length}}
+              <input type="range" name="range" min="0" max="16" step="1" ng-model="laneLength" ng-change="changeCarLane();" tooltip-placement="top" uib-tooltip="{{laneData.length}}"/>
+              <span class="range-max">16</span>
             </div>
           </div>
           <div class="lane-img-container" ng-style="laneStyle">
             <div class="roadside-left"></div>
-            <div class="lane-driveway" ng-repeat="item in laneData track by $index">
+            <div class="lane-driveway" ng-class="{'lane-driveway animated-fast fadeInRight':true,'active':laneIndex == $index}" ng-repeat="item in laneData track by $index">
               <span class="top">{{$index + 1}}</span>
-              <div class="middle" ng-click="showLaneDirect();">
-                <img src="../../../images/road/1301/1301_0_{{item}}.svg" alt="" />
+              <div class="middle" ng-click="showLaneDirect($event,$index,item);">
+                <img ng-src="../../../images/road/1301/1301_0_{{item}}.svg" />
               </div>
               <span class="bottom" ng-click="removeLane($index);">
                 <i class="glyphicon glyphicon-remove"></i>
@@ -27,7 +27,7 @@
             <div class="roadside-left"></div>
           </div>
         </div>
-        <form name="rdGscForm" style="margin-top:100px;">
+        <form name="rdGscForm" style="margin-top:60px;">
             <div class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
@@ -49,5 +49,22 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="carTypeTip tooltip-container" style="display: none;">
+        <div class="pull-left" style="margin-top: -8px;color: #FFF;">第{{laneIndex+1}}车道</div>
+        <div class="pull-right" style="margin-top: -10px;">
+            <button type="button" class="close" aria-label="Close" ng-click="showLaneDirect($event,-1);"
+                    style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="clearfix"></div>
+        <div class="line line-date"></div>
+        <div class="form-group fix-time tooltip-slide-well dark scroll-styled">
+            <li ng-repeat="item in laneDirectArray" ng-class="{'lane-libs':true,'active':selectLaneActive == item}" ng-click="selectLaneDir(item,$index);">
+                <img ng-src="../../../images/road/1301/1301_0_{{item}}.svg"/>
+            </li>
+        </div>
+        <div class='tooltip-arrow-right'></div>
     </div>
 </div>
