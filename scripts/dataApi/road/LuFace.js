@@ -21,7 +21,12 @@ fastmap.dataApi.LUFace = fastmap.dataApi.GeoDataModel.extend({
         this.area = data["area"] || 0;
         this.perimeter = data["perimeter"] || 0;
         this.meshId = data["meshId"] || 0;
-        this.names = data["faceNames"] || [];
+        this.faceNames = [];
+        if (data["faceNames"]) {
+            for (var i = 0, len = data["faceNames"].length; i < len; i++) {
+                this.faceNames.push(fastmap.dataApi.luFaceName(data["faceNames"][i]));
+            }
+        }
     },
 
     /*
@@ -37,7 +42,12 @@ fastmap.dataApi.LUFace = fastmap.dataApi.GeoDataModel.extend({
         data["perimeter"] = this.perimeter;
         data["meshId"] = this.meshId;
         data["geoLiveType"] = this.geoLiveType;
-        data["faceNames"] = this.names;
+        data["faceNames"] = [];
+        if (this.faceNames) {
+            for (var i = 0, len = this.faceNames.length; i < len; i++) {
+                data["faceNames"].push(this.faceNames[i].getIntegrate());
+            }
+        }
         return data;
 
     },
@@ -51,7 +61,12 @@ fastmap.dataApi.LUFace = fastmap.dataApi.GeoDataModel.extend({
         data["perimeter"] = this.perimeter;
         data["meshId"] = this.meshId;
         data["geoLiveType"] = this.geoLiveType;
-        data["faceNames"] = this.names;
+        data["faceNames"] = [];
+        if (this.names) {
+            for (var i = 0, len = this.faceNames.length; i < len; i++) {
+                data["faceNames"].push(this.faceNames[i].getIntegrate());
+            }
+        }
         return data;
     },
 

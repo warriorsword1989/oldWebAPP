@@ -11,13 +11,13 @@
                         <li>
                             <label style="letter-spacing: 1px" class="control-label">进 入 线</label>
                             <div>
-                                <input type="text" ng-model="variableSpeed.inLinkPid" disabled="disabled" />
+                                <input type="text" class="chosen-disabled" ng-model="variableSpeed.inLinkPid" disabled="disabled" />
                             </div>
                         </li>
                         <li>
                             <label style="letter-spacing: 1px" class="control-label">退 出 线</label>
                             <div>
-                                <input type="text" ng-model="variableSpeed.outLinkPid" disabled="disabled" />
+                                <input type="text" class="chosen-disabled" ng-model="variableSpeed.outLinkPid" disabled="disabled" />
                             </div>
                         </li>
                         <li>
@@ -59,7 +59,7 @@
                     <li ng-if="variableSpeed.vias" ng-repeat="item in variableSpeed.vias">
                         <label class="control-label">道路线{{$index+1}}</label>
                         <div>
-                            <input type="text" ng-model="item.linkPid" disabled="disabled" />
+                            <input type="text" class="chosen-disabled" ng-model="item.linkPid" disabled="disabled" />
                         </div>
                     </li>
                 </ul>

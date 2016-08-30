@@ -11,9 +11,7 @@
                         <li>
                             <label>Link种别</label>
                             <div>
-                                <select ng-model="lcLinkData.kinds[0].kind" ng-options="value.id as value.label for value in kind">
-                                    <option value="">请选择道路种别</option>
-                                </select>
+                                <a  ng-click="showPopover()" style="cursor: pointer;">编辑</a>
                             </div>
                         </li>
                         <li>

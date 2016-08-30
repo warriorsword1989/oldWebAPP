@@ -61,7 +61,21 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath', fun
         $scope.initializeData();
     }
     $scope.save = function(){
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        objCtrl.save();
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+        //保存调用方法
+        dsEdit.update($scope.luFaceData.pid, "LUFACE", objCtrl.changedProperty).then(function(data) {
+            if (data) {
+                if($scope.lcLinkForm) {
+                    $scope.lcLinkForm.$setPristine();
+                }
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+            }
+        })
+
     };
 
     //删除
@@ -91,9 +105,10 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath', fun
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,
             "propertyHtml": tempTepl,
-            "data":objCtrl.data.names
+            "data":objCtrl.data.faceNames
         };
         $scope.$emit("transitCtrlAndTpl", detailInfo);
+        eventController.fire('SHOWNAMEGROUP');
     };
     //监听保存，修改,删除，取消，和初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);

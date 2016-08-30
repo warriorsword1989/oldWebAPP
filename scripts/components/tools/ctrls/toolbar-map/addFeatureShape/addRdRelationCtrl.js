@@ -1843,6 +1843,18 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                 });
             } else if(type === 'VARIABLESPEED'){
+                //tooltipsCtrl.setEditEventType('variableSpeed');
+                //tooltipsCtrl.setCurrentTooltip('正要新建可变限速,先选择线！');
+                //shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.VARIABLESPEED);
+                //map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                //    map: map,
+                //    shapeEditor: shapeCtrl,
+                //    selectLayers: [rdnode],
+                //    snapLayers: [rdnode]//将rdnode放前面，优先捕捉
+                //});
+                //map.currentTool.enable();
+                //this.eventController.eventTypes.GETFEATURE
+
                 $scope.limitRelation.vias = [];
                 //可变限速
                 $scope.resetOperator("addRelation", type);

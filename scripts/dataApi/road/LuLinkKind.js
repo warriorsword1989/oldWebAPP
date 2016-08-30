@@ -14,11 +14,9 @@ fastmap.dataApi.LuLinkKind = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
-    	this.rowId = data["rowId"];
         this.linkPid = data["linkPid"];
         this.rowId = data["rowId"];
         this.kind = data["kind"] || 1;
-        this.form = data["form"] || 1;
     },
 
     /*
@@ -26,10 +24,8 @@ fastmap.dataApi.LuLinkKind = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["rowId"] = this.rowId;
         data["linkPid"] = this.linkPid;
         data["kind"] = this.kind;
-        data["form"] = this.form;
         data["rowId"] = this.rowId;
         return data;
 
