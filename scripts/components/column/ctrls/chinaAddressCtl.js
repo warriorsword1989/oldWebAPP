@@ -223,6 +223,22 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             $scope.showImgInfo = false;
         };
 
+        $scope.slides = [
+            {
+                id:1,
+                image:"./image.svg",
+                text:'111'
+            },{
+                id:2,
+                image:"./image.svg",
+                text:'222'
+            },{
+                id:3,
+                image:"./image.svg",
+                text:'333'
+            }
+        ];
+
         /*******************  编辑页面end  ******************/
 
         /*初始化方法*/
