@@ -94,11 +94,13 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
       $scope.laneIndex = index;
       if(index > -1){
         $(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':'310px'});
+        $scope.showLaneSelect = true;
         $('body .carTypeTip:last').show();
         $scope.selectLaneActive = dir;
       }else{
         $scope.laneIndex = -1;
-        $('body .carTypeTip:last').hide();
+        $scope.showLaneSelect = false;
+        $('body .carTypeTip:last').fadeOut(300);
       }
     };
     // 选择车道方向

@@ -50,7 +50,7 @@
             </div>
         </form>
     </div>
-    <div class="carTypeTip tooltip-container" style="display: none;">
+    <div ng-class="{'carTypeTip tooltip-container animated-fast':true,'fadeInRight':showLaneSelect,'fadeOutRight':!showLaneSelect}" style="display: none;">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">第{{laneIndex+1}}车道</div>
         <div class="pull-right" style="margin-top: -10px;">
             <button type="button" class="close" aria-label="Close" ng-click="showLaneDirect($event,-1);"
