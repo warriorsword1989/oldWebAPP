@@ -51,8 +51,16 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
     };
     // 刷新车道图
     $scope.refreshLaneData = function () {
-      $scope.laneStyle = {width:$scope.laneData.length * 30 + 20 + 'px'};
+      var _width = $scope.laneData.length * 30 + 20;
+      if(_width > 300) {
+        $scope.laneStyle = {width:_width,'overflow-x':'auto'};
+      } else {
+        $scope.laneStyle = {width:_width,top:'auto',position:'relative'};
+      }
       $scope.laneLength = $scope.laneData.length;
+      $scope.laneIndex = -1;
+      $scope.selectLaneActive = -1;
+      $('body .carTypeTip:last').hide();
     };
     $scope.initializeData();
     $scope.refreshData = function () {
@@ -65,12 +73,12 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
     };
     // 车道总数修改
     $scope.changeCarLane = function () {
-      if ( parseInt($scope.laneLength) > $scope.laneData.length ) {
+      if ( parseInt($scope.laneLength) > $scope.laneData.length ) {   //增加
         var addMount = parseInt($scope.laneLength) - $scope.laneData.length;
         for (var i=0;i<addMount;i++) {
           $scope.laneData.push(1);
         }
-      } else if (parseInt($scope.laneLength) < $scope.laneData.length) {
+      } else if (parseInt($scope.laneLength) < $scope.laneData.length) {  //减少
         $scope.laneData.splice(parseInt($scope.laneLength) + 1,$scope.laneData.length - parseInt($scope.laneLength));
       }
       $scope.refreshLaneData();
@@ -81,14 +89,33 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
       $scope.refreshLaneData();
     };
     // 弹出车道方向面板
-    $scope.showLaneDirect = function () {
-
+    $scope.showLaneDirect = function (e,index,dir) {
+      $('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
+      $scope.laneIndex = index;
+      if(index > -1){
+        $(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':'310px'});
+        $scope.showLaneSelect = true;
+        $('body .carTypeTip:last').show();
+        $scope.selectLaneActive = dir;
+      }else{
+        $scope.laneIndex = -1;
+        $scope.showLaneSelect = false;
+        $('body .carTypeTip:last').fadeOut(300);
+      }
+    };
+    // 选择车道方向
+    $scope.selectLaneDir = function (dir,index) {
+      $scope.selectLaneActive = dir;
+      $scope.laneData[$scope.laneIndex] = dir;
     };
     // 中央分隔带
     $scope.centerDividerObj = [
       {id:1,label:'双方向道路'},
       {id:2,label:'单方向或上下线分离道路'}
     ];
+    // 车道方向集合
+    $scope.laneDirectArray = [1,2,3,4,5,'a','b','c',
+    'd','e','f','g','h','i','j','k','l','m','n','o','r','s','t','u','v','w','x','y','z'];
     $scope.save = function(){
         objCtrl.save();
         if(!objCtrl.changedProperty){
