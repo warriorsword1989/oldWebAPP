@@ -1764,3 +1764,89 @@ ul.fm-ul-insert > li {
   position: absolute;
   top: 30px;
 }
+.lane-top-container {
+  color: #fff;
+  padding: 10px;
+}
+.lane-img-container {
+  height: 150px;
+  width: 50px;
+  margin: 0 auto;
+  position: relative;
+  margin-right: auto !important;
+}
+.lane-img-container .roadside-left {
+  height: 150px;
+  width: 10px;
+  background-color: #BEBEBE;
+  float: left;
+}
+.lane-img-container .roadside-right {
+  height: 150px;
+  width: 10px;
+  background-color: #bebebe;
+  float: left;
+  border-left: 1px dashed #070707;
+  border-right: 1px dashed #070707;
+}
+.lane-img-container .lane-driveway {
+  width: 30px;
+  height: 150px;
+  margin: 0 auto;
+  position: relative;
+  background-color: #313131;
+  color: #fff;
+  float: left;
+  border-left: 1px dashed #fff;
+  border-right: 1px dashed #fff;
+}
+.lane-img-container .lane-driveway .top {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+.lane-img-container .lane-driveway .middle {
+  position: absolute;
+  margin-top: 20px;
+  background-color: #fff;
+}
+.lane-img-container .lane-driveway .bottom {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  bottom: 0;
+  position: absolute;
+}
+input[type="range"] {
+  -webkit-box-shadow: 0 1px 0 0px #424242, 0 1px 0 #060607 inset, 0px 2px 10px 0px black inset, 1px 0px 2px rgba(0, 0, 0, 0.4) inset, 0 0px 1px rgba(0, 0, 0, 0.6) inset;
+  margin-top: 2px;
+  background-color: #272728;
+  border-radius: 15px;
+  -webkit-appearance: none;
+  height: 10px;
+  top: 2px;
+  position: relative;
+  z-index: 9;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  cursor: default;
+  top: -20px;
+  height: 30px;
+  width: 20px;
+  transform: translateY(-4px);
+  background: none repeat scroll 0 0 #777;
+  border-radius: 15px;
+  -webkit-box-shadow: 0 -1px 1px black inset;
+  transition: all .5s;
+}
+.range-min {
+  position: absolute;
+  top: -15px;
+}
+.range-max {
+  position: absolute;
+  top: -15px;
+  right: 0;
+}

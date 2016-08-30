@@ -18,6 +18,9 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
           linkPid:123,
           centerDivider:1
         };
+        $scope.laneData = [1,2,3,4];
+        $scope.laneLength = $scope.laneData.length;
+        $scope.refreshLaneData();
         // var highLightFeatures = [];
         // highLightFeatures.push({
         //     id: $scope.clmData.inLinkPid.toString(),
@@ -46,6 +49,11 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
         // highRenderCtrl.highLightFeatures = highLightFeatures;
         // highRenderCtrl.drawHighlight();
     };
+    // 刷新车道图
+    $scope.refreshLaneData = function () {
+      $scope.laneStyle = {width:$scope.laneData.length * 30 + 20 + 'px'};
+      $scope.laneLength = $scope.laneData.length;
+    };
     $scope.initializeData();
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.clmData.pid), "RDLANE").then(function(data){
@@ -55,7 +63,27 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
             }
         });
     };
+    // 车道总数修改
+    $scope.changeCarLane = function () {
+      if ( parseInt($scope.laneLength) > $scope.laneData.length ) {
+        var addMount = parseInt($scope.laneLength) - $scope.laneData.length;
+        for (var i=0;i<addMount;i++) {
+          $scope.laneData.push(1);
+        }
+      } else if (parseInt($scope.laneLength) < $scope.laneData.length) {
+        $scope.laneData.splice(parseInt($scope.laneLength) + 1,$scope.laneData.length - parseInt($scope.laneLength));
+      }
+      $scope.refreshLaneData();
+    };
+    // 删除车道
+    $scope.removeLane = function (index) {
+      $scope.laneData.splice(index,1);
+      $scope.refreshLaneData();
+    };
+    // 弹出车道方向面板
+    $scope.showLaneDirect = function () {
 
+    };
     // 中央分隔带
     $scope.centerDividerObj = [
       {id:1,label:'双方向道路'},
