@@ -124,24 +124,11 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.submitData = function (){
             _self.editorTable.reload();
         };
-        function getIntegrateData (arrData){
-            var returnArr = [];
-            for(var i = 0 ,len = arrData.length ; i < len ; i ++){
-                returnArr.push(arrData[i].getIntegrate());
-            }
-            return returnArr;
-        };
         $scope.saveData = function (){
-            console.info($scope.currentEditOrig);
-            console.info($scope.currentEdited);
-            //objCtrl.setOriginalData(getIntegrateData($scope.currentEditOrig));
-            //objCtrl.data = getIntegrateData($scope.currentEdited);
-            //objCtrl.compareJson("11",getIntegrateData($scope.currentEditOrig),getIntegrateData($scope.currentEdited),"UPDATE");
-            objCtrl.compareJson("11",
-                {'pp':'111','dataList':getIntegrateData($scope.currentEditOrig)},
-                {'pp':'111','dataList':getIntegrateData($scope.currentEdited)},
-                "UPDATE");
-            console.info(objCtrl.changedProperty);
+            //获取改变的数据
+            var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
+            console.info(chage);
+            //调用接口
 
         };
         /**************** 工具条end   ***************/
@@ -172,9 +159,6 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true}
         ];
 
-        $scope.test = function (){
-            console.info("++",$scope.editorTable);
-        };
         var html = "";
         if('CHI' == 'CHI'){ //测试用，大陆数据
             html = "<input type='text' class='form-control input-sm table-input' title='{{row[col.field]}}' value='row[col.field]' ng-model='row.addressChi[col.field]' />";
@@ -216,10 +200,8 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         function getAddons($scope,row){ return html;
         }
         function getDetails($scope,row){
-            return '<span class="badge pointer">查看</span>';
+            return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
-
-
 
         function initEditorTable() {
             _self.editorTable = new NgTableParams({
@@ -232,6 +214,13 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.closeEditPanel = function (){
             $scope.editPanelIsOpen = false;
             _self.tableParams.reload();
+        };
+
+        $scope.showView = function (){
+            $scope.showImgInfo = true;
+        };
+        $scope.closeView = function (){
+            $scope.showImgInfo = false;
         };
 
         /*******************  编辑页面end  ******************/
