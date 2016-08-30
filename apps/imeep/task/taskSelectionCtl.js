@@ -151,6 +151,12 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 param.push("stage=" + $scope.currentTaskData.stage);
                 //
                 var tempStr = $scope.isDeepTask?'&specialWork=true':'';
+                var poideepStr = ''
+                poideepStr = $scope.taskStatus==9?'&workItem=chinaName':$scope.taskStatus==10?'&workItem=englishName':$scope.taskStatus==11?'&workItem=chinaAddress':$scope.taskStatus==12?'&workItem=englishAddress':'';
+                if(poideepStr){
+                    window.location.href = "../colEditor/colEditor.html?access_token=" + App.Temp.accessToken+poideepStr;
+                    return;
+                }
                 window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId+tempStr;
             }
         };
@@ -383,7 +389,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
 
 
         function loadPoiDetailTaskFn(){
-            $scope.currentSubTaskList = [];
+            $scope.currentSubTaskList = [{'subtaskId':165,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}];
         }
         //子任务查询
         loadSubTaskfn($scope.requestParams);

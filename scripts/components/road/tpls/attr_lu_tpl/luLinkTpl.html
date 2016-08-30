@@ -8,25 +8,24 @@
             <div class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
-                        <li>
-                            <label>种别</label>
-                            <div>
-                                <select ng-model="luLinkData.linkKinds[0].kind"
-                                        ng-options="value.id as value.label for value in kind">
-                                </select>
-                            </div>
-                        </li>
-                        <!-- <li>
+                         <li>
 				            <label>种别</label>
 				            <div class="inline">
 				                <label ng-click="addKind()" style="cursor: pointer">编辑</label>
 				            </div>
-				
-				        </li> -->
+
+				        </li>
+                        <li>
+                            <div id="fromOfWRoaddiv" style="width:260px;">
+                                <div ng-repeat="fromitem in showData track by $index" class="checkboxli">
+                                    {{fromitem.label}}
+                                </div>
+                            </div>
+                        </li>
                         <li>
                             <label>图幅号</label>
                             <div>
-                                <input type="text" ng-model="luLinkData.meshId" disabled="disabled">
+                                <input type="text" class="chosen-disabled" ng-model="luLinkData.meshId" >
                             </div>
                         </li>
                     </ul>

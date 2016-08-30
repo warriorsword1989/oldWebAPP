@@ -1,7 +1,7 @@
 /**
  * Created by linglong on 2016/8/12.
  */
-angular.module("app").controller("lcLinkController",["$scope","dsEdit" , function($scope,dsEdit) {
+angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyLoad' , function($scope,dsEdit,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -15,25 +15,6 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.lcLinkData = null;
-    $scope.kind = [
-        {"id": 0, "label": "未分类"},
-        {"id": 1, "label": "海岸线"},
-        {"id": 2, "label": "河川"},
-        {"id": 3, "label": "湖沼地"},
-        {"id": 4, "label": "水库"},
-        {"id": 5, "label": "港湾"},
-        {"id": 6, "label": "运河"},
-        {"id": 7, "label": "单线河"},
-        {"id": 8, "label": "水系假想线"},
-        {"id": 11, "label": "公园"},
-        {"id": 12, "label": "高尔夫球场"},
-        {"id": 13, "label": "滑雪场"},
-        {"id": 14, "label": "树林林地"},
-        {"id": 15, "label": "草地"},
-        {"id": 16, "label": "绿化带"},
-        {"id": 17, "label": "岛"},
-        {"id": 18, "label": "绿地假象线"}
-    ];
     $scope.form = [
         {"id": 0, "label": "未调查"},
         {"id": 1, "label": "暗沙"},
@@ -44,9 +25,13 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
         {"id": 9, "label": "湖泊(国界外)"},
         {"id": 10, "label": "界河"}
     ];
+
+
     //初始化
     $scope.initializeData = function(){
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.lcLinkData = objCtrl.data;
+
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.lcLinkForm) {
             $scope.lcLinkForm.$setPristine();
@@ -75,7 +60,10 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
+
     };
+
+
 
     //保存
     $scope.save = function(){
@@ -131,6 +119,18 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit" , functio
     $scope.cancel = function(){
 
     };
+
+    $scope.showPopover=function(){
+        var showPopoverObj = {
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl":'scripts/components/road/ctrls/attr_lc_ctrl/lcLinkTypeCtrl',
+            "propertyHtml":'../../../scripts/components/road/tpls/attr_lc_tpl/lcLinkType.html'
+        };
+        $scope.$emit('transitCtrlAndTpl', showPopoverObj);
+        eventController.fire(eventController.eventTypes.SELECTEDVEHICLECHANGE)
+    }
+
+
 
     //监听保存，修改,删除，取消，和初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
