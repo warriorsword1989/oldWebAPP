@@ -89,8 +89,42 @@
 				</div>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-8">
-							<img src="../../../images/road/img/noimg.png" alt="">
+						<div class="col-md-8" style="position: relative">
+							<div style="height: 305px">
+								<div id="Carousel" class="carousel slide">
+									<ol class="carousel-indicators">
+										<li data-target="Carousel" data-slide-to="0" class="active"></li>
+										<li data-target="Carousel" data-slide-to="1"></li>
+										<li data-target="Carousel" data-slide-to="2"></li>
+									</ol>
+									<div class="carousel-inner">
+										<div class="item active">
+											<img src="../../../images/poi/main/test.png" class="img-responsive">
+										</div>
+										<div class="item">
+											<img src="../../../images/poi/main/test.png" class="img-responsive">
+										</div>
+										<div class="item">
+											<img src="../../../images/poi/main/test.png" class="img-responsive">
+										</div>
+									</div>
+									<a class="left carousel-control" href="#Carousel" data-slide="prev">
+										<span class="glyphicon glyphicon-chevron-left"></span>
+									</a>
+									<a class="right carousel-control" href="#Carousel" data-slide="next">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+									</a>
+								</div>
+								<!--<div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+									<div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+										<img ng-src="{{slide.image}}" style="margin:auto;">
+										<div class="carousel-caption">
+											<h4>Slide {{slide.id}}</h4>
+											<p>{{slide.text}}</p>
+										</div>
+									</div>
+								</div>-->
+							</div>
 						</div>
 						<div class="col-md-4">
 							<table class="table">
