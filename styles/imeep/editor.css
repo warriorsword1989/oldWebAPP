@@ -1732,6 +1732,13 @@ form input[type=checkbox].ng-dirty:before {
   float: right;
 }
 /******************* 精编样式end *******************/
+.carousel-inner .item.active {
+  text-align: center;
+  margin: 0 auto;
+}
+.carousel-inner .item.active img {
+  display: inline;
+}
 .pointer {
   cursor: pointer;
 }
