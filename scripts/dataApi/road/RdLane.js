@@ -17,29 +17,43 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.lanePid = data['lanePid'] || '';
-        this.nodePid = data["nodePid"];
-        this.inLinkPid = data["inLinkPid"];
-        this.outLinkPid = data["outLinkPid"];
-        this.type = data["type"] || 0;
-        this.passageNum = data["passageNum"] || 0;
-        this.etcFigureCode = data["etcFigureCode"] || null;
-        this.hwName = data["hwName"] || null;
-        this.feeType = data["feeType"];
-        this.passages = [];
-        if(data["passages"] && data["passages"].length > 0){
-            for(var i=0;i<data["passages"].length;i++){
-                var passage = fastmap.dataApi.rdTollgatePassage(data["passages"][i]);
-                this.passages.push(passage);
-            }
+        this.lanePid = data['lanePid'];
+        this.linkPid = data["linkPid"];
+        this.laneNum = data["laneNum"] || 1;
+        this.travelFlag = data["travelFlag"] || 0;
+        this.seqNum = data["seqNum"] || 1;
+        this.laneForming = data["laneForming"] || 0;
+        this.laneDir = data["laneDir"] || 1;
+        this.laneType = data["laneType"] || 1;
+        if (data['arrowDir'] == '' || data['arrowDir'] == 'undefined') {
+          this.arrowDir = 9;
+        } else {
+          this.arrowDir = data['arrowDir'];
         }
-        this.feeStd = data["feeStd"] || 0;
-        this.systemId = data["systemId"] || 0;
-        this.locationFlag = data["locationFlag"] || 0;
+        this.laneMark = data["laneMark"] || 0;
+        this.width = data["width"] || 0;
+        this.restrictHeight = data["restrictHeight"] || 0;
+        this.transitionArea = data["transitionArea"] || 0;
+        this.fromMaxSpeed = data["fromMaxSpeed"] || 0;
+        this.toMaxSpeed = data["toMaxSpeed"] || 0;
+        this.fromMinSpeed = data["fromMinSpeed"] || 0;
+        this.toMinSpeed = data["toMinSpeed"] || 0;
+        this.elecEye = data["elecEye"] || 0;
+        this.laneDivider = data["laneDivider"] || 0;
+        this.centerDivider = data["centerDivider"] || 0;
+        this.speedFlag = data["speedFlag"] || 0;
+        this.srcFlag = data["srcFlag"] || 0;
+        this.uRecord = data["uRecord"] || 0;
         this.uFields = data["uFields"] || null;
         this.uDate = data["uDate"] || null;
         this.rowId = data["rowId"] || null;
-        this.uRecord = data["uRecord"] || 0;
+        this.conditions = [];
+        if(data["conditions"] && data["conditions"].length > 0){
+            for(var i=0;i<data["conditions"].length;i++){
+                var condition = fastmap.dataApi.rdLaneCondition(data["conditions"][i]);
+                this.conditions.push(condition);
+            }
+        }
     },
 
     /**
@@ -50,30 +64,36 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["inLinkPid"]  = this.inLinkPid;
-        data["outLinkPid"]  = this.outLinkPid;
-        data["type"] = this.type;
-        data["passageNum"] = this.passageNum;
-        data["etcFigureCode"] = this.etcFigureCode;
-        data["hwName"] = this.hwName;
-        data["feeType"] = this.feeType;
-        data["feeStd"] = this.feeStd;
-        data["names"] = [];
-        for (var i = 0; i < this.names.length; i++) {
-            data["names"].push(this.names[i].getIntegrate());
-        }
-        data["passages"] = [];
-        for (var i = 0; i < this.passages.length; i++) {
-            data["passages"].push(this.passages[i].getIntegrate());
-        }
-        data["systemId"] = this.systemId;
-        data["locationFlag"] = this.locationFlag;
+        data["lanePid"] = this.lanePid;
+        data["linkPid"] = this.linkPid;
+        data["laneNum"]  = this.laneNum;
+        data["travelFlag"]  = this.travelFlag;
+        data["seqNum"] = this.seqNum;
+        data["laneForming"] = this.laneForming;
+        data["laneDir"] = this.laneDir;
+        data["laneType"] = this.laneType;
+        data["arrowDir"] = this.arrowDir;
+        data["laneMark"] = this.laneMark;
+        data["width"] = this.width;
+        data["restrictHeight"] = this.restrictHeight;
+        data["transitionArea"] = this.transitionArea;
+        data["fromMaxSpeed"] = this.fromMaxSpeed;
+        data["toMaxSpeed"] = this.toMaxSpeed;
+        data["fromMinSpeed"] = this.fromMinSpeed;
+        data["toMinSpeed"] = this.toMinSpeed;
+        data["elecEye"] = this.elecEye;
+        data["laneDivider"] = this.laneDivider;
+        data["centerDivider"] = this.centerDivider;
+        data["speedFlag"] = this.speedFlag;
+        data["srcFlag"] = this.srcFlag;
+        data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
-        data["uRecord"] = this.uRecord;
+        data["conditions"] = [];
+        for (var i = 0; i < this.conditions.length; i++) {
+            data["conditions"].push(this.conditions[i].getIntegrate());
+        }
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -86,30 +106,36 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["inLinkPid"]  = this.inLinkPid;
-        data["outLinkPid"]  = this.outLinkPid;
-        data["type"] = this.type;
-        data["passageNum"] = this.passageNum;
-        data["etcFigureCode"] = this.etcFigureCode;
-        data["hwName"] = this.hwName;
-        data["feeType"] = this.feeType;
-        data["feeStd"] = this.feeStd;
-        data["names"] = [];
-        for (var i = 0; i < this.names.length; i++) {
-            data["names"].push(this.names[i].getIntegrate());
-        }
-        data["passages"] = [];
-        for (var i = 0; i < this.passages.length; i++) {
-            data["passages"].push(this.passages[i].getIntegrate());
-        }
-        data["systemId"] = this.systemId;
-        data["locationFlag"] = this.locationFlag;
+        data["lanePid"] = this.lanePid;
+        data["linkPid"] = this.linkPid;
+        data["laneNum"]  = this.laneNum;
+        data["travelFlag"]  = this.travelFlag;
+        data["seqNum"] = this.seqNum;
+        data["laneForming"] = this.laneForming;
+        data["laneDir"] = this.laneDir;
+        data["laneType"] = this.laneType;
+        data["arrowDir"] = this.arrowDir;
+        data["laneMark"] = this.laneMark;
+        data["width"] = this.width;
+        data["restrictHeight"] = this.restrictHeight;
+        data["transitionArea"] = this.transitionArea;
+        data["fromMaxSpeed"] = this.fromMaxSpeed;
+        data["toMaxSpeed"] = this.toMaxSpeed;
+        data["fromMinSpeed"] = this.fromMinSpeed;
+        data["toMinSpeed"] = this.toMinSpeed;
+        data["elecEye"] = this.elecEye;
+        data["laneDivider"] = this.laneDivider;
+        data["centerDivider"] = this.centerDivider;
+        data["speedFlag"] = this.speedFlag;
+        data["srcFlag"] = this.srcFlag;
+        data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
-        data["uRecord"] = this.uRecord;
+        data["conditions"] = [];
+        for (var i = 0; i < this.conditions.length; i++) {
+            data["conditions"].push(this.conditions[i].getIntegrate());
+        }
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

@@ -102,4 +102,30 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         });
         return defer.promise;
     };
+    /*自动录入*/
+    this.runAutomaticInput = function(types) {
+        var defer = $q.defer();
+        var params = {
+            'jobType':'niRobot',
+            'request':{
+                "grids": App.Temp.gridList,
+                "targetDbId":App.Temp.dbId,
+                "type":types
+            },
+            'descp':''
+        };
+        ajax.get("job/create/", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode === 0) {
+                defer.resolve(data);
+            } else {
+                swal("创建Job出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);
