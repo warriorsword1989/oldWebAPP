@@ -941,15 +941,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
-                            'title': "重置",
-                            'type': "POIRESET",
-                            'class': "feaf",
-                            callback: $scope.modifyPoi
-                        }, {
                             'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
                             'title': "编辑父",
                             'type': "SELECTPARENT",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'title': "同一关系",
+                            'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }]
@@ -3066,27 +3066,55 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
                     return;
                 }
-            } else if (type === "POIRESET") {
-                if (shapeCtrl.shapeEditorResult) {
-                    var sObj = shapeCtrl.shapeEditorResult;
-                    var oFeature = sObj.getOriginalGeometry();
-                    var of_1 = originalFeature[0].clone();
-                    var of_2 = originalFeature[1].clone();
-                    var comsAndPoints = [];
-                    comsAndPoints.push(of_1);
-                    comsAndPoints.push(of_2);
-                    oFeature.components = comsAndPoints;
-                    oFeature.points = comsAndPoints;
-                    setTimeout(function() {
-                        editLayer.clear();
-                        $scope.geometry = of_1;
-                        $scope.guide = of_2;
-                        editLayer.draw(oFeature, editLayer); //在编辑图层中画出需要编辑的几何体
-                    }, 100);
-                    map.currentTool = shapeCtrl.getCurrentTool();
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(oFeature);
-                    return;
-                }
+            } else if (type === "POISAME") {
+                tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
+                eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
+                    var data = event.data,
+                        highlightFeatures = [],
+                        rectangleData = { //矩形框信息geoJson
+                            "type": "Polygon",
+                            "coordinates": [
+                                []
+                            ]
+                        },
+                        latArr = event.border._latlngs;
+                    /*过滤框选后的数组，去重*/
+                    var newData = []; //去重后的数据
+                    var repeatIdArr = [];
+                    for(var i = 0 , len = data.length; i<len; i++){
+                        if(repeatIdArr.indexOf(data[i].properties.id) < 0 ){
+                            repeatIdArr.push(data[i].properties.id);
+                            newData.push(data[i]);
+                        }
+                    }
+                    // /*高亮link*/
+                    // for (var i = 0, lenI = newData.length; i < lenI; i++) {
+                    //     highlightFeatures.push({
+                    //         id: newData[i].properties.id.toString(),
+                    //         layerid: 'poi',
+                    //         type: 'IXPOI'
+                    //     })
+                    // }
+                    highRenderCtrl.highLightFeatures = highlightFeatures;
+                    highRenderCtrl.drawHighlight();
+                    //判断相交点数
+                    if (newData.length == 0) {
+                        tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
+                    } else {
+                        var relationShap = {
+                            "loadType": "sameRelationShapTplContainer",
+                            "propertyCtrl": appPath.poi + 'ctrls/attr-tips/poiSameCtrl',
+                            "propertyHtml": appPath.root + appPath.poi + 'tpls/attr-tips/poiSameTpl.html',
+                            "callback":function (){
+                                setTimeout(function () {
+                                    $scope.$emit("showSamePoi",newData);
+                                },200)
+                            }
+                        };
+                        $scope.$emit("transitCtrlAndTpl", relationShap);
+                    }
+                });
+                // return;
             } else if (type === "SELECTPARENT") {
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
@@ -3100,13 +3128,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         },
                         latArr = event.border._latlngs;
                     /*过滤框选后的数组，去重*/
-                    for (var i = 0; i < data.length; i++) {
-                        for (var j = 0; j < data.length; j++) {
-                            if (i != j) {
-                                if (data[i].properties.id == data[j].properties.id || data[i].properties.id == objCtrl.data.pid) {
-                                    data.splice(i, 1);
-                                }
-                            }
+                    var newData = []; //去重后的数据
+                    var repeatIdArr = [];
+                    for(var i = 0 , len = data.length; i<len; i++){
+                        if(repeatIdArr.indexOf(data[i].properties.id) < 0 ){
+                            repeatIdArr.push(data[i].properties.id);
+                            newData.push(data[i]);
                         }
                     }
                     for (var rec = 0; rec < latArr.length; rec++) {
@@ -3119,9 +3146,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }
                     }
                     /*高亮link*/
-                    for (var i = 0, lenI = data.length; i < lenI; i++) {
+                    for (var i = 0, lenI = newData.length; i < lenI; i++) {
                         highlightFeatures.push({
-                            id: data[i].properties.id.toString(),
+                            id: newData[i].properties.id.toString(),
                             layerid: 'poi',
                             type: 'IXPOI'
                         })
@@ -3129,23 +3156,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     highRenderCtrl.highLightFeatures = highlightFeatures;
                     highRenderCtrl.drawHighlight();
                     //判断相交点数
-                    if (data.length == 0) {
+                    if (newData.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
                     } else {
                         var html = '<ul id="layerpopup">';
                         //this.overlays = this.unique(this.overlays);
-                        for (var item in data) {
+                        for (var item in newData) {
                             var index = parseInt(item) + 1;
-                            if (objCtrl.data.parents.length > 0 && data[item].properties.id == objCtrl.data.parents[0].parentPoiPid) { //当前父
-                                html += '<li><a href="#" id="' + data[item].properties.id + '">' + index + '、' + data[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-default">' + '当前父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-warning btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="解除父">' + '</li>';
-                            } else if ($scope.metaData.kindFormat[data[item].properties.kindCode].parent != 0) {
-                                html += '<li><a href="#" id="' + data[item].properties.id + '">' + index + '、' + data[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-info">' + '可为父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-success btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="作为父">' + '</li>';
+                            if (objCtrl.data.parents.length > 0 && newData[item].properties.id == objCtrl.data.parents[0].parentPoiPid) { //当前父
+                                html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-default">' + '当前父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-warning btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="解除父">' + '</li>';
+                            } else if ($scope.metaData.kindFormat[newData[item].properties.kindCode].parent != 0) {
+                                html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-info">' + '可为父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-success btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="作为父">' + '</li>';
                             }
                             // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';
                         }
                         html += '</ul>';
-                        popup.setLatLng([data[item].point.y, data[item].point.x]).setContent(html);
-                        if (data && data.length >= 1) {
+                        popup.setLatLng([newData[item].point.y, newData[item].point.x]).setContent(html);
+                        if (newData && newData.length >= 1) {
                             setTimeout(function() {
                                 map.openPopup(popup);
                             }, 200)
@@ -3195,20 +3222,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             map.currentTool = shapeCtrl.getCurrentTool();
             if (type === "POILOCMOVE") {
                 shapeCtrl.editFeatType = "IXPOI";
-                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler._guides = [];
                 map.currentTool.captureHandler.addGuideLayer(poiLayer); //把点图层放到捕捉工具中
             } else if (type === "POIGUIDEMOVE") {
                 shapeCtrl.editFeatType = "IXPOI";
-                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler._guides = [];
                 map.currentTool.captureHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
             } else if (type === "POIAUTODRAG") {
                 shapeCtrl.editFeatType = "IXPOI";
-                map.currentTool.captureHandler._guides.length = 0;
+                map.currentTool.captureHandler._guides = [];
                 map.currentTool.captureHandler.addGuideLayer(rdLink); //把线图层放到捕捉工具中
-            } else if (type === "POIRESET") {
-                map.currentTool.captureHandler._guides.length = 0;
             } else if (type === "SELECTPARENT") {
-                map.currentTool.snapHandler._guides.length = 0;
+                map.currentTool.snapHandler._guides = [];
             }
         };
         $scope.clearMap = function () {

@@ -16,6 +16,11 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'SELECTPARENT': "SelectParent",
     /*
+     /*
+     画矩形操作
+     */
+    'POISAME': "PoiSame",
+    /*
       画面操作
      */
     'DRAWPOLYGON': "drawPolygon",

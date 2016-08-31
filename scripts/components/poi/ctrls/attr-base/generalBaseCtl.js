@@ -73,6 +73,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     $scope.relationInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/relationInfoTpl.html';
                 });
                 break;
+            case 'same':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/samePoisCtrl').then(function() {
+                    $scope.sameInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/samePoisTpl.html';
+                });
+                break;
             case 'file':
                 $ocll.load(appPath.poi + 'ctrls/edit-tools/fileUploadCtl').then(function() {
                     $scope.fileUploadTpl = appPath.root + appPath.poi + 'tpls/edit-tools/fileUploadTpl.html';
