@@ -533,7 +533,16 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("showSameNodeOrLink", function (event, data) {
 			$scope.$broadcast("showSameRelationshap");
 		});
-
+		/**
+		 * 接收地图上框选同一POI事件
+		 */
+		$scope.$on("showSamePoi", function (event, data) {
+			var samePoi = {
+				data:data,
+				meta:$scope.metaData
+			};
+			$scope.$broadcast("showSamePoishap",samePoi);
+		});
 		/*修改收费站通道信息，刷新ETC code*/
 		$scope.$on("tollGateCardType", function (event, data) {
 			$scope.$broadcast('refreshEtcCode',true);

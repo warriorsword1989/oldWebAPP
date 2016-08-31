@@ -1,0 +1,23 @@
+<div ng-controller="samePoisCtrl">
+    <div ng-show="propertyType=='same'">
+        <div class="fm-panel" >
+            <div class="title">
+                <div>同一关系POI</div>
+                <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: left;cursor:pointer;" ng-click="deleteSamePoi()"></span>
+            </div>
+            <div class="content">
+                <div ng-repeat="cItem in sameData.pids" class="blackTheme module-box">
+                    <ul class="fm-ul fm-ul-form">
+                        <li >
+                            <label>PID序号{{$index+1}}</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="cItem.seqNum" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
