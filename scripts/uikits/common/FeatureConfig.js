@@ -338,6 +338,7 @@ fastmap.uikit.FeatureConfig = {
             return "未知:" + featCode;
         }
     },
+
     tipName: function(tipCode) {
         if (this.tip[tipCode]) {
             return this.tip[tipCode].name

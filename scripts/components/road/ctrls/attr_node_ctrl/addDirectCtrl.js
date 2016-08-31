@@ -36,8 +36,6 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
             {"id":41,"label":"KDZone与道路交点","isCheck":false}
         ];
 
-
-
         $scope.newFromOfWRoadDate=[];
         for(var p in $scope.rdNodeData.forms){
             for(var s in $scope.fromOfWayOption){
@@ -46,9 +44,6 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
                 }
             }
         }
-    }
-    if(objectEditCtrl.data) {
-        $scope.initializeSelNodeData();
     }
 
     $scope.getCheck=function(item){
@@ -69,4 +64,6 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
     }
 
 
+    eventCtrl.off('SHOWSUBTABLEDATA');
+    eventCtrl.on('SHOWSUBTABLEDATA',$scope.initializeSelNodeData);
 })
