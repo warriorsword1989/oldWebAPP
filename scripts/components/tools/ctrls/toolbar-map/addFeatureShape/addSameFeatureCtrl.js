@@ -72,7 +72,7 @@ angular.module('app').controller("addSameFeatureCtrl", ['$scope', '$ocLazyLoad',
                     for (var i = 0 , len = removeRepeatArr.length; i<len; i++){
                         var o = {};
                         o.featType = removeRepeatArr[i].data.properties.featType;
-                        o.id = data.data[i].data.properties.id;
+                        o.id = removeRepeatArr[i].data[i].data.properties.id;
                         o.checked = false;
                         o.isMain = 0;
                         arr.push(o);

@@ -26,13 +26,13 @@
                         <li>
                             <label>FACE周长</label>
                             <div>
-                                <input type="text" class="fm-control" ng-model="luFaceData.area" disabled="disabled">
+                                <input type="text" class="fm-control chosen-disabled" ng-model="luFaceData.area">
                             </div>
                         </li>
                         <li>
                             <label>图符号码</label>
                             <div>
-                                <input type="text" class="fm-control" ng-model="luFaceData.perimeter" disabled="disabled">
+                                <input type="text" class="fm-control chosen-disabled" ng-model="luFaceData.perimeter">
                             </div>
                         </li>
                     </ul>
@@ -42,7 +42,7 @@
         <!--begin 名称组-->
 	    <div class="module-box show-detail-title" ng-click="showDetail();">
 	        <div class="box-head font-bold">
-	            名称信息（共<span ng-bind="luFaceData.names.length"></span> 条）
+	            名称信息（共<span ng-bind="luFaceData.faceNames.length"></span> 条）
 	        </div>
 	    </div>
     	<!--end 名称组-->

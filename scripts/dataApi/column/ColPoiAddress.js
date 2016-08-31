@@ -7,6 +7,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
+        this.pid = data["pid"];
         this.poiPid = data['poiPid'] || 0;
         this.nameGroupid = data['nameGroupid'] || 1;
         this.langCode = data['langCode'];
@@ -39,6 +40,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
+        ret['pid'] = this.pid;
         ret['nameGroupid'] = this.nameGroupid;
         ret['poiPid'] = this.poiPid;
         ret['langCode'] = this.langCode;

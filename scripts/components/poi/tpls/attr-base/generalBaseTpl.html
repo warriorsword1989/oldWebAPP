@@ -3,7 +3,7 @@
         POI <span ng-if="brigeLinkArrays==null" class="label label-info" >{{poi.pid}}</span>
     </div>
     <div class="content">
-        <form name="generalPoiForm">
+        <form name="generalPoiForm" form-disabled>
             <div class="fm-tabs">
                 <a href="#" ng-class="{'tab': true, 'active': propertyType == 'base'}" ng-click="changeProperty('base')">基本属性</a>
                 <a href="#" ng-class="{'tab': true, 'active': propertyType == 'deep'}" ng-click="changeProperty('deep')">深度信息</a>

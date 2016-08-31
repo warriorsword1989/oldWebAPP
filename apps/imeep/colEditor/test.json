@@ -34,7 +34,7 @@
                 "addons": "",
                 "uRecord": 0,
                 "uFields": "",
-                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
             }
         ],
         "kindCode": "120201",
@@ -66,6 +66,7 @@
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
             }
         ],
+        "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A04-04"],
         "rowId": "3524E56B29346E1AE050A8C08304BA17"
     },{
@@ -102,7 +103,7 @@
                 "addons": "addons",
                 "uRecord": 0,
                 "uFields": "",
-                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
             }
         ],
         "kindCode": "120201",
@@ -134,6 +135,7 @@
                 "rowId": "3524E9199D836E1AE050A8C08304BA18"
             }
         ],
+        "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
         "rowId": "3524E56B29346E1AE050A8C08304BA18"
     },{
@@ -170,7 +172,7 @@
                 "addons": "addons",
                 "uRecord": 0,
                 "uFields": "",
-                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
             }
         ],
         "kindCode": "120201",
@@ -202,6 +204,7 @@
                 "rowId": "3524E9199D836E1AE050A8C08304BA18"
             }
         ],
+        "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
         "rowId": "3524E56B29346E1AE050A8C08304BA18"
     },{
@@ -238,7 +241,7 @@
                 "addons": "addons",
                 "uRecord": 0,
                 "uFields": "",
-                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
             }
         ],
         "kindCode": "120201",
@@ -270,6 +273,7 @@
                 "rowId": "3524E9199D836E1AE050A8C08304BA18"
             }
         ],
+        "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
         "rowId": "3524E56B29346E1AE050A8C08304BA18"
     },{
@@ -306,7 +310,7 @@
                 "addons": "addons",
                 "uRecord": 0,
                 "uFields": "",
-                "row_id": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
             }
         ],
         "kindCode": "120201",
@@ -338,6 +342,7 @@
                 "rowId": "3524E9199D836E1AE050A8C08304BA18"
             }
         ],
+        "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
         "rowId": "3524E56B29346E1AE050A8C08304BA18"
     }]

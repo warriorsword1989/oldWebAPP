@@ -11,9 +11,7 @@
                         <li>
                             <label>Link种别</label>
                             <div>
-                                <select ng-model="lcLinkData.kinds[0].kind" ng-options="value.id as value.label for value in kind">
-                                    <option value="">请选择道路种别</option>
-                                </select>
+                                <a  ng-click="showPopover()" style="cursor: pointer;">编辑</a>
                             </div>
                         </li>
                         <li>
@@ -27,13 +25,13 @@
                         <li>
                             <label>Link长度</label>
                             <div>
-                                <input type="text" ng-model="lcLinkData.length" disabled="disabled"> m
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.length" > m
                             </div>
                         </li>
                         <li>
                             <label>图幅号码</label>
                             <div>
-                                <input type="text" ng-model="lcLinkData.meshId" disabled="disabled">
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.meshId" >
                             </div>
                         </li>
                     </ul>
