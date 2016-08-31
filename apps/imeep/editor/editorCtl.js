@@ -9,6 +9,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		var layerCtrl = new fastmap.uikit.LayerController({
 			config: App.layersConfig
 		});
+		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
 		$scope.addLogMsg = function(){
@@ -439,7 +440,12 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					return;
 				}
 			} else if (data["loadType"] === 'sameRelationShapTplContainer') {
-
+				if(data["rectData"]){
+					featCodeCtrl.setFeatCode({
+						"data": data["rectData"],
+						"meta":$scope.metaData
+					});
+				}
 			}
 			if (data["data"]) {
 				$scope.subAttributeData = data["data"];
@@ -537,11 +543,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		 * 接收地图上框选同一POI事件
 		 */
 		$scope.$on("showSamePoi", function (event, data) {
-			var samePoi = {
-				data:data,
-				meta:$scope.metaData
-			};
-			$scope.$broadcast("showSamePoishap",samePoi);
+			$scope.$broadcast("showSamePoishap");
 		});
 		/*修改收费站通道信息，刷新ETC code*/
 		$scope.$on("tollGateCardType", function (event, data) {

@@ -5,6 +5,7 @@ var samePoiApp = angular.module("app",[]);
 samePoiApp.controller("SamePoiController",['$scope','$ocLazyLoad','appPath','dsEdit','$timeout',function($scope,$ocLazyLoad,appPath,dsEdit,$timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
     var layerCtrl = fastmap.uikit.LayerController();
     var poiLayer = layerCtrl.getLayerById('poi');
 
@@ -13,19 +14,7 @@ samePoiApp.controller("SamePoiController",['$scope','$ocLazyLoad','appPath','dsE
     $scope.same = {};
     $scope.same.sameTplShow = false; //用于控制同一POI制作面板是否显示
 
-    $scope.$on('showSamePoishap',function (event,data){
-        $scope.sameRelationshap = data.data;
-        $scope.poiSameMeta = data.meta;
-        $scope.same.sameNameList = [];
-        for(var i = 0 , len = data.data.length; i < len ; i ++){
-            if(data.data[i].properties.kindCode!=undefined){
-                $scope.same.sameNameList.push({
-                    id:data.data[i].properties.id,
-                    name:data.data[i].properties.name,
-                    kindName:$scope.poiSameMeta.kindFormat[data.data[i].properties.kindCode].kindName
-                }) ;
-            }
-        }
+    $scope.$on('showSamePoishap',function (data){
         $scope.initializeData();
     });
 
@@ -34,9 +23,21 @@ samePoiApp.controller("SamePoiController",['$scope','$ocLazyLoad','appPath','dsE
      */
     $scope.initializeData = function (){
         $scope.same.sameTplShow = true;
-        $scope.same.sameDisabledIndex = -1;
-
+        $scope.sameRelationshap = featCodeCtrl.getFeatCode().data;
+        $scope.poiSameMeta = featCodeCtrl.getFeatCode().meta;
+        $scope.same.sameNameList = [];
+        for(var i = 0 , len = $scope.sameRelationshap.length; i < len ; i ++){
+            if($scope.sameRelationshap[i].properties.kindCode!=undefined){
+                $scope.same.sameNameList.push({
+                    id:$scope.sameRelationshap[i].properties.id,
+                    name:$scope.sameRelationshap[i].properties.name,
+                    kindName:$scope.poiSameMeta.kindFormat[$scope.sameRelationshap[i].properties.kindCode].kindName
+                }) ;
+            }
+        }
     };
+
+    $scope.initializeData();
 
     $scope.minusSamePoi = function (num){
         if($scope.same.sameNameList.length == 1){
@@ -80,6 +81,6 @@ samePoiApp.controller("SamePoiController",['$scope','$ocLazyLoad','appPath','dsE
         // highRenderCtrl._cleanHighLight();
     };
 
-    $scope.initializeData();
+
 
 }]);
