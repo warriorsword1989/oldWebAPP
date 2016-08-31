@@ -113,8 +113,60 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
       {id:1,label:'双方向道路'},
       {id:2,label:'单方向或上下线分离道路'}
     ];
+    // 车道标识
+    $scope.laneFlag = [
+      {id:0,label:'不应用'},
+      {id:1,label:'车道形成'},
+      {id:2,label:'车道结束'},
+      {id:3,label:'车道形成&结束'}
+    ];
+    // 车道方向
+    $scope.laneDirObj = [
+      {id:1,label:'无'},
+      {id:2,label:'顺方向'},
+      {id:3,label:'逆方向'}
+    ];
+    // 车道类型
+    $scope.laneTypeObj = [
+      {id:0,label:'常规车道'},
+      {id:1,label:'复合车道'},
+      {id:2,label:'加速车道'},
+      {id:3,label:'减速车道'},
+      {id:4,label:'满载车道'},
+      {id:5,label:'快车道'},
+      {id:6,label:'慢车道'},
+      {id:7,label:'超车道'},
+      {id:8,label:'可行驶路肩带'},
+      {id:9,label:'卡车停车道'},
+      {id:10,label:'管制车道'},
+      {id:11,label:'潮汐车道'},
+      {id:12,label:'中心转向车道'},
+      {id:13,label:'转向车道'},
+      {id:14,label:'空车道'},
+      {id:15,label:'转向可变车道'}
+    ];
+    // 车道分隔带
+    $scope.laneDividerObj = [
+      {id:0,label:'未调查'},
+      {id:10,label:'虚线'},
+      {id:11,label:'短虚线'},
+      {id:12,label:'短粗虚线'},
+      {id:13,label:'双虚线'},
+      {id:20,label:'单实线'},
+      {id:21,label:'双实线'},
+      {id:30,label:'左实线/右虚线'},
+      {id:31,label:'左虚线/右实线'},
+      {id:40,label:'填充区标线'},
+      {id:50,label:'警告线'},
+      {id:51,label:'中心转向标线'},
+      {id:60,label:'其他物理隔离'},
+      {id:61,label:'栅栏'},
+      {id:62,label:'绿化带'},
+      {id:63,label:'混合'},
+      {id:99,label:'无'}
+    ];
     // 车道方向集合
-    $scope.laneDirectArray = [1,2,3,4,5,'a','b','c',
+    $scope.laneDirectArray = [0,1,2,3,4,5,'a','b','c',
     'd','e','f','g','h','i','j','k','l','m','n','o','r','s','t','u','v','w','x','y','z'];
     $scope.save = function(){
         objCtrl.save();
