@@ -45,6 +45,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'poiLocMove':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:false}),
                     'poiAutoDrag':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:true}),
                     'SelectParent':new fastmap.mapApi.SelectParent({shapeEditor:shapeEditor}),
+                    'PoiSame':new fastmap.mapApi.SelectParent({shapeEditor:shapeEditor}),
                     'poiAdd':new fastmap.mapApi.poiAdd({shapeEditor:shapeEditor}),
                     'poiGuideMove':new fastmap.mapApi.poiGuideMove({shapeEditor:shapeEditor}),
                     'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor})

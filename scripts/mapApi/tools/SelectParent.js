@@ -80,11 +80,11 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
 
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
-            // if (this._shape) {
-            //     this._map.removeLayer(this._shape);
-            //     this._map.getPanes().overlayPane.style.zIndex = "1";
-            //     delete this._shape;
-            // }
+            if (this._shape) {
+                this._map.removeLayer(this._shape);
+                // this._map.getPanes().overlayPane.style.zIndex = "1";
+                delete this._shape;
+            }
         }
         this._isDrawing = false;
 
