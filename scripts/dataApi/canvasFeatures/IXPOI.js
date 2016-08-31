@@ -30,46 +30,60 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
         }else if(data.m.b == 3){
             poiColor = grayFill;
         }
-        if(data.m.a == 1){
-            this.properties['markerStyle']["icon"].push(
-                fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/poi/map/poi_p.png',
-                    row: 0,
-                    column: 1,
-                    location: this.geometry['coordinates']
-                    // fillStyle:poiColor
-                })
-            );
-        }else if(data.m.a == 2){
-            this.properties['markerStyle']["icon"].push(
-                fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/poi/map/poi_c.png',
-                    row: 0,
-                    column: 1,
-                    location: this.geometry['coordinates']
-                    // fillStyle:poiColor
-                })
-            );
-        }else if(data.m.a == 3){
-            this.properties['markerStyle']["icon"].push(
-                fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/poi/map/poi_pc.png',
-                    row: 0,
-                    column: 1,
-                    location: this.geometry['coordinates']
-                    // fillStyle:poiColor
-                })
-            );
+        if(data.m.f){
+            if(data.m.f == 1){
+                this.properties['markerStyle']["icon"].push(
+                    fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                        iconName: '../../../images/poi/map/poi_s.png',
+                        row: 0,
+                        column: 1,
+                        location: this.geometry['coordinates']
+                        // fillStyle:poiColor
+                    })
+                );
+            }
         }else {
-            this.properties['markerStyle']["icon"].push(
-                fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/poi/map/poi_n.png',
-                    row: 0,
-                    column: 1,
-                    location: this.geometry['coordinates']
-                    // fillStyle:poiColor
-                })
-            );
+            if(data.m.a == 1){
+                this.properties['markerStyle']["icon"].push(
+                    fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                        iconName: '../../../images/poi/map/poi_p.png',
+                        row: 0,
+                        column: 1,
+                        location: this.geometry['coordinates']
+                        // fillStyle:poiColor
+                    })
+                );
+            }else if(data.m.a == 2){
+                this.properties['markerStyle']["icon"].push(
+                    fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                        iconName: '../../../images/poi/map/poi_c.png',
+                        row: 0,
+                        column: 1,
+                        location: this.geometry['coordinates']
+                        // fillStyle:poiColor
+                    })
+                );
+            }else if(data.m.a == 3){
+                this.properties['markerStyle']["icon"].push(
+                    fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                        iconName: '../../../images/poi/map/poi_pc.png',
+                        row: 0,
+                        column: 1,
+                        location: this.geometry['coordinates']
+                        // fillStyle:poiColor
+                    })
+                );
+            }else {
+                this.properties['markerStyle']["icon"].push(
+                    fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                        iconName: '../../../images/poi/map/poi_n.png',
+                        row: 0,
+                        column: 1,
+                        location: this.geometry['coordinates']
+                        // fillStyle:poiColor
+                    })
+                );
+            }
         }
     }
 });
