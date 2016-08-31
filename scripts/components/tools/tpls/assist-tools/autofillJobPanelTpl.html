@@ -3,8 +3,11 @@
     <div class="content">
         <div>执行以下Tips录入:</div>
         <div class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
-            <label ng-repeat="item in tipList" class="col-md-4">
+            <!-- <label ng-repeat="item in tipList" class="col-md-4">
                 <input type="checkbox" name="tipList" ng-model="selectedTips[item.id]" ng-value="item.id"> {{item.name}}
+            </label> -->
+            <label ng-repeat="(key, value) in tipsObj" class="col-md-4">
+                <input type="checkbox" name="tipList" ng-model="selectedTips[key]" ng-value="key"> {{value.name}}
             </label>
         </div>
         <!-- 进度条 -->

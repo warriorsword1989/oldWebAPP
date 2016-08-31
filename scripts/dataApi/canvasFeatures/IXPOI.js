@@ -32,6 +32,7 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
         }
         if(data.m.f){
             if(data.m.f == 1){
+                this.properties['same'] = data.m.f;
                 this.properties['markerStyle']["icon"].push(
                     fastmap.uikit.canvasFeature.Feature.getIconStyle({
                         iconName: '../../../images/poi/map/poi_s.png',
@@ -43,6 +44,7 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
                 );
             }
         }else {
+            this.properties['same'] = 0;
             if(data.m.a == 1){
                 this.properties['markerStyle']["icon"].push(
                     fastmap.uikit.canvasFeature.Feature.getIconStyle({
