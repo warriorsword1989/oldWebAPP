@@ -167,14 +167,14 @@ a:hover {
   font-weight: bold;
 }
 .fm-tabs {
-  padding: 0 10px;
+  padding: 0 5px;
   margin-bottom: 5px;
 }
 .fm-tabs a.tab {
   color: #ccc;
   font-weight: bold;
   text-decoration: none;
-  padding: 6px 5px;
+  padding: 6px 2px;
   display: inline-block;
   text-align: center;
   background-color: #313131;
@@ -1526,6 +1526,12 @@ form input[type=checkbox].ng-dirty:before {
 }
 .divMsg .table .tdWidthInput {
   width: 15%;
+}
+.divMsg .table .tdWidthText {
+  width: 60%;
+}
+.divMsg .table .tdWidthLable {
+  width: 30%;
 }
 .divMsg .table td {
   line-height: 16px;

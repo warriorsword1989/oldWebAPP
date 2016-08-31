@@ -32,25 +32,51 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
                 }
             }
         }
-
-        this.name11Chi = {};//官方标准
-        this.name12Chi = {};//官方原始
-        this.name51Chi = {};//简称标准化
-        this.name11Eng = {};//官方标准英文
-
+        //官方标准
+        this.name11Chi = {};
+        this.name11Eng = {};
+        this.name11Cht = {};
+        this.name11Por = {};
+        //官方原始
+        this.name12Chi = {};
+        this.name12Eng = {};
+        this.name12Cht = {};
+        this.name12Por = {};
+        //简称标准化
+        this.name51Chi = {};
+        this.name51Eng = {};
+        this.name51Cht = {};
+        this.name51Por = {};
+        
         if (data["names"]) {
             for (var i = 0, len = data["names"].length; i < len; i++) {
                 var obj = new FM.dataApi.ColPoiName(data["names"][i]);
                 var flag = obj.nameClass + "" + obj.nameType + "" + obj.langCode;
                 if(flag == "11CHI"){
                     this.name11Chi = obj;
-                } else if(flag == "12CHI"){
-                    this.name12Chi = obj;
-                } else if(flag == "51CHI"){
-                    this.name51Chi = obj;
                 } else if(flag == "11ENG"){
                     this.name11Eng = obj;
-                }
+                } else if(flag == "11CHT"){
+                	this.name11Cht = obj;
+                } else if(flag == "11POR"){
+                	this.name11Por = obj;
+                } else if(flag == "12CHI"){
+                    this.name12Chi = obj;
+                } else if(flag == "12ENG"){
+                	this.name12Eng = obj;
+                } else if(flag == "12CHT"){
+                	this.name12Cht = obj;
+                } else if(flag == "12POR"){
+                	this.name12Por = obj;
+                }else if(flag == "51CHI"){
+                    this.name51Chi = obj;
+                }else if(flag == "51ENG"){
+                    this.name51Eng = obj;
+                } else if(flag == "51CHT"){
+                    this.name51Cht = obj;
+                } else if(flag == "51POR"){
+                    this.name51Por = obj;
+                }   
             }
         }
     },
@@ -80,30 +106,18 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         }
 
         ret["names"] = [];
-        if (this.names) {
-            if (this.names.length > 0) {
-                if (this.name && !FM.Util.isEmptyObject(this.name) && this.name.name != "") {
-                    var flag = true;
-                    for (var i = 0, len = this.names.length; i < len; i++) {
-                        if (this.name.langCode == this.names[i].langCode && this.name.nameClass == this.names[i].nameClass && this.name.nameType == this.names[i].nameType) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        this.names.push(this.name);
-                    }
-                }
-                for (var i = 0, len = this.names.length; i < len; i++) {
-                    ret["names"].push(this.names[i].getIntegrate());
-                }
-            } else {
-                if (!FM.Util.isEmptyObject(this.name) && this.name.name != "") {
-                    ret["names"].push(this.name.getIntegrate());
-                }
-            }
+        if(!FM.Util.isEmptyObject(this.name11Chi)){
+            ret["names"].push(this.name11Chi.getIntegrate());
         }
-
+        if(!FM.Util.isEmptyObject(this.name11Eng)){
+            ret["names"].push(this.name11Eng.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.name12Chi)){
+            ret["names"].push(this.name12Chi.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.name12Eng)){
+            ret["names"].push(this.name12Eng.getIntegrate());
+        }
         ret["geoLiveType"] = this.geoLiveType;
         return ret;
     }

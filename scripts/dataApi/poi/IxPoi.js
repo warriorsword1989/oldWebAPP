@@ -186,10 +186,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 this.samePois.push(new FM.dataApi.IxSamepoi(data["samePois"][i]));
             }
         }
-        this.samePoiParts = [];
-        if (data["samePoiParts"]) {
-            for (var i = 0, len = data["samePoiParts"].length; i < len; i++) {
-                this.samePoiParts.push(new FM.dataApi.IxSamepoiPart(data["samePoiParts"][i]));
+        this.samepoiParts = [];
+        if (data["samepoiParts"]) {
+            for (var i = 0, len = data["samepoiParts"].length; i < len; i++) {
+                this.samepoiParts.push(new FM.dataApi.IxSamepoiPart(data["samepoiParts"][i]));
             }
         }
     },
@@ -390,10 +390,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 ret["samePois"].push(this.samePois[i].getIntegrate());
             }
         }
-        ret["samePoiParts"] = [];
-        if (this.samePoiParts) {
-            for (var i = 0, len = this.samePoiParts.length; i < len; i++) {
-                ret["samePoiParts"].push(this.samePoiParts[i].getIntegrate());
+        ret["samepoiParts"] = [];
+        if (this.samepoiParts) {
+            for (var i = 0, len = this.samepoiParts.length; i < len; i++) {
+                ret["samepoiParts"].push(this.samepoiParts[i].getIntegrate());
             }
         }
         ret["geoLiveType"] = this.geoLiveType;
