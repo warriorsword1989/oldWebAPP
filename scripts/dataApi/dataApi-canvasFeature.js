@@ -167,6 +167,7 @@
         "TipsBanTrucksIn.js",
         "TipsVariableDirectionLane.js",
         "TipsCrossLineOverpasses.js",
+        "TipsCrossLineOverpass.js",
         "TipsCrossVoiceGuides.js",
         "TipsCrossVoiceGuide.js",
         "TipsTruckRestrictions.js",
