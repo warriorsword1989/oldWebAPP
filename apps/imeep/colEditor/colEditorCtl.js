@@ -45,7 +45,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.menuSelectedId = 'addrSplit';
 		}else if($scope.nameType == 'chinaName'){
 			$scope.menuSelectedId = 'nameUnify';
-		}
+		}else if($scope.nameType == 'englishName'){
+            $scope.menuSelectedId = 'photoEngName';
+        }
 
 
 		$scope.changeMenu = function (id){
@@ -60,15 +62,18 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
 					$scope.showLoading = false;
 				});
-			}
+			} else if($scope.menuSelectedId == 'photoEngName'){
+                $ocLazyLoad.load(appPath.column + 'ctrls/englishName/photoEngNameCtl').then(function () {
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/photoEngNameTpl.html';
+                    $scope.showLoading = false;
+                });
+            }
 		};
 
 		$scope.initPage = function (){
 			$scope.changeMenu($scope.menuSelectedId);
 		};
 		$scope.initPage();
-
-
 
 
 
