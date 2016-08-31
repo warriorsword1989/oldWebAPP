@@ -3,18 +3,22 @@
  */
 angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
-        var _self = $scope;
+		var objCtrl = fastmap.uikit.ObjectEditController();
+		var _self = $scope;
         $scope.editPanelIsOpen = false;
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 10;
-
+        $scope.editorLines = 2; //每页编辑的条数
+        $scope.editorCurrentPage = 1; //当前编辑的页码
+        $scope.editAllDataList = []; //查询列表数据
+        $scope.currentEditOrig = []; //当前编辑的数据原始值
+        $scope.currentEdited = []; //当前编辑的数据
+        
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
         };
-        $scope.view = {};
-        $scope.view.cols = [
+        $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
             { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
@@ -40,7 +44,6 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }
             return html;
         }
-        $scope.editDataList = [];
         $scope.selectData = function (row,index){
             var temp = $scope.tableParams.data;
             var checkedArr = [];
@@ -56,24 +59,11 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                 editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
             }
             console.info(editorArr);
-            console.info($scope.tableParams.data);
-            $scope.editDataList = editorArr;
+            $scope.editAllDataList = $scope.tableParams.data;
+            $scope.currentEditOrig = angular.copy(editorArr);
+            $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
             initEditorTable();
-        };
-
-        $scope._test = function (){
-            console.info($scope.tableParams.data);
-            $scope.tableParams.data[0].names = ['s','vv','22'];
-            var flag  = false;
-            if($scope.tableParams.data.checkedAll){
-                flag = true;
-            } else {
-                flag = false;
-            }
-            angular.forEach($scope.tableParams.data, function(data, index) {
-                data.checked = flag;
-            });
         };
 
         $scope.searchType = 'name';
@@ -92,7 +82,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.filter.admin = data["admin"];
             $scope.filter.sql = data["sql"];
         });
-        function initRoadNameTable() {
+        function initTable() {
             _self.tableParams = new NgTableParams({
                 page: 1,
                 count: 20,
@@ -134,10 +124,13 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
 
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
-            $scope.editDataList = $scope.editDataList.reverse();
             _self.editorTable.reload();
         };
         $scope.saveData = function (){
+        	console.log("原始数据：")
+        	console.log($scope.currentEditOrig);
+        	console.log("编辑后的数据")
+        	console.log($scope.currentEdited);
             //获取改变的数据
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
@@ -160,9 +153,6 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true,width:'30px'}
         ];
 
-        $scope.test = function (){
-            console.info("++",$scope.editorTable);
-        };
         var html = "";
         if('CHI' == 'CHI'){ //测试用，大陆数据
             html = "<input type='text' class='form-control input-sm table-input' title='{{row.name11Chi.name}}' value='row.name11Chi.name' ng-model='row.name11Chi.name' />";
@@ -171,7 +161,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         	return html;
         };
         function getDetails($scope,row){
-            return '<span class="badge pointer">查看</span>';
+            return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
 
 
@@ -180,20 +170,43 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             _self.editorTable = new NgTableParams({
             }, {
                 counts:[],
-                dataset: $scope.editDataList
+                dataset: $scope.currentEdited
             });
         };
 
         $scope.closeEditPanel = function (){
             $scope.editPanelIsOpen = false;
+            $scope.showImgInfoo = false;
             _self.tableParams.reload();
         };
-
+        
+        $scope.showView = function (){
+            $scope.showImgInfoo = true;
+            $scope.slides = [
+                {
+                    id:1,
+                    image:"../../../images/poi/main/test.png",
+                    text:'111'
+                },{
+                    id:2,
+                    image:"../../../images/poi/main/test.png",
+                    text:'222'
+                },{
+                    id:3,
+                    image:"../../../images/poi/main/test.png",
+                    text:'333'
+                }
+            ];
+            //$scope.$apply();
+        };
+        $scope.closeView = function (){
+            $scope.showImgInfoo = false;
+        };
         /*******************  编辑页面end  ******************/
 
         /*初始化方法*/
         function initPage(){
-            initRoadNameTable();
+        	initTable();
             //initEditorTable();
         }
         initPage();
