@@ -97,7 +97,9 @@
                 "dataApi/road/RdVoiceGuide.js",
                 "dataApi/road/RdVoiceGuideDetail.js",
                 "dataApi/road/RdVoiceGuideVia.js",
-                "dataApi/road/RoadName.js"
+                "dataApi/road/RoadName.js",
+                "dataApi/road/RoadLane.js",
+                "dataApi/road/RoadLaneCondition.js"
             ]; // etc.
 
 
