@@ -60,6 +60,11 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
 					$scope.showLoading = false;
 				});
+			} else if($scope.menuSelectedId == 'addrPinyin') {
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddress/addPinyinCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
+					$scope.showLoading = false;
+				});
 			}
 		};
 
