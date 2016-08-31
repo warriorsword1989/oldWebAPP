@@ -8,9 +8,9 @@
                     <tbody>
                     <tr ng-repeat="node in same.sameNameList">
                         <td >{{$index+1}}</td>
-                        <td style="width: 60%">{{node.name}}</td>
-                        <td style="width: 15%"><label class="label label-primary">{{node.kindName}}</label> </td>
-                        <td style="width: 15%"> <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: left;cursor:pointer;" ng-click="minusSamePoi($index)"></span>
+                        <td class="tdWidthText">{{node.name}}</td>
+                        <td class="tdWidthLable"><label class="label label-primary">{{node.kindName}}</label> </td>
+                        <td > <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: left;cursor:pointer;" ng-click="minusSamePoi($index)"></span>
                         </td>
                     </tr>
                     </tbody>
