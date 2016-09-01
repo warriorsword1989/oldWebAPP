@@ -28,13 +28,6 @@ angular.module('fastmap.uikit').directive('login', function($timeout) {
                     remember: $scope.rememberMe
                 });
             }
-
-            var timer = setInterval(function(){
-                if($('input').eq(0).focus()){
-                    $('input').eq(1).focus()
-                    clearInterval(timer);
-                }
-            },100)
         },
         link: function(scope, element, attrs) {
             scope.showInputError = false;
