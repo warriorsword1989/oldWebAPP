@@ -114,13 +114,37 @@
         "pid":1079,
         "names": [
             {
-                "nameId": "60034310",
+            	
+                "nameGrpId": 1,
+                "nameId": 2,
+                "langCode": "CHI",
+                "nameClass": 1,
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "multiPinyin": [
+                        [
+                            0,
+                            "大",
+                            "Da",
+                            "Dai",
+                            "Tai"
+                        ],
+                        [
+                            2,
+                            "区",
+                            "Qu",
+                            "Ou"
+                        ],
+                        [
+                            8,
+                            "行",
+                            "Hang",
+                            "Xing"
+                        ]
+                    ],
+                "name": "大兴区黄村工云中行\r\n商所测试",
                 "poiPid": 1079,
                 "nameGroupid": 1,
-                "nameClass": 1,
-                "nameType": 2,
-                "langCode": "CHI",
-                "name": "荣盛衣萨洗衣天通西苑旗舰店1",
+                "nameType": 1,
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -130,7 +154,7 @@
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
-                "nameType": 1,
+                "nameType": 2,
                 "langCode": "CHI",
                 "name": "荣盛衣萨洗衣天通西苑旗舰店1",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
@@ -259,9 +283,31 @@
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
-                "nameType": 2,
+                "nameType": 1,
                 "langCode": "CHI",
-                "name": "北京2",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "multiPinyin": [
+                        [
+                            0,
+                            "大",
+                            "Da",
+                            "Dai",
+                            "Tai"
+                        ],
+                        [
+                            2,
+                            "区",
+                            "Qu",
+                            "Ou"
+                        ],
+                        [
+                            8,
+                            "行",
+                            "Hang",
+                            "Xing"
+                        ]
+                    ],
+                "name": "大兴区黄村工云中行\r\n商所测试",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -271,7 +317,7 @@
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
-                "nameType": 1,
+                "nameType": 2,
                 "langCode": "CHI",
                 "name": "北京2",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
@@ -396,6 +442,40 @@
         "pid":1079,
         "names": [
             {
+                "nameId": "60034310",
+                "poiPid": 1079,
+                "nameGroupid": 1,
+                "nameClass": 1,
+                "nameType": 1,
+                "langCode": "CHI",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "multiPinyin": [
+                        [
+                            0,
+                            "大",
+                            "Da",
+                            "Dai",
+                            "Tai"
+                        ],
+                        [
+                            2,
+                            "区",
+                            "Qu",
+                            "Ou"
+                        ],
+                        [
+                            8,
+                            "行",
+                            "Hang",
+                            "Xing"
+                        ]
+                    ],
+                "name": "大兴区黄村工云中行\r\n商所测试",
+                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+            },{
                 "nameId": "60034310",
                 "poiPid": 1079,
                 "nameGroupid": 1,
@@ -406,15 +486,166 @@
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
-                "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            },{
+                "rowId": "3524E9199D836E1AE050A8C08304BA18"
+            }
+        ],
+        "refMsg": "无简化的POI名称统一",
+        "classifyRules":["FM-A05-05"],
+        "rowId": "3524E56B29346E1AE050A8C08304BA18"
+    },{
+        "addresses": [
+            {
+                "nameId": 10831992,
+                "nameGroupid": 1,
+                "poiPid": 1079,
+                "langCode": "CHI",
+                "srcFlag": 0,
+                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
+                "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
+                "roadname": "四川省|凉山彝族自治州|会理县|||",
+                "roadnamePhonetic": "",
+                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
+                "addrnamePhonetic": "",
+                "province": "北京市",
+                "city": "顺义区",
+                "county": "",
+                "town": "杨镇",
+                "place": "沙岭村",
+                "street": "",
+                "landmark": "",
+                "prefix": "",
+                "housenum": "",
+                "type": "",
+                "subnum": "",
+                "subfix": "",
+                "estab": "",
+                "building": "",
+                "floor": "",
+                "unit": "",
+                "room": "",
+                "addons": "",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+
+                "fullNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        10,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        12,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ],
+                    [
+                        17,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        19,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ],
+                "roadNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        12,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        14,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ]
+                ],
+                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
+                "roadNamePinyin": "Si Chuan Sheng|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
+                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
+                "addrNameMultiPinyin": [
+                    [
+                        15,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        17,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ]
+            }
+        ],
+        "kindCode": "120201",
+        "pid":1079,
+        "names": [
+            {
                 "nameId": "60034310",
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
                 "nameType": 1,
                 "langCode": "CHI",
-                "name": "北京3",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "multiPinyin": [
+                        [
+                            0,
+                            "大",
+                            "Da",
+                            "Dai",
+                            "Tai"
+                        ],
+                        [
+                            2,
+                            "区",
+                            "Qu",
+                            "Ou"
+                        ],
+                        [
+                            8,
+                            "行",
+                            "Hang",
+                            "Xing"
+                        ]
+                    ],
+                "name": "大兴区黄村工云中行\r\n商所测试",
+                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+            },{
+                "nameId": "60034310",
+                "poiPid": 1079,
+                "nameGroupid": 1,
+                "nameClass": 1,
+                "nameType": 2,
+                "langCode": "CHI",
+                "name": "北京4",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -541,9 +772,31 @@
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
-                "nameType": 2,
+                "nameType": 1,
                 "langCode": "CHI",
-                "name": "北京4",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "multiPinyin": [
+                        [
+                            0,
+                            "大",
+                            "Da",
+                            "Dai",
+                            "Tai"
+                        ],
+                        [
+                            2,
+                            "区",
+                            "Qu",
+                            "Ou"
+                        ],
+                        [
+                            8,
+                            "行",
+                            "Hang",
+                            "Xing"
+                        ]
+                    ],
+                "name": "大兴区黄村工云中行\r\n商所测试",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -553,148 +806,7 @@
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
-                "nameType": 1,
-                "langCode": "CHI",
-                "name": "北京4",
-                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
-                "uRecord": 0,
-                "uFields": "",
-                "rowId": "3524E9199D836E1AE050A8C08304BA18"
-            }
-        ],
-        "refMsg": "无简化的POI名称统一",
-        "classifyRules":["FM-A05-05"],
-        "rowId": "3524E56B29346E1AE050A8C08304BA18"
-    },{
-        "addresses": [
-            {
-                "nameId": 10831992,
-                "nameGroupid": 1,
-                "poiPid": 1079,
-                "langCode": "CHI",
-                "srcFlag": 0,
-                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
-                "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
-                "roadname": "四川省|凉山彝族自治州|会理县|||",
-                "roadnamePhonetic": "",
-                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
-                "addrnamePhonetic": "",
-                "province": "北京市",
-                "city": "顺义区",
-                "county": "",
-                "town": "杨镇",
-                "place": "沙岭村",
-                "street": "",
-                "landmark": "",
-                "prefix": "",
-                "housenum": "",
-                "type": "",
-                "subnum": "",
-                "subfix": "",
-                "estab": "",
-                "building": "",
-                "floor": "",
-                "unit": "",
-                "room": "",
-                "addons": "",
-                "uRecord": 0,
-                "uFields": "",
-                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
-
-                "fullNameMultiPinyin": [
-                    [
-                        2,
-                        "省",
-                        "Sheng",
-                        "Xing"
-                    ],
-                    [
-                        10,
-                        "会",
-                        "Hui",
-                        "Kuai"
-                    ],
-                    [
-                        12,
-                        "县",
-                        "Xian",
-                        "Xuan"
-                    ],
-                    [
-                        17,
-                        "大",
-                        "Da",
-                        "Dai",
-                        "Tai"
-                    ],
-                    [
-                        19,
-                        "摩",
-                        "Mo",
-                        "Ma"
-                    ]
-                ],
-                "roadNameMultiPinyin": [
-                    [
-                        2,
-                        "省",
-                        "Sheng",
-                        "Xing"
-                    ],
-                    [
-                        12,
-                        "会",
-                        "Hui",
-                        "Kuai"
-                    ],
-                    [
-                        14,
-                        "县",
-                        "Xian",
-                        "Xuan"
-                    ]
-                ],
-                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
-                "roadNamePinyin": "Si Chuan Sheng|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
-                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
-                "addrNameMultiPinyin": [
-                    [
-                        15,
-                        "大",
-                        "Da",
-                        "Dai",
-                        "Tai"
-                    ],
-                    [
-                        17,
-                        "摩",
-                        "Mo",
-                        "Ma"
-                    ]
-                ]
-            }
-        ],
-        "kindCode": "120201",
-        "pid":1079,
-        "names": [
-            {
-                "nameId": "60034310",
-                "poiPid": 1079,
-                "nameGroupid": 1,
-                "nameClass": 1,
                 "nameType": 2,
-                "langCode": "CHI",
-                "name": "北京5",
-                "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
-                "uRecord": 0,
-                "uFields": "",
-                "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            },{
-                "nameId": "60034310",
-                "poiPid": 1079,
-                "nameGroupid": 1,
-                "nameClass": 1,
-                "nameType": 1,
                 "langCode": "CHI",
                 "name": "北京5",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",

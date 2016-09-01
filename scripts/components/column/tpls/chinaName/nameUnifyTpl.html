@@ -4,15 +4,14 @@
 	</script>
 	<!-- <div> -->
 		<div class="fm-tabs" style="padding:0px;margin: 0px;">
-			<a href="#" class="tab col-sm-1" ng-class="{1:'active'}[workedFlag]" ng-click="chageTabs(1)">待作业</a>
-			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="chageTabs(2)">待提交</a>
+			<a href="#" class="tab col-sm-1" ng-class="{1:'active'}[workedFlag]" ng-click="changeTabs(1)">待作业</a>
+			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="changeTabs(2)">待提交</a>
 		</div>
 		<div class="content">
 			<div style="clear: both;">
 				<div class="pull-left" style="padding: 10px;">
-					<button type="button" class="btn btn-shape btn-ls" ng-click="">查询</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="batchWork()">批量作业</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="submitData();">提交数据</button>
 				</div>
 				<div class="pull-right" style="padding: 10px;">
@@ -22,7 +21,7 @@
 							<i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-right fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-							<li ng-repeat="col in view.cols">
+							<li ng-repeat="col in cols">
 								<label class="checkbox-inline">
 									<input type="checkbox" ng-model-options="{getterSetter: true}" ng-model="col.show"/> {{col.title}}
 								</label>
@@ -46,6 +45,53 @@
 					</tr>
 					<tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
 				</table>
+			</div>
+			<!-- 批量作业 -->
+			<div ng-show="batchWorkIsOpen">
+					<div class="div-float" style="top:80px;left:120px;border-radius:5px;">
+				        <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
+				        <div class="fm-panel" style="margin:0px;width:330px;">
+				        <!-- <div style="border-bottom: 1px solid #ddd;"></div> -->
+						    <div class="fm-tabs" style="padding:0px;margin: 0px;">
+								<a href="#" class="tab" ng-class="{1:'active'}[batchFlag]" ng-click="batchTabs(1)">替换</a>
+								<a href="#" class="tab" ng-class="{2:'active'}[batchFlag]" ng-click="batchTabs(2)">高级搜索</a>
+							</div>
+						    <div class="content" >
+						        <div style="height:200px;">
+									<ul class="fm-ul fm-ul-form">
+						                <li>
+						                    <label>字段:</label>
+						                    <div>
+						                    	<select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
+						                                placeholder_text_single="'--请选择--'"
+						                                ng-options="value.id as value.label for value in batchOpt"
+						                                ng-change="changeField($event, this)">
+						                        </select>
+						                    </div>
+						                </li>
+						                <li>
+						                    <label>搜索:</label>
+						                    <div>
+						                    	<input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value">
+						                    </div>
+						                </li>
+						                <li ng-show="extractEle">
+						                    <label>替换为:</label>
+						                    <div>
+						                    	<input type="text" class="fm-control" style="width:200px;" ng-model="admin">
+						                    </div>
+						                </li>
+						            </ul>
+						        </div>
+						    </div>
+						    <div style="border-bottom: 1px solid #ddd;"></div>
+						    <div style="text-align:right;">
+							    <button type="button" class="btn btn-main" ng-click="cancle()" style="margin:6px 8px">取消</button>
+							    <button type="button" class="btn btn-main" ng-show="extractEle" ng-click="extractData()" style="margin:6px 8px">提取数据</button>
+						        <button type="button" class="btn btn-main" ng-show="searchBtn" ng-click="searchWork()" style="margin:6px 8px">搜索作业</button>
+						    </div>
+						</div>
+				    </div>
 			</div>
 		</div>
 	<!-- </div> -->

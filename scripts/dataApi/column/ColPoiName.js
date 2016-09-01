@@ -15,6 +15,10 @@ FM.dataApi.ColPoiName = FM.dataApi.DataModel.extend({
         this.nameType = data['nameType'] || 1;
         this.name = data['name'] || "";
         this.namePhonetic = data['namePhonetic'] || "";
+        
+        this.nameStrPinyin = data["nameStrPinyin"] || "";
+        this.multiPinyin = data["multiPinyin"] || "";
+        
         this.rowId = data["rowId"] || "";
     },
     /*
@@ -30,6 +34,8 @@ FM.dataApi.ColPoiName = FM.dataApi.DataModel.extend({
         ret["nameType"] = this.nameType;
         ret["name"] = this.name;
         ret["namePhonetic"] = this.namePhonetic;
+        ret["nameStrPinyin"] = this.nameStrPinyin;
+        ret["multiPinyin"] = this.multiPinyin;
         ret["rowId"] = this.rowId;
         return ret;
     }
