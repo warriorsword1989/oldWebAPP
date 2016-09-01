@@ -8,11 +8,11 @@
                 "poiPid": 1079,
                 "langCode": "CHI",
                 "srcFlag": 0,
-                "fullName": "北京市顺义区杨镇沙岭村1",
+                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
                 "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
-                "roadname": "",
+                "roadname": "四川省|凉山彝族自治州|会理县|||",
                 "roadnamePhonetic": "",
-                "addrname": "",
+                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
                 "province": "北京市",
                 "city": "顺义区",
@@ -34,7 +34,80 @@
                 "addons": "",
                 "uRecord": 0,
                 "uFields": "",
-                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+
+                "fullNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        10,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        12,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ],
+                    [
+                        17,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        19,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ],
+                "roadNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        12,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        14,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ]
+                ],
+                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
+                "roadNamePinyin": "Si Chuan Sheng|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
+                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
+                "addrNameMultiPinyin": [
+                    [
+                        15,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        17,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ]
+
             }
         ],
         "kindCode": "120201",
@@ -77,33 +150,105 @@
                 "poiPid": 1079,
                 "langCode": "CHI",
                 "srcFlag": 0,
-                "fullName": "北京啦啦啦2",
+                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
                 "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
-                "roadname": "",
+                "roadname": "四川省|凉山彝族自治州|会理县|||",
                 "roadnamePhonetic": "",
-                "addrname": "",
+                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
                 "province": "北京市",
                 "city": "顺义区",
-                "county": "county",
-                "town": "11镇",
-                "place": "22村",
-                "street": "street",
-                "landmark": "landmark",
-                "prefix": "prefix",
-                "housenum": "housenum",
-                "type": "type",
-                "subnum": "subnum",
-                "subfix": "subfix",
-                "estab": "estab",
-                "building": "building",
-                "floor": "floor",
-                "unit": "unit",
-                "room": "room",
-                "addons": "addons",
+                "county": "",
+                "town": "杨镇",
+                "place": "沙岭村",
+                "street": "",
+                "landmark": "",
+                "prefix": "",
+                "housenum": "",
+                "type": "",
+                "subnum": "",
+                "subfix": "",
+                "estab": "",
+                "building": "",
+                "floor": "",
+                "unit": "",
+                "room": "",
+                "addons": "",
                 "uRecord": 0,
                 "uFields": "",
-                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+
+                "fullNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        10,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        12,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ],
+                    [
+                        17,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        19,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ],
+                "roadNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        12,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        14,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ]
+                ],
+                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
+                "roadNamePinyin": "Si Chuan Xing|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
+                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
+                "addrNameMultiPinyin": [
+                    [
+                        15,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        17,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ]
             }
         ],
         "kindCode": "120201",
@@ -146,33 +291,105 @@
                 "poiPid": 1079,
                 "langCode": "CHI",
                 "srcFlag": 0,
-                "fullName": "北京啦啦啦3",
+                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
                 "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
-                "roadname": "",
+                "roadname": "四川省|凉山彝族自治州|会理县|||",
                 "roadnamePhonetic": "",
-                "addrname": "",
+                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
                 "province": "北京市",
                 "city": "顺义区",
-                "county": "county",
-                "town": "11镇",
-                "place": "22村",
-                "street": "street",
-                "landmark": "landmark",
-                "prefix": "prefix",
-                "housenum": "housenum",
-                "type": "type",
-                "subnum": "subnum",
-                "subfix": "subfix",
-                "estab": "estab",
-                "building": "building",
-                "floor": "floor",
-                "unit": "unit",
-                "room": "room",
-                "addons": "addons",
+                "county": "",
+                "town": "杨镇",
+                "place": "沙岭村",
+                "street": "",
+                "landmark": "",
+                "prefix": "",
+                "housenum": "",
+                "type": "",
+                "subnum": "",
+                "subfix": "",
+                "estab": "",
+                "building": "",
+                "floor": "",
+                "unit": "",
+                "room": "",
+                "addons": "",
                 "uRecord": 0,
                 "uFields": "",
-                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+
+                "fullNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        10,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        12,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ],
+                    [
+                        17,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        19,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ],
+                "roadNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        12,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        14,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ]
+                ],
+                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
+                "roadNamePinyin": "Si Chuan Sheng|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
+                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
+                "addrNameMultiPinyin": [
+                    [
+                        15,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        17,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ]
             }
         ],
         "kindCode": "120201",
@@ -215,33 +432,105 @@
                 "poiPid": 1079,
                 "langCode": "CHI",
                 "srcFlag": 0,
-                "fullName": "北京啦啦啦4",
+                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
                 "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
-                "roadname": "",
+                "roadname": "四川省|凉山彝族自治州|会理县|||",
                 "roadnamePhonetic": "",
-                "addrname": "",
+                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
                 "province": "北京市",
                 "city": "顺义区",
-                "county": "county",
-                "town": "11镇",
-                "place": "22村",
-                "street": "street",
-                "landmark": "landmark",
-                "prefix": "prefix",
-                "housenum": "housenum",
-                "type": "type",
-                "subnum": "subnum",
-                "subfix": "subfix",
-                "estab": "estab",
-                "building": "building",
-                "floor": "floor",
-                "unit": "unit",
-                "room": "room",
-                "addons": "addons",
+                "county": "",
+                "town": "杨镇",
+                "place": "沙岭村",
+                "street": "",
+                "landmark": "",
+                "prefix": "",
+                "housenum": "",
+                "type": "",
+                "subnum": "",
+                "subfix": "",
+                "estab": "",
+                "building": "",
+                "floor": "",
+                "unit": "",
+                "room": "",
+                "addons": "",
                 "uRecord": 0,
                 "uFields": "",
-                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+
+                "fullNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        10,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        12,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ],
+                    [
+                        17,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        19,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ],
+                "roadNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        12,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        14,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ]
+                ],
+                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
+                "roadNamePinyin": "Si Chuan Sheng|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
+                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
+                "addrNameMultiPinyin": [
+                    [
+                        15,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        17,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ]
             }
         ],
         "kindCode": "120201",
@@ -284,33 +573,105 @@
                 "poiPid": 1079,
                 "langCode": "CHI",
                 "srcFlag": 0,
-                "fullName": "北京啦啦啦5",
+                "fullname": "四川省凉山彝族自治州会理县Ｇ１０８大运摩托附近",
                 "fullnamePhonetic": "BeiJingShiShunYiQuYangZhenShaLingCun",
-                "roadname": "",
+                "roadname": "四川省|凉山彝族自治州|会理县|||",
                 "roadnamePhonetic": "",
-                "addrname": "",
+                "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
                 "province": "北京市",
                 "city": "顺义区",
-                "county": "county",
-                "town": "11镇",
-                "place": "22村",
-                "street": "street",
-                "landmark": "landmark",
-                "prefix": "prefix",
-                "housenum": "housenum",
-                "type": "type",
-                "subnum": "subnum",
-                "subfix": "subfix",
-                "estab": "estab",
-                "building": "building",
-                "floor": "floor",
-                "unit": "unit",
-                "room": "room",
-                "addons": "addons",
+                "county": "",
+                "town": "杨镇",
+                "place": "沙岭村",
+                "street": "",
+                "landmark": "",
+                "prefix": "",
+                "housenum": "",
+                "type": "",
+                "subnum": "",
+                "subfix": "",
+                "estab": "",
+                "building": "",
+                "floor": "",
+                "unit": "",
+                "room": "",
+                "addons": "",
                 "uRecord": 0,
                 "uFields": "",
-                "rowId": "3524E79CE0726E1AE050A8C08304BA17"
+                "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+
+                "fullNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        10,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        12,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ],
+                    [
+                        17,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        19,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ],
+                "roadNameMultiPinyin": [
+                    [
+                        2,
+                        "省",
+                        "Sheng",
+                        "Xing"
+                    ],
+                    [
+                        12,
+                        "会",
+                        "Hui",
+                        "Kuai"
+                    ],
+                    [
+                        14,
+                        "县",
+                        "Xian",
+                        "Xuan"
+                    ]
+                ],
+                "fullNamePinyin": "Si Chuan Sheng Liang Shan Yi Zu Zi Zhi Zhou Hui Li Xian G108 Da Yun Mo Tuo Fu Jin",
+                "roadNamePinyin": "Si Chuan Sheng|Liang Shan Yi Zu Zi Zhi Zhou|Kuai Li Xian|||",
+                "addrNamePinyin": "|||||||||||G108 Da Yun Mo Tuo Fu Jin",
+                "addrNameMultiPinyin": [
+                    [
+                        15,
+                        "大",
+                        "Da",
+                        "Dai",
+                        "Tai"
+                    ],
+                    [
+                        17,
+                        "摩",
+                        "Mo",
+                        "Ma"
+                    ]
+                ]
             }
         ],
         "kindCode": "120201",

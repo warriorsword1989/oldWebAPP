@@ -16,6 +16,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr; //用于存储拼音多音字
+
 		
 		$scope.menus = {
 			'chinaName':'中文名称',
@@ -49,6 +51,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 
 
 		$scope.changeMenu = function (id){
+			$scope.showLoading = true;
 			$scope.menuSelectedId = id;
 			if($scope.menuSelectedId == 'nameUnify'){
 				$ocLazyLoad.load(appPath.column + 'ctrls/chinaName/nameUnifyCtl').then(function () {
@@ -56,119 +59,25 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.showLoading = false;
 				});
 			} else if($scope.menuSelectedId == 'addrSplit') {
-				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddressCtl').then(function () {
-					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddress/addrSplitCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddress/addrSplitTpl.html';
 					$scope.showLoading = false;
 				});
 			} else if($scope.menuSelectedId == 'addrPinyin') {
-				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddress/addPinyinCtl').then(function () {
-					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddressTpl.html';
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddress/addrPinyinCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddress/addrPinyinTpl.html';
 					$scope.showLoading = false;
 				});
 			}
 		};
-
-		$scope.initPage = function (){
-			$scope.changeMenu($scope.menuSelectedId);
-		};
-		$scope.initPage();
-
-
-
-
-
-
-		/*切换项目平台*/
-		$scope.changeProject = function (type) {
-			$scope.showLoading = true;
-			$scope.showPopoverTips = false;
-			$scope.tipsPanelOpened = false;
-			if (type == 1) { //poi
-				$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
-					$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
-					$scope.showLoading = false;
-				});
-			} else { //道路
-				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
-					$scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
-					$scope.showLoading = false;
-				});
-			}
-			$scope.projectType = type;
-		};
-		$scope.selectedTool = 1;
-		//切换成果-场景栏中的显示内容
-		$scope.changeEditTool = function (id) {
-			if (id === "tipsPanel") {
-				$scope.showTab = true;
-				$scope.selectedTool = 1;
-				$scope.changeProject($scope.projectType);
-			} else if (id === "scenePanel") {
-				$scope.showTab = false;
-				$scope.selectedTool = 2;
-				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/sceneLayersCtrl').then(function () {
-					$scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/sceneLayers.html';
-				});
-			}
-		};
-		//属性栏开关逻辑控制
-		$scope.attrTplContainerSwitch = function (flag) {
-			if (flag) {
-				$scope.editorPanelOpened = flag;
-			} else {
-				$scope.editorPanelOpened = 'none';
-			}
-		};
-		//次属性开关逻辑控制
-		$scope.subAttrTplContainerSwitch = function (flag) {
-			$scope.suspendPanelOpened = flag;
-		}
-		$scope.changeProperty = function (val) {
-			$scope.propertyType = val;
-		};
-		$scope.changeOutput = function (val) {
-			$scope.outputType = val;
-		};
-		/*关闭全屏查看*/
-		$scope.closeFullScreen = function () {
-			$scope.showFullScreen = false;
-		};
-		/*隐藏tips图片*/
-		$scope.hideFullPic = function () {
-			$scope.roadFullScreen = false;
-		};
-		/**
-		 * 工具按钮控制
-		 */
-		$scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]; //按钮样式的变化
-		$scope.changeBtnClass = function (id) {
-			$scope.$broadcast("resetButtons", {});
-			$timeout(function () { //为了解决按esc键后工具条按钮不能恢复的bug
-				$scope.$apply();
-			}, 1);
-		};
-
-
-		// 加载元数据
-		var loadMetaData = function () {
-			var promises = [];
+		$scope.initMate = function (){
 			// 查询全部的小分类数据
 			var param = {
 				mediumId: "",
 				region: 0
 			};
-			promises.push(dsMeta.getKindList(param).then(function (kindData) {
-				//在数组最前面增加
-				kindData.unshift({
-					"id": "0",
-					"kindCode": "0",
-					"kindName": "--请选择--"
-				});
-				/*解析分类，组成select-chosen需要的数据格式*/
+			dsMeta.getKindList(param).then(function (kindData) {
 				for (var i = 0; i < kindData.length; i++) {
-					/**
-					 * 需要排除充电桩、充电站,中分类需要查询再定
-					 **/
 					$scope.metaData.kindFormat[kindData[i].kindCode] = {
 						kindId: kindData[i].id,
 						kindName: kindData[i].kindName,
@@ -179,216 +88,163 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 						dispOnLink: kindData[i].dispOnLink,
 						mediumId: kindData[i].mediumId
 					};
-					$scope.metaData.kindList.push({
-						value: kindData[i].kindCode,
-						text: kindData[i].kindName,
-						mediumId: kindData[i].mediumId
-					});
 				}
-			}));
-			// 查询全部的品牌数据
-			param = {
-				kindCode: ""
-			};
-			promises.push(dsMeta.getChainList(param).then(function (chainData) {
-				$scope.metaData.allChain = chainData;
-			}));
-			return promises;
-		};
-		var loadToolsPanel = function (callback) {
-			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
-				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
-				if (callback) {
-					callback();
-				}
-			});
-			$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
-				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
-			});
-		};
-		//页面初始化方法调用
-		var initPage = function () {
-			//$scope.changeProject(1);
-			// var subtaskId = App.Util.getUrlParam("subtaskId");
-			// App.Temp.subTaskId = subtaskId;
-			// dsManage.getSubtaskById(subtaskId).then(function (data) {
-			// 	if (data) {
-			// 		// 暂时注释
-			// 		App.Temp.dbId = data.dbId;
-			// 		App.Temp.gridList = data.gridIds;
-			// 		if (data.stage == 1) { // 日编
-			// 			App.Temp.mdFlag = "d";
-			// 		} else if (data.stage == 2) { // 月编
-			// 			App.Temp.mdFlag = "m";
-			// 		} else { // 默认：日编
-			// 			App.Temp.mdFlag = "d";
-			// 		}
-			// 		var promises = loadMetaData();
-			// 		$q.all(promises).then(function () {
-			// 			loadToolsPanel(function () {
-			// 				if (data.type == 0) { // POI任务
-			// 					$scope.changeProject(1);
-			// 				} else { // 一体化、道路、专项任务
-			// 					$scope.changeProject(2);
-			// 				}
-			// 				//bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
-			// 			});
-			// 		});
-			// 	}
-			// });
+			})
 		};
 
-		/**
-		 * 页面初始化方法调用
-		 */
-		initPage();
-		/**
-		 * 保存数据
-		 */
-		$scope.doSave = function () {
-			eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
-		};
-		/**
-		 * 删除数据
-		 */
-		$scope.doDelete = function () {
-			swal({
-				title: "确认删除？",
-				type: "warning",
-				animation: 'slide-from-top',
-				showCancelButton: true,
-				closeOnConfirm: true,
-				confirmButtonText: "是的，我要删除",
-				cancelButtonText: "取消"
-			}, function (f) {
-				if (f) {
-					eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
-				}
-			});
-		};
-		/**
-		 * 取消编辑
-		 */
-		$scope.doCancel = function () {
-			$scope.tipsPanelOpened = false;
-			$scope.attrTplContainerSwitch(false);
-		};
-		$scope.goback = function () {
-			window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
-		};
-		$scope.advancedTool = null;
-		/*监听弹窗*/
-		$scope.$on('openModelEvent', function (event, data) {
-			$scope.openAdvancedToolsPanel(data);
-		});
-		$scope.openAdvancedToolsPanel = function (toolType) {
-			if ($scope.advancedTool == toolType) {
-				return;
-			}
-			switch (toolType) {
-				case 'search':
-					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function () {
-						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
-					});
-					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
-					break;
-			}
-			$scope.advancedTool = toolType;
-		};
-		$scope.closeAdvancedToolsPanel = function () {
-			$scope.advancedTool = null;
-		};
-		/*start 事件监听*******************************************************************/
-		//响应选择要素类型变化事件，清除要素页面的监听事件
-		eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURETYPECHANGE, function (data) {
-			if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY]) {
-				for (var i = 0, len = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY].length; i < len; i++) {
-					eventCtrl.off(eventCtrl.eventTypes.SAVEPROPERTY, eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY][i]);
+
+		$scope.replaceVal = function(targetVal){
+			var valArr = targetVal.split("|");
+			for(var i=0;i<valArr.length;i++){
+				if(/^[\s]+$/.test(valArr[i]) && valArr[i].length > 1){
+					valArr[i] = " ";
 				}
 			}
-			if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.DELETEPROPERTY]) {
-				for (var j = 0, lenJ = eventCtrl.eventTypesMap[eventCtrl.eventTypes.DELETEPROPERTY].length; j < lenJ; j++) {
-					eventCtrl.off(eventCtrl.eventTypes.DELETEPROPERTY, eventCtrl.eventTypesMap[eventCtrl.eventTypes.DELETEPROPERTY][j]);
-				}
-			}
-			if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.CANCELEVENT]) {
-				for (var k = 0, lenK = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SAVEPROPERTY].length; k < lenK; k++) {
-					eventCtrl.off(eventCtrl.eventTypes.CANCELEVENT, eventCtrl.eventTypesMap[eventCtrl.eventTypes.CANCELEVENT][k]);
-				}
-			}
-			if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTEDFEATURECHANGE]) {
-				for (var k = 0, lenK = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTEDFEATURECHANGE].length; k < lenK; k++) {
-					eventCtrl.off(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTEDFEATURECHANGE][k]);
-				}
-			}
-		});
+			return valArr.join("|");
+		}
 		/**
-		 * 监听要素类型切换事件
+		 * 地址拼音高亮方法
+		 * @param pinyin 拼音地址合并
+		 * @param zhongwen 中文地址合并
+		 * @param duoyinzi 多音字
+		 * @param rowIndex 行号
+		 * @param type 标识道路地址 'road' 'addr'
+		 * @returns 含有高亮样式的拼音html
 		 */
-		$scope.$on("SWITCHCONTAINERSTATE", function (event, data) {
-			if (data.hasOwnProperty("attrContainerTpl")) {
-				$scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+		$scope.heightLightPinAddress = function(pinyin, zhongwen,duoyinzi,type){
+			// 多音字默认值
+			var perRadioDefaultVal = new Array();
+			if(pinyin.substr(0,1) == " "){
+				pinyin = pinyin.substr(1);
 			}
-			if (data.hasOwnProperty("subAttrContainerTpl")) {
-				$scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
-			}
-		});
-		/**
-		 * 监听组件加载请求事件
-		 */
-		$scope.$on("transitCtrlAndTpl", function (event, data) {
-			if (data["loadType"] === "subAttrTplContainer") {
-				$scope.subAttrTplContainerSwitch(true);
-				// $scope.subAttrTplContainer = "";
-			} else if (data["loadType"] === "attrTplContainer") { //右边属性面板
-				$scope.attrTplContainerSwitch(true);
-				// $scope.attrTplContainer = "";
-			} else if (data["loadType"] === "tipsTplContainer") {
-				if ($scope["tipsTplContainer"] != data["propertyHtml"]) { // tips页面切换，取消原来的SELECTBYATTRIBUTE事件绑定
-					if (eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTBYATTRIBUTE]) {
-						for (var k = 0, lenK = eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTBYATTRIBUTE].length; k < lenK; k++) {
-							eventCtrl.off(eventCtrl.eventTypes.SELECTBYATTRIBUTE, eventCtrl.eventTypesMap[eventCtrl.eventTypes.SELECTBYATTRIBUTE][k]);
+			pinyin = $scope.replaceVal(pinyin);
+			var pinyinArr = pinyin.split(' ');
+			// pyIndexArray 用于保存需要高亮的拼音下标
+			var pyIndexArray = new Array();
+			if(duoyinzi && duoyinzi.length>0){
+				for (var j=0;j< duoyinzi.length;j++) {
+					var index = 0;
+					var addFlag =  false;
+					var zhongwenIndex = duoyinzi[j][0];// 中文多音字下标
+					// 循环每个拼音
+					var tmpIndex = -1;
+					for(var i=0;i<pinyinArr.length;i++){
+						var perPYF = $scope.ToDBC(pinyinArr[i]);// 半角转全角，进行匹配
+						// indexOf(目标字符串,开始位置)
+						var perIndex = zhongwen.indexOf(perPYF,tmpIndex);
+						// 只有下标小于当前zhongwenIndex的perPYF才需要计算差值
+						if(perIndex != -1 && perIndex < zhongwenIndex){
+							tmpIndex = perIndex + 1;   // ABCD中ABC行
+							if(perPYF.length > 1){
+								addFlag = true;
+								index += perPYF.length-1;
+							}
 						}
 					}
+					// 当addFlag为true代表有差值
+					if(addFlag){
+						pyIndexArray.push(zhongwenIndex - index);
+					} else {
+						pyIndexArray.push(zhongwenIndex);
+					}
 				}
-				// $scope.attrTplContainer = "";
-				$scope.tipsPanelOpened = true;
-			} else if (data["loadType"] === "tipsPitureContainer") {
-				if ($scope[data["loadType"]]) {
-					$scope.$broadcast("TRANSITTIPSPICTURE", {})
-					return;
-				}
-			} else if (data["loadType"] === "tipsVideoContainer") {
-				if ($scope[data["loadType"]]) {
-					$scope.$broadcast("TRANSITTIPSVIDEO", {})
-					return;
-				}
-			} else if (data["loadType"] === 'sameRelationShapTplContainer') {
+			}
+			// 按下标高亮拼音
+			for(var i=0;i<pyIndexArray.length;i++){
+				perRadioDefaultVal.push(pinyinArr[pyIndexArray[i]]);
+				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
+			}
+			if("road" == type){
+				$scope.radioDefaultValRoad = perRadioDefaultVal;
+			}else{
+				$scope.radioDefaultValAddr = perRadioDefaultVal;
+			}
+			return pinyinArr.join(' ');
+		}
 
+		/**
+		 * 半角转换为全角函数(全角空格为12288，半角空格为32,其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248)
+		 * @param txtstring
+		 * @returns
+		 */
+		$scope.ToDBC = function(txtstring) {
+			if(txtstring ==null ||txtstring =="" ||txtstring ==" "){
+				return "";
 			}
-			if (data["data"]) {
-				$scope.subAttributeData = data["data"];
-			}
-			$ocLazyLoad.load(data["propertyCtrl"]).then(function () {
-				$scope[data["loadType"]] = data["propertyHtml"];
-				if (data["callback"]) {
-					data["callback"]();
+			var tmp = "";
+			for (var i = 0; i < txtstring.length; i++) {
+				if (txtstring.charCodeAt(i) == 32) {
+					tmp = tmp + String.fromCharCode(12288);
+				}else if (txtstring.charAt(i)!="|"&&txtstring.charCodeAt(i) < 127) {
+					tmp = tmp + String.fromCharCode(txtstring.charCodeAt(i) + 65248);
+				}else {
+					tmp = tmp + String.fromCharCode(txtstring.charCodeAt(i));
 				}
-			});
-			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
-				$scope.$broadcast('refreshTollgateName', {});
 			}
-			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
-				$scope.$broadcast('refreshTollgatePassage', {});
+			return tmp;
+		}
+		/**
+		 * 高亮多音字
+		 * @param zhongwen
+		 * @param duoyinzi
+         * @returns {*}
+         */
+		$scope.heightLightCn = function(zhongwen,duoyinzi){
+			var value = zhongwen;
+			// 中文去空格
+			var trimZW = zhongwen.replace(/\s/g,'');
+			// var duoyinziArr = duoyinzi;
+			for (var item in duoyinzi){
+				var indexArr = new Array();
+				// 中文多音字下标
+				var index = duoyinzi[item].toString().split(',')[0];
+				// 中文多音字 如行
+				var chiV = trimZW.substr(index,1);
+				// 获取chiV在trimZW中重复出现的下标数组indexArr
+				$scope.resu(trimZW,chiV,indexArr,-1);
+				if(indexArr.length == 1){
+					// 如果indexArr长度为1,说明chiV在trimZW中没有重复,则直接将此chiV替换为高亮后的
+					value = value.replace(chiV,"<span class='wordColor'>"+chiV+"</span>");
+				} else if (indexArr.length>1){
+					var count = 0;
+					// 循环indexArr,查找多音字在数组中出现的次数
+					for(var ind in indexArr){
+						count++;
+						if(indexArr[ind] == index){
+							break;
+						}
+					}
+					// 根据中文中此多音字出现的次数确定其在中文中的下标
+					var realIndex = findMulitEleByNum(value,chiV,count);
+					// 高亮
+					value =value.substr(0,realIndex-1)+ "<span class='wordColor'>"+chiV+"</span>"+value.substr(realIndex);
+				}
 			}
-			//刷新二级菜单
-			if (data["type"] == "refreshPage") {
-				$scope.$broadcast('refreshPage', {});
+			return value;
+		};
+		/**
+		 * 递归寻找出现重复的元素，将下标放入集合中
+		 * @param str 目标字符串 去空格后的中文
+		 * @param ele 重复元素 如行
+		 * @param arrList 存放的集合 用于存储 多音字在str中重复出现的下标
+		 * @param startIndex 开始下标
+		 */
+		$scope.resu = function(str,ele,arrList,startIndex){
+			var index = str.indexOf(ele,startIndex);
+			if(index != -1){
+				arrList.push(index);
+				$scope.resu(str,ele,arrList,index+1);
 			}
-		});
-		//清除表单修改后的样式
-		$scope.$on("clearAttrStyleUp", function (event, data) {
-			$scope.$broadcast("clearAttrStyleDown");
-		});
+		};
+
+
+		$scope.initPage = function (){
+			$scope.initMate();
+			$scope.changeMenu($scope.menuSelectedId);
+
+		};
+		$scope.initPage();
+
+
 	}
 ]);

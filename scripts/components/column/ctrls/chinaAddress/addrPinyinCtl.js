@@ -15,14 +15,21 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
 
+        var languageFlag = '';
+        if(true){
+            languageFlag = "addressChi";
+        }
+
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
         };
         $scope.cols = [
-            { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
-            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true},
-            { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true},
+            { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'40px'},
+            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
+            { field: "classifyRules", title: "分类",getValue:getKindName,show: true,width:'80px'},
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'180px'},
+            { field: "addressCombineName", title: "中文地址合并",getValue: getCombineName, html:true,width:'220px',show: true},
+            { field: "addressCombinePinyin", title: "拼音地址合并",getValue: getCombinePinyin,html:true,width:'220px', show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
@@ -32,6 +39,9 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         function getFullName($scope, row){
             return row.addressChi.fullName;
         }
+        function getKindName($scope, row){
+            return $scope.metaData.kindFormat[row.kindCode].kindName;
+        }
         function getClassifyRules($scope, row){
             var type = row.classifyRules;
             var html = '';
@@ -40,6 +50,47 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             }
             return html;
         }
+
+        function getCombineName($scope, row){
+            if(row[languageFlag]['roadname'] && row[languageFlag]['addrname']){
+                var html = $scope.heightLightCn(row[languageFlag]['roadname'],row[languageFlag]['roadNameMultiPinyin']) +'|'+ $scope.heightLightCn(row[languageFlag]['addrname'],row[languageFlag]['addrNameMultiPinyin']);
+                return "<span>"+html+"<span>";
+            }else if(row['roadname']){
+                var html = $scope.heightLightCn(row[languageFlag]['roadname'],row[languageFlag]['roadNameMultiPinyin']);
+                return "<span>"+html+"<span>";;
+            }else if(row['roadname']){
+                var html = $scope.heightLightCn(row[languageFlag]['roadname'],row[languageFlag]['addrNameMultiPinyin']);
+                return "<span>"+html+"<span>";;
+            }
+            return "";
+        }
+        
+        function getCombinePinyin($scope, row){
+            var roadnamepinyin = row[languageFlag]['roadNamePinyin'];
+            var addrnamepinyin = row[languageFlag]['addrNamePinyin'];
+            if(roadnamepinyin && addrnamepinyin){
+                roadnamepinyin = roadnamepinyin.replace(/\s/g,' ');
+                var roadnameV = $scope.heightLightPinAddress(roadnamepinyin.replace(/\|/g,' | '), row[languageFlag]['roadname'], row[languageFlag]['roadNameMultiPinyin'],"road");
+                roadnameV = roadnameV.replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
+                addrnamepinyin = addrnamepinyin.replace(/\s/g,' ');
+                var addrnameV = $scope.heightLightPinAddress(addrnamepinyin.replace(/\|/g,' | '), row[languageFlag]['addrname'], row[languageFlag]['addrNameMultiPinyin'],"addr");
+                addrnameV = addrnameV.replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
+                return "<span>"+roadnameV +"|"+ addrnameV+"</span>";
+            }else if(roadnamepinyin){
+                roadnamepinyin = roadnamepinyin.replace(/\s/g,' ');
+                var roadnameV = $scope.heightLightPinAddress(roadnamepinyin.replace(/\|/g,' | '), row[languageFlag]['roadname'], row[languageFlag]['roadNameMultiPinyin'],"road");
+                roadnameV = roadnameV.replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
+                return "<span>"+roadnameV+"</span>";
+            }else if(addrnamepinyin){
+                addrnamepinyin = addrnamepinyin.replace(/\s/g,' ');
+                var addrnameV = $scope.heightLightPinAddress(addrnamepinyin.replace(/\|/g,' | '), row[languageFlag]['addrname'], row[languageFlag]['addrNameMultiPinyin'],"addr");
+                addrnameV = addrnameV.replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
+                return "<span>"+addrnameV+"</span>";
+            }
+            return "";
+        }
+
+
 
         $scope.selectData = function (row,index){
             var temp = $scope.tableParams.data;
@@ -119,6 +170,17 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                 data.checked = false;//默认增加checked属性
             });
         });
+        $scope.doCheckAll = function (){
+            var flag  = false;
+            if($scope.tableParams.data.checkedAll){
+                flag = true;
+            } else {
+                flag = false;
+            }
+            angular.forEach($scope.tableParams.data, function(data, index) {
+                data.checked = flag;
+            });
+        };
 
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
@@ -136,26 +198,12 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         /*******************  编辑页面begin  ****************/
         $scope.editor = {};
         $scope.editor.editorCols = [
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'100'},
-            { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true,width:'100'},
-            { field: "province", title: "省名",getValue: getProvince,html:true,show: true},
-            { field: "city", title: "市名",getValue: getCity,html:true,show: true},
-            { field: "county", title: "区县名",getValue: getCounty,html:true,show: true},
-            { field: "town", title: "乡镇街道办",getValue: getTown,html:true,show: true,width:'80'},
-            { field: "place", title: "地区小区名",getValue: getPlace,html:true,show: true,width:'80'},
-            { field: "street", title: "街巷名",getValue: getStreet,html:true,show: true},
-            { field: "landmark", title: "标志物名",getValue: getLandmark,html:true,show: true},
-            { field: "prefix", title: "前缀",getValue: getPrefix,html:true,show: true},
-            { field: "housenum", title: "门牌号",getValue: getHousenum,html:true,show: true},
-            { field: "type", title: "类型名",getValue: getType,html:true,show: true},
-            { field: "subnum", title: "字号",getValue: getSubnum,html:true,show: true},
-            { field: "subfix", title: "后缀",getValue: getSubfix,html:true,show: true},
-            { field: "estab", title: "附属设施名",getValue: getEstab,html:true,show: true,width:'80'},
-            { field: "building", title: "楼栋名",getValue: getBuilding,html:true,show: true},
-            { field: "floor", title: "楼层",getValue: getFloor,html:true,show: true},
-            { field: "unit", title: "楼门号",getValue: getUnit,html:true,show: true},
-            { field: "room", title: "房间号",getValue: getRoom,html:true,show: true},
-            { field: "addons", title: "附加",getValue: getAddons,html:true,show: true},
+            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
+            { field: "classifyRules", title: "分类",getValue:getKindName,show: true,width:'50px'},
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'180px'},
+            { field: "addressCombineName", title: "中文地址合并",getValue: getCombineName, html:true,show: true,width:'240px'},
+            { field: "addressCombinePinyin", title: "拼音地址合并",getValue: getCombinePinyin,html:true, show: true,width:'280px'},
+            { field: "referenceInfo", title: "参考信息",getValue: getReferenceInfo,html:true, show: true,width:'100px'},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true}
         ];
 
@@ -163,45 +211,49 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         if('CHI' == 'CHI'){ //测试用，大陆数据
             html = "<input type='text' class='form-control input-sm table-input' title='{{row[col.field]}}' value='row[col.field]' ng-model='row.addressChi[col.field]' />";
         }
-        function getProvince($scope,row){ return html;
-        }
-        function getCity($scope,row){ return html;
-        }
-        function getCounty($scope,row){ return html;
-        }
-        function getTown($scope,row){ return html;
-        }
-        function getPlace($scope,row){ return html;
-        }
-        function getStreet($scope,row){  return html;
-        }
-        function getLandmark($scope,row){ return html;
-        }
-        function getPrefix($scope,row){ return html;
-        }
-        function getHousenum($scope,row){ return html;
-        }
-        function getType($scope,row){ return html;
-        }
-        function getSubnum($scope,row){  return html;
-        }
-        function getSubfix($scope,row){ return html;
-        }
-        function getEstab($scope,row){ return html;
-        }
-        function getBuilding($scope,row){  return html;
-        }
-        function getFloor($scope,row){ return html;
-        }
-        function getUnit($scope,row){ return html;
-        }
-        function getRoom($scope,row){ return html;
-        }
-        function getAddons($scope,row){ return html;
-        }
+
         function getDetails($scope,row){
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
+        function getReferenceInfo($scope,row){
+            var roadNamePinyin = row[languageFlag]["roadNameMultiPinyin"];
+            var html = "";
+            for (var i = 0 ,len = roadNamePinyin.length; i < len; i ++){
+                var yin = roadNamePinyin[i].toString();
+                var str = yin.substr(yin.indexOf(",") + 3);
+                var pinyinArr = str.split(',');
+                for (var j = 0 ,le = pinyinArr.length; j < le; j++){
+                    if(pinyinArr[j] == $scope.radioDefaultValRoad[i]){
+                        html += pinyinArr[j]+'<input type="radio" checked="checked" value="'+pinyinArr[j]+'" name="piyin_0_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                    } else {
+                        html += pinyinArr[j]+'<input type="radio" value="'+pinyinArr[j]+'" name="piyin_0_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                    }
+                }
+                html += '<br>';
+            }
+            var addrNamePinyin = row[languageFlag]["addrNameMultiPinyin"];
+            for (var i = 0 ,len = addrNamePinyin.length; i < len; i ++){
+                var yin = addrNamePinyin[i].toString();
+                var str = yin.substr(yin.indexOf(",") + 3);
+                var pinyinArr = str.split(',');
+                for (var j = 0 ,le = pinyinArr.length; j < le; j++){
+                    if(pinyinArr[j] == $scope.radioDefaultValAddr[i]){
+                        html += pinyinArr[j]+'<input type="radio" checked="checked" value="'+pinyinArr[j]+'" name="piyin_1_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                    } else {
+                        html += pinyinArr[j]+'<input type="radio" value="'+pinyinArr[j]+'" name="piyin_1_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                    }
+                }
+                html += '<br>';
+            }
+            return '<span>'+html+'</span>';
+        }
+
+        $scope.chagePinyin = function (row,e){
+            row[languageFlag].roadNamePinyin = "Si Chuan "+e.target.value+"|Liang Shan Yi Zu Zi Zhi Zhou|Hui Li Xian|||";
+            console.info($scope.radioDefaultValRoad,$scope.radioDefaultValAddr);
+        };
+
+
 
         function initEditorTable() {
             _self.editorTable = new NgTableParams({
