@@ -64,9 +64,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 'deep':
-                //$ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
-                //    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
-                //});
+                var temp = App.Util.getUrlParam("deepType");
+                if(temp=='common'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
+                    });
+                }
                 break;
             case 'relate':
                 $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function() {
@@ -235,8 +238,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
 
     /*默认显示baseInfo的tab页*/
     function initShowTag() {
-        $scope.propertyType = "base";
-        $scope.changeProperty('base');
+        if(App.Util.getUrlParam("deepType")){
+            $scope.propertyType = 'deep';
+        }else{
+            $scope.propertyType = "base";
+        }
+        $scope.changeProperty($scope.propertyType);
     }
     initShowTag();
     //清除样式

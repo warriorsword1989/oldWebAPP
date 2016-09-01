@@ -6,7 +6,7 @@
  * validType == 2 在不合法时输入框标红并提示错误信息;
  * validType == 3 在提交时统一显示错误信息;
  */
-angular.module('fastmap.uikit').directive('login', function() {
+angular.module('fastmap.uikit').directive('login', function($timeout) {
     return {
         restrict: 'EA',
         replace: true,
@@ -15,6 +15,7 @@ angular.module('fastmap.uikit').directive('login', function() {
             validType: '@validType'
         },
         controller: function($scope, $element) {
+            console.log($scope.username)
             $scope.handleEvent = function() {
                 if ($scope.myForm.$invalid) {
                     if ($scope.validType == 3) {
@@ -28,6 +29,10 @@ angular.module('fastmap.uikit').directive('login', function() {
                     remember: $scope.rememberMe
                 });
             }
+            $timeout(function(){
+                console.log($element.find('input').autofocus = false)
+                $scope.$apply();
+            })
         },
         link: function(scope, element, attrs) {
             scope.showInputError = false;
