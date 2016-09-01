@@ -374,6 +374,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;
 		};
+		$scope.$on('closeAdvancedTools',function(event,data){
+			$scope.closeAdvancedToolsPanel();
+		});
 		/*start 事件监听*******************************************************************/
 		//响应选择要素类型变化事件，清除要素页面的监听事件
 		eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURETYPECHANGE, function (data) {

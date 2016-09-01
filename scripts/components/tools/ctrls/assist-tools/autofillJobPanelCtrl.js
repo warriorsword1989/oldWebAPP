@@ -44,6 +44,7 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
                     status: 'begin'
                 });
                 dsFcc.runAutomaticInput(tips).then(function(data){
+                  $scope.$emit('closeAdvancedTools');
                   $scope.progress = 100;
                   $scope.running = false;
                   $scope.$emit("job-autofill", {
