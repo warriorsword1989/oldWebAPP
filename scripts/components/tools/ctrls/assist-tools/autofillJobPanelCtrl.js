@@ -49,7 +49,7 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
                   $scope.$emit("job-autofill", {
                       status: 'end'
                   });
-            			logMsgCtrl.pushMsg($scope,data.errmsg);
+            			logMsgCtrl.pushMsg($scope,'JobId: '+ data.data.jobId +' ，'+ data.errmsg);
                 });
                 // var loop = $interval(function() {
                 //     $scope.progress += 20;
