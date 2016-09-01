@@ -277,14 +277,15 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     type: 'column',
                     width:270,
                     height:230,
-                    spacingLeft: -5,
-                    options3d: {
-                        enabled: true,
-                        alpha: 10,
-                        beta: 25,
-                        depth: 100
-                    },
+                    spacingLeft: 0,
+                    //options3d: {
+                    //    enabled: true,
+                    //    alpha: 10,
+                    //    beta: 25,
+                    //    depth: 100
+                    //},
                     backgroundColor:'transparent',
+                    borderColor: "#4572A7",
                     spacingTop:15
                 },
                 colors:['#8DBF60', '#27B7F3'],
