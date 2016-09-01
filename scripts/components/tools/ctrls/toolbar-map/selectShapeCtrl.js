@@ -3082,7 +3082,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     var newData = []; //去重后的数据
                     var repeatIdArr = [];
                     for(var i = 0 , len = data.length; i<len; i++){
-                        if(repeatIdArr.indexOf(data[i].properties.id) < 0 ){
+                        if(repeatIdArr.indexOf(data[i].properties.id) < 0  && data[i].properties.same !=1){
                             repeatIdArr.push(data[i].properties.id);
                             newData.push(data[i]);
                         }
@@ -3102,13 +3102,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
                     } else {
                         var relationShap = {
+                            "rectData":newData,
                             "loadType": "sameRelationShapTplContainer",
                             "propertyCtrl": appPath.poi + 'ctrls/attr-tips/poiSameCtrl',
                             "propertyHtml": appPath.root + appPath.poi + 'tpls/attr-tips/poiSameTpl.html',
                             "callback":function (){
-                                setTimeout(function () {
-                                    $scope.$emit("showSamePoi",newData);
-                                },200)
+                                $scope.$emit("showSamePoi");
                             }
                         };
                         $scope.$emit("transitCtrlAndTpl", relationShap);

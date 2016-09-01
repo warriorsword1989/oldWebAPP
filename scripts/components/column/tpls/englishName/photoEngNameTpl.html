@@ -1,0 +1,56 @@
+<style>
+    .btn-ls{
+        background-color: #000;
+        border: 1px solid #ccc;
+    }
+</style>
+<div style="padding: 15px 0;color: white" ng-controller="photoEngNameCtrl">
+    <!--待作业和待提交tabs页切换-->
+    <div class="fm-tabs clearfix">
+        <a href="#" class="tab col-sm-6	 active" ng-class="{6:'active'}[taskStatus]" ng-click="changeTaskStatus(6)"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
+        <a href="#" class="tab col-sm-6" ng-class="{7:'active'}[taskStatus]" ng-click="changeTaskStatus(7)"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
+    </div>
+    <!--表格表头操作控制-->
+    <div class="clearfix" style="padding: 10px">
+        <div class="pull-left">
+            <button type="button" class="btn btn-shape btn-ls" ng-click="">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+            <button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
+            <button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
+            <button type="button" class="btn btn-shape btn-ls" ng-click="">提交数据</button>
+        </div>
+        <div class="pull-right">
+            <div class="input-group" style="width: 280px">
+                <input style="background-color: #000;height: 30px;" type="text" class="form-control" placeholder="搜索">
+                <div class="input-group-btn">
+                    <button type="button" style="background-color: #000;background-image: none;padding: 4px 12px;" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="color: white;text-shadow: none;" class="glyphicon glyphicon-th icon-th"></i>&nbsp;<span style="color: white;" class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right fm-dropdown-menu">
+                        <li ng-repeat="col in view.cols">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" ng-model-options="{getterSetter: true}" ng-model="col.show"/> {{col.title}}
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--主表格部分-->
+    <!--<div></div>-->
+    <div class="content">
+        <div class="dark scroll-styled" style="color: white;padding: 5px 10px 0px 10px;max-height: 500px">
+            <table ng-table-dynamic="tableParams with view.cols" class="table table-condensed table-bordered clearfix">
+                <colgroup>
+                    <col ng-repeat="col in view.cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
+                </colgroup>
+
+                <tr ng-repeat="row in $data" ng-class="{true:'tr-backcolor',flase:''}[row.checked]">
+                    <td ng-repeat="col in $columns" ng-dblclick="selectData(row,$index)" ng-switch="col.field">
+                        <!--<input ng-switch-when="selector" type="checkbox" ng-model="row.checked" />-->
+                        <span ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
+                    </td>
+                </tr>
+                <tr class="text-center" ng-show="!$data.length"><td colspan="{{(view.cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+            </table>
+        </div>
+    </div>
+</div>

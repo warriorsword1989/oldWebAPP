@@ -69,7 +69,7 @@ angular.module('app').controller('deepInfoCtl', function($scope) {
             "payment" : "4",
             "manufacturer" : null
         };
-        $scope.poi.chargingPole.push(new FM.dataApi.IxPoiChargingPole(chargingObj));
+        $scope.poi.chargingPole.push(new FM.dataApi.IxPoiChargingplot(chargingObj));
     };
     $scope.removeChargPole = function(index){
         if ($scope.poi.chargingPole.length > 1) {

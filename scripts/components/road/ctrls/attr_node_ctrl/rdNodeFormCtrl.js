@@ -73,6 +73,8 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
         $scope.rdNodeData = {};
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        //初始化
+        eventController.fire('SHOWSUBTABLEDATA')
         var highlightFeatures = [];
 
         dsEdit.getByCondition({

@@ -180,16 +180,36 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 }
             }
         }
+        this.chargingStation = [];
+        if (data["chargingStation"]) {
+            if (data["chargingStation"].length == 0) {
+                this.chargingStation = [new FM.dataApi.IxPoiChargingstation({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+            } else {
+                for (var i = 0, len = data["chargingStation"].length; i < len; i++) {
+                    this.chargingStation.push(new FM.dataApi.IxPoiChargingstation(data["chargingStation"][i]));
+                }
+            }
+        }
+        this.chargingPlot = [];
+        if (data["chargingPlot"]) {
+            if (data["chargingPlot"].length == 0) {
+                this.chargingPlot = [new FM.dataApi.IxPoiChargingplot({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+            } else {
+                for (var i = 0, len = data["chargingPlot"].length; i < len; i++) {
+                    this.chargingPlot.push(new FM.dataApi.IxPoiChargingplot(data["chargingPlot"][i]));
+                }
+            }
+        }
         this.samePois = [];
         if (data["samePois"]) {
             for (var i = 0, len = data["samePois"].length; i < len; i++) {
                 this.samePois.push(new FM.dataApi.IxSamepoi(data["samePois"][i]));
             }
         }
-        this.samePoiParts = [];
-        if (data["samePoiParts"]) {
-            for (var i = 0, len = data["samePoiParts"].length; i < len; i++) {
-                this.samePoiParts.push(new FM.dataApi.IxSamepoiPart(data["samePoiParts"][i]));
+        this.samepoiParts = [];
+        if (data["samepoiParts"]) {
+            for (var i = 0, len = data["samepoiParts"].length; i < len; i++) {
+                this.samepoiParts.push(new FM.dataApi.IxSamepoiPart(data["samepoiParts"][i]));
             }
         }
     },
@@ -384,16 +404,36 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             //     }
             // }
         }
+        ret["chargingStation"] = [];
+        if (this.chargingStation) {
+            if (this.chargingStation.length == 1 && FM.Util.isEmptyObject(this.chargingStation[0])) {
+                ret["chargingStation"] = [];
+            } else {
+                for (var i = 0, len = this.chargingStation.length; i < len; i++) {
+                    ret["chargingStation"].push(this.chargingStation[i].getIntegrate());
+                }
+            }
+        }
+        ret["chargingPlot"] = [];
+        if (this.chargingPlot) {
+            if (this.chargingPlot.length == 1 && FM.Util.isEmptyObject(this.chargingPlot[0])) {
+                ret["chargingPlot"] = [];
+            } else {
+                for (var i = 0, len = this.chargingPlot.length; i < len; i++) {
+                    ret["chargingPlot"].push(this.chargingPlot[i].getIntegrate());
+                }
+            }
+        }
         ret["samePois"] = [];
         if (this.samePois) {
             for (var i = 0, len = this.samePois.length; i < len; i++) {
                 ret["samePois"].push(this.samePois[i].getIntegrate());
             }
         }
-        ret["samePoiParts"] = [];
-        if (this.samePoiParts) {
-            for (var i = 0, len = this.samePoiParts.length; i < len; i++) {
-                ret["samePoiParts"].push(this.samePoiParts[i].getIntegrate());
+        ret["samepoiParts"] = [];
+        if (this.samepoiParts) {
+            for (var i = 0, len = this.samepoiParts.length; i < len; i++) {
+                ret["samepoiParts"].push(this.samepoiParts[i].getIntegrate());
             }
         }
         ret["geoLiveType"] = this.geoLiveType;
