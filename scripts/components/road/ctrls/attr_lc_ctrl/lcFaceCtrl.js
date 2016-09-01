@@ -7,7 +7,6 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
     var layerCtrl = fastmap.uikit.LayerController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var lcFace = layerCtrl.getLayerById("lcFace");
-    var outputCtrl = fastmap.uikit.OutPutController({});
     $scope.kind = [
 	       {"id": 0, "label": "未分类"},
 	       {"id": 1, "label": "海域"},

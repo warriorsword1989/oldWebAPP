@@ -105,11 +105,6 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }]
     }];
 
-
-
-    // , {
-    //     "layerId": "rdSameLink"
-    // }
     $scope.dataLayers = [];
     var reqType;
     for (var i = 0; i < layerCtrl.layers.length; i++) {

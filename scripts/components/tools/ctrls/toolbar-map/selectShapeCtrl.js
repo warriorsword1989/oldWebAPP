@@ -947,7 +947,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'text': "<a class='glyphicon glyphicon-transfer'></a>",
                             'title': "同一关系",
                             'type': "POISAME",
                             'class': "feaf",

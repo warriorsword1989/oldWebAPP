@@ -64,9 +64,20 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 'deep':
-                //$ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
-                //    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
-                //});
+                var temp = App.Util.getUrlParam("deepType");
+                if(temp=='common'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
+                    });
+                }else if(temp=='car'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/carRentalCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/carRentalTpl.html";
+                    });
+                }else if(temp=='parking'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
+                    });
+                }
                 break;
             case 'relate':
                 $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function() {
@@ -106,11 +117,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/oilStationTpl.html";
                 });
                 break;
-                // case 3: //充电站
-                //     $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                //         $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
-                //     });
-                //     break;
+            case 3: //充电站
+                $ocll.load(appPath.poi + "ctrls/attr-deep/chargingStationCtrl").then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/chargingStationTpl.html";
+                });
+                break;
             case 4: //宾馆酒店
                 $ocll.load(appPath.poi + "ctrls/attr-deep/hotelCtl").then(function() {
                     $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/hotelTpl.html";
@@ -139,14 +150,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 //         $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 //     });
                 //     break;
-            case 9:
-                $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
-                    // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
-                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast("loaded", data);
-                    });
-                    // });
+            case 9: //充电桩
+                $ocll.load(appPath.poi + "ctrls/attr-deep/chargingPlotCtrl").then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/chargingPlotTpl.html";
                 });
                 break;
             default:
@@ -235,8 +241,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
 
     /*默认显示baseInfo的tab页*/
     function initShowTag() {
-        $scope.propertyType = "base";
-        $scope.changeProperty('base');
+        if(App.Util.getUrlParam("deepType")){
+            $scope.propertyType = 'deep';
+        }else{
+            $scope.propertyType = "base";
+        }
+        $scope.changeProperty($scope.propertyType);
     }
     initShowTag();
     //清除样式

@@ -52,6 +52,12 @@ samePoiApp.controller("SamePoiController",['$scope','$ocLazyLoad','appPath','dsE
      * 保存
      */
     $scope.saveSame = function (){
+        if($scope.same.sameNameList.length != 2){
+            swal("操作失败", "POI个数不为2", "info");
+            return;
+        } else {
+
+        }
         var ids = [];
         var param = {};
         param["command"] = "CREATE";
