@@ -119,17 +119,16 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				}
 			}
 			return valArr.join("|");
-		}
+		};
+
 		/**
-		 * 地址拼音高亮方法
-		 * @param pinyin 拼音地址合并
-		 * @param zhongwen 中文地址合并
-		 * @param duoyinzi 多音字
-		 * @param rowIndex 行号
-		 * @param type 标识道路地址 'road' 'addr'
-		 * @returns 含有高亮样式的拼音html
-		 */
-		$scope.heightLightPinAddress = function(pinyin, zhongwen,duoyinzi,type){
+		 * 修改地址拼音
+		 * @param pinyin
+		 * @param zhongwen
+		 * @param duoyinzi
+         * @param type
+         */
+		$scope.changeAddressPinyin = function(pinyin, zhongwen,duoyinzi){
 			// 多音字默认值
 			var perRadioDefaultVal = new Array();
 			if(pinyin.substr(0,1) == " "){
@@ -172,13 +171,77 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				perRadioDefaultVal.push(pinyinArr[pyIndexArray[i]]);
 				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
 			}
+		};
+
+		/**
+		 * 地址拼音高亮方法
+		 * @param pinyin 拼音地址合并
+		 * @param zhongwen 中文地址合并
+		 * @param duoyinzi 多音字
+		 * @param rowIndex 行号
+		 * @param type 标识道路地址 'road' 'addr'
+		 * @returns 含有高亮样式的拼音html
+		 */
+		$scope.heightLightPinAddress = function(pinyin, zhongwen,duoyinzi,type){
+			// 多音字默认值
+			var perRadioDefaultVal = new Array();
+			if(pinyin.substr(0,1) == " "){
+				pinyin = pinyin.substr(1);
+			}
+			pinyin = $scope.replaceVal(pinyin);
+			var pinyinArr = pinyin.split(' ');
+			var pyIndexArray = $scope.calculateIndex(pinyin,zhongwen,duoyinzi);
+
+			// 按下标高亮拼音
+			for(var i=0;i<pyIndexArray.length;i++){
+				perRadioDefaultVal.push(pinyinArr[pyIndexArray[i]]);
+				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
+			}
 			if("road" == type){
 				$scope.radioDefaultValRoad = perRadioDefaultVal;
 			}else{
 				$scope.radioDefaultValAddr = perRadioDefaultVal;
 			}
 			return pinyinArr.join(' ');
-		}
+		};
+
+		$scope.calculateIndex = function (pinyin,zhongwen,duoyinzi){
+			console.info("pinyin:",pinyin);
+			console.info("zhongwen:",zhongwen);
+			console.info("duoyinzi:",duoyinzi);
+			var pinyinArr = pinyin.split(' ');
+			// pyIndexArray 用于保存需要高亮的拼音下标
+			var pyIndexArray = [];
+			if(duoyinzi && duoyinzi.length>0){
+				for (var j=0;j< duoyinzi.length;j++) {
+					var index = 0;
+					var addFlag =  false;
+					var zhongwenIndex = duoyinzi[j][0];// 中文多音字下标
+					// 循环每个拼音
+					var tmpIndex = -1;
+					for(var i=0;i<pinyinArr.length;i++){
+						var perPYF = $scope.ToDBC(pinyinArr[i]);// 半角转全角，进行匹配
+						// indexOf(目标字符串,开始位置)
+						var perIndex = zhongwen.indexOf(perPYF,tmpIndex);
+						// 只有下标小于当前zhongwenIndex的perPYF才需要计算差值
+						if(perIndex != -1 && perIndex < zhongwenIndex){
+							tmpIndex = perIndex + 1;   // ABCD中ABC行
+							if(perPYF.length > 1){
+								addFlag = true;
+								index += perPYF.length-1;
+							}
+						}
+					}
+					// 当addFlag为true代表有差值
+					if(addFlag){
+						pyIndexArray.push(zhongwenIndex - index);
+					} else {
+						pyIndexArray.push(zhongwenIndex);
+					}
+				}
+			}
+			return pyIndexArray;
+		};
 
 		/**
 		 * 半角转换为全角函数(全角空格为12288，半角空格为32,其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248)

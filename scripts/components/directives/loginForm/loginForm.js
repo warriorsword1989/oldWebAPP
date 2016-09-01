@@ -15,7 +15,6 @@ angular.module('fastmap.uikit').directive('login', function($timeout) {
             validType: '@validType'
         },
         controller: function($scope, $element) {
-            console.log($scope.username)
             $scope.handleEvent = function() {
                 if ($scope.myForm.$invalid) {
                     if ($scope.validType == 3) {
@@ -29,10 +28,6 @@ angular.module('fastmap.uikit').directive('login', function($timeout) {
                     remember: $scope.rememberMe
                 });
             }
-            $timeout(function(){
-                console.log($element.find('input').autofocus = false)
-                $scope.$apply();
-            })
         },
         link: function(scope, element, attrs) {
             scope.showInputError = false;
