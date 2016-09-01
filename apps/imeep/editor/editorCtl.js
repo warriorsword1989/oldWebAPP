@@ -6,9 +6,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 	tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
 	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
-		var layerCtrl = new fastmap.uikit.LayerController({
-			config: App.layersConfig
-		});
+		// var layerCtrl = new fastmap.uikit.LayerController({
+		// 	config: App.layersConfig
+		// });
 		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
@@ -112,6 +112,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 
 		function loadMap(data) {
+			var layerCtrl = new fastmap.uikit.LayerController({
+				config: App.layersConfig
+			});
 			map = L.map('map', {
 				attributionControl: false,
 				doubleClickZoom: false,
