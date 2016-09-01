@@ -37,7 +37,8 @@ App.Temp = {
         RDTOLLGATE:'收费站',
         RDVOICEGUIDE:'收费站',
         RDSAMENODE:'同一点',
-        RDSAMELINK:'同一线'
+        RDSAMELINK:'同一线',
+        RDLANE:'详细车道'
     }
 };
 // web app的公用函数命名空间

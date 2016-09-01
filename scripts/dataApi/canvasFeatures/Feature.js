@@ -161,6 +161,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 45: //rtic
                     ret = new fastmap.uikit.canvasFeature.RdRtic(data);
                     break;
+                case 46: //CLM
+                    ret = new fastmap.uikit.canvasFeature.RdLane(data);
+                    break;
             }
             return ret;
         },
