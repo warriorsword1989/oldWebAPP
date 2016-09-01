@@ -14,7 +14,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         this.srcFlag = data['srcFlag'];
         this.fullName = data['fullName'];
         this.fullNamePhonetic = data['fullNamePhonetic'];
-        this.roadName = data['roadName'];
+        this.roadname = data['roadname'];
         this.roadNamePhonetic = data['roadNamePhonetic'];
         this.addrname = data['addrname'];
         this.addrNamePhonetic = data['addrNamePhonetic'];
@@ -36,6 +36,16 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         this.unit = data['unit'];
         this.room = data['room'];
         this.addons = data['addons'];
+
+        //拼音
+        this.fullNameMultiPinyin = data["fullNameMultiPinyin"];
+        this.roadNameMultiPinyin = data["roadNameMultiPinyin"];
+        this.fullNamePinyin = data["fullNamePinyin"];
+        this.roadNamePinyin = data["roadNamePinyin"];
+        this.addrNamePinyin = data["addrNamePinyin"];
+        this.addrNameMultiPinyin = data["addrNameMultiPinyin"];
+
+
         this.rowId = data["rowId"];
     },
     getIntegrate: function(){
@@ -47,7 +57,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         ret['srcFlag'] = this.srcFlag;
         ret['fullName'] = this.fullName;
         ret['fullNamePhonetic'] = this.fullNamePhonetic;
-        ret['roadName'] = this.roadName;
+        ret['roadname'] = this.roadname;
         ret['roadNamePhonetic'] = this.roadNamePhonetic;
         ret['addrname'] = this.addrname;
         ret['addrNamePhonetic'] = this.addrNamePhonetic;
@@ -69,6 +79,15 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         ret['unit'] = this.unit;
         ret['room'] = this.room;
         ret['addons'] = this.addons;
+
+        //拼音
+        ret['fullNameMultiPinyin'] = this.fullNameMultiPinyin;
+        ret['roadNameMultiPinyin'] = this.roadNameMultiPinyin;
+        ret['fullNamePinyin'] = this.fullNamePinyin;
+        ret['roadNamePinyin'] = this.roadNamePinyin;
+        ret['addrNamePinyin'] = this.addrNamePinyin;
+        ret['addrNameMultiPinyin'] = this.addrNameMultiPinyin;
+
         ret["rowId"] = this.rowId;
         return ret;
     }

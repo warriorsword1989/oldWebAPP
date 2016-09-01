@@ -1,6 +1,6 @@
 <div ng-controller="ChinaAddressCtl">
 	<script type="text/ng-template" id="headerCheckboxId">
-		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="_test();" class="select-all" />选择
+		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="doCheckAll();" class="select-all" />选择
 	</script>
 	<div>
 		<div class="fm-tabs" style="padding:0px;margin: 0px;">
@@ -14,7 +14,7 @@
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">选择</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="submitData();">提交数据</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-if="workedFlag==2" ng-click="submitData();">提交数据</button>
 				</div>
 				<div class="pull-right">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
