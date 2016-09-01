@@ -119,6 +119,17 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
                 data.checked = false;//默认增加checked属性
             });
         });
+        $scope.doCheckAll = function (){
+            var flag  = false;
+            if($scope.tableParams.data.checkedAll){
+                flag = true;
+            } else {
+                flag = false;
+            }
+            angular.forEach($scope.tableParams.data, function(data, index) {
+                data.checked = flag;
+            });
+        };
 
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
@@ -138,24 +149,24 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.editor.editorCols = [
             { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'100'},
             { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true,width:'100'},
-            { field: "province", title: "省名",getValue: getProvince,html:true,show: true},
-            { field: "city", title: "市名",getValue: getCity,html:true,show: true},
-            { field: "county", title: "区县名",getValue: getCounty,html:true,show: true},
-            { field: "town", title: "乡镇街道办",getValue: getTown,html:true,show: true,width:'80'},
-            { field: "place", title: "地区小区名",getValue: getPlace,html:true,show: true,width:'80'},
-            { field: "street", title: "街巷名",getValue: getStreet,html:true,show: true},
-            { field: "landmark", title: "标志物名",getValue: getLandmark,html:true,show: true},
-            { field: "prefix", title: "前缀",getValue: getPrefix,html:true,show: true},
-            { field: "housenum", title: "门牌号",getValue: getHousenum,html:true,show: true},
-            { field: "type", title: "类型名",getValue: getType,html:true,show: true},
-            { field: "subnum", title: "字号",getValue: getSubnum,html:true,show: true},
-            { field: "subfix", title: "后缀",getValue: getSubfix,html:true,show: true},
-            { field: "estab", title: "附属设施名",getValue: getEstab,html:true,show: true,width:'80'},
-            { field: "building", title: "楼栋名",getValue: getBuilding,html:true,show: true},
-            { field: "floor", title: "楼层",getValue: getFloor,html:true,show: true},
-            { field: "unit", title: "楼门号",getValue: getUnit,html:true,show: true},
-            { field: "room", title: "房间号",getValue: getRoom,html:true,show: true},
-            { field: "addons", title: "附加",getValue: getAddons,html:true,show: true},
+            { field: "province", title: "省名",getValue: getColName,html:true,show: true},
+            { field: "city", title: "市名",getValue: getColName,html:true,show: true},
+            { field: "county", title: "区县名",getValue: getColName,html:true,show: true},
+            { field: "town", title: "乡镇街道办",getValue: getColName,html:true,show: true,width:'80'},
+            { field: "place", title: "地区小区名",getValue: getColName,html:true,show: true,width:'80'},
+            { field: "street", title: "街巷名",getValue: getColName,html:true,show: true},
+            { field: "landmark", title: "标志物名",getValue: getColName,html:true,show: true},
+            { field: "prefix", title: "前缀",getValue: getColName,html:true,show: true},
+            { field: "housenum", title: "门牌号",getValue: getColName,html:true,show: true},
+            { field: "type", title: "类型名",getValue: getColName,html:true,show: true},
+            { field: "subnum", title: "字号",getValue: getColName,html:true,show: true},
+            { field: "subfix", title: "后缀",getValue: getColName,html:true,show: true},
+            { field: "estab", title: "附属设施名",getValue: getColName,html:true,show: true,width:'80'},
+            { field: "building", title: "楼栋名",getValue: getColName,html:true,show: true},
+            { field: "floor", title: "楼层",getValue: getColName,html:true,show: true},
+            { field: "unit", title: "楼门号",getValue: getColName,html:true,show: true},
+            { field: "room", title: "房间号",getValue: getColName,html:true,show: true},
+            { field: "addons", title: "附加",getValue: getColName,html:true,show: true},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true}
         ];
 
@@ -163,42 +174,44 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         if('CHI' == 'CHI'){ //测试用，大陆数据
             html = "<input type='text' class='form-control input-sm table-input' title='{{row[col.field]}}' value='row[col.field]' ng-model='row.addressChi[col.field]' />";
         }
-        function getProvince($scope,row){ return html;
+        function getColName($scope,row){
+            return html;
         }
-        function getCity($scope,row){ return html;
-        }
-        function getCounty($scope,row){ return html;
-        }
-        function getTown($scope,row){ return html;
-        }
-        function getPlace($scope,row){ return html;
-        }
-        function getStreet($scope,row){  return html;
-        }
-        function getLandmark($scope,row){ return html;
-        }
-        function getPrefix($scope,row){ return html;
-        }
-        function getHousenum($scope,row){ return html;
-        }
-        function getType($scope,row){ return html;
-        }
-        function getSubnum($scope,row){  return html;
-        }
-        function getSubfix($scope,row){ return html;
-        }
-        function getEstab($scope,row){ return html;
-        }
-        function getBuilding($scope,row){  return html;
-        }
-        function getFloor($scope,row){ return html;
-        }
-        function getUnit($scope,row){ return html;
-        }
-        function getRoom($scope,row){ return html;
-        }
-        function getAddons($scope,row){ return html;
-        }
+
+        // function getCity($scope,row){ return html;
+        // }
+        // function getCounty($scope,row){ return html;
+        // }
+        // function getTown($scope,row){ return html;
+        // }
+        // function getPlace($scope,row){ return html;
+        // }
+        // function getStreet($scope,row){  return html;
+        // }
+        // function getLandmark($scope,row){ return html;
+        // }
+        // function getPrefix($scope,row){ return html;
+        // }
+        // function getHousenum($scope,row){ return html;
+        // }
+        // function getType($scope,row){ return html;
+        // }
+        // function getSubnum($scope,row){  return html;
+        // }
+        // function getSubfix($scope,row){ return html;
+        // }
+        // function getEstab($scope,row){ return html;
+        // }
+        // function getBuilding($scope,row){  return html;
+        // }
+        // function getFloor($scope,row){ return html;
+        // }
+        // function getUnit($scope,row){ return html;
+        // }
+        // function getRoom($scope,row){ return html;
+        // }
+        // function getAddons($scope,row){ return html;
+        // }
         function getDetails($scope,row){
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }

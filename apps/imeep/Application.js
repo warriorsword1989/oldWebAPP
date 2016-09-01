@@ -35,7 +35,7 @@ App.Temp = {
         RDROAD:'CRF道路',
         RDOBJECT:'CRF对象',
         RDTOLLGATE:'收费站',
-        RDVOICEGUIDE:'收费站',
+        RDVOICEGUIDE:'语音引导',
         RDSAMENODE:'同一点',
         RDSAMELINK:'同一线'
     }
