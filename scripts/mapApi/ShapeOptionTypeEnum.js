@@ -148,5 +148,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      可变限速
      */
-    'VARIABLESPEED':'variableSpeed'
+    'VARIABLESPEED':'variableSpeed',
+    /*
+     详细车道
+     */
+    'RDLANE':'rdLane'
 }
