@@ -6,6 +6,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
         $scope.editPanelIsOpen = false;
+        $scope.batchWorkIsOpen = false;
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
@@ -15,15 +16,15 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
         
-        $scope.chageTabs = function (flag){
+        $scope.changeTabs = function (flag){
             $scope.workedFlag = flag;
         };
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
             { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "name11Chi", title: "官方原始名称",getValue:get11Names,show: true},
-            { field: "name12Chi", title: "官方标准化中文名称",getValue:get12Names,show: true},
+            { field: "name12Chi", title: "官方原始名称",getValue:get11Names,show: true},
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:get12Names,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
@@ -136,6 +137,68 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             console.info(chage);
             //调用接口
 
+        };
+        $scope.batchParam = {
+        	value : "",
+        	batchField : ""
+        };
+        var replaceOpt = [
+            {"id": "name12Chi", "label": "官方标准中文名称"}
+        ];
+        		
+        var searchOpt = [
+        	{"id": "name12Chi", "label": "官方标准中文名称"},
+        	{"id": "name11Chi", "label": "官方原始中文名称"}	
+        ];
+        $scope.batchTabs = function(flag){
+        	$scope.batchFlag = flag;
+        	if(1 == flag){
+        		$scope.batchOpt = replaceOpt;
+        		$scope.batchParam.batchField = "name12Chi";
+        		$scope.extractEle = true;
+        		$scope.searchBtn = false;
+        	}else if(2 == flag){
+        		$scope.batchOpt = searchOpt;
+        		$scope.batchParam.batchField = "name11Chi";
+        		$scope.extractEle = false;
+        		$scope.searchBtn = true;
+        	}
+        };
+        $scope.batchWork = function(flag){
+        	$scope.batchWorkIsOpen = true;
+        	$scope.batchTabs(1);
+        };
+        $scope.closeBatchModal = function(){
+        	$scope.batchWorkIsOpen = false;
+        };
+        $scope.cancle = function(){
+        	$scope.closeBatchModal();
+        };
+        $scope.searchWork = function(){
+        	if($scope.batchParam.value == ""){
+        		swal("请先输入搜索内容", "", "info");
+				return;
+        	}
+        	var temp = $scope.tableParams.data;
+            var checkedArr = [];
+            for (var i = 0 ,len = temp.length ;i < len ; i ++){
+                if(temp[i].checked){
+                    checkedArr.push(temp[i]);
+                }
+            }
+            var editorArr = [];
+            if(checkedArr.length > 0){
+                editorArr = checkedArr;
+            } else {
+                editorArr = $scope.tableParams.data;
+            }
+            console.log('--'+JSON.stringify(editorArr))
+            var currentValue;
+            for(var item in editorArr){
+            	currentValue = editorArr[item][$scope.batchParam.batchField].name;
+                if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
+    			}
+    		}
         };
         /**************** 工具条end   ***************/
 

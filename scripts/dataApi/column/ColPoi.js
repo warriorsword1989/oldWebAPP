@@ -47,6 +47,8 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         this.name51Eng = {};
         this.name51Cht = {};
         this.name51Por = {};
+        //用于存储所有的有多音字的名称
+        this.nameObj = {};
         
         if (data["names"]) {
             for (var i = 0, len = data["names"].length; i < len; i++) {
@@ -76,7 +78,9 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
                     this.name51Cht = obj;
                 } else if(flag == "51POR"){
                     this.name51Por = obj;
-                }   
+                } else if(flag == "AAA"){
+                	this.nameObj = obj;
+                } 
             }
         }
     },
@@ -117,6 +121,9 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         }
         if(!FM.Util.isEmptyObject(this.name12Eng)){
             ret["names"].push(this.name12Eng.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.nameObj)){
+            ret["names"].push(this.nameObj.getIntegrate());
         }
         ret["geoLiveType"] = this.geoLiveType;
         return ret;

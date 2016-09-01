@@ -75,6 +75,11 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddress/addrPinyinTpl.html';
 					$scope.showLoading = false;
 				});
+			} else if($scope.menuSelectedId == 'namePinyin'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaName/namePinyinCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/namePinyinTpl.html';
+					$scope.showLoading = false;
+				});
 			}
 		};
 
@@ -267,6 +272,86 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			return tmp;
 		}
 		/**
+		 * 高亮拼音方法
+		 * 
+		 * @param pinyin
+		 *            拼音内容
+		 * @param zhongwen
+		 *            中文内容
+		 * @param duoyinzi
+		 *            多音字数组
+		 * @param rowIndex
+		 *            行号
+		 * @returns
+		 */
+		$scope.heightLightPin = function (pinyin, zhongwen,duoyinzi, rowIndex){
+			// 多音字默认值
+			var perRadioDefaultVal = new Array();
+			// 获取用空格拆分的拼音数组
+			var pinyinArr = pinyin.split(' ');
+			
+			// pyIndexArray 用于保存需要高亮的拼音下标
+			var pyIndexArray = new Array();
+			if(duoyinzi != undefined){
+				for (var j=0;j< duoyinzi.length;j++) {
+					var index = 0;
+					var addFlag =  false;
+					// 中文多音字下标，去空格后的中文多音字下标
+					var zhongwenIndex = duoyinzi[j][0];
+					// 循环每个拼音
+					var tmpIndex = -1;
+					for(var i=0;i<pinyinArr.length;i++){
+						// 将当前的词半角转全角
+						var perPYF = $scope.ToDBC(pinyinArr[i]);
+						// indexOf(目标字符串,开始位置) 中文去空格后匹配 全角拼音 判断是否有类似ABC
+						var perIndex = zhongwen.replace(/\s/g,"").indexOf(perPYF,tmpIndex);
+						//判断是否含有中文中为No.重，拼音中为No.chong的情况
+						if(pinyinArr[i].toUpperCase().indexOf('NO.')>-1 && perIndex <0){
+							var NoArr = new Array();
+							var lastIndex = pinyinArr[i].lastIndexOf(".");
+							NoArr[0] = pinyinArr[i].substring(0,lastIndex+1);
+							NoArr[1] = pinyinArr[i].substring(lastIndex+1);
+							var Arr1 = pinyinArr.slice(0,i);
+							var Arr2 = pinyinArr.slice(i+1,pinyinArr.length);
+							pinyinArr = Arr1.concat(NoArr).concat(Arr2);
+						}
+						//数组重拼后，重新取值，重新匹配
+						perPYF = $scope.ToDBC(pinyinArr[i]);
+						// indexOf(目标字符串,开始位置) 中文去空格后匹配 全角拼音 判断是否有类似ABC
+						perIndex = zhongwen.replace(/\s/g,"").indexOf(perPYF,tmpIndex);
+						// 只有下标小于当前zhongwenIndex的perPYF才需要计算差值
+						if(perIndex != -1 && perIndex < zhongwenIndex){ 
+							// 计算下次匹配的起始位置
+							tmpIndex = perIndex + 1;   // ABCD中ABC行
+							// 当是A时 不影响拼音下标
+							if(perPYF.length > 1){
+								addFlag = true;
+								// 当前拼音单词与给出的中文下标的插值
+								index += perPYF.length-1;
+							}
+						}
+					}
+					// 当addFlag为true代表有差值
+					if(addFlag){
+						// 如果有差值，重新计算拼音的下标
+						pyIndexArray.push(zhongwenIndex - index);
+					} else {
+						// 中文有空格不影响拼音的位置
+						pyIndexArray.push(zhongwenIndex);
+					}
+				}
+			}
+			// 按下标高亮拼音
+			for(var i=0;i<pyIndexArray.length;i++){
+				perRadioDefaultVal.push(pinyinArr[pyIndexArray[i]]);
+//				pinyinArr[pyIndexArray[i]] = "<span id= "+rowIndex+"_"+duoyinzi[i][0]+" style=\"color:red;\">"+pinyinArr[pyIndexArray[i]]+"</span>";
+				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
+			};
+			radioDefaultVal=perRadioDefaultVal;
+			return pinyinArr.join(' ');
+		 
+		}
+		/**
 		 * 高亮多音字
 		 * @param zhongwen
 		 * @param duoyinzi
@@ -319,7 +404,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.resu(str,ele,arrList,index+1);
 			}
 		};
-
 
 		$scope.initPage = function (){
 			$scope.initMate();
