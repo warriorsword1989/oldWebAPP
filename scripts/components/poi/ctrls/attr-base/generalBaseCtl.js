@@ -69,6 +69,14 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     $ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
                         $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
                     });
+                }else if(temp=='car'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/carRentalCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/carRentalTpl.html";
+                    });
+                }else if(temp=='parking'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
+                    });
                 }
                 break;
             case 'relate':
