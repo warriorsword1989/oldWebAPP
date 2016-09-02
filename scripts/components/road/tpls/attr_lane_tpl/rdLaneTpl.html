@@ -129,6 +129,20 @@
                         </li>
                     </ul>
                 </div>
+                <div class="content">
+                    <ul class="list-group list-group-lg m-b-none">
+                        <li class="list-group-item">
+                            <div class="list-name">
+                                <a ng-click="addItem('name')" class="fm-cursor">车道（共 {{clmData.conditions.length}} 条）</a>
+                            </div>
+                            <div class="list-line"></div>
+                        </li>
+                        <li class="list-group-item" ng-repeat="lanesItem in conditions.lanes">
+                            <label class="control-label fm-cursor" ng-click="showDetail('lane',$index);" ng-bind="lanesItem.lane"></label>
+                            <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'lane')"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </form>
     </div>

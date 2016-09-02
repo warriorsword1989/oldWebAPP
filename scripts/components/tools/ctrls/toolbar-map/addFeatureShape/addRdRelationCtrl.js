@@ -2023,6 +2023,84 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
+            } else if (type === 'RDLANE'){ //详细车道
+                $scope.resetOperator("addRelation", type);
+                //保存所有需要高亮的图层数组;线方向
+                var highLightFeatures = [],linkDirect = 0;
+                //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANE);
+                //地图编辑相关设置;
+                tooltipsCtrl.setEditEventType('rdLane');
+                tooltipsCtrl.setCurrentTooltip('请选择道路线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createBranchFlag: true,
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList:['line','point']
+                });
+                map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+
+                $scope.laneInfo = {};
+                eventController.off(eventController.eventTypes.GETLINKID);
+                eventController.on(eventController.eventTypes.GETLINKID,function (data){
+                    if (data.index === 0) { //进入线;
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdnode);
+
+                        $scope.laneInfo.inLinkPid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id: $scope.laneInfo.inLinkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {
+                                color: '#21ed25'
+                            }
+                        });
+                        highRenderCtrl.highLightFeatures = highLightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+                        linkDirect = data["properties"]["direct"];
+                        if (linkDirect == 2 || linkDirect == 3) { //单方向
+                            map.currentTool.snapHandler.snaped = false;
+                            map.currentTool.clearCross();
+                            map.currentTool.snapHandler._guides = [];
+
+                            $scope.laneInfo.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                            highLightFeatures.push({
+                                id: $scope.laneInfo.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {
+                                    color: 'yellow'
+                                }
+                            });
+                            highRenderCtrl.drawHighlight();
+                            map.currentTool.selectedFeatures.push($scope.laneInfo.nodePid.toString());
+
+                            featCodeCtrl.setFeatCode($scope.laneInfo);
+                            tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                        }
+                    } else if (data.index === 1){ //进入点
+                        $scope.laneInfo.nodePid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id: $scope.laneInfo.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'rdnode',
+                            style: {
+                                color: 'yellow'
+                            }
+                        });
+                        highRenderCtrl.drawHighlight();
+                        map.currentTool.selectedFeatures.push($scope.laneInfo.nodePid.toString());
+                        featCodeCtrl.setFeatCode($scope.laneInfo);
+                        tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                    }
+                });
             }
         }
     }

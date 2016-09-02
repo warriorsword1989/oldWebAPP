@@ -14,9 +14,10 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
         // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.clmData = objCtrl.data;
         $scope.clmData = {
-          pid:123,
-          linkPid:123,
-          centerDivider:1
+          linkPid:['123','234','567'],
+          conditions:[
+            
+          ]
         };
         $scope.laneData = [1,2,3,4];
         $scope.laneLength = $scope.laneData.length;

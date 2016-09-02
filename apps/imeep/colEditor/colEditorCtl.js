@@ -205,6 +205,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			return pinyinArr.join(' ');
 		};
 
+		/**
+		 * 根据中文下标，计算拼音下标
+		 * @param pinyin
+		 * @param zhongwen
+		 * @param duoyinzi
+         * @returns {Array}
+         */
 		$scope.calculateIndex = function (pinyin,zhongwen,duoyinzi){
 			console.info("pinyin:",pinyin);
 			console.info("zhongwen:",zhongwen);

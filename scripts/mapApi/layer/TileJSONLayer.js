@@ -40,6 +40,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             this._draw(ctx, this.options.boolPixelCrs, this.options.parse);
         };
     },
+    redraw: function () {
+        if (this._map) {
+            this._reset({hard: true});
+            this._update();
+        }
+        return this;
+    },
+
+    _redrawTile: function (tile) {
+        this.drawTile(tile, tile._tilePoint, this._map._zoom);
+    },
     /***
      * 根据瓦片id移除瓦片
      * @param {String}key
