@@ -2033,18 +2033,98 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setEditEventType('rdLane');
                 tooltipsCtrl.setCurrentTooltip('请选择道路线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
-                    map: map,
-                    createBranchFlag: true,
-                    currentEditLayer: rdLink,
-                    shapeEditor: shapeCtrl,
-                    operationList:['line','point']
+                  map: map,
+                  createBranchFlag: true,
+                  currentEditLayer: rdLink,
+                  shapeEditor: shapeCtrl,
+                  operationList:['line','point','line']
                 });
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
                 $scope.laneInfo = {};
+                $scope.linkArray = [];
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID,function (data){
+                    map.currentTool.snapHandler.snaped = false;
+                    map.currentTool.snapHandler._guides = [];
+
+                    map.currentTool.snapHandler.addGuideLayer(rdnode);
+
+                    // 追踪高亮
+                    $scope.getTrackLinks = function(laneInfo){
+                      var param = {
+                        command:'CREATE',
+                        dbId:42,
+                        type:'RDLINK',
+                        data:{
+                          linkPid:laneInfo.inLinkPid,
+                          nodePidDir:laneInfo.nodePid
+                        }
+                      };
+                      dsEdit.getByCondition(param).then(function(data){
+                        for(var i=0,len=data.data.length;i<len;i++){
+                          $scope.linkArray.push(data.data[i].pid);
+                          if(i === 0) {
+                            highLightFeatures.push({
+                                id: data.data[i].pid.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {
+                                    color: 'rgb(255, 0, 0)'
+                                }
+                            });
+                          } else {
+                            highLightFeatures.push({
+                                id: data.data[i].pid.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {
+                                    color: 'rgb(0, 245, 255)'
+                                }
+                            });
+                          }
+                        }
+                        highRenderCtrl.drawHighlight();
+                      });
+                    }
+                    // link高亮
+                    $scope.linkHighLight = function(){
+                      for(var i=0,len=$scope.linkArray.length;i<len;i++){
+                        if(i == 0){
+                          highLightFeatures.push({
+                              id: $scope.linkArray[i].toString(),
+                              layerid: 'rdLink',
+                              type: 'line',
+                              style: {
+                                  color: 'rgb(255, 0, 0)'
+                              }
+                          });
+                        }else{
+                          highLightFeatures.push({
+                              id: $scope.linkArray[i].toString(),
+                              layerid: 'rdLink',
+                              type: 'line',
+                              style: {
+                                  color: 'rgb(0, 245, 255)'
+                              }
+                          });
+                        }
+                      }
+                      highRenderCtrl.highLightFeatures = highLightFeatures;
+                      highRenderCtrl.drawHighlight();
+                    }
+                    // 反选link
+                    $scope.deleteTrackLink = function(linkPid){
+                      highRenderCtrl._cleanHighLight();
+                      highLightFeatures = [];
+                      if($scope.linkArray.indexOf(linkPid) > -1){
+                        $scope.linkArray.splice($scope.linkArray.indexOf(linkPid),$scope.linkArray.length-$scope.linkArray.indexOf(linkPid)+1);
+                      }else{
+                        $scope.linkArray.push(linkPid);
+                      }
+                      $scope.linkHighLight();
+                    }
                     if (data.index === 0) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -2081,25 +2161,35 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             });
                             highRenderCtrl.drawHighlight();
                             map.currentTool.selectedFeatures.push($scope.laneInfo.nodePid.toString());
-
-                            featCodeCtrl.setFeatCode($scope.laneInfo);
+                            if($scope.isLinkTrack){  //自动捕捉
+                                $scope.getTrackLinks($scope.laneInfo);
+                            }
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
                     } else if (data.index === 1){ //进入点
-                        $scope.laneInfo.nodePid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.laneInfo.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'rdnode',
-                            style: {
-                                color: 'yellow'
-                            }
-                        });
-                        highRenderCtrl.drawHighlight();
-                        map.currentTool.selectedFeatures.push($scope.laneInfo.nodePid.toString());
-                        featCodeCtrl.setFeatCode($scope.laneInfo);
-                        tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                        if(linkDirect == 2 || linkDirect == 3){
+                          $scope.deleteTrackLink(parseInt(data.id));
+                        } else {
+                          $scope.laneInfo.nodePid = parseInt(data.id);
+                          highLightFeatures.push({
+                              id: $scope.laneInfo.nodePid.toString(),
+                              layerid: 'rdLink',
+                              type: 'rdnode',
+                              style: {
+                                  color: 'yellow'
+                              }
+                          });
+                          highRenderCtrl.drawHighlight();
+                          map.currentTool.selectedFeatures.push($scope.laneInfo.nodePid.toString());
+                          if($scope.isLinkTrack){
+                              $scope.getTrackLinks($scope.laneInfo);
+                          }
+                          tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                        }
+                    } else if (data.index > 1) {
+                      $scope.deleteTrackLink(parseInt(data.id));
                     }
+                    featCodeCtrl.setFeatCode($scope.laneInfo);
                 });
             }
         }
