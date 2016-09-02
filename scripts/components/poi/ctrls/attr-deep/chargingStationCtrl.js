@@ -1,79 +1,64 @@
-angular.module('app').controller('deepInfoCtl', function($scope) {
-    $scope.chargingArr = $scope.poi.chargingPole;
-    var chargeChainFmt = {};
-    for(var i=0;i<$scope.chargeChain.length;i++){
-        chargeChainFmt[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
-    }
-    $scope.ctrl = {
-        open: true,
-        btShow: true
+angular.module('app').controller('chargingStationCtrl', function($scope) {
+    // $scope.chargingType = FM.dataApi.Constant.chargingType;
+    $scope.chargingTypeArr = [   //充电站类型
+    {"id": 1, "label": "充电站"},
+    {"id": 2, "label": "充换电站"},
+    {"id": 3, "label": "充电桩组"},
+    {"id": 4, "label": "换电站"}
+    ];
+    $scope.serviceProvArr = [
+        {"id": 0, "label": "其他"},
+        {"id": 1, "label": "国家电网"},
+        {"id": 2, "label": "南方电网"},
+        {"id": 3, "label": "中石油"},
+        {"id": 4, "label": "中石化"},
+        {"id": 5, "label": "中海油"},
+        {"id": 6, "label": "中国普天"},
+        {"id": 7, "label": "特来电"},
+        {"id": 8, "label": "循道新能源"},
+        {"id": 9, "label": "富电科技"},
+        {"id": 10, "label": "华商三优"},
+        {"id": 11, "label": "中電"},
+        {"id": 12, "label": "港燈"},
+        {"id": 13, "label": "澳電"},
+        {"id": 14, "label": "绿狗"},
+        {"id": 15, "label": "EVCARD"},
+        {"id": 16, "label": "星星充电"},
+        {"id": 17, "label": "电桩"},
+        {"id": 18, "label": "依威能源"}
+    ];
+    $scope.chargingOpenType = FM.dataApi.Constant.chargingOpenType;
+    $scope.chargingOpenTypeChange = function(event){
+        var obj = $scope.poi.chargingStation[0].chargingOpenType;
+        var rejectVal = "0";
+        Utils.setCheckboxMutex(event,obj,rejectVal);
     };
-    for(var i=0;i<$scope.chargingArr.length;i++){
-        if($scope.chargingArr[i].selectedChain || $scope.chargingArr[i].selectedChain<99){
-            $scope.chargingArr[i].chargeChainObj = {};
-        }else{
-            $scope.chargingArr[i].chargeChainObj = chargeChainFmt;
-        }
-    }
-    $scope.changeOpenType = function(event,charging) {
-        if (event.target.value == "1") {
-            if (event.target.checked) {
-                for (var key in charging.openType) {
-                    if (key != "1") {
-                        charging.openType[key] = false;
-                        charging.chargeChainObj = {};
-                    }
-                }
+    $scope.parkingFeesArr = FM.dataApi.Constant.parkingFees;
+    $scope.stationAvailableState = [   //充电站类型
+        {"id": 0, "label": "开放"},
+        {"id": 1, "label": "未开放"},
+        {"id": 2, "label": "维修中"},
+        {"id": 3, "label": "建设中"},
+        {"id": 4, "label": "规划中"}
+    ];
+    /*初始化品牌*/
+    $scope.initChain = function() {
+        var chainArray = [];
+        chainArray.unshift({
+            "chainCode": "0",
+            "chainName": "--无法获取--"
+        });
+        $scope.chainList = {};
+        for (var i = 0, len = chainArray.length; i < len; i++) {
+            var cha = chainArray[i];
+            $scope.chainList[cha.chainCode] = { //转换成chosen-select可以解析的格式
+                "category": cha.category,
+                "chainCode": cha.chainCode,
+                "weight": cha.weight,
+                "chainName": cha.chainName
             }
-        } else if(event.target.value >= 99){
-            if (event.target.checked) {
-                charging.openType["1"] = false;
-                charging.chargeChainObj = chargeChainFmt;
-            }
-            else {
-                charging.chargeChainObj = {};
-            }
-        } else {
-            if (event.target.checked) {
-                charging.openType["1"] = false;
-            }
-        }
-    };
-    $scope.chargingPlugType = FM.dataApi.Constant.CHARGINGPOLE_PLUGTYPE;
-    $scope.chargingOpenType = FM.dataApi.Constant.CHARGINGPOLE_OPENTYPE;
-    $scope.chargingPayment = FM.dataApi.Constant.CHARGINGPOLE_PAYMENT;
-    $scope.locationtype = FM.dataApi.Constant.CHARGINGPOLE_LOCATIONTYPE;
-    $scope.chargingAcdc = FM.dataApi.Constant.CHARGINGPOLE_ACDC;
-    $scope.chargingMode = FM.dataApi.Constant.CHARGINGPOLE_MODE;
-    $scope.chargingAvailableState = FM.dataApi.Constant.CHARGINGPOLE_AVAILABLESTATE;
-    $scope.addChargPole = function(){
-        var chargingObj = {
-            "count" : 1,
-            "plugType" : null,
-            "productNum" : null,
-            "power" : null,
-            "floor" : null,
-            "factoryNum" : null,
-            "locationType" : 2,
-            "parkingNum" : null,
-            "acdc" : 0,
-            "mode" : 0,
-            "current" : "40",
-            "openType" : "1",
-            "plugNum" : 1,
-            "voltage" : "240",
-            "groupId" : 1,
-            "plotNum" : null,
-            "prices" : null,
-            "availableState" : 0,
-            "payment" : "4",
-            "manufacturer" : null
-        };
-        $scope.poi.chargingPole.push(new FM.dataApi.IxPoiChargingplot(chargingObj));
-    };
-    $scope.removeChargPole = function(index){
-        if ($scope.poi.chargingPole.length > 1) {
-            $scope.poi.chargingPole.splice(index, 1);
         }
     };
+    $scope.initChain();
+
 });

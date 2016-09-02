@@ -286,7 +286,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     //},
                     backgroundColor:'transparent',
                     borderColor: "#4572A7",
-                    spacingTop:15
+                    spacingTop:25
                 },
                 colors:['#8DBF60', '#27B7F3'],
                 tooltip: {

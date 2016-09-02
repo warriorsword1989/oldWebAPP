@@ -3,20 +3,93 @@
         background-color: #000;
         border: 1px solid #ccc;
     }
+    .fm-tabs a.tab{
+        border-bottom: 1px solid #000;
+    }
+    .progressWrap{
+        width: 300px;
+        height: 20px;
+        display: inline-block;
+        position: relative;
+        top: 10px;
+    }
+    .progressWrap .progress{
+        margin-bottom: 0px;
+    }
+    .customEditSet{
+        top: 10px;
+        font-size: 20px;
+        cursor: pointer
+    }
+    /*修改popover默认样式*/
+    .popover{
+        background-color: transparent;
+    }
+    .popover .arrow{
+        top: 0px!important;
+    }
+    .popover.right > .arrow:after{
+        opacity: 0.8;
+        left: 2px;
+        border-right-color: #3f3f3f;
+    }
+    .fade.in{
+        opacity: 0.9;
+    }
+    .popover-inner{
+        width: 160px;
+        background: #333;
+    }
+    .popover-inner h3{
+        background: #333;
+    }
+    .selectNumInput{
+        color: white;
+        margin-top: 10px;
+        background: #333;
+        border: 1px solid #ccc;
+        text-indent: 5px;
+        border-radius: 5px;
+    }
 </style>
 <div style="padding: 15px 0;color: white" ng-controller="photoEngNameCtrl">
     <!--待作业和待提交tabs页切换-->
     <div class="fm-tabs clearfix">
-        <a href="#" class="tab col-sm-6	 active" ng-class="{6:'active'}[taskStatus]" ng-click="changeTaskStatus(6)"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
-        <a href="#" class="tab col-sm-6" ng-class="{7:'active'}[taskStatus]" ng-click="changeTaskStatus(7)"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
+        <a href="#" class="tab col-sm-6	 active" ng-class="{'stagnatedWork':'active'}[currentTabIndex]" ng-click="changeTaskStatus('stagnatedWork')"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
+        <a href="#" class="tab col-sm-6" ng-class="{'stagnatedSubmit':'active'}[currentTabIndex]" ng-click="changeTaskStatus('stagnatedSubmit')"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
     </div>
     <!--表格表头操作控制-->
     <div class="clearfix" style="padding: 10px">
+        <!--自定义条数的template-->
+        <script type="text/ng-template" id="myPopoverTemplate.html">
+            <form role="form">
+                <div class="form-group" ng-repeat="item in costomWorkNumEum">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="selectNum" id="optionsRadios1" ng-checked="selectedNum==item" ng-click="selectNum(item)"> <span ng-bind="item!=0?'每次'+item+'条':'自定义'"></span>
+                        </label>
+                        <div ng-if="selectedNum==0&&selectedNum==item" class="input-group">
+                            <input class="form-control selectNumInput" value={{inputValue}} ng-model="inputValue" type="text" >
+                            <span class="input-group-btn">
+                                <button ng-click="setInputValue(inputValue)" class="btn btn-default" type="button">确认</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </script>
+        <!--自定义条数的template-->
         <div class="pull-left">
-            <button type="button" class="btn btn-shape btn-ls" ng-click="">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
-            <button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
+            <span style="position: relative;top: 4px;padding: 2px 6px;" class="label label-primary">5条数据</span>
             <button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
-            <button type="button" class="btn btn-shape btn-ls" ng-click="">提交数据</button>
+            <button type="button" class="btn btn-shape btn-ls" ng-click="startOnlineCheck()">在线检查</button>
+            <button ng-if="currentTabIndex=='stagnatedSubmit'" type="button" class="btn btn-shape btn-ls" ng-click="">提交数据</button>
+            <!--自定义编辑条数控制-->
+            <span role="button" popover-is-open="popoverIsOpen" popover-placement="right-top" uib-popover-template="customPopoverUrl" popover-title="每次作业条数:" class="glyphicon glyphicon-cog customEditSet"></span>
+            <!--进度条控件-->
+            <div class="progressWrap">
+                <uib-progressbar ng-if="onlineCheck" class="progress-striped active" value="progressValue" max="100"><i>{{progressValue}}%</i></uib-progressbar>
+            </div>
         </div>
         <div class="pull-right">
             <div class="input-group" style="width: 280px">
@@ -38,6 +111,9 @@
     <!--<div></div>-->
     <div class="content">
         <div class="dark scroll-styled" style="color: white;padding: 5px 10px 0px 10px;max-height: 500px">
+            <script type="text/ng-template" id="headerCheckboxId">
+                <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
+            </script>
             <table ng-table-dynamic="tableParams with view.cols" class="table table-condensed table-bordered clearfix">
                 <colgroup>
                     <col ng-repeat="col in view.cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
@@ -45,8 +121,8 @@
 
                 <tr ng-repeat="row in $data" ng-class="{true:'tr-backcolor',flase:''}[row.checked]">
                     <td ng-repeat="col in $columns" ng-dblclick="selectData(row,$index)" ng-switch="col.field">
-                        <!--<input ng-switch-when="selector" type="checkbox" ng-model="row.checked" />-->
-                        <span ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
+                        <input ng-switch-when="selector" type="checkbox" ng-model="row[col.field]" />
+                        <span ng-hide="col.field=='selector'" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
                     </td>
                 </tr>
                 <tr class="text-center" ng-show="!$data.length"><td colspan="{{(view.cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>

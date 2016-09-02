@@ -12,7 +12,14 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
         //this.hotelId = data['hotelId'] || 0;
         this.poiPid = data['poiPid'] || 0;
         this.creditCard = data['creditCard'];
+        
         this.rating = data['rating'] || 0;
+//        var ratingArr = data["rating"] ? data["rating"].split("|") : [] ;
+//        this.rating = {};
+//        for(var i=0;i<ratingArr.length;i++) {
+//            this.rating[ratingArr[i]] = true;
+//        }
+        
         this.checkinTime = data['checkinTime'] || '14:00';
         this.checkoutTime = data['checkoutTime'] || '12:00';
         this.roomCount = data['roomCount'] || 0;
@@ -39,7 +46,7 @@ FM.dataApi.IxPoiHotel = FM.dataApi.DataModel.extend({
         //ret['hotelId'] = this.hotelId;
         ret['poiPid'] = this.poiPid;
         ret['creditCard'] = this.creditCard;
-        ret['rating'] = this.rating;
+        ret['rating'] = parseInt(this.rating);
         ret['checkinTime'] = this.checkinTime;
         ret['checkoutTime'] = this.checkoutTime;
         ret['roomCount'] = this.roomCount;

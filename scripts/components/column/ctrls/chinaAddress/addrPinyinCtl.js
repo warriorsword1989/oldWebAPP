@@ -57,10 +57,10 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                 return "<span>"+html+"<span>";
             }else if(row['roadname']){
                 var html = $scope.heightLightCn(row[languageFlag]['roadname'],row[languageFlag]['roadNameMultiPinyin']);
-                return "<span>"+html+"<span>";;
+                return "<span>"+html+"<span>";
             }else if(row['roadname']){
                 var html = $scope.heightLightCn(row[languageFlag]['roadname'],row[languageFlag]['addrNameMultiPinyin']);
-                return "<span>"+html+"<span>";;
+                return "<span>"+html+"<span>";
             }
             return "";
         }
@@ -191,7 +191,6 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
             //调用接口
-
         };
         /**************** 工具条end   ***************/
 
@@ -258,7 +257,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
 
             var roadnamepinyin = row[languageFlag]['roadNamePinyin'];
             if(roadnamepinyin && flag == 'road'){
-                roadnamepinyin = roadnamepinyin.replace(/\|/g,' | ').replace(/\s+/g,' ');;
+                roadnamepinyin = roadnamepinyin.replace(/\|/g,' | ').replace(/\s+/g,' ');
                 if(roadnamepinyin.substr(0,1) == " "){
                     roadnamepinyin = roadnamepinyin.substr(1);
                 }
