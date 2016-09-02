@@ -97,6 +97,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 case 1208://停车场出入口 *
                     ret = new fastmap.uikit.canvasTips.TipsParkinglot(item);
                     break;
+                case 1209://航线
+                    ret = new fastmap.uikit.canvasTips.TipsRoute(item);
+                    break;
                 case 1301://车信
                     ret = new fastmap.uikit.canvasTips.TipsLane_Connexity(item);
                     break;
@@ -232,6 +235,9 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     break;
                 case 1704://交叉路口
                     ret = fastmap.uikit.canvasTips.TipsRoadCross(item);
+                    break;
+                case 1705://立交桥名称
+                    ret = fastmap.uikit.canvasTips.TipsOverpassName(item);
                     break;
                 case 1706://GPS打点
                     ret = fastmap.uikit.canvasTips.TipsGPSDot(item);

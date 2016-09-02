@@ -224,7 +224,7 @@
                 "nameId": 2,
                 "langCode": "CHI",
                 "nameClass": 1,
-                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang Shang Suo Ce Shi",
                 "multiPinyin": [
                         [
                             0,
@@ -246,8 +246,9 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行\r\n商所测试",
+                "name": "大兴区黄村工云中行商所测试",
                 "poiPid": 1079,
+                "pid": "60034310",
                 "nameGroupid": 1,
                 "nameType": 1,
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
@@ -489,13 +490,13 @@
         "pid":1079,
         "names": [
             {
-                "nameId": "60034310",
+                "pid": "60034311",
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
                 "nameType": 1,
                 "langCode": "CHI",
-                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang Shang Suo Ce Shi",
                 "multiPinyin": [
                         [
                             0,
@@ -517,13 +518,13 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行\r\n商所测试",
+                "name": "大兴区黄村工云中行商所测试",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
             },{
-                "nameId": "60034310",
+                "nameId": "60034313",
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
@@ -652,13 +653,13 @@
         "pid":1079,
         "names": [
             {
-                "nameId": "60034310",
+                "pid": "60034314",
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
                 "nameType": 1,
                 "langCode": "CHI",
-                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang Shang Suo Ce Shi",
                 "multiPinyin": [
                         [
                             0,
@@ -680,7 +681,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行\r\n商所测试",
+                "name": "大兴区黄村工云中行商所测试",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -815,13 +816,13 @@
         "pid":1079,
         "names": [
             {
-                "nameId": "60034310",
+                "pid": "60034315",
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
                 "nameType": 1,
                 "langCode": "CHI",
-                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang Shang Suo Ce Shi",
                 "multiPinyin": [
                         [
                             0,
@@ -843,7 +844,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行\r\n商所测试",
+                "name": "大兴区黄村工云中行商所测试",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -978,13 +979,13 @@
         "pid":1079,
         "names": [
             {
-                "nameId": "60034310",
+                "pid": "60034317",
                 "poiPid": 1079,
                 "nameGroupid": 1,
                 "nameClass": 1,
                 "nameType": 1,
                 "langCode": "CHI",
-                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang\r\n Shang Suo Ce Shi",
+                "nameStrPinyin": "Da Xing Qu Huang Cun Gong Yun Zhong Hang Shang Suo Ce Shi",
                 "multiPinyin": [
                         [
                             0,
@@ -1006,7 +1007,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行\r\n商所测试",
+                "name": "大兴区黄村工云中行商所测试",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",

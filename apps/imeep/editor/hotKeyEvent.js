@@ -172,7 +172,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     });
                 }
             }
-            resetPage();
+            // resetPage();
             //outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
@@ -1420,11 +1420,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 //调用编辑接口;
                 dsEdit.save(param).then(function(data) {
-                    relationData.redraw();
-                    //获取当前的ctrl和tpl的对象
-                    highRenderCtrl._cleanHighLight();
-                    highRenderCtrl.highLightFeatures.length = 0;
-                    treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
+                    if(data != null){
+                        relationData.redraw();
+                        //获取当前的ctrl和tpl的对象
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
+                        treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
+                    } else {
+                        resetPage();
+                    }
                 });
             } else if (shapeCtrl.editType === "UPDATEVARIABLESPEED") {    //可变限速编辑
                 var param = {
@@ -1452,6 +1456,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
             }
+            resetPage();
         }
     });
 }

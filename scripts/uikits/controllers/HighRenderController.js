@@ -545,6 +545,7 @@ fastmap.uikit.HighRenderController = (function() {
                         id:"guideLine"
                     });
                     this.guideLayer.addLayer(guideLine);
+                    // map.getPanes().overlayPane.style.zIndex = "1";
                     ctx .canvas = this.layer._tiles[guideTilePoint[0]+":"+guideTilePoint[1]];
                     ctx .tile = L.point(guideTilePoint[0], guideTilePoint[1]);
 
