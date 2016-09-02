@@ -58,6 +58,7 @@
         "RdSe.js",
         "RdSpeedBump.js",
         "RdDirectRoute.js",
+        "RdLane.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",
@@ -171,7 +172,9 @@
         "TipsCrossVoiceGuides.js",
         "TipsCrossVoiceGuide.js",
         "TipsTruckRestrictions.js",
-        "TipsTruckRestriction.js"
+        "TipsTruckRestriction.js",
+        "TipsOverpassName.js",
+        "TipsRoute.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

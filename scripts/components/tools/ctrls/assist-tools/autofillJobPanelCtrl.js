@@ -44,12 +44,13 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
                     status: 'begin'
                 });
                 dsFcc.runAutomaticInput(tips).then(function(data){
+                  $scope.$emit('closeAdvancedTools');
                   $scope.progress = 100;
                   $scope.running = false;
                   $scope.$emit("job-autofill", {
                       status: 'end'
                   });
-            			logMsgCtrl.pushMsg($scope,data.errmsg);
+            			logMsgCtrl.pushMsg($scope,'JobId: '+ data.data.jobId +' ，'+ data.errmsg);
                 });
                 // var loop = $interval(function() {
                 //     $scope.progress += 20;

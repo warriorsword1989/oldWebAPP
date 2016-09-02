@@ -224,9 +224,9 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                 var pinyinArr = str.split(',');
                 for (var j = 0 ,le = pinyinArr.length; j < le; j++){
                     if(pinyinArr[j] == $scope.radioDefaultValRoad[i]){
-                        html += pinyinArr[j]+'<input type="radio" checked="checked" value="'+pinyinArr[j]+'" name="piyin_0_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                        html += pinyinArr[j]+'<input type="radio" checked="checked" value="'+pinyinArr[j]+"_"+i+'_road" name="piyin_0_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
                     } else {
-                        html += pinyinArr[j]+'<input type="radio" value="'+pinyinArr[j]+'" name="piyin_0_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                        html += pinyinArr[j]+'<input type="radio" value="'+pinyinArr[j]+"_"+i+'_road" name="piyin_0_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
                     }
                 }
                 html += '<br>';
@@ -238,9 +238,9 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                 var pinyinArr = str.split(',');
                 for (var j = 0 ,le = pinyinArr.length; j < le; j++){
                     if(pinyinArr[j] == $scope.radioDefaultValAddr[i]){
-                        html += pinyinArr[j]+'<input type="radio" checked="checked" value="'+pinyinArr[j]+'" name="piyin_1_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                        html += pinyinArr[j]+'<input type="radio" checked="checked" value="'+pinyinArr[j]+"_"+i+'_addr" name="piyin_1_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
                     } else {
-                        html += pinyinArr[j]+'<input type="radio" value="'+pinyinArr[j]+'" name="piyin_1_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
+                        html += pinyinArr[j]+'<input type="radio" value="'+pinyinArr[j]+"_"+i+'_addr" name="piyin_1_'+i+row.rowId+'" ng-click="chagePinyin(row,$event);">';
                     }
                 }
                 html += '<br>';
@@ -249,8 +249,46 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         }
 
         $scope.chagePinyin = function (row,e){
-            row[languageFlag].roadNamePinyin = "Si Chuan "+e.target.value+"|Liang Shan Yi Zu Zi Zhi Zhou|Hui Li Xian|||";
-            console.info($scope.radioDefaultValRoad,$scope.radioDefaultValAddr);
+            var value = e.target.value;
+            var valueStr = value.split("_");
+            var pinyin = valueStr[0];
+            var index = valueStr[1];
+            var flag = valueStr[2];
+
+
+            var roadnamepinyin = row[languageFlag]['roadNamePinyin'];
+            if(roadnamepinyin && flag == 'road'){
+                roadnamepinyin = roadnamepinyin.replace(/\|/g,' | ').replace(/\s+/g,' ');;
+                if(roadnamepinyin.substr(0,1) == " "){
+                    roadnamepinyin = roadnamepinyin.substr(1);
+                }
+
+                var roadname = row[languageFlag]['roadname'];
+                var roadNameMultiPinyin = row[languageFlag]['roadNameMultiPinyin'];
+                var indexArr = $scope.calculateIndex(roadnamepinyin,roadname,roadNameMultiPinyin);
+
+                roadnamepinyin = roadnamepinyin.replace(/\s+/g,' ');
+                var temp = roadnamepinyin.split(" ");
+                temp[indexArr[index]] = pinyin;
+                temp = temp.join(" ").replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
+                row[languageFlag]['roadNamePinyin'] = temp;
+            }
+            var addrnamepinyin = row[languageFlag]['addrNamePinyin'];
+            if(addrnamepinyin && flag == 'addr'){
+                addrnamepinyin = addrnamepinyin.replace(/\|/g,' | ').replace(/\s+/g,' ');
+                if(addrnamepinyin.substr(0,1) == " "){
+                    addrnamepinyin = addrnamepinyin.substr(1);
+                }
+                var addrname = row[languageFlag]['addrname'];
+                var addrNameMultiPinyin = row[languageFlag]['addrNameMultiPinyin'];
+                var indexArr = $scope.calculateIndex(addrnamepinyin,addrname,addrNameMultiPinyin);
+
+                //addrnamepinyin = addrnamepinyin;
+                var temp = addrnamepinyin.split(" ");
+                temp[indexArr[index]] = pinyin;
+                temp = temp.join(" ").replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
+                row[languageFlag]['addrNamePinyin'] = temp;
+            }
         };
 
 

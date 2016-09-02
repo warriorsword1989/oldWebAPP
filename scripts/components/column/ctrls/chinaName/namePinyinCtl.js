@@ -1,12 +1,11 @@
 /**
- * Created by mali on 2016-08-09
+ * Created by mali on 2016-9-01
  */
-angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
+angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
         $scope.editPanelIsOpen = false;
-        $scope.batchWorkIsOpen = false;
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
@@ -23,19 +22,19 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
             { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "name12Chi", title: "官方原始名称",getValue:get11Names,show: true},
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:get12Names,show: true},
+            { field: "nameObj", title: "名称",getValue:getName,show: true},
+            { field: "nameObj", title: "拼音",getValue:getPinyin,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
-        function get11Names($scope, row){
-            return row.name11Chi.name;
+        function getName($scope, row){
+            var html = $scope.heightLightCn(row.nameObj.name,row.nameObj.multiPinyin);
+            return "<span>"+html+"<span>";
         }
-        function get12Names($scope, row){
-        	return row.name12Chi.name;
-        }
-        function getFullName($scope, row){
-            return row.addressChi.fullName;
+        function getPinyin($scope, row){
+	        var html = $scope.heightLightPin(row.nameObj.nameStrPinyin,row.nameObj.name,row.nameObj.multiPinyin,row.num_index);
+	        return "<span>"+html+"</span>";
+//        	return row.nameObj.nameStrPinyin;
         }
         function getClassifyRules($scope, row){
             var type = row.classifyRules;
@@ -66,7 +65,56 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.editPanelIsOpen = true;
             initEditorTable();
         };
+        /***
+         * 
+         */
+        var parseNamesMultiPinyin = function(data){
+            //含有名称多音字的poiArr
+            var datalist = [];
+            for(var i in data.names){
+                var composeStr = data.names[i].nameClass+"" + data.names[i].nameType+"" + data.names[i].langCode;
+                switch (composeStr){
+                    case '11CHI':// 官方标准化中文名
+                    case '11CHT':// 港澳官方标准化中文名
+                    	if(data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0){
+                    		var newpoi = angular.copy(data);
+                    		newpoi.names = [];
+                    		data.names[i].nameClass = "A";
+                    		data.names[i].nameType = "A";
+                    		data.names[i].langCode = "A";
+                    		newpoi.names.push(data.names[i]);
+                    		datalist.push(newpoi);
+                    	}
+                    	break;
+                    case "51CHI":// 中文简称
+                    case "51CHT":// 港澳中文简称
+        	            if(data.names[i].multiPinyin && data.names[i].multiPinyin.length > 0){
+        	            	var newpoi = angular.copy(data);
+                    		newpoi.names = [];
+                    		data.names[i].nameClass = "A";
+                    		data.names[i].nameType = "A";
+                    		data.names[i].langCode = "A";
+                    		newpoi.names.push(data.names[i]);
+                    		datalist.push(newpoi);
+        	            }
+        	            break;
+                }
+            }
+            return datalist;
 
+        };
+        $scope.parseNamePinyin = function(dataArr){
+        	var data = [];
+        	for(var i = 0,length = dataArr.length; i<length; i++){
+            	var temp = parseNamesMultiPinyin(dataArr[i]);
+                if($.isArray(temp)){
+                    data = data.concat(temp);
+                } else{
+                    data.push(temp);
+                }
+            }
+        	return data;
+        };
         $scope.searchType = 'name';
 
         //表格配置搜索;
@@ -103,8 +151,9 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                         // $scope.roadNameList = data.data;
                         // _self.tableParams.total(data.total);
                         // $defer.resolve(data.data);
-
-                        var temp = new FM.dataApi.ColPoiList(data.data);
+                        var datalist = $scope.parseNamePinyin(data.data);
+                        console.log('返回数据'+JSON.stringify(datalist))
+                        var temp = new FM.dataApi.ColPoiList(datalist);
                         console.info(temp);
                         $scope.roadNameList = temp.dataList;
                         _self.tableParams.total(data.total);
@@ -138,68 +187,6 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             //调用接口
 
         };
-        $scope.batchParam = {
-        	value : "",
-        	batchField : ""
-        };
-        var replaceOpt = [
-            {"id": "name12Chi", "label": "官方标准中文名称"}
-        ];
-        		
-        var searchOpt = [
-        	{"id": "name12Chi", "label": "官方标准中文名称"},
-        	{"id": "name11Chi", "label": "官方原始中文名称"}	
-        ];
-        $scope.batchTabs = function(flag){
-        	$scope.batchFlag = flag;
-        	if(1 == flag){
-        		$scope.batchOpt = replaceOpt;
-        		$scope.batchParam.batchField = "name12Chi";
-        		$scope.extractEle = true;
-        		$scope.searchBtn = false;
-        	}else if(2 == flag){
-        		$scope.batchOpt = searchOpt;
-        		$scope.batchParam.batchField = "name11Chi";
-        		$scope.extractEle = false;
-        		$scope.searchBtn = true;
-        	}
-        };
-        $scope.batchWork = function(flag){
-        	$scope.batchWorkIsOpen = true;
-        	$scope.batchTabs(1);
-        };
-        $scope.closeBatchModal = function(){
-        	$scope.batchWorkIsOpen = false;
-        };
-        $scope.cancle = function(){
-        	$scope.closeBatchModal();
-        };
-        $scope.searchWork = function(){
-        	if($scope.batchParam.value == ""){
-        		swal("请先输入搜索内容", "", "info");
-				return;
-        	}
-        	var temp = $scope.tableParams.data;
-            var checkedArr = [];
-            for (var i = 0 ,len = temp.length ;i < len ; i ++){
-                if(temp[i].checked){
-                    checkedArr.push(temp[i]);
-                }
-            }
-            var editorArr = [];
-            if(checkedArr.length > 0){
-                editorArr = checkedArr;
-            } else {
-                editorArr = $scope.tableParams.data;
-            }
-            console.log('--'+JSON.stringify(editorArr))
-            var currentValue;
-            for(var item in editorArr){
-            	currentValue = editorArr[item][$scope.batchParam.batchField].name;
-                if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
-    			}
-    		}
-        };
         /**************** 工具条end   ***************/
 
         /*******************  编辑页面begin  ****************/
@@ -208,27 +195,54 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
             { field: "kindCode", title: "分类",show: true,width:'50px'},
-            { field: "kindCode", title: "品牌名",show: true,width:'50px'},
-            { field: "name12Chi", title: "官方原始名称",getValue:get12Names,show: true,width:'80px'},
-            { field: "addressFullname", title: "父名称",getValue: getFullName, show: true,width:'50px'},
-            { field: "name11Chi", title: "标准中文名称",getValue: getName,html:true,show: true,width:'150px'},
-            { field: "refMsg", title: "参考信息",show: true,width:'50px'},
+            { field: "nameObj", title: "名称",getValue:getName,show: true,width:'50px'},
+            { field: "nameObj", title: "拼音",getValue:getPinyin,show: true,width:'80px'},
+            { field: "refMsg", title: "参考信息",getValue:getReferenceInfo,html:true,show: true,width:'50px'},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true,width:'30px'}
         ];
 
-        var html = "";
-        if('CHI' == 'CHI'){ //测试用，大陆数据
-            html = "<input type='text' class='form-control input-sm table-input' title='{{row.name11Chi.name}}' value='row.name11Chi.name' ng-model='row.name11Chi.name' />";
-        }
-        function getName($scope,row){
-        	return html;
-        };
         function getDetails($scope,row){
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
+        var pCreatradio = [];
+        function getReferenceInfo($scope,row){
+        	var rowIndex = row.num_index;
+        	var yinArr = row.nameObj.multiPinyin;
+	        var pinyin = row.nameObj.nameStrPinyin;
+	        var charArr;
+	        var pinyinArr;
+	        var html = "";
+	        for (var j=0;j<yinArr.length;j++) {
+	            	var yin = yinArr[j].toString();
+	            	var str = yin.substr(yin.indexOf(",") + 3);
+	            	pinyinArr = str.split(',');
+	            	var multiPYindex = yinArr[j][0];
+	            	for(var i=0;i<pinyinArr.length;i++){
+         				if(pinyinArr[i] == $scope.radioDefaultVal[j]){
+         					html += pinyinArr[i]+'<input type="radio" checked= true ng-click = "changePinyin($event,row)"  name="' +row.nameObj.pid+"_"+j+ '"  value="' + pinyinArr[i] +"_"+j+ '" >';
+         				} else {
+         					html += pinyinArr[i]+'<input type="radio" ng-click = "changePinyin($event,row)"  name="' +row.nameObj.pid+"_"+j+ '"  value="' + pinyinArr[i] +"_"+j+ '" >';
+         				}
+	            	}
+	            	html += "<br>";
+	         }
+	         return '<span>'+html+'</span>';
+         }
 
-
-
+        $scope.changePinyin = function (e,row){
+            var value = e.target.value;
+            var valueStr = value.split("_");
+            var pinyin = valueStr[0];
+            var index = valueStr[1];
+            var namePinyin = row.nameObj.nameStrPinyin;
+            var name = row.nameObj.name;
+            var nameMultiPinyin = row.nameObj.multiPinyin;
+            var indexArr = $scope.calculateIndex(namePinyin,name,nameMultiPinyin);
+            var temp = namePinyin.split(" ");
+            temp[indexArr[index]] = pinyin;
+            temp = temp.join(" ");
+            row.nameObj.nameStrPinyin = temp;
+        };
         function initEditorTable() {
             _self.editorTable = new NgTableParams({
             }, {

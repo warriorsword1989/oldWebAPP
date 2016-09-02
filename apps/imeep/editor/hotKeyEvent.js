@@ -172,7 +172,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     });
                 }
             }
-            resetPage();
+            // resetPage();
             //outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
@@ -1456,6 +1456,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
             }
+            resetPage();
         }
     });
 }
