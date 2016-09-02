@@ -1,9 +1,33 @@
-angular.module('app').controller('deepInfoCtl', function($scope) {
-    $scope.chargingArr = $scope.poi.chargingPole;
+angular.module('app').controller('chargingPlotCtrl', function($scope) {
+    $scope.chargingArr = $scope.poi.chargingPlot;
     var chargeChainFmt = {};
-    for(var i=0;i<$scope.chargeChain.length;i++){
-        chargeChainFmt[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
-    }
+    /*初始化品牌*/
+    $scope.initChain = function() {
+        var chainArray = [];
+        chainArray.unshift({
+            "chainCode": "0",
+            "chainName": "--无法获取--"
+        });
+        $scope.chargeChain = {};
+        for (var i = 0, len = chainArray.length; i < len; i++) {
+            var cha = chainArray[i];
+            $scope.chargeChain[cha.chainCode] = { //转换成chosen-select可以解析的格式
+                "category": cha.category,
+                "chainCode": cha.chainCode,
+                "weight": cha.weight,
+                "chainName": cha.chainName
+            }
+        }
+    };
+    $scope.initChain();
+    // for(var i=0;i<$scope.chargeChain.length;i++){
+    //     chargeChainFmt[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
+    // }
+    $scope.chargingPlugTypeChange = function(event){
+        var obj = $scope.poi.chargingPlot[0].plugType;
+        var rejectVal = "0";
+        Utils.setCheckboxMutex(event,obj,rejectVal);
+    };
     $scope.ctrl = {
         open: true,
         btShow: true
@@ -39,13 +63,20 @@ angular.module('app').controller('deepInfoCtl', function($scope) {
             }
         }
     };
-    $scope.chargingPlugType = FM.dataApi.Constant.CHARGINGPOLE_PLUGTYPE;
-    $scope.chargingOpenType = FM.dataApi.Constant.CHARGINGPOLE_OPENTYPE;
+    $scope.chargingPlugType = FM.dataApi.Constant.plugType;
+    $scope.chargingOpenType = FM.dataApi.Constant.openType;
     $scope.chargingPayment = FM.dataApi.Constant.CHARGINGPOLE_PAYMENT;
     $scope.locationtype = FM.dataApi.Constant.CHARGINGPOLE_LOCATIONTYPE;
     $scope.chargingAcdc = FM.dataApi.Constant.CHARGINGPOLE_ACDC;
     $scope.chargingMode = FM.dataApi.Constant.CHARGINGPOLE_MODE;
-    $scope.chargingAvailableState = FM.dataApi.Constant.CHARGINGPOLE_AVAILABLESTATE;
+    // $scope.chargingAvailableState = FM.dataApi.Constant.chargingAvailableState;
+    $scope.chargingAvailableState = [   //充电站类型
+        {"id": 0, "label": "可以使用（有电）"},
+        {"id": 1, "label": "不可使用（没电）"},
+        {"id": 2, "label": "维修中"},
+        {"id": 3, "label": "建设中"},
+        {"id": 4, "label": "规划中"}
+    ];
     $scope.addChargPole = function(){
         var chargingObj = {
             "count" : 1,
