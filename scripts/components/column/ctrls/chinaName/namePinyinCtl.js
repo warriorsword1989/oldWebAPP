@@ -219,9 +219,9 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
 	            	var multiPYindex = yinArr[j][0];
 	            	for(var i=0;i<pinyinArr.length;i++){
          				if(pinyinArr[i] == $scope.radioDefaultVal[j]){
-         					html += pinyinArr[i]+'<input type="radio" checked= true onclick = "clickRadio(event,'+rowIndex+','+multiPYindex+','+yinArr[j][0]+')"  name="' +row.nameId+"_"+j+ '"  value="' + pinyinArr[i] + '" >';
+         					html += pinyinArr[i]+'<input type="radio" checked= true ng-click = "changePinyin($event,row)"  name="' +row.nameObj.pid+"_"+j+ '"  value="' + pinyinArr[i] +"_"+j+ '" >';
          				} else {
-         					html += pinyinArr[i]+'<input type="radio" onclick = "clickRadio(event,'+rowIndex+','+multiPYindex+','+yinArr[j][0]+')"  name="' +row.nameId+"_"+j+ '"  value="' + pinyinArr[i] + '" >';
+         					html += pinyinArr[i]+'<input type="radio" ng-click = "changePinyin($event,row)"  name="' +row.nameObj.pid+"_"+j+ '"  value="' + pinyinArr[i] +"_"+j+ '" >';
          				}
 	            	}
 	            	html += "<br>";
@@ -229,7 +229,20 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
 	         return '<span>'+html+'</span>';
          }
 
-
+        $scope.changePinyin = function (e,row){
+            var value = e.target.value;
+            var valueStr = value.split("_");
+            var pinyin = valueStr[0];
+            var index = valueStr[1];
+            var namePinyin = row.nameObj.nameStrPinyin;
+            var name = row.nameObj.name;
+            var nameMultiPinyin = row.nameObj.multiPinyin;
+            var indexArr = $scope.calculateIndex(namePinyin,name,nameMultiPinyin);
+            var temp = namePinyin.split(" ");
+            temp[indexArr[index]] = pinyin;
+            temp = temp.join(" ");
+            row.nameObj.nameStrPinyin = temp;
+        };
         function initEditorTable() {
             _self.editorTable = new NgTableParams({
             }, {
