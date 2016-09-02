@@ -1,0 +1,150 @@
+<div ng-controller="NamePinyinCtl">
+	<script type="text/ng-template" id="headerCheckboxId">
+		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="_test();" class="select-all" />
+	</script>
+	<!-- <div> -->
+		<div class="fm-tabs" style="padding:0px;margin: 0px;">
+			<a href="#" class="tab col-sm-1" ng-class="{1:'active'}[workedFlag]" ng-click="changeTabs(1)">待作业</a>
+			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="changeTabs(2)">待提交</a>
+		</div>
+		<div class="content">
+			<div style="clear: both;">
+				<div class="pull-left" style="padding: 10px;">
+					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="submitData();">提交数据</button>
+				</div>
+				<div class="pull-right" style="padding: 10px;">
+					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
+					<div class="btn-group dropdown" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+						<button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+							<i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+							<li ng-repeat="col in cols">
+								<label class="checkbox-inline">
+									<input type="checkbox" ng-model-options="{getterSetter: true}" ng-model="col.show"/> {{col.title}}
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="fm-fitsize dark scroll-styled" style="top:64px;color: white;padding: 10px;">
+				<table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
+					<colgroup>
+						<col ng-repeat="col in cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
+					</colgroup>
+
+					<tr ng-repeat="row in $data" ng-class="{true:'tr-backcolor',flase:''}[row.checked]">
+						<td ng-repeat="col in $columns" ng-dblclick="selectData(row,$index)" ng-switch="col.field">
+							<input ng-switch-when="selector" type="checkbox" ng-model="row.checked" />
+							<!--<span ng-if="col.getValue" fm-bind-compiled-html="col.getValue(this, row)"></span>-->
+							<span ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
+						</td>
+					</tr>
+					<tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+				</table>
+			</div>
+		</div>
+	<!-- </div> -->
+	<!-- 编辑界面 -->
+	<div ng-class="{true:'testView',false:'testViewHiden'}[editPanelIsOpen]">
+		<div class="fm-panel">
+			<div class="title">
+				<span style="cursor: pointer">名称统一</span>
+				<button type="button" class="close" ng-click="closeEditPanel()" style="color: white;opacity: 1;margin: -4px 0px;"><span>&times;</span></button>
+			</div>
+			<div>
+				<div class="fm-fitsize dark scroll-styled tablePosition" style="top:30px;color: white;">
+					<table ng-table-dynamic="editorTable with editor.editorCols" class="table table-condensed table-bordered poi-list">
+						<colgroup>
+							<col ng-repeat="col in editor.editorCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
+						</colgroup>
+						<tr ng-repeat="row in $data">
+							<td ng-repeat="col in $columns">
+								<span ng-if="!col.html" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
+								<span ng-if="col.html" fm-bind-compiled-html="col.getValue(this, row)"></span>
+							</td>
+						</tr>
+						<tr class="text-center" ng-show="!$data.length"><td colspan="{{(editor.editorCols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+					</table>
+				</div>
+			</div>
+			<div class="footer footerPotistion" >
+				<button type="button" class="btn btn-shape btn-ls" ng-click="saveData();">保  存</button>
+			</div>
+		</div>
+		<!-- 编辑界面弹出层 -->
+		<div class="div-float" ng-show="showImgInfoo" drag style="height: 400px;width: 700px;">
+			<div class="fm-panel"  >
+				<div class="title">
+					<span style="cursor: pointer">详细信息</span>
+					<span class="toolRight">
+						<i class="fa fa-arrows" drag-handle></i>
+						<i class="fa fa-close" ng-click="closeView()"></i>
+					</span>
+				</div>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-8" style="position: relative">
+							<div style="height: 305px">
+								<div id="Carousel" class="carousel slide">
+									<ol class="carousel-indicators">
+										<li data-target="Carousel" data-slide-to="0" class="active"></li>
+										<li data-target="Carousel" data-slide-to="1"></li>
+										<li data-target="Carousel" data-slide-to="2"></li>
+									</ol>
+									<div class="carousel-inner" style="height: 305px;">
+										<div class="item active" style="height: 305px;">
+											<img src="../../../images/poi/main/test.png" class="img-responsive">
+										</div>
+										<div class="item" style="height: 305px;">
+											<img src="../../../images/poi/main/test.png" class="img-responsive">
+										</div>
+										<div class="item" style="height: 305px;">
+											<img src="../../../images/poi/main/test.png" class="img-responsive">
+										</div>
+									</div>
+									<a class="left carousel-control" href="#Carousel" data-slide="prev">
+										<span class="glyphicon glyphicon-chevron-left"></span>
+									</a>
+									<a class="right carousel-control" href="#Carousel" data-slide="next">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<table class="table">
+								<tr>
+									<td style="width: 25%;">PID:</td>
+									<td>12345678</td>
+								</tr>
+								<tr>
+									<td>作业员:</td>
+									<td>张三</td>
+								</tr>
+								<tr>
+									<td>FID:</td>
+									<td>1111111111111</td>
+								</tr>
+								<tr>
+									<td>地域:</td>
+									<td>北京凉山彝族自治州会理县</td>
+								</tr>
+								<tr>
+									<td>图符号:</td>
+									<td>898989</td>
+								</tr>
+								<tr>
+									<td>图片:</td>
+									<td>0张</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

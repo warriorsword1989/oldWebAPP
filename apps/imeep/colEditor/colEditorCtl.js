@@ -16,7 +16,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
-		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr; //用于存储拼音多音字
+		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr,$scope.radioDefaultVal,$scope.pCreatradio; //用于存储拼音多音字
 
 		
 		$scope.menus = {
@@ -340,7 +340,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 //				pinyinArr[pyIndexArray[i]] = "<span id= "+rowIndex+"_"+duoyinzi[i][0]+" style=\"color:red;\">"+pinyinArr[pyIndexArray[i]]+"</span>";
 				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
 			};
-			radioDefaultVal=perRadioDefaultVal;
+			$scope.radioDefaultVal=perRadioDefaultVal;
 			return pinyinArr.join(' ');
 		 
 		}

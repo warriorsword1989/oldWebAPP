@@ -27,8 +27,14 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         for(var i=0;i<tollWayArr.length;i++) {
             this.tollWay[tollWayArr[i]] = true;
         }
-        this.payment = data['payment'];
-
+        
+//        this.payment = data['payment'];
+        var paymentArr = data["payment"] ? data["payment"].split("|") : [];
+        this.payment = {};
+        for(var i=0;i<paymentArr.length;i++) {
+            this.payment[paymentArr[i]] = true;
+        }
+        
         var remarkArr = data["remark"] ? data["remark"].split("|") : [];
         this.remark = {};
         for(var i=0;i<remarkArr.length;i++) {
@@ -73,7 +79,15 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
             }
         }
         ret["tollWay"] = checkedTollWayArr.join("|");
-        ret['payment'] = this.payment;
+        
+//        ret['payment'] = this.payment;
+        var checkedPayment = [];
+        for(var key in this.payment){
+            if(this.payment[key]){
+            	checkedPayment.push(key);
+            }
+        }
+        ret['payment'] = checkedPayment.join("|");
 
         var checkedRemark = [];
         for(var key in this.remark){
