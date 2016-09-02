@@ -2063,8 +2063,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                       };
                       dsEdit.getByCondition(param).then(function(data){
+                        $scope.linkArray = data.data;
                         for(var i=0,len=data.data.length;i<len;i++){
-                          $scope.linkArray.push(data.data[i].pid);
+                          // $scope.linkArray.push(data.data[i].pid);
                           if(i === 0) {
                             highLightFeatures.push({
                                 id: data.data[i].pid.toString(),
@@ -2093,7 +2094,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                       for(var i=0,len=$scope.linkArray.length;i<len;i++){
                         if(i == 0){
                           highLightFeatures.push({
-                              id: $scope.linkArray[i].toString(),
+                              id: $scope.linkArray[i].pid.toString(),
                               layerid: 'rdLink',
                               type: 'line',
                               style: {
@@ -2102,7 +2103,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           });
                         }else{
                           highLightFeatures.push({
-                              id: $scope.linkArray[i].toString(),
+                              id: $scope.linkArray[i].pid.toString(),
                               layerid: 'rdLink',
                               type: 'line',
                               style: {
@@ -2115,15 +2116,35 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                       highRenderCtrl.drawHighlight();
                     }
                     // 反选link
-                    $scope.deleteTrackLink = function(linkPid){
+                    $scope.chargeTrackLink = function(linkObj){
                       highRenderCtrl._cleanHighLight();
                       highLightFeatures = [];
-                      if($scope.linkArray.indexOf(linkPid) > -1){
-                        $scope.linkArray.splice($scope.linkArray.indexOf(linkPid),$scope.linkArray.length-$scope.linkArray.indexOf(linkPid)+1);
-                      }else{
-                        $scope.linkArray.push(linkPid);
+                      for(var j=0,le=$scope.linkArray.length;j<le;j++){
+                        if($scope.linkArray[j].pid == parseInt(linkObj.pid)){
+                            $scope.linkArray.splice(j,$scope.linkArray.length-j+1);
+                            $scope.linkHighLight();
+                          return;
+                        }else{
+                          if(j == $scope.linkArray.length -1){
+                            $scope.linkArray.push(linkObj);
+                          }
+                        }
                       }
                       $scope.linkHighLight();
+                    }
+                    // 格式化link
+                    $scope.formatLink = function(link){
+                      var newLink = link;
+                      for(var k in newLink){
+                        if(k == 'id'){
+                          newLink['pid'] = newLink['id'];
+                        }else if (k == 'snode'){
+                          newLink['sNodePid'] = newLink['snode'];
+                        }else if(k == 'enode'){
+                          newLink['eNodePid'] = newLink['enode'];
+                        }
+                      }
+                      return newLink;
                     }
                     if (data.index === 0) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
@@ -2168,7 +2189,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                     } else if (data.index === 1){ //进入点
                         if(linkDirect == 2 || linkDirect == 3){
-                          $scope.deleteTrackLink(parseInt(data.id));
+                          $scope.chargeTrackLink($scope.formatLink(data.properties));
                         } else {
                           $scope.laneInfo.nodePid = parseInt(data.id);
                           highLightFeatures.push({
@@ -2187,7 +2208,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
                     } else if (data.index > 1) {
-                      $scope.deleteTrackLink(parseInt(data.id));
+                      $scope.chargeTrackLink($scope.formatLink(data.properties));
                     }
                     featCodeCtrl.setFeatCode($scope.laneInfo);
                 });
