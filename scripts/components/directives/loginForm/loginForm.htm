@@ -1,4 +1,4 @@
-<form name="myForm" class="form-horizontal" novalidate>
+<form name="myForm" autocomplete="off"  class="form-horizontal" novalidate>
     <!-- username part -->
     <div class="form-group has-feedback" ng-class="{'has-error':myForm.user.$invalid && myForm.user.$dirty && showInputError,'has-success':myForm.user.$valid && myForm.user.$dirty && showInputError}">
         <div class="col-sm-12">
@@ -31,7 +31,7 @@
     <!-- loginButton part -->
     <div class="form-group">
         <div class="col-sm-12">
-            <button ng-click="handleEvent()" class="btn btn-block" type="submit">登 录</button>
+            <button ng-click="handleEvent()" ng-disabled="myForm.$invalid" class="btn btn-block" type="submit">登 录</button>
         </div>
     </div>
     <!-- remember me -->
