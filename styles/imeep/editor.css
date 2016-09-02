@@ -1740,6 +1740,9 @@ form input[type=checkbox].ng-dirty:before {
 .wordColor {
   color: #f0ad4e;
 }
+.wordColorWhite {
+  color: white;
+}
 /******************* 精编样式end *******************/
 .carousel-inner .item.active {
   text-align: center;

@@ -16,7 +16,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
-		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr; //用于存储拼音多音字
+		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr,$scope.radioDefaultVal,$scope.pCreatradio; //用于存储拼音多音字
 
 		
 		$scope.menus = {
@@ -37,11 +37,12 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				{'text':'官方标准英文名','worked':20,'count':30,'id':'officalStandardEngName'},
 				{'text':'非重要分类英文超长','worked':10,'count':20,'id':'nonImportantLongEngName'}
 			],
-			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'engMapAddress'},
+			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'importantEngAddress'},
 				{'text':'非重要分类地址英文超长作业','worked':20,'count':30,'id':'nonImportantLongEngAddress'}]
 		};
 //		$scope.nameType = 'chinaAddress'; //默认显示中文地址
 //		$scope.menuSelectedId = 'addrSplit';
+
 		$scope.nameType = App.Util.getUrlParam("workItem");
 		if($scope.nameType == 'chinaAddress'){
 			$scope.menuSelectedId = 'addrSplit';
@@ -63,6 +64,16 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			} else if($scope.menuSelectedId == 'addrSplit') {
 				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddress/addrSplitCtl').then(function () {
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddress/addrSplitTpl.html';
+					$scope.showLoading = false;
+				});
+			} else if ($scope.menuSelectedId == 'importantEngAddress'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/importantEngAddressCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/importantEngAddressTpl.html';
+					$scope.showLoading = false;
+				});
+			} else if ($scope.menuSelectedId == 'nonImportantLongEngAddress'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/addrSplitCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/addrSplitTpl.html';
 					$scope.showLoading = false;
 				});
 			} else if($scope.menuSelectedId == 'photoEngName'){
@@ -107,7 +118,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 						mediumId: kindData[i].mediumId
 					};
 				}
-			})
+			});
 		};
 
 
@@ -172,7 +183,41 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
 			}
 		};
-
+		/**
+		 * 名称拼音作业中radio事件
+		 * 
+		 * @param event
+		 * @param index
+		 *            行号
+		 * @param multiPYindex
+		 *            中文多音字下标
+		 * @param zhongwenIndex
+		 */
+		// 点击多音字radio，替换拼音中的值heightLightPin(pinyin, zhongwen,duoyinzi, rowIndex)
+		$scope.changeNamePinyin = function(event,index,multiPYindex,zhongwenIndex){
+			// 选中的radio值
+			var selectedRV = $(event.currentTarget).attr('value');
+			// 被标红的拼音的span id
+			var idd = index+"_"+zhongwenIndex;
+			// 将选中的radio值替换到对应的span中
+			$("#"+idd+"").html("<span style='color:red;'>"+selectedRV+"</span>");
+			// 获取当前带span的拼音值
+			var pyhtml = $("#"+idd+"").parent().html();
+			// 正则匹配 将所有的span 标签替换为空
+			var result = pyhtml.replace(/<(.+?)>/g,'');
+			
+			for(var creatradioVal in creatradio){
+				if(creatradio.length > 0 && creatradio[creatradioVal].indexOf(index+"_"+multiPYindex) != -1){
+					arrRemove(creatradio,creatradioVal);
+					break;
+				}
+			}
+			creatradio.push(index+"_"+multiPYindex+"_"+selectedRV);
+			var coloumName = "pinyin";
+			var str = "{'"+coloumName+"':'"+result+"'}";
+			str = eval('(' + str + ')');
+			$('#editorList').bootstrapTable("updateData",{index:index,row:str});
+		};
 		/**
 		 * 地址拼音高亮方法
 		 * @param pinyin 拼音地址合并
@@ -213,9 +258,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
          * @returns {Array}
          */
 		$scope.calculateIndex = function (pinyin,zhongwen,duoyinzi){
-			console.info("pinyin:",pinyin);
-			console.info("zhongwen:",zhongwen);
-			console.info("duoyinzi:",duoyinzi);
 			var pinyinArr = pinyin.split(' ');
 			// pyIndexArray 用于保存需要高亮的拼音下标
 			var pyIndexArray = [];
@@ -347,7 +389,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 //				pinyinArr[pyIndexArray[i]] = "<span id= "+rowIndex+"_"+duoyinzi[i][0]+" style=\"color:red;\">"+pinyinArr[pyIndexArray[i]]+"</span>";
 				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
 			};
-			radioDefaultVal=perRadioDefaultVal;
+			$scope.radioDefaultVal=perRadioDefaultVal;
 			return pinyinArr.join(' ');
 		 
 		}

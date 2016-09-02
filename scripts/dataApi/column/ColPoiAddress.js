@@ -12,7 +12,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         this.nameGroupid = data['nameGroupid'] || 1;
         this.langCode = data['langCode'];
         this.srcFlag = data['srcFlag'];
-        this.fullName = data['fullName'];
+        this.fullname = data['fullname'];
         this.fullNamePhonetic = data['fullNamePhonetic'];
         this.roadname = data['roadname'];
         this.roadNamePhonetic = data['roadNamePhonetic'];
@@ -36,6 +36,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         this.unit = data['unit'];
         this.room = data['room'];
         this.addons = data['addons'];
+        this.addrrefMsg = data['addrrefMsg'];
 
         //拼音
         this.fullNameMultiPinyin = data["fullNameMultiPinyin"];
@@ -45,8 +46,10 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         this.addrNamePinyin = data["addrNamePinyin"];
         this.addrNameMultiPinyin = data["addrNameMultiPinyin"];
 
-
         this.rowId = data["rowId"];
+
+        //额外的属性
+        this.shortNameExtra = "";
     },
     getIntegrate: function(){
         var ret = {};
@@ -55,7 +58,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         ret['poiPid'] = this.poiPid;
         ret['langCode'] = this.langCode;
         ret['srcFlag'] = this.srcFlag;
-        ret['fullName'] = this.fullName;
+        ret['fullname'] = this.fullname;
         ret['fullNamePhonetic'] = this.fullNamePhonetic;
         ret['roadname'] = this.roadname;
         ret['roadNamePhonetic'] = this.roadNamePhonetic;
@@ -79,6 +82,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         ret['unit'] = this.unit;
         ret['room'] = this.room;
         ret['addons'] = this.addons;
+        ret['addrrefMsg'] = this.addrrefMsg;
 
         //拼音
         ret['fullNameMultiPinyin'] = this.fullNameMultiPinyin;
@@ -89,6 +93,7 @@ FM.dataApi.ColPoiAddress = FM.dataApi.DataModel.extend({
         ret['addrNameMultiPinyin'] = this.addrNameMultiPinyin;
 
         ret["rowId"] = this.rowId;
+
         return ret;
     }
 });
