@@ -377,6 +377,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;
 		};
+		$scope.$on('closeAdvancedTools',function(event,data){
+			$scope.closeAdvancedToolsPanel();
+		});
 		/*start 事件监听*******************************************************************/
 		//响应选择要素类型变化事件，清除要素页面的监听事件
 		eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURETYPECHANGE, function (data) {
@@ -552,8 +555,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("tollGateCardType", function (event, data) {
 			$scope.$broadcast('refreshEtcCode',true);
 		});
-		// $ocLazyLoad.load(appPath.road + "ctrls/attr_clm_ctrl/rdClmCtrl").then(function () {
-			// $scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_clm_tpl/rdClmTpl.html";
+		// $ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
+		// 	$scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
 		// });
 		// $scope.attrTplContainerSwitch(true);
 	}
