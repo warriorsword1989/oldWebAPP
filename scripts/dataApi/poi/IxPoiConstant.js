@@ -243,7 +243,6 @@ FM.dataApi.Constant = {
         7: "日式直流CHAdeMO插槽",
         8: "特斯拉专用插槽",
         9: "其他",
-        10: "无法采集"
     },
     openType: {
         1: "对所有车辆开放",
@@ -269,6 +268,5 @@ FM.dataApi.Constant = {
         4: "特制充值卡",
         5: "APP"
     }
-
 
 };
