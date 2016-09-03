@@ -50,7 +50,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.menuSelectedId = 'nameUnify';
 		}else if($scope.nameType == 'englishName'){
             $scope.menuSelectedId = 'photoEngName';
-        }
+        }else if($scope.nameType == 'englishAddress'){
+			$scope.menuSelectedId = 'importantEngAddress';
+		}
 
 
 		$scope.changeMenu = function (id){
@@ -72,8 +74,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.showLoading = false;
 				});
 			} else if ($scope.menuSelectedId == 'nonImportantLongEngAddress'){
-				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/addrSplitCtl').then(function () {
-					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/addrSplitTpl.html';
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/nonImportantLongEngAddressCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/nonImportantLongEngAddressTpl.html';
 					$scope.showLoading = false;
 				});
 			} else if($scope.menuSelectedId == 'photoEngName'){
