@@ -2092,6 +2092,14 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     // link高亮
                     $scope.linkHighLight = function(){
                       for(var i=0,len=$scope.linkArray.length;i<len;i++){
+                        highLightFeatures.push({
+                            id: $scope.laneInfo.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'rdnode',
+                            style: {
+                                color: 'yellow'
+                            }
+                        });
                         if(i == 0){
                           highLightFeatures.push({
                               id: $scope.linkArray[i].pid.toString(),
@@ -2126,7 +2134,18 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           return;
                         }else{
                           if(j == $scope.linkArray.length -1){
-                            $scope.linkArray.push(linkObj);
+                            if(
+                              (parseInt(linkObj.direct) == 2 && ($scope.linkArray[$scope.linkArray.length-1].eNodePid == parseInt(linkObj.sNodePid))) ||
+                              (parseInt(linkObj.direct) == 3 && ($scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.eNodePid))) ||
+                              (parseInt(linkObj.direct) == 1 &&
+                              (
+                                $scope.linkArray[$scope.linkArray.length-1].eNodePid == parseInt(linkObj.sNodePid) ||
+                                // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.eNodePid) ||
+                                // $scope.linkArray[$scope.linkArray.length-1].sNodePid == parseInt(linkObj.sNodePid) ||
+                                $scope.linkArray[$scope.linkArray.length-1].eNodePid == parseInt(linkObj.eNodePid)
+                              ))){
+                              $scope.linkArray.push(linkObj);
+                            }
                           }
                         }
                       }
@@ -2154,6 +2173,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler.addGuideLayer(rdnode);
 
                         $scope.laneInfo.inLinkPid = parseInt(data.id);
+                        if(!$scope.isLinkTrack){
+                            $scope.linkArray.push($scope.formatLink(data.properties));
+                        }
                         highLightFeatures.push({
                             id: $scope.laneInfo.inLinkPid.toString(),
                             layerid: 'rdLink',
@@ -2172,6 +2194,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             map.currentTool.snapHandler._guides = [];
 
                             $scope.laneInfo.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                            $scope.laneInfo.laneDir = 0;
                             highLightFeatures.push({
                                 id: $scope.laneInfo.nodePid.toString(),
                                 layerid: 'rdLink',
@@ -2185,7 +2208,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             if($scope.isLinkTrack){  //自动捕捉
                                 $scope.getTrackLinks($scope.laneInfo);
                             }
-                            tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                            tooltipsCtrl.setCurrentTooltip("已选进入点,请选择道路线!");
                         }
                     } else if (data.index === 1){ //进入点
                         if(linkDirect == 2 || linkDirect == 3){
@@ -2205,10 +2228,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           if($scope.isLinkTrack){
                               $scope.getTrackLinks($scope.laneInfo);
                           }
-                          tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                          tooltipsCtrl.setCurrentTooltip("已选进入点,请选择道路线!");
                         }
                     } else if (data.index > 1) {
                       $scope.chargeTrackLink($scope.formatLink(data.properties));
+                      if(parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
+                        $scope.laneInfo.laneDir = 1;
+                      }else{
+                        $scope.laneInfo.laneDir = 2;
+                      }
                     }
                     featCodeCtrl.setFeatCode($scope.laneInfo);
                 });

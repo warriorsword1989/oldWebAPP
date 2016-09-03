@@ -1,5 +1,6 @@
 angular.module('app').controller('chargingPlotCtrl', function($scope) {
     $scope.chargingArr = $scope.poi.chargingPlot;
+
     var chargeChainFmt = {};
     /*初始化品牌*/
     $scope.initChain = function() {
@@ -25,8 +26,7 @@ angular.module('app').controller('chargingPlotCtrl', function($scope) {
     // }
     $scope.chargingPlugTypeChange = function(event){
         var obj = $scope.poi.chargingPlot[0].plugType;
-        var rejectVal = "0";
-        Utils.setCheckboxMutex(event,obj,rejectVal);
+        Utils.setCheckBoxSingleCheck(event,obj);
     };
     $scope.ctrl = {
         open: true,
@@ -65,10 +65,6 @@ angular.module('app').controller('chargingPlotCtrl', function($scope) {
     };
     $scope.chargingPlugType = FM.dataApi.Constant.plugType;
     $scope.chargingOpenType = FM.dataApi.Constant.openType;
-    $scope.chargingPayment = FM.dataApi.Constant.CHARGINGPOLE_PAYMENT;
-    $scope.locationtype = FM.dataApi.Constant.CHARGINGPOLE_LOCATIONTYPE;
-    $scope.chargingAcdc = FM.dataApi.Constant.CHARGINGPOLE_ACDC;
-    $scope.chargingMode = FM.dataApi.Constant.CHARGINGPOLE_MODE;
     // $scope.chargingAvailableState = FM.dataApi.Constant.chargingAvailableState;
     $scope.chargingAvailableState = [   //充电站类型
         {"id": 0, "label": "可以使用（有电）"},
@@ -100,11 +96,14 @@ angular.module('app').controller('chargingPlotCtrl', function($scope) {
             "payment" : "4",
             "manufacturer" : null
         };
-        $scope.poi.chargingPole.push(new FM.dataApi.IxPoiChargingplot(chargingObj));
+        $scope.poi.chargingPlot.push(new FM.dataApi.IxPoiChargingplot(chargingObj));
     };
     $scope.removeChargPole = function(index){
-        if ($scope.poi.chargingPole.length > 1) {
-            $scope.poi.chargingPole.splice(index, 1);
+        if ($scope.poi.chargingPlot.length > 1) {
+            $scope.poi.chargingPlot.splice(index, 1);
         }
     };
+    if($scope.chargingArr.length == 0){
+        $scope.addChargPole();
+    }
 });

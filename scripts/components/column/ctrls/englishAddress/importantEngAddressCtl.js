@@ -14,6 +14,8 @@ angular.module('app').controller('importantEngAddressCtl', ['$scope', '$ocLazyLo
         $scope.editAllDataList = []; //查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
+        $scope.costomWorkNumEum = [2,10,20,30];
+        $scope.customPopoverUrl = 'myPopoverTemplate.html';
 
         var languageFlag = '';
         if(true){
@@ -149,6 +151,19 @@ angular.module('app').controller('importantEngAddressCtl', ['$scope', '$ocLazyLo
             angular.forEach($scope.tableParams.data, function(data, index) {
                 data.checked = flag;
             });
+        };
+
+        $scope.customAsign = function (flag){
+            if(flag == 1){
+                $scope.customAsignOpen = false;
+            } else {
+                $scope.customAsignOpen = true;
+            }
+        };
+        $scope.customConfirm = function(){
+            $scope.customAsignOpen = false;
+            $scope.popoverIsOpen = false;
+
         };
 
         /**************** 工具条begin ***************/

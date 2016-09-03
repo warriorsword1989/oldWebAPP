@@ -1743,6 +1743,29 @@ form input[type=checkbox].ng-dirty:before {
 .wordColorWhite {
   color: white;
 }
+.popover .popover-content {
+  padding: 9px 8px;
+}
+.popover .popover-content input {
+  background-color: #313131;
+  color: white;
+}
+.popover .popover-inner {
+  background-color: #313131;
+  color: white;
+}
+.popover .popover-inner .popover-title {
+  background-color: #313131;
+  color: white;
+}
+.custom-popover {
+  width: 120px;
+  padding-left: 6px;
+}
+.custom-popover input {
+  height: 28px;
+  padding-left: 6px;
+}
 /******************* 精编样式end *******************/
 .carousel-inner .item.active {
   text-align: center;
