@@ -37,11 +37,12 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				{'text':'官方标准英文名','worked':20,'count':30,'id':'officalStandardEngName'},
 				{'text':'非重要分类英文超长','worked':10,'count':20,'id':'nonImportantLongEngName'}
 			],
-			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'engMapAddress'},
+			"englishAddress":[{'text':'重要分类地址英文作业','worked':20,'count':30,'id':'importantEngAddress'},
 				{'text':'非重要分类地址英文超长作业','worked':20,'count':30,'id':'nonImportantLongEngAddress'}]
 		};
 //		$scope.nameType = 'chinaAddress'; //默认显示中文地址
 //		$scope.menuSelectedId = 'addrSplit';
+
 		$scope.nameType = App.Util.getUrlParam("workItem");
 		if($scope.nameType == 'chinaAddress'){
 			$scope.menuSelectedId = 'addrSplit';
@@ -63,6 +64,16 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			} else if($scope.menuSelectedId == 'addrSplit') {
 				$ocLazyLoad.load(appPath.column + 'ctrls/chinaAddress/addrSplitCtl').then(function () {
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaAddress/addrSplitTpl.html';
+					$scope.showLoading = false;
+				});
+			} else if ($scope.menuSelectedId == 'importantEngAddress'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/importantEngAddressCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/importantEngAddressTpl.html';
+					$scope.showLoading = false;
+				});
+			} else if ($scope.menuSelectedId == 'nonImportantLongEngAddress'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/addrSplitCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/addrSplitTpl.html';
 					$scope.showLoading = false;
 				});
 			} else if($scope.menuSelectedId == 'photoEngName'){
@@ -247,9 +258,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
          * @returns {Array}
          */
 		$scope.calculateIndex = function (pinyin,zhongwen,duoyinzi){
-			console.info("pinyin:",pinyin);
-			console.info("zhongwen:",zhongwen);
-			console.info("duoyinzi:",duoyinzi);
 			var pinyinArr = pinyin.split(' ');
 			// pyIndexArray 用于保存需要高亮的拼音下标
 			var pyIndexArray = [];
