@@ -7,7 +7,6 @@
 angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
         var _self = $scope;
-        //
         $scope.currentTableData = null;
         $scope.currentTabIndex = 'stagnatedWork';
         $scope.costomWorkNumEum = [10,20,30,0];
@@ -17,6 +16,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.inputValue = 0;
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
+        $scope.batchWorkIsOpen = false;
 
         $scope.view = {};
         $scope.view.cols = [
@@ -110,6 +110,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.changeTaskStatus = function(params){
             $scope.currentTabIndex = params;
         }
+        //
         $scope.selectNum = function(params){
             $scope.selectedNum = params;
         }
@@ -117,6 +118,44 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
             $scope.selectedNum = params;
             $scope.popoverIsOpen = false;
         }
+        //batch work
+        $scope.batchParam = {
+            value : "",
+            batchField : ""
+        };
+        var replaceOpt = [
+            {"id": "name12Chi", "label": "原始英文名称"}
+        ];
+
+        var searchOpt = [
+            {"id": "name12Chi", "label": "官方标准中文名称"},
+            {"id": "name11Chi", "label": "原始英文名称"}
+        ];
+        $scope.batchTabs = function(flag){
+            $scope.batchFlag = flag;
+            if(1 == flag){
+                $scope.batchOpt = replaceOpt;
+                $scope.batchParam.batchField = "name12Chi";
+                $scope.extractEle = true;
+                $scope.searchBtn = false;
+            }else if(2 == flag){
+                $scope.batchOpt = searchOpt;
+                $scope.batchParam.batchField = "name11Chi";
+                $scope.extractEle = false;
+                $scope.searchBtn = true;
+            }
+        };
+        $scope.batchWork = function(flag){
+            $scope.batchWorkIsOpen = true;
+            $scope.batchTabs(1);
+        };
+        $scope.closeBatchModal = function(){
+            $scope.batchWorkIsOpen = false;
+        };
+        $scope.cancle = function(){
+            $scope.closeBatchModal();
+        };
+        //batch work
         //在线检查;
         $scope.startOnlineCheck = function(){
             $scope.onlineCheck = true;
