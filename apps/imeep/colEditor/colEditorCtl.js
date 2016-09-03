@@ -96,6 +96,11 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/shortNameTpl.html';
 					$scope.showLoading = false;
 				});
+			} else if($scope.menuSelectedId == 'chiEngName'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishName/chiEngNameCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/chiEngNameTpl.html';
+					$scope.showLoading = false;
+				});
 			}
 		};
 

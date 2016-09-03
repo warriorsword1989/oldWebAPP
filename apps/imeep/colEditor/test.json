@@ -279,7 +279,20 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            }
+            },{
+            	"poiPid": 1079,
+	            "nameStrPinyin": null,
+	            "nameGroupid": 1,
+	            "nameId": 1259584348,
+	            "langCode": "ENG",
+	            "nameClass": 1,
+	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "nameType": 2,
+	            "namePhonetic": "",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+	        }
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A04-04"],
@@ -559,7 +572,20 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            }
+            },{
+            	"poiPid": 1079,
+	            "nameStrPinyin": null,
+	            "nameGroupid": 1,
+	            "nameId": 1259584348,
+	            "langCode": "ENG",
+	            "nameClass": 1,
+	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "nameType": 2,
+	            "namePhonetic": "",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+	        }
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
@@ -734,7 +760,20 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            }
+            },{
+            	"poiPid": 1079,
+	            "nameStrPinyin": null,
+	            "nameGroupid": 1,
+	            "nameId": 1259584348,
+	            "langCode": "ENG",
+	            "nameClass": 1,
+	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "nameType": 2,
+	            "namePhonetic": "",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+	        }
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
@@ -909,7 +948,20 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            }
+            },{
+            	"poiPid": 1079,
+	            "nameStrPinyin": null,
+	            "nameGroupid": 1,
+	            "nameId": 1259584348,
+	            "langCode": "ENG",
+	            "nameClass": 1,
+	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "nameType": 2,
+	            "namePhonetic": "",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+	        }
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
@@ -1096,7 +1148,20 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E9199D836E1AE050A8C08304BA17"
-            }
+            },{
+            	"poiPid": 1079,
+	            "nameStrPinyin": null,
+	            "nameGroupid": 1,
+	            "nameId": 1259584348,
+	            "langCode": "ENG",
+	            "nameClass": 1,
+	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "nameType": 2,
+	            "namePhonetic": "",
+                "uRecord": 0,
+                "uFields": "",
+                "rowId": "3524E9199D836E1AE050A8C08304BA17"
+	        }
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
