@@ -104,18 +104,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         function treatmentOfChanged(data, type, op, ctrl, tpl, branchType, rowid_deatailId) {
             var id;
             //结束编辑状态
-            shapeCtrl.stopEditing();
+            // shapeCtrl.stopEditing();
             if (ctrl) {
                 if (type != "IXPOI") {
                     if (type === "RDBRANCH") {
                         id = "";
-                    } else if (type === "ADFACE" || type === "ZONEFACE") {
-                        for (var i = 0; i < data.log.length; i++) {
-                            if (data.log[i].type == "ADFACE" || data.log[i].type == "ZONEFACE") {
-                                id = data.log[i].pid;
-                                break;
-                            }
-                        }
                     } else {
                         id = data.pid;
                     }
@@ -267,8 +260,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], showContent, ctrl, tpl);
-                        } else {
-                            resetPage();
                         }
                     });
                 }
