@@ -1455,6 +1455,35 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl.highLightFeatures.length = 0;
                     treatmentOfChanged(data, "RDVARIABLESPEED", "编辑RDVARIABLESPEED成功", 'attr_variableSpeed_ctrl/variableSpeedCtrl', 'attr_variableSpeed_tpl/variableSpeed.html');
                 });
+            } else if (shapeCtrl.editType === "rdLane") {    //查询详细车道
+                var param = {
+                    "type": "RDLANE",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPid": featCodeCtrl.getFeatCode().inLinkPid,
+                        "laneDir":featCodeCtrl.getFeatCode().laneDir,
+                    }
+                };
+                //调用编辑接口;
+                dsEdit.getByCondition(param).then(function(data) {
+                    if(data=='属性值未发生变化'){
+                        swal("提示","几何属性未发生变化!","info");
+                        return;
+                    }
+                    relationData.redraw();
+                    //获取当前的ctrl和tpl的对象
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    objEditCtrl.setCurrentObject('RDLANE', data);
+                    ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
+                    	scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
+                    });
+                    scope.$emit("SWITCHCONTAINERSTATE", {
+                        "attrContainerTpl": true,
+                        "subAttrContainerTpl": false
+                    });
+                    // $scope.attrTplContainerSwitch(true);
+                  });
             }
             resetPage();
         }

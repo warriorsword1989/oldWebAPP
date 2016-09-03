@@ -1,8 +1,8 @@
 /**
  * Created by chenxiao on 2016/7/26.
  */
-angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval', 'dsFcc', 'dsEdit',
-    function($scope, $interval, dsFcc, dsEdit) {
+angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval', 'dsFcc', 'dsEdit','dsOutput',
+    function($scope, $interval, dsFcc, dsEdit, dsOutput) {
 		    var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         $scope.tipList = [];
         $scope.selectedTips = {};
@@ -45,12 +45,40 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
                 });
                 dsFcc.runAutomaticInput(tips).then(function(data){
                   $scope.$emit('closeAdvancedTools');
-                  $scope.progress = 100;
-                  $scope.running = false;
-                  $scope.$emit("job-autofill", {
-                      status: 'end'
-                  });
             			logMsgCtrl.pushMsg($scope,'JobId: '+ data.data.jobId +' ，'+ data.errmsg);
+                  var param = {
+                      dbId: App.Temp.dbId,
+                      gridIds: App.Temp.gridList
+                  };
+                  var timer = $interval(function() {
+                      dsEdit.getJobById(data.data.jobId).then(function(d) {
+                          if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
+                              $interval.cancel(timer);
+                              $scope.progress = 100;
+                              $scope.$emit("job-autofill", {
+                                  status: 'end'
+                              });
+                              $scope.running = false;
+                              if (d.status == 3) {
+                                  dsOutput.push({
+                                      "op": "自动录入JOB执行成功",
+                                      "type": "succ",
+                                      "pid": "0",
+                                      "childPid": ""
+                                  });
+                                  logMsgCtrl.pushMsg($scope,'自动录入Job完成');
+                              } else {
+                                  dsOutput.push({
+                                      "op": "自动录入JOB执行失败",
+                                      "type": "fail",
+                                      "pid": "0",
+                                      "childPid": ""
+                                  });
+                                  logMsgCtrl.pushMsg($scope,'自动录入Job失败');
+                              }
+                          }
+                      });
+                  }, 500);
                 });
                 // var loop = $interval(function() {
                 //     $scope.progress += 20;
