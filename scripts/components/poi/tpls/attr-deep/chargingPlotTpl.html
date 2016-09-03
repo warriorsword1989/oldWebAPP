@@ -11,7 +11,7 @@
                                     ng-click="removeChargPole($index)"/>
                         </div>
                         <div class="btn-group" style="display: inline-block;float: right;"
-                             ng-if="chargingArr.length==1">
+                             ng-if="chargingArr.length==1 ||chargingArr.length==0">
                             <button data-toggle="tooltip" title="添加" class="glyphicon glyphicon-plus"
                                     style="margin-right: 5px;" type="button" ng-click="addChargPole()"/>
                         </div>

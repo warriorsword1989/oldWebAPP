@@ -1,3 +1,6 @@
+<style>
+
+</style>
 <div ng-controller="importantEngAddressCtl">
 	<script type="text/ng-template" id="headerCheckboxId">
 		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="doCheckAll();" class="select-all" />选择
@@ -8,6 +11,7 @@
 			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="chageTabs(2)">待提交</a>
 		</div>
 		<div class="content">
+			<!--自定义条数的template-->
 			<div style="clear: both;">
 				<div style="padding: 2px;" class="pull-left">
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">查询</button>
@@ -15,7 +19,23 @@
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-if="workedFlag==2" ng-click="submitData();">提交数据</button>
-					<span uib-popover="I have a title!"><i class="fa fa fa-asterisk fa-lg pointer wordColorWhite" ></i></span>
+					<span uib-popover-template="customPopoverUrl" popover-is-open="popoverIsOpen" popover-trigger="outsideClick" popover-title="每次作业展开" popover-placement="bottom" ><i class="fa fa fa-asterisk fa-lg pointer wordColorWhite" ></i></span>
+					<script type="text/ng-template" id="myPopoverTemplate.html">
+						<div>
+							<div ng-repeat="item in costomWorkNumEum" style="line-height: 24px;">
+								<input type="radio" name="optionsRadios" ng-click="customAsign(1);" ng-checked="editorLines=='{{item}}'" value="option1" >{{item}}条/次
+							</div>
+							<div style="line-height: 24px;">
+								<input type="radio" name="optionsRadios" ng-click="customAsign(2);" >自定义
+								<div ng-show="customAsignOpen" class="input-group custom-popover">
+									<input type="text" class="form-control" ng-model="a.editorLines">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-ls" type="button" ng-click="customConfirm();">确定</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</script>
 				</div>
 				<div class="pull-right">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>

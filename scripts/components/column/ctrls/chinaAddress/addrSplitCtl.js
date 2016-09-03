@@ -14,6 +14,8 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.editAllDataList = []; //查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
+        $scope.costomWorkNumEum = [2,10,20,30];
+        $scope.customPopoverUrl = 'myPopoverTemplate.html';
 
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
@@ -131,6 +133,19 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             });
         };
 
+        $scope.customAsign = function (flag){
+            if(flag == 1){
+                $scope.customAsignOpen = false;
+            } else {
+                $scope.customAsignOpen = true;
+            }
+        };
+        $scope.customConfirm = function(){
+            $scope.customAsignOpen = false;
+            $scope.popoverIsOpen = false;
+
+        };
+
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
             _self.editorTable.reload();
@@ -178,40 +193,6 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             return html;
         }
 
-        // function getCity($scope,row){ return html;
-        // }
-        // function getCounty($scope,row){ return html;
-        // }
-        // function getTown($scope,row){ return html;
-        // }
-        // function getPlace($scope,row){ return html;
-        // }
-        // function getStreet($scope,row){  return html;
-        // }
-        // function getLandmark($scope,row){ return html;
-        // }
-        // function getPrefix($scope,row){ return html;
-        // }
-        // function getHousenum($scope,row){ return html;
-        // }
-        // function getType($scope,row){ return html;
-        // }
-        // function getSubnum($scope,row){  return html;
-        // }
-        // function getSubfix($scope,row){ return html;
-        // }
-        // function getEstab($scope,row){ return html;
-        // }
-        // function getBuilding($scope,row){  return html;
-        // }
-        // function getFloor($scope,row){ return html;
-        // }
-        // function getUnit($scope,row){ return html;
-        // }
-        // function getRoom($scope,row){ return html;
-        // }
-        // function getAddons($scope,row){ return html;
-        // }
         function getDetails($scope,row){
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
