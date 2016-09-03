@@ -1457,6 +1457,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             }
             resetPage();
+            shapeCtrl.editType = "";
         }
     });
 }
