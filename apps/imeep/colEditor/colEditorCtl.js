@@ -372,7 +372,19 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.resu(str,ele,arrList,index+1);
 			}
 		};
-
+		/**
+         * 来源标识对象数组
+         */
+        $scope.sourceFlag = 
+        	[{"id":"002000010000","label":"采集"},
+            {"id":"002000020000","label":"官网"},
+            {"id":"002000030000","label":"非官网+人工"},
+            {"id":"002000040000","label":"专项改善"},
+            {"id":"002000050000","label":"品牌名+分店名"},
+            {"id":"002000060000","label":"人工确认"},
+            {"id":"002000070000","label":"代理店"},
+            {"id":"002000080000","label":"已训练关键词翻译程序"},
+            {"id":"002000090000","label":"程序翻译"}];
 		$scope.initPage = function (){
 			$scope.initMate();
 			$scope.changeMenu($scope.menuSelectedId);

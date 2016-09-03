@@ -210,7 +210,7 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
             { field: "name11Chi", title: "官方标准中文名称",getValue: get11Names,show: true,width:'150px'},
             { field: "name12Eng", title: "原始英文名称",getValue: getName,html:true,show: true,width:'150px'},
             { field: "name12Eng", title: "字符数",getValue: get12EngNameLength,html:true,show: true,width:'30px'},
-            { field: "sourceFlag", title: "来源标识",html:true,getValue: renderedSelect,show: true,width:'120px'},
+            { field: "sourceFlag", title: "来源标识",html:true,getValue: sourceFlagSelect,show: true,width:'120px'},
             { field: "refMsg", title: "参考信息",show: true,width:'50px'},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true,width:'30px'}
         ];
@@ -229,25 +229,7 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
         		return '<span>'+row.name12Eng.name.length+'<span>';
         	}
         }
-        $scope.testType = [
-               {"id": 0, "label": "未调查"},
-               {"id": 1, "label": "限速摄像头"},
-               {"id": 2, "label": "雷达测速摄像头"}
-           ];
-        /**
-         * 来源标识对象数组
-         */
-        $scope.sourceFlag = 
-        	[{"id":"002000010000","label":"采集"},
-            {"id":"002000020000","label":"官网"},
-            {"id":"002000030000","label":"非官网+人工"},
-            {"id":"002000040000","label":"专项改善"},
-            {"id":"002000050000","label":"品牌名+分店名"},
-            {"id":"002000060000","label":"人工确认"},
-            {"id":"002000070000","label":"代理店"},
-            {"id":"002000080000","label":"已训练关键词翻译程序"},
-            {"id":"002000090000","label":"程序翻译"}];
-        function renderedSelect($scope, row){
+        function sourceFlagSelect($scope, row){
             var html = "<select ng-model='row[col.field]' class='form-control table-input' ng-options='value.id as value.label for value in sourceFlag'> </select>"
             return html;
          }
