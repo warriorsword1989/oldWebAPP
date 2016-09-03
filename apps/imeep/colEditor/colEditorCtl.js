@@ -103,6 +103,11 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/chiEngNameTpl.html';
 					$scope.showLoading = false;
 				});
+			} else if($scope.menuSelectedId == 'confirmEngName'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishName/confirmEngNameCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/confirmEngNameTpl.html';
+					$scope.showLoading = false;
+				});
 			}
 		};
 
