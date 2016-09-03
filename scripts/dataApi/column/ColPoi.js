@@ -42,13 +42,16 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         this.name12Eng = {};
         this.name12Cht = {};
         this.name12Por = {};
+        
         //简称标准化
+        this.name51ChiArr = [];
         this.name51Chi = {};
         this.name51Eng = {};
         this.name51Cht = {};
         this.name51Por = {};
         //用于存储所有的有多音字的名称
         this.nameObj = {};
+        
         
         if (data["names"]) {
             for (var i = 0, len = data["names"].length; i < len; i++) {
@@ -72,6 +75,7 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
                 	this.name12Por = obj;
                 }else if(flag == "51CHI"){
                     this.name51Chi = obj;
+                    this.name51ChiArr.push(obj);
                 }else if(flag == "51ENG"){
                     this.name51Eng = obj;
                 } else if(flag == "51CHT"){
@@ -124,6 +128,14 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         }
         if(!FM.Util.isEmptyObject(this.nameObj)){
             ret["names"].push(this.nameObj.getIntegrate());
+        }
+        if(!FM.Util.isEmptyObject(this.nameObj)){
+            ret["names"].push(this.nameObj.getIntegrate());
+        }
+        if(this.name51ChiArr.length>0){
+        	for(var i=0,len=this.name51ChiArr.length;i<len;i++){
+        		ret["names"].push(this.name51ChiArr[i]);
+        	}
         }
         ret["geoLiveType"] = this.geoLiveType;
         return ret;
