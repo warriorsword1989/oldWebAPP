@@ -1,39 +1,20 @@
-<div ng-controller="NonImportangLongEngCtl">
+<div ng-controller="ChiEngNameCtl">
 	<script type="text/ng-template" id="headerCheckboxId">
-		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="doCheckAll();" class="select-all" />选择
+		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="_test();" class="select-all" />
 	</script>
-	<div>
+	<!-- <div> -->
 		<div class="fm-tabs" style="padding:0px;margin: 0px;">
-			<a href="#" class="tab col-sm-1" ng-class="{1:'active'}[workedFlag]" ng-click="chageTabs(1)">待作业</a>
-			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="chageTabs(2)">待提交</a>
+			<a href="#" class="tab col-sm-1" ng-class="{1:'active'}[workedFlag]" ng-click="changeTabs(1)">待作业</a>
+			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="changeTabs(2)">待提交</a>
 		</div>
 		<div class="content">
 			<div style="clear: both;">
-				<div style="padding: 2px;" class="pull-left">
-					<button type="button" class="btn btn-shape btn-ls" ng-click="">查询</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="">选择</button>
+				<div class="pull-left" style="padding: 10px;">
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-if="workedFlag==2" ng-click="submitData();">提交数据</button>
-					<span uib-popover-template="customPopoverUrl" popover-is-open="popoverIsOpen" popover-trigger="outsideClick" popover-title="每次作业展开" popover-placement="bottom" ><i class="fa fa fa-asterisk fa-lg pointer wordColorWhite" ></i></span>
-					<script type="text/ng-template" id="myPopoverTemplate.html">
-						<div>
-							<div ng-repeat="item in costomWorkNumEum" style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(1);" ng-checked="editorLines=='{{item}}'" value="option1" >{{item}}条/次
-							</div>
-							<div style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(2);" >自定义
-								<div ng-show="customAsignOpen" class="input-group custom-popover">
-									<input type="text" class="form-control" ng-model="a.editorLines">
-									<span class="input-group-btn">
-										<button class="btn btn-default btn-ls" type="button" ng-click="customConfirm();">确定</button>
-									</span>
-								</div>
-							</div>
-						</div>
-					</script>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="batchWork()">批量作业</button>
+					<button type="button" class="btn btn-shape btn-ls" ng-click="submitData();">提交数据</button>
 				</div>
-				<div class="pull-right">
+				<div class="pull-right" style="padding: 10px;">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
 					<div class="btn-group dropdown" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
 						<button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
@@ -49,7 +30,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="fm-fitsize dark scroll-styled" style="top:64px;color: white;">
+			<div class="fm-fitsize dark scroll-styled" style="top:64px;color: white;padding: 10px;">
 				<table ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered">
 					<colgroup>
 						<col ng-repeat="col in cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
@@ -65,18 +46,65 @@
 					<tr class="text-center" ng-show="!$data.length"><td colspan="{{(cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
 				</table>
 			</div>
+			<!-- 批量作业 -->
+			<div ng-show="batchWorkIsOpen">
+					<div class="div-float" style="top:80px;left:120px;border-radius:5px;">
+				        <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
+				        <div class="fm-panel" style="margin:0px;width:330px;">
+				        <!-- <div style="border-bottom: 1px solid #ddd;"></div> -->
+						    <div class="fm-tabs" style="padding:0px;margin: 0px;">
+								<a href="#" class="tab" ng-class="{1:'active'}[batchFlag]" ng-click="batchTabs(1)">替换</a>
+								<a href="#" class="tab" ng-class="{2:'active'}[batchFlag]" ng-click="batchTabs(2)">高级搜索</a>
+							</div>
+						    <div class="content" >
+						        <div style="height:200px;">
+									<ul class="fm-ul fm-ul-form">
+						                <li>
+						                    <label>字段:</label>
+						                    <div>
+						                    	<select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
+						                                placeholder_text_single="'--请选择--'"
+						                                ng-options="value.id as value.label for value in batchOpt"
+						                                ng-change="changeField($event, this)">
+						                        </select>
+						                    </div>
+						                </li>
+						                <li>
+						                    <label>搜索:</label>
+						                    <div>
+						                    	<input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value">
+						                    </div>
+						                </li>
+						                <li ng-show="extractEle">
+						                    <label>替换为:</label>
+						                    <div>
+						                    	<input type="text" class="fm-control" style="width:200px;" ng-model="admin">
+						                    </div>
+						                </li>
+						            </ul>
+						        </div>
+						    </div>
+						    <div style="border-bottom: 1px solid #ddd;"></div>
+						    <div style="text-align:right;">
+							    <button type="button" class="btn btn-main" ng-click="cancle()" style="margin:6px 8px">取消</button>
+							    <button type="button" class="btn btn-main" ng-show="extractEle" ng-click="extractData()" style="margin:6px 8px">提取数据</button>
+						        <button type="button" class="btn btn-main" ng-show="searchBtn" ng-click="searchWork()" style="margin:6px 8px">搜索作业</button>
+						    </div>
+						</div>
+				    </div>
+			</div>
 		</div>
-	</div>
+	<!-- </div> -->
 	<!-- 编辑界面 -->
 	<div ng-class="{true:'testView',false:'testViewHiden'}[editPanelIsOpen]">
 		<div class="fm-panel">
 			<div class="title">
-				<span>非重要分类地址英文超长作业</span>
+				<span style="cursor: pointer">名称统一</span>
 				<button type="button" class="close" ng-click="closeEditPanel()" style="color: white;opacity: 1;margin: -4px 0px;"><span>&times;</span></button>
 			</div>
 			<div>
 				<div class="fm-fitsize dark scroll-styled tablePosition" style="top:30px;color: white;">
-					<table ng-table-dynamic="editorTable with editor.editorCols" class="table table-condensed table-bordered">
+					<table ng-table-dynamic="editorTable with editor.editorCols" class="table table-condensed table-bordered poi-list">
 						<colgroup>
 							<col ng-repeat="col in editor.editorCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
 						</colgroup>
@@ -95,7 +123,7 @@
 			</div>
 		</div>
 		<!-- 编辑界面弹出层 -->
-		<div class="div-float" ng-show="showImgInfo" drag style="height: 400px;width: 700px;">
+		<div class="div-float" ng-show="showImgInfoo" drag style="height: 400px;width: 700px;">
 			<div class="fm-panel"  >
 				<div class="title">
 					<span style="cursor: pointer">详细信息</span>
@@ -132,15 +160,6 @@
 										<span class="glyphicon glyphicon-chevron-right"></span>
 									</a>
 								</div>
-								<!--<div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-									<div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
-										<img ng-src="{{slide.image}}" style="margin:auto;">
-										<div class="carousel-caption">
-											<h4>Slide {{slide.id}}</h4>
-											<p>{{slide.text}}</p>
-										</div>
-									</div>
-								</div>-->
 							</div>
 						</div>
 						<div class="col-md-4">

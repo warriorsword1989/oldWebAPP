@@ -50,7 +50,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.menuSelectedId = 'nameUnify';
 		}else if($scope.nameType == 'englishName'){
             $scope.menuSelectedId = 'photoEngName';
-        }
+        }else if($scope.nameType == 'englishAddress'){
+			$scope.menuSelectedId = 'importantEngAddress';
+		}
 
 
 		$scope.changeMenu = function (id){
@@ -72,8 +74,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.showLoading = false;
 				});
 			} else if ($scope.menuSelectedId == 'nonImportantLongEngAddress'){
-				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/addrSplitCtl').then(function () {
-					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/addrSplitTpl.html';
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishAddress/nonImportantLongEngAddressCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishAddress/nonImportantLongEngAddressTpl.html';
 					$scope.showLoading = false;
 				});
 			} else if($scope.menuSelectedId == 'photoEngName'){
@@ -89,6 +91,16 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			} else if($scope.menuSelectedId == 'namePinyin'){
 				$ocLazyLoad.load(appPath.column + 'ctrls/chinaName/namePinyinCtl').then(function () {
 					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/namePinyinTpl.html';
+					$scope.showLoading = false;
+				});
+			} else if($scope.menuSelectedId == 'shortName'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/chinaName/shortNameCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/shortNameTpl.html';
+					$scope.showLoading = false;
+				});
+			} else if($scope.menuSelectedId == 'chiEngName'){
+				$ocLazyLoad.load(appPath.column + 'ctrls/englishName/chiEngNameCtl').then(function () {
+					$scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/chiEngNameTpl.html';
 					$scope.showLoading = false;
 				});
 			}
@@ -132,92 +144,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			return valArr.join("|");
 		};
 
-		/**
-		 * 修改地址拼音
-		 * @param pinyin
-		 * @param zhongwen
-		 * @param duoyinzi
-         * @param type
-         */
-		$scope.changeAddressPinyin = function(pinyin, zhongwen,duoyinzi){
-			// 多音字默认值
-			var perRadioDefaultVal = new Array();
-			if(pinyin.substr(0,1) == " "){
-				pinyin = pinyin.substr(1);
-			}
-			pinyin = $scope.replaceVal(pinyin);
-			var pinyinArr = pinyin.split(' ');
-			// pyIndexArray 用于保存需要高亮的拼音下标
-			var pyIndexArray = new Array();
-			if(duoyinzi && duoyinzi.length>0){
-				for (var j=0;j< duoyinzi.length;j++) {
-					var index = 0;
-					var addFlag =  false;
-					var zhongwenIndex = duoyinzi[j][0];// 中文多音字下标
-					// 循环每个拼音
-					var tmpIndex = -1;
-					for(var i=0;i<pinyinArr.length;i++){
-						var perPYF = $scope.ToDBC(pinyinArr[i]);// 半角转全角，进行匹配
-						// indexOf(目标字符串,开始位置)
-						var perIndex = zhongwen.indexOf(perPYF,tmpIndex);
-						// 只有下标小于当前zhongwenIndex的perPYF才需要计算差值
-						if(perIndex != -1 && perIndex < zhongwenIndex){
-							tmpIndex = perIndex + 1;   // ABCD中ABC行
-							if(perPYF.length > 1){
-								addFlag = true;
-								index += perPYF.length-1;
-							}
-						}
-					}
-					// 当addFlag为true代表有差值
-					if(addFlag){
-						pyIndexArray.push(zhongwenIndex - index);
-					} else {
-						pyIndexArray.push(zhongwenIndex);
-					}
-				}
-			}
-			// 按下标高亮拼音
-			for(var i=0;i<pyIndexArray.length;i++){
-				perRadioDefaultVal.push(pinyinArr[pyIndexArray[i]]);
-				pinyinArr[pyIndexArray[i]] = "<span class='wordColor'>"+pinyinArr[pyIndexArray[i]]+"</span>";
-			}
-		};
-		/**
-		 * 名称拼音作业中radio事件
-		 * 
-		 * @param event
-		 * @param index
-		 *            行号
-		 * @param multiPYindex
-		 *            中文多音字下标
-		 * @param zhongwenIndex
-		 */
-		// 点击多音字radio，替换拼音中的值heightLightPin(pinyin, zhongwen,duoyinzi, rowIndex)
-		$scope.changeNamePinyin = function(event,index,multiPYindex,zhongwenIndex){
-			// 选中的radio值
-			var selectedRV = $(event.currentTarget).attr('value');
-			// 被标红的拼音的span id
-			var idd = index+"_"+zhongwenIndex;
-			// 将选中的radio值替换到对应的span中
-			$("#"+idd+"").html("<span style='color:red;'>"+selectedRV+"</span>");
-			// 获取当前带span的拼音值
-			var pyhtml = $("#"+idd+"").parent().html();
-			// 正则匹配 将所有的span 标签替换为空
-			var result = pyhtml.replace(/<(.+?)>/g,'');
-			
-			for(var creatradioVal in creatradio){
-				if(creatradio.length > 0 && creatradio[creatradioVal].indexOf(index+"_"+multiPYindex) != -1){
-					arrRemove(creatradio,creatradioVal);
-					break;
-				}
-			}
-			creatradio.push(index+"_"+multiPYindex+"_"+selectedRV);
-			var coloumName = "pinyin";
-			var str = "{'"+coloumName+"':'"+result+"'}";
-			str = eval('(' + str + ')');
-			$('#editorList').bootstrapTable("updateData",{index:index,row:str});
-		};
 		/**
 		 * 地址拼音高亮方法
 		 * @param pinyin 拼音地址合并
@@ -446,7 +372,19 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.resu(str,ele,arrList,index+1);
 			}
 		};
-
+		/**
+         * 来源标识对象数组
+         */
+        $scope.sourceFlag = 
+        	[{"id":"002000010000","label":"采集"},
+            {"id":"002000020000","label":"官网"},
+            {"id":"002000030000","label":"非官网+人工"},
+            {"id":"002000040000","label":"专项改善"},
+            {"id":"002000050000","label":"品牌名+分店名"},
+            {"id":"002000060000","label":"人工确认"},
+            {"id":"002000070000","label":"代理店"},
+            {"id":"002000080000","label":"已训练关键词翻译程序"},
+            {"id":"002000090000","label":"程序翻译"}];
 		$scope.initPage = function (){
 			$scope.initMate();
 			$scope.changeMenu($scope.menuSelectedId);

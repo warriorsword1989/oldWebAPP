@@ -56,6 +56,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         }
 
         function resetPage(data) {
+
+            shapeCtrl.editType = "";
+
             if (typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
             }
@@ -1448,6 +1451,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             }
             resetPage();
+
         }
     });
 }

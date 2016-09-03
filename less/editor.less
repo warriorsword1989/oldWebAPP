@@ -25,6 +25,8 @@
 
 @bkground-color:#313131;
 
+@white:white;
+
 @red:#ff0000;
 
 @arrow-left-url:"../../../images/road/img/left.png";
@@ -1724,6 +1726,41 @@ form input[type=checkbox].ng-dirty:before {
 .wordColorWhite{
   color: white;
 }
+//重新覆盖popover的样式
+.popover{
+  .popover-content{
+    padding:9px 8px;
+    input{
+      background-color: @bkground-color;
+      color: @white;
+    }
+  }
+  .popover-inner{
+    background-color: @bkground-color;
+    color: @white;
+    .popover-title{
+      background-color: @bkground-color;
+      color: @white;
+    }
+  }
+  .arrow{
+    &::after{
+      //border-bottom-color: @bkground-color !important;
+    }
+  }
+
+}
+.custom-popover{
+  width: 120px;
+  padding-left: 6px;
+  input{
+    height: 28px;
+    padding-left: 6px;
+  }
+}
+
+
+
 /******************* 精编样式end *******************/
 
 .carousel-inner .item.active{
