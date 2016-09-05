@@ -19,6 +19,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.editModelRadio = 2;//列表模式
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
         $scope.editModelUrl = 'editModel.html';
+        $scope.batchFlag = 1;
 
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
@@ -35,7 +36,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             return row.name11Chi.name;
         }
         function getFullName($scope, row){
-            return row.addressChi.fullName;
+            return row.addressChi.fullname;
         }
         function getClassifyRules($scope, row){
             var type = row.classifyRules;
