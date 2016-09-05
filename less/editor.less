@@ -1778,7 +1778,28 @@ form input[type=checkbox].ng-dirty:before {
   }
 }
 
-
+.fm-tab {
+  padding: 0 5px;
+  margin-bottom: 5px;
+  a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 2px;
+    display: inline-block;
+    text-align: center;
+    background-color: @dark-grey;
+    &:hover{
+      color: #fff;
+    }
+    &.active{
+      color: #fff;
+      border-bottom: 1px solid @black-to-white-8;
+      background-color: @bkground-color;
+      transition: all .3s;
+    }
+  }
+}
 
 /******************* 精编样式end *******************/
 
