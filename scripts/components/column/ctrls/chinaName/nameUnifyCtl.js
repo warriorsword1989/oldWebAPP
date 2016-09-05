@@ -10,8 +10,8 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 2; //每页编辑的条数
-        $scope.editorCurrentPage = 1; //当前编辑的页码
+        $scope.editLines = 2; //每页编辑的条数
+        $scope.editCurrentPage = 1; //当前编辑的页码
         $scope.tableDataList = new Array();//存储查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
@@ -53,19 +53,19 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                     checkedArr.push(temp[i]);
                 }
             }
-            var editorArr = [];
+            var editArr = [];
             if(checkedArr.length > 0){
-                editorArr = checkedArr;
+                editArr = checkedArr;
             } else {
-                editorArr = $scope.tableDataList.slice(0,$scope.editorLines);
+                editArr = $scope.tableDataList.slice(0,$scope.editLines);
             }
-            console.info(editorArr);
+            console.info(editArr);
             $scope.batchWorkIsOpen = false;
             $scope.batchParam.value = "";
-            $scope.currentEditOrig = angular.copy(editorArr);
-            $scope.currentEdited = angular.copy(editorArr);
+            $scope.currentEditOrig = angular.copy(editArr);
+            $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
-            initEditorTable();
+            initeditTable();
         };
 
         $scope.searchType = 'name';
@@ -121,7 +121,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
 
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
-            _self.editorTable.reload();
+            _self.editTable.reload();
         };
         $scope.saveData = function (){
         	console.log("原始数据：")
@@ -182,38 +182,41 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                     checkedArr.push(temp[i]);
                 }
             }
-            var editorArr = [];
+            var editArr = [];
             if(checkedArr.length > 0){
-                editorArr = checkedArr;
+                editArr = checkedArr;
             } else {
-                editorArr = $scope.tableDataList;
+                editArr = $scope.tableDataList;
             }
             var currentValue;
             var resultArr = [];
-            for(var item in editorArr){
-            	currentValue = editorArr[item][$scope.batchParam.batchField].name;
+            for(var item in editArr){
+            	currentValue = editArr[item][$scope.batchParam.batchField].name;
                 if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
-                	resultArr.push(editorArr[item]);
+                	resultArr.push(editArr[item]);
     			}
     		}
             if(resultArr.length == 0){
             	swal("当前没有符合条件的数据", "", "info");
             	return;
             }
-            editorArr = resultArr;
+            editArr = resultArr;
             
-            editorArr = resultArr.slice(0,$scope.editorLines);
-	        $scope.currentEditOrig = angular.copy(editorArr);
-	        $scope.currentEdited = angular.copy(editorArr);
+            editArr = resultArr.slice(0,$scope.editLines);
+	        $scope.currentEditOrig = angular.copy(editArr);
+	        $scope.currentEdited = angular.copy(editArr);
 	        $scope.editPanelIsOpen = true;
-	        initEditorTable();
+	        initeditTable();
+	        $scope.batchWorkIsOpen = false;
+	        $scope.batchParam.value = "";
+	        
             
         };
         /**************** 工具条end   ***************/
 
         /*******************  编辑页面begin  ****************/
-        $scope.editor = {};
-        $scope.editor.editorCols = [
+        $scope.edit = {};
+        $scope.edit.editCols = [
             { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
             { field: "kindCode", title: "分类",show: true,width:'50px'},
@@ -238,8 +241,8 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
 
 
 
-        function initEditorTable() {
-            _self.editorTable = new NgTableParams({
+        function initeditTable() {
+            _self.editTable = new NgTableParams({
             }, {
                 counts:[],
                 dataset: $scope.currentEdited

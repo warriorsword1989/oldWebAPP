@@ -105,9 +105,9 @@
 			</div>
 			<div>
 				<div class="fm-fitsize dark scroll-styled tablePosition" style="top:30px;color: white;">
-					<table ng-table-dynamic="editorTable with editor.editorCols" class="table table-condensed table-bordered poi-list">
+					<table ng-table-dynamic="editTable with edit.editCols" class="table table-condensed table-bordered poi-list">
 						<colgroup>
-							<col ng-repeat="col in editor.editorCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
+							<col ng-repeat="col in edit.editCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
 						</colgroup>
 						<tr ng-repeat="row in $data">
 							<td ng-repeat="col in $columns">
@@ -115,7 +115,7 @@
 								<span ng-if="col.html" fm-bind-compiled-html="col.getValue(this, row)"></span>
 							</td>
 						</tr>
-						<tr class="text-center" ng-show="!$data.length"><td colspan="{{(editor.editorCols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+						<tr class="text-center" ng-show="!$data.length"><td colspan="{{(edit.editCols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
 					</table>
 				</div>
 			</div>
