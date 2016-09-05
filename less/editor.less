@@ -1726,41 +1726,48 @@ form input[type=checkbox].ng-dirty:before {
 .wordColorWhite{
   color: white;
 }
-//重新覆盖popover的样式
-.popover{
-  .popover-content{
-    padding:9px 8px;
-    input{
-      background-color: @bkground-color;
-      color: @white;
-    }
-  }
-  .popover-inner{
-    background-color: @bkground-color;
-    color: @white;
-    .popover-title{
-      background-color: @bkground-color;
-      color: @white;
-    }
-  }
-  .arrow{
-    &::after{
-      //border-bottom-color: @bkground-color !important;
-    }
-  }
 
+/*修改popover默认样式*/
+.popover{
+  width: 150px;
+  background-color: transparent;
+  .popover-content form .form-group{
+      margin-bottom: 0px;
+      input[type='text']{
+        color: white;
+        background: #333;
+        text-indent: 5px;
+      }
+  };
+}
+.popover.bottom > .arrow:after{
+  opacity: 0.9;
+  border-bottom-color:#333;
+}
+.fade.in{
+  opacity: 0.9;
+}
+.popover-inner{
+  color: @white;
+  background: #333;
+}
+.popover-inner h3{
+  color: @white;
+  font-weight: bold;
+  font-size: 12px;
+  background: #333;
 }
 .custom-popover{
-  width: 120px;
   padding-left: 6px;
   input{
     height: 28px;
-    padding-left: 6px;
+    color: white;
+    background: #333;
+    border: 1px solid #ccc;
+    text-indent: 5px;
+    border-radius: 5px;
   }
 }
-
-
-
 /******************* 精编样式end *******************/
 
 .carousel-inner .item.active{

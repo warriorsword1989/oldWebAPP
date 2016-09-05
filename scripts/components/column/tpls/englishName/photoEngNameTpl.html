@@ -22,35 +22,32 @@
         font-size: 20px;
         cursor: pointer
     }
-    /*修改popover默认样式*/
-    .popover{
-        background-color: transparent;
-    }
-    .popover .arrow{
-        top: 0px!important;
-    }
-    .popover.right > .arrow:after{
-        opacity: 0.8;
-        left: 2px;
-        border-right-color: #3f3f3f;
-    }
-    .fade.in{
-        opacity: 0.9;
-    }
-    .popover-inner{
-        width: 150px;
-        background: #333;
-    }
-    .popover-inner h3{
-        background: #333;
-    }
-    .selectNumInput{
-        color: white;
-        background: #333;
-        border: 1px solid #ccc;
-        text-indent: 5px;
-        border-radius: 5px;
-    }
+    /*/!*修改popover默认样式*!/*/
+    /*.popover{*/
+        /*background-color: transparent;*/
+        /*box-shadow: 0px 0px 15px rgba(155,155,155,.2);*/
+    /*}*/
+    /*.popover.bottom > .arrow:after{*/
+        /*opacity: 0.8;*/
+        /*top: 2px;*/
+        /*border-bottom-color:#333;*/
+    /*}*/
+    /*.fade.in{*/
+        /*opacity: 0.9;*/
+    /*}*/
+    /*.popover-inner{*/
+        /*background: #333;*/
+    /*}*/
+    /*.popover-inner h3{*/
+        /*background: #333;*/
+    /*}*/
+    /*.selectNumInput{*/
+        /*color: white;*/
+        /*background: #333;*/
+        /*border: 1px solid #ccc;*/
+        /*text-indent: 5px;*/
+        /*border-radius: 5px;*/
+    /*}*/
 
 </style>
 <div style="padding: 15px 0;color: white" ng-controller="photoEngNameCtrl">
@@ -87,7 +84,7 @@
                 <button type="button" class="btn btn-shape btn-ls" ng-click="startOnlineCheck()">在线检查</button>
                 <button ng-if="currentTabIndex=='stagnatedSubmit'" type="button" class="btn btn-shape btn-ls" ng-click="">提交数据</button>
                 <!--自定义编辑条数控制-->
-                <span role="button" popover-is-open="popoverIsOpen" popover-placement="right-top" uib-popover-template="customPopoverUrl" popover-title="每次作业条数:" class="glyphicon glyphicon-cog customEditSet"></span>
+                <span role="button" popover-is-open="popoverIsOpen" popover-placement="bottom" uib-popover-template="customPopoverUrl" popover-title="每次作业条数:" class="glyphicon glyphicon-cog custom-popover"></span>
                 <!--进度条控件-->
                 <div class="progressWrap">
                     <uib-progressbar ng-if="onlineCheck" class="progress-striped active" value="progressValue" max="100"><i>{{progressValue}}%</i></uib-progressbar>
