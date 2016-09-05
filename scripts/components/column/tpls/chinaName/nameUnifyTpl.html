@@ -48,8 +48,9 @@
 			</div>
 			<!-- 批量作业 -->
 			<div ng-show="batchWorkIsOpen">
-					<div class="div-float" style="top:80px;left:120px;border-radius:5px;">
+					<div class="div-float" style="top:80px;left:120px;border-radius:5px;" drag>
 				        <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
+				         <button type="button"  drag-handle class="close fa fa-arrows" style="padding:7px;font-size:16px;color:white;opacity:1;" title="拖拽"></button>
 				        <div class="fm-panel" style="margin:0px;width:330px;">
 				        <!-- <div style="border-bottom: 1px solid #ddd;"></div> -->
 						    <div class="fm-tabs" style="padding:0px;margin: 0px;">
