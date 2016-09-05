@@ -67,12 +67,25 @@
 			</div>
 		</div>
 	</div>
-	<!-- 编辑界面 -->
+	<!-- 表格编辑界面 -->
 	<div ng-class="{true:'testView',false:'testViewHiden'}[editPanelIsOpen]">
+		<!-- 表格编辑 -->
 		<div class="fm-panel">
 			<div class="title">
 				<span style="cursor: pointer">地址作业</span>
 				<button type="button" class="close" ng-click="closeEditPanel()" style="color: white;opacity: 1;margin: -4px 0px;"><span>&times;</span></button>
+				<span class="pull-right" style="padding-right: 10px;">
+					<i class="fa fa fa-file-text-o fa-lg pointer wordColorWhite" ></i>
+				</span>
+				<span class="pull-right" uib-popover-template="editModelUrl" popover-is-open="editModelIsOpen" popover-trigger="outsideClick" popover-placement="bottom" style="padding-right: 10px;">
+					<i class="fa fa fa-asterisk fa-lg pointer wordColorWhite" ></i>
+				</span>
+				<script type="text/ng-template" id="editModel.html">
+					<div>
+						<div><input type="radio" name="editModelRadios" ng-model="editModelRadio" value="1" ng-click="changeEditModel(1);" >弹窗模式</div>
+						<div><input type="radio" name="editModelRadios" ng-model="editModelRadio" value="2" ng-click="changeEditModel(2);" >列表模式</div>
+					</div>
+				</script>
 			</div>
 			<div>
 				<div class="fm-fitsize dark scroll-styled tablePosition" style="top:30px;color: white;">
@@ -80,7 +93,7 @@
 						<colgroup>
 							<col ng-repeat="col in editor.editorCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
 						</colgroup>
-						<tr ng-repeat="row in $data">
+						<tr ng-repeat="row in $data" ng-dblclick="editRowData(row,$index)">
 							<td ng-repeat="col in $columns">
 								<span ng-if="!col.html" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></span>
 								<span ng-if="col.html" fm-bind-compiled-html="col.getValue(this, row)"></span>
@@ -94,7 +107,111 @@
 				<button type="button" class="btn btn-shape btn-ls" ng-click="saveData();">保  存</button>
 			</div>
 		</div>
-		<!-- 编辑界面弹出层 -->
+		<!-- 行编辑 -->
+		<div class="div-float modelWindow" ng-show="rowEditPanelShow"></div>
+		<div class="div-float" ng-show="rowEditPanelShow" drag style="width:500px;top:50%;left: 50%;right: 50%;bottom: 50%;">
+			<div style="height: 600px;width: 500px;margin-left: -250px;margin-top: -300px;">
+				<div class="fm-panel" >
+					<div class="title">
+						<span style="cursor: pointer">详细信息</span>
+					<span class="toolRight">
+						<i class="fa fa-arrows" drag-handle></i>
+						<i class="fa fa-close" ng-click="closeEditView();"></i>
+					</span>
+					</div>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12" >
+								<ul class="fm-ul fm-ul-form">
+									<li style="padding-top: 8px;">
+										<label style="width:25%;" class="lable-right">地址全称:</label>
+										<div>{{rowEditData.fullname}}</div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">省名:</label>
+										<div><input type="text" ng-model="rowEditData.province" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">市名:</label>
+										<div><input type="text" ng-model="rowEditData.city" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">区县名:</label>
+										<div><input type="text" ng-model="rowEditData.county" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">乡镇街道办:</label>
+										<div><input type="text" ng-model="rowEditData.town" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">地名小区名:</label>
+										<div><input type="text" ng-model="rowEditData.place" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">街巷名:</label>
+										<div><input type="text" ng-model="rowEditData.street" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">标志物名:</label>
+										<div><input type="text" ng-model="rowEditData.landmark" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">前缀:</label>
+										<div><input type="text" ng-model="rowEditData.prefix" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">门牌号:</label>
+										<div><input type="text" ng-model="rowEditData.housenum" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">类型名:</label>
+										<div><input type="text" ng-model="rowEditData.type" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">子号:</label>
+										<div><input type="text" ng-model="rowEditData.subnum" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">后缀:</label>
+										<div><input type="text" ng-model="rowEditData.subfix" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">附属设施名:</label>
+										<div><input type="text" ng-model="rowEditData.estab" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">楼栋号:</label>
+										<div><input type="text" ng-model="rowEditData.building" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">楼门号:</label>
+										<div><input type="text" ng-model="rowEditData.floor" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">楼层:</label>
+										<div><input type="text" ng-model="rowEditData.unit" class="table-input edit-input" ></div>
+									</li>
+									<li>
+										<label style="width:25%;" class="lable-right">房间号:</label>
+										<div><input type="text" ng-model="rowEditData.room" class="table-input edit-input" ></div>
+									</li>
+									<li style="padding-bottom: 8px;">
+										<label style="width:25%;" class="lable-right">附加信息:</label>
+										<div><input type="text" ng-model="rowEditData.addons" class="table-input edit-input" ></div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="footer" style="text-align: right">
+						<button type="button" class="btn btn-shape btn-ls" ng-click="clearPartData();">清 空</button>
+						<button type="button" class="btn btn-shape btn-ls" ng-click="preItem();">上一条</button>
+						<button type="button" class="btn btn-shape btn-ls" ng-click="nextItem();">下一条</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 编辑界面详细弹出层 -->
 		<div class="div-float" ng-show="showImgInfo" drag style="height: 400px;width: 700px;">
 			<div class="fm-panel"  >
 				<div class="title">
