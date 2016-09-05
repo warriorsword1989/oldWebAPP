@@ -12,7 +12,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.workedFlag = 1; // 1待作业  2待提交
         $scope.editorLines = 2; //每页编辑的条数
         $scope.editorCurrentPage = 1; //当前编辑的页码
-        $scope.editAllDataList = []; //查询列表数据
+        $scope.tableDataList = new Array();//存储查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
         
@@ -46,7 +46,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             return html;
         }
         $scope.selectData = function (row,index){
-            var temp = $scope.tableParams.data;
+            var temp = $scope.tableDataList;
             var checkedArr = [];
             for (var i = 0 ,len = temp.length ;i < len ; i ++){
                 if(temp[i].checked){
@@ -57,10 +57,11 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             if(checkedArr.length > 0){
                 editorArr = checkedArr;
             } else {
-                editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
+                editorArr = $scope.tableDataList.slice(0,$scope.editorLines);
             }
             console.info(editorArr);
-            $scope.editAllDataList = $scope.tableParams.data;
+            $scope.batchWorkIsOpen = false;
+            $scope.batchParam.value = "";
             $scope.currentEditOrig = angular.copy(editorArr);
             $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
@@ -100,13 +101,8 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                     };
                     dsMeta.columnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
-                        // $scope.roadNameList = data.data;
-                        // _self.tableParams.total(data.total);
-                        // $defer.resolve(data.data);
-
                         var temp = new FM.dataApi.ColPoiList(data.data);
-                        console.info(temp);
-                        $scope.roadNameList = temp.dataList;
+                        $scope.tableDataList = new FM.dataApi.ColPoiList(data.data).dataList;
                         _self.tableParams.total(data.total);
                         $defer.resolve(temp.dataList);
                     });
@@ -117,7 +113,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         ngTableEventsChannel.onAfterReloadData(function() {
             $scope.tableParams.data.checkedAll = false;
             $scope.itemActive = -1;
-            angular.forEach($scope.tableParams.data, function(data, index) {
+            angular.forEach($scope.tableDataList, function(data, index) {
                 data.num_index = ($scope.tableParams.page() - 1) * $scope.tableParams.count() + index + 1;
                 data.checked = false;//默认增加checked属性
             });
@@ -179,7 +175,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         		swal("请先输入搜索内容", "", "info");
 				return;
         	}
-        	var temp = $scope.tableParams.data;
+        	var temp = $scope.tableDataList;
             var checkedArr = [];
             for (var i = 0 ,len = temp.length ;i < len ; i ++){
                 if(temp[i].checked){
@@ -190,15 +186,28 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             if(checkedArr.length > 0){
                 editorArr = checkedArr;
             } else {
-                editorArr = $scope.tableParams.data;
+                editorArr = $scope.tableDataList;
             }
-            console.log('--'+JSON.stringify(editorArr))
             var currentValue;
+            var resultArr = [];
             for(var item in editorArr){
             	currentValue = editorArr[item][$scope.batchParam.batchField].name;
                 if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
+                	resultArr.push(editorArr[item]);
     			}
     		}
+            if(resultArr.length == 0){
+            	swal("当前没有符合条件的数据", "", "info");
+            	return;
+            }
+            editorArr = resultArr;
+            
+            editorArr = resultArr.slice(0,$scope.editorLines);
+	        $scope.currentEditOrig = angular.copy(editorArr);
+	        $scope.currentEdited = angular.copy(editorArr);
+	        $scope.editPanelIsOpen = true;
+	        initEditorTable();
+            
         };
         /**************** 工具条end   ***************/
 
