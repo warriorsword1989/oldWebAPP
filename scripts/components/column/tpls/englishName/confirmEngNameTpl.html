@@ -1,4 +1,4 @@
-<div ng-controller="NameUnifyCtl">
+<div ng-controller="ConfirmEngNameCtl">
 	<script type="text/ng-template" id="headerCheckboxId">
 		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="_test();" class="select-all" />
 	</script>
@@ -48,9 +48,8 @@
 			</div>
 			<!-- 批量作业 -->
 			<div ng-show="batchWorkIsOpen">
-					<div class="div-float" style="top:80px;left:120px;border-radius:5px;" drag>
+					<div class="div-float" style="top:80px;left:120px;border-radius:5px;">
 				        <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
-				         <button type="button"  drag-handle class="close fa fa-arrows" style="padding:7px;font-size:16px;color:white;opacity:1;" title="拖拽"></button>
 				        <div class="fm-panel" style="margin:0px;width:330px;">
 				        <!-- <div style="border-bottom: 1px solid #ddd;"></div> -->
 						    <div class="fm-tabs" style="padding:0px;margin: 0px;">
@@ -100,7 +99,7 @@
 	<div ng-class="{true:'testView',false:'testViewHiden'}[editPanelIsOpen]">
 		<div class="fm-panel">
 			<div class="title">
-				<span style="cursor: pointer">名称统一</span>
+				<span style="cursor: pointer">人工确认英文名</span>
 				<button type="button" class="close" ng-click="closeEditPanel()" style="color: white;opacity: 1;margin: -4px 0px;"><span>&times;</span></button>
 			</div>
 			<div>

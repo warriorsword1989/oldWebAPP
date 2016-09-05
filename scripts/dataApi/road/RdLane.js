@@ -148,5 +148,5 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
  * @returns {.dataApi.rdNode}
  */
 fastmap.dataApi.rdLane = function (data, options) {
-    return new fastmap.dataApi.rdLane(data, options);
+    return new fastmap.dataApi.RdLane(data, options);
 }

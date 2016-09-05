@@ -1,7 +1,7 @@
 /**
- * Created by mali on 2016-08-09
+ * Created by mali on 2016-09-03
  */
-angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
+angular.module('app').controller('OfficalStandardEngNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
     function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
@@ -12,7 +12,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.workedFlag = 1; // 1待作业  2待提交
         $scope.editorLines = 2; //每页编辑的条数
         $scope.editorCurrentPage = 1; //当前编辑的页码
-        $scope.tableDataList = new Array();//存储查询列表数据
+        $scope.editAllDataList = []; //查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
         
@@ -23,16 +23,20 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
             { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "name12Chi", title: "官方原始名称",getValue:get11Names,show: true},
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:get12Names,show: true},
+            { field: "name11Chi", title: "官方标准中文名称",getValue:get11Names,show: true},
+            { field: "name12Eng", title: "原始英文名称",getValue:get12EngNames,show: true},
+            { field: "name11Eng", title: "官方标准英文名称",getValue:get11EngNames,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
         function get11Names($scope, row){
             return row.name11Chi.name;
         }
-        function get12Names($scope, row){
-        	return row.name12Chi.name;
+        function get12EngNames($scope, row){
+        	return row.name12Eng.name;
+        }
+        function get11EngNames($scope, row){
+        	return row.name11Eng.name;
         }
         function getFullName($scope, row){
             return row.addressChi.fullName;
@@ -46,7 +50,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             return html;
         }
         $scope.selectData = function (row,index){
-            var temp = $scope.tableDataList;
+            var temp = $scope.tableParams.data;
             var checkedArr = [];
             for (var i = 0 ,len = temp.length ;i < len ; i ++){
                 if(temp[i].checked){
@@ -57,11 +61,10 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             if(checkedArr.length > 0){
                 editorArr = checkedArr;
             } else {
-                editorArr = $scope.tableDataList.slice(0,$scope.editorLines);
+                editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
             }
             console.info(editorArr);
-            $scope.batchWorkIsOpen = false;
-            $scope.batchParam.value = "";
+            $scope.editAllDataList = $scope.tableParams.data;
             $scope.currentEditOrig = angular.copy(editorArr);
             $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
@@ -101,8 +104,13 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                     };
                     dsMeta.columnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
+                        // $scope.roadNameList = data.data;
+                        // _self.tableParams.total(data.total);
+                        // $defer.resolve(data.data);
+
                         var temp = new FM.dataApi.ColPoiList(data.data);
-                        $scope.tableDataList = new FM.dataApi.ColPoiList(data.data).dataList;
+                        console.info(temp);
+                        $scope.roadNameList = temp.dataList;
                         _self.tableParams.total(data.total);
                         $defer.resolve(temp.dataList);
                     });
@@ -113,7 +121,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         ngTableEventsChannel.onAfterReloadData(function() {
             $scope.tableParams.data.checkedAll = false;
             $scope.itemActive = -1;
-            angular.forEach($scope.tableDataList, function(data, index) {
+            angular.forEach($scope.tableParams.data, function(data, index) {
                 data.num_index = ($scope.tableParams.page() - 1) * $scope.tableParams.count() + index + 1;
                 data.checked = false;//默认增加checked属性
             });
@@ -175,7 +183,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         		swal("请先输入搜索内容", "", "info");
 				return;
         	}
-        	var temp = $scope.tableDataList;
+        	var temp = $scope.tableParams.data;
             var checkedArr = [];
             for (var i = 0 ,len = temp.length ;i < len ; i ++){
                 if(temp[i].checked){
@@ -186,28 +194,15 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             if(checkedArr.length > 0){
                 editorArr = checkedArr;
             } else {
-                editorArr = $scope.tableDataList;
+                editorArr = $scope.tableParams.data;
             }
+            console.log('--'+JSON.stringify(editorArr))
             var currentValue;
-            var resultArr = [];
             for(var item in editorArr){
             	currentValue = editorArr[item][$scope.batchParam.batchField].name;
                 if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
-                	resultArr.push(editorArr[item]);
     			}
     		}
-            if(resultArr.length == 0){
-            	swal("当前没有符合条件的数据", "", "info");
-            	return;
-            }
-            editorArr = resultArr;
-            
-            editorArr = resultArr.slice(0,$scope.editorLines);
-	        $scope.currentEditOrig = angular.copy(editorArr);
-	        $scope.currentEdited = angular.copy(editorArr);
-	        $scope.editPanelIsOpen = true;
-	        initEditorTable();
-            
         };
         /**************** 工具条end   ***************/
 
@@ -215,23 +210,34 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.editor = {};
         $scope.editor.editorCols = [
             { field: "num_index", title: "序号",show: true,width:'20px'},
-            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
-            { field: "kindCode", title: "分类",show: true,width:'50px'},
-            { field: "kindCode", title: "品牌名",show: true,width:'50px'},
-            { field: "name12Chi", title: "官方原始名称",getValue:get12Names,show: true,width:'80px'},
-            { field: "addressFullname", title: "父名称",getValue: getFullName, show: true,width:'50px'},
-            { field: "name11Chi", title: "标准中文名称",getValue: getName,html:true,show: true,width:'150px'},
+            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
+            { field: "name11Chi", title: "官方标准中文名称",getValue: get11Names,show: true,width:'120px'},
+            { field: "name12Eng", title: "原始英文名称",getValue: get12EngNames,show: true,width:'120px'},
+            { field: "name11Eng", title: "官方标准英文名称",getValue:getName,html:true,show: true,width:'150px'},
+            { field: "name11Eng", title: "字符数",getValue: get11EngNameLength,html:true,show: true,width:'30px'},
+            { field: "sourceFlag", title: "来源标识",html:true,getValue: sourceFlagSelect,show: true,width:'120px'},
             { field: "refMsg", title: "参考信息",show: true,width:'50px'},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true,width:'30px'}
         ];
 
         var html = "";
         if('CHI' == 'CHI'){ //测试用，大陆数据
-            html = "<input type='text' class='form-control input-sm table-input' title='{{row.name11Chi.name}}' value='row.name11Chi.name' ng-model='row.name11Chi.name' />";
+            html = "<input type='text' class='form-control input-sm table-input' title='{{row.name11Eng.name}}' value='row.name11Eng.name' ng-model='row.name11Eng.name' />";
         }
         function getName($scope,row){
         	return html;
         };
+        function get11EngNameLength($scope,row){
+        	if(row.name12Eng.name.length >45){
+        		return '<span class="wordColor">'+row.name11Eng.name.length+'<span>';
+        	}else{
+        		return '<span>'+row.name11Eng.name.length+'<span>';
+        	}
+        }
+        function sourceFlagSelect($scope, row){
+            var html = "<select ng-model='row[col.field]' class='form-control table-input' ng-options='value.id as value.label for value in sourceFlag'> </select>"
+            return html;
+         }
         function getDetails($scope,row){
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
