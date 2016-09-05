@@ -1701,6 +1701,14 @@ form input[type=checkbox].ng-dirty:before {
   z-index:-1;
   display: none;
 }
+.modelWindow{
+  top:0px;
+  z-index:1;
+  height: 100%;
+  width:100%;
+  background-color:#aaaaaa;
+  opacity: 0.6
+}
 .tablePosition{
   height: 100%;
   position: absolute;
@@ -1726,6 +1734,39 @@ form input[type=checkbox].ng-dirty:before {
 .wordColorWhite{
   color: white;
 }
+.lable-right{
+  text-align: right;
+  padding-right: 10px;
+}
+.edit-input{
+  border: 1px solid #ccc ;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  width: 90%;
+}
+//重新覆盖popover的样式
+.popover{
+  .popover-content{
+    padding:9px 8px;
+    input{
+      background-color: @bkground-color;
+      color: @white;
+    }
+  }
+  .popover-inner{
+    background-color: @bkground-color;
+    color: @white;
+    .popover-title{
+      background-color: @bkground-color;
+      color: @white;
+    }
+  }
+  .arrow{
+    &::after{
+      //border-bottom-color: @bkground-color !important;
+    }
+  }
 
 /*修改popover默认样式*/
 .popover{
@@ -1768,6 +1809,33 @@ form input[type=checkbox].ng-dirty:before {
     border-radius: 5px;
   }
 }
+<<<<<<< HEAD
+=======
+
+.fm-tab {
+  padding: 0 5px;
+  margin-bottom: 5px;
+  a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 2px;
+    display: inline-block;
+    text-align: center;
+    background-color: @dark-grey;
+    &:hover{
+      color: #fff;
+    }
+    &.active{
+      color: #fff;
+      border-bottom: 1px solid @black-to-white-8;
+      background-color: @bkground-color;
+      transition: all .3s;
+    }
+  }
+}
+
+>>>>>>> 1310be90a99b39b374b0aec3e32c61d350eea3bb
 /******************* 精编样式end *******************/
 
 .carousel-inner .item.active{

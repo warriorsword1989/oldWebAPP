@@ -9,13 +9,17 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 2; //每页编辑的条数
-        $scope.editorCurrentPage = 1; //当前编辑的页码
+        $scope.editLines = 2; //每页编辑的条数
+        $scope.editCurrentPage = 1; //当前编辑的页码
         $scope.editAllDataList = []; //查询列表数据
-        $scope.currentEditOrig = []; //当前编辑的数据原始值
+        $scope.currenteditig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
+        $scope.rowEditPanelShow = false; //行编辑面板显示状态
         $scope.costomWorkNumEum = [2,10,20,30];
+        $scope.editModelRadio = 2;//列表模式
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
+        $scope.editModelUrl = 'editModel.html';
+        $scope.batchFlag = 1;
 
         $scope.chageTabs = function (flag){
             $scope.workedFlag = flag;
@@ -32,7 +36,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             return row.name11Chi.name;
         }
         function getFullName($scope, row){
-            return row.addressChi.fullName;
+            return row.addressChi.fullname;
         }
         function getClassifyRules($scope, row){
             var type = row.classifyRules;
@@ -51,18 +55,18 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
                     checkedArr.push(temp[i]);
                 }
             }
-            var editorArr = [];
+            var editArr = [];
             if(checkedArr.length > 0){
-                editorArr = checkedArr;
+                editArr = checkedArr;
             } else {
-                editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
+                editArr = $scope.tableParams.data.slice(0,$scope.editLines);
             }
-            console.info(editorArr);
+            console.info(editArr);
             $scope.editAllDataList = $scope.tableParams.data;
-            $scope.currentEditOrig = angular.copy(editorArr);
-            $scope.currentEdited = angular.copy(editorArr);
+            $scope.currenteditig = angular.copy(editArr);
+            $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
-            initEditorTable();
+            initEditTable();
         };
 
         $scope.searchType = 'name';
@@ -122,6 +126,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             });
         });
         $scope.doCheckAll = function (){
+            console.info($scope.tableParams);
             var flag  = false;
             if($scope.tableParams.data.checkedAll){
                 flag = true;
@@ -148,20 +153,20 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
 
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
-            _self.editorTable.reload();
+            _self.editTable.reload();
         };
         $scope.saveData = function (){
             //获取改变的数据
-            var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
+            var chage = objCtrl.compareColumData($scope.currentEditig,$scope.currentEdited);
             console.info(chage);
             //调用接口
 
         };
         /**************** 工具条end   ***************/
 
-        /*******************  编辑页面begin  ****************/
-        $scope.editor = {};
-        $scope.editor.editorCols = [
+        /*******************  表格编辑页面begin  ****************/
+        $scope.edit = {};
+        $scope.edit.editCols = [
             { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'100'},
             { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true,width:'100'},
             { field: "province", title: "省名",getValue: getColName,html:true,show: true},
@@ -197,8 +202,8 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             return '<span class="badge pointer" ng-click="showView(row)">查看</span>';
         }
 
-        function initEditorTable() {
-            _self.editorTable = new NgTableParams({
+        function initEditTable() {
+            _self.editTable = new NgTableParams({
             }, {
                 counts:[],
                 dataset: $scope.currentEdited
@@ -234,13 +239,77 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             $scope.showImgInfo = false;
         };
 
+        $scope.changeEditModel = function (val){
+            $scope.editModelRadio = val;
+        };
 
-        /*******************  编辑页面end  ******************/
+
+        /*******************  表格编辑页面end  ******************/
+        /*******************  行编辑页面begin  ******************/
+        $scope.currentEditIndex = 0;
+
+        $scope.editRowData = function (row,index){
+            if($scope.editModelRadio == 2){ // 列表模式
+                return;
+            }
+            $scope.currentEditIndex = index;
+            $scope.rowEditPanelShow = true;
+            $scope.rowEditData = row.addressChi;
+            console.info($scope.rowEditData);
+        };
+        //清除18个字段
+        $scope.clearPartData = function(){
+            $scope.rowEditData.province = "";
+            $scope.rowEditData.city = "";
+            $scope.rowEditData.county = "";
+            $scope.rowEditData.town = "";
+            $scope.rowEditData.place = "";
+            $scope.rowEditData.street = "";
+            $scope.rowEditData.landmark = "";
+            $scope.rowEditData.prefix = "";
+            $scope.rowEditData.housenum = "";
+            $scope.rowEditData.type = "";
+            $scope.rowEditData.subnum = "";
+            $scope.rowEditData.subfix = "";
+            $scope.rowEditData.estab = "";
+            $scope.rowEditData.building = "";
+            $scope.rowEditData.floor = "";
+            $scope.rowEditData.unit = "";
+            $scope.rowEditData.room = "";
+            $scope.rowEditData.addons = "";
+        };
+        $scope.closeEditView = function (){
+            $scope.rowEditPanelShow = false;
+        };
+        $scope.nextItem = function (){
+            var count = $scope.currentEdited.length;
+            if($scope.currentEditIndex >= count-1){
+                swal("操作提示", '已经是最后一条了！', "warning");
+                return ;
+            }
+            if($scope.currentEditIndex < count-1 ){
+                $scope.currentEditIndex ++;
+            }
+            $scope.rowEditData = $scope.currentEdited[$scope.currentEditIndex].addressChi;
+        };
+        $scope.preItem = function (){
+            if($scope.currentEditIndex == 0){
+                swal("操作提示", '已经是第一条了！', "warning");
+                return ;
+            }
+            if($scope.currentEditIndex > 0){
+                $scope.currentEditIndex --;
+            }
+            $scope.rowEditData = $scope.currentEdited[$scope.currentEditIndex].addressChi;
+        };
+
+        /*******************  行编辑页面end  *******************/
+
 
         /*初始化方法*/
         function initPage(){
             initRoadNameTable();
-            //initEditorTable();
+            //initEditTable();
         }
         initPage();
     }
