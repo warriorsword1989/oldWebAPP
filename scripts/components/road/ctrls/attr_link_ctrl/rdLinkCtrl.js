@@ -25,8 +25,8 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 for (var i = 0; i < $scope.modelArray.length; i++) {
                     if (i == 4) {
                         //初始化鼠标提示
-                        $scope.toolTipText = '请选择方向！';
-                        toolTipsCtrl.setCurrentTooltip($scope.toolTipText);
+                        // $scope.toolTipText = '';
+                        // toolTipsCtrl.setCurrentTooltip($scope.toolTipText);
                         $scope.modelArray[i] = true;
                         map.currentTool.disable();
                     } else {
@@ -289,9 +289,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
                     }
-                    if (toolTipsCtrl.getCurrentTooltip()) {
-                        toolTipsCtrl.onRemoveTooltip();
-                    }
+                    // if (toolTipsCtrl.getCurrentTooltip()) {
+                    //     toolTipsCtrl.onRemoveTooltip();
+                    // }
                     editLayer.drawGeometry = null;
                     editLayer.clear();
                     shapeCtrl.stopEditing();

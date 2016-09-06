@@ -20,9 +20,9 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         if (typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
         }
-        if (tooltipsCtrl.getCurrentTooltip()) {
-            tooltipsCtrl.onRemoveTooltip();
-        }
+        // if (tooltipsCtrl.getCurrentTooltip()) {
+        //     tooltipsCtrl.onRemoveTooltip();
+        // }
         editLayer.drawGeometry = null;
         shapeCtrl.stopEditing();
         editLayer.bringToBack();
@@ -156,8 +156,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
         $scope.resetToolAndMap();
         //初始化鼠标提示
-        $scope.toolTipText = '请选择方向！';
-        tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+        // $scope.toolTipText = '';
+        // tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
         map.currentTool.disable();
     };
 

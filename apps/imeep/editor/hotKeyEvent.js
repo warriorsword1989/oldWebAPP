@@ -212,6 +212,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (outPutCtrl.updateOutPuts !== "") {
                         outPutCtrl.updateOutPuts();
                     }
+                    return;
                 } else {
                     var properties = shapeCtrl.shapeEditorResult.getProperties();
                     var showContent, ctrl, tpl, type;
