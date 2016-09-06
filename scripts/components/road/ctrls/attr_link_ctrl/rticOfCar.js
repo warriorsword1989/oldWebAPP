@@ -56,13 +56,5 @@ oridinaryInfoApp.controller("oridinaryCarController",['$scope','dsEdit',function
     if($scope.ordinaryCarForm) {
         $scope.ordinaryCarForm.$setPristine();
     }
-    $scope.$on('refreshPage',function(data){
-        $scope.realtimeData = objCtrl.data;
-        for(var i= 0,len=$scope.realtimeData.rtics.length;i<len;i++) {
-            if($scope.realtimeData.rtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
-                $scope.oridiData = $scope.realtimeData.rtics[i];
-            }
-        }
-    });
 
 }]);
