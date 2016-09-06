@@ -2102,7 +2102,7 @@ form input[type=checkbox].ng-dirty:before {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031761}}
 .popover .popover-inner .popover-content {
-  padding: 3px 15px;
+  padding: 0px 15px 10px 15px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031763}}
 .popover .popover-inner .popover-content form .form-group {

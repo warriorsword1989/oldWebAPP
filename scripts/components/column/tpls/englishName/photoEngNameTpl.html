@@ -41,12 +41,13 @@
                             <label>
                                 <input type="radio" name="selectNum" id="optionsRadios1" ng-checked="selectedNum==item.num" ng-click="selectNum(item)"> <span ng-bind="item.desc"></span>
                             </label>
-                            <div ng-if="(selectedNum==item.num||(selectedNum!=10&&selectedNum!=20&&selectedNum!=30))&&$index==3" class="input-group" style="margin-top: 15px">
-                                <input class="form-control selectNumInput" ng-model="item.num" type="text" >
+                        </div>
+                        <!--自定义输入框部分-->
+                        <div ng-if="(selectedNum==item.num)&&$last" class="input-group">
+                            <input class="form-control selectNumInput" ng-model="item.num" type="text" >
                                 <span class="input-group-btn">
                                     <button ng-click="setInputValue(item.num)" class="btn btn-default" type="button">确认</button>
                                 </span>
-                            </div>
                         </div>
                     </div>
                 </form>
