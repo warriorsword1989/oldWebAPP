@@ -73,8 +73,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.showDetail = function (type, index) {
 		var tempCtr = '', tempTepl = '', detailInfo = {};
 		if (type == 'name') {
-			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgateNameCtrl';
-			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgateNameTpl.html';
+			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateNameCtrl';
+			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateNameTpl.html';
 			detailInfo = {
 				"loadType": "subAttrTplContainer",
 				"propertyCtrl": tempCtr,
@@ -83,8 +83,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			};
 			objCtrl.namesInfo = $scope.tollGateData.names[index];
 		} else {
-			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollgatePassageCtrl';
-			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_Tpl/tollgatePassageTpl.html';
+			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
+			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGatePassageTpl.html';
 			detailInfo = {
 				"loadType": "subAttrTplContainer",
 				"propertyCtrl": tempCtr,

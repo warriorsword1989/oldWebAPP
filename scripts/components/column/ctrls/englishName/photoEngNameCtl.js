@@ -15,7 +15,6 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.onlineCheck = false;
         $scope.progressValue = 0;
         $scope.selectedNum = 10;
-        //$scope.inputValue = 0;
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
         $scope.batchWorkIsOpen = false;
@@ -87,7 +86,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
             var timer = setInterval(function(){
                 if($(".content .dark > div").get(0)){
                     $('.content').append($(".content .dark > div"));
-                    $(".content > div").eq(1).css('padding','0 10px');
+                    $(".content > div").eq(2).css('padding','0 10px');
                     clearInterval(timer);
                 }
             },30)
@@ -107,17 +106,25 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.changeTaskStatus = function(params){
             $scope.currentTabIndex = params;
         }
-        //
+        //设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function(params,arg2){
             $scope.inputIsShow = arg2==3?true:false;
             $scope.costomWorkNumEum[3].num = '';
             $scope.selectedNum = params.num;
         }
+        /*设置每次作业的条数*/
         $scope.setInputValue = function(params){
-            $scope.selectedNum = params;
+            $scope.costomWorkNumEum[3].num = parseInt(params);
+            if(params<=0){
+                alert('必须大于零的整数!');
+                return;
+            }else{
+                $scope.selectedNum = parseInt(params);
+            }
             $scope.popoverIsOpen = false;
         }
-        //batch work
+
+        /*---------------------------------------批处理部分---------------------------------------*/
         $scope.batchParam = {
             value : "",
             batchField : ""
@@ -125,10 +132,9 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         var replaceOpt = [
             {"id": "name12Chi", "label": "原始英文名称"}
         ];
-
         var searchOpt = [
-            {"id": "name12Chi", "label": "官方标准中文名称"},
-            {"id": "name11Chi", "label": "原始英文名称"}
+            {"id": "name11Chi", "label": "官方标准中文名称"},
+            {"id": "name12Chi", "label": "原始英文名称"}
         ];
         $scope.batchTabs = function(flag){
             $scope.batchFlag = flag;
@@ -154,8 +160,8 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.cancle = function(){
             $scope.closeBatchModal();
         };
-        //batch work
-        //在线检查;
+
+        /*----------------------------------------------在线检查;----------------------------------------------*/
         $scope.startOnlineCheck = function(){
             $scope.onlineCheck = true;
             $scope.showLoading = true;

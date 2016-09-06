@@ -56,5 +56,26 @@ angular.module("dataService").service("dsColumn", ["$http", "$q", "ajax", functi
     };
 
 
+    /*作业数据查询(待作业、待提交)*/
+    this.columnDataList = function(params) {
+        var defer = $q.defer();
+        var params = {
+            "taskId":params.subtaskId,
+            "type":params.type,
+            "secondWorkItem":params.secondWorkItem,
+            "status":params.status
+        }
+        ajax.get("editcolumn/poi/deep/columnQuery", params).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("获取数据列表异常：", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 
 }]);
