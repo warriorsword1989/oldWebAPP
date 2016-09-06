@@ -468,6 +468,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
 				$scope.$broadcast('refreshTollgatePassage', {});
 			}
+			if (data['data'] && data['data'].geoLiveType == 'RDLANECONDITION') {
+				$scope.$broadcast('refreshLaneCondition', {});
+			}
 			//刷新二级菜单
 			if (data["type"] == "refreshPage") {
 				$scope.$broadcast('refreshPage', {});

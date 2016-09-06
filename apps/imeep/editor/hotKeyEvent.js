@@ -212,7 +212,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (outPutCtrl.updateOutPuts !== "") {
                         outPutCtrl.updateOutPuts();
                     }
-                    return;
                 } else {
                     var properties = shapeCtrl.shapeEditorResult.getProperties();
                     var showContent, ctrl, tpl, type;
@@ -1318,6 +1317,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
+                    objEditCtrl.memo = featCodeCtrl.getFeatCode();
                     objEditCtrl.setCurrentObject('RDLANE', data);
                     ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
                     	scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";

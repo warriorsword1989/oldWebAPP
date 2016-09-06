@@ -18,7 +18,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
 		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr,$scope.radioDefaultVal,$scope.pCreatradio; //用于存储拼音多音字
 		$scope.nameType = App.Util.getUrlParam("workItem");
-		$scope.subTaskId = 22;
+		App.Temp.dbId = 22 , $scope.groupId = 11; //测试数据
 
 
 		$scope.menus = {
@@ -148,10 +148,18 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				}
 			});
 		};
-		//
+		//申请数据
 		$scope.applyData = function (){
-			dsColumn.applyPoi($scope.subTaskId,$scope.firstWorkItem).then(function (data){
-
+			$scope.showLoading = true;
+			dsColumn.applyPoi($scope.firstWorkItem,$scope.groupId).then(function (data){
+				$scope.showLoading = false;
+			});
+		};
+		//提交数据
+		$scope.submitData = function (){
+			$scope.showLoading = true;
+			dsColumn.submitData($scope.firstWorkItem).then(function (data){
+				$scope.showLoading = false;
 			});
 		};
 
