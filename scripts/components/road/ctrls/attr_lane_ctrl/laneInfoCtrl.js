@@ -96,6 +96,8 @@ angular.module("app").controller("LaneInfoCtl", ['$scope', 'dsEdit' ,'dsMeta','$
 					$timeout(function(){
 							$scope.fmdateTimer($scope.laneCondition.directionTime);
 							$scope.$broadcast('set-code',$scope.laneCondition.directionTime);
+							$scope.carFmdateTimer($scope.laneCondition.vehicleTime);
+							$scope.$broadcast('set-code',$scope.laneCondition.vehicleTime);
 							$scope.$apply();
 					},100);
 			});
@@ -108,6 +110,16 @@ angular.module("app").controller("LaneInfoCtl", ['$scope', 'dsEdit' ,'dsMeta','$
 			$timeout(function(){
 					$scope.$broadcast('set-code',str);
 					$scope.laneCondition.directionTime = str;
+					$scope.$apply();
+			},100);
+	};
+	$scope.carFmdateTimer = function(str){
+			$scope.$on('get-date', function(event,data) {
+					$scope.laneCondition.vehicleTime = data;
+			});
+			$timeout(function(){
+					$scope.$broadcast('set-code',str);
+					$scope.laneCondition.vehicleTime = str;
 					$scope.$apply();
 			},100);
 	};

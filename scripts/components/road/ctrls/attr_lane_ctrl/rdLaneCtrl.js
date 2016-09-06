@@ -48,71 +48,76 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdi
     $scope.initializeData = function(){
         // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.clmData = objCtrl.data;
-        $scope.clmData = {
-          linkPids:['123','234','567'],
-          laneDir:2,
-          laneInfos:[
-             fastmap.dataApi.rdLane({
-              pid:100000159,
-              seqNum:1,
-              arrowDir:'o',
-              laneType:3,
-              laneForming:3,
-              conditions:[
-                {
-                  lanePid:432112,
-                  viaLinkPid:56432,
-                  groupId:1,
-                  seqNum:1
-                },
-                {
-                  lanePid:432112,
-                  viaLinkPid:56432,
-                  groupId:1,
-                  seqNum:1
-                }
-              ]
-            }),
-            fastmap.dataApi.rdLane({
-              pid:100000160,
-              seqNum:2,
-              arrowDir:'e',
-              conditions:[
-                {
-                  lanePid:432112,
-                  viaLinkPid:56432,
-                  groupId:1,
-                  seqNum:1
-                },
-                {
-                  lanePid:432112,
-                  viaLinkPid:56432,
-                  groupId:1,
-                  seqNum:1
-                }
-              ]
-            }),
-            fastmap.dataApi.rdLane({
-              pid:100000161,
-              seqNum:3,
-              arrowDir:'a',
-              conditions:[
-                {
-                  lanePid:432112,
-                  viaLinkPid:56432,
-                  groupId:1,
-                  seqNum:1
-                },
-                {
-                  lanePid:432112,
-                  viaLinkPid:56432,
-                  groupId:1,
-                  seqNum:1
-                }
-              ]
-            })
-          ]
-        };
+        // $scope.clmData = {
+        //   linkPids:objCtrl.memo.links,
+        //   laneDir:objCtrl.memo.laneDir,
+        //   laneInfos:objCtrl.data
+        // };
+        // $scope.clmData = {
+        //   linkPids:['123','234','567'],
+        //   laneDir:2,
+        //   laneInfos:[
+        //      fastmap.dataApi.rdLane({
+        //       pid:100000159,
+        //       seqNum:1,
+        //       arrowDir:'o',
+        //       laneType:3,
+        //       laneForming:3,
+        //       conditions:[
+        //         {
+        //           lanePid:432112,
+        //           viaLinkPid:56432,
+        //           groupId:1,
+        //           seqNum:1
+        //         },
+        //         {
+        //           lanePid:432112,
+        //           viaLinkPid:56432,
+        //           groupId:1,
+        //           seqNum:1
+        //         }
+        //       ]
+        //     }),
+        //     fastmap.dataApi.rdLane({
+        //       pid:100000160,
+        //       seqNum:2,
+        //       arrowDir:'e',
+        //       conditions:[
+        //         {
+        //           lanePid:432112,
+        //           viaLinkPid:56432,
+        //           groupId:1,
+        //           seqNum:1
+        //         },
+        //         {
+        //           lanePid:432112,
+        //           viaLinkPid:56432,
+        //           groupId:1,
+        //           seqNum:1
+        //         }
+        //       ]
+        //     }),
+        //     fastmap.dataApi.rdLane({
+        //       pid:100000161,
+        //       seqNum:3,
+        //       arrowDir:'a',
+        //       conditions:[
+        //         {
+        //           lanePid:432112,
+        //           viaLinkPid:56432,
+        //           groupId:1,
+        //           seqNum:1
+        //         },
+        //         {
+        //           lanePid:432112,
+        //           viaLinkPid:56432,
+        //           groupId:1,
+        //           seqNum:1
+        //         }
+        //       ]
+        //     })
+        //   ]
+        // };
         $scope.laneLength = $scope.clmData.laneInfos.length;
         $scope.laneIndex = 0;
         $scope.refreshLaneData();
@@ -126,6 +131,9 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdi
       } else {
         $scope.laneStyle = {width:_width,top:'auto',position:'relative'};
       }
+      for(var i=0,len=$scope.clmData.laneInfos.length;i<len;i++){
+        $scope.clmData.laneInfos[i].seqNum = i+1;
+      }
       $scope.laneLength = $scope.clmData.laneInfos.length;
       $scope.selectLaneActive = -1;
       $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
@@ -133,11 +141,21 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdi
     };
     $scope.initializeData();
     $scope.refreshData = function () {
-        dsEdit.getByPid(parseInt($scope.clmData.pid), "RDLANE").then(function(data){
-        	if (data) {
-                objCtrl.setCurrentObject("RDSE", data);
-                $scope.initializeData();
+        var param = {
+            "type": "RDLANE",
+            "dbId": App.Temp.dbId,
+            "data": {
+                linkPid:$scope.clmData.linkPids[0],
+                laneDir:$scope.clmData.laneDir
             }
+        };
+        dsEdit.getByCondition(param).then(function(data) {
+          objCtrl.setCurrentObject('RDLANE', {
+            linkPids:$scope.clmData.links,
+            laneDir:$scope.clmData.laneDir,
+            laneInfos:data.data
+          });
+          $scope.initializeData();
         });
     };
     // 车道总数修改
@@ -185,10 +203,10 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdi
         $('body .carTypeTip:last').fadeOut(300);
       }
       $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
-      $scope.$emit('SWITCHCONTAINERSTATE', {
-        'subAttrContainerTpl': false,
-        'attrContainerTpl': true
-      });
+      // $scope.$emit('SWITCHCONTAINERSTATE', {
+      //   'subAttrContainerTpl': false,
+      //   'attrContainerTpl': true
+      // });
     };
     // 选择车道方向
     $scope.selectLaneDir = function (dir,index) {
@@ -275,16 +293,16 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdi
         $scope.$emit("transitCtrlAndTpl", laneInfo);
     };
     $scope.save = function(){
-        objCtrl.save();
-        if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
-            return ;
-        }
+        // objCtrl.save();
+        // if(!objCtrl.changedProperty){
+        //     swal("操作成功",'属性值没有变化！', "success");
+        //     return ;
+        // }
         var param = {
-            "command": "UPDATE",
+            "command": "BATCH",
             "type": "RDLANE",
             "dbId": App.Temp.dbId,
-            "data": objCtrl.changedProperty
+            "data": $scope.clmData
         };
         dsEdit.save(param).then(function (data) {
             if (data) {
@@ -300,19 +318,21 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdi
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
-                swal("操作成功", "修改分叉口提示成功！", "success");
+                swal("操作成功", "操作详细车道编辑成功！", "success");
             }
             $scope.refreshData();
         });
     };
 
     $scope.delete = function(){
-        var objId = parseInt($scope.clmData.pid);
         var param = {
             "command": "DELETE",
             "type": "RDLANE",
             "dbId": App.Temp.dbId,
-            "objId": objId
+            "data": {
+              linkPid:$scope.clmData.linkPids[0],
+              laneDir:$scope.clmData.laneDir
+            }
         };
         dsEdit.save(param).then(function (data) {
             var info = null;

@@ -2074,9 +2074,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                       };
                       dsEdit.getByCondition(param).then(function(data){
                         $scope.linkArray = data.data;
-                        $scope.laneInfo.links = data.data;
                         for(var i=0,len=data.data.length;i<len;i++){
-                          // $scope.linkArray.push(data.data[i].pid);
+                          $scope.laneInfo.links.push(parseInt(data.data[i].pid));
                           if(i === 0) {
                             highLightFeatures.push({
                                 id: data.data[i].pid.toString(),
@@ -2138,6 +2137,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     $scope.chargeTrackLink = function(linkObj){
                       highRenderCtrl._cleanHighLight();
                       highLightFeatures = [];
+                      $scope.laneInfo.links = [];
                       for(var j=0,le=$scope.linkArray.length;j<le;j++){
                         if($scope.linkArray[j].pid == parseInt(linkObj.pid)){
                             $scope.linkArray.splice(j,$scope.linkArray.length-j+1);
@@ -2159,6 +2159,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             }
                           }
                         }
+                      }
+                      for(var i=0,len=$scope.linkArray.length;i<len;i++){
+                          $scope.laneInfo.links.push(parseInt($scope.linkArray[i].pid));
                       }
                       $scope.linkHighLight();
                     }

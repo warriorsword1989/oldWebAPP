@@ -18,7 +18,6 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.lanePid = data['lanePid'];
         this.linkPid = data["linkPid"];
         this.laneNum = data["laneNum"] || 1;
         this.travelFlag = data["travelFlag"] || 0;
@@ -44,9 +43,6 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
         this.centerDivider = data["centerDivider"] || 0;
         this.speedFlag = data["speedFlag"] || 0;
         this.srcFlag = data["srcFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || null;
-        this.uDate = data["uDate"] || null;
         this.rowId = data["rowId"] || null;
         this.conditions = [];
         if(data["conditions"] && data["conditions"].length > 0){
@@ -66,7 +62,6 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot:function() {
         var data = {};
         data["pid"] = this.pid;
-        data["lanePid"] = this.lanePid;
         data["linkPid"] = this.linkPid;
         data["laneNum"]  = this.laneNum;
         data["travelFlag"]  = this.travelFlag;
@@ -88,9 +83,6 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
         data["centerDivider"] = this.centerDivider;
         data["speedFlag"] = this.speedFlag;
         data["srcFlag"] = this.srcFlag;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
         data["conditions"] = [];
         for (var i = 0; i < this.conditions.length; i++) {
@@ -109,7 +101,6 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function() {
         var data = {};
         data["pid"] = this.pid;
-        data["lanePid"] = this.lanePid;
         data["linkPid"] = this.linkPid;
         data["laneNum"]  = this.laneNum;
         data["travelFlag"]  = this.travelFlag;
@@ -131,9 +122,6 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
         data["centerDivider"] = this.centerDivider;
         data["speedFlag"] = this.speedFlag;
         data["srcFlag"] = this.srcFlag;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
         data["conditions"] = [];
         for (var i = 0; i < this.conditions.length; i++) {

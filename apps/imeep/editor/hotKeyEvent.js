@@ -1318,7 +1318,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
                     objEditCtrl.memo = featCodeCtrl.getFeatCode();
-                    objEditCtrl.setCurrentObject('RDLANE', data);
+                    objEditCtrl.setCurrentObject('RDLANE', {
+                      linkPids:featCodeCtrl.getFeatCode().links,
+                      laneDir:featCodeCtrl.getFeatCode().laneDir,
+                      laneInfos:data.data
+                    });
                     ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
                     	scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
                     });
