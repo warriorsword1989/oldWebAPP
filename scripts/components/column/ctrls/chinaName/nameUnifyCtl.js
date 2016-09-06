@@ -138,7 +138,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         	value : "",
         	batchField : ""
         };
-        var replaceOpt = [
+        $scope.replaceOpt = [
             {"id": "name12Chi", "label": "官方标准中文名称"}
         ];
         		
@@ -149,7 +149,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.batchTabs = function(flag){
         	$scope.batchFlag = flag;
         	if(1 == flag){
-        		$scope.batchOpt = replaceOpt;
+        		$scope.batchOpt = $scope.replaceOpt;
         		$scope.batchParam.batchField = "name12Chi";
         		$scope.extractEle = true;
         		$scope.searchBtn = false;
@@ -276,6 +276,12 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         };
         $scope.closeView = function (){
             $scope.showImgInfoo = false;
+        };
+        $scope.editBatchWord = function(){
+        	$scope.editBatchWorkIsOpen = true;
+        };
+        $scope.closeEditBatchModal = function(){
+        	$scope.editBatchWorkIsOpen = false;
         };
         /*******************  编辑页面end  ******************/
 

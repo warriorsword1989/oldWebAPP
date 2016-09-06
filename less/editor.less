@@ -1745,38 +1745,64 @@ form input[type=checkbox].ng-dirty:before {
   border-radius: 3px;
   width: 90%;
 }
-//重新覆盖popover的样式
+/*修改popover默认样式*/
 .popover{
-  .popover-content{
-    padding:9px 8px;
-    input{
-      background-color: @bkground-color;
-      color: @white;
-    }
-  }
+  width: 160px;
+  background-color: transparent;
   .popover-inner{
-    background-color: @bkground-color;
-    color: @white;
-    .popover-title{
-      background-color: @bkground-color;
       color: @white;
-    }
+      background: #333;
+      h3{
+        color: @white;
+        font-weight: bold;
+        font-size: 14px;
+        background: #333;
+      }
+      .popover-content{
+          padding: 0px 15px 10px 15px;
+          form .form-group{
+            margin-bottom: 0px;
+            label span{
+                font-size: 12px;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+            input[type='text']{
+                height: 30px;
+                color: white;
+                background: #333;
+                text-indent: 5px;
+            }
+            .input-group-btn button{
+                padding: 4px 12px;
+            }
+          };
+      }
   }
-  .arrow{
-    &::after{
-      //border-bottom-color: @bkground-color !important;
-    }
-  }
-
 }
+.popover.bottom > .arrow:after{
+    top: 2px;
+    opacity: 0.9;
+    border-bottom-color:#333;
+}
+.fade.in{
+  opacity: 0.9;
+}
+/*
+
 .custom-popover{
-  width: 120px;
   padding-left: 6px;
   input{
     height: 28px;
-    padding-left: 6px;
+    color: white;
+    background: #333;
+    border: 1px solid #ccc;
+    text-indent: 5px;
+    border-radius: 5px;
   }
 }
+*/
+
 
 .fm-tab {
   padding: 0 5px;
