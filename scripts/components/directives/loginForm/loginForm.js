@@ -28,12 +28,6 @@ angular.module('fastmap.uikit').directive('login', function($timeout) {
                     remember: $scope.rememberMe
                 });
             }
-            var timer = setInterval(function(){
-                if($scope.myForm.$invalid==true){
-                    $scope.myForm.$invalid = !$scope.myForm.$invalid;
-                    clearInterval(timer)
-                }
-            },300)
         },
         link: function(scope, element, attrs) {
             scope.showInputError = false;

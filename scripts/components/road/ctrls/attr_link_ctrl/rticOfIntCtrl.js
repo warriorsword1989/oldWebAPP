@@ -90,50 +90,29 @@ oridinaryInfoApp.controller("oridinaryRticsController",['$scope','dsEdit',functi
 
     };
 
-    if($scope.realtimeData.direct!=1){
-        if($scope.oridiData) {
-            if($scope.realtimeData.direct==3){
-                $scope.oridiData.rticDr = 2;
-                $scope.changeDirect(2);
-            }else if($scope.realtimeData.direct==2){
-                $scope.oridiData.rticDr = 1;
-                $scope.changeDirect(1);
-            }
-
-        }
-
-    }else{
-        if($scope.oridiData){
-            $scope.oridiData.rticDr=1;
-            $scope.changeDirect(1);
-        }
-
-    }
+    // if($scope.realtimeData.direct!=1){
+    //     if($scope.oridiData) {
+    //         if($scope.realtimeData.direct==3){
+    //             $scope.oridiData.rticDr = 2;
+    //             $scope.changeDirect(2);
+    //         }else if($scope.realtimeData.direct==2){
+    //             $scope.oridiData.rticDr = 1;
+    //             $scope.changeDirect(1);
+    //         }
+    //
+    //     }
+    //
+    // }else{
+    //     if($scope.oridiData){
+    //         $scope.oridiData.rticDr=1;
+    //         $scope.changeDirect(1);
+    //     }
+    //
+    // }
     //添加新的RTIC代码
     $scope.addRticCode=function(){
-        dsEdit.applyPid("rtic", function (data) {
-            if (data!= -1) {
-                $scope.oridiData.code=data.data;
-                $scope.$apply();
-            }
+        dsEdit.applyPid("rtic").then(function (data) {
+            $scope.oridiData.code=data.data;
         });
-    }
-    $scope.$on('refreshPage',function(data){
-        $scope.realtimeData = objCtrl.data;
-        for(var i= 0,len=$scope.realtimeData.intRtics.length;i<len;i++) {
-            if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
-                $scope.oridiData = $scope.realtimeData.intRtics[i];
-                $scope.rank= $scope.oridiData.rank;
-
-                for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
-                        $scope.isupDirect=layerCtrl.layers[layer].options.isUpDirect;
-                    }
-                }
-                if($scope.oridiData.rank==0){
-                    swal("", "RTIC等级不能为无，请选择RTIC等级", "");
-                }
-            }
-        }
-    });
+    };
 }]);

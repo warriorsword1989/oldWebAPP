@@ -5,8 +5,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 	poi: "scripts/components/poi/",
 	column: "scripts/components/column/",
 	tool: "scripts/components/tools/"
-}).controller('ColEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
-	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
+}).controller('ColEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsColumn', 'dsManage', '$q', 'appPath', '$timeout',
+	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsColumn, dsManage, $q, appPath, $timeout) {
 		var eventCtrl = new fastmap.uikit.EventController();
 		$scope.showLoading = true;
 		$timeout(function (){
@@ -17,8 +17,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
 		$scope.radioDefaultValRoad,$scope.radioDefaultValAddr,$scope.radioDefaultVal,$scope.pCreatradio; //用于存储拼音多音字
+		$scope.nameType = App.Util.getUrlParam("workItem");
+		$scope.subTaskId = 22;
 
-		
+
 		$scope.menus = {
 			'chinaName':'中文名称',
 			'chinaAddress':'中文地址',
@@ -43,15 +45,19 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 //		$scope.nameType = 'chinaAddress'; //默认显示中文地址
 //		$scope.menuSelectedId = 'addrSplit';
 
-		$scope.nameType = App.Util.getUrlParam("workItem");
+
 		if($scope.nameType == 'chinaAddress'){
 			$scope.menuSelectedId = 'addrSplit';
+			$scope.firstWorkItem = "poi_address";
 		}else if($scope.nameType == 'chinaName'){
 			$scope.menuSelectedId = 'nameUnify';
+			$scope.firstWorkItem = "poi_name";
 		}else if($scope.nameType == 'englishName'){
             $scope.menuSelectedId = 'photoEngName';
+			$scope.firstWorkItem = "poi_englishname";
         }else if($scope.nameType == 'englishAddress'){
 			$scope.menuSelectedId = 'importantEngAddress';
+			$scope.firstWorkItem = "poi_englishaddress";
 		}
 
 
@@ -121,11 +127,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}	
 		};
 
-		$scope.initPage = function (){
-			$scope.changeMenu($scope.menuSelectedId);
-		};
-		$scope.initPage();
-
 		$scope.initMate = function (){
 			// 查询全部的小分类数据
 			var param = {
@@ -147,6 +148,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				}
 			});
 		};
+		//
+		$scope.applyData = function (){
+			dsColumn.applyPoi($scope.subTaskId,$scope.firstWorkItem).then(function (data){
+
+			});
+		};
+
 
 
 		$scope.replaceVal = function(targetVal){
@@ -390,8 +398,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		/**
          * 来源标识对象数组
          */
-        $scope.sourceFlag = 
-        	[{"id":"002000010000","label":"采集"},
+        $scope.sourceFlag = [
+			{"id":"002000010000","label":"采集"},
             {"id":"002000020000","label":"官网"},
             {"id":"002000030000","label":"非官网+人工"},
             {"id":"002000040000","label":"专项改善"},
@@ -399,14 +407,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
             {"id":"002000060000","label":"人工确认"},
             {"id":"002000070000","label":"代理店"},
             {"id":"002000080000","label":"已训练关键词翻译程序"},
-            {"id":"002000090000","label":"程序翻译"}];
+            {"id":"002000090000","label":"程序翻译"}
+		];
+
 		$scope.initPage = function (){
 			$scope.initMate();
 			$scope.changeMenu($scope.menuSelectedId);
-
 		};
 		$scope.initPage();
-
 
 	}
 ]);

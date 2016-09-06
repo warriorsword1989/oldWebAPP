@@ -273,6 +273,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     // 表单验证
     function validateForm() {
         var flag = true;
+
+        var pc = objectCtrl.data.postCode;
+        if (pc && !/^(\d){6}$/.test(pc)) {
+            swal("保存提示", '邮政编码应为6位数字，请检查！', "warning");
+            return false;
+        }
+
         var contacts = objectCtrl.data.contacts;
         for (var i = 0,len = contacts.length; i<len;i++){
             if(contacts[i].contactType == 2){ //手机

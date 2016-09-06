@@ -20,9 +20,9 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         if (typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
         }
-        if (tooltipsCtrl.getCurrentTooltip()) {
-            tooltipsCtrl.onRemoveTooltip();
-        }
+        // if (tooltipsCtrl.getCurrentTooltip()) {
+        //     tooltipsCtrl.onRemoveTooltip();
+        // }
         editLayer.drawGeometry = null;
         shapeCtrl.stopEditing();
         editLayer.bringToBack();
@@ -99,29 +99,45 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
             }
 
         }
-    }
+    };
 
     $scope.showRticsInfo= function (item) {
         $scope.linkData["oridiRowId"] = item.rowId;
-        var showRticsInfoObj = {
-            "type":"refreshPage",
+
+        var showRticsInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
-        }
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var rticObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfIntTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", rticObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
-    }
+    };
 
     $scope.showCarInfo = function (cItem) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
-        var showCarInfoObj = {
-            "type":"refreshPage",
+
+        var showCarInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfCar',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'
-        }
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var rticObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/rticOfCar',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/rticOfCarTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", rticObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", showCarInfoObj);
-    }
+    };
 
 
     $scope.changeColor = function (ind, ord) {
@@ -130,14 +146,14 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         } else {
             $("#carSpan" + ind).css("color", "#FFF");
         }
-    }
+    };
     $scope.backColor = function (ind, ord) {
         if (ord == 1) {
             $("#rticSpan" + ind).css("color", "darkgray");
         } else {
             $("#carSpan" + ind).css("color", "darkgray");
         }
-    }
+    };
 
 
     $scope.intitRticData = function () {
@@ -156,8 +172,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
         $scope.resetToolAndMap();
         //初始化鼠标提示
-        $scope.toolTipText = '请选择方向！';
-        tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+        // $scope.toolTipText = '';
+        // tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
         map.currentTool.disable();
     };
 
@@ -168,4 +184,4 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         $scope.intitRticData();
     };
 
-})
+});

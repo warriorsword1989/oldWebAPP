@@ -9,7 +9,6 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
     setAttributes: function(data) {
         this.pid = data['pid'];
         this.rowId = data['rowId'] || "";
-        this.pid = data['pid'];
         this.kindCode = data['kindCode'] || null;
         this.classifyRules = data['classifyRules'];
         this.refMsg = data['refMsg'];

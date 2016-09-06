@@ -117,7 +117,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             }
         }).error(function(rejection) {
             defer.reject(rejection);
-        })
+        });
         return defer.promise;
     };
     /*****************-------------------------------道路相关----------------------------************************/

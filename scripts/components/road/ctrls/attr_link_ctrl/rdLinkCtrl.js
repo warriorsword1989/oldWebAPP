@@ -20,13 +20,14 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     $scope.modelArray = [false, false, false, false, false, false];
     //改变模块的背景
     $scope.initializeLinkData = function() {
+        $scope.changeModule('basicModule',0)
         for (var layer in layerCtrl.layers) {
             if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[layer].options.visible) {
                 for (var i = 0; i < $scope.modelArray.length; i++) {
                     if (i == 4) {
                         //初始化鼠标提示
-                        $scope.toolTipText = '请选择方向！';
-                        toolTipsCtrl.setCurrentTooltip($scope.toolTipText);
+                        // $scope.toolTipText = '';
+                        // toolTipsCtrl.setCurrentTooltip($scope.toolTipText);
                         $scope.modelArray[i] = true;
                         map.currentTool.disable();
                     } else {
@@ -102,10 +103,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
             point: pointOfSelect
         });
     };
-    //初始化controller调用
-    if (objectCtrl.data) {
-        $scope.initializeLinkData();
-    }
+
     //获取某个模块的信息
     $scope.changeModule = function(url, ind) {
         for (var i = 0; i < $scope.modelArray.length; i++) {
@@ -151,7 +149,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         }
         $scope.$emit("SWITCHCONTAINERSTATE", {
             "subAttrContainerTpl": false
-        })
+        });
         if (url === "basicModule") {
             $ocLazyLoad.load('scripts/components/road/ctrls/attr_link_ctrl/basicCtrl').then(function() {
                 $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/basicTpl.html";
@@ -177,7 +175,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 $scope.currentURL = "../../../scripts/components/road/tpls/attr_link_tpl/speedTpl.html";
             });
         }
-    }
+    };
     $scope.angleOfLink = function(pointA, pointB) {
         var PI = Math.PI,
             angle;
@@ -223,6 +221,10 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
+    //初始化controller调用
+    if (objectCtrl.data) {
+        $scope.initializeLinkData();
+    }
     $scope.save = function() {
         if(!$scope.linkData){
             return;
@@ -289,9 +291,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
                     }
-                    if (toolTipsCtrl.getCurrentTooltip()) {
-                        toolTipsCtrl.onRemoveTooltip();
-                    }
+                    // if (toolTipsCtrl.getCurrentTooltip()) {
+                    //     toolTipsCtrl.onRemoveTooltip();
+                    // }
                     editLayer.drawGeometry = null;
                     editLayer.clear();
                     shapeCtrl.stopEditing();
