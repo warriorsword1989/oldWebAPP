@@ -34,7 +34,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'130px', sortable: "classifyRules11"},
             { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'130px', sortable: "kind"},
             { field: "name11Chi", title: "官方标准中文名称",getValue:get11ChiNames,show: true, sortable: "name11Chi"},
-            { field: "name12Chi", title: "原始英文名称",getValue:get12EngNames,show: true, sortable: "name12Chi"},
+            { field: "name12Eng", title: "原始英文名称",getValue:get12EngNames,show: true, sortable: "name12Eng"},
             { field: "pid", title: "PID",show: false,width:'100px', sortable: "pid"}
         ];
         /*--------------------------格式化数据部分--------------------------*/
@@ -141,17 +141,17 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
             batchField : ""
         };
         var replaceOpt = [
-            {"id": "name12Chi", "label": "原始英文名称"}
+            {"id": "name12Eng", "label": "原始英文名称"}
         ];
         var searchOpt = [
             {"id": "name11Chi", "label": "官方标准中文名称"},
-            {"id": "name12Chi", "label": "原始英文名称"}
+            {"id": "name12Eng", "label": "原始英文名称"}
         ];
         $scope.batchTabs = function(flag){
             $scope.batchFlag = flag;
             if(1 == flag){
                 $scope.batchOpt = replaceOpt;
-                $scope.batchParam.batchField = "name12Chi";
+                $scope.batchParam.batchField = "name12Eng";
                 $scope.extractEle = true;
                 $scope.searchBtn = false;
             }else if(2 == flag){
@@ -165,6 +165,55 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
             $scope.batchWorkIsOpen = true;
             $scope.batchTabs(1);
         };
+
+        /*搜索满足的数据*/
+        $scope.searchWork = function(){
+            var temp = $scope.tableDataList;
+            var checkedArr = [];
+            for (var i = 0 ,len = temp.length ;i < len ; i ++){
+                if(temp[i].checked){
+                    checkedArr.push(temp[i]);
+                }
+            }
+            var editArr = [];
+            if(checkedArr.length > 0){
+                editArr = checkedArr;
+            } else {
+                editArr = $scope.tableDataList;
+            }
+            var currentValue;
+            var resultArr = [];
+            for(var item in editArr){
+                currentValue = editArr[item][$scope.batchParam.batchField].name;
+                if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
+                    resultArr.push(editArr[item]);
+                }
+            }
+            if(resultArr.length == 0){
+                return null;
+            }else{
+                return editArr = resultArr;
+            }
+        };
+
+        $scope.extractData = function(){
+            if(!$scope.batchParam.value){
+                swal("请先输入搜索内容", "", "info");return;
+            }else{
+                var temp = $scope.searchWork();
+                if(temp){
+                    getCurrentSaveObject(temp);
+                    initEditorTable();
+                }else{
+                    swal("当前没有符合条件的数据", "", "info");
+                    return;
+                }
+            }
+            $scope.editBatchWorkIsOpen = true;
+            $scope.editDisable = true;
+            $scope.isQuery = false;
+        };
+
         $scope.closeBatchModal = function(){
             $scope.batchWorkIsOpen = false;
         };
