@@ -103,6 +103,22 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "relationData",
             "requestType": "RDSPEEDLIMIT"
         }]
+    },{
+        "id": 8,
+        "label": "详细车道场景",
+        "dataLayers": [{
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rwLink"
+        }, {
+            "layerId": "poi"
+        }, {
+            "layerId": "relationData",
+            "requestType": "RDLANE,RDLANECONNEXITY"
+        }, {
+            "layerId": "workPoint",
+            "requestType": "1202,1508,1113"
+        }]
     }];
 
     $scope.dataLayers = [];
@@ -136,6 +152,9 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             cReqType;
         for (var i = 0; i < dataLayers.length; i++) {
             layer = layerCtrl.getLayerById(dataLayers[i].layerId);
+            if(dataLayers[i].layerId == "workPoint" && dataLayers[i]["requestType"]==""){//特殊处理tips图层,requestType默认为空
+                layer.options.visible = true;
+            }
             if (dataLayers[i]["requestType"]) {
                 cReqType = [];
                 aReqType = dataLayers[i]["requestType"].split(",");
