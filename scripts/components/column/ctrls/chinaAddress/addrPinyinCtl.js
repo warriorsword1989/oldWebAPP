@@ -9,8 +9,8 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 2; //每页编辑的条数
-        $scope.editorCurrentPage = 1; //当前编辑的页码
+        $scope.editLines = 2; //每页编辑的条数
+        $scope.editCurrentPage = 1; //当前编辑的页码
         $scope.editAllDataList = []; //查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
@@ -102,16 +102,16 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                     checkedArr.push(temp[i]);
                 }
             }
-            var editorArr = [];
+            var editArr = [];
             if(checkedArr.length > 0){
-                editorArr = checkedArr;
+                editArr = checkedArr;
             } else {
-                editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
+                editArr = $scope.tableParams.data.slice(0,$scope.editLines);
             }
-            console.info(editorArr);
+            console.info(editArr);
             $scope.editAllDataList = $scope.tableParams.data;
-            $scope.currentEditOrig = angular.copy(editorArr);
-            $scope.currentEdited = angular.copy(editorArr);
+            $scope.currentEditOrig = angular.copy(editArr);
+            $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
             initEditorTable();
         };
@@ -199,7 +199,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         
         /**************** 工具条begin ***************/
         $scope.submitData = function (){
-            _self.editorTable.reload();
+            _self.editTable.reload();
         };
         $scope.saveData = function (){
             //获取改变的数据
@@ -210,8 +210,8 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         /**************** 工具条end   ***************/
 
         /*******************  编辑页面begin  ****************/
-        $scope.editor = {};
-        $scope.editor.editorCols = [
+        $scope.edit = {};
+        $scope.edit.editCols = [
             { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
             { field: "classifyRules", title: "分类",getValue:getKindName,show: true,width:'50px'},
             { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'180px'},
@@ -307,8 +307,8 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
 
 
 
-        function initEditorTable() {
-            _self.editorTable = new NgTableParams({
+        function initEditTable() {
+            _self.editTable = new NgTableParams({
             }, {
                 counts:[],
                 dataset: $scope.currentEdited
@@ -350,7 +350,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         /*初始化方法*/
         function initPage(){
             initRoadNameTable();
-            //initEditorTable();
+            //initEditTable();
         }
         initPage();
     }

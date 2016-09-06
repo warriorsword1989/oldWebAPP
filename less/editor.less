@@ -1701,6 +1701,14 @@ form input[type=checkbox].ng-dirty:before {
   z-index:-1;
   display: none;
 }
+.modelWindow{
+  top:0px;
+  z-index:1;
+  height: 100%;
+  width:100%;
+  background-color:#aaaaaa;
+  opacity: 0.6
+}
 .tablePosition{
   height: 100%;
   position: absolute;
@@ -1726,40 +1734,98 @@ form input[type=checkbox].ng-dirty:before {
 .wordColorWhite{
   color: white;
 }
-//重新覆盖popover的样式
-.popover{
-  .popover-content{
-    padding:9px 8px;
-    input{
-      background-color: @bkground-color;
-      color: @white;
-    }
-  }
-  .popover-inner{
-    background-color: @bkground-color;
-    color: @white;
-    .popover-title{
-      background-color: @bkground-color;
-      color: @white;
-    }
-  }
-  .arrow{
-    &::after{
-      //border-bottom-color: @bkground-color !important;
-    }
-  }
-
+.lable-right{
+  text-align: right;
+  padding-right: 10px;
 }
+.edit-input{
+  border: 1px solid #ccc ;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  width: 90%;
+}
+/*修改popover默认样式*/
+.popover{
+  width: 160px;
+  background-color: transparent;
+  .popover-inner{
+      color: @white;
+      background: #333;
+      h3{
+        color: @white;
+        font-weight: bold;
+        font-size: 14px;
+        background: #333;
+      }
+      .popover-content{
+          padding: 0px 15px 10px 15px;
+          form .form-group{
+            margin-bottom: 0px;
+            label span{
+                font-size: 12px;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+            input[type='text']{
+                height: 30px;
+                color: white;
+                background: #333;
+                text-indent: 5px;
+            }
+            .input-group-btn button{
+                padding: 4px 12px;
+            }
+          };
+      }
+  }
+}
+.popover.bottom > .arrow:after{
+    top: 2px;
+    opacity: 0.9;
+    border-bottom-color:#333;
+}
+.fade.in{
+  opacity: 0.9;
+}
+/*
+
 .custom-popover{
-  width: 120px;
   padding-left: 6px;
   input{
     height: 28px;
-    padding-left: 6px;
+    color: white;
+    background: #333;
+    border: 1px solid #ccc;
+    text-indent: 5px;
+    border-radius: 5px;
   }
 }
+*/
 
 
+.fm-tab {
+  padding: 0 5px;
+  margin-bottom: 5px;
+  a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 16px;
+    display: inline-block;
+    text-align: center;
+    background-color: @dark-grey;
+    &:hover{
+      color: #fff;
+    }
+    &.active{
+      color: #fff;
+      border-bottom: 1px solid @black-to-white-8;
+      background-color: @bkground-color;
+      transition: all .3s;
+    }
+  }
+}
 
 /******************* 精编样式end *******************/
 

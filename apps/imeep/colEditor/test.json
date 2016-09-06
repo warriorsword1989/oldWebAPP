@@ -35,7 +35,6 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E79CE0726E1AE050A8C08304BA17",
-
                 "fullNameMultiPinyin": [
                     [
                         2,
@@ -141,6 +140,7 @@
                 "uRecord": 0,
                 "uFields": "",
                 "rowId": "3524E79CE0726E1AE050A8C08304BA17",
+                "sourceFlag":"002000010000",
                 "fullNameMultiPinyin": [
                     [
                         2,
@@ -246,7 +246,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行商所测试",
+                "name": "大兴区黄村工云中行商所测试AB",
                 "poiPid": 1079,
                 "pid": "60034310",
                 "nameGroupid": 1,
@@ -309,7 +309,8 @@
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A04-04"],
-        "rowId": "3524E56B29346E1AE050A8C08304BA17"
+        "rowId": "3524E56B29346E1AE050A8C08304BA17",
+        "sourceFlag":"002000030000"
     },{
         "addresses": [
             {
@@ -556,7 +557,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行商所测试",
+                "name": "大兴区黄村工云中行商所测试BC",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -615,7 +616,8 @@
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
-        "rowId": "3524E56B29346E1AE050A8C08304BA18"
+        "rowId": "3524E56B29346E1AE050A8C08304BA18",
+        "sourceFlag":"002000020000"
     },{
         "addresses": [
             {
@@ -757,7 +759,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行商所测试",
+                "name": "大兴区黄村工云中行商所测试ABC",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -816,7 +818,8 @@
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
-        "rowId": "3524E56B29346E1AE050A8C08304BA18"
+        "rowId": "3524E56B29346E1AE050A8C08304BA18",
+        "sourceFlag":"002000040000"
     },{
         "addresses": [
             {
@@ -958,7 +961,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行商所测试",
+                "name": "大兴区黄村工云中行商所测试AAA",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -1017,7 +1020,8 @@
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
-        "rowId": "3524E56B29346E1AE050A8C08304BA18"
+        "rowId": "3524E56B29346E1AE050A8C08304BA18",
+        "sourceFlag":"002000060000"
     },{
         "addresses": [
             {
@@ -1159,7 +1163,7 @@
                             "Xing"
                         ]
                     ],
-                "name": "大兴区黄村工云中行商所测试",
+                "name": "大兴区黄村工云中行商所测试CCC",
                 "namePhonetic": "RongShengYiSaXiYiTianTongXiYuanQiJianDian",
                 "uRecord": 0,
                 "uFields": "",
@@ -1230,6 +1234,7 @@
         ],
         "refMsg": "无简化的POI名称统一",
         "classifyRules":["FM-A05-05"],
-        "rowId": "3524E56B29346E1AE050A8C08304BA18"
+        "rowId": "3524E56B29346E1AE050A8C08304BA18",
+        "sourceFlag":"002000090000"
     }]
 }

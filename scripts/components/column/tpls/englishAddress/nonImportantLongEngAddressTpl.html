@@ -19,12 +19,12 @@
 					<script type="text/ng-template" id="myPopoverTemplate.html">
 						<div>
 							<div ng-repeat="item in costomWorkNumEum" style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(1);" ng-checked="editorLines=='{{item}}'" value="option1" >{{item}}条/次
+								<input type="radio" name="optionsRadios" ng-click="customAsign(1);" ng-checked="editLines=='{{item}}'" value="option1" >{{item}}条/次
 							</div>
 							<div style="line-height: 24px;">
 								<input type="radio" name="optionsRadios" ng-click="customAsign(2);" >自定义
 								<div ng-show="customAsignOpen" class="input-group custom-popover">
-									<input type="text" class="form-control" ng-model="a.editorLines">
+									<input type="text" class="form-control" ng-model="a.editLines">
 									<span class="input-group-btn">
 										<button class="btn btn-default btn-ls" type="button" ng-click="customConfirm();">确定</button>
 									</span>
@@ -76,9 +76,9 @@
 			</div>
 			<div>
 				<div class="fm-fitsize dark scroll-styled tablePosition" style="top:30px;color: white;">
-					<table ng-table-dynamic="editorTable with editor.editorCols" class="table table-condensed table-bordered">
+					<table ng-table-dynamic="editTable with edit.editCols" class="table table-condensed table-bordered">
 						<colgroup>
-							<col ng-repeat="col in editor.editorCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
+							<col ng-repeat="col in edit.editCols | filter:{show: true}"  width="{{col.width || '50'}}"/>
 						</colgroup>
 						<tr ng-repeat="row in $data">
 							<td ng-repeat="col in $columns">
@@ -86,7 +86,7 @@
 								<span ng-if="col.html" fm-bind-compiled-html="col.getValue(this, row)"></span>
 							</td>
 						</tr>
-						<tr class="text-center" ng-show="!$data.length"><td colspan="{{(editor.editorCols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
+						<tr class="text-center" ng-show="!$data.length"><td colspan="{{(edit.editCols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
 					</table>
 				</div>
 			</div>
