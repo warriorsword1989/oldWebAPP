@@ -90,34 +90,31 @@ oridinaryInfoApp.controller("oridinaryRticsController",['$scope','dsEdit',functi
 
     };
 
-    if($scope.realtimeData.direct!=1){
-        if($scope.oridiData) {
-            if($scope.realtimeData.direct==3){
-                $scope.oridiData.rticDr = 2;
-                $scope.changeDirect(2);
-            }else if($scope.realtimeData.direct==2){
-                $scope.oridiData.rticDr = 1;
-                $scope.changeDirect(1);
-            }
-
-        }
-
-    }else{
-        if($scope.oridiData){
-            $scope.oridiData.rticDr=1;
-            $scope.changeDirect(1);
-        }
-
-    }
+    // if($scope.realtimeData.direct!=1){
+    //     if($scope.oridiData) {
+    //         if($scope.realtimeData.direct==3){
+    //             $scope.oridiData.rticDr = 2;
+    //             $scope.changeDirect(2);
+    //         }else if($scope.realtimeData.direct==2){
+    //             $scope.oridiData.rticDr = 1;
+    //             $scope.changeDirect(1);
+    //         }
+    //
+    //     }
+    //
+    // }else{
+    //     if($scope.oridiData){
+    //         $scope.oridiData.rticDr=1;
+    //         $scope.changeDirect(1);
+    //     }
+    //
+    // }
     //添加新的RTIC代码
     $scope.addRticCode=function(){
-        dsEdit.applyPid("rtic", function (data) {
-            if (data!= -1) {
-                $scope.oridiData.code=data.data;
-                $scope.$apply();
-            }
+        dsEdit.applyPid("rtic").then(function (data) {
+            $scope.oridiData.code=data.data;
         });
-    }
+    };
     $scope.$on('refreshPage',function(data){
         $scope.realtimeData = objCtrl.data;
         for(var i= 0,len=$scope.realtimeData.intRtics.length;i<len;i++) {
