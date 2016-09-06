@@ -278,6 +278,12 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         }
         data["rtics"] = rtics;
 
+        var intRtics = [];
+        for (var i = 0, len = this.intRtics.length; i < len; i++) {
+            intRtics.push(this.intRtics[i].getIntegrate())
+        }
+        data["intRtics"] = intRtics;
+
         var sidewalks = [];
         for (var i = 0, len = this.sidewalks.length; i < len; i++) {
             sidewalks.push(this.sidewalks[i].getIntegrate())
