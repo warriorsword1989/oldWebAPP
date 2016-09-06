@@ -79,13 +79,16 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
         }
         if (this.clickcount == 1) {
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
+            console.log(mousePoint);
         } else {
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
+            console.log(mousePoint);
         }
         this.clickcount++;
         if (this.snapHandler.snaped) {
-            mousePoint = this.targetPoint;
+            // mousePoint = this.targetPoint;
             if (this.snapHandler.snapIndex == 0) {
+                console.log(mousePoint);
                 this.catches.push({
                     nodePid: parseInt(this.snapHandler.properties.snode),
                     lon: mousePoint.lng,
@@ -99,6 +102,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
 
                 }
             } else if (this.snapHandler.snapIndex == -1) {
+                console.log(mousePoint);
                 this.catches.push({
                     linkPid: parseInt(this.snapHandler.properties.id),
                     lon: mousePoint.lng,
@@ -110,6 +114,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                 } else {
                     this.enodePid = parseInt(this.snapHandler.properties.id);
                 }
+                console.log(mousePoint);
                 this.catches.push({
                     nodePid: parseInt(this.snapHandler.properties.id),
                     lon: mousePoint.lng,
@@ -122,6 +127,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                 } else {
                     this.enodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
                 }
+                console.log(mousePoint);
                 this.catches.push({
                     nodePid: parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']),
                     lon: mousePoint.lng,
