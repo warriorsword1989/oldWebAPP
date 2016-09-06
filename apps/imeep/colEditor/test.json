@@ -216,7 +216,7 @@
             }
         ],
         "kindCode": "120201",
-        "pid":1079,
+        "pid":1023,
         "names": [
             {
             	
@@ -286,7 +286,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "kShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 2,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -299,7 +299,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "iShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 1,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -593,7 +593,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "hShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 2,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -606,7 +606,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "gShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 1,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -728,7 +728,7 @@
             }
         ],
         "kindCode": "120201",
-        "pid":1079,
+        "pid":1034,
         "names": [
             {
                 "pid": "60034314",
@@ -795,7 +795,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "fShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 2,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -808,7 +808,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "eShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 1,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -930,7 +930,7 @@
             }
         ],
         "kindCode": "120201",
-        "pid":1079,
+        "pid":1019,
         "names": [
             {
                 "pid": "60034315",
@@ -997,7 +997,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "dShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 2,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -1010,7 +1010,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "cShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 1,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -1136,7 +1136,7 @@
         "names": [
             {
                 "pid": "60034317",
-                "poiPid": 1079,
+                "poiPid": 2079,
                 "nameGroupid": 1,
                 "nameClass": 1,
                 "nameType": 1,
@@ -1211,7 +1211,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "bShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 2,
 	            "namePhonetic": "",
                 "uRecord": 0,
@@ -1224,7 +1224,7 @@
 	            "nameId": 1259584348,
 	            "langCode": "ENG",
 	            "nameClass": 1,
-	            "name": "Shou Ji Zhu Shou Xin Zeng 72001",
+	            "name": "aShou Ji Zhu Shou Xin Zeng 72001",
 	            "nameType": 1,
 	            "namePhonetic": "",
                 "uRecord": 0,

@@ -28,8 +28,8 @@
     <div ng-show="isQuery" class="queryPart">
         <!--待作业和待提交tabs页切换-->
         <div class="fm-tabs clearfix">
-            <a href="#" class="tab col-sm-1	 active" ng-class="{'stagnatedWork':'active'}[currentTabIndex]" ng-click="changeTaskStatus('stagnatedWork')"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
-            <a href="#" class="tab col-sm-1" ng-class="{'stagnatedSubmit':'active'}[currentTabIndex]" ng-click="changeTaskStatus('stagnatedSubmit')"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
+            <a href="#" class="tab col-sm-1	 active" ng-class="{'1':'active'}[status]" ng-click="changeTaskStatus('1')"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
+            <a href="#" class="tab col-sm-1" ng-class="{'2':'active'}[status]" ng-click="changeTaskStatus('2')"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
         </div>
         <!--表格表头操作控制-->
         <div class="clearfix" style="padding: 10px">
@@ -67,7 +67,7 @@
             </div>
             <div class="pull-right">
                 <div class="input-group" style="width: 280px">
-                    <input style="background-color: #000;height: 30px;" type="text" class="form-control" placeholder="搜索">
+                    <input style="background-color: #000;height: 30px;color: white" type="text" ng-model="globalSearchTerm" class="form-control" placeholder="搜索">
                     <div class="input-group-btn">
                         <button type="button" style="background-color: #000;background-image: none;padding: 4px 12px;" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="color: white;text-shadow: none;" class="glyphicon glyphicon-th icon-th"></i>&nbsp;<span style="color: white;" class="caret"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right fm-dropdown-menu">
@@ -91,7 +91,6 @@
                     <colgroup>
                         <col ng-repeat="col in view.cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
                     </colgroup>
-
                     <tr ng-repeat="row in $data" ng-class="{true:'tr-backcolor',flase:''}[row.checked]">
                         <td ng-repeat="col in $columns" ng-dblclick="selectData(row,$index)" ng-switch="col.field">
                             <input ng-switch-when="selector" type="checkbox" ng-model="row[col.field]" />
