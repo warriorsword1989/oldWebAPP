@@ -26,7 +26,7 @@ requirejs.config({
         'dataService': 'apps/imeep/service/dataService',
         'metaService': 'apps/imeep/service/dataService-meta',
         'fccService': 'apps/imeep/service/dataService-fcc',
-        'editService': 'apps/imeep/service/dataService-edit',
+        'columnService': 'apps/imeep/service/dataService-column',
         'manService': 'apps/imeep/service/dataService-manage',
         'ColEditorCtl': 'apps/imeep/colEditor/colEditorCtl',
         'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
@@ -50,16 +50,16 @@ requirejs.config({
         'dataService': ['angular', "sweet-alert"],
         'metaService': ['dataService'],
         'fccService': ['dataService'],
-        'editService': ['dataService'],
+        'columnService': ['dataService'],
         'manService': ['dataService'],
         'bootstrapDatepicker': ['jquery', 'bootstrap'],
         'bootstrapDatepickerCN': ['bootstrapDatepicker'],
-        'bootspopover': ['jquery'],
+        //'bootspopover': ['jquery'],
         'keyPressFunctions': ['jquery', 'dataService', 'metaService', 'editService'],
         'fastmapUikit': ['angular'],
         'fmEditView': ['fastmapUikit'],
         'fmBindCompiledHtml': ['fastmapUikit'],
-        'ColEditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService','ngTable', 'ngSanitize','bootstrapDatepickerCN','poi-msg','fastmapUikit','fmEditView']
+        'ColEditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'columnService', 'manService','ngTable', 'ngSanitize','bootstrapDatepickerCN','poi-msg','fastmapUikit','fmEditView']
     }
 });
 // Start the main app logic.

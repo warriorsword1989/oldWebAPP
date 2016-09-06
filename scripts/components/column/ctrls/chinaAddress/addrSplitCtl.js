@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
-    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsColumn', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
+    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsColumn, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var _self = $scope;
         $scope.editPanelIsOpen = false;
@@ -26,7 +26,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         };
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
-            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
+            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
             { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true},
             { field: "addressFullname", title: "地址全称",getValue: getFullName, show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
