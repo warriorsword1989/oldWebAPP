@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
-    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
+    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
         $scope.editPanelIsOpen = false;
@@ -23,8 +23,8 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
             { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "name12Chi", title: "官方原始名称",getValue:get11Names,show: true},
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:get12Names,show: true},
+            { field: "name12Chi", title: "官方原始名称",getValue:get12Names,show: true},
+            { field: "name11Chi", title: "官方标准中文名称",getValue:get11Names,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
@@ -136,26 +136,27 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         };
         $scope.batchParam = {
         	value : "",
-        	batchField : ""
+        	batchField : "",
+        	replaceTo : ""
         };
         $scope.replaceOpt = [
-            {"id": "name12Chi", "label": "官方标准中文名称"}
+            {"id": "name11Chi", "label": "官方标准中文名称"}
         ];
         		
         var searchOpt = [
-        	{"id": "name12Chi", "label": "官方标准中文名称"},
-        	{"id": "name11Chi", "label": "官方原始中文名称"}	
+        	{"id": "name11Chi", "label": "官方标准中文名称"},
+        	{"id": "name12Chi", "label": "官方原始中文名称"}	
         ];
         $scope.batchTabs = function(flag){
         	$scope.batchFlag = flag;
         	if(1 == flag){
         		$scope.batchOpt = $scope.replaceOpt;
-        		$scope.batchParam.batchField = "name12Chi";
+        		$scope.batchParam.batchField = "name11Chi";
         		$scope.extractEle = true;
         		$scope.searchBtn = false;
         	}else if(2 == flag){
         		$scope.batchOpt = searchOpt;
-        		$scope.batchParam.batchField = "name11Chi";
+        		$scope.batchParam.batchField = "name12Chi";
         		$scope.extractEle = false;
         		$scope.searchBtn = true;
         	}
@@ -208,16 +209,20 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
 	        $scope.editPanelIsOpen = true;
 	        initeditTable();
 	        $scope.batchWorkIsOpen = false;
-	        $scope.batchParam.value = "";
-	        
-            
+//	        $scope.batchParam.value = "";
+        };
+        $scope.extractData = function(){
+        	$scope.searchWork();
+        	$scope.editBatchWorkIsOpen = true;
+        	$scope.editDisable = true;
+        	
         };
         /**************** 工具条end   ***************/
 
         /*******************  编辑页面begin  ****************/
         $scope.edit = {};
         $scope.edit.editCols = [
-            { field: "num_index", title: "序号",show: true,width:'20px'},
+//            { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
             { field: "kindCode", title: "分类",show: true,width:'50px'},
             { field: "kindCode", title: "品牌名",show: true,width:'50px'},
@@ -277,11 +282,30 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.closeView = function (){
             $scope.showImgInfoo = false;
         };
-        $scope.editBatchWord = function(){
+        $scope.editBatchWork = function(){
         	$scope.editBatchWorkIsOpen = true;
+        	$scope.editDisable = false;
+        	$scope.batchParam.value = "";
+        	$scope.batchParam.replaceTo = "";
         };
         $scope.closeEditBatchModal = function(){
         	$scope.editBatchWorkIsOpen = false;
+        };
+        $scope.replaceAll = function(){
+        	var data = $scope.currentEdited;
+        	var i = 0 ;
+        	var currentValue;
+        	for(var item in data){
+        		currentValue = data[item][$scope.batchParam.batchField].name;
+                if(currentValue && currentValue.indexOf($scope.batchParam.value) != -1){
+                	i = i + 1;
+                	var finalyValue= currentValue.split($scope.batchParam.value).join($scope.batchParam.replaceTo);
+                    data[item][$scope.batchParam.batchField].name = finalyValue;
+                }
+        	}
+        	swal("全部替换完成,共进行了"+i+"处替换", "", "info");
+        	initeditTable();
+        	$scope.closeEditBatchModal();
         };
         /*******************  编辑页面end  ******************/
 

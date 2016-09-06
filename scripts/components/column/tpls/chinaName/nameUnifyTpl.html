@@ -79,7 +79,7 @@
 					                <li ng-show="extractEle">
 					                    <label>替换为:</label>
 					                    <div>
-					                    	<input type="text" class="fm-control" style="width:200px;" ng-model="admin">
+					                    	<input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.replaceTo">
 					                    </div>
 					                </li>
 					            </ul>
@@ -103,7 +103,7 @@
 				<span style="cursor: pointer">名称统一</span>
 				<button type="button" class="close" ng-click="closeEditPanel()" style="color: white;opacity: 1;margin: -4px 0px;"><span>&times;</span></button>
 				<span class="pull-right" style="padding-right: 10px;">
-					<i class="fa fa fa-file-text-o fa-lg pointer wordColorWhite" title="批量作业" ng-click="editBatchWord()"></i>
+					<i class="fa fa fa-file-text-o fa-lg pointer wordColorWhite" title="批量作业" ng-click="editBatchWork()"></i>
 				</span>
 			</div>
 			<div>
@@ -214,20 +214,20 @@
 				                    	<select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
 				                                placeholder_text_single="'--请选择--'"
 				                                ng-options="value.id as value.label for value in replaceOpt"
-				                                ng-change="changeField($event, this)">
+				                                ng-change="changeField($event, this)" ng-class="{true:'chosen-disabled'}[editDisable]" ng-disabled="editDisable">
 				                        </select>
 				                    </div>
 				                </li>
 				                <li>
 				                    <label>搜索:</label>
 				                    <div>
-				                    	<input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value">
+				                    	<input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value" ng-class="{true:'chosen-disabled'}[editDisable]" ng-disabled="editDisable">
 				                    </div>
 				                </li>
 				                <li>
 				                    <label>替换为:</label>
 				                    <div>
-				                    	<input type="text" class="fm-control" style="width:200px;" ng-model="admin">
+				                    	<input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.replaceTo" ng-class="{true:'chosen-disabled'}[editDisable]" ng-disabled="editDisable">
 				                    </div>
 				                </li>
 				            </ul>
