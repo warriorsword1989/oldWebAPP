@@ -28,8 +28,8 @@
     <div ng-show="isQuery" class="queryPart">
         <!--待作业和待提交tabs页切换-->
         <div class="fm-tabs clearfix">
-            <a href="#" class="tab col-sm-1	 active" ng-class="{'stagnatedWork':'active'}[currentTabIndex]" ng-click="changeTaskStatus('stagnatedWork')"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
-            <a href="#" class="tab col-sm-1" ng-class="{'stagnatedSubmit':'active'}[currentTabIndex]" ng-click="changeTaskStatus('stagnatedSubmit')"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
+            <a href="#" class="tab col-sm-1	 active" ng-class="{'1':'active'}[status]" ng-click="changeTaskStatus('1')"><i class="fa fa-tasks" aria-hidden="true"></i> 待作业</a>
+            <a href="#" class="tab col-sm-1" ng-class="{'2':'active'}[status]" ng-click="changeTaskStatus('2')"><i class="fa fa-upload" aria-hidden="true"></i> 待提交</a>
         </div>
         <!--表格表头操作控制-->
         <div class="clearfix" style="padding: 10px">
@@ -67,7 +67,7 @@
             </div>
             <div class="pull-right">
                 <div class="input-group" style="width: 280px">
-                    <input style="background-color: #000;height: 30px;" type="text" class="form-control" placeholder="搜索">
+                    <input style="background-color: #000;height: 30px;color: white" type="text" ng-model="globalSearchTerm" class="form-control" placeholder="搜索">
                     <div class="input-group-btn">
                         <button type="button" style="background-color: #000;background-image: none;padding: 4px 12px;" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="color: white;text-shadow: none;" class="glyphicon glyphicon-th icon-th"></i>&nbsp;<span style="color: white;" class="caret"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right fm-dropdown-menu">
@@ -91,7 +91,6 @@
                     <colgroup>
                         <col ng-repeat="col in view.cols | filter:{show: true}"  width="{{col.width || '400'}}"/>
                     </colgroup>
-
                     <tr ng-repeat="row in $data" ng-class="{true:'tr-backcolor',flase:''}[row.checked]">
                         <td ng-repeat="col in $columns" ng-dblclick="selectData(row,$index)" ng-switch="col.field">
                             <input ng-switch-when="selector" type="checkbox" ng-model="row[col.field]" />
@@ -100,52 +99,6 @@
                     </tr>
                     <tr class="text-center" ng-show="!$data.length"><td colspan="{{(view.cols | filter: {show: true}).length}}" ng-bind="loadTableDataMsg"></td></tr>
                 </table>
-            </div>
-            <!--批处理弹框-->
-            <div ng-show="batchWorkIsOpen">
-                <div class="div-float" style="top:80px;left:120px;border-radius:5px;">
-                    <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
-                    <div class="fm-panel" style="margin:0px;width:330px;">
-                        <div class="fm-tabs" style="padding:0px;margin: 0px;">
-                            <a href="#" class="tab" ng-class="{1:'active'}[batchFlag]" ng-click="batchTabs(1)">替换</a>
-                            <a href="#" class="tab" ng-class="{2:'active'}[batchFlag]" ng-click="batchTabs(2)">高级搜索</a>
-                        </div>
-                        <div class="bacthContent">
-                            <div style="height:200px;">
-                                <ul class="fm-ul fm-ul-form">
-                                    <li>
-                                        <label>字段:</label>
-                                        <div>
-                                            <select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
-                                                    placeholder_text_single="'--请选择--'"
-                                                    ng-options="value.id as value.label for value in batchOpt"
-                                                    ng-change="changeField($event, this)">
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <label>搜索:</label>
-                                        <div>
-                                            <input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value">
-                                        </div>
-                                    </li>
-                                    <li ng-show="extractEle">
-                                        <label>替换为:</label>
-                                        <div>
-                                            <input type="text" class="fm-control" style="width:200px;" ng-model="admin">
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div style="border-bottom: 1px solid #ddd;"></div>
-                        <div style="text-align:right;">
-                            <button type="button" class="btn btn-main" ng-click="cancle()" style="margin:6px 8px">取消</button>
-                            <button type="button" class="btn btn-main" ng-show="extractEle" ng-click="extractData()" style="margin:6px 8px">提取数据</button>
-                            <button type="button" class="btn btn-main" ng-show="searchBtn" ng-click="searchWork()" style="margin:6px 8px">搜索作业</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -251,6 +204,50 @@
         </div>
     </div>
 
-    <!---->
-
+    <!--批处理弹框-->
+    <div ng-show="batchWorkIsOpen">
+        <div class="div-float" style="top:80px;left:120px;border-radius:5px;">
+            <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
+            <div class="fm-panel" style="margin:0px;width:330px;">
+                <div class="fm-tabs" style="padding:0px;margin: 0px;">
+                    <a href="#" class="tab" ng-class="{1:'active'}[batchFlag]" ng-click="batchTabs(1)">替换</a>
+                    <a href="#" class="tab" ng-class="{2:'active'}[batchFlag]" ng-click="batchTabs(2)">高级搜索</a>
+                </div>
+                <div class="bacthContent">
+                    <div style="height:200px;">
+                        <ul class="fm-ul fm-ul-form">
+                            <li>
+                                <label>字段:</label>
+                                <div>
+                                    <select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
+                                            placeholder_text_single="'--请选择--'"
+                                            ng-options="value.id as value.label for value in batchOpt"
+                                            ng-change="changeField($event, this)">
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <label>搜索:</label>
+                                <div>
+                                    <input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value">
+                                </div>
+                            </li>
+                            <li ng-show="extractEle">
+                                <label>替换为:</label>
+                                <div>
+                                    <input type="text" class="fm-control" style="width:200px;" ng-model="admin">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="border-bottom: 1px solid #ddd;"></div>
+                <div style="text-align:right;">
+                    <button type="button" class="btn btn-main" ng-click="cancle()" style="margin:6px 8px">取消</button>
+                    <button type="button" class="btn btn-main" ng-show="extractEle" ng-click="extractData()" style="margin:6px 8px">提取数据</button>
+                    <button type="button" class="btn btn-main" ng-show="searchBtn"  ng-click="extractData()" style="margin:6px 8px">搜索作业</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

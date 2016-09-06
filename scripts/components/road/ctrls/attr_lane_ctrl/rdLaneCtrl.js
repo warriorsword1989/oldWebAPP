@@ -3,64 +3,132 @@
  */
 
 var rdLineApp = angular.module("app");
-rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
+rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath',function($scope,dsEdit,appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var relationData = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    // 高亮link
+    $scope.highLightLaneLink = function(){
+      var highLightFeatures = [];
+      highLightFeatures.push({
+          id: objCtrl.memo.nodePid.toString(),
+          layerid: 'rdLink',
+          type: 'node',
+          style: {
+              color: 'yellow'
+          }
+      });
+      for(var i=0,len=objCtrl.memo.links.length;i<len;i++){
+        if(i === 0) {
+          highLightFeatures.push({
+              id: objCtrl.memo.links.pid.toString(),
+              layerid: 'rdLink',
+              type: 'line',
+              style: {
+                  color: 'rgb(255, 0, 0)'
+              }
+          });
+        } else {
+          highLightFeatures.push({
+              id: objCtrl.memo.links.toString(),
+              layerid: 'rdLink',
+              type: 'line',
+              style: {
+                  color: 'rgb(0, 245, 255)'
+              }
+          });
+        }
+      }
+      highRenderCtrl.highLightFeatures = highLightFeatures;
+      highRenderCtrl.drawHighlight();
+    };
     $scope.initializeData = function(){
         // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.clmData = objCtrl.data;
         $scope.clmData = {
-          linkPid:['123','234','567'],
-          conditions:[
-            
+          linkPids:['123','234','567'],
+          laneDir:2,
+          laneInfos:[
+             fastmap.dataApi.rdLane({
+              pid:100000159,
+              seqNum:1,
+              arrowDir:'o',
+              laneType:3,
+              laneForming:3,
+              conditions:[
+                {
+                  lanePid:432112,
+                  viaLinkPid:56432,
+                  groupId:1,
+                  seqNum:1
+                },
+                {
+                  lanePid:432112,
+                  viaLinkPid:56432,
+                  groupId:1,
+                  seqNum:1
+                }
+              ]
+            }),
+            fastmap.dataApi.rdLane({
+              pid:100000160,
+              seqNum:2,
+              arrowDir:'e',
+              conditions:[
+                {
+                  lanePid:432112,
+                  viaLinkPid:56432,
+                  groupId:1,
+                  seqNum:1
+                },
+                {
+                  lanePid:432112,
+                  viaLinkPid:56432,
+                  groupId:1,
+                  seqNum:1
+                }
+              ]
+            }),
+            fastmap.dataApi.rdLane({
+              pid:100000161,
+              seqNum:3,
+              arrowDir:'a',
+              conditions:[
+                {
+                  lanePid:432112,
+                  viaLinkPid:56432,
+                  groupId:1,
+                  seqNum:1
+                },
+                {
+                  lanePid:432112,
+                  viaLinkPid:56432,
+                  groupId:1,
+                  seqNum:1
+                }
+              ]
+            })
           ]
         };
-        $scope.laneData = [1,2,3,4];
-        $scope.laneLength = $scope.laneData.length;
+        $scope.laneLength = $scope.clmData.laneInfos.length;
+        $scope.laneIndex = 0;
         $scope.refreshLaneData();
-        // var highLightFeatures = [];
-        // highLightFeatures.push({
-        //     id: $scope.clmData.inLinkPid.toString(),
-        //     layerid: 'rdLink',
-        //     type: 'line',
-        //     style: {
-        //         color: '#21ed25'
-        //     }
-        // });
-        // highLightFeatures.push({
-        //     id: $scope.clmData.nodePid.toString(),
-        //     layerid: 'rdLink',
-        //     type: 'node',
-        //     style: {
-        //         color: 'yellow'
-        //     }
-        // });
-        // highLightFeatures.push({
-        //     id: $scope.clmData.outLinkPid.toString(),
-        //     layerid: 'rdLink',
-        //     type: 'line',
-        //     style: {
-        //         size: 5
-        //     }
-        // });
-        // highRenderCtrl.highLightFeatures = highLightFeatures;
-        // highRenderCtrl.drawHighlight();
+        // $scope.highLightLaneLink();
     };
     // 刷新车道图
     $scope.refreshLaneData = function () {
-      var _width = $scope.laneData.length * 30 + 20;
+      var _width = $scope.clmData.laneInfos.length * 30 + 20;
       if(_width > 300) {
         $scope.laneStyle = {width:_width,'overflow-x':'auto'};
       } else {
         $scope.laneStyle = {width:_width,top:'auto',position:'relative'};
       }
-      $scope.laneLength = $scope.laneData.length;
-      $scope.laneIndex = -1;
+      $scope.laneLength = $scope.clmData.laneInfos.length;
       $scope.selectLaneActive = -1;
+      $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
       $('body .carTypeTip:last').hide();
     };
     $scope.initializeData();
@@ -74,40 +142,62 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
     };
     // 车道总数修改
     $scope.changeCarLane = function () {
-      if ( parseInt($scope.laneLength) > $scope.laneData.length ) {   //增加
-        var addMount = parseInt($scope.laneLength) - $scope.laneData.length;
+      if ( parseInt($scope.laneLength) > $scope.clmData.laneInfos.length ) {   //增加
+        var addMount = parseInt($scope.laneLength) - $scope.clmData.laneInfos.length;
         for (var i=0;i<addMount;i++) {
-          $scope.laneData.push(1);
+          $scope.clmData.laneInfos.push(fastmap.dataApi.rdLane({pid:0,lanePid:0}));
         }
-      } else if (parseInt($scope.laneLength) < $scope.laneData.length) {  //减少
-        $scope.laneData.splice(parseInt($scope.laneLength) + 1,$scope.laneData.length - parseInt($scope.laneLength));
+      } else if (parseInt($scope.laneLength) < $scope.clmData.laneInfos.length) {  //减少
+        $scope.clmData.laneInfos.splice(parseInt($scope.laneLength) + 1,$scope.clmData.laneInfos.length - parseInt($scope.laneLength));
+        if(parseInt($scope.laneLength) < $scope.laneIndex){
+          $scope.laneIndex = 0;
+          $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
+          $scope.$emit('SWITCHCONTAINERSTATE', {
+            'subAttrContainerTpl': false,
+            'attrContainerTpl': true
+          });
+        }
       }
       $scope.refreshLaneData();
     };
     // 删除车道
     $scope.removeLane = function (index) {
-      $scope.laneData.splice(index,1);
+      $scope.clmData.laneInfos.splice(index,1);
       $scope.refreshLaneData();
+      if(index == $scope.laneIndex){
+        $scope.laneIndex = 0;
+        $scope.laneInfo = $scope.clmData.laneInfos[0];
+      }else{
+        $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
+      }
     };
     // 弹出车道方向面板
     $scope.showLaneDirect = function (e,index,dir) {
       $('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
-      $scope.laneIndex = index;
       if(index > -1){
+        $scope.laneIndex = index;
         $(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':'310px'});
         $scope.showLaneSelect = true;
         $('body .carTypeTip:last').show();
         $scope.selectLaneActive = dir;
       }else{
-        $scope.laneIndex = -1;
         $scope.showLaneSelect = false;
         $('body .carTypeTip:last').fadeOut(300);
       }
+      $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
+      $scope.$emit('SWITCHCONTAINERSTATE', {
+        'subAttrContainerTpl': false,
+        'attrContainerTpl': true
+      });
     };
     // 选择车道方向
     $scope.selectLaneDir = function (dir,index) {
       $scope.selectLaneActive = dir;
-      $scope.laneData[$scope.laneIndex] = dir;
+      $scope.clmData.laneInfos[$scope.laneIndex].arrowDir = dir;
+    };
+    // 增加车道信息
+    $scope.addItem = function(){
+      $scope.clmData.laneInfos[$scope.laneIndex].conditions.push(fastmap.dataApi.rdLaneCondition({lanePid:0}));
     };
     // 中央分隔带
     $scope.centerDividerObj = [
@@ -169,6 +259,21 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
     // 车道方向集合
     $scope.laneDirectArray = [0,1,2,3,4,5,'a','b','c',
     'd','e','f','g','h','i','j','k','l','m','n','o','r','s','t','u','v','w','x','y','z'];
+    /*展示车道详细信息*/
+    $scope.showDetail = function (index) {
+        var tempCtr = '', tempTepl = '';
+        tempCtr = appPath.road + 'ctrls/attr_lane_ctrl/laneInfoCtrl';
+        tempTepl = appPath.root + appPath.road + 'tpls/attr_lane_tpl/laneInfoTpl.html';
+        var laneInfo = {
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": tempCtr,
+            "propertyHtml": tempTepl,
+            "data":$scope.clmData.laneInfos[$scope.laneIndex].conditions[index]
+        };
+        // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex].conditions[index];
+        $scope.$emit("transitCtrlAndTpl", laneInfo);
+    };
     $scope.save = function(){
         objCtrl.save();
         if(!objCtrl.changedProperty){
@@ -215,6 +320,10 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit',function($scope,dsEdit) {
                 $scope.clmData = null;
                 relationData.redraw();
                 highRenderCtrl._cleanHighLight();
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                  'subAttrContainerTpl': false,
+                  'attrContainerTpl': false
+                });
             }
         });
     };
