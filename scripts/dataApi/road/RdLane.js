@@ -17,6 +17,7 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
+        this.pid = data["pid"];
         this.lanePid = data['lanePid'];
         this.linkPid = data["linkPid"];
         this.laneNum = data["laneNum"] || 1;
@@ -25,7 +26,7 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
         this.laneForming = data["laneForming"] || 0;
         this.laneDir = data["laneDir"] || 1;
         this.laneType = data["laneType"] || 1;
-        if (data['arrowDir'] == '' || data['arrowDir'] == 'undefined') {
+        if (data['arrowDir'] == '' || typeof(data['arrowDir']) == 'undefined') {
           this.arrowDir = 9;
         } else {
           this.arrowDir = data['arrowDir'];
@@ -64,6 +65,7 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
+        data["pid"] = this.pid;
         data["lanePid"] = this.lanePid;
         data["linkPid"] = this.linkPid;
         data["laneNum"]  = this.laneNum;
@@ -106,6 +108,7 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
+        data["pid"] = this.pid;
         data["lanePid"] = this.lanePid;
         data["linkPid"] = this.linkPid;
         data["laneNum"]  = this.laneNum;

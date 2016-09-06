@@ -2024,6 +2024,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
             } else if (type === 'RDLANE'){ //详细车道
+                if (map.getZoom() < 8) {
+                    swal("提示","地图缩放等级必须大于16级才可操作","info");
+                    return;
+                }
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;
@@ -2064,6 +2068,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                       };
                       dsEdit.getByCondition(param).then(function(data){
                         $scope.linkArray = data.data;
+                        $scope.laneInfo.links = data.data;
                         for(var i=0,len=data.data.length;i<len;i++){
                           // $scope.linkArray.push(data.data[i].pid);
                           if(i === 0) {
