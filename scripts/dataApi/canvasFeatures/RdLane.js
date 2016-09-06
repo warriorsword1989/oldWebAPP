@@ -1,6 +1,6 @@
 fastmap.uikit.canvasFeature.RdLane = fastmap.uikit.canvasFeature.Feature.extend({
     setAttribute: function(item) {
-      this.properties['featType'] = "RWLINK";
+      this.properties['featType'] = "RDLANE";
       this.geometry['type'] = 'LineString';
       var color = '#000099',
           symbolData = {};
