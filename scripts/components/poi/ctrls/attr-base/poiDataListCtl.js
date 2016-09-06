@@ -14,7 +14,13 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*切换poi列表类型*/
         scope.changeDataList = function(val) {
             scope.dataListType = val;
-            initPoiTable();
+            if(scope.filters.name || scope.filters.pid ){
+                scope.filters.name = ""; //当过滤条件发生变化时会自动调用表格的查询
+                scope.filters.pid = null;
+            } else {
+                _self.tableParams.reload();
+            }
+            //initPoiTable();
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
@@ -212,7 +218,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         pageNum: params.page(),
                         pageSize: params.count(),
                         pidName: params.filter().name,
-                        pid: parseInt(params.filter().pid)
+                        pid: parseInt(params.filter().pid || 0)
                     };
                     dsEdit.getPoiList(param).then(function(data) {
                         scope.poiListTableMsg = '列表无数据';
@@ -249,7 +255,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         }
         /*新鲜度验证*/
         function getKindName(scope, row) {
-            return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+            if(row.kindCode){
+                return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+            } else {
+                return $sce.trustAsHtml("");
+            }
+
         }
         scope.highlightPoi = function(pid) {
             highRenderCtrl._cleanHighLight();
