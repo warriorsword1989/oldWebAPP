@@ -11,11 +11,11 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
         $scope.tableDataList = null;
         $scope.currentEditData = null;
         $scope.currentTabIndex = 'stagnatedWork';
-        $scope.costomWorkNumEum = [{'num':10,'desc':'每次10条'},{'num':20,'desc':'每次20条'},{'num':30,'desc':'每次30条'},{'num':10,'desc':'自定义'}];
+        $scope.costomWorkNumEum = [{'num':10,'desc':'每次10条'},{'num':20,'desc':'每次20条'},{'num':30,'desc':'每次30条'},{'num':'','desc':'自定义'}];
         $scope.onlineCheck = false;
         $scope.progressValue = 0;
         $scope.selectedNum = 10;
-        $scope.inputValue = 0;
+        //$scope.inputValue = 0;
         $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
         $scope.batchWorkIsOpen = false;
@@ -108,7 +108,8 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad', '
             $scope.currentTabIndex = params;
         }
         //
-        $scope.selectNum = function(params){
+        $scope.selectNum = function(params,arg2){
+            $scope.inputIsShow = arg2==3?true:false;
             $scope.costomWorkNumEum[3].num = '';
             $scope.selectedNum = params.num;
         }
