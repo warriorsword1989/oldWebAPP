@@ -12,11 +12,12 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.editLines = 2; //每页编辑的条数
         $scope.editCurrentPage = 1; //当前编辑的页码
         $scope.editAllDataList = []; //查询列表数据
-        $scope.currenteditig = []; //当前编辑的数据原始值
+        $scope.currentEditOrig  = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
         $scope.rowEditPanelShow = false; //行编辑面板显示状态
         $scope.costomWorkNumEum = [2,10,20,30];
         $scope.editModelRadio = 2;//列表模式
+        $scope.secondWorkItem = "addrSplit";
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
         $scope.editModelUrl = 'editModel.html';
         $scope.batchFlag = 1;
@@ -39,7 +40,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             return row.addressChi.fullname;
         }
         function getClassifyRules($scope, row){
-            var type = row.classifyRules;
+            var type = row.classifyRules.split(',');
             var html = '';
             for(var i = 0 ; i < type.length ; i++){
                 html +='<span class="badge">'+type[i]+'</span>'
@@ -63,7 +64,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             }
             console.info(editArr);
             $scope.editAllDataList = $scope.tableParams.data;
-            $scope.currenteditig = angular.copy(editArr);
+            $scope.currentEditOrig = angular.copy(editArr);
             $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
             initEditTable();
@@ -96,12 +97,21 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
 
                     var param = {
                         "type":'integrate',
-                        "firstWorkItem":"chinaAddress",
+                        "firstWorkItem":"poi_address",
                         "secondWorkItem":"addrSplit",
                         "status":1
                     };
                     dsColumn.queryColumnDataList(param).then(function (data){
+                        $scope.loadTableDataMsg = '列表无数据';
+                            // $scope.roadNameList = data.data;
+                            // _self.tableParams.total(data.total);
+                            // $defer.resolve(data.data);
 
+                            var temp = new FM.dataApi.ColPoiList(data);
+                            console.info(temp);
+                            $scope.roadNameList = temp.dataList;
+                            _self.tableParams.total(data.total);
+                            $defer.resolve(temp.dataList);
                     });
 
                     // var param = {
@@ -166,15 +176,21 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         };
 
         /**************** 工具条begin ***************/
+        //提交数据
         $scope.submitData = function (){
-            _self.editTable.reload();
+            $scope.showLoading = true;
+            dsColumn.submitData($scope.firstWorkItem,$scope.secondWorkItem).then(function (data){
+                $scope.showLoading = false;
+                if(data){
+                    _self.tableParams.reload();
+                }
+            });
         };
         $scope.saveData = function (){
             //获取改变的数据
-            var chage = objCtrl.compareColumData($scope.currentEditig,$scope.currentEdited);
-            console.info(chage);
+            var change = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
+            console.info(change);
             //调用接口
-
         };
         /**************** 工具条end   ***************/
 
@@ -230,7 +246,8 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             _self.tableParams.reload();
         };
 
-        $scope.showView = function (){
+        $scope.showView = function (row){
+            $scope.showInfo =  row;
             $scope.showImgInfo = true;
             $scope.slides = [
                 {
