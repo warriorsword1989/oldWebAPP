@@ -28,7 +28,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'50px'},
             { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
-            { field: "classifyRules", title: "分类",getValue:getKindName,show: true,width:'80px'},
+            { field: "type", title: "分类",getValue:getKindName,show: true,width:'80px'},
             { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'180px'},
             { field: "addressCombineName", title: "中文地址合并",getValue: getCombineName, html:true,width:'220px',show: true},
             { field: "addressCombinePinyin", title: "拼音地址合并",getValue: getCombinePinyin,html:true,width:'220px', show: true},
@@ -45,7 +45,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             return $scope.metaData.kindFormat[row.kindCode].kindName;
         }
         function getClassifyRules($scope, row){
-            var type = row.classifyRules;
+            var type = row.classifyRules.split(',');
             var html = '';
             for(var i = 0 ; i < type.length ; i++){
                 html +='<span class="badge">'+type[i]+'</span>'
