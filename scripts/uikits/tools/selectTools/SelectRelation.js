@@ -111,13 +111,14 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 }
             }
         }
-
-        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-            speedData: this.overlays[0].data,
-            optype: 'DBRDLINKSPEEDLIMIT',
-            orgtype: 'RDSPEEDLIMIT',
-            event:event
-        })
+        if(this.overlays && this.overlays.length > 0){
+            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                speedData: this.overlays[0].data,
+                optype: 'DBRDLINKSPEEDLIMIT',
+                orgtype: 'RDSPEEDLIMIT',
+                event:event
+            })
+        }
     },
 
     /***
@@ -186,7 +187,18 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 });
                             }
                         }
-                    } else {
+                    }  else if(data[item].properties.featType == 'RDLANE'){
+                         if(data[item]['geometry']['type'] == "LineString"){
+                            if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                                this.overlays.push({
+                                    layer: this.currentEditLayers[layer],
+                                    id:data[item].properties.id,
+                                    data: data[item],
+                                    tileId:tilePoint[0] + ":" + tilePoint[1]
+                                });
+                            }
+                        }
+                    }else {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
                         }
@@ -215,6 +227,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 optype: this.overlays[0].data.properties.featType,
                 selectData: this.overlays[0].data,
                 branchType:this.overlays[0].data.properties.branchType,
+                tileId:this.overlays[0].tileId,
                 event:event
             })
         } else if (this.overlays.length > 1) {
@@ -234,11 +247,13 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         var layer = '';
                         var d = '';
                         var layertype = '';
+                        var tileId = '';
                         for (var key in that.overlays) {
                             if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
                                 layer = that.overlays[key].layer;
-                                layertype = that.overlays[key].data.properties.featType
+                                layertype = that.overlays[key].data.properties.featType;
                                 d = that.overlays[key].data;
+                                tileId = that.overlays[key].tileId;
                             }
                         }
                         that.eventController.fire(that.eventController.eventTypes.GETRELATIONID, {
@@ -247,6 +262,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                             optype: layertype,
                             selectData: d,
                             branchType:d.properties.branchType,
+                            tileId:tileId,
                             event:event
                         })
                     }
