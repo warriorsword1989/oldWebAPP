@@ -93,26 +93,40 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             }, {
                 counts: [],
                 getData: function($defer, params) {
+
+                    var param = {
+                        "type":'integrate',
+                        "firstWorkItem":"chinaAddress",
+                        "secondWorkItem":"addrSplit",
+                        "status":1
+                    };
+                    dsColumn.queryColumnDataList(param).then(function (data){
+
+                    });
+
                     // var param = {
-                    //     subtaskId: parseInt(App.Temp.subTaskId),
                     //     pageNum: params.page(),
                     //     pageSize: params.count(),
                     //     sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                    //     params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+                    //     params:{
+                    //         "type":'integrate',
+                    //         "secondWorkItem":"addrSplit",
+                    //         "status":1
+                    //     }
                     // };
-                    var param = {};
-                    dsMeta.columnDataList(param).then(function(data) {
-                        $scope.loadTableDataMsg = '列表无数据';
-                        // $scope.roadNameList = data.data;
-                        // _self.tableParams.total(data.total);
-                        // $defer.resolve(data.data);
-
-                        var temp = new FM.dataApi.ColPoiList(data.data);
-                        console.info(temp);
-                        $scope.roadNameList = temp.dataList;
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(temp.dataList);
-                    });
+                    // var param = {};
+                    // dsMeta.columnDataList(param).then(function(data) {
+                    //     $scope.loadTableDataMsg = '列表无数据';
+                    //     // $scope.roadNameList = data.data;
+                    //     // _self.tableParams.total(data.total);
+                    //     // $defer.resolve(data.data);
+                    //
+                    //     var temp = new FM.dataApi.ColPoiList(data.data);
+                    //     console.info(temp);
+                    //     $scope.roadNameList = temp.dataList;
+                    //     _self.tableParams.total(data.total);
+                    //     $defer.resolve(temp.dataList);
+                    // });
                 }
             });
         };

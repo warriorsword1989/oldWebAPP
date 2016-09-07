@@ -33,6 +33,10 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
 		 0: "机动车辆",
          1: "行人"
     };
+
+    $scope.addLimitTruck = function (){
+        $scope.rdGateData.condition.unshift(fastmap.dataApi.rdGateCondition({"pid":$scope.rdGateData.pid}));
+    };
     $scope.showGateInfo = function(index) {
         var showBlackObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType":"subAttrTplContainer",
@@ -60,6 +64,11 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         // $scope.$emit("transitCtrlAndTpl", showGateInfo);
     };
     $scope.initializeData=function() {
+
+        if($scope.rdGateForm){
+            $scope.rdGateForm.$setPristine();
+        }
+
         $scope.rdGateData = {};
         var highLightFeatures = [];
         $scope.rdGateData=objectEditCtrl.data;
