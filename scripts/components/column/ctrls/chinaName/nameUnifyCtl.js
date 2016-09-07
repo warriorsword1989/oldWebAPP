@@ -139,13 +139,14 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             //获取改变的数据
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
-            //调用接口
-            $scope.getPerPageEditData($scope.editAllDataList);
             if($scope.editAllDataList.length < $scope.editLines){
             	swal("已经是最后一页了!", "", "info");
 //            	$scope.editPanelIsOpen = false;
             }
+            //调用接口
+            $scope.getPerPageEditData($scope.editAllDataList);
             initeditTable();
+            
         };
         $scope.batchParam = {
         	value : "",
@@ -229,11 +230,15 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.getPerPageEditData = function(allData){
         	//需要编辑的所有数据
         	$scope.editAllDataList = allData;
-        	//当前页要编辑的数据
-        	var resultArr = $scope.editAllDataList.splice(0,$scope.editLines);
-        	$scope.currentEditOrig = angular.copy(resultArr);
-	        $scope.currentEdited = angular.copy(resultArr);
-        	
+        	if($scope.editAllDataList.length > $scope.editLines){
+        		//当前页要编辑的数据
+            	var resultArr = $scope.editAllDataList.splice(0,$scope.editLines);
+            	$scope.currentEditOrig = angular.copy(resultArr);
+    	        $scope.currentEdited = angular.copy(resultArr);
+        	}else{
+        		$scope.currentEditOrig = angular.copy($scope.editAllDataList);
+    	        $scope.currentEdited = angular.copy($scope.editAllDataList);
+        	}
         };
         //设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function(params,arg2){
