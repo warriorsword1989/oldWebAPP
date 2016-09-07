@@ -58,7 +58,7 @@ angular.module('app').controller('importantEngAddressCtl', ['$scope', '$ocLazyLo
             return row[languageFlag]["fullname"];
         }
         function getClassifyRules($scope, row){
-            var type = row.classifyRules;
+            var type = row.classifyRules.split(',');
             var html = '';
             for(var i = 0 ; i < type.length ; i++){
                 html +='<span class="badge">'+type[i]+'</span>'

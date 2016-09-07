@@ -9,29 +9,30 @@
 		</div>
 		<div class="content">
 			<div style="clear: both;">
+				<!--自定义条数的template-->
+				<script type="text/ng-template" id="myPopoverTemplate.html">
+					<div class="form-group" ng-repeat="item in costomWorkNumEum">
+						<div class="radio">
+							<label>
+								<input type="radio" name="selectNum" ng-checked="editLines==item.num" ng-click="selectNum(item,$index)"> <span ng-bind="item.desc"></span>
+							</label>
+						</div>
+						<!--自定义输入框部分-->
+						<div ng-if="inputIsShow&&$last" class="input-group">
+							<input class="form-control" ng-model="item.num" type="text" />
+                            <span class="input-group-btn">
+                                <button ng-click="setInputValue(item.num)" class="btn btn-default" type="button">确认</button>
+                            </span>
+						</div>
+					</div>
+				</script>
 				<div style="padding: 2px;" class="pull-left">
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">查询</button>
-					<button type="button" class="btn btn-shape btn-ls" ng-click="">选择</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-if="workedFlag==2" ng-click="submitData();">提交数据</button>
-					<span uib-popover-template="customPopoverUrl" popover-is-open="popoverIsOpen" popover-trigger="outsideClick" popover-title="每次作业展开" popover-placement="bottom" ><i class="fa fa fa-asterisk fa-lg pointer wordColorWhite" ></i></span>
-					<script type="text/ng-template" id="myPopoverTemplate.html">
-						<div>
-							<div ng-repeat="item in costomWorkNumEum" style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(1);" ng-checked="editLines=='{{item}}'" value="option1" >{{item}}条/次
-							</div>
-							<div style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(2);" >自定义
-								<div ng-show="customAsignOpen" class="input-group custom-popover">
-									<input type="text" class="form-control" ng-model="a.editLines">
-									<span class="input-group-btn">
-										<button class="btn btn-default btn-ls" type="button" ng-click="customConfirm();">确定</button>
-									</span>
-								</div>
-							</div>
-						</div>
-					</script>
+					<!--自定义编辑条数控制-->
+					<span role="button" popover-is-open="popoverIsOpen" popover-placement="bottom" uib-popover-template="customPopoverUrl" popover-title="每次作业条数:" class="fa fa-cog fa-lg pointer wordColorWhite"></span>
 				</div>
 				<div class="pull-right">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
@@ -67,7 +68,7 @@
 			</div>
 		</div>
 		<!-- 高级搜索 -->
-		<div class="div-float" style="top:80px;left:120px;border-radius:5px;" drag>
+		<!--<div class="div-float" style="top:80px;left:120px;border-radius:5px;" drag>
 			<div class="fm-panel" style="margin:0px;width:330px;">
 				<div class="fm-tab" style="padding:0px;margin: 0px;">
 					<a href="#" class="tab" ng-class="{1:'active'}[batchFlag]" ng-click="batchTabs(1)">&nbsp;&nbsp;替换&nbsp;&nbsp;</a>
@@ -80,7 +81,7 @@
 								<label>字段:</label>
 								<div>
 									<select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
-											placeholder_text_single="'--请选择--'"
+											placeholder_text_single="'&#45;&#45;请选择&#45;&#45;'"
 											ng-options="value.id as value.label for value in batchOpt"
 											ng-change="changeField($event, this)">
 									</select>
@@ -108,7 +109,7 @@
 					<button type="button" class="btn btn-main" ng-show="searchBtn" ng-click="searchWork()" style="margin:6px 8px">搜索作业</button>
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 	<!-- 表格编辑界面 -->
 	<div ng-class="{true:'testView',false:'testViewHiden'}[editPanelIsOpen]">
@@ -216,7 +217,7 @@
 									</li>
 									<li>
 										<label style="width:25%;" class="lable-right">后缀:</label>
-										<div><input type="text" ng-model="rowEditData.subfix" class="table-input edit-input" ></div>
+										<div><input type="text" ng-model="rowEditData.surfix" class="table-input edit-input" ></div>
 									</li>
 									<li>
 										<label style="width:25%;" class="lable-right">附属设施名:</label>
@@ -307,27 +308,23 @@
 							<table class="table">
 								<tr>
 									<td style="width: 25%;">PID:</td>
-									<td>12345678</td>
-								</tr>
-								<tr>
-									<td>作业员:</td>
-									<td>张三</td>
+									<td>{{showInfo.pid}}</td>
 								</tr>
 								<tr>
 									<td>FID:</td>
-									<td>1111111111111</td>
+									<td>{{showInfo.poiNum}}</td>
 								</tr>
 								<tr>
 									<td>地域:</td>
-									<td>北京凉山彝族自治州会理县</td>
+									<td>{{showInfo.detailArea}}</td>
 								</tr>
 								<tr>
 									<td>图符号:</td>
-									<td>898989</td>
+									<td>{{showInfo.meshId}}</td>
 								</tr>
 								<tr>
 									<td>图片:</td>
-									<td>0张</td>
+									<td>{{showInfo.photos.length}}张</td>
 								</tr>
 							</table>
 						</div>

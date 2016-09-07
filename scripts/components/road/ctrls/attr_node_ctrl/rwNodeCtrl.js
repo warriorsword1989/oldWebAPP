@@ -16,12 +16,12 @@ angular.module("app").controller("rwNodeController",['$scope','dsEdit',function(
     //形态
     $scope.form = [
         {"id": 0, "label": "无"},
-        {"id": 1, "label": "铁路道路"},
+        {"id": 1, "label": "铁路道口"},
         {"id": 2, "label": "桥"},
         {"id": 3, "label": "隧道"},
-        {"id": 4, "label": "图轮廓"},
-        {"id": 5, "label": "有人看守铁路口"},
-        {"id": 6, "label": "无人看守铁路口"}
+        {"id": 4, "label": "图廓点"},
+        {"id": 5, "label": "有人看守铁路道口"},
+        {"id": 6, "label": "无人看守铁路道口"}
     ];
     //种别
     $scope.kind = [
