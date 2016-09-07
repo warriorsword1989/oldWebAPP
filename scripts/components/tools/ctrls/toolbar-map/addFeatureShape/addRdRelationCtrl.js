@@ -2226,6 +2226,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           $scope.chargeTrackLink($scope.formatLink(data.properties));
                         } else {
                           $scope.laneInfo.nodePid = parseInt(data.id);
+                          if(parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
+                            $scope.laneInfo.laneDir = 1;
+                          }else{
+                            $scope.laneInfo.laneDir = 2;
+                          }
                           highLightFeatures.push({
                               id: $scope.laneInfo.nodePid.toString(),
                               layerid: 'rdLink',
@@ -2253,14 +2258,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 });
             }else if (type === 'RDLANETOPO'){ //坡度
                 $scope.resetOperator("addRelation", type);
-                var highLightFeatures = [];
-                var linkPids = [];//推荐的退出线
-                var continueLinkPid = null;//退出线或者连续link的另一个端点
-                var linkLength = 0;//长度
-                var slopeData = {nodePid:null,linkPid:null};
-                var exLinkPids = [];//所有的连续link
 
-                highRenderCtrl.highLightFeatures.length = 0;
+                highRenderCtrl.highLightFeatures = [];
                 highRenderCtrl._cleanHighLight();
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
@@ -2275,10 +2274,29 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 editLayer.bringToBack();
                 eventController.off(eventController.eventTypes.GETRELATIONID);
                 eventController.on(eventController.eventTypes.GETRELATIONID, function(data){
-                    var rdlinkData = rdLink.tiles[data.tileId];
+                    var rdlinks = rdLink.tiles[data.tileId].data;
+                    var linkData = [];
+                    var nodePids = [];
+                    for(var i = 0; i < rdlinks.length ; i++){
+                        if(rdlinks[i].properties.id == data.id && linkData.indexOf(data.id) < 0){
+                            linkData.push(rdlinks[i]);
+                            nodePids = [];
+                            nodePids.push(rdlinks[i].properties.enode);
+                            nodePids.push(rdlinks[i].properties.snode);
+                            break;
+                        }
+                    }
+                    if(linkData.length == 0){
+                        swal("提示","找不到详细车道对应的link，请重试！","info");
+                        return;
+                    } else if (linkData.length == 1){//进入线
+
+                    } else {//连续线、退出线
+
+                    }
 
 
-                    
+
                     if (data.index === 0){ //进入点
                         slopeData.nodePid = parseInt(data.id);
                         highLightFeatures.push({
