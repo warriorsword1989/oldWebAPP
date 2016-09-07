@@ -138,6 +138,8 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
             //调用接口
+            $scope.getPerPageEditData($scope.editAllDataList);
+            initeditTable();
 
         };
         $scope.batchParam = {
@@ -225,13 +227,18 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         //获取当前页要编辑的条数
         $scope.getPerPageEditData = function(allData){
         	//需要编辑的所有数据
+        	$scope.editAllDataList = allData;
+        	//当前页要编辑的数据
+        	var resultArr = $scope.editAllDataList.splice(0,$scope.editLines);
+        	$scope.currentEditOrig = angular.copy(resultArr);
+	        $scope.currentEdited = angular.copy(resultArr);
         	
         };
         //设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function(params,arg2){
             $scope.inputIsShow = arg2==3?true:false;
             $scope.costomWorkNumEum[3].num = '';
-            $scope.editorLines = params.num;
+            $scope.editLines = params.num;
         };
         /*设置每次作业的条数*/
         $scope.setInputValue = function(params){
@@ -240,7 +247,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                 alert('必须大于零的整数!');
                 return;
             }else{
-                $scope.editorLines = parseInt(params);
+                $scope.editLines = parseInt(params);
             }
             $scope.popoverIsOpen = false;
         };
