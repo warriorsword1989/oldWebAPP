@@ -63,13 +63,15 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             if(checkedArr.length > 0){
                 editArr = checkedArr;
             } else {
-                editArr = $scope.tableDataList.slice(0,$scope.editLines);
+                editArr = $scope.tableDataList;
             }
+//            $scope.editAllDataList = editArr;
+            $scope.getPerPageEditData(editArr);
             console.info(editArr);
             $scope.batchWorkIsOpen = false;
             $scope.batchParam.value = "";
-            $scope.currentEditOrig = angular.copy(editArr);
-            $scope.currentEdited = angular.copy(editArr);
+//            $scope.currentEditOrig = angular.copy(editArr);
+//            $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
             initeditTable();
         };
@@ -139,8 +141,11 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             console.info(chage);
             //调用接口
             $scope.getPerPageEditData($scope.editAllDataList);
+            if($scope.editAllDataList.length < $scope.editLines){
+            	swal("已经是最后一页了!", "", "info");
+//            	$scope.editPanelIsOpen = false;
+            }
             initeditTable();
-
         };
         $scope.batchParam = {
         	value : "",
@@ -209,11 +214,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             	swal("当前没有符合条件的数据", "", "info");
             	return;
             }
-            editArr = resultArr;
-            
-            editArr = resultArr.slice(0,$scope.editLines);
-	        $scope.currentEditOrig = angular.copy(editArr);
-	        $scope.currentEdited = angular.copy(editArr);
+            $scope.getPerPageEditData(resultArr);
 	        $scope.editPanelIsOpen = true;
 	        initeditTable();
 	        $scope.batchWorkIsOpen = false;
@@ -339,7 +340,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         	}
         	swal("全部替换完成,共进行了"+i+"处替换", "", "info");
         	initeditTable();
-        	$scope.closeEditBatchModal();
+//        	$scope.closeEditBatchModal();
         };
         /*******************  编辑页面end  ******************/
 
