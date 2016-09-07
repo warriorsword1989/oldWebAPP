@@ -210,7 +210,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             { field: "housenum", title: "门牌号",getValue: getColName,html:true,show: true},
             { field: "type", title: "类型名",getValue: getColName,html:true,show: true},
             { field: "subnum", title: "字号",getValue: getColName,html:true,show: true},
-            { field: "subfix", title: "后缀",getValue: getColName,html:true,show: true},
+            { field: "surfix", title: "后缀",getValue: getColName,html:true,show: true},
             { field: "estab", title: "附属设施名",getValue: getColName,html:true,show: true,width:'80'},
             { field: "building", title: "楼栋名",getValue: getColName,html:true,show: true},
             { field: "floor", title: "楼层",getValue: getColName,html:true,show: true},
