@@ -152,8 +152,11 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.applyData = function (){
 			$scope.showLoading = true;
 			dsColumn.applyPoi($scope.firstWorkItem,$scope.groupId).then(function (data){
-				swal("提示", '申请数据成功！', "info");
 				$scope.showLoading = false;
+				if(!data){
+					return ;
+				}
+				swal("提示", '申请数据成功！', "info");
 				var param = {
 					"firstWorkItem":"poi_address",
 					"taskType": 1
