@@ -7,6 +7,7 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
         this.properties['guide'] = data.m.c;
         this.properties['kindCode'] = data.m.d;
         this.properties['name'] = data.m.e;
+        this.properties['indoor'] = data.m.g;
         var redFill = {
             lineColor: '#FF0000',
             fillColor: 'rgba(225,225,225,0.5)',
