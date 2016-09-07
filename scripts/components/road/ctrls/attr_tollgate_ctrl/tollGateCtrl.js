@@ -92,7 +92,6 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				"data": $scope.tollGateData.passages[index]
 			};
 			objCtrl.passageInfo = $scope.tollGateData.passages[index];
-			objCtrl.tollGateType = $scope.tollGateData.type;
 		}
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateNameData = detailInfo;

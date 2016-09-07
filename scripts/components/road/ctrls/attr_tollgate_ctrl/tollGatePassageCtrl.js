@@ -7,7 +7,8 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	$scope.initPassage = function(){
 		$scope.tollGatePassage = objCtrl.passageInfo;
-		$scope.tollGateType = objCtrl.tollGateType;
+		$scope.tollGateInfo = objCtrl.data;
+		$scope.passageIndex = 0;
 	};
 	$scope.initPassage();
 	$scope.carData=[];
@@ -58,16 +59,26 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 			}
 		}
 	};
-	$scope.showPopover=function(e){
+	$scope.showPopover=function(e,index){
 		var dateTimeWell = $(e.target).parents('.fm-container').parent();
 		$('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
-		if($('body .carTypeTip:last').css('display') == 'none'){
-			$(".carTypeTip").css({'right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
+		// if($('body .carTypeTip:last').css('display') == 'none'){
+			$(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
 			$('body .carTypeTip:last').show();
-		}else{
-			$('body .carTypeTip:last').hide();
-		}
-		$('body .datetip:last').hide();//关闭时间控件
+		// }else{
+		// 	if($scope.passageIndex == index){
+		// 		$('body .carTypeTip:last').hide();
+		// 	}else{
+		// 		$('body .carTypeTip:last').hide();
+		// 		$(".carTypeTip").css({'right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
+		// 		$('body .carTypeTip:last').show();
+		// 	}
+		// }
+		$scope.passageIndex = index;
+	};
+	$scope.closePopover = function(){
+		// $('body .datetip:last').hide();
+		$('body .carTypeTip:last').hide();
 	};
 	$scope.checkViche=function(){
 		var newArray=[];
@@ -92,8 +103,8 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 
 		}
 
-		$scope.tollGatePassage.vehicle=parseInt(bin2dec(result));
-	}
+		$scope.tollGateInfo.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
+	};
 	/*领卡类型*/
 	$scope.cardTypeObj = [
 		{id:0,label:'未调查',name:'未调查'},
@@ -143,13 +154,18 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 		{"id": 27, "label": "槽罐车","checked":false},
 		{"id": 28, "label": "残疾人车","checked":false}
 	];
-	$scope.showvehicle($scope.tollGatePassage.vehicle);
+	for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
+		$scope.showvehicle($scope.tollGateInfo.passages[i].vehicle);
+	}
 	$scope.$on('refreshTollgatePassage',function(data){
 		$scope.initPassage();
-		$scope.showvehicle($scope.tollGatePassage.vehicle);
+		for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
+			$scope.showvehicle($scope.tollGateInfo.passages[i].vehicle);
+		}
+		// $scope.showvehicle($scope.tollGateInfo.passages[$scope.passageIndex].vehicle);
 	});
 	/*切换领卡类型*/
 	$scope.changeCardType = function(){
 		$scope.$emit('tollGateCardType',true);
-	}
+	};
 }]);
