@@ -2052,7 +2052,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
-                $scope.laneInfo = {};
+                $scope.laneInfo = {
+                  links : []
+                };
                 $scope.linkArray = [];
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID,function (data){
@@ -2061,6 +2063,17 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
 
                     map.currentTool.snapHandler.addGuideLayer(rdnode);
 
+                    // 过滤
+                    $scope.unique = function(arr) {
+                        var result = [], hash = {};
+                        for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+                            if (!hash[elem]) {
+                                result.push(elem);
+                                hash[elem] = true;
+                            }
+                        }
+                        return result;
+                    }
                     // 追踪高亮
                     $scope.getTrackLinks = function(laneInfo){
                       var param = {
@@ -2133,6 +2146,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                       }
                       highRenderCtrl.highLightFeatures = highLightFeatures;
                       highRenderCtrl.drawHighlight();
+                      for(var i=0,len=$scope.linkArray.length;i<len;i++){
+                        $scope.laneInfo.links.push($scope.linkArray[i].pid);
+                      }
+                      $scope.laneInfo.links = $scope.unique($scope.laneInfo.links);
                     }
                     // 反选link
                     $scope.chargeTrackLink = function(linkObj){
@@ -2186,6 +2203,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         $scope.laneInfo.inLinkPid = parseInt(data.id);
                         if(!$scope.isLinkTrack){
                             $scope.linkArray.push($scope.formatLink(data.properties));
+                            $scope.laneInfo.links.push($scope.formatLink(data.properties).pid);
                         }
                         highLightFeatures.push({
                             id: $scope.laneInfo.inLinkPid.toString(),
