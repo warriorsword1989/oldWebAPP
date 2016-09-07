@@ -38,7 +38,7 @@ angular.module("dataService").service("dsColumn", ["$http", "$q", "ajax", functi
         var params = {
             "taskId": App.Temp.dbId,
             "firstWorkItem": firstWorkItem,
-            "secondWorkItem": secondWorkItem || ""
+            "secondWorkItem": secondWorkItem || "" //可以为空
         };
         ajax.get("editcolumn/poi/deep/columnSubmit", {
             parameter: JSON.stringify(params)
@@ -55,17 +55,46 @@ angular.module("dataService").service("dsColumn", ["$http", "$q", "ajax", functi
         return defer.promise;
     };
 
-
-    /*作业数据查询(待作业、待提交)*/
-    this.columnDataList = function(params) {
+    /**
+     * 查询二级作业项统计信息
+     * @param taskId
+     * @param firstWorkItem
+     */
+    this.querySecondWorkStatistics = function(param) {
         var defer = $q.defer();
         var params = {
-            "taskId":params.subtaskId,
-            "type":params.type,
-            "secondWorkItem":params.secondWorkItem,
-            "status":params.status
-        }
-        ajax.get("editcolumn/poi/deep/columnQuery", params).success(function(data) {
+            "taskId": App.Temp.dbId,
+            "firstWorkItem": param.secondWorkItem ,
+            "taskType": param.taskType
+        };
+        ajax.get("editcolumn/poi/deep/secondWorkStatistics ", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询统计信息出错：", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    /*作业数据查询(待作业、待提交)*/
+    this.queryColumnDataList = function(param) {
+        var defer = $q.defer();
+        var params = {
+            "taskId":App.Temp.dbId,
+            "type":param.type,
+            "firstWorkItem":param.firstWorkItem,
+            "secondWorkItem":param.secondWorkItem,
+            "status":param.status
+        };
+        ajax.get("editcolumn/poi/deep/columnQuery", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {

@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="content">
-            <form>
+            <form name="warningInfoForm">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>进入线</label>
@@ -65,13 +65,13 @@
                     <li>
                         <label>有效距离</label>
                         <div >
-                            <input type="text" class="fm-control" ng-model="rdWarningInfoObj.validDis"/>
+                            <input type="number" class="fm-control" min="1" max="99999" ng-model="rdWarningInfoObj.validDis"/>
                         </div>
                     </li>
                     <li>
                         <label>预告距离</label>
                         <div >
-                            <input type="text" class="fm-control" ng-model="rdWarningInfoObj.warnDis"/>
+                            <input type="number" class="fm-control" min="1" max="99999"  ng-model="rdWarningInfoObj.warnDis"/>
                         </div>
                     </li>
                     <li>

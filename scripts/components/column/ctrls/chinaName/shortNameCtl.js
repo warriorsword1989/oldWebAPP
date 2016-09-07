@@ -9,11 +9,16 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 5; //每页编辑的条数
+        $scope.editorLines = 10; //每页编辑的条数
         $scope.editorCurrentPage = 1; //当前编辑的页码
         $scope.editAllDataList = []; //查询列表数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
+        
+        //popover
+        $scope.popoverIsOpen = false;
+        $scope.customPopoverUrl = 'myPopoverTemplate.html';
+        $scope.costomWorkNumEum = [{'num':10,'desc':'每次10条'},{'num':20,'desc':'每次20条'},{'num':30,'desc':'每次30条'},{'num':'','desc':'自定义'}];
         
         $scope.changeTabs = function (flag){
             $scope.workedFlag = flag;
@@ -137,6 +142,23 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             console.info(chage);
             //调用接口
 
+        };
+        //设置每次作业条数的radio选择逻辑;
+        $scope.selectNum = function(params,arg2){
+            $scope.inputIsShow = arg2==3?true:false;
+            $scope.costomWorkNumEum[3].num = '';
+            $scope.editorLines = params.num;
+        };
+        /*设置每次作业的条数*/
+        $scope.setInputValue = function(params){
+            $scope.costomWorkNumEum[3].num = parseInt(params);
+            if(params<=0){
+                alert('必须大于零的整数!');
+                return;
+            }else{
+                $scope.editorLines = parseInt(params);
+            }
+            $scope.popoverIsOpen = false;
         };
         /**************** 工具条end   ***************/
 

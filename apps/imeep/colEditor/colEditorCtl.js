@@ -153,6 +153,30 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.showLoading = true;
 			dsColumn.applyPoi($scope.firstWorkItem,$scope.groupId).then(function (data){
 				$scope.showLoading = false;
+				if(!data){
+					return ;
+				}
+				swal("提示", '申请数据成功！', "info");
+				var param = {
+					"firstWorkItem":"poi_address",
+					"taskType": 1
+				};
+				dsColumn.querySecondWorkStatistics(param).then(function (data){
+					if(data){
+						$scope.names.chinaAddress = [];
+						for(var i = 0 ,len = data.details; i < len ; i ++){
+							var temp = data.details[i];
+							for(var j = 0 ; j < $scope.names.chinaAddress.length ; j++){
+								var tp = $scope.names.chinaAddress[j];
+								if(temp.id == tp.id){
+									tp.count = temp.count;
+									tp.worked = temp.check;
+								}
+							}
+						}
+						$scope.names.chinaAddress[0].worked = 100;
+					}
+				});
 			});
 		};
 		//提交数据

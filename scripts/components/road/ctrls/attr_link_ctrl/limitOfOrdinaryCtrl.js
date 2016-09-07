@@ -119,7 +119,7 @@ oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout
         "label": "运输卡车"
     }, {
         "id": 3,
-        "label": "步行车"
+        "label": "步行者"
     }, {
         "id": 4,
         "label": "自行车"
@@ -170,7 +170,7 @@ oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout
         "label": "载有水污染品的车辆"
     }, {
         "id": 20,
-        "label": "载有其他污染品的车辆"
+        "label": "载有其它危险品的车辆"
     }, {
         "id": 21,
         "label": "电车"
