@@ -2229,6 +2229,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           $scope.chargeTrackLink($scope.formatLink(data.properties));
                         } else {
                           $scope.laneInfo.nodePid = parseInt(data.id);
+                          if(parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
+                            $scope.laneInfo.laneDir = 1;
+                          }else{
+                            $scope.laneInfo.laneDir = 2;
+                          }
                           highLightFeatures.push({
                               id: $scope.laneInfo.nodePid.toString(),
                               layerid: 'rdLink',

@@ -96,10 +96,16 @@ angular.module("app").controller("LaneInfoCtl", ['$scope', 'dsEdit' ,'dsMeta','$
 					$timeout(function(){
 							$scope.fmdateTimer($scope.laneCondition.directionTime);
 							$scope.$broadcast('set-code',$scope.laneCondition.directionTime);
-							$scope.carFmdateTimer($scope.laneCondition.vehicleTime);
-							$scope.$broadcast('set-code',$scope.laneCondition.vehicleTime);
 							$scope.$apply();
 					},100);
+					$ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimerDouble').then(function () {
+							$scope.dateDoubleURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimerDouble.html';
+							$timeout(function(){
+									$scope.carFmdateTimer($scope.laneCondition.vehicleTime);
+									$scope.$broadcast('set-code',$scope.laneCondition.vehicleTime);
+									$scope.$apply();
+							},100);
+					});
 			});
 	});
 	/*时间控件*/
