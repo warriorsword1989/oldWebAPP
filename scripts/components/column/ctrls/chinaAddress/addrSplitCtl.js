@@ -15,10 +15,14 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.currentEditOrig  = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
         $scope.rowEditPanelShow = false; //行编辑面板显示状态
-        $scope.costomWorkNumEum = [2,10,20,30];
         $scope.editModelRadio = 2;//列表模式
         $scope.secondWorkItem = "addrSplit";
+
+        //popover
+        $scope.popoverIsOpen = false;
         $scope.customPopoverUrl = 'myPopoverTemplate.html';
+        $scope.costomWorkNumEum = [{'num':10,'desc':'每次10条'},{'num':20,'desc':'每次20条'},{'num':30,'desc':'每次30条'},{'num':'','desc':'自定义'}];
+
         $scope.editModelUrl = 'editModel.html';
         $scope.batchFlag = 1;
 
@@ -192,6 +196,25 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
             console.info(change);
             //调用接口
         };
+
+        //设置每次作业条数的radio选择逻辑;
+        $scope.selectNum = function(params,arg2){
+            $scope.inputIsShow = arg2==3?true:false;
+            $scope.costomWorkNumEum[3].num = '';
+            $scope.editLines = params.num;
+        };
+        /*设置每次作业的条数*/
+        $scope.setInputValue = function(params){
+            $scope.costomWorkNumEum[3].num = parseInt(params);
+            if(params<=0){
+                alert('必须大于零的整数!');
+                return;
+            }else{
+                $scope.editLines = parseInt(params);
+            }
+            $scope.popoverIsOpen = false;
+        };
+
         /**************** 工具条end   ***************/
 
         /*******************  表格编辑页面begin  ****************/
@@ -249,6 +272,7 @@ angular.module('app').controller('ChinaAddressCtl', ['$scope', '$ocLazyLoad', 'N
         $scope.showView = function (row){
             $scope.showInfo =  row;
             $scope.showImgInfo = true;
+
             $scope.slides = [
                 {
                     id:1,

@@ -158,7 +158,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				}
 				swal("提示", '申请数据成功！', "info");
 				var param = {
-					"firstWorkItem":"poi_address",
+					"firstWorkItem":$scope.firstWorkItem,
 					"taskType": 1
 				};
 				dsColumn.querySecondWorkStatistics(param).then(function (data){
