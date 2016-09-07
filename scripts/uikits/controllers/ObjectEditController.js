@@ -190,7 +190,7 @@ fastmap.uikit.ObjectEditController = (function() {
                     	this.data = fastmap.dataApi.roadName(obj);
                     	break;
                     case "RDLANE"://详细车道
-                      this.data = fastmap.dataApi.rdLane(obj);
+                      this.data = fastmap.dataApi.rdLanes(obj);
                       break;
                     default:
                         throw "无法解析当前选择的类型!";

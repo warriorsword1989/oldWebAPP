@@ -4,7 +4,7 @@
         <span class="label label-info" >{{rdGateData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
-        <form name="nodeForm">
+        <form name="rdGateForm">
             <div class="fm-panel" >
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
@@ -51,7 +51,7 @@
                 <ul class="list-group list-group-lg m-b-none" >
                     <li class="list-group-item">
                         <div class="list-name">
-                            <a ng-click="addLimitTruck()" style="cursor: pointer;color: #ffffff;">大门限制信息（共<span ng-if="rdGateData!=undefined">{{ rdGateData.condition.length}}</span>条）</a>
+                            <a ng-click="addLimitTruck();" class="pointer" >大门限制信息（共<span ng-if="rdGateData!=undefined">{{ rdGateData.condition.length}}</span>条）</a>
                         </div>
                         <div class="list-line"></div>
                     </li>

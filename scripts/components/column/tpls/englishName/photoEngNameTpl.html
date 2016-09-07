@@ -204,7 +204,7 @@
         </div>
     </div>
 
-    <!--批处理弹框-->
+    <!--查询界面批处理弹框()-->
     <div ng-show="batchWorkIsOpen">
         <div class="div-float" style="top:80px;left:120px;border-radius:5px;">
             <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeBatchModal()"><span>&times;</span></button>
@@ -245,7 +245,52 @@
                 <div style="text-align:right;">
                     <button type="button" class="btn btn-main" ng-click="cancle()" style="margin:6px 8px">取消</button>
                     <button type="button" class="btn btn-main" ng-show="extractEle" ng-click="extractData()" style="margin:6px 8px">提取数据</button>
-                    <button type="button" class="btn btn-main" ng-show="searchBtn"  ng-click="extractData()" style="margin:6px 8px">搜索作业</button>
+                    <button type="button" class="btn btn-main" ng-show="searchBtn"  ng-click="searchWork()" style="margin:6px 8px">搜索作业</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑界面批量作业弹框 -->
+    <div ng-show="editBatchWorkIsOpen">
+        <div class="div-float" style="top:80px;left:120px;border-radius:5px;" drag>
+            <button type="button" class="close" style="padding:0px 4px;font-size:28px;color:white;opacity:1;" ng-click="closeEditBatchModal()"><span>&times;</span></button>
+            <button type="button"  drag-handle class="close fa fa-arrows" style="padding:7px;font-size:16px;color:white;opacity:1;" title="拖拽"></button>
+            <div class="fm-panel" style="margin:0px;width:330px;">
+                <div class="title">批量作业</div>
+                <div class="content" >
+                    <div style="height:200px;">
+                        <ul class="fm-ul fm-ul-form">
+                            <li>
+                                <label>字段:</label>
+                                <div>
+                                    <select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
+                                            placeholder_text_single="'--请选择--'"
+                                            ng-options="value.id as value.label for value in replaceOpt"
+                                            ng-change="changeField($event, this)" ng-class="{true:'chosen-disabled'}[editDisable]" ng-disabled="editDisable">
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <label>搜索:</label>
+                                <div>
+                                    <input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.value" ng-class="{true:'chosen-disabled'}[editDisable]" ng-disabled="editDisable">
+                                </div>
+                            </li>
+                            <li>
+                                <label>替换为:</label>
+                                <div>
+                                    <input type="text" class="fm-control" style="width:200px;" ng-model="batchParam.replaceTo" ng-class="{true:'chosen-disabled'}[editDisable]" ng-disabled="editDisable">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="border-bottom: 1px solid #ddd;"></div>
+                <div style="text-align:right;">
+                    <button type="button" class="btn btn-main" ng-click="next()" style="margin:6px 8px">下一个</button>
+                    <button type="button" class="btn btn-main" ng-click="replaceOne()" style="margin:6px 8px">替换</button>
+                    <button type="button" class="btn btn-main" ng-click="replaceAll()" style="margin:6px 8px">全部替换</button>
                 </div>
             </div>
         </div>

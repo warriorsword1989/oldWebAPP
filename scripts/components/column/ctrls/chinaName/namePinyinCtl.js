@@ -9,11 +9,15 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editorLines = 2; //每页编辑的条数
+        $scope.editorLines = 10; //每页编辑的条数
         $scope.editorCurrentPage = 1; //当前编辑的页码
-        $scope.editAllDataList = []; //查询列表数据
+        $scope.editAllDataList = []; //要编辑的列表总数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
+        //popover
+        $scope.popoverIsOpen = false;
+        $scope.customPopoverUrl = 'myPopoverTemplate.html';
+        $scope.costomWorkNumEum = [{'num':10,'desc':'每次10条'},{'num':20,'desc':'每次20条'},{'num':30,'desc':'每次30条'},{'num':'','desc':'自定义'}];
         
         $scope.changeTabs = function (flag){
             $scope.workedFlag = flag;
@@ -34,7 +38,6 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         function getPinyin($scope, row){
 	        var html = $scope.heightLightPin(row.nameObj.nameStrPinyin,row.nameObj.name,row.nameObj.multiPinyin,row.num_index);
 	        return "<span>"+html+"</span>";
-//        	return row.nameObj.nameStrPinyin;
         }
         function getClassifyRules($scope, row){
             var type = row.classifyRules;
@@ -52,21 +55,22 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                     checkedArr.push(temp[i]);
                 }
             }
-            var editorArr = [];
             if(checkedArr.length > 0){
-                editorArr = checkedArr;
+            	editAllDataList = checkedArr;
             } else {
-                editorArr = $scope.tableParams.data.slice(0,$scope.editorLines);
+            	editAllDataList = $scope.tableParams.data.slice(0,$scope.editorLines);
             }
+            var editorArr = [];
+            editorArr = editAllDataList.slice(0,$scope.editorLines);
             console.info(editorArr);
-            $scope.editAllDataList = $scope.tableParams.data;
+//            $scope.editAllDataList = editorArr;
             $scope.currentEditOrig = angular.copy(editorArr);
             $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
             initEditorTable();
         };
         /***
-         * 
+         * 解析拼音数据
          */
         var parseNamesMultiPinyin = function(data){
             //含有名称多音字的poiArr
@@ -186,6 +190,23 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             console.info(chage);
             //调用接口
 
+        };
+        //设置每次作业条数的radio选择逻辑;
+        $scope.selectNum = function(params,arg2){
+            $scope.inputIsShow = arg2==3?true:false;
+            $scope.costomWorkNumEum[3].num = '';
+            $scope.editorLines = params.num;
+        };
+        /*设置每次作业的条数*/
+        $scope.setInputValue = function(params){
+            $scope.costomWorkNumEum[3].num = parseInt(params);
+            if(params<=0){
+                alert('必须大于零的整数!');
+                return;
+            }else{
+                $scope.editorLines = parseInt(params);
+            }
+            $scope.popoverIsOpen = false;
         };
         /**************** 工具条end   ***************/
 

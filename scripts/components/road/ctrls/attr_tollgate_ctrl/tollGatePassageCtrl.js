@@ -62,7 +62,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 		var dateTimeWell = $(e.target).parents('.fm-container').parent();
 		$('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
 		if($('body .carTypeTip:last').css('display') == 'none'){
-			$(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
+			$(".carTypeTip").css({'right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
 			$('body .carTypeTip:last').show();
 		}else{
 			$('body .carTypeTip:last').hide();
@@ -116,7 +116,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 		{"id": 0, "label": "客车(小汽车)","checked":false},
 		{"id": 1, "label": "配送卡车","checked":false},
 		{"id": 2, "label": "运输卡车","checked":false},
-		{"id": 3, "label": "步行车","checked":false},
+		{"id": 3, "label": "步行者","checked":false},
 		{"id": 4, "label": "自行车","checked":false},
 		{"id": 5, "label": "摩托车","checked":false},
 		{"id": 6, "label": "机动脚踏两用车","checked":false},
@@ -133,7 +133,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 		{"id": 17, "label": "农用车","checked":false},
 		{"id": 18, "label": "载有易爆品的车辆","checked":false},
 		{"id": 19, "label": "载有水污染品的车辆","checked":false},
-		{"id": 20, "label": "载有其他污染品的车辆","checked":false},
+		{"id": 20, "label": "载有其它危险品的车辆","checked":false},
 		{"id": 21, "label": "电车","checked":false},
 		{"id": 22, "label": "轻轨","checked":false},
 		{"id": 23, "label": "校车","checked":false},

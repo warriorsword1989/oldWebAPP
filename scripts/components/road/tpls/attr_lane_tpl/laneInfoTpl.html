@@ -18,7 +18,10 @@
                         </div>
                     </li>
                     <li>
-                        <div ng-include="dateURL" class="muti-date" date-str='{{tItem.timeDomain}}' style="width:100%;"></div>
+                      <label class="date-time-title">车道时间段</label>
+                    </li>
+                    <li>
+                        <div ng-include="dateURL" class="muti-date" date-str='{{laneCondition.directionTime}}' style="width:100%;"></div>
                     </li>
                     <li>
                         <div class="date-well full-width">
@@ -30,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="date-body full-width">
-                                <div class="date-list col-md-6" ng-repeat="item in carData">
+                                <div class="date-list col-md-6" ng-repeat="item in carData track by $index">
                                     <div style="color:#ffffff;padding: 5px;" ng-bind="item.label">
                                     </div>
                                 </div>
@@ -40,10 +43,10 @@
                         </div>
                     </li>
                     <li>
-                        <label>车辆时间段</label>
-                        <div>
-                            <input type="text" ng-model="laneCondition.vehicleTime"/>
-                        </div>
+                      <label class="date-time-title">车辆时间段</label>
+                    </li>
+                    <li>
+                        <div ng-include="dateDoubleURL" class="muti-date" date-str='{{laneCondition.vehicleTime}}' style="width:100%;"></div>
                     </li>
                 </ul>
             </form>
