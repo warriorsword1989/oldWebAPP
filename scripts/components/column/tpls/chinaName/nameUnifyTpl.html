@@ -2,17 +2,35 @@
 	<script type="text/ng-template" id="headerCheckboxId">
 		<input type="checkbox" ng-model="tableParams.data.checkedAll" ng-click="_test();" class="select-all" />
 	</script>
-	<!-- <div> -->
 		<div class="fm-tabs" style="padding:0px;margin: 0px;">
 			<a href="#" class="tab col-sm-1" ng-class="{1:'active'}[workedFlag]" ng-click="changeTabs(1)">待作业</a>
 			<a href="#" class="tab col-sm-1" ng-class="{2:'active'}[workedFlag]" ng-click="changeTabs(2)">待提交</a>
 		</div>
 		<div class="content">
 			<div style="clear: both;">
+				<!--自定义条数的template-->
+	            <script type="text/ng-template" id="myPopoverTemplate.html">
+                    <div class="form-group" ng-repeat="item in costomWorkNumEum">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="selectNum" id="optionsRadios1" ng-checked="editorLines==item.num" ng-click="selectNum(item,$index)"> <span ng-bind="item.desc"></span>
+                            </label>
+                        </div>
+                        <!--自定义输入框部分-->
+                        <div ng-if="inputIsShow&&$last" class="input-group">
+                            <input class="form-control" ng-model="item.num" type="text" />
+                            <span class="input-group-btn">
+                                <button ng-click="setInputValue(item.num)" class="btn btn-default" type="button">确认</button>
+                            </span>
+                        </div>
+                    </div>
+            	</script>
 				<div class="pull-left" style="padding: 10px;">
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="batchWork()">批量作业</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="submitData();">提交数据</button>
+					<!--自定义编辑条数控制-->
+                	<span role="button" popover-is-open="popoverIsOpen" popover-placement="bottom" uib-popover-template="customPopoverUrl" popover-title="每次作业条数:" class="fa fa-cog fa-lg pointer wordColorWhite"></span>
 				</div>
 				<div class="pull-right" style="padding: 10px;">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
