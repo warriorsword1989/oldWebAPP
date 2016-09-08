@@ -146,7 +146,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             //调用接口
             $scope.getPerPageEditData($scope.editAllDataList);
             initeditTable();
-            
+
         };
         $scope.batchParam = {
         	value : "",
