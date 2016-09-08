@@ -22,7 +22,7 @@
         <script src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>
     </head>
     <body ng-controller="TaskSelectionCtl">
-        <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+        <div  ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
@@ -59,12 +59,12 @@
                         <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
                         <!--左侧任务列表-->
                         <div ui-layout-container class="fm-container fm-col animated fadeInLeft fm-no-scroll" size="250px">
-                            <div ng-if="!showDetailEdit" class="fm-tabs" style="padding:0px;overflow: auto;">
+                            <div ng-cloak ng-if="!showDetailEdit" class="fm-tabs" style="padding:0px;overflow: auto;">
                                 <a href="#" class="tab col-sm-4" ng-class="{6:'active'}[taskStatus]" ng-click="changeTaskStatus(6)"><i class="fa fa-th-large" aria-hidden="true"></i> 全部</a>
                                 <a href="#" class="tab col-sm-4" ng-class="{7:'active'}[taskStatus]" ng-click="changeTaskStatus(7)"><i class="fa fa fa-unlock" aria-hidden="true"></i> 开启</a>
                                 <a href="#" class="tab col-sm-4" ng-class="{8:'active'}[taskStatus]" ng-click="changeTaskStatus(8)"><i class="fa fa fa-lock" aria-hidden="true"></i> 关闭</a>
                             </div>
-                            <div ng-if="showDetailEdit" class="fm-tabs" style="padding:0px;overflow: auto;">
+                            <div ng-cloak ng-if="showDetailEdit" class="fm-tabs" style="padding:0px;overflow: auto;">
                                 <a href="#" class="tab col-sm-3" ng-class="{9:'active'}[taskStatus]" ng-click="changeTaskStatus(9)">中文名称</a>
                                 <a href="#" class="tab col-sm-3" ng-class="{10:'active'}[taskStatus]" ng-click="changeTaskStatus(10)">英文名称</a>
                                 <a href="#" class="tab col-sm-3" ng-class="{11:'active'}[taskStatus]" ng-click="changeTaskStatus(11)">中文地址</a>
@@ -91,7 +91,7 @@
                                     </ul>
                                 </div>
                                 <!-- 显示深度信息外的子任务列表 -->
-                                <div ng-if="isDeepTask" class="content" style="min-height: 217px;padding: 5px 0;">
+                                <div ng-cloak ng-if="isDeepTask" class="content" style="min-height: 217px;padding: 5px 0;">
                                     <ul class="fm-ul fm-ul-list" ng-if="!dataLoaded">
                                         <li><i class="fa fa-refresh fa-spin fa-fw"></i> Loading ...</li>
                                     </ul>
@@ -115,7 +115,7 @@
 
                         <div ui-layout-container class="fm-no-scroll">
                             <div id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
-                            <div class="fm-foldable fm-col fm-no-scroll" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[infoPanelOpened]}">
+                            <div class="fm-foldable fm-col fm-no-scroll" ng-style="{width: '315px','right':{true: '0px', false: '-300px', 'none': '-315px'}[infoPanelOpened]}">
                                 <div class="fm-fold-btn">
                                     <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[infoPanelOpened]" ng-click="infoPanelOpened=!infoPanelOpened">
                                     </a>

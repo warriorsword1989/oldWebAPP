@@ -92,7 +92,6 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
                 _self.tableParams.filter({ $: term });
             }
         })
-
         //初始化表格;
         function initRoadNameTable(){
             getTableData().then(function(data){
@@ -101,7 +100,6 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
                 }
             });
         }
-
         //给每条数据安排序号;
         ngTableEventsChannel.onAfterReloadData(function() {
             angular.forEach($scope.tableParams.data, function(data, index) {

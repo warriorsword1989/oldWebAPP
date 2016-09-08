@@ -590,4 +590,28 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+
+    //面批处理;
+    this.PolygonBatchWork = function(params) {
+        var defer = $q.defer();
+        var param = {
+            command:'ONLINEBATCH',
+            type:'FACE',
+            dbId: App.Temp.dbId,
+            pid: params.pid,
+            ruleId:params.ruleId
+        }
+        ajax.get("edit/run", {parameter: JSON.stringify(param)}).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查看后台任务进度失败：", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    }
+
 }]);
