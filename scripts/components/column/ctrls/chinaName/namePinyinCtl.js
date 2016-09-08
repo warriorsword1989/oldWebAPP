@@ -13,6 +13,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         $scope.editorCurrentPage = 1; //当前编辑的页码
         $scope.editAllDataList = []; //要编辑的列表总数据
         $scope.currentEditOrig = []; //当前编辑的数据原始值
+        $scope.tableDataList = new Array();//存储查询列表数据
         $scope.currentEdited = []; //当前编辑的数据
         //popover
         $scope.popoverIsOpen = false;
@@ -48,24 +49,26 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             return html;
         }
         $scope.selectData = function (row,index){
-            var temp = $scope.tableParams.data;
+            var temp = $scope.tableDataList;
             var checkedArr = [];
             for (var i = 0 ,len = temp.length ;i < len ; i ++){
                 if(temp[i].checked){
                     checkedArr.push(temp[i]);
                 }
             }
+            var editArr = [];
             if(checkedArr.length > 0){
-            	editAllDataList = checkedArr;
+            	editArr = checkedArr;
             } else {
-            	editAllDataList = $scope.tableParams.data.slice(0,$scope.editorLines);
+            	editArr = $scope.tableDataList;
             }
-            var editorArr = [];
-            editorArr = editAllDataList.slice(0,$scope.editorLines);
-            console.info(editorArr);
+            $scope.getPerPageEditData(editArr);
+//            var editorArr = [];
+//            editorArr = editAllDataList.slice(0,$scope.editorLines);
+//            console.info(editorArr);
 //            $scope.editAllDataList = editorArr;
-            $scope.currentEditOrig = angular.copy(editorArr);
-            $scope.currentEdited = angular.copy(editorArr);
+//            $scope.currentEditOrig = angular.copy(editorArr);
+//            $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
             initEditorTable();
         };
@@ -158,8 +161,8 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                         var datalist = $scope.parseNamePinyin(data.data);
                         console.log('返回数据'+JSON.stringify(datalist))
                         var temp = new FM.dataApi.ColPoiList(datalist);
-                        console.info(temp);
-                        $scope.roadNameList = temp.dataList;
+                        $scope.tableDataList = new FM.dataApi.ColPoiList(datalist).dataList;
+//                        $scope.roadNameList = temp.dataList;
                         _self.tableParams.total(data.total);
                         $defer.resolve(temp.dataList);
                     });
@@ -189,7 +192,27 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
             //调用接口
+            if($scope.editAllDataList.length <= $scope.editorLines){
+            	swal("已经是最后一页了!", "", "info");
+//            	$scope.editPanelIsOpen = false;
+            }
+            $scope.getPerPageEditData($scope.editAllDataList);
+            initEditorTable();
 
+        };
+        //获取当前页要编辑的条数
+        $scope.getPerPageEditData = function(allData){
+        	//需要编辑的所有数据
+        	$scope.editAllDataList = allData;
+        	if($scope.editAllDataList.length > $scope.editorLines){
+        		//当前页要编辑的数据
+            	var resultArr = $scope.editAllDataList.splice(0,$scope.editorLines);
+            	$scope.currentEditOrig = angular.copy(resultArr);
+    	        $scope.currentEdited = angular.copy(resultArr);
+        	}else{
+        		$scope.currentEditOrig = angular.copy($scope.editAllDataList);
+    	        $scope.currentEdited = angular.copy($scope.editAllDataList);
+        	}
         };
         //设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function(params,arg2){

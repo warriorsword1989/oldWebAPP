@@ -9,28 +9,30 @@
 		</div>
 		<div class="content">
 			<div style="clear: both;">
+				<!--自定义条数的template-->
+				<script type="text/ng-template" id="myPopoverTemplate.html">
+					<div class="form-group" ng-repeat="item in costomWorkNumEum">
+						<div class="radio">
+							<label>
+								<input type="radio" name="selectNum" ng-checked="editLines==item.num" ng-click="selectNum(item,$index)"> <span ng-bind="item.desc"></span>
+							</label>
+						</div>
+						<!--自定义输入框部分-->
+						<div ng-if="inputIsShow&&$last" class="input-group">
+							<input class="form-control" ng-model="item.num" type="text" />
+                            <span class="input-group-btn">
+                                <button ng-click="setInputValue(item.num)" class="btn btn-default" type="button">确认</button>
+                            </span>
+						</div>
+					</div>
+				</script>
 				<div style="padding: 2px;" class="pull-left">
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">查询</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">在线检查</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-click="">批量作业</button>
 					<button type="button" class="btn btn-shape btn-ls" ng-if="workedFlag==2" ng-click="submitData();">提交数据</button>
-					<span uib-popover-template="customPopoverUrl" popover-is-open="popoverIsOpen" popover-trigger="outsideClick" popover-title="每次作业展开" popover-placement="bottom" ><i class="fa fa fa-asterisk fa-lg pointer wordColorWhite" ></i></span>
-					<script type="text/ng-template" id="myPopoverTemplate.html">
-						<div>
-							<div ng-repeat="item in costomWorkNumEum" style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(1);" ng-checked="editLines=='{{item}}'" value="option1" >{{item}}条/次
-							</div>
-							<div style="line-height: 24px;">
-								<input type="radio" name="optionsRadios" ng-click="customAsign(2);" >自定义
-								<div ng-show="customAsignOpen" class="input-group custom-popover">
-									<input type="text" class="form-control" ng-model="a.editLines">
-									<span class="input-group-btn">
-										<button class="btn btn-default btn-ls" type="button" ng-click="customConfirm();">确定</button>
-									</span>
-								</div>
-							</div>
-						</div>
-					</script>
+					<!--自定义编辑条数控制-->
+					<span role="button" popover-is-open="popoverIsOpen" popover-placement="bottom" uib-popover-template="customPopoverUrl" popover-title="每次作业条数:" class="fa fa-cog fa-lg pointer wordColorWhite"></span>
 				</div>
 				<div class="pull-right">
 					<input class="fm-search-control" type="text" ng-model="filters[searchType]" placeholder="搜索"/>
@@ -215,7 +217,7 @@
 									</li>
 									<li>
 										<label style="width:25%;" class="lable-right">后缀:</label>
-										<div><input type="text" ng-model="rowEditData.subfix" class="table-input edit-input" ></div>
+										<div><input type="text" ng-model="rowEditData.surfix" class="table-input edit-input" ></div>
 									</li>
 									<li>
 										<label style="width:25%;" class="lable-right">附属设施名:</label>
@@ -310,11 +312,11 @@
 								</tr>
 								<tr>
 									<td>FID:</td>
-									<td>{{showInfo.poiNumber}}</td>
+									<td>{{showInfo.poiNum}}</td>
 								</tr>
 								<tr>
 									<td>地域:</td>
-									<td>{{showInfo.whole}}</td>
+									<td>{{showInfo.detailArea}}</td>
 								</tr>
 								<tr>
 									<td>图符号:</td>

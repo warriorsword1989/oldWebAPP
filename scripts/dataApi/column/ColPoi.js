@@ -16,6 +16,8 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         this.sourceFlag = data['sourceFlag'];
         this.photos = data['photos'];
         this.meshId = data['meshId'];
+        this.detailArea = data['detailArea'];
+
 
 
         this.addressChi = {};//大陆地址
@@ -106,6 +108,7 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         ret['sourceFlag'] = this.sourceFlag;
         ret['attachments'] = this.attachments;
         ret['meshId'] = this.meshId;
+        ret['detailArea'] = this.detailArea;
 
 
         ret["addresses"] = [];

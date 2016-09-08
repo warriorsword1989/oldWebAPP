@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
-    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','dsColumn',
+    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,dsColumn) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var _self = $scope;
         $scope.editPanelIsOpen = false;
@@ -113,7 +113,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             $scope.currentEditOrig = angular.copy(editArr);
             $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
-            initEditorTable();
+            initEditTable();
         };
 
         $scope.searchType = 'name';
@@ -140,14 +140,27 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             }, {
                 counts: [],
                 getData: function($defer, params) {
-                    // var param = {
-                    //     subtaskId: parseInt(App.Temp.subTaskId),
-                    //     pageNum: params.page(),
-                    //     pageSize: params.count(),
-                    //     sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                    //     params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
-                    // };
-                    var param = {};
+                    var param = {
+                        "type":'integrate',
+                        "firstWorkItem":"poi_address",
+                        "secondWorkItem":"addrPinyin",
+                        "status":1
+                    };
+                    dsColumn.queryColumnDataList(param).then(function (data){
+                        $scope.loadTableDataMsg = '列表无数据';
+                        // $scope.roadNameList = data.data;
+                        // _self.tableParams.total(data.total);
+                        // $defer.resolve(data.data);
+
+                        var temp = new FM.dataApi.ColPoiList(data);
+                        console.info(temp);
+                        $scope.roadNameList = temp.dataList;
+                        _self.tableParams.total(data.total);
+                        $defer.resolve(temp.dataList);
+                    });
+
+
+                    /*var param = {};
                     dsMeta.columnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
                         // $scope.roadNameList = data.data;
@@ -159,7 +172,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                         $scope.roadNameList = temp.dataList;
                         _self.tableParams.total(data.total);
                         $defer.resolve(temp.dataList);
-                    });
+                    });*/
                 }
             });
         };
@@ -321,7 +334,8 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             _self.tableParams.reload();
         };
 
-        $scope.showView = function (){
+        $scope.showView = function (row){
+            $scope.showInfo =  row;
             $scope.showImgInfo = true;
             $scope.slides = [
                 {
