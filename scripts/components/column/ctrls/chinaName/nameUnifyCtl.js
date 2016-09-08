@@ -214,7 +214,6 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         	$scope.searchWork();
         	$scope.editBatchWorkIsOpen = true;
         	$scope.editDisable = true;
-        	
         };
         //获取当前页要编辑的条数
         $scope.getPerPageEditData = function(allData){
