@@ -48,12 +48,21 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
     	});
     };
     $scope.showCrossNames=function(nameItem) {
-        var crossNamesObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
-            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
+        var crossNamesObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var crossObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl":appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
+                    "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", crossObj);
+            }
         };
         $scope.$emit("transitCtrlAndTpl", crossNamesObj);
+
         $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
     };
 

@@ -14,7 +14,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市AB",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -119,7 +119,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市AB",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -308,7 +308,7 @@
 	        }
         ],
         "refMsg": "无简化的POI名称统一",
-        "classifyRules":["FM-A04-04"],
+        "classifyRules":"FM-A04-04",
         "rowId": "3524E56B29346E1AE050A8C08304BA17",
         "sourceFlag":"002000030000"
     },{
@@ -325,7 +325,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市AB",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -430,7 +430,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市ABC",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -615,7 +615,7 @@
 	        }
         ],
         "refMsg": "无简化的POI名称统一",
-        "classifyRules":["FM-A05-05"],
+        "classifyRules":"FM-A04-04",
         "rowId": "3524E56B29346E1AE050A8C08304BA18",
         "sourceFlag":"002000020000"
     },{
@@ -632,7 +632,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市ABD",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -817,7 +817,7 @@
 	        }
         ],
         "refMsg": "无简化的POI名称统一",
-        "classifyRules":["FM-A05-05"],
+        "classifyRules":"FM-A04-04",
         "rowId": "3524E56B29346E1AE050A8C08304BA18",
         "sourceFlag":"002000040000"
     },{
@@ -834,7 +834,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市ABC",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -1019,7 +1019,7 @@
 	        }
         ],
         "refMsg": "无简化的POI名称统一",
-        "classifyRules":["FM-A05-05"],
+        "classifyRules":"FM-A05-05",
         "rowId": "3524E56B29346E1AE050A8C08304BA18",
         "sourceFlag":"002000060000"
     },{
@@ -1036,7 +1036,7 @@
                 "roadnamePhonetic": "",
                 "addrname": "|||||||||||Ｇ１０８大运摩托附近",
                 "addrnamePhonetic": "",
-                "province": "北京市",
+                "province": "北京市A",
                 "city": "顺义区",
                 "county": "",
                 "town": "杨镇",
@@ -1233,7 +1233,7 @@
 	        }
         ],
         "refMsg": "无简化的POI名称统一",
-        "classifyRules":["FM-A05-05"],
+        "classifyRules":"FM-A05-05",
         "rowId": "3524E56B29346E1AE050A8C08304BA18",
         "sourceFlag":"002000090000"
     }]

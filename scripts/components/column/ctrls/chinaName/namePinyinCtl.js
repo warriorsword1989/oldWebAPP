@@ -64,7 +64,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             }
             $scope.getPerPageEditData(editArr);
             $scope.editPanelIsOpen = true;
-            refreshData();
+            initEditTable();
         };
         /***
          * 解析拼音数据
@@ -181,7 +181,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             	swal("已经是最后一页了!", "", "info");
             }
             $scope.getPerPageEditData($scope.editAllDataList);
-            refreshData();
+            initEditTable();
 
         };
         //获取当前页要编辑的条数
@@ -278,6 +278,13 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             _self.tableParams.reload();
         };
         
+        function initEditTable() {
+            _self.editTable = new NgTableParams({
+            }, {
+                counts:[],
+                dataset: $scope.currentEdited
+            });
+        };
         $scope.showView = function (){
             $scope.showImgInfoo = true;
             $scope.slides = [
@@ -300,10 +307,6 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             $scope.showImgInfoo = false;
         };
         /*******************  编辑页面end  ******************/
-        //刷新表格方法;
-        function refreshData(){
-            _self.tableParams.reload();
-        };
         /*初始化方法*/
         function initPage(){
         	initTable();

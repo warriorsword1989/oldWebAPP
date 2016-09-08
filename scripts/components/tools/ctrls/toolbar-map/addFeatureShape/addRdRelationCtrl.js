@@ -2303,10 +2303,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     var rdlinkData = [];
                     var nodePids = [];
                     for(var i = 0; i < rdlinks.length ; i++){
-                        if(rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(data.id) < 0){
+                        if(rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0){
                             laneTopoData.linkPids.push(parseInt(data.id));
                             rdlinkData.push(rdlinks[i]);
-                            nodePids = [];
                             nodePids.push(rdlinks[i].properties.snode);
                             nodePids.push(rdlinks[i].properties.enode);
                             break;
@@ -2326,34 +2325,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             }
                         });
                         highRenderCtrl.drawHighlight();
-                        if(rdlinks[0].properties.direct == 1){//双方向，选择进入点
-                            tooltipsCtrl.setCurrentTooltip('请选择进入线的端点作为进入点！');
-                            map.currentTool = {};
-                            map.currentTool = new fastmap.uikit.SelectNodeAndPath({
-                                map: map,
-                                shapeEditor: shapeCtrl,
-                                selectLayers: [rdnode],
-                                snapLayers: [rdnode]
-                            });
-                            map.currentTool.enable();
-                            eventController.off(eventController.eventTypes.GETFEATURE);
-                            eventController.on(eventController.eventTypes.GETFEATURE, function (nodeData) {
-                                if (nodeData.optype == "RDNODE") {
-                                    if (nodePids.indexOf(nodeData.id) >= 0) {
-                                        laneTopoData.nodePid = parseInt(nodeData.id);
-                                        highRenderCtrl.highLightFeatures.push({
-                                            id: nodeData.id.toString(),
-                                            layerid: 'rdLink',
-                                            type: 'rdnode',
-                                            style: {}
-                                        });
-                                        highRenderCtrl.drawHighlight();
-                                    } else {
-                                        tooltipsCtrl.setCurrentTooltip('进入点需是进入线的端点，请重新选择！');
-                                    }
-                                }
-                            })
-                        } else if(rdlinks[0].properties.direct == 2){//单方向，=2时enode作为进入点，=3是snode作为进入点
+                        if(rdlinks[0].properties.direct == 2){//单方向，=2时enode作为进入点，=3是snode作为进入点
                             laneTopoData.nodePid = parseInt(nodePids[1]);
                             highRenderCtrl.highLightFeatures.push({
                                 id: nodePids[1].toString(),
@@ -2374,16 +2346,50 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                         tooltipsCtrl.setCurrentTooltip('请选择经过线或者退出线！');
                     } else if(laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") {//经过线、退出线
-
+                        if(nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2 || nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2){
+                            highRenderCtrl.highLightFeatures.push({
+                                id: laneTopoData.linkPids[1].toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                            if(nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2){
+                                laneTopoData.nodePid = parseInt(nodePids[2]);
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: nodePids[2].toString(),
+                                    layerid: 'rdLink',
+                                    type: 'rdnode',
+                                    style: {}
+                                });
+                            }
+                            if(nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2){
+                                laneTopoData.nodePid = parseInt(nodePids[3]);
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: nodePids[3].toString(),
+                                    layerid: 'rdLink',
+                                    type: 'rdnode',
+                                    style: {}
+                                });
+                            }
+                            highRenderCtrl.drawHighlight();
+                        } else {
+                            nodePids.length = 2;
+                            laneTopoData.linkPids.pop();
+                        }
                     } else {
-
+                        highRenderCtrl.highLightFeatures.push({
+                            id: laneTopoData.linkPids[laneTopoData.linkPids.length -1].toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {
+                            }
+                        });
+                        highRenderCtrl.drawHighlight();
                     }
-
-
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(slopeData);
-                    tooltipsCtrl.setEditEventType('slopeData');
-                    tooltipsCtrl.setCurrentTooltip("Link长度为："+linkLength+"米，点击空格保存坡度信息,或者按ESC键取消!");
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
+                    tooltipsCtrl.setEditEventType('laneTopoData');
+                    tooltipsCtrl.setCurrentTooltip("点击空格保存坡度信息,或者按ESC键取消!");
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
                 });
             }
         }

@@ -296,7 +296,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				}
 			}
 		}
-
 		/**
 		 * 页面初始化方法调用
 		 */

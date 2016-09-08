@@ -69,7 +69,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.batchWorkIsOpen = false;
             $scope.batchParam.value = "";
             $scope.editPanelIsOpen = true;
-            refreshData();
+            initEditTable();
         };
 
         $scope.searchType = 'name';
@@ -135,8 +135,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }
             //调用接口
             $scope.getPerPageEditData($scope.editAllDataList);
-            refreshData();
-            
+            initEditTable();
         };
         $scope.batchParam = {
         	value : "",
@@ -207,14 +206,13 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }
             $scope.getPerPageEditData(resultArr);
 	        $scope.editPanelIsOpen = true;
-	        refreshData();
+	        initEditTable();
 	        $scope.batchWorkIsOpen = false;
         };
         $scope.extractData = function(){
         	$scope.searchWork();
         	$scope.editBatchWorkIsOpen = true;
         	$scope.editDisable = true;
-        	
         };
         //获取当前页要编辑的条数
         $scope.getPerPageEditData = function(allData){
@@ -253,7 +251,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.edit = {};
         $scope.edit.editCols = [
 //            { field: "num_index", title: "序号",show: true,width:'20px'},
-            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
+            { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'70px'},
             { field: "kindCode", title: "分类",show: true,width:'50px'},
             { field: "kindCode", title: "品牌名",show: true,width:'50px'},
             { field: "name12Chi", title: "官方原始名称",getValue:get12Names,show: true,width:'80px'},
@@ -279,7 +277,13 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.showImgInfoo = false;
             _self.tableParams.reload();
         };
-        
+        function initEditTable() {
+            _self.editTable = new NgTableParams({
+            }, {
+                counts:[],
+                dataset: $scope.currentEdited
+            });
+        };
         $scope.showView = function (){
             $scope.showImgInfoo = true;
             $scope.slides = [
@@ -323,13 +327,9 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
                 }
         	}
         	swal("全部替换完成,共进行了"+i+"处替换", "", "info");
-        	refreshData();
+        	initEditTable();
         };
         /*******************  编辑页面end  ******************/
-        //刷新表格方法;
-        function refreshData(){
-            _self.tableParams.reload();
-        };
         /*初始化方法*/
         function initPage(){
         	initTable();
