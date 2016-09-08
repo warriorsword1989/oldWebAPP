@@ -57,6 +57,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         }
 
         function resetPage(data) {
+            map._container.style.cursor = '';
             shapeCtrl.editType = "";
             if (typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();

@@ -61,6 +61,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
             //把点和线图层加到捕捉工具中，先加的优先捕捉
             if (type === "ADLINK") {
                 if($scope.nodeChecked){
+                    $scope.changeLayer("node", "ADNODE");
                     map.currentTool.snapHandler.addGuideLayer(adNode);
                 }
                 if($scope.linkChecked){
@@ -68,6 +69,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
                 }
             } else if (type === "RDLINK") {
                 if($scope.nodeChecked){
+                    $scope.changeLayer("node", "RDNODE");
                     map.currentTool.snapHandler.addGuideLayer(rdNode);
                 }
                 if($scope.linkChecked){
@@ -75,6 +77,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
                 }
             } else if (type === "RWLINK") {
                 if($scope.nodeChecked){
+                    $scope.changeLayer("node", "RWNODE");
                     map.currentTool.snapHandler.addGuideLayer(rwNode);
                 }
                 if($scope.linkChecked){
@@ -82,6 +85,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
                 }
             } else if (type === "ZONELINK") {
                 if($scope.nodeChecked){
+                    $scope.changeLayer("node", "ZONENODE");
                     map.currentTool.snapHandler.addGuideLayer(zoneNode);
                 }
                 if($scope.linkChecked){
@@ -89,6 +93,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
                 }
             } else if (type === "LCLINK") {
                 if($scope.nodeChecked){
+                    $scope.changeLayer("node", "LCNODE");
                     map.currentTool.snapHandler.addGuideLayer(lcNode);
                 }
                 if($scope.linkChecked){
@@ -96,6 +101,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
                 }
             } else if (type === "LULINK") {
                 if($scope.nodeChecked){
+                    $scope.changeLayer("node", "LUNODE");
                     map.currentTool.snapHandler.addGuideLayer(luNode);
                 }
                 if($scope.linkChecked){
@@ -107,6 +113,7 @@ addLinkShapeApp.controller("addLinkFeatureCtrl", ['$scope', '$ocLazyLoad',
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
             tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-        }
+        };
+
     }
 ])
