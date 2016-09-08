@@ -8,18 +8,19 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var relationData = layerCtrl.getLayerById('relationData');
+    $scope.temp = {};
 
     $scope.typeCodes = {
-        '10101交叉路口a':'交叉路口a',
-        '10102交叉路口b':'交叉路口b',
-        '10103交叉路口c':'交叉路口c',
-        '10104交叉路口d':'交叉路口d',
-        '10105交叉路口e':'交叉路口e',
-        '10106交叉路口f':'交叉路口f',
-        '10107交叉路口g':'交叉路口g',
-        '10108交叉路口h':'交叉路口h',
-        '10109交叉路口i':'交叉路口i',
-        '10110交叉路口j':'交叉路口j',
+        //'10101交叉路口a':'交叉路口a',   //注释的为需求变更
+        //'10102交叉路口b':'交叉路口b',
+        //'10103交叉路口c':'交叉路口c',
+        //'10104交叉路口d':'交叉路口d',
+        //'10105交叉路口e':'交叉路口e',
+        //'10106交叉路口f':'交叉路口f',
+        //'10107交叉路口g':'交叉路口g',
+        //'10108交叉路口h':'交叉路口h',
+        //'10109交叉路口i':'交叉路口i',
+        //'10110交叉路口j':'交叉路口j',
         '10201向左急弯路':'向左急弯路',
         '10202向右急弯路':'向右急弯路',
         '10301反向弯路(左)':'反向弯路(左)',
@@ -57,13 +58,13 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         '12801有人看守铁路道口':'有人看守铁路道口',
         '12901无人看守铁路道口':'无人看守铁路道口',
         '13001叉形符号':'叉形符号',
-        '13101斜杠符号50米':'斜杠符号50米',
-        '13102斜杠符号100米':'斜杠符号100米',
-        '13103斜杠符号150米':'斜杠符号150米',
-        '13201注意非机动车':'注意非机动车',
-        '13301注意残疾人':'注意残疾人',
+        //'13101斜杠符号50米':'斜杠符号50米',
+        //'13102斜杠符号100米':'斜杠符号100米',
+        //'13103斜杠符号150米':'斜杠符号150米',
+        //'13201注意非机动车':'注意非机动车',
+        //'13301注意残疾人':'注意残疾人',
         '13401事故易发路段':'事故易发路段',
-        '13501慢行':'慢行',
+        //'13501慢行':'慢行',
         '13601左右绕行':'左右绕行',
         '13602左侧绕行':'左侧绕行',
         '13603右侧绕行':'右侧绕行',
@@ -71,7 +72,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         '13702文字警示':'文字警示',
         '13703交通意外黑点':'交通意外黑点',
         '13801施工':'施工',
-        '13901建议速度':'建议速度',
+        //'13901建议速度':'建议速度',
         '14001隧道开车灯':'隧道开车灯',
         '14101潮汐车道':'潮汐车道',
         '14201保持车距':'保持车距',
@@ -79,19 +80,38 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         '14302丁字分离式道路':'丁字分离式道路',
         '14401左侧汇入右侧合流':'左侧汇入右侧合流',
         '14402右侧汇入左侧合流':'右侧汇入左侧合流',
-        '14501避险车道':'避险车道',
-        '14502预告标志':'预告标志',
-        '14503入口警告':'入口警告',
-        '14601路面结冰':'路面结冰',
-        '14602雨（雪）天':'雨（雪）天',
-        '14603雾天':'雾天',
-        '14604不利气象条件':'不利气象条件',
-        '14701前方车辆排队信息':'前方车辆排队信息'
+        //'14501避险车道':'避险车道',
+        //'14502预告标志':'预告标志',
+        //'14503入口警告':'入口警告',
+        //'14601路面结冰':'路面结冰',
+        //'14602雨（雪）天':'雨（雪）天',
+        //'14603雾天':'雾天',
+        //'14604不利气象条件':'不利气象条件',
+        //'14701前方车辆排队信息':'前方车辆排队信息',
+
+        //禁令标志
+        '20101停车让行':'停车让行',
+        '20201减速让行':'减速让行',
+        '20301会车让行':'会车让行',
+        '22901禁止超车':'禁止超车',
+        '23001解除禁止超车':'解除禁止超车',
+        '23301禁止鸣喇叭':'禁止鸣喇叭'
     };
 
 
     $scope.pageSize = 6;
     var typeCodeArr = [];//结果集
+
+    $scope.setTypeName = function (typeCode){
+        var name = "";
+        for (var temp in $scope.typeCodes){
+            if(temp.indexOf(typeCode) > -1){
+                name = temp.substr(5); //从下标5开始截取字符串
+                break;
+            }
+        }
+        $scope.temp.typeCodeName = name;
+    };
 
     $scope.initializeData = function(){
         if($scope.warningInfoForm) {
@@ -101,6 +121,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdWarningInfoObj = objCtrl.data;
         $scope.typeCodeImg = objCtrl.data.typeCode; //用于显示图片
+        $scope.setTypeName(objCtrl.data.typeCode);
 
         var highlightFeatures = [];
         highlightFeatures.push({
@@ -125,14 +146,12 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
     /*点击选中的图片*/
     $scope.selectPicCode = function (code) {
-        $scope.rdWarningInfoObj.typeCode = code.substr(0,5);//只取编号部分
-        $scope.typeCodeImg = $scope.rdWarningInfoObj.typeCode;
+        $scope.rdWarningInfoObj.typeCode = code.substr(0,5);
+        $scope.typeCodeImg = $scope.rdWarningInfoObj.typeCode.substr(0,5);
+        $scope.setTypeName(objCtrl.data.typeCode);
         $scope.showImgData = false;
     };
 
-    var validateTypeCode = function (){
-
-    };
     var timer ;
     /*输入标牌类型*/
     $scope.showPicSelect = function () {
@@ -230,7 +249,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
     // 保存数据
     $scope.save  = function () {
-        if($scope.rdWarningInfoObj.typeCode && $scope.rdWarningInfoObj.typeCode.length != 5){
+        if($scope.rdWarningInfoObj.typeCode && !(new RegExp("^[0-9]*$")).test($scope.rdWarningInfoObj.typeCode)){
             swal("操作提示",'标牌类型输入有误！', "warning");
             return ;
         }

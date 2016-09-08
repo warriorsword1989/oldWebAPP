@@ -80,7 +80,7 @@
 					                <li>
 					                    <label>字段:</label>
 					                    <div>
-					                    	<select class="fm-control"  style="width:200px;" ng-model="batchParam.batchField"
+					                    	<select class="fm-control"  ng-model="batchParam.batchField"
 					                                placeholder_text_single="'--请选择--'"
 					                                ng-options="value.id as value.label for value in batchOpt"
 					                                ng-change="changeField($event, this)">

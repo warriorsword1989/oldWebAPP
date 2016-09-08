@@ -958,6 +958,97 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html";
                     $scope.getFeatDataCallback(data, data.id, "IXPOI", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
+                case "RDLANE":
+                    $scope.laneInfo = {
+                      inLinkPid:0,
+                      nodePid:0,
+                      laneDir:0,
+                      links:[],
+                      snode:0,
+                      enode:0
+                    };
+                    if (map.getZoom() < 8) {
+                        swal("提示","地图缩放等级必须大于16级才可操作","info");
+                        return;
+                    }
+                    var highLightFeatures = [],linkDirect = 0;
+                    //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANE);
+                    //地图编辑相关设置;
+                    tooltipsCtrl.setEditEventType('rdLane');
+                    tooltipsCtrl.setCurrentTooltip('请选择进入点！');
+                    map.currentTool = new fastmap.uikit.SelectForRestriction({
+                      map: map,
+                      createBranchFlag: true,
+                      currentEditLayer: rdLink,
+                      shapeEditor: shapeCtrl,
+                      operationList:['point']
+                    });
+                    map.currentTool.enable();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);// link高亮
+                    $scope.linkHighLight = function(){
+                        if($scope.laneInfo.nodePid !== 0){
+                          highLightFeatures.push({
+                              id: $scope.laneInfo.nodePid.toString(),
+                              layerid: 'rdLink',
+                              type: 'rdnode',
+                              style: {
+                                  color: 'yellow'
+                              }
+                          });
+                        }
+                        if($scope.laneInfo.links.length > 0){
+                          highLightFeatures.push({
+                              id: $scope.laneInfo.inLinkPid.toString(),
+                              layerid: 'rdLink',
+                              type: 'line',
+                              style: {
+                                  color: 'rgb(255, 0, 0)'
+                              }
+                          });
+                        }
+                      highRenderCtrl.highLightFeatures = highLightFeatures;
+                      highRenderCtrl.drawHighlight();
+                    };
+                    $scope.laneInfo.inLinkPid = data.id;
+                    $scope.laneInfo.links = [data.id];
+                    var rdlinks = rdLink.tiles[data.tileId].data;
+                     var rdlinkData = [];
+                     $scope.laneInfo.laneDir = '';
+                     for(var i = 0; i < rdlinks.length ; i++){
+                         if(rdlinks[i].properties.id == data.id){
+                             linkDirect = rdlinks[i].properties.direct;
+                             $scope.laneInfo.snode = rdlinks[i].properties.snode;
+                             $scope.laneInfo.enode = rdlinks[i].properties.enode;
+                             break;
+                         }
+                     }
+
+                     if (linkDirect == 2 || linkDirect == 3) { //单方向
+                       $scope.laneInfo.nodePid = parseInt(linkDirect == 2 ? $scope.laneInfo.enode : $scope.laneInfo.snode);
+                       $scope.laneInfo.laneDir = 0;
+                     }else if(linkDirect == 1){
+                       if(parseInt($scope.laneInfo.snode) == $scope.laneInfo.nodePid){
+                         $scope.laneInfo.laneDir = 1;
+                       }else{
+                         $scope.laneInfo.laneDir = 2;
+                       }
+                     }
+                    $scope.linkHighLight();
+                    eventController.off(eventController.eventTypes.GETLINKID);
+                    eventController.on(eventController.eventTypes.GETLINKID,function (data){
+                      map.currentTool.snapHandler.snaped = false;
+                      map.currentTool.snapHandler._guides = [];
+
+                      map.currentTool.snapHandler.addGuideLayer(rdNode);
+                      if(data.index === 0){
+                        $scope.laneInfo.nodePid = data.id;
+                        $scope.linkHighLight();
+                        tooltipsCtrl.setCurrentTooltip("已选进入点,空格查询!");
+                      }
+                      featCodeCtrl.setFeatCode($scope.laneInfo);
+                    });
+                    break;
                 case "TIPS":
                     $("#popoverTips").css("display", "block");
                     dsFcc.getTipsResult(data.id).then(function(result) {
