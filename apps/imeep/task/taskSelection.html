@@ -22,7 +22,7 @@
         <script src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>
     </head>
     <body ng-controller="TaskSelectionCtl">
-        <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+        <div  ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
@@ -115,7 +115,7 @@
 
                         <div ui-layout-container class="fm-no-scroll">
                             <div id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
-                            <div class="fm-foldable fm-col fm-no-scroll" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[infoPanelOpened]}">
+                            <div class="fm-foldable fm-col fm-no-scroll" ng-style="{width: '315px','right':{true: '0px', false: '-300px', 'none': '-315px'}[infoPanelOpened]}">
                                 <div class="fm-fold-btn">
                                     <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[infoPanelOpened]" ng-click="infoPanelOpened=!infoPanelOpened">
                                     </a>
