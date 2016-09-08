@@ -40,11 +40,23 @@
             </div>
         </form>
         <!--begin 名称组-->
-	    <div class="module-box show-detail-title" ng-click="showDetail();">
+	    <div class="module-box show-detail-title" style="clear: both" ng-click="showDetail();">
 	        <div class="box-head font-bold">
 	            名称信息（共<span ng-bind="luFaceData.faceNames.length"></span> 条）
 	        </div>
 	    </div>
+        <div class="clearfix"></div>
     	<!--end 名称组-->
+        <div class="fm-panel" style="margin-top: 10px">
+            <ul class="fm-ul fm-ul-form">
+                <li ng-if="isBatch">
+                    <label>批量处理</label>
+                    <div class="batchButtonGroup">
+                        <a href="#" ng-click="setUrban()" class="zocial batchButton" title="为目标BUA面内的道路赋 ZoneID">赋 Urban</a>
+                        <a href="#" ng-click="deleteUrban()" class="zocial batchButton" title="为目标BUA面内的道路删除 ZoneID">删除 Urban</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

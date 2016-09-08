@@ -125,7 +125,7 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.highLightFeatures[item].type == 'IXPOI') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace'||this.highLightFeatures[item].type == 'lcFace') {
+                                    } else if (this.highLightFeatures[item].type == 'adface'||this.highLightFeatures[item].type == 'zoneFace'||this.highLightFeatures[item].type == 'lcFace'||this.highLightFeatures[item].type == 'luFace') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
                                     }
@@ -568,10 +568,10 @@ fastmap.uikit.HighRenderController = (function() {
                     }
                     var geo = feature.geometry.coordinates;
                     this.layer._drawPolygon(ctx, geo, {
-                        'fillColor': '#FFFF00',
-                        'fillOpacity': 0.2,
+                        'fillColor': '#33ccff',
+                        'fillOpacity': 0.6,
                         'strokeColor': '#FFFF00',
-                        'strokeWidth': 1,
+                        'strokeWidth': 3,
                         'backgroundImage': ""
                     }, true)
                 }
