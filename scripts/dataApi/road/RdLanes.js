@@ -12,7 +12,7 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDLANES";
+        this.geoLiveType = "RDLANE";
         this.setAttributeData(data);
     },
 
@@ -20,7 +20,7 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
         this.linkPids = data["linkPids"] || [];
         this.laneDir = data["laneDir"] || 1;
         this.laneInfos = [];
-        if (data["laneInfos"].length > 0) {
+        if (data["laneInfos"] && data["laneInfos"].length > 0) {
             for (var i = 0; i < data["laneInfos"].length; i++) {
                 var laneInfo = new fastmap.dataApi.RdLane(data["laneInfos"][i]);
                 this.laneInfos.push(laneInfo);

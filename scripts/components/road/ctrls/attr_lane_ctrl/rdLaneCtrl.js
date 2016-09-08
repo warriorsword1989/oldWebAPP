@@ -10,6 +10,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
     var relationData = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    $scope.clmData = objCtrl.data;
     $scope.carData=[];
     // 高亮link
     $scope.highLightLaneLink = function(){
@@ -25,7 +26,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
       for(var i=0,len=objCtrl.memo.links.length;i<len;i++){
         if(i === 0) {
           highLightFeatures.push({
-              id: objCtrl.memo.links.pid.toString(),
+              id: objCtrl.memo.links[0].toString(),
               layerid: 'rdLink',
               type: 'line',
               style: {
@@ -34,7 +35,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
           });
         } else {
           highLightFeatures.push({
-              id: objCtrl.memo.links.toString(),
+              id: objCtrl.memo.links[i].toString(),
               layerid: 'rdLink',
               type: 'line',
               style: {
@@ -48,84 +49,25 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
     };
     $scope.initializeData = function(){
         // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        $scope.clmData = objCtrl.data;
-        // $scope.clmData = {
-        //   linkPids:objCtrl.memo.links,
-        //   laneDir:objCtrl.memo.laneDir,
-        //   laneInfos:objCtrl.data
-        // };
-        // $scope.clmData = {
-        //   linkPids:['123','234','567'],
-        //   laneDir:2,
-        //   laneInfos:[
-        //      fastmap.dataApi.rdLane({
-        //       pid:100000159,
-        //       seqNum:1,
-        //       arrowDir:'o',
-        //       laneType:3,
-        //       laneForming:3,
-        //       conditions:[
-        //         {
-        //           lanePid:432112,
-        //           viaLinkPid:56432,
-        //           groupId:1,
-        //           seqNum:1
-        //         },
-        //         {
-        //           lanePid:432112,
-        //           viaLinkPid:56432,
-        //           groupId:1,
-        //           seqNum:1
-        //         }
-        //       ]
-        //     }),
-        //     fastmap.dataApi.rdLane({
-        //       pid:100000160,
-        //       seqNum:2,
-        //       arrowDir:'e',
-        //       conditions:[
-        //         {
-        //           lanePid:432112,
-        //           viaLinkPid:56432,
-        //           groupId:1,
-        //           seqNum:1
-        //         },
-        //         {
-        //           lanePid:432112,
-        //           viaLinkPid:56432,
-        //           groupId:1,
-        //           seqNum:1
-        //         }
-        //       ]
-        //     }),
-        //     fastmap.dataApi.rdLane({
-        //       pid:100000161,
-        //       seqNum:3,
-        //       arrowDir:'a',
-        //       conditions:[
-        //         {
-        //           lanePid:432112,
-        //           viaLinkPid:56432,
-        //           groupId:1,
-        //           seqNum:1
-        //         },
-        //         {
-        //           lanePid:432112,
-        //           viaLinkPid:56432,
-        //           groupId:1,
-        //           seqNum:1
-        //         }
-        //       ]
-        //     })
-        //   ]
-        // };
         $scope.laneLength = $scope.clmData.laneInfos.length;
         $scope.laneIndex = 0;
         $scope.refreshLaneData();
-        // $scope.highLightLaneLink();
+        $(".datetip-double").hide();
+        $(".datetip").hide();
+        $scope.highLightLaneLink();
     };
     // 刷新车道图
     $scope.refreshLaneData = function () {
+      $scope.selectLaneActive = -1;
+      if($scope.clmData.laneInfos.length > 0){
+        $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
+      }else{
+        $scope.laneInfo = fastmap.dataApi.rdLane({pid:0});
+        $scope.clmData.laneInfos.push($scope.laneInfo);
+      }
+      if($scope.laneInfo && $scope.laneInfo.conditions.lenth > 0){
+        $scope.showvehicle($scope.laneInfo.conditions[0].vehicle);
+      }
       var _width = $scope.clmData.laneInfos.length * 30 + 20;
       if(_width > 300) {
         $scope.laneStyle = {width:_width,'overflow-x':'auto'};
@@ -136,13 +78,6 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.clmData.laneInfos[i].seqNum = i+1;
       }
       $scope.laneLength = $scope.clmData.laneInfos.length;
-      $scope.selectLaneActive = -1;
-      if($scope.clmData.laneInfos.length > 0){
-        $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
-      }
-      if($scope.laneInfo && $scope.laneInfo.conditions.lenth > 0){
-        $scope.showvehicle($scope.laneInfo.conditions[0].vehicle);
-      }
       $('body .carTypeTip:last').hide();
     };
     $scope.initializeData();
@@ -151,13 +86,13 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
             "type": "RDLANE",
             "dbId": App.Temp.dbId,
             "data": {
-                linkPid:$scope.clmData.linkPids,
+                linkPid:$scope.clmData.linkPids[0],
                 laneDir:$scope.clmData.laneDir
             }
         };
         dsEdit.getByCondition(param).then(function(data) {
           objCtrl.setCurrentObject('RDLANE', {
-            linkPids:$scope.clmData.linkPids[0],
+            linkPids:$scope.clmData.linkPids,
             laneDir:$scope.clmData.laneDir,
             laneInfos:data.data
           });
@@ -201,6 +136,8 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.laneInfo.conditions = [];
       }else{
         $scope.laneInfo.conditions.push(fastmap.dataApi.rdLaneCondition({pid:0}));
+        $(".datetip-double").hide();
+        $(".datetip").hide();
       }
     };
     // 弹出车道方向面板
@@ -523,5 +460,5 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE,  $scope.initializeData);
 }]);
