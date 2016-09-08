@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016-08-09
  */
-angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
-    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs','dsColumn',
+    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs,dsColumn) {
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
         $scope.editPanelIsOpen = false;
@@ -10,11 +10,17 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         /*初始化显示table提示*/
         $scope.loadTableDataMsg = '数据加载中...';
         $scope.workedFlag = 1; // 1待作业  2待提交
-        $scope.editLines = 2; //每页编辑的条数
+        $scope.editLines = 10; //每页编辑的条数
         $scope.editCurrentPage = 1; //当前编辑的页码
+        $scope.editAllDataList = []; //要编辑的列表总数据
         $scope.tableDataList = new Array();//存储查询列表数据
+        
         $scope.currentEditOrig = []; //当前编辑的数据原始值
         $scope.currentEdited = []; //当前编辑的数据
+        //popover
+        $scope.popoverIsOpen = false;
+        $scope.customPopoverUrl = 'myPopoverTemplate.html';
+        $scope.costomWorkNumEum = [{'num':10,'desc':'每次10条'},{'num':20,'desc':'每次20条'},{'num':30,'desc':'每次30条'},{'num':'','desc':'自定义'}];
         
         $scope.changeTabs = function (flag){
             $scope.workedFlag = flag;
@@ -57,13 +63,15 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             if(checkedArr.length > 0){
                 editArr = checkedArr;
             } else {
-                editArr = $scope.tableDataList.slice(0,$scope.editLines);
+                editArr = $scope.tableDataList;
             }
+//            $scope.editAllDataList = editArr;
+            $scope.getPerPageEditData(editArr);
             console.info(editArr);
             $scope.batchWorkIsOpen = false;
             $scope.batchParam.value = "";
-            $scope.currentEditOrig = angular.copy(editArr);
-            $scope.currentEdited = angular.copy(editArr);
+//            $scope.currentEditOrig = angular.copy(editArr);
+//            $scope.currentEdited = angular.copy(editArr);
             $scope.editPanelIsOpen = true;
             initeditTable();
         };
@@ -92,20 +100,38 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }, {
                 counts: [],
                 getData: function($defer, params) {
-                    var param = {
-                        subtaskId: parseInt(App.Temp.subTaskId),
-                        pageNum: params.page(),
-                        pageSize: params.count(),
-                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                        params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
-                    };
-                    dsMeta.columnDataList(param).then(function(data) {
+                	var param = {
+                            "type":'integrate',
+                            "firstWorkItem":"poi_name",
+                            "secondWorkItem":"nameUnify",
+                            "status":1
+                     };
+                    dsColumn.queryColumnDataList(param).then(function (data){
                         $scope.loadTableDataMsg = '列表无数据';
-                        var temp = new FM.dataApi.ColPoiList(data.data);
-                        $scope.tableDataList = new FM.dataApi.ColPoiList(data.data).dataList;
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(temp.dataList);
+                            // $scope.roadNameList = data.data;
+                            // _self.tableParams.total(data.total);
+                            // $defer.resolve(data.data);
+
+                            var temp = new FM.dataApi.ColPoiList(data);
+                            console.info(temp);
+                            $scope.roadNameList = temp.dataList;
+                            _self.tableParams.total(data.total);
+                            $defer.resolve(temp.dataList);
                     });
+//                    var param = {
+//                        subtaskId: parseInt(App.Temp.subTaskId),
+//                        pageNum: params.page(),
+//                        pageSize: params.count(),
+//                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+//                        params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+//                    };
+//                    dsMeta.columnDataList(param).then(function(data) {
+//                        $scope.loadTableDataMsg = '列表无数据';
+//                        var temp = new FM.dataApi.ColPoiList(data.data);
+//                        $scope.tableDataList = new FM.dataApi.ColPoiList(data.data).dataList;
+//                        _self.tableParams.total(data.total);
+//                        $defer.resolve(temp.dataList);
+//                    });
                 }
             });
         };
@@ -131,8 +157,14 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             //获取改变的数据
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
+            if($scope.editAllDataList.length < $scope.editLines){
+            	swal("已经是最后一页了!", "", "info");
+//            	$scope.editPanelIsOpen = false;
+            }
             //调用接口
-
+            $scope.getPerPageEditData($scope.editAllDataList);
+            initeditTable();
+            
         };
         $scope.batchParam = {
         	value : "",
@@ -201,21 +233,47 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             	swal("当前没有符合条件的数据", "", "info");
             	return;
             }
-            editArr = resultArr;
-            
-            editArr = resultArr.slice(0,$scope.editLines);
-	        $scope.currentEditOrig = angular.copy(editArr);
-	        $scope.currentEdited = angular.copy(editArr);
+            $scope.getPerPageEditData(resultArr);
 	        $scope.editPanelIsOpen = true;
 	        initeditTable();
 	        $scope.batchWorkIsOpen = false;
-//	        $scope.batchParam.value = "";
         };
         $scope.extractData = function(){
         	$scope.searchWork();
         	$scope.editBatchWorkIsOpen = true;
         	$scope.editDisable = true;
         	
+        };
+        //获取当前页要编辑的条数
+        $scope.getPerPageEditData = function(allData){
+        	//需要编辑的所有数据
+        	$scope.editAllDataList = allData;
+        	if($scope.editAllDataList.length > $scope.editLines){
+        		//当前页要编辑的数据
+            	var resultArr = $scope.editAllDataList.splice(0,$scope.editLines);
+            	$scope.currentEditOrig = angular.copy(resultArr);
+    	        $scope.currentEdited = angular.copy(resultArr);
+        	}else{
+        		$scope.currentEditOrig = angular.copy($scope.editAllDataList);
+    	        $scope.currentEdited = angular.copy($scope.editAllDataList);
+        	}
+        };
+        //设置每次作业条数的radio选择逻辑;
+        $scope.selectNum = function(params,arg2){
+            $scope.inputIsShow = arg2==3?true:false;
+            $scope.costomWorkNumEum[3].num = '';
+            $scope.editLines = params.num;
+        };
+        /*设置每次作业的条数*/
+        $scope.setInputValue = function(params){
+            $scope.costomWorkNumEum[3].num = parseInt(params);
+            if(params<=0){
+                alert('必须大于零的整数!');
+                return;
+            }else{
+                $scope.editLines = parseInt(params);
+            }
+            $scope.popoverIsOpen = false;
         };
         /**************** 工具条end   ***************/
 
@@ -305,7 +363,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         	}
         	swal("全部替换完成,共进行了"+i+"处替换", "", "info");
         	initeditTable();
-        	$scope.closeEditBatchModal();
+//        	$scope.closeEditBatchModal();
         };
         /*******************  编辑页面end  ******************/
 

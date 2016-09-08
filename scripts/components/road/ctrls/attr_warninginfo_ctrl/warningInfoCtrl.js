@@ -94,6 +94,10 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
     var typeCodeArr = [];//结果集
 
     $scope.initializeData = function(){
+        if($scope.warningInfoForm) {
+            $scope.warningInfoForm.$setPristine();
+        }
+
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdWarningInfoObj = objCtrl.data;
         $scope.typeCodeImg = objCtrl.data.typeCode; //用于显示图片

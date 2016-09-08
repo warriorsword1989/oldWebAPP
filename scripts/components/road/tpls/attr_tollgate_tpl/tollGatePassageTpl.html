@@ -1,12 +1,12 @@
 <div ng-controller="TollGatePassageCtl">
     <div class="fm-component" >
-        <div class="content">
+        <div class="content" ng-repeat="passage in tollGateInfo.passages track by $index">
             <form>
                 <ul class="fm-ul fm-ul-form">
-                    <li ng-if="tollGateType == 0 ||tollGateType == 2 ||tollGateType == 3 ||tollGateType == 4 || tollGateType == 5 ||tollGateType == 6 ||tollGateType == 7">
+                    <li ng-if="tollGateInfo.type == 0 ||tollGateInfo.type == 2 ||tollGateInfo.type == 3 ||tollGateInfo.type == 4 || tollGateInfo.type == 5 ||tollGateInfo.type == 6 ||tollGateInfo.type == 7">
                         <label>收费方式</label>
                         <div >
-                            <select ng-model="tollGatePassage.tollForm" class="fm-control"
+                            <select ng-model="passage.tollForm" class="fm-control"
                                     ng-options="value.id as value.label for value in tollFormObj">
                             </select>
                         </div>
@@ -14,7 +14,7 @@
                     <li ng-if="tollGateType == 1 ||tollGateType == 8 ||tollGateType == 9 ||tollGateType == 10">
                         <label>领卡类型</label>
                         <div>
-                            <select ng-model="tollGatePassage.cardType" ng-change="changeCardType();" class="fm-control"
+                            <select ng-model="passage.cardType" ng-change="changeCardType();" class="fm-control"
                                     ng-options="value.id as value.label for value in cardTypeObj">
                             </select>
                         </div>
@@ -23,13 +23,13 @@
                         <div class="date-well full-width">
                             <div class="date-head">
                                 <label>车辆类型</label>
-                                <div class="pull-right" style="display:inline-flex;color: #fff">
-                                    <a style="cursor: pointer;"  ng-click="showPopover($event)">添加</a>
+                                <div class="pull-right" style="display:inline-flex;color: #fff">{{passage.vehicle}}
+                                    <a style="cursor: pointer;"  ng-click="showPopover($event,$index)">添加</a>
                                     <input  type="checkbox" id="checkallow" ng-model="checkValue" ng-checked="checkValue" ng-click="checkViche()" >允许
                                 </div>
                             </div>
                             <div class="date-body full-width">
-                                <div class="date-list col-md-6" ng-repeat="item in carData">
+                                <div class="date-list col-md-6" ng-repeat="item in carData track by $index">
                                     <div style="color:#ffffff;padding: 5px;" ng-bind="item.label">
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
     <div class="carTypeTip tooltip-container" style="display: none;">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">车辆类型</div>
         <div class="pull-right" style="margin-top: -10px;">
-            <button type="button" class="close" aria-label="Close" ng-click="showPopover($event);"
+            <button type="button" class="close" aria-label="Close" ng-click="closePopover($event);"
                     style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -62,4 +62,3 @@
         <div class='tooltip-arrow-right'></div>
     </div>
 </div>
-

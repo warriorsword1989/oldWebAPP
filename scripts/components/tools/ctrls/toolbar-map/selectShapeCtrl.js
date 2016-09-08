@@ -3099,7 +3099,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     highRenderCtrl.drawHighlight();
                     //判断相交点数
                     if (newData.length == 0) {
-                        tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
+                        tooltipsCtrl.setCurrentTooltip('所选区域无合适的POI点，请重新选择！');
                     } else {
                         var relationShap = {
                             "rectData":newData,
@@ -3135,6 +3135,39 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             newData.push(data[i]);
                         }
                     }
+                    //充电桩充电站只能以充电站为父
+                    if(objCtrl.data.kindCode == "230218" || objCtrl.data.kindCode == "230227"){
+                        for(var i = 0;i<newData.length;i++){
+                            if(newData[i].properties.kindCode != "230218"){
+                                newData.splice(i,1);
+                                i--;
+                            }
+                        }
+                    } else {//其他poi不能以充电站为父
+                        for(var i = 0;i<newData.length;i++){
+                            if(newData[i].properties.kindCode == "230218" || newData[i].properties.kindCode == "230227"){
+                                newData.splice(i,1);
+                                i--;
+                            }
+                        }
+                    }
+
+                    if(objCtrl.data.indoor == 0){//外部poi，只能以parent=1的poi为父
+                        for(var i = 0 ;i <newData.length;i++){
+                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parent != 1){
+                                newData.splice(i,1);
+                                i--;
+                            }
+                        }
+                    } else {//内部poi，只能以parent=1 和2的poi为父
+                        for(var i = 0 ;i <newData.length;i++){
+                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parent != 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parent != 2){
+                                newData.splice(i,1);
+                                i--;
+                            }
+                        }
+                    }
+
                     for (var rec = 0; rec < latArr.length; rec++) {
                         var tempArr = [];
                         tempArr.push(latArr[rec].lng);
@@ -3164,7 +3197,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             var index = parseInt(item) + 1;
                             if (objCtrl.data.parents.length > 0 && newData[item].properties.id == objCtrl.data.parents[0].parentPoiPid) { //当前父
                                 html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-default">' + '当前父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-warning btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="解除父">' + '</li>';
-                            } else if ($scope.metaData.kindFormat[newData[item].properties.kindCode].parent != 0) {
+                            } else{
                                 html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-info">' + '可为父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-success btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="作为父">' + '</li>';
                             }
                             // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';

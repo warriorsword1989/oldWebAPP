@@ -2417,3 +2417,13 @@ a.batchButton {
   background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 30%, transparent 50%, rgba(0, 0, 0, 0.1));
   background-image: linear-gradient(bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 30%, transparent 50%, rgba(0, 0, 0, 0.1));
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000032047}}
+.date-time-title {
+  margin: 0;
+  border: 1px solid;
+  padding: 3px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  margin-bottom: -7px !important;
+  width: 100% !important;
+}
