@@ -52,7 +52,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
         }
         this.container.style.cursor = 'crosshair';
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('mousemove', this.onMouseMove1, this);
+        this._map.on('mousemove', this.onMouseMove, this);
 
     },
 
@@ -70,7 +70,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
 
             this._map
                 .off('mousedown', this.onMouseDown, this)
-                .off('mousemove', this.onMouseMove1, this);
+                .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
@@ -100,7 +100,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
             this._fireCreatedEvent();
         }
     },
-    onMouseMove1: function (e) {
+    onMouseMove: function (e) {
         var latlng = e.latlng;
         if (this._isDrawing) {
             this._drawShape(latlng);
