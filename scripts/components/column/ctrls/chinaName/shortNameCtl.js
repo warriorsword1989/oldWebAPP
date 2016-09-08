@@ -69,7 +69,7 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             }
             $scope.getPerPageEditData(editorArr);
             $scope.editPanelIsOpen = true;
-            refreshData();
+            initEditTable();
         };
         $scope.searchType = 'name';
 
@@ -134,7 +134,7 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             	swal("已经是最后一页了!", "", "info");
             }
             $scope.getPerPageEditData($scope.editAllDataList);
-            refreshData();
+            initEditTable();
         };
         //获取当前页要编辑的条数
         $scope.getPerPageEditData = function(allData){
@@ -241,10 +241,6 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.showImgInfoo = false;
         };
         /*******************  编辑页面end  ******************/
-        //刷新表格方法;
-        function refreshData(){
-            _self.tableParams.reload();
-        };
         /*初始化方法*/
         function initPage(){
         	initTable();
