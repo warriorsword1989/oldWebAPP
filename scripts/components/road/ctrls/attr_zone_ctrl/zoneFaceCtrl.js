@@ -37,6 +37,43 @@ zoneFaceApp.controller("zoneFaceController",["$scope","dsEdit" , function($scope
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };
 
+    /**
+     *
+     */
+    $scope.setZoneID = function(){
+        $scope.$emit('showFullLoadingOrNot',true);
+        var param = {};
+        param.pid = $scope.zoneFaceData.pid;
+        param.ruleId = 'BATCHZONEID';
+        dsEdit.PolygonBatchWork(param).then(function(data){
+            if(typeof data=='string'){
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("不存在需要批处理的link数据", data, "warning");
+            }else{
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("赋ZoneID批处理成功：", '处理了'+data.log.length+'条数据', "success");
+            }
+        })
+    }
+    /**
+     *
+     */
+    $scope.deleteZoneID = function(){
+        $scope.$emit('showFullLoadingOrNot',true);
+        var param = {};
+        param.pid = $scope.zoneFaceData.pid;
+        param.ruleId = 'BATCHDELZONEID';
+        dsEdit.PolygonBatchWork(param).then(function(data){
+            if(typeof data=='string'){
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("不存在需要批处理的link数据", data, "warning");
+            }else{
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("删除ZoneID批处理成功：", '处理了'+data.log.length+'条数据', "success");
+            }
+        })
+    }
+
     //删除
     $scope.delete = function(){
         dsEdit.delete($scope.zoneFaceData.pid, "ZONEFACE").then(function(data) {

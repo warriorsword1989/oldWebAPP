@@ -171,6 +171,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                     highRenderCtrl.drawHighlight();
                     tooltipsCtrl.setCurrentTooltip("请追加或取消道路点!");
                     eventController.off(eventController.eventTypes.GETRECTDATA);
+                    map.currentTool.disable();
                     map.currentTool = {};
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
@@ -338,6 +339,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                     highRenderCtrl.highLightFeatures = highLightFeatures;
                     highRenderCtrl.drawHighlight();
                     eventController.off(eventController.eventTypes.GETRECTDATA);
+                    map.currentTool.disable();
                     map.currentTool = {};
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
@@ -494,6 +496,7 @@ angular.module('app').controller("addCRFShapeCtrl", ['$scope', '$ocLazyLoad', 'd
                     }
                     highRenderCtrl.drawHighlight();
                     eventController.off(eventController.eventTypes.GETRECTDATA);
+                    map.currentTool.disable();
                     map.currentTool = {};
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,

@@ -1,7 +1,7 @@
 /**
  * Created by mali on 2016/7/22.
  */
-angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath', function($scope,dsEdit,appPath) {
+angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath','$filter' , function($scope,dsEdit,appPath,$filter) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -39,6 +39,7 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath', fun
     //初始化
     $scope.initializeData = function(){
         $scope.luFaceData = objCtrl.data;//获取数据
+        $scope.isBatch = ($scope.luFaceData.kind==21)?true:false;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//存储原始数据
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.luFaceForm) {
@@ -55,7 +56,6 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath', fun
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-
     };
     if(objCtrl.data) {
         $scope.initializeData();
@@ -75,8 +75,43 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath', fun
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         })
-
     };
+    /**
+     *
+     */
+    $scope.setUrban = function(){
+        $scope.$emit('showFullLoadingOrNot',true);
+        var param = {};
+        param.pid = $scope.luFaceData.pid;
+        param.ruleId = 'BATCHBUAURBAN';
+        dsEdit.PolygonBatchWork(param).then(function(data){
+            if(typeof data=='string'){
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("不存在需要批处理的link数据", data, "warning");
+            }else{
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("赋Urban批处理成功：", '处理了'+data.log.length+'条数据', "success");
+            }
+        })
+    }
+    /**
+     *
+     */
+    $scope.deleteUrban = function(){
+        $scope.$emit('showFullLoadingOrNot',true);
+        var param = {};
+        param.pid = $scope.luFaceData.pid;
+        param.ruleId = 'BATCHDELURBAN';
+        dsEdit.PolygonBatchWork(param).then(function(data){
+            if(typeof data=='string'){
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("不存在需要批处理的link数据", data, "warning");
+            }else{
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("删除Urban批处理成功：", '处理了'+data.log.length+'条数据', "success");
+            }
+        })
+    }
 
     //删除
     $scope.delete = function(){

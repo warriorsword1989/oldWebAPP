@@ -16,10 +16,10 @@
         <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addLink':'active'}[shapeOperator]" data-toggle="dropdown">线 <span class="caret"></span></button>
         <ul class="dropdown-menu shape-well" role="menu">
             <label style="padding:0px;color:white;font-size: 10px;font-weight:normal">
-                <input class="date-body" type="checkbox" ng-model="nodeChecked" ng-checked="nodeChecked" > 捕捉Node
+                <input class="date-body" type="checkbox" ng-model="nodeChecked" ng-checked="nodeChecked" ng-click="changeSnapAndLayer('node')"> 捕捉Node
             </label>
             <label style="padding:0px;color:white;font-size: 9px;font-weight:normal">
-                <input class="date-body" type="checkbox" ng-model="linkChecked" ng-checked="linkChecked" > 捕捉Link
+                <input class="date-body" type="checkbox" ng-model="linkChecked" ng-checked="linkChecked" ng-click="changeSnapAndLayer('link')"> 捕捉Link
             </label>
             <li class="btn-group btn-group-xs">
                 <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDLINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RDLINK')">道路Link</button>

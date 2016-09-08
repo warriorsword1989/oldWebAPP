@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016-9-01
  */
-angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
-    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs','dsColumn',
+    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs,dsColumn) {
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
         $scope.editPanelIsOpen = false;
@@ -41,7 +41,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
 	        return "<span>"+html+"</span>";
         }
         function getClassifyRules($scope, row){
-            var type = row.classifyRules;
+            var type = row.classifyRules.split(',');
             var html = '';
             for(var i = 0 ; i < type.length ; i++){
                 html +='<span class="badge">'+type[i]+'</span>';
@@ -63,14 +63,8 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             	editArr = $scope.tableDataList;
             }
             $scope.getPerPageEditData(editArr);
-//            var editorArr = [];
-//            editorArr = editAllDataList.slice(0,$scope.editorLines);
-//            console.info(editorArr);
-//            $scope.editAllDataList = editorArr;
-//            $scope.currentEditOrig = angular.copy(editorArr);
-//            $scope.currentEdited = angular.copy(editorArr);
             $scope.editPanelIsOpen = true;
-            initEditorTable();
+            initEditTable();
         };
         /***
          * 解析拼音数据
@@ -147,22 +141,17 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                 counts: [],
                 getData: function($defer, params) {
                     var param = {
-                        subtaskId: parseInt(App.Temp.subTaskId),
-                        pageNum: params.page(),
-                        pageSize: params.count(),
-                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                        params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+                    		"type":'integrate',
+                            "firstWorkItem":"poi_name",
+                            "secondWorkItem":"namePinyin",
+                            "status":1
                     };
-                    dsMeta.columnDataList(param).then(function(data) {
+                    dsColumn.queryColumnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
-                        // $scope.roadNameList = data.data;
-                        // _self.tableParams.total(data.total);
-                        // $defer.resolve(data.data);
-                        var datalist = $scope.parseNamePinyin(data.data);
+                        var datalist = $scope.parseNamePinyin(data);
                         console.log('返回数据'+JSON.stringify(datalist))
                         var temp = new FM.dataApi.ColPoiList(datalist);
                         $scope.tableDataList = new FM.dataApi.ColPoiList(datalist).dataList;
-//                        $scope.roadNameList = temp.dataList;
                         _self.tableParams.total(data.total);
                         $defer.resolve(temp.dataList);
                     });
@@ -184,20 +173,15 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             _self.editorTable.reload();
         };
         $scope.saveData = function (){
-        	console.log("原始数据：")
-        	console.log($scope.currentEditOrig);
-        	console.log("编辑后的数据")
-        	console.log($scope.currentEdited);
             //获取改变的数据
             var chage = objCtrl.compareColumData($scope.currentEditOrig,$scope.currentEdited);
             console.info(chage);
             //调用接口
             if($scope.editAllDataList.length <= $scope.editorLines){
             	swal("已经是最后一页了!", "", "info");
-//            	$scope.editPanelIsOpen = false;
             }
             $scope.getPerPageEditData($scope.editAllDataList);
-            initEditorTable();
+            initEditTable();
 
         };
         //获取当前页要编辑的条数
@@ -287,13 +271,6 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             temp = temp.join(" ");
             row.nameObj.nameStrPinyin = temp;
         };
-        function initEditorTable() {
-            _self.editorTable = new NgTableParams({
-            }, {
-                counts:[],
-                dataset: $scope.currentEdited
-            });
-        };
 
         $scope.closeEditPanel = function (){
             $scope.editPanelIsOpen = false;
@@ -301,6 +278,13 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             _self.tableParams.reload();
         };
         
+        function initEditTable() {
+            _self.editTable = new NgTableParams({
+            }, {
+                counts:[],
+                dataset: $scope.currentEdited
+            });
+        };
         $scope.showView = function (){
             $scope.showImgInfoo = true;
             $scope.slides = [
@@ -318,17 +302,14 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                     text:'333'
                 }
             ];
-            //$scope.$apply();
         };
         $scope.closeView = function (){
             $scope.showImgInfoo = false;
         };
         /*******************  编辑页面end  ******************/
-
         /*初始化方法*/
         function initPage(){
         	initTable();
-            //initEditorTable();
         }
         initPage();
     }

@@ -33,6 +33,32 @@ adFaceApp.controller("adFaceController",["$scope","dsEdit" , function($scope,dsE
     if(objCtrl.data) {
         $scope.initializeData();
     }
+    /*admin面批处理*/
+    $scope.batchAdminID = function(typeParam){
+        var tempRuleId = '';
+        switch (typeParam){
+            case 'addAdminId':
+                tempRuleId = "BATCHREGIONIDRDLINK";
+                break;
+            case 'addAdminIdToPoi':
+                tempRuleId = "BATCHREGIONIDPOI";
+                break
+        }
+        $scope.$emit('showFullLoadingOrNot',true);
+        var param = {};
+        param.pid = $scope.adFaceData.pid;
+        param.ruleId = tempRuleId;
+        dsEdit.PolygonBatchWork(param).then(function(data){
+            if(typeof data=='string'){
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("不存在需要批处理的数据", data, "warning");
+            }else{
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("批处理成功：", '处理了'+data.log.length+'条数据', "success");
+            }
+        })
+    }
+
     $scope.save = function(){
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };

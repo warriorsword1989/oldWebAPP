@@ -99,11 +99,6 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
         if (this._shape) {
             this._fireCreatedEvent();
         }
-
-        this.disable();
-        if (this.options.repeatMode) {
-            this.enable();
-        }
     },
     onMouseMove: function (e) {
         var latlng = e.latlng;
@@ -136,6 +131,10 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
             if(middleArr && middleArr.length>0){
                 dataOfRectangle = dataOfRectangle.concat(middleArr);
             }
+        }
+        this.disable();
+        if (this.options.repeatMode) {
+            this.enable();
         }
         this.eventController.fire(this.eventController.eventTypes.GETRECTDATA,
             {data: dataOfRectangle, layerType: this.type,border:rectangle});
