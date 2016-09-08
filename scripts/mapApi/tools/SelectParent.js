@@ -106,11 +106,6 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
         if (this._shape) {
             this._fireCreatedEvent();
         }
-
-        this.disable();
-        if (this.options.repeatMode) {
-            this.enable();
-        }
     },
     onMouseMove: function (e) {
         var latlng = e.latlng;
@@ -137,7 +132,10 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
         var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
-
+        this.disable();
+        if (this.options.repeatMode) {
+            this.enable();
+        }
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
             {data: dataOfRectangle, layerType: this.type,border:rectangle});
     },
