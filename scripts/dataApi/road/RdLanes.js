@@ -38,7 +38,10 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["linkPids"] = this.linkPids;
         data["laneDir"] = this.laneDir;
-        data["laneInfos"] = this.laneInfos;
+        data["laneInfos"] = [];
+        for (var i = 0; i < this.laneInfos.length; i++) {
+            data["laneInfos"].push(this.laneInfos[i].getIntegrate());
+        }
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -53,7 +56,10 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["linkPids"] = this.linkPids;
         data["laneDir"] = this.laneDir;
-        data["laneInfos"] = this.laneInfos;
+        data["laneInfos"] = [];
+        for (var i = 0; i < this.laneInfos.length; i++) {
+            data["laneInfos"].push(this.laneInfos[i].getIntegrate());
+        }
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

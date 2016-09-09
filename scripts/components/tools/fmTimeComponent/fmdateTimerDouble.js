@@ -129,7 +129,7 @@ angular.module("lazymodule", []).controller('DateDoubleCtrl', ['$scope','$timeou
     }
     var newArr = $scope.newStr($scope.dateString);
     /*外部传递str*/
-    $scope.$on('set-code', function(event,data) {
+    $scope.$on('set-code-double', function(event,data) {
         if(data){
             $scope.dateList = [];
             $scope.dateString = data;
@@ -542,7 +542,7 @@ angular.module("lazymodule", []).controller('DateDoubleCtrl', ['$scope','$timeou
         $scope.dateString = ($scope.dateString).replace(/\+\+/, "+");
         $scope.dateString = ($scope.dateString).replace(/\[\+\[/, "[[");
         $scope.dateString = ($scope.dateString).replace(/\]\+\]/, "]]");
-        $scope.$emit('get-date',$scope.dateString);
+        $scope.$emit('get-date-double',$scope.dateString);
         if(dateTimeWell.hasClass('muti-date'))
             dateTimeWell.attr('date-str',$scope.dateString);
     }
@@ -1246,7 +1246,7 @@ angular.module("lazymodule", []).controller('DateDoubleCtrl', ['$scope','$timeou
                     allStr += v.code;
             });
             $scope.dateString = '['+allStr+']';
-            $scope.$emit('get-date',$scope.dateString);
+            $scope.$emit('get-date-double',$scope.dateString);
             if(dateListWell.parent().hasClass('muti-date'))
                 dateListWell.parent().attr('date-str',$scope.dateString);
         }
