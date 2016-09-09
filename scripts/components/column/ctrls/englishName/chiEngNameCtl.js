@@ -43,7 +43,7 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
             return row.addressChi.fullName;
         }
         function getClassifyRules($scope, row){
-            var type = row.classifyRules;
+            var type = row.classifyRules.split(",");
             var html = '';
             for(var i = 0 ; i < type.length ; i++){
                 html +='<span class="badge">'+type[i]+'</span>';
@@ -136,7 +136,7 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
             	swal("已经是最后一页了!", "", "info");
             }
             $scope.getPerPageEditData($scope.editAllDataList);
-            initEditorTable();
+//            initEditorTable();
 
         };
         //获取当前页要编辑的条数
@@ -155,21 +155,22 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
         };
         $scope.batchParam = {
         	value : "",
-        	batchField : ""
+        	batchField : "",
+        	replaceTo : ""
         };
-        var replaceOpt = [
-            {"id": "name12Chi", "label": "官方标准中文名称"}
+        $scope.replaceOpt = [
+            {"id": "name12Eng", "label": "原始英文名称"}
         ];
         		
         var searchOpt = [
-        	{"id": "name12Chi", "label": "官方标准中文名称"},
-        	{"id": "name11Chi", "label": "官方原始中文名称"}	
+        	{"id": "name11Chi", "label": "官方标准中文名称"},
+        	{"id": "name12Eng", "label": "原始英文名称"}	
         ];
         $scope.batchTabs = function(flag){
         	$scope.batchFlag = flag;
         	if(1 == flag){
-        		$scope.batchOpt = replaceOpt;
-        		$scope.batchParam.batchField = "name12Chi";
+        		$scope.batchOpt = $scope.replaceOpt;
+        		$scope.batchParam.batchField = "name12Eng";
         		$scope.extractEle = true;
         		$scope.searchBtn = false;
         	}else if(2 == flag){
@@ -209,10 +210,10 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
             }
             var currentValue;
             var resultArr = [];
-            for(var item in editArr){
-            	currentValue = editArr[item][$scope.batchParam.batchField].name;
+            for(var item in editorArr){
+            	currentValue = editorArr[item][$scope.batchParam.batchField].name;
                 if(currentValue && currentValue.indexOf($scope.batchParam.value)!= -1){
-                	resultArr.push(editArr[item]);
+                	resultArr.push(editorArr[item]);
     			}
     		}
             if(resultArr.length == 0){
@@ -334,6 +335,31 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
         };
         $scope.closeView = function (){
             $scope.showImgInfoo = false;
+        };
+        $scope.editBatchWork = function(){
+        	$scope.editBatchWorkIsOpen = true;
+        	$scope.editDisable = false;
+        	$scope.batchParam.value = "";
+        	$scope.batchParam.replaceTo = "";
+        	$scope.batchParam.batchField = "name12Eng";
+        };
+        $scope.closeEditBatchModal = function(){
+        	$scope.editBatchWorkIsOpen = false;
+        };
+        $scope.replaceAll = function(){
+        	var data = $scope.currentEdited;
+        	var i = 0 ;
+        	var currentValue;
+        	for(var item in data){
+        		currentValue = data[item][$scope.batchParam.batchField].name;
+                if(currentValue && currentValue.indexOf($scope.batchParam.value) != -1){
+                	i = i + 1;
+                	var finalyValue= currentValue.split($scope.batchParam.value).join($scope.batchParam.replaceTo);
+                    data[item][$scope.batchParam.batchField].name = finalyValue;
+                }
+        	}
+        	swal("全部替换完成,共进行了"+i+"处替换", "", "info");
+        	initEditorTable();
         };
         /*******************  编辑页面end  ******************/
 
