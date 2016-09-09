@@ -15,7 +15,6 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
     this.getMediumKind = function() {
         var defer = $q.defer();
         ajax.get("metadata/queryMediumKind/", {
-            region: 0
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);

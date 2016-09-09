@@ -349,6 +349,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
                             }
                             objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                            //$scope.$emit("reQueryByPid",{type:"IXPOI",pid:objectCtrl.data.pid});
                         }
                     });
                 }

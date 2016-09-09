@@ -5,7 +5,6 @@ var selectApp = angular.module("app");
 selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',function ($scope,dsEdit,dsFcc,appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
     var rdcross = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
@@ -104,53 +103,14 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
                         "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,
                         "handler": 0
-
                     };
                     dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
-                    	var info = null;
-                        if (data.errcode==0) {
-                            var sinfo={
-                                "op":"修改RDCROSS状态成功",
-                                "type":"",
-                                "pid": ""
-                            };
-                            data.data.log.push(sinfo);
-                            info=data.data.log;
-                        }else{
-                            info=[{
-                                "op":data.errcode,
-                                "type":data.errmsg,
-                                "pid": data.errid
-                            }];
-                        }
-                        outPutCtrl.pushOutput(info);
-                        if (outPutCtrl.updateOutPuts !== "") {
-                            outPutCtrl.updateOutPuts();
-                        }
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                var sinfo={
-                    "op":"修改RDCROSS成功",
-                    "type":"",
-                    "pid": ""
-                };
 
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-
-                data.data.log.push(sinfo);
-                    info=data.data.log;
-                }else{
-                    info=[{
-                        "op":data.errcode,
-                        "type":data.errmsg,
-                        "pid": data.errid
-                    }];
                 }
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
             $scope.refreshData();
         })
     };
@@ -165,10 +125,12 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdcross.redraw();
+                highRenderCtrl._cleanHighLight();
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                    'subAttrContainerTpl': false,
+                    'attrContainerTpl': false
+                });
                 $scope.rdCrossData = null;
-            }
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
             }
         })
     };
