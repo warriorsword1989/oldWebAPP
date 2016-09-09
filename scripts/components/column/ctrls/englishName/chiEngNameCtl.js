@@ -136,7 +136,7 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
             	swal("已经是最后一页了!", "", "info");
             }
             $scope.getPerPageEditData($scope.editAllDataList);
-//            initEditorTable();
+            initEditorTable();
 
         };
         //获取当前页要编辑的条数
@@ -229,20 +229,6 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
         	$scope.searchWork();
         	$scope.editBatchWorkIsOpen = true;
         	$scope.editDisable = true;
-        };
-        //获取当前页要编辑的条数
-        $scope.getPerPageEditData = function(allData){
-        	//需要编辑的所有数据
-        	$scope.editAllDataList = allData;
-        	if($scope.editAllDataList.length > $scope.editorLines){
-        		//当前页要编辑的数据
-            	var resultArr = $scope.editAllDataList.splice(0,$scope.editorLines);
-            	$scope.currentEditOrig = angular.copy(resultArr);
-    	        $scope.currentEdited = angular.copy(resultArr);
-        	}else{
-        		$scope.currentEditOrig = angular.copy($scope.editAllDataList);
-    	        $scope.currentEdited = angular.copy($scope.editAllDataList);
-        	}
         };
         //设置每次作业条数的radio选择逻辑;
         $scope.selectNum = function(params,arg2){
@@ -359,7 +345,7 @@ angular.module('app').controller('ChiEngNameCtl', ['$scope', '$ocLazyLoad', 'NgT
                 }
         	}
         	swal("全部替换完成,共进行了"+i+"处替换", "", "info");
-        	initEditorTable();
+//        	initEditorTable();
         };
         /*******************  编辑页面end  ******************/
 
