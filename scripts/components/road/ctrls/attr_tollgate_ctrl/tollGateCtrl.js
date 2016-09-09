@@ -12,6 +12,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateData = objCtrl.data;
+		$scope.nameGroup = [];
+		initNameInfo();
+
+		console.log($scope.nameGroup)
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -41,6 +45,17 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		highRenderCtrl.drawHighlight();
 
 	};
+	function initNameInfo(){
+		for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
+			var tempArr = [];
+			for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
+				if($scope.tollGateData.names[j].nameGroupid == i+1){
+					tempArr.push($scope.tollGateData.names[j]);
+				}
+			}
+			$scope.nameGroup.push(tempArr);
+		}
+	}
 	$scope.initializeData();
 	$scope.refreshData = function () {
 		dsEdit.getByPid(parseInt($scope.tollGateData.pid), "RDTOLLGATE").then(function (data) {
@@ -86,11 +101,11 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
 			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGatePassageTpl.html';
 			detailInfo = {
-				"loadType": "subAttrTplContainer",
-				"propertyCtrl": tempCtr,
-				"propertyHtml": tempTepl,
-				"data": $scope.tollGateData.passages[index]
-			};
+                "loadType": "subAttrTplContainer",
+                "propertyCtrl": tempCtr,
+                "propertyHtml": tempTepl,
+                "data": $scope.tollGateData.passages[index]
+            };
 			objCtrl.passageInfo = $scope.tollGateData.passages[index];
 		}
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -176,7 +191,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		} else {
 			if (objCtrl.data.passages.length < 32) {
 				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
-				$scope.tollGateData.passageNum++;
+				//$scope.tollGateData.passageNum++;
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 			}
 		}
@@ -187,7 +202,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			$scope.tollGateData.names.splice(index, 1);
 		} else {
 			$scope.tollGateData.passages.splice(index, 1);
-			$scope.tollGateData.passageNum--;
+			//$scope.tollGateData.passageNum--;
 			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 		}
 		$scope.$emit('SWITCHCONTAINERSTATE', {
@@ -209,7 +224,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		{id: 5, label: '交卡付费并代收固定费用'},
 		{id: 6, label: '验票（无票收费）值先保留'},
 		{id: 7, label: '领卡并代收固定费用'},
-		{id: 8, label: '持卡达标识不收费'},
+		{id: 8, label: '持卡打标示不收费'},
 		{id: 9, label: '验票领卡'},
 		{id: 10, label: '交卡不收费'}
 	];

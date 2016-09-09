@@ -136,7 +136,6 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
             //调用接口
             $scope.getPerPageEditData($scope.editAllDataList);
             initEditTable();
-            
         };
         $scope.batchParam = {
         	value : "",
@@ -214,7 +213,6 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         	$scope.searchWork();
         	$scope.editBatchWorkIsOpen = true;
         	$scope.editDisable = true;
-        	
         };
         //获取当前页要编辑的条数
         $scope.getPerPageEditData = function(allData){

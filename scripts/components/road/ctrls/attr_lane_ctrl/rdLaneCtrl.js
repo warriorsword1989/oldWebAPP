@@ -11,6 +11,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.clmData = objCtrl.data;
+    objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     $scope.carData=[];
     // 高亮link
     $scope.highLightLaneLink = function(){
@@ -48,7 +49,6 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
       highRenderCtrl.drawHighlight();
     };
     $scope.initializeData = function(){
-        // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.laneLength = $scope.clmData.laneInfos.length;
         $scope.laneIndex = 0;
         $scope.refreshLaneData();
@@ -138,6 +138,18 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.laneInfo.conditions.push(fastmap.dataApi.rdLaneCondition({pid:0}));
         $(".datetip-double").hide();
         $(".datetip").hide();
+        if($scope.laneInfo && $scope.laneInfo.conditions.length > 0){
+          $timeout(function(){
+              $scope.fmdateTimer($scope.laneInfo.conditions[0].directionTime);
+              $scope.$broadcast('set-code',$scope.laneInfo.conditions[0].directionTime);
+              $scope.$apply();
+          },100);
+          $timeout(function(){
+              $scope.carFmdateTimer($scope.laneInfo.conditions[0].vehicleTime);
+              $scope.$broadcast('set-code-double',$scope.laneInfo.conditions[0].vehicleTime);
+              $scope.$apply();
+          },100);
+        }
       }
     };
     // 弹出车道方向面板
@@ -266,7 +278,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
                 if($scope.laneInfo && $scope.laneInfo.conditions.length > 0){
                   $timeout(function(){
     									$scope.carFmdateTimer($scope.laneInfo.conditions[0].vehicleTime);
-    									$scope.$broadcast('set-code',$scope.laneInfo.conditions[0].vehicleTime);
+    									$scope.$broadcast('set-code-double',$scope.laneInfo.conditions[0].vehicleTime);
     									$scope.$apply();
     							},100);
                 }
@@ -285,11 +297,11 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
   			},100);
   	};
   	$scope.carFmdateTimer = function(str){
-  			$scope.$on('get-date', function(event,data) {
+  			$scope.$on('get-date-double', function(event,data) {
   					$scope.laneInfo.conditions[0].vehicleTime = data;
   			});
   			$timeout(function(){
-  					$scope.$broadcast('set-code',str);
+  					$scope.$broadcast('set-code-double',str);
   					$scope.laneInfo.conditions[0].vehicleTime = str;
   					$scope.$apply();
   			},100);
@@ -401,16 +413,37 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.$emit("transitCtrlAndTpl", laneInfo);
     };
     $scope.save = function(){
-        // objCtrl.save();
-        // if(!objCtrl.changedProperty){
-        //     swal("操作成功",'属性值没有变化！', "success");
-        //     return ;
-        // }
+        objCtrl.save();
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return ;
+        }
+        console.log($scope.laneInfo.conditions[0].directionTime)
+        console.log($scope.laneInfo.conditions[0].vehicleTime)
+        for(var i=0,len=objCtrl.changedProperty.laneInfos.length;i<len;i++){
+          if(objCtrl.changedProperty.laneInfos[i].objStatus){
+            delete objCtrl.changedProperty.laneInfos[i].objStatus;
+          }
+        }
+        if(objCtrl.changedProperty.laneInfos.length == objCtrl.data.laneInfos.length){
+          for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
+            if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('pid')){
+              objCtrl.changedProperty.laneInfos[i].pid = objCtrl.data.laneInfos[i].pid;
+            }
+            if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('seqNum')){
+              objCtrl.changedProperty.laneInfos[i].seqNum = objCtrl.data.laneInfos[i].seqNum;
+            }
+          }
+        }else{
+          for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
+
+          }
+        }
         var param = {
             "command": "BATCH",
             "type": "RDLANE",
             "dbId": App.Temp.dbId,
-            "data": $scope.clmData
+            "data": objCtrl.changedProperty
         };
         dsEdit.save(param).then(function (data) {
             if (data) {

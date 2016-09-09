@@ -27,20 +27,20 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         };
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'50px'},
-            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
+            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'60px'},
             { field: "type", title: "分类",getValue:getKindName,show: true,width:'80px'},
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'180px'},
-            { field: "addressCombineName", title: "中文地址合并",getValue: getCombineName, html:true,width:'220px',show: true},
-            { field: "addressCombinePinyin", title: "拼音地址合并",getValue: getCombinePinyin,html:true,width:'220px', show: true},
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'160px'},
+            { field: "addressCombineName", title: "中文地址合并",getValue: getCombineName, html:true,width:'240px',show: true},
+            { field: "addressCombinePinyin", title: "拼音地址合并",getValue: getCombinePinyin,html:true,width:'240px', show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
         ];
 
         function getNames($scope, row){
             return row.name11Chi.name;
         }
-        function getFullName($scope, row){
-            return row.addressChi.fullName;
-        }
+        //function getFullName($scope, row){
+        //   return row.addressChi.fullName;
+        //}
         function getKindName($scope, row){
             return $scope.metaData.kindFormat[row.kindCode].kindName;
         }
@@ -68,8 +68,8 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         }
         
         function getCombinePinyin($scope, row){
-            var roadnamepinyin = row[languageFlag]['roadNamePinyin'];
-            var addrnamepinyin = row[languageFlag]['addrNamePinyin'];
+            var roadnamepinyin = row[languageFlag]['roadnamePhonetic'];
+            var addrnamepinyin = row[languageFlag]['addrnamePhonetic'];
             if(roadnamepinyin && addrnamepinyin){
                 roadnamepinyin = roadnamepinyin.replace(/\s/g,' ');
                 var roadnameV = $scope.heightLightPinAddress(roadnamepinyin.replace(/\|/g,' | '), row[languageFlag]['roadname'], row[languageFlag]['roadNameMultiPinyin'],"road");
@@ -225,9 +225,9 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
         /*******************  编辑页面begin  ****************/
         $scope.edit = {};
         $scope.edit.editCols = [
-            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
-            { field: "classifyRules", title: "分类",getValue:getKindName,show: true,width:'50px'},
-            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'180px'},
+            { field: "classifyRules", title: "作业类型",getValue:getClassifyRules,show: true,width:'70px'},
+            { field: "classifyRules", title: "分类",getValue:getKindName,show: true,width:'60px'},
+            { field: "name11Chi", title: "官方标准化中文名称",getValue:getNames,show: true,width:'160px'},
             { field: "addressCombineName", title: "中文地址合并",getValue: getCombineName, html:true,show: true,width:'240px'},
             { field: "addressCombinePinyin", title: "拼音地址合并",getValue: getCombinePinyin,html:true, show: true,width:'280px'},
             { field: "referenceInfo", title: "参考信息",getValue: getReferenceInfo,html:true, show: true,width:'100px'},
@@ -283,7 +283,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
             var flag = valueStr[2];
 
 
-            var roadnamepinyin = row[languageFlag]['roadNamePinyin'];
+            var roadnamepinyin = row[languageFlag]['roadnamePhonetic'];
             if(roadnamepinyin && flag == 'road'){
                 roadnamepinyin = roadnamepinyin.replace(/\|/g,' | ').replace(/\s+/g,' ');
                 if(roadnamepinyin.substr(0,1) == " "){
@@ -298,9 +298,9 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                 var temp = roadnamepinyin.split(" ");
                 temp[indexArr[index]] = pinyin;
                 temp = temp.join(" ").replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
-                row[languageFlag]['roadNamePinyin'] = temp;
+                row[languageFlag]['roadnamePhonetic'] = temp;
             }
-            var addrnamepinyin = row[languageFlag]['addrNamePinyin'];
+            var addrnamepinyin = row[languageFlag]['addrnamePhonetic'];
             if(addrnamepinyin && flag == 'addr'){
                 addrnamepinyin = addrnamepinyin.replace(/\|/g,' | ').replace(/\s+/g,' ');
                 if(addrnamepinyin.substr(0,1) == " "){
@@ -314,7 +314,7 @@ angular.module('app').controller('AddrePinyinCtl', ['$scope', '$ocLazyLoad', 'Ng
                 var temp = addrnamepinyin.split(" ");
                 temp[indexArr[index]] = pinyin;
                 temp = temp.join(" ").replace(/(\s\|\s)/g,'|').replace(/(\|\s)/g,'|');
-                row[languageFlag]['addrNamePinyin'] = temp;
+                row[languageFlag]['addrnamePhonetic'] = temp;
             }
         };
 
