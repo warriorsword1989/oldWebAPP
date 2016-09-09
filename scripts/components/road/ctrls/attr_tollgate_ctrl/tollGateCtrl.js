@@ -12,6 +12,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateData = objCtrl.data;
+		$scope.nameGroup = [];
+		initNameInfo();
+
+		console.log($scope.nameGroup)
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -41,6 +45,17 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		highRenderCtrl.drawHighlight();
 
 	};
+	function initNameInfo(){
+		for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
+			var tempArr = [];
+			for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
+				if($scope.tollGateData.names[j].nameGroupid == i+1){
+					tempArr.push($scope.tollGateData.names[j]);
+				}
+			}
+			$scope.nameGroup.push(tempArr);
+		}
+	}
 	$scope.initializeData();
 	$scope.refreshData = function () {
 		dsEdit.getByPid(parseInt($scope.tollGateData.pid), "RDTOLLGATE").then(function (data) {
