@@ -152,15 +152,9 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
                 }
             }
         }
-        $scope.tollGateInfo.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
+        //$scope.tollGateInfo.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
+        objCtrl.data.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
     };
-
-    $scope.$on('refreshTollgatePassage',function(data){
-        $scope.initPassage();
-        for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
-            showvehicle($scope.tollGateInfo.passages[i].vehicle);
-        }
-    });
 
     /*切换领卡类型*/
     $scope.changeCardType = function(){
