@@ -3094,15 +3094,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     id: data.pid,
                     linkPid: data.linkPid
                 });
-                //高亮POI点
-                var highLightFeatures = [];
-                highLightFeatures.push({
-                    id: data.pid.toString(),
-                    layerid: 'poi',
-                    type: 'IXPOI'
-                });
-                highRenderCtrl.highLightFeatures = highLightFeatures;
-                highRenderCtrl.drawHighlight();
+                // //高亮POI点
+                // var highLightFeatures = [];
+                // highLightFeatures.push({
+                //     id: data.pid.toString(),
+                //     layerid: 'poi',
+                //     type: 'IXPOI'
+                // });
+                // highRenderCtrl.highLightFeatures = highLightFeatures;
+                // highRenderCtrl.drawHighlight();
             }
             function getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj) {
                 objCtrl.setCurrentObject(type, data);
@@ -3117,7 +3117,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         "propertyCtrl": ctrl,
                         "propertyHtml": tpl
                     });
+                    eventController.fire(eventController.eventTypes.SELECTBYATTRIBUTE, {
+                        feature: objCtrl.data
+                    });
                     $scope.$emit("clearAttrStyleUp");//清除属性样式
+                    $scope.$emit("highLightPoi",data.pid); //高亮OI并且重置上传组件的PID
+                    $scope.$emit("refreshPhoto", true);
                     initPoiData(selectedData,data);
                 } else {
                     $scope.$emit("transitCtrlAndTpl", {

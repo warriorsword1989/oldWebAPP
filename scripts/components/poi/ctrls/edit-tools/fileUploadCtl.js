@@ -6,7 +6,7 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         imgItems = [];
 
     // FILTERS
-
+    console.info('1111',$scope.selectPoi);
     uploader.filters.push({
         name: 'fileFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
@@ -24,9 +24,13 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         }
     }
 
-    /*清空上传列表*/
+    /*清空上传列表,将pid作为参数传递到上传组件*/
     $scope.$on("clearQueueItem",function(event,data){
         uploader.clearQueue();
+        
+        var param = JSON.parse(uploader.formData[0].parameter); //由于上传组件只在第一次加载的时候初始化，所以需要动态改变参数
+        param.pid = data;
+        uploader.formData[0].parameter = JSON.stringify(param);
     });
 
     // CALLBACKS

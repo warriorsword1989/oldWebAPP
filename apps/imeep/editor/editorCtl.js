@@ -480,8 +480,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		});
 		$scope.$on("highLightPoi", function (event, pid) {
 			$scope.$broadcast("highlightPoiByPid", pid);
-			$scope.$broadcast("clearQueueItem", true);
-			$scope.selectPoi = pid;
+			$scope.$broadcast("clearQueueItem", pid);//当文件上传组件加载完成之后，就需要通过此方法修改pid的值，具体查看 接收clearQueueItem的方法
+			$scope.selectPoi = pid;  //这样写的目的是为了在文件上传组件第一次加载的时候能取到pid
 		});
 		// $scope.checkPageNow = 1;
 		/*高亮检查结果poi点*/
