@@ -86,11 +86,11 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
 			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGatePassageTpl.html';
 			detailInfo = {
-				"loadType": "subAttrTplContainer",
-				"propertyCtrl": tempCtr,
-				"propertyHtml": tempTepl,
-				"data": $scope.tollGateData.passages[index]
-			};
+                "loadType": "subAttrTplContainer",
+                "propertyCtrl": tempCtr,
+                "propertyHtml": tempTepl,
+                "data": $scope.tollGateData.passages[index]
+            };
 			objCtrl.passageInfo = $scope.tollGateData.passages[index];
 		}
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -176,7 +176,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		} else {
 			if (objCtrl.data.passages.length < 32) {
 				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
-				$scope.tollGateData.passageNum++;
+				//$scope.tollGateData.passageNum++;
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 			}
 		}
@@ -187,7 +187,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			$scope.tollGateData.names.splice(index, 1);
 		} else {
 			$scope.tollGateData.passages.splice(index, 1);
-			$scope.tollGateData.passageNum--;
+			//$scope.tollGateData.passageNum--;
 			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 		}
 		$scope.$emit('SWITCHCONTAINERSTATE', {

@@ -238,7 +238,7 @@ App.layersConfig = [{
             restrictZoom: 10,
             visible: false,
             requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE',
-            showNodeLevel: 17
+            showNodeLevel: 12
         }
     },{
         url: '/render/obj/getByTileWithGap?',

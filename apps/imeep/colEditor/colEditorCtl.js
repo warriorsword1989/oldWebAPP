@@ -293,6 +293,24 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				}
 			}
 			return tmp;
+		};
+		/**
+		 * 根据多音字在中文中出现的次数查找其在中文中对应的下标
+		 * @param str 中文内容
+		 * @param ele 多音字中文字
+		 * @param count 中文中多音字的出现次数
+		 * @returns {Number}
+		 */
+		function findMulitEleByNum(str,ele,count){
+			if(count <= 0){
+				return 0;
+			}
+			var tmpIndex = 0;
+			for(var i=0;i<count;i++){
+				tmpIndex = str.indexOf(ele,tmpIndex);
+				tmpIndex++;
+			}
+			return tmpIndex--;
 		}
 		/**
 		 * 高亮拼音方法
