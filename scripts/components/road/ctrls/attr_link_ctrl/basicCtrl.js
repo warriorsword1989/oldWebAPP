@@ -22,7 +22,6 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         {"id": 15, "label": "15 10级路(障碍物)"}
     ];
     $scope.laneClassOptions = [
-        {"id": 0, "label": "未赋值"},
         {"id": 1, "label": "一条车道"},
         {"id": 2, "label": "2或3条"},
         {"id": 3,"label":"4条及以上"}
@@ -34,7 +33,6 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         {"id": 3, "label": "无法描述的"}
     ];
     $scope.functionClassOptions = [
-        {"id": 0, "label": "未赋值"},
         {"id": 1, "label": "等级1"},
         {"id": 2, "label": "等级2"},
         {"id": 3, "label": "等级3"},
