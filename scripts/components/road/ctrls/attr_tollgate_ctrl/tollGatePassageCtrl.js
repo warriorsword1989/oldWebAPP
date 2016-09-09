@@ -183,7 +183,6 @@ var tollApp = angular.module("app");
 tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.initPassage = function(){
-        $scope.tollGatePassage = objCtrl.passageInfo;
         $scope.tollGateInfo = objCtrl.data;
         $scope.passageIndex = 0;
     };
@@ -193,19 +192,19 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
     $scope.carSelect=function(item){
         if(item.checked){
             item.checked=false;
-            for(var i in $scope.carData){
-                if($scope.carData[i].id.toString()==item.id){
-                    $scope.carData.splice(i,1);
+            for(var i in $scope.carData[$scope.passageIndex]){
+                if($scope.carData[$scope.passageIndex][i].id.toString()==item.id){
+                    $scope.carData[$scope.passageIndex].splice(i,1);
                 }
             }
         }else{
             item.checked=true;
-            $scope.carData.push(item);
+            $scope.carData[$scope.passageIndex].push(item);
         }
         $scope.checkViche();
     };
 
-    $scope.showvehicle=function(vehicle){
+    $scope.showvehicle=function(vehicle,$index){
         var towbin=dec2bin(vehicle);
 
         //循环车辆值域，根据数据库数据取出新的数组显示在页面
@@ -225,42 +224,34 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
             }
         }
         if(originArray.length == 0){
-            $scope.carData = [];
+            $scope.carData[$index] = [];
         } else {
             for(var p in originArray){
                 for(var s in $scope.vehicleOptions){
                     if(originArray[p].id.toString()==$scope.vehicleOptions[s].id){
                         $scope.vehicleOptions[s].checked=true;
-                        $scope.carData.push($scope.vehicleOptions[s]);
+                        $scope.carData[$index].push($scope.vehicleOptions[s]);
                     }
                 }
             }
         }
     };
+
     $scope.showPopover=function(e,index){
         var dateTimeWell = $(e.target).parents('.fm-container').parent();
         $('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
         // if($('body .carTypeTip:last').css('display') == 'none'){
         $(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
         $('body .carTypeTip:last').show();
-        // }else{
-        // 	if($scope.passageIndex == index){
-        // 		$('body .carTypeTip:last').hide();
-        // 	}else{
-        // 		$('body .carTypeTip:last').hide();
-        // 		$(".carTypeTip").css({'right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
-        // 		$('body .carTypeTip:last').show();
-        // 	}
-        // }
+
         $scope.passageIndex = index;
-        /*dsdsd*/
-        $scope.carData = [];
         for(var i=0;i<$scope.vehicleOptions.length;i++){
             if($scope.vehicleOptions[i].checked){
                 $scope.vehicleOptions[i].checked = !$scope.vehicleOptions[i].checked
             }
         }
-        $scope.showvehicle($scope.tollGateInfo.passages[$scope.passageIndex].vehicle);
+        $scope.carData[$scope.passageIndex] = [];
+        $scope.showvehicle($scope.tollGateInfo.passages[$scope.passageIndex].vehicle,index);
     };
     $scope.closePopover = function(){
         // $('body .datetip:last').hide();
@@ -269,8 +260,8 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
     $scope.checkViche=function(){
         var newArray=[];
         var result="";
-        for(var j=0;j<$scope.carData.length;j++){
-            newArray.push($scope.carData[j].id);
+        for(var j=0;j<$scope.carData[$scope.passageIndex].length;j++){
+            newArray.push($scope.carData[$scope.passageIndex][j].id);
         }
         for(var i=31;i>=0;i--){
             if(i==31){
@@ -342,6 +333,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
     for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
         $scope.showvehicle($scope.tollGateInfo.passages[i].vehicle);
     }
+    
     $scope.$on('refreshTollgatePassage',function(data){
         $scope.initPassage();
         for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
