@@ -53,6 +53,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			}
 			$scope.nameGroup.push(tempArr);
 		}
+		console.log($scope.nameGroup)
 	}
 	$scope.initializeData();
 	$scope.refreshData = function () {
@@ -185,7 +186,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	/*增加item*/
 	$scope.addItem = function (type) {
 		if (type == 'name') {
-			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({}));
+			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.nameGroup.length+1}));
+			initNameInfo();
 		} else {
 			if (objCtrl.data.passages.length < 32) {
 				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
@@ -198,6 +200,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.removeItem = function (index, type) {
 		if (type == 'name') {
 			$scope.tollGateData.names.splice(index, 1);
+			initNameInfo();
 		} else {
 			$scope.tollGateData.passages.splice(index, 1);
 			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
