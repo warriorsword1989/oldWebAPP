@@ -209,7 +209,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		{id: 5, label: '交卡付费并代收固定费用'},
 		{id: 6, label: '验票（无票收费）值先保留'},
 		{id: 7, label: '领卡并代收固定费用'},
-		{id: 8, label: '持卡达标识不收费'},
+		{id: 8, label: '持卡打标示不收费'},
 		{id: 9, label: '验票领卡'},
 		{id: 10, label: '交卡不收费'}
 	];
