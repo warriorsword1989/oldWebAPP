@@ -185,9 +185,10 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
     $scope.initPassage = function(){
         $scope.tollGateInfo = objCtrl.data;
         $scope.passageIndex = 0;
+        $scope.carData=[];
     };
+
     $scope.initPassage();
-    $scope.carData=[];
 
     $scope.carSelect=function(item){
         if(item.checked){
@@ -331,9 +332,9 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         {"id": 28, "label": "残疾人车","checked":false}
     ];
     for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
-        $scope.showvehicle($scope.tollGateInfo.passages[i].vehicle);
+        $scope.showvehicle($scope.tollGateInfo.passages[i].vehicle,i);
     }
-    
+
     $scope.$on('refreshTollgatePassage',function(data){
         $scope.initPassage();
         for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
