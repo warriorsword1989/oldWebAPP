@@ -3107,6 +3107,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             function getByPidCallback(type, ctrl, tpl, data,selectedData,toolsObj) {
                 objCtrl.setCurrentObject(type, data);
                 if (type == "IXPOI") {
+
+                    $scope.getCurrentKindByLittle(data); //获取当前小分类所对应的大分类下的所有小分类
+
                     $scope.$emit("transitCtrlAndTpl", {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",

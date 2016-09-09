@@ -30,6 +30,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 scope.$parent.$parent.showLoading = false;
                 if (rest) {
+                    scope.getCurrentKindByLittle(rest); //获取当前小分类所对应的大分类下的所有小分类
+
                     objCtrl.setCurrentObject('IXPOI', rest);
                     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
