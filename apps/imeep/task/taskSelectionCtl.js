@@ -197,6 +197,33 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 }
             }
         }
+
+        function getCurrentDataType(param){
+            switch(param){
+                case 1:
+                    return '日一体化任务';
+                    break;
+                case 2:
+                    return '日POI任务';
+                    break;
+                case 3:
+                    return '月道路任务';
+                    break;
+                case 4:
+                    return '月POI任务';
+                    break;
+                case 5:
+                    return '专项任务';
+                    break;
+                case 6:
+                    return '深度信息专项作业';
+                    break;
+                case 7:
+                    return 'POI精编任务';
+                    break;
+            }
+        }
+
         // 选中子任务，高亮子任务对应的网格
         $scope.selectSubtask = function(subtask) {
             /*暂时判断深度信息类型*/
@@ -205,7 +232,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             }
             /*暂时判断深度信息类型*/
             $scope.currentTaskData = subtask;
-            $scope.dataStringType = $scope.currentTaskData.name;
+            $scope.dataStringType = getCurrentDataType($scope.dataListType)//$scope.currentTaskData.name;
             $scope.infoPanelOpened = true;
             // 清除原有高亮;
             if ($scope.currentHighLight) {

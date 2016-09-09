@@ -11,6 +11,7 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
     $scope.roadlinkData = objCtrl.data;
+    $scope.rticDir =  objCtrl.data.direct;
 
     // $scope.oridiData = $scope.speedLimitsData[$scope.roadlinkData["oridiRowId"]];
     for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {

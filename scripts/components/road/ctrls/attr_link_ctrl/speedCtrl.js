@@ -43,7 +43,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     };
     $scope.minusspeedLimit=function(id){
         $scope.rticData.speedlimits.splice(id, 1);
-    }
+    };
 
 
     //普通限速

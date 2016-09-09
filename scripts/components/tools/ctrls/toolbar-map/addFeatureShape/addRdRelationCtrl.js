@@ -943,7 +943,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            map.currentTool.selectedFeatures.push(nodePid.toString());
+                            map.currentTool.selectedFeatures.push($scope.warningInfo.nodePid.toString());
 
                             featCodeCtrl.setFeatCode($scope.warningInfo);
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");

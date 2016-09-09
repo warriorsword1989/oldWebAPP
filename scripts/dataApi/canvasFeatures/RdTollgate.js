@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdTollgate = fastmap.uikit.canvasFeature.Feature.ext
         this.properties["featType"] = "RDTOLLGATE";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/road/rdTollgate/0.png',
+                    iconName: '../../../images/road/rdTollgate/0.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates']

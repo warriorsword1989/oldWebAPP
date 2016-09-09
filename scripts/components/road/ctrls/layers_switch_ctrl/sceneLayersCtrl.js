@@ -11,15 +11,22 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "dataLayers": [{
             "layerId": "rdLink"
         }, {
+            "layerId": "rdNode"
+        }, {
             "layerId": "rwLink"
         }, {
             "layerId": "poi"
+        }, {
+            "layerId": "relationData",
+            "requestType": "RDCROSS"
         }]
     }, {
         "id": 2,
         "label": "行政区划场景",
         "dataLayers": [{
             "layerId": "rdLink"
+        }, {
+            "layerId": "rdNode"
         }, {
             "layerId": "rwLink"
         }, {
@@ -94,6 +101,8 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "dataLayers": [{
             "layerId": "rdLink"
         }, {
+            "layerId": "rdNode"
+        }, {
             "layerId": "rwLink"
         }, {
             "layerId": "poi"
@@ -108,6 +117,8 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         "label": "详细车道场景",
         "dataLayers": [{
             "layerId": "rdLink"
+        }, {
+            "layerId": "rdNode"
         }, {
             "layerId": "rwLink"
         }, {

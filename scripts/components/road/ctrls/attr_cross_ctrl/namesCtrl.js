@@ -73,14 +73,14 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
 //            }
 //        });
         dsMeta.getNamePronunciation(param).then(function(data){
-        	$scope.$apply();
+        	// $scope.$apply();
           if (data) {
               $.each( $scope.names, function (i, v) {
                   if (v.nameGroupid == id) {
                       v.phonetic = data.data.phonetic;
                   }
               });
-              $scope.$apply();
+              // $scope.$apply();
           }
         });
     }
