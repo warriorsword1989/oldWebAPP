@@ -22,21 +22,21 @@
             <div><label class="control-label">顺向速度</label></div>
             <div class="inline">
                     <input type="text" id="fromSpeed"
-                           ng-model="oridiData.fromSpeedLimit">
+                           ng-model="oridiData.fromSpeedLimit" ng-disabled="rticDir ==3">
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">逆向速度</label></div>
             <div class="inline">
                 <input type="text" id="toSpeed"
-                       ng-model="oridiData.toSpeedLimit">
+                       ng-model="oridiData.toSpeedLimit" ng-disabled="rticDir ==2">
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">顺向来源</label></div>
             <div class="inline">
                 <select ng-model="oridiData.fromLimitSrc"
-                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                        ng-options="value.id as value.label for value in fromLimitSrcOption" ng-disabled="rticDir ==3">
                     <option>--</option>
                 </select>
             </div>
@@ -45,7 +45,7 @@
             <div><label class="control-label">逆向来源</label></div>
             <div class="inline">
                 <select ng-model="oridiData.toLimitSrc"
-                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                        ng-options="value.id as value.label for value in fromLimitSrcOption" ng-disabled="rticDir ==2">
                     <option>--</option>
                 </select>
             </div>

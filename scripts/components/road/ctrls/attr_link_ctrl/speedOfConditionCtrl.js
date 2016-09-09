@@ -9,6 +9,7 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
     $scope.selectIndex = featCodeCtrl.getFeatCode().index;
     $scope.realtimeData = objCtrl.data;
     $scope.oridiData = $scope.speedLimitsData[$scope.selectIndex];
+    $scope.rticDir =  objCtrl.data.direct;
     // for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
     //     if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
     //         $scope.oridiData = $scope.speedLimitsData[i];
