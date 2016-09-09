@@ -13,7 +13,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateData = objCtrl.data;
 		$scope.nameGroup = [];
-		initNameInfo();
+		//initNameInfo();
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
