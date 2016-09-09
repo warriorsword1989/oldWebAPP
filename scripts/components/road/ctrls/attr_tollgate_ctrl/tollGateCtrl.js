@@ -14,8 +14,6 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		$scope.tollGateData = objCtrl.data;
 		$scope.nameGroup = [];
 		initNameInfo();
-
-		console.log($scope.nameGroup)
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -191,10 +189,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		} else {
 			if (objCtrl.data.passages.length < 32) {
 				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
-				//$scope.tollGateData.passageNum++;
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 			}
 		}
+		$scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
 	};
 	/*移除item*/
 	$scope.removeItem = function (index, type) {
@@ -202,9 +200,9 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			$scope.tollGateData.names.splice(index, 1);
 		} else {
 			$scope.tollGateData.passages.splice(index, 1);
-			//$scope.tollGateData.passageNum--;
 			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 		}
+		$scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
 		$scope.$emit('SWITCHCONTAINERSTATE', {
 			'subAttrContainerTpl': false,
 			'attrContainerTpl': true

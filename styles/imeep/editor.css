@@ -2065,4 +2065,5 @@ a.batchButton {
   border: 1px solid #fff;
   margin-left: -10px;
   padding: 3px;
+  padding-left: 0;
 }
