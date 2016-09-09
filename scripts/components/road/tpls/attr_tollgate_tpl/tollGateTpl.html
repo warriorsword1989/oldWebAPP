@@ -65,15 +65,15 @@
             <ul class="list-group list-group-lg m-b-none">
                 <li class="list-group-item">
                     <div class="list-name">
-                        <a ng-click="addItem('name')" class="fm-cursor">名称（共 {{tollGateData.names.length}} 条）</a>
+                        <a ng-click="addItem('name')" class="fm-cursor">名称（共 {{nameGroup.length}} 组）</a>
                     </div>
                     <div class="list-line"></div>
                 </li>
                 <li class="list-group-item">
                   <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
                     <li class="list-group-item" ng-repeat="item in namesItem">
-                      <label class="control-label fm-cursor" ng-click="showDetail('name',$index);" ng-bind="item.name"></label>
-                      <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'name')"></i>
+                      <label class="control-label fm-cursor" ng-click="showDetail('name',$index ,namesItem);" ng-bind="item.name"></label>
+                      <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'name',item)"></i>
                     </li>
                   </ul>
                 </li>
