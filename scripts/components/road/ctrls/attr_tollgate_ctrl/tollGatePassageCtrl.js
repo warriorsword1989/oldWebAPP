@@ -242,7 +242,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         var dateTimeWell = $(e.target).parents('.fm-container').parent();
         $('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
         // if($('body .carTypeTip:last').css('display') == 'none'){
-        $(".carTypeTip").css({'top':($(e.target).offset().top-100)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
+        $(".carTypeTip").css({'top':($(e.target).offset().top-80)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
         $('body .carTypeTip:last').show();
 
         $scope.passageIndex = index;
