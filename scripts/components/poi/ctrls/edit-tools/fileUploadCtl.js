@@ -6,7 +6,6 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         imgItems = [];
 
     // FILTERS
-
     uploader.filters.push({
         name: 'fileFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
@@ -24,9 +23,13 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         }
     }
 
-    /*清空上传列表*/
+    /*清空上传列表,将pid作为参数传递到上传组件*/
     $scope.$on("clearQueueItem",function(event,data){
         uploader.clearQueue();
+
+        var param = JSON.parse(uploader.formData[0].parameter); //由于上传组件只在第一次加载的时候初始化，所以需要动态改变参数
+        param.pid = data;
+        uploader.formData[0].parameter = JSON.stringify(param);
     });
 
     // CALLBACKS
@@ -56,7 +59,8 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         if(response.errcode == 0){
             var img = new FM.dataApi.IxPoiPhoto({
                 thumbnailUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"thumbnail"}',
-                originUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"origin"}'
+                originUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"origin"}',
+                pid:response.data.PID
             });
             imgItems.push(img);
             $scope.poi.photos.push(img);

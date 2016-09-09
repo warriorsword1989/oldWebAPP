@@ -57,8 +57,10 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         $scope.tollGateInfo = objCtrl.data;
         $scope.passageIndex = 0;
         $scope.carData = [];
+        $scope.isAllowed = [];
         for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
             $scope.carData[i] = [];
+            $scope.isAllowed[i] = false;
             showvehicle($scope.tollGateInfo.passages[i].vehicle,i);
         }
     };
@@ -131,6 +133,9 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         // $('body .datetip:last').hide();
         $('body .carTypeTip:last').hide();
     };
+
+
+
     $scope.checkViche=function(){
         var newArray=[];
         var result="";
@@ -139,7 +144,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         }
         for(var i=31;i>=0;i--){
             if(i==31){
-                if($scope.checkValue){
+                if($scope.isAllowed[$scope.passageIndex]){
                     result+="1";//允许
                 }else{
                     result+="0";//禁止
@@ -152,9 +157,13 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
                 }
             }
         }
-        //$scope.tollGateInfo.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
         objCtrl.data.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
     };
+
+    //$scope.changeAllowed = function(param){
+    //    $scope.isAllowed[param] = !$scope.isAllowed[param];
+    //    $scope.checkViche();
+    //}
 
     /*切换领卡类型*/
     $scope.changeCardType = function(){
@@ -163,5 +172,6 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 
 
     $scope.initPassage();
+
 
 }]);
