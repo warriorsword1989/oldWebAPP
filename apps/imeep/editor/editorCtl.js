@@ -9,6 +9,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// var layerCtrl = new fastmap.uikit.LayerController({
 		// 	config: App.layersConfig
 		// });
+		var objectCtrl = fastmap.uikit.ObjectEditController();
 		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
@@ -31,6 +32,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.suspendPanelOpened = false;
 		$scope.consolePanelOpened = false;
 		$scope.workPanelOpened = false;
+		$scope.rdLaneOpened = false;
 		$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
 		//$scope.controlFlag = {}; //用于父Scope控制子Scope
 		$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
@@ -146,7 +148,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					map.invalidateSize()
 				}, 400);
 			});
-
+			// L.control.scale({position:'bottomleft',imperial:false}).addTo(map);
 			//map.setView([40.012834, 116.476293], 17);
 			map.fitBounds(lineLayer.getBounds());
 			//属性编辑ctrl(解析对比各个数据类型)
@@ -256,7 +258,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 
 			}
 		};
-		
+
 		var loadToolsPanel = function (callback) {
 			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
 				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
@@ -508,7 +510,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					data["callback"]();
 				}
 			});
-			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
+			if (data['data'] && data['data'].length && data['data'][0].geoLiveType == 'RDTOLLGATENAME') {
 				$scope.$broadcast('refreshTollgateName', {});
 			}
 			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
@@ -591,31 +593,40 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 			});
 		});
-
+		//道路作业面板是否展开
+		$scope.$on("OPENRDLANETOPO", function (event, data) {
+			$scope.workPanelOpened = !$scope.workPanelOpened;
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/attr_lane_ctrl/rdLaneTopoCtrl.js').then(function () {
+				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/attr_lane_tpl/rdLaneTopoTpl.html';
+			});
+		});
+		/**
+		 * 为了解决多次点击保存子表重复新增的问题，增加此方法，保存完成之后重新调用查询方法
+		 */
 		$scope.$on("reQueryByPid",function (event,data){
-			if(data.type = "IXPOI"){
+			if(data.type == "IXPOI"){
 				dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
 					if (rest) {
-						objCtrl.setCurrentObject('IXPOI', rest);
-						objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-						eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, {
-							feature: rest
-						});
-						//scope.$emit("SWITCHCONTAINERSTATE", {});
-						scope.$emit("transitCtrlAndTpl", {
+						objectCtrl.setCurrentObject('IXPOI', rest);
+						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+						// eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, {
+						// 	feature: rest
+						// });
+						$scope.$emit("transitCtrlAndTpl", {
 							"loadType": "tipsTplContainer",
 							"propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
 							"propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
 						});
-						scope.$emit("transitCtrlAndTpl", {
+						$scope.$emit("transitCtrlAndTpl", {
 							"loadType": "attrTplContainer",
 							"propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
 							"propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
 						});
-						scope.highlightPoi(rest.pid);
-						scope.$emit("highLightPoi", rest.pid);
-						scope.$emit("refreshPhoto", true);
-						//scope.$emit("clearAttrStyleUp");//清除属性样式
+						//$scope.highlightPoi(rest.pid);
+						//$scope.$emit("highLightPoi", rest.pid);
+						$scope.$emit("refreshPhoto", true);
+						$scope.$broadcast("clearAttrStyleDown"); //父向子
+						//$scope.$emit("clearAttrStyleUp");//清除属性样式-子向父
 					}
 				});
 			}

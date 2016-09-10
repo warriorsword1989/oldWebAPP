@@ -8,7 +8,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
 
     //初始化时让分类、品牌默认选中
     $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
-        $scope.selectedKind = newVlaue;
+        //$scope.selectedKind = newVlaue;
         for (var i = 0; i < pKindList.length; i++) {
             if (pKindList[i].value == newVlaue) {
                 initChain(newVlaue);
@@ -45,18 +45,18 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         }
     };
 
-
     var checkLevel = function (level){
         //$scope.poi.level = "";//清空等级
         $scope.levelArr = [];
         if (level) {
             $scope.levelArr = level.split("|");
         }
-    }
+        $scope.poi.level = $scope.levelArr[0];
+    };
 
     /*切换 分类（种别）*/
     $scope.kindChange = function(evt, obj) {
-        $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
+        //$scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
         $scope.poi.chain = "";
     };
     /*切换 品牌*/
@@ -114,10 +114,5 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             }
         }
     };
-
-    $scope.filterKind = function (item){
-        console.info(item);
-        return item;
-    }
 
 }]);

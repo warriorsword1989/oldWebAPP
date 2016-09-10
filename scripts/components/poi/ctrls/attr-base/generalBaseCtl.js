@@ -273,7 +273,21 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     // 表单验证
     function validateForm() {
         var flag = true;
-
+        var name = objectCtrl.data.name.name;
+        if (!(name && name.length <= 35)) {
+            swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
+            return false;
+        }
+        var kindCode = objectCtrl.data.kindCode;
+        if (!kindCode) {
+            swal("保存提示", '种别为必填项，请检查！', "warning");
+            return false;
+        }
+        var level = objectCtrl.data.level;
+        if (!level) {
+            swal("保存提示", '等级为必填项，请检查！', "warning");
+            return false;
+        }
         var pc = objectCtrl.data.postCode;
         if (pc && !/^(\d){6}$/.test(pc)) {
             swal("保存提示", '邮政编码应为6位数字，请检查！', "warning");
@@ -347,9 +361,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                                     map.floatMenu = null;
                                 }
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
+                            } else {
+                                $scope.$emit("reQueryByPid",{"pid":objectCtrl.data.pid,"type":"IXPOI"});
                             }
-                            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-                            //$scope.$emit("reQueryByPid",{type:"IXPOI",pid:objectCtrl.data.pid});
                         }
                     });
                 }
@@ -364,8 +378,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         map.floatMenu = null;
                     }
                     eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
+                } else {
+                    $scope.$emit("reQueryByPid",{"pid":objectCtrl.data.pid,"type":"IXPOI"});
                 }
-                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
             }
         });
     }

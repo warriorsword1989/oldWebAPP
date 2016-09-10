@@ -46,10 +46,7 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         this.feeStd = data["feeStd"] || 0;
         this.systemId = data["systemId"] || 0;
         this.locationFlag = data["locationFlag"] || 0;
-        this.uFields = data["uFields"] || null;
-        this.uDate = data["uDate"] || null;
         this.rowId = data["rowId"] || null;
-        this.uRecord = data["uRecord"] || 0;
     },
 
     /**
@@ -80,10 +77,7 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         }
         data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
-        data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -116,10 +110,7 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         }
         data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
-        data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
@@ -134,4 +125,3 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
 fastmap.dataApi.rdTollgate = function (data, options) {
     return new fastmap.dataApi.RdTollgate(data, options);
 }
-
