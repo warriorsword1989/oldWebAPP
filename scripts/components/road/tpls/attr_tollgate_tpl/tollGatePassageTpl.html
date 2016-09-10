@@ -3,20 +3,12 @@
         <div class="content" ng-repeat="passage in tollGateInfo.passages track by $index">
             <form>
                 <ul class="fm-ul fm-ul-form">
-                    <!--<li ng-if="tollGateInfo.type == 0 ||tollGateInfo.type == 2 ||tollGateInfo.type == 3 ||tollGateInfo.type == 4 || tollGateInfo.type == 5 ||tollGateInfo.type == 6 ||tollGateInfo.type == 7">-->
-                        <!--<label>收费方式</label>-->
-                        <!--<div >-->
-                            <!--<select ng-model="passage.tollForm" class="fm-control"-->
-                                    <!--ng-options="value.id as value.label for value in tollFormObj">-->
-                            <!--</select>-->
-                        <!--</div>-->
-                    <!--</li>-->
                     <li style="padding: 10px" ng-if="tollGateInfo.type == 0 ||tollGateInfo.type == 2 ||tollGateInfo.type == 3 ||tollGateInfo.type == 4 || tollGateInfo.type == 5 ||tollGateInfo.type == 6 ||tollGateInfo.type == 7">
                         <label>收费方式</label>
                         <div style="border-radius: 4px" class="block">
                             <label ng-repeat="(key, value) in chargeWay[$index]" class="col-md-5">
                                 <input title="value.label" ng-checked="value.checked" fm-edit-view type="checkbox" value="{{value.id}}"
-                                      ng-model="value.checked" ng-click="selectChargeType($parent.$index)"> {{value.label | limitTo : 3}}
+                                      ng-model="value.checked" ng-click="selectChargeType($parent.$index,value)"> {{value.label | limitTo : 3}}
                             </label>
                         </div>
                     </li>
