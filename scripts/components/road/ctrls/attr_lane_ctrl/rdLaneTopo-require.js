@@ -2,7 +2,7 @@
  * Created by mali on 2016/6/8.
  */
 requirejs.config({
-    baseUrl: '../../../',
+    baseUrl: '../../../../../',
     paths: {
         // 第三方库
         'angular': 'scripts/libs/angularjs/1.4.4/angular',
@@ -16,7 +16,7 @@ requirejs.config({
         // app相关
         'dataService': 'apps/imeep/service/dataService',
         'manService': 'apps/imeep/service/dataService-manage',
-        'TaskSelectionCtl': 'apps/imeep/task/taskSelectionCtl',
+        'rdLaneTopoCtrl': 'scripts/components/road/rdLaneTopoCtrl',
         'layers': "apps/imeep/task/layerConfig",
     },
     shim: {
@@ -27,10 +27,10 @@ requirejs.config({
         'highcharts': ['angular'],
         'uiBootstrap':['angular'],
         '3dchartsPlugin':['highcharts','highstock'],
-        'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap']
+        'rdLaneTopoCtrl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap']
     }
 });
 // Start the main app logic.
-requirejs(['TaskSelectionCtl'], function() {
+requirejs(['rdLaneTopoCtrl'], function() {
     angular.bootstrap(document.body, ['app']);
 });

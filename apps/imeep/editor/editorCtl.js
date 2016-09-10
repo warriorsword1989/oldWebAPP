@@ -30,6 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.suspendPanelOpened = false;
 		$scope.consolePanelOpened = false;
 		$scope.workPanelOpened = false;
+		$scope.rdLaneOpened = false;
 		$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
 		//$scope.controlFlag = {}; //用于父Scope控制子Scope
 		$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
@@ -145,6 +146,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					map.invalidateSize()
 				}, 400);
 			});
+			// L.control.scale({position:'bottomleft',imperial:false}).addTo(map);
 			//map.setView([40.012834, 116.476293], 17);
 			map.fitBounds(lineLayer.getBounds());
 			//属性编辑ctrl(解析对比各个数据类型)
@@ -542,6 +544,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.workPanelOpened = !$scope.workPanelOpened;
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
+			});
+		});
+		//道路作业面板是否展开
+		$scope.$on("OPENRDLANETOPO", function (event, data) {
+			$scope.workPanelOpened = !$scope.workPanelOpened;
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/attr_lane_ctrl/rdLaneTopoCtrl.js').then(function () {
+				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/attr_lane_tpl/rdLaneTopoTpl.html';
 			});
 		});
 		/**
