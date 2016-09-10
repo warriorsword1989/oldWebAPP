@@ -149,6 +149,16 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
                 speedLimit.redraw();
                 $scope.speedLimitData = null;
                 $scope.speedLimitGeometryData = null;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
             }
         })
     };
