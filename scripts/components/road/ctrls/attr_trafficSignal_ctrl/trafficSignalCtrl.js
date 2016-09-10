@@ -153,6 +153,11 @@ rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($sc
             if (data) {
                 $scope.trafficSignalData = null;
                 relationData.redraw();
+                highRenderCtrl._cleanHighLight();
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                    'subAttrContainerTpl': false,
+                    'attrContainerTpl': false
+                });
             }
         })
     };
