@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
-                        <div id="map" ng-style="background-color:#F0F4F8;width: 100%;height: 100%;">
+                        <div id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
                             <div class="div-float map-toolbar" ng-style="{top:'0px',left:'100px'}">
                                 <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search')">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
                                 <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto')">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
