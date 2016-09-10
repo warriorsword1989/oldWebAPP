@@ -42,7 +42,6 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
-
 	};
 	// 刷新tollGateData.names
 	$scope.refreshNames = function(){

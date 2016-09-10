@@ -9,6 +9,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// var layerCtrl = new fastmap.uikit.LayerController({
 		// 	config: App.layersConfig
 		// });
+		var objectCtrl = fastmap.uikit.ObjectEditController();
 		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
@@ -590,31 +591,33 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 			});
 		});
-
+		/**
+		 * 为了解决多次点击保存子表重复新增的问题，增加此方法，保存完成之后重新调用查询方法
+		 */
 		$scope.$on("reQueryByPid",function (event,data){
-			if(data.type = "IXPOI"){
+			if(data.type == "IXPOI"){
 				dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
 					if (rest) {
-						objCtrl.setCurrentObject('IXPOI', rest);
-						objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-						eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, {
-							feature: rest
-						});
-						//scope.$emit("SWITCHCONTAINERSTATE", {});
-						scope.$emit("transitCtrlAndTpl", {
+						objectCtrl.setCurrentObject('IXPOI', rest);
+						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+						// eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, {
+						// 	feature: rest
+						// });
+						$scope.$emit("transitCtrlAndTpl", {
 							"loadType": "tipsTplContainer",
 							"propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
 							"propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
 						});
-						scope.$emit("transitCtrlAndTpl", {
+						$scope.$emit("transitCtrlAndTpl", {
 							"loadType": "attrTplContainer",
 							"propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
 							"propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
 						});
-						scope.highlightPoi(rest.pid);
-						scope.$emit("highLightPoi", rest.pid);
-						scope.$emit("refreshPhoto", true);
-						//scope.$emit("clearAttrStyleUp");//清除属性样式
+						//$scope.highlightPoi(rest.pid);
+						//$scope.$emit("highLightPoi", rest.pid);
+						$scope.$emit("refreshPhoto", true);
+						$scope.$broadcast("clearAttrStyleDown"); //父向子
+						//$scope.$emit("clearAttrStyleUp");//清除属性样式-子向父
 					}
 				});
 			}

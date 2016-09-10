@@ -115,9 +115,4 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         }
     };
 
-    $scope.filterKind = function (item){
-        console.info(item);
-        return item;
-    }
-
 }]);
