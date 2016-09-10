@@ -13,9 +13,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
-		$scope.addLogMsg = function(){
-			logMsgCtrl.pushMsg($scope,'提示信息');
-		};
 		$scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
@@ -306,7 +303,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			});
 			if(specialWork) {
 				/*判断是否为专项作业，如果是则其他tab不能编辑*/
-				$scope.isSpecialOperation = true;
+				$scope.logMsgStyle = {
+					display:block
+				}
 			}
 		};
 		//高亮作业区域方法;
