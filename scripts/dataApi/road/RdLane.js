@@ -42,7 +42,7 @@ fastmap.dataApi.RdLane = fastmap.dataApi.GeoDataModel.extend({
         this.laneDivider = data["laneDivider"] || 0;
         this.centerDivider = data["centerDivider"] || 0;
         this.speedFlag = data["speedFlag"] || 0;
-        this.srcFlag = data["srcFlag"] || 0;
+        this.srcFlag = data["srcFlag"] || 1;
         this.rowId = data["rowId"] || null;
         this.conditions = [];
         if(data["conditions"] && data["conditions"].length > 0){
