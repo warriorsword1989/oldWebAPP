@@ -508,7 +508,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					data["callback"]();
 				}
 			});
-			if (data['data'] && data['data'][0].geoLiveType == 'RDTOLLGATENAME') {
+			if (data['data'] && data['data'].length && data['data'][0].geoLiveType == 'RDTOLLGATENAME') {
 				$scope.$broadcast('refreshTollgateName', {});
 			}
 			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
