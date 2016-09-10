@@ -405,13 +405,13 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": "0",
                     "childPid": ""
                 });
-                swal(opDesc + "操作成功", "", "success");
-//                swal({
-//                    title: opDesc + "操作成功",
-//                    type: "success",
-//                    timer: 1200,
-//                    showConfirmButton: false
-//                });
+                //swal(opDesc + "操作成功", "", "success");
+               swal({
+                   title: opDesc + "操作成功",
+                   type: "success",
+                   timer: 2000,
+                   showConfirmButton: false
+               });
                 defer.resolve(data.data);
             } else {
                 dsOutput.push({
@@ -420,13 +420,13 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": data.errcode,
                     "childPid": ""
                 });
-                swal(opDesc + "操作出错：", data.errmsg, "error");
-//                swal({
-//                    title: opDesc + "操作出错：" + data.errmsg,
-//                    type: "error",
-//                    timer: 1200,
-//                    showConfirmButton: false
-//                });
+                //swal(opDesc + "操作出错：", data.errmsg, "error");
+               swal({
+                   title: opDesc + "操作出错：" + data.errmsg,
+                   type: "error",
+                   timer: 2000,
+                   showConfirmButton: false
+               });
 
                 defer.resolve(null);
             }
