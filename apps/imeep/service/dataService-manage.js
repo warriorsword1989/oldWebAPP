@@ -55,7 +55,7 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
             } else if (data.errcode == -100) {
                 ajax.tokenExpired();
             } else {
-                swal("查询子任务出错", data.errmsg, "error");
+                swal("查询子任务统计信息出错", data.errmsg, "error");
                 defer.resolve([]);
             }
         }).error(function(rejection) {
