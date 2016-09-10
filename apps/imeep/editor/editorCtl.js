@@ -9,6 +9,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// var layerCtrl = new fastmap.uikit.LayerController({
 		// 	config: App.layersConfig
 		// });
+		var objectCtrl = fastmap.uikit.ObjectEditController();
 		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
@@ -18,7 +19,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
-		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {} , $scope.topKind = {} , $scope.mediumKind = {} ;
+		$scope.metaData.kindFormatPart = {},  $scope.metaData.kindListPart = [];
 		$scope.showLoading = true;
 		$scope.showTab = true;
 		$scope.selectedTool = 1;
@@ -175,17 +177,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				region: 0
 			};
 			promises.push(dsMeta.getKindList(param).then(function (kindData) {
-				//在数组最前面增加
-				kindData.unshift({
-					"id": "0",
-					"kindCode": "0",
-					"kindName": "--请选择--"
-				});
-				/*解析分类，组成select-chosen需要的数据格式*/
 				for (var i = 0; i < kindData.length; i++) {
-					/**
-					 * 需要排除充电桩、充电站,中分类需要查询再定
-					 **/
 					$scope.metaData.kindFormat[kindData[i].kindCode] = {
 						kindId: kindData[i].id,
 						kindName: kindData[i].kindName,
@@ -202,6 +194,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 						mediumId: kindData[i].mediumId
 					});
 				}
+
+				$scope.allKindList = kindData; //存储所有的分类
+				//在数组最前面增加
+				$scope.allKindList.unshift({
+					"id": "0",
+					"kindCode": "0",
+					"kindName": "--请选择--"
+				});
 			}));
 			// 查询全部的品牌数据
 			param = {
@@ -212,6 +212,53 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}));
 			return promises;
 		};
+		//获取当前小分类所对应的大分类下的所有小分类
+		$scope.getCurrentKindByLittle = function (data){
+			var poiKindCode = data.kindCode;
+			var uRecord = data.uRecord;
+			$scope.metaData.kindFormatPart = [];
+			$scope.metaData.kindListPart = [];
+			/*解析分类，组成select-chosen需要的数据格式*/
+			for (var i = 0; i < $scope.allKindList.length; i++) {
+				if(uRecord == 1 ||  uRecord == 0){ //新增 or 无
+					$scope.metaData.kindFormatPart[$scope.allKindList[i].kindCode] = {
+						kindId: $scope.allKindList[i].id,
+						kindName: $scope.allKindList[i].kindName,
+						level: $scope.allKindList[i].level,
+						extend: $scope.allKindList[i].extend,
+						parentFlag: $scope.allKindList[i].parent,
+						chainFlag: $scope.allKindList[i].chainFlag,
+						dispOnLink: $scope.allKindList[i].dispOnLink,
+						mediumId: $scope.allKindList[i].mediumId
+					};
+					$scope.metaData.kindListPart.push({
+						value: $scope.allKindList[i].kindCode,
+						text: $scope.allKindList[i].kindName,
+						mediumId: $scope.allKindList[i].mediumId
+					});
+				}else { //删除or修改
+					if(poiKindCode.substr(0,2) == $scope.allKindList[i].kindCode.substr(0,2)){
+						$scope.metaData.kindFormatPart[$scope.allKindList[i].kindCode] = {
+							kindId: $scope.allKindList[i].id,
+							kindName: $scope.allKindList[i].kindName,
+							level: $scope.allKindList[i].level,
+							extend: $scope.allKindList[i].extend,
+							parentFlag: $scope.allKindList[i].parent,
+							chainFlag: $scope.allKindList[i].chainFlag,
+							dispOnLink: $scope.allKindList[i].dispOnLink,
+							mediumId: $scope.allKindList[i].mediumId
+						};
+						$scope.metaData.kindListPart.push({
+							value: $scope.allKindList[i].kindCode,
+							text: $scope.allKindList[i].kindName,
+							mediumId: $scope.allKindList[i].mediumId
+						});
+					}
+				}
+
+			}
+		};
+
 		var loadToolsPanel = function (callback) {
 			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
 				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
@@ -463,7 +510,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					data["callback"]();
 				}
 			});
-			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
+			if (data['data'] && data['data'].length && data['data'][0].geoLiveType == 'RDTOLLGATENAME') {
 				$scope.$broadcast('refreshTollgateName', {});
 			}
 			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {
@@ -482,8 +529,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		});
 		$scope.$on("highLightPoi", function (event, pid) {
 			$scope.$broadcast("highlightPoiByPid", pid);
-			$scope.$broadcast("clearQueueItem", true);
-			$scope.selectPoi = pid;
+			$scope.$broadcast("clearQueueItem", pid);//当文件上传组件加载完成之后，就需要通过此方法修改pid的值，具体查看 接收clearQueueItem的方法
+			$scope.selectPoi = pid;  //这样写的目的是为了在文件上传组件第一次加载的时候能取到pid
 		});
 		// $scope.checkPageNow = 1;
 		/*高亮检查结果poi点*/
@@ -553,6 +600,38 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/attr_lane_tpl/rdLaneTopoTpl.html';
 			});
 		});
+		/**
+		 * 为了解决多次点击保存子表重复新增的问题，增加此方法，保存完成之后重新调用查询方法
+		 */
+		$scope.$on("reQueryByPid",function (event,data){
+			if(data.type == "IXPOI"){
+				dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
+					if (rest) {
+						objectCtrl.setCurrentObject('IXPOI', rest);
+						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+						// eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, {
+						// 	feature: rest
+						// });
+						$scope.$emit("transitCtrlAndTpl", {
+							"loadType": "tipsTplContainer",
+							"propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
+							"propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
+						});
+						$scope.$emit("transitCtrlAndTpl", {
+							"loadType": "attrTplContainer",
+							"propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+							"propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+						});
+						//$scope.highlightPoi(rest.pid);
+						//$scope.$emit("highLightPoi", rest.pid);
+						$scope.$emit("refreshPhoto", true);
+						$scope.$broadcast("clearAttrStyleDown"); //父向子
+						//$scope.$emit("clearAttrStyleUp");//清除属性样式-子向父
+					}
+				});
+			}
+		});
+
 		/**
 		 * 接收地图上框选同一点线事件
 		 */

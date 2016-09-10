@@ -4,20 +4,24 @@
 
 angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
-	$scope.tollGateName = objCtrl.namesInfo;
+	$scope.tollGateNames = objCtrl.namesInfos;
 
 	/*名称语音*/
-	$scope.namePronunciation = function (nameCn) {
+	$scope.namePronunciation = function (nameCn,nameInfo) {
 		var param = {
 			"word":nameCn
 		};
 		dsMeta.getNamePronunciation(param).then(function (data) {
 			if(data.errcode == 0){
-				$scope.tollGateName.phonetic = data.data.phonetic;
+				nameInfo.phonetic = data.data.phonetic;
 			}else{
 				swal("查找失败", "问题原因："+data.errmsg, "error");
 			}
 		});
+	};
+	// 增加名称信息
+	$scope.addNameInfo = function(){
+		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
 	};
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
@@ -53,6 +57,6 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 		{"id": "SCR", "label": "克罗地亚语"}
 	];
 	$scope.$on('refreshTollgateName',function(data){
-		$scope.tollGateName = objCtrl.namesInfo;
+		$scope.tollGateNames = objCtrl.namesInfos;
 	});
 }]);

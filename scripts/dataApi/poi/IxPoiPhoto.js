@@ -9,7 +9,7 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this.poiPid = data['poiPid'];
         this.photoId = data['photoId'] || 0;
-        this.pid = data['pid'] || null;
+        this.pid = data['pid'] || "";
         this.status = data['status'] || "";
         this.tag = data['tag'] || 1;
         this.memo = data['memo'] || "";

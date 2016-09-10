@@ -25,10 +25,10 @@
                   <li>
                       <label>种 别</label>
                       <div class="select2-option">
-                          <select fm-edit-view class="fm-control" ng-model="selectedKind"
+                          <select fm-edit-view class="fm-control" ng-model="poi.kindCode"
                                   no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'" search_contains=true
-                                  ng-options="value as lable.kindName for (value, lable) in metaData.kindFormat"
-                                  chosen ng-change="kindChange($event, this)" ng-disabled="isSpecialOperation">
+                                  ng-options="value as lable.kindName for (value, lable) in metaData.kindFormatPart"
+                                  chosen ng-disabled="isSpecialOperation">
                           </select>
                       </div>
                   </li>
@@ -47,6 +47,7 @@
                       <div class="lv-container">
                           <label ng-repeat="lev in levelArr">
                               <input fm-edit-view type="radio" ng-class="{'chosen-disabled':isSpecialOperation,'lv-radio':true}" class="lv-radio" ng-model="poi.level" value="{{lev}}" ng-disabled="isSpecialOperation"> {{lev}}
+
                           </label>
                       </div>
                   </li>
@@ -71,12 +72,12 @@
                       <label >内部POI</label>
                       <div>
                           <label>
-                              <input fm-edit-view type="radio" name="indoor" value="3" ng-model="poi.indoor">
-                              是
+                              <input fm-edit-view type="radio" name="indoor" value="0" ng-model="poi.indoor">
+                              外部
                           </label>
                           <label>
-                              <input fm-edit-view type="radio" name="indoor" value="0" ng-model="poi.indoor">
-                              否
+                              <input fm-edit-view type="radio" name="indoor" value="1" ng-model="poi.indoor">
+                              内部
                           </label>
                       </div>
                   </li>

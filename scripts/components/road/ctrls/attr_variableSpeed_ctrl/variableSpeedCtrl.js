@@ -164,7 +164,7 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
             return;
         }
         objCtrl.save();
-		if (!changedProperty) {
+		if (!objCtrl.changedProperty) {
 			swal("提示", '属性值没有变化！', "warning");
 			return;
 		}

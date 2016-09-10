@@ -37,7 +37,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
             return "<span>"+html+"<span>";
         }
         function getPinyin($scope, row){
-	        var html = $scope.heightLightPin(row.nameObj.nameStrPinyin,row.nameObj.name,row.nameObj.multiPinyin,row.num_index);
+	        var html = $scope.heightLightPin(row.nameObj.namePhonetic,row.nameObj.name,row.nameObj.multiPinyin,row.num_index);
 	        return "<span>"+html+"</span>";
         }
         function getClassifyRules($scope, row){
@@ -149,7 +149,6 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                     dsColumn.queryColumnDataList(param).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
                         var datalist = $scope.parseNamePinyin(data);
-                        console.log('返回数据'+JSON.stringify(datalist))
                         var temp = new FM.dataApi.ColPoiList(datalist);
                         $scope.tableDataList = new FM.dataApi.ColPoiList(datalist).dataList;
                         _self.tableParams.total(data.total);
@@ -279,7 +278,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         };
         
         function initEditTable() {
-            _self.editTable = new NgTableParams({
+            _self.editorTable = new NgTableParams({
             }, {
                 counts:[],
                 dataset: $scope.currentEdited

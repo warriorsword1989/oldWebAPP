@@ -175,7 +175,7 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
             { field: "kindCode", title: "分类",show: true,width:'50px'},
-            { field: "nameObj", title: "官方标准中文名称",getValue:get11Name,show: true,width:'50px'},
+            { field: "name11Chi", title: "官方标准中文名称",getValue:get11Name,show: true,width:'50px'},
             { field: "name51ChiArr", title: "简称",getValue:getName,show: true,html:true,width:'80px',inputType: "text"},
             { field: "refMsg", title: "参考信息",show: true,width:'50px'},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true,width:'30px'}
@@ -218,6 +218,13 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
             $scope.editPanelIsOpen = false;
             $scope.showImgInfoo = false;
             _self.tableParams.reload();
+        };
+        function initEditTable() {
+            _self.editorTable = new NgTableParams({
+            }, {
+                counts:[],
+                dataset: $scope.currentEdited
+            });
         };
         $scope.showView = function (){
             $scope.showImgInfoo = true;
