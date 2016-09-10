@@ -330,7 +330,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
-
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
                 $scope.linkData = null;
 
                 // $scope.$emit("SWITCHCONTAINERSTATE",{
