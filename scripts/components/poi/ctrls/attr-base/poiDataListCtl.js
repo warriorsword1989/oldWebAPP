@@ -91,6 +91,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                             break;
                         }
                     }
+                    if(i < scope.tableParams.data.length -1){
+                        scope.selectData(scope.tableParams.data[i+1], i+1);
+                    }
                 }
             }
         });
