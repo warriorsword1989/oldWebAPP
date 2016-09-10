@@ -303,9 +303,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			});
 			if(specialWork) {
 				/*判断是否为专项作业，如果是则其他tab不能编辑*/
-				$scope.logMsgStyle = {
-					display:block
-				}
+				$scope.isSpecialOperation = true;
+			}
+			$scope.logMsgStyle = {
+				'display':'block'
 			}
 		};
 		//高亮作业区域方法;
