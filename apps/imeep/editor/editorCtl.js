@@ -256,7 +256,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 
 			}
 		};
-		
+
 		var loadToolsPanel = function (callback) {
 			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
 				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
@@ -508,7 +508,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					data["callback"]();
 				}
 			});
-			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATENAME') {
+			if (data['data'] && data['data'].length && data['data'][0].geoLiveType == 'RDTOLLGATENAME') {
 				$scope.$broadcast('refreshTollgateName', {});
 			}
 			if (data['data'] && data['data'].geoLiveType == 'RDTOLLGATEPASSAGE') {

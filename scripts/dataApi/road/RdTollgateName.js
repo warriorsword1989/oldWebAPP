@@ -23,7 +23,7 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
         this.langCode = data["langCode"] || 'CHI';
         this.name = data["name"] || '收费站';
         this.phonetic = data["phonetic"] || 'Shou Fei Zhan';
-        this.rowId = data["rowId"] || null;
+        this.rowId = data["rowId"] || '';
     },
 
     /**

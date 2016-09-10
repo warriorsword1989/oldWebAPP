@@ -70,8 +70,6 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			}
 			$scope.refreshNames();
 		}
-		console.log($scope.nameGroup)
-		// $scope.refreshNames();
 	}
 	$scope.initializeData();
 	$scope.refreshData = function () {
@@ -101,8 +99,11 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			'attrContainerTpl': true
 		});
 	};
+	$scope.$watch($scope.nameGroup,function(newValue,oldValue,scope){
+		$scope.refreshNames();
+	});
 	/*查看详情*/
-	$scope.showDetail = function (type, index ,nameInfo) {
+	$scope.showDetail = function (type, index ,nameInfo,nameGroupid) {
 		var tempCtr = '', tempTepl = '', detailInfo = {};
 		if (type == 'name') {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateNameCtrl';
@@ -111,10 +112,9 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				"loadType": "subAttrTplContainer",
 				"propertyCtrl": tempCtr,
 				"propertyHtml": tempTepl,
-				"data": $scope.tollGateData.names[index]
+				"data": $scope.nameGroup[nameGroupid-1]
 			};
-			objCtrl.namesInfo = $scope.tollGateData.names[index];
-			objCtrl.namesInfos = nameInfo;
+			objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
 		} else {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
 			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGatePassageTpl.html';
@@ -205,6 +205,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	/*增加item*/
 	$scope.addItem = function (type) {
 		if (type == 'name') {
+			$scope.refreshNames();
 			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.nameGroup.length+1}));
 			initNameInfo();
 		} else {
@@ -237,9 +238,9 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 							if($scope.nameGroup[i].length == 1){
 								$scope.nameGroup.splice(i,1);
 								for(var n=0,nu=$scope.nameGroup.length;n<nu;n++){
-									if(n > i){
-										for(var m=n,num=$scope.nameGroup[n].length;m<num;m++){
-											$scope.nameGroup[n][m].nameGroupid -= 1;
+									if(n >= i){
+										for(var m=0,num=$scope.nameGroup[n].length;m<num;m++){
+											$scope.nameGroup[n][m].nameGroupid--;
 										}
 									}
 								}

@@ -2,7 +2,7 @@
     <div class="fm-component" >
         <div class="add-icon" ng-click="addNameInfo();">
           <i class="glyphicon glyphicon-plus-sign"></i>
-        </div>(共 {{tollGateNames.length}} 条)
+        </div>
         <div class="content" ng-repeat="info in tollGateNames">
             <form>
                 <ul class="fm-ul fm-ul-form">
@@ -23,7 +23,7 @@
                     <li>
                         <label>名称内容</label>
                         <div>
-                            <input type="text" class="fm-control" ng-model="info.name" ng-blur="namePronunciation(info.name);"/>
+                            <input type="text" class="fm-control" ng-model="info.name" ng-blur="namePronunciation(info.name,info);"/>
                         </div>
                     </li>
                     <li>
