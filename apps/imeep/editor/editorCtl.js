@@ -146,6 +146,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					map.invalidateSize()
 				}, 400);
 			});
+
 			//map.setView([40.012834, 116.476293], 17);
 			map.fitBounds(lineLayer.getBounds());
 			//属性编辑ctrl(解析对比各个数据类型)
