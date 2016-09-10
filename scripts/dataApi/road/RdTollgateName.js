@@ -23,10 +23,7 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
         this.langCode = data["langCode"] || 'CHI';
         this.name = data["name"] || '收费站';
         this.phonetic = data["phonetic"] || 'Shou Fei Zhan';
-        this.uDate = data["uDate"] || null;
         this.rowId = data["rowId"] || null;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || null;
     },
 
     /**
@@ -43,10 +40,7 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
         data["langCode"]  = this.langCode;
         data["name"]  = this.name;
         data["phonetic"]  = this.phonetic;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
-        data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -65,10 +59,7 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
         data["langCode"]  = this.langCode;
         data["name"]  = this.name;
         data["phonetic"]  = this.phonetic;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
         data["rowId"] = this.rowId;
-        data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
@@ -83,4 +74,3 @@ fastmap.dataApi.RdTollgateName = fastmap.dataApi.GeoDataModel.extend({
 fastmap.dataApi.rdTollgateName = function (data, options) {
     return new fastmap.dataApi.RdTollgateName(data, options);
 }
-

@@ -13,7 +13,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateData = objCtrl.data;
 		$scope.nameGroup = [];
-		//initNameInfo();
+		$scope.deleteNames = [];
+		initNameInfo();
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -51,14 +52,15 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData.names.push($scope.nameGroup[i][j]);
 			}
 		}
-		// $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
-		// 		return b[0].nameGroupid >= a[0].nameGroupid;
-		// });
+
 	};
 	function initNameInfo(){
 		if($scope.tollGateData.names.length > 0){
 			$scope.nameGroup = [];
-			for(var i=0,len=$scope.tollGateData.names[$scope.tollGateData.names.length-1].nameGroupid;i<len;i++){
+			$scope.tollGateData.names = $scope.tollGateData.names.sort(function(a,b){
+					return b.nameGroupid >= a.nameGroupid;
+			});
+			for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
 				var tempArr = [];
 				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
 					if($scope.tollGateData.names[j].nameGroupid == i+1){
@@ -221,8 +223,22 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				if($scope.nameGroup[i]){
 					for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
 						if($scope.nameGroup[i][j] === item){
+							if(item.nameId != 0){
+								var tempDel = {
+									rowId:item.rowId,
+									objStatus:'DELETE'
+								};
+								$scope.deleteNames.push(tempDel);
+							}
 							if($scope.nameGroup[i].length == 1){
 								$scope.nameGroup.splice(i,1);
+								for(var n=0,nu=$scope.nameGroup.length;n<nu;n++){
+									if(n > i){
+										for(var m=n,num=$scope.nameGroup[n].length;m<num;m++){
+											$scope.nameGroup[n][m].nameGroupid -= 1;
+										}
+									}
+								}
 							}else{
 								$scope.nameGroup[i].splice(index,1);
 							}
@@ -240,6 +256,22 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			'subAttrContainerTpl': false,
 			'attrContainerTpl': true
 		});
+	};
+	// 保存前把nameId为0的状态改为INSERT
+	$scope.beforeSave = function(obj){
+		var newObj = obj;
+		for (var i = 0; i < newObj.names.length; i++) {
+			if(newObj.names[i].nameId === 0){
+				newObj.names[i].objStatus = 'INSERT';
+			}
+			if(!newObj.names[i].objStatus){
+				newObj.names[i].objStatus = 'UPDATE';
+			}
+			delete newObj.names[i]['$$hashKey'];
+			delete newObj.names[i]['_initHooksCalled'];
+			delete newObj.names[i]['geoLiveType'];
+		}
+		return newObj;
 	};
 	/*监听刷新ETC代码*/
 	$scope.$on('refreshEtcCode', function (event, data) {
@@ -316,11 +348,12 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			swal("操作成功", '属性值没有变化！', "success");
 			return;
 		}
+		objCtrl.changedProperty.names = objCtrl.data.names.concat($scope.deleteNames);
 		var param = {
 			"command": "UPDATE",
 			"type": "RDTOLLGATE",
 			"dbId": App.Temp.dbId,
-			"data": objCtrl.changedProperty
+			"data": $scope.beforeSave(objCtrl.changedProperty)
 		};
 		dsEdit.save(param).then(function (data) {
 			if (data) {
