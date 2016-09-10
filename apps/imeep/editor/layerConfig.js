@@ -236,9 +236,9 @@ App.layersConfig = [{
             type: 'Marker',
             zIndex: 7,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE',
-            showNodeLevel: 12
+            showNodeLevel: 17
         }
     },{
         url: '/render/obj/getByTileWithGap?',
