@@ -13,7 +13,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateData = objCtrl.data;
 		$scope.nameGroup = [];
-		initNameInfo();
+		//initNameInfo();
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.tollGateData.inLinkPid.toString(),
@@ -41,19 +41,35 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
-
+	};
+	// 刷新tollGateData.names
+	$scope.refreshNames = function(){
+		$scope.tollGateData.names = [];
+		for(var i=0,len=$scope.nameGroup.length;i<len;i++){
+			for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
+				$scope.tollGateData.names.push($scope.nameGroup[i][j]);
+			}
+		}
+		// $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+		// 		return b[0].nameGroupid >= a[0].nameGroupid;
+		// });
 	};
 	function initNameInfo(){
-		for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
-			var tempArr = [];
-			for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
-				if($scope.tollGateData.names[j].nameGroupid == i+1){
-					tempArr.push($scope.tollGateData.names[j]);
+		if($scope.tollGateData.names.length > 0){
+			$scope.nameGroup = [];
+			for(var i=0,len=$scope.tollGateData.names[$scope.tollGateData.names.length-1].nameGroupid;i<len;i++){
+				var tempArr = [];
+				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
+					if($scope.tollGateData.names[j].nameGroupid == i+1){
+						tempArr.push($scope.tollGateData.names[j]);
+					}
 				}
+				$scope.nameGroup.push(tempArr);
 			}
-			$scope.nameGroup.push(tempArr);
+			$scope.refreshNames();
 		}
 		console.log($scope.nameGroup)
+		// $scope.refreshNames();
 	}
 	$scope.initializeData();
 	$scope.refreshData = function () {
@@ -84,7 +100,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		});
 	};
 	/*查看详情*/
-	$scope.showDetail = function (type, index) {
+	$scope.showDetail = function (type, index ,nameInfo) {
 		var tempCtr = '', tempTepl = '', detailInfo = {};
 		if (type == 'name') {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateNameCtrl';
@@ -96,6 +112,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				"data": $scope.tollGateData.names[index]
 			};
 			objCtrl.namesInfo = $scope.tollGateData.names[index];
+			objCtrl.namesInfos = nameInfo;
 		} else {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
 			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGatePassageTpl.html';
@@ -197,10 +214,22 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		$scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
 	};
 	/*移除item*/
-	$scope.removeItem = function (index, type) {
+	$scope.removeItem = function (index, type ,item) {
 		if (type == 'name') {
-			$scope.tollGateData.names.splice(index, 1);
-			initNameInfo();
+			for(var i=0,len=$scope.nameGroup.length;i<len;i++){
+				if($scope.nameGroup[i]){
+					for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
+						if($scope.nameGroup[i][j] === item){
+							if($scope.nameGroup[i].length == 1){
+								$scope.nameGroup.splice(i,1);
+							}else{
+								$scope.nameGroup[i].splice(index,1);
+							}
+						}
+					}
+				}
+			}
+			$scope.refreshNames();
 		} else {
 			$scope.tollGateData.passages.splice(index, 1);
 			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
@@ -280,6 +309,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	];
 
 	$scope.save = function () {
+		$scope.refreshNames();
 		objCtrl.save();
 		if (!objCtrl.changedProperty) {
 			swal("操作成功", '属性值没有变化！', "success");

@@ -25,13 +25,12 @@
                                 <label>车辆类型</label>
                                 <div class="pull-right" style="display:inline-flex;color: #fff">
                                     <a style="cursor: pointer;"  ng-click="showPopover($event,$index)">添加</a>
-                                    <input  type="checkbox" id="checkallow" ng-model="checkValue" ng-checked="checkValue" ng-click="checkViche()" >允许
+                                    <input  type="checkbox" id="checkallow" ng-model="checkValue" ng-checked="isAllowed[$index]" ng-click="changeAllowed($index)" >允许
                                 </div>
                             </div>
                             <div class="date-body full-width">
                                 <div class="date-list col-md-6" ng-repeat="item in carData[$index] track by $index">
-                                    <div style="color:#ffffff;padding: 5px;" ng-bind="item.label">
-                                    </div>
+                                    <div ng-style="{'color':{true: 'blue', false: 'red'}[isAllowed[$parent.$index]]}" style="padding: 5px;" ng-bind="item.label"></div><i ng-style="{'color':{true: 'blue', false: 'red'}[isAllowed[$parent.$index]]}" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="carSelect(item)"></i>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="line"></div>
