@@ -4,7 +4,6 @@
 var namesOfCross = angular.module("app");
 namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-     $scope.names = objCtrl.data.names;
     $scope.langCodeOptions = [
         {"id": "CHI", "label": "简体中文"},
         {"id": "CHT", "label": "繁体中文"},

@@ -22,7 +22,7 @@ fastmap.dataApi.RdTollgatePassage = fastmap.dataApi.GeoDataModel.extend({
         this.tollForm = data["tollForm"] || 0;
         this.cardType = data["cardType"] || 0;
         this.vehicle = data["vehicle"] || 0;
-        this.rowId = data["rowId"] || null;
+        this.rowId = data["rowId"] || '';
     },
 
     /**
