@@ -292,7 +292,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
 
         var speedlimits = [];
         for (var i = 0, len = this.speedlimits.length; i < len; i++) {
-            speedlimits.push(this.speedlimits[i].getIntegrate())
+            speedlimits.push(parseInt(this.speedlimits[i].getIntegrate()))
         }
         data["speedlimits"] = speedlimits;
 
