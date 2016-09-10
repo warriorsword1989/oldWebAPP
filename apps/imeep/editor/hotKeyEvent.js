@@ -290,6 +290,18 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     swal("提示", '请选择交限！', "warning");
                     return;
                 }
+                if (laneInfo.inLinkPid == undefined) {
+                    swal("提示", '请选择进入线！', "warning");
+                    return;
+                }
+                if (laneInfo.nodePid == undefined) {
+                    swal("提示", '请选择进入点！', "warning");
+                    return;
+                }
+                // if (laneInfo.outLinkPids == undefined || (laneInfo.outLinkPids && laneInfo.outLinkPids.length == 0)) {
+                //     swal("提示", '请选择退出线！', "warning");
+                //     return;
+                // }
                 laneInfo["infos"] = laneStr;
                 param = {
                     "command": "CREATE",
@@ -1362,6 +1374,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     relationData.redraw();
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
+                    scope.$emit("OPENRDLANETOPO", data);
                     // objEditCtrl.setCurrentObject('RDLANE', {
                     //     linkPids:featCodeCtrl.getFeatCode().links,
                     //     laneDir:featCodeCtrl.getFeatCode().laneDir,

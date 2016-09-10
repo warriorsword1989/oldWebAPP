@@ -12,14 +12,14 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         {id:3,label:'自助',name:'自助通道'}
     ];
     /*收费方式*/
-    $scope.tollFormObj = [
-        {id:0,label:'ETC'},
-        {id:1,label:'现金'},
-        {id:2,label:'银行卡（借记卡）'},
-        {id:3,label:'信用卡'},
-        {id:4,label:'IC卡'},
-        {id:5,label:'预付卡'}
-    ];
+    //$scope.tollFormObj = [
+    //    {id:0,label:'ETC',"checked":false},
+    //    {id:1,label:'现金',"checked":false},
+    //    {id:2,label:'银行卡（借记卡）',"checked":false},
+    //    {id:3,label:'信用卡',"checked":false},
+    //    {id:4,label:'IC卡',"checked":false},
+    //    {id:5,label:'预付卡',"checked":false}
+    //];
     /*汽车类型*/
     $scope.vehicleOptions = [
         {"id": 0, "label": "客车(小汽车)","checked":false},
@@ -52,20 +52,34 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         {"id": 27, "label": "槽罐车","checked":false},
         {"id": 28, "label": "残疾人车","checked":false}
     ];
-
+    /*初始化*/
     $scope.initPassage = function(){
         $scope.tollGateInfo = objCtrl.data;
         $scope.passageIndex = 0;
         $scope.carData = [];
+        $scope.chargeWay = [];
         $scope.isAllowed = [];
         for(var i=0,len=$scope.tollGateInfo.passages.length;i<len;i++){
             $scope.carData[i] = [];
+            $scope.chargeWay[i] = [
+                {id:0,label:'未调查',"checked":false},
+                {id:1,label:'ETC',"checked":false},
+                {id:2,label:'现金',"checked":false},
+                {id:3,label:'银行卡（借记卡）',"checked":false},
+                {id:4,label:'信用卡',"checked":false},
+                {id:5,label:'IC卡',"checked":false},
+                {id:6,label:'预付卡',"checked":false}
+            ];;
             $scope.isAllowed[i] = false;
             showvehicle($scope.tollGateInfo.passages[i].vehicle,i);
+            showChargeWay($scope.tollGateInfo.passages[i].tollForm,i)
         }
     };
 
-
+    /**
+     * 车辆类型复选并将选中的类型转化为二进制;
+     * @param item
+     */
     $scope.carSelect=function(item){
         if(item.checked){
             item.checked=false;
@@ -81,6 +95,36 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         $scope.checkViche();
     };
 
+    /**
+     *
+     */
+    $scope.selectChargeType = function(num){
+        var newArray=[];
+        var result="";
+        for(var j=0;j<$scope.chargeWay[num].length;j++){
+            if($scope.chargeWay[num][j].checked){
+                newArray.push($scope.chargeWay[num][j].id);
+            }
+        }
+
+        for(var i=6;i>=0;i--){
+            if($.inArray(i, newArray)!=-1){
+                result+="1";
+            }else{
+                result+="0";
+            }
+        }
+
+        objCtrl.data.passages[num].tollForm=parseInt(bin2dec(result));
+        console.log($scope.chargeWay[num])
+        //$scope.checkViche();
+    }
+
+    /**
+     *
+     * @param vehicle
+     * @param $index
+     */
     function showvehicle(vehicle,$index){
         var towbin=dec2bin(vehicle);
         //循环车辆值域，根据数据库数据取出新的数组显示在页面
@@ -115,6 +159,24 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
             }
         }
     };
+
+    /**
+     *
+     * @param tollType
+     * @param $index
+     */
+    function showChargeWay(tollType,$index){
+        var towbin=dec2bin(tollType);
+        if(towbin.length){
+            for(var i=1;i<towbin.length;i++){
+                if(towbin.split("").reverse().join("")[i]==1){
+                    $scope.chargeWay[$index][i].checked = true;
+                }
+            }
+        }else{
+            $scope.chargeWay[$index][0].checked = true;
+        }
+    }
 
     $scope.showPopover=function(e,index){
         var dateTimeWell = $(e.target).parents('.fm-container').parent();
