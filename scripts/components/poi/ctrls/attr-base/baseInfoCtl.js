@@ -46,7 +46,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     };
 
     var checkLevel = function (level){
-        //$scope.poi.level = "";//清空等级
+        $scope.poi.level = "";//清空等级
         $scope.levelArr = [];
         if (level) {
             $scope.levelArr = level.split("|");
