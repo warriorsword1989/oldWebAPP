@@ -1668,6 +1668,7 @@ form input[type=checkbox].ng-dirty:before {
   position: absolute;
   width: 250px;
   z-index: 99;
+  display: none;
 }
 .log-message-container .log-message {
   color: #fff;

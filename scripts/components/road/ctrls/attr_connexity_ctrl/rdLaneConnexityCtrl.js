@@ -456,7 +456,8 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdConnexity.redraw();
-                $scope.rdCrossData = null
+                $scope.rdCrossData = null;
+                highRenderCtrl._cleanHighLight();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                   'subAttrContainerTpl': false,
                   'attrContainerTpl': false

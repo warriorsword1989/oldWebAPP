@@ -97,6 +97,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
             laneInfos:data.data
           });
           $scope.initializeData();
+          $scope.refreshLaneData();
         });
     };
     // 车道总数修改
@@ -349,6 +350,13 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
       {id:2,label:'车道结束'},
       {id:3,label:'车道形成&结束'}
     ];
+    // 车道标识
+    $scope.laneFormingObj = [
+      {id:0,label:'不应用'},
+      {id:1,label:'车道形成'},
+      {id:2,label:'车道结束'},
+      {id:3,label:'车道形成&结束'}
+    ];
     // 车道方向
     $scope.laneDirObj = [
       {id:1,label:'无'},
@@ -418,27 +426,27 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
             swal("操作成功",'属性值没有变化！', "success");
             return ;
         }
-        console.log($scope.laneInfo.conditions[0].directionTime)
-        console.log($scope.laneInfo.conditions[0].vehicleTime)
         for(var i=0,len=objCtrl.changedProperty.laneInfos.length;i<len;i++){
           if(objCtrl.changedProperty.laneInfos[i].objStatus){
             delete objCtrl.changedProperty.laneInfos[i].objStatus;
           }
         }
-        if(objCtrl.changedProperty.laneInfos.length == objCtrl.data.laneInfos.length){
-          for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
-            if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('pid')){
-              objCtrl.changedProperty.laneInfos[i].pid = objCtrl.data.laneInfos[i].pid;
-            }
-            if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('seqNum')){
-              objCtrl.changedProperty.laneInfos[i].seqNum = objCtrl.data.laneInfos[i].seqNum;
-            }
-          }
-        }else{
-          for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
-
-          }
-        }
+        // if(objCtrl.changedProperty.laneInfos.length == objCtrl.data.laneInfos.length){
+        //   for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
+        //     if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('pid')){
+        //       objCtrl.changedProperty.laneInfos[i].pid = objCtrl.data.laneInfos[i].pid;
+        //     }
+        //     if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('seqNum')){
+        //       objCtrl.changedProperty.laneInfos[i].seqNum = objCtrl.data.laneInfos[i].seqNum;
+        //     }
+        //   }
+        // }else{
+        //   for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
+        //
+        //   }
+        // }
+        objCtrl.changedProperty.linkPids = $scope.clmData.linkPids;
+        objCtrl.changedProperty.laneDir = $scope.clmData.laneDir;
         var param = {
             "command": "BATCH",
             "type": "RDLANE",

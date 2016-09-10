@@ -187,21 +187,38 @@ limitedApp.controller("limitedController", function($scope, $timeout, $ocLazyLoa
     }];
     $scope.showOrdinaryInfo = function(item) {
         $scope.linkData["oridiRowId"] = item.rowId;
-        var showOrdinaryObj = {
+        var showOrdinaryObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/limitOfOrdinaryCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/limitOfOrdinaryTpl.html',
-            data: item
-        }
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var limitObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/limitOfOrdinaryCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/limitOfOrdinaryTpl.html',
+                    data: item
+                };
+                $scope.$emit("transitCtrlAndTpl", limitObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
     };
     $scope.showTrcukInfo = function(item) {
         $scope.linkData["truckRowId"] = item.rowId;
-        var showTrcukObj = {
+
+        var showTrcukObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
-            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/limitOfTruckCtrl',
-            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/limitOfTruckTpl.html'
-        }
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var limitObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/limitOfTruckCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/limitOfTruckTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", limitObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", showTrcukObj);
     };
     $timeout(function() {

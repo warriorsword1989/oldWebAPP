@@ -43,6 +43,9 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     };
     $scope.minusspeedLimit=function(id){
         $scope.rticData.speedlimits.splice(id, 1);
+        if($scope.rticData.speedlimits.length == 0){
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true, "subAttrContainerTpl": false});
+        }
     };
 
 
