@@ -217,6 +217,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				}
 //				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
+				$scope.showDetail('passage',0);
 			}
 		}
 		$scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
