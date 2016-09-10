@@ -41,7 +41,6 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		});
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
-
 	};
 	function initNameInfo(){
 		for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){

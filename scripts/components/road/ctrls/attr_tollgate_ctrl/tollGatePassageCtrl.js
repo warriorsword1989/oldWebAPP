@@ -65,6 +65,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         }
     };
 
+
     $scope.carSelect=function(item){
         if(item.checked){
             item.checked=false;
@@ -82,17 +83,19 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
 
     function showvehicle(vehicle,$index){
         var towbin=dec2bin(vehicle);
-
         //循环车辆值域，根据数据库数据取出新的数组显示在页面
         var originArray=[];
-        $scope.checkValue=false;
+        //$scope.checkValue=false;
+        $scope.isAllowed[$index] = false;
         var len=towbin.length-1;
         //长度小于32即是没有选中checkbox，不允许
         if(towbin.length<32){
-            $scope.checkValue=false;
+            //$scope.checkValue=false;
+            $scope.isAllowed[$index] = false;
         }else{
             len=towbin.length-2;
-            $scope.checkValue=true;
+            //$scope.checkValue=true;
+            $scope.isAllowed[$index] = true;
         }
         for(var i=len;i>=0;i--){
             if(towbin.split("").reverse().join("")[i]==1){
@@ -116,7 +119,6 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
     $scope.showPopover=function(e,index){
         var dateTimeWell = $(e.target).parents('.fm-container').parent();
         $('body').append($(e.target).parents(".fm-container").find(".carTypeTip"));
-        // if($('body .carTypeTip:last').css('display') == 'none'){
         $(".carTypeTip").css({'top':($(e.target).offset().top-80)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
         $('body .carTypeTip:last').show();
 
@@ -129,8 +131,8 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         $scope.carData[$scope.passageIndex] = [];
         showvehicle($scope.tollGateInfo.passages[$scope.passageIndex].vehicle,index);
     };
+
     $scope.closePopover = function(){
-        // $('body .datetip:last').hide();
         $('body .carTypeTip:last').hide();
     };
 
@@ -160,18 +162,18 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         objCtrl.data.passages[$scope.passageIndex].vehicle=parseInt(bin2dec(result));
     };
 
-    //$scope.changeAllowed = function(param){
-    //    $scope.isAllowed[param] = !$scope.isAllowed[param];
-    //    $scope.checkViche();
-    //}
+    $scope.changeAllowed = function(param){
+        $scope.isAllowed[param] = !$scope.isAllowed[param];
+        $scope.checkViche()
+    }
+
 
     /*切换领卡类型*/
     $scope.changeCardType = function(){
         $scope.$emit('tollGateCardType',true);
     };
 
-
     $scope.initPassage();
-
+    $scope.$on('refreshTollgatePassage',$scope.initPassage);
 
 }]);
