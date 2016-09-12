@@ -284,7 +284,8 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
                 dataset: $scope.currentEdited
             });
         };
-        $scope.showView = function (){
+        $scope.showView = function (row){
+        	$scope.showInfo =  row;
             $scope.showImgInfoo = true;
             $scope.slides = [
                 {

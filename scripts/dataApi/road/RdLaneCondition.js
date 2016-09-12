@@ -22,9 +22,6 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
         this.directionTime = data["directionTime"] || null;
         this.vehicle = data["vehicle"] || 0;
         this.vehicleTime = data["vehicleTime"] || null;
-        this.uDate = data["uDate"] || null;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || null;
     },
 
     /**
@@ -36,13 +33,10 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot:function() {
         var data = {};
         data["lanePid"] = this.lanePid;
-        data["direction"] = this.direction;
+        data["direction"] = parseInt(this.direction);
         data["directionTime"]  = this.directionTime;
         data["vehicle"]  = this.vehicle;
         data["vehicleTime"]  = this.vehicleTime;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
-        data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -56,13 +50,10 @@ fastmap.dataApi.RdLaneCondition = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function() {
         var data = {};
         data["lanePid"] = this.lanePid;
-        data["direction"] = this.direction;
+        data["direction"] = parseInt(this.direction);
         data["directionTime"]  = this.directionTime;
         data["vehicle"]  = this.vehicle;
         data["vehicleTime"]  = this.vehicleTime;
-        data["uFields"] = this.uFields;
-        data["uDate"] = this.uDate;
-        data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

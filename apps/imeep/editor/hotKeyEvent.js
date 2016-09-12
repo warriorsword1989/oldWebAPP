@@ -417,9 +417,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             direct = 3;
                         }
                     }
-                } else {
-                    direct = feature.direct;
                 }
+            } else if (shapeCtrl.editType === "speedLimit") {
+                var disFromStart, disFromEnd, direct, pointOfArrow,
+                    feature = selectCtrl.selectedFeatures;
+                var startPoint = feature.geometry[0],
+                    point = feature.point;
+                direct = feature.direct;
                 param = {
                     "command": "CREATE",
                     "type": "RDSPEEDLIMIT",
@@ -1330,15 +1334,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
+                    for(var i=0,len=featCodeCtrl.getFeatCode().links.length;i<len;i++){
+                      featCodeCtrl.getFeatCode().links[i] = parseInt(featCodeCtrl.getFeatCode().links[i]);
+                    }
                     objEditCtrl.memo = featCodeCtrl.getFeatCode();
                     objEditCtrl.setCurrentObject('RDLANE', {
                       linkPids:featCodeCtrl.getFeatCode().links,
                       laneDir:featCodeCtrl.getFeatCode().laneDir,
                       laneInfos:data.data
                     });
-                    // ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
-                    // 	scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
-                    // });
                     var showLaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
                        "loadType": "attrTplContainer",
                        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
@@ -1353,11 +1357,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                        }
                    };
                    scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
-                    // scope.$emit("SWITCHCONTAINERSTATE", {
-                    //     "attrContainerTpl": true,
-                    //     "subAttrContainerTpl": false
-                    // });
-                    // $scope.attrTplContainerSwitch(true);
                   });
             } else if (shapeCtrl.editType === "rdLaneTopoDetail") {    //查询详细车道
                 var param = {
@@ -1367,27 +1366,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 //调用编辑接口;
                 dsEdit.getByCondition(param).then(function(data) {
-                    if(data=='属性值未发生变化'){
-                        swal("提示","几何属性未发生变化!","info");
-                        return;
+                    if(data != null){
+                        relationData.redraw();
+                        // highRenderCtrl._cleanHighLight();
+                        // highRenderCtrl.highLightFeatures.length = 0;
+                        featCodeCtrl.setFeatCode({
+                            laneTopo:data.data
+                        });
+                        scope.$emit("OPENRDLANETOPO");
                     }
-                    relationData.redraw();
-                    highRenderCtrl._cleanHighLight();
-                    highRenderCtrl.highLightFeatures.length = 0;
-                    scope.$emit("OPENRDLANETOPO", data);
-                    // objEditCtrl.setCurrentObject('RDLANE', {
-                    //     linkPids:featCodeCtrl.getFeatCode().links,
-                    //     laneDir:featCodeCtrl.getFeatCode().laneDir,
-                    //     laneInfos:data.data
-                    // });
-                    // ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
-                    //     scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
-                    // });
-                    // scope.$emit("SWITCHCONTAINERSTATE", {
-                    //     "attrContainerTpl": true,
-                    //     "subAttrContainerTpl": false
-                    // });
-                    // $scope.attrTplContainerSwitch(true);
                 });
             }
             resetPage();
