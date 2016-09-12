@@ -149,23 +149,39 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     }
 
 
-    $scope.showNames=function() {
-        var showNameObj={
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":'scripts/components/road/ctrls/attr_link_ctrl/namesOfDetailCtrl',
-            "propertyHtml":'../../../scripts/components/road/tpls/attr_link_tpl/namesOfDetailTpl.html'
-        }
-        $scope.$emit("transitCtrlAndTpl", showNameObj);
+    $scope.showNames = function () {
+        var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var showNameObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/namesOfDetailCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/namesOfDetailTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", showNameObj);
+            }
+        };
+        $scope.$emit("transitCtrlAndTpl", showNameInfoObj);
     };
 
     //修改道路形态
     $scope.addFormOfWay = function() {
-        var addFormOfWayObj={
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":'scripts/components/road/ctrls/attr_link_ctrl/basicOfFormWayCtrl',
-            "propertyHtml":'../../../scripts/components/road/tpls/attr_link_tpl/basicOfFormWayTpl.html'
-        }
-        $scope.$emit("transitCtrlAndTpl", addFormOfWayObj);
+        var addFormOfWayInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var addFormOfWayObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl":'scripts/components/road/ctrls/attr_link_ctrl/basicOfFormWayCtrl',
+                    "propertyHtml":'../../../scripts/components/road/tpls/attr_link_tpl/basicOfFormWayTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", addFormOfWayObj);
+            }
+        };
+        $scope.$emit("transitCtrlAndTpl", addFormOfWayInfoObj);
     };
     //过滤条件
     $scope.flag = 0;

@@ -4,6 +4,7 @@
 var namesOfCross = angular.module("app");
 namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.rdCrossNames = objCtrl.namesInfos;
     $scope.langCodeOptions = [
         {"id": "CHI", "label": "简体中文"},
         {"id": "CHT", "label": "繁体中文"},
@@ -40,7 +41,11 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
 
     $scope.names = objCtrl.data.names;
     $scope.realtimeData = objCtrl.data;
-
+    // 增加名称信息
+    $scope.addNameInfo = function(){
+        $scope.rdCrossNames.push(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名"}));
+        objCtrl.data.names.push(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名"}));
+    };
 
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
@@ -58,19 +63,7 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
         var param = {
             "word": name
         }
-//        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-//            $scope.$apply();
-//            if (data.errcode == 0) {
-//                $.each( $scope.names, function (i, v) {
-//                    if (v.nameGroupid == id) {
-//                        v.phonetic = data.data.phonetic;
-//                    }
-//                });
-//                $scope.$apply();
-//            } else {
-//                swal("查找失败", "问题原因：" + data.errmsg, "error");
-//            }
-//        });
+
         dsMeta.getNamePronunciation(param).then(function(data){
         	// $scope.$apply();
           if (data) {
@@ -82,7 +75,20 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
               // $scope.$apply();
           }
         });
-    }
+    };
+    /*名称语音*/
+    $scope.namePronunciation = function (nameCn,nameInfo) {
+        var param = {
+            "word":nameCn
+        };
+        dsMeta.getNamePronunciation(param).then(function (data) {
+            if(data.errcode == 0){
+                nameInfo.phonetic = data.data.phonetic;
+            }else{
+                swal("查找失败", "问题原因："+data.errmsg, "error");
+            }
+        });
+    };
     $scope.minusrdCrossName = function (id) {
         $scope.names.splice(id, 1);
         if ($scope.names.length === 0) {

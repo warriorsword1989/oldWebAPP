@@ -7,6 +7,7 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var editLayer = layerCtrl.getLayerById('edit');
     var eventController = fastmap.uikit.EventController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
@@ -106,13 +107,8 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         })
 
     };
-    // $scope.$on('refreshPage',function(data){
-    //     $scope.speedLimitsData = objCtrl.data.speedlimits;
-    //     $scope.roadlinkData = objCtrl.data;
-    //     $scope.oridiData = $scope.speedLimitsData[$scope.roadlinkData["oridiRowId"]];
-    // });
 
- /*   $scope.angleOfLink=function(pointA,pointB) {
+    $scope.angleOfLink=function(pointA,pointB) {
         var PI = Math.PI,angle;
         if((pointA.x-pointB.x)===0) {
             angle = PI / 2;
@@ -122,6 +118,46 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         return angle;
 
     };
+
+    $scope.showDirect = function (direct) {
+        if($scope.rticDir != 1){
+            return;
+        }
+        if(direct==3){
+            direct=1;
+        }
+        // map.currentTool.disable();
+        // map.currentTool = shapeCtrl.getCurrentTool();
+        // map.currentTool.enable();
+        var containerPoint;
+        var point= {x:$scope.roadlinkData.geometry.coordinates[0][0], y:$scope.roadlinkData.geometry.coordinates[0][1]};
+        var pointVertex= {x:$scope.roadlinkData.geometry.coordinates[1][0], y:$scope.roadlinkData.geometry.coordinates[1][1]};
+        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        var marker = {
+            flag:false,
+            pid:$scope.roadlinkData.pid,
+            point: point,
+            type: "intRticMarker",
+            angle:angle,
+            orientation:direct.toString()
+        };
+        layerCtrl.pushLayerFront('edit');
+        editLayer.drawGeometry =  marker;
+        editLayer.draw( marker, editLayer);
+    };
+    $scope.hideDirect = function () {
+        if($scope.rticDir != 1){
+            return;
+        }
+        editLayer.drawGeometry = null;
+        editLayer.bringToBack();
+        editLayer.clear();
+    };
+
+
+    /*
     $scope.changeDirect = function (direct) {
         map.currentTool.disable();
         map.currentTool = shapeCtrl.getCurrentTool();
