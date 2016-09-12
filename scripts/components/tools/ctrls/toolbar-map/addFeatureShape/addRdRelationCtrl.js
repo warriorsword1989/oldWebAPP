@@ -1925,24 +1925,31 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 }
                 //接续线;
                 $scope.getjointLink = function(dataId) {
-                    var tempLink = null;
-                    if(!$scope.limitRelation.vias.length){
-                        tempLink = $scope.limitRelation.outLinkPid;
-                    }
-                    if(parseInt(dataId)==parseInt(tempLink)){
+                    //var tempLink = null;
+                    //if(!$scope.limitRelation.vias.length){
+                    //    tempLink = $scope.limitRelation.outLinkPid;
+                    //}
+                    //if(parseInt(dataId)==parseInt(tempLink)){
+                    //    tooltipsCtrl.setCurrentTooltip("退出线已选择,点击空格键保存或继续选择接续线!");
+                    //    return;
+                    //}else{
+                    //    $scope.limitRelation.vias.push(parseInt(dataId));
+                    //}
+                    //highLightFeatures.push({
+                    //    id: parseInt(dataId).toString(),
+                    //    layerid: 'rdLink',
+                    //    type: 'line',
+                    //    style: {color:'blue'}
+                    //});
+                    //highRenderCtrl.drawHighlight();
+                    //tooltipsCtrl.setCurrentTooltip("已选接续线,点击空格键保存或继续选择接续线!");
+                    if(dataId==$scope.limitRelation.outLinkPid){
                         tooltipsCtrl.setCurrentTooltip("退出线已选择,点击空格键保存或继续选择接续线!");
                         return;
                     }else{
-                        $scope.limitRelation.vias.push(parseInt(dataId));
+
                     }
-                    highLightFeatures.push({
-                        id: parseInt(dataId).toString(),
-                        layerid: 'rdLink',
-                        type: 'line',
-                        style: {color:'blue'}
-                    });
-                    highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltip("已选接续线,点击空格键保存或继续选择接续线!");
+
                 }
 
                 //选择分歧监听事件;
