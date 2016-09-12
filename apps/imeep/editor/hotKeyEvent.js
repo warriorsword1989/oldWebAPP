@@ -1339,7 +1339,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     // ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
                     // 	scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
                     // });
-                    var showLaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+                    var showLaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载rdLaneCtrl。
                        "loadType": "attrTplContainer",
                        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
                        "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
