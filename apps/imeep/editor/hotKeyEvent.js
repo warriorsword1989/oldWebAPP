@@ -1330,6 +1330,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
+                    for(var i=0,len=featCodeCtrl.getFeatCode().links.length;i<len;i++){
+                      featCodeCtrl.getFeatCode().links[i] = parseInt(featCodeCtrl.getFeatCode().links[i]);
+                    }
                     objEditCtrl.memo = featCodeCtrl.getFeatCode();
                     objEditCtrl.setCurrentObject('RDLANE', {
                       linkPids:featCodeCtrl.getFeatCode().links,

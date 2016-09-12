@@ -65,7 +65,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.laneInfo = fastmap.dataApi.rdLane({pid:0});
         $scope.clmData.laneInfos.push($scope.laneInfo);
       }
-      if($scope.laneInfo && $scope.laneInfo.conditions.lenth > 0){
+      if($scope.laneInfo && $scope.laneInfo.conditions.length > 0){
         $scope.showvehicle($scope.laneInfo.conditions[0].vehicle);
       }
       var _width = $scope.clmData.laneInfos.length * 30 + 20;
@@ -80,7 +80,6 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
       $scope.laneLength = $scope.clmData.laneInfos.length;
       $('body .carTypeTip:last').hide();
     };
-    $scope.initializeData();
     $scope.refreshData = function () {
         var param = {
             "type": "RDLANE",
@@ -428,6 +427,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         objCtrl.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex].conditions[index];
         $scope.$emit("transitCtrlAndTpl", laneInfo);
     };
+    $scope.initializeData();
     $scope.save = function(){
         // if(objCtrl.data != $scope.clmData){
           // objCtrl.data = $scope.clmData;
@@ -435,6 +435,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         // objCtrl.save();
         objCtrl.changedProperty = objCtrl.data.getIntegrate();
         delete objCtrl.changedProperty['_initHooksCalled'];
+        delete objCtrl.changedProperty['geoLiveType'];
         for(var i=0,len=objCtrl.changedProperty.laneInfos.length;i<len;i++){
           for(var item in objCtrl.changedProperty.laneInfos[i]){
             delete objCtrl.changedProperty.laneInfos[i]['_initHooksCalled'];
@@ -444,6 +445,9 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
               }
               objCtrl.changedProperty.laneInfos[i].pid = objCtrl.originalData.laneInfos[i].pid;
               objCtrl.changedProperty.laneInfos[i].seqNum = objCtrl.originalData.laneInfos[i].seqNum;
+              if(objCtrl.changedProperty.laneInfos[i].conditions.length > 0){
+                delete objCtrl.changedProperty.laneInfos[i].conditions[0].geoLiveType;
+              }
             }
           }
         }
