@@ -1925,45 +1925,26 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 }
                 //接续线;
                 $scope.getjointLink = function(dataId) {
-                    dsEdit.getByPid($scope.limitRelation.outLinkPid, "RDLINK").then(function(data) {
-                        var linknodePid = '';
-                        if(data){
-                            if(data.sNodePid==$scope.limitRelation.nodePid){
-                                linknodePid = data.eNodePid;
-                            }else{
-                                linknodePid = data.sNodePid;
-                            }
-                        }
-                        var param = {};
-                        param["dbId"] = App.Temp.dbId;
-                        param["type"] = "RDLINK";
-                        param["data"] = {
-                            "nodePid": linknodePid
-                        };
-                        dsEdit.getByCondition(param).then(function(linkData) {
-                            if (linkData.errcode === -1) {return;}
-                            var jointLinks = [];
-                            for(var i=0;i<linkData.data.length;i++){
-                                jointLinks.push(linkData.data[i].pid)
-                            }
-                            //如果不衔接;
-                            if(jointLinks.indexOf(parseInt(dataId))==-1){
-                                return;
-                            } else{
-                                $scope.limitRelation.vias.push(parseInt(dataId));
-                                //高亮显示接续线;
-                                highLightFeatures.push({
-                                    id: parseInt(dataId).toString(),
-                                    layerid: 'rdLink',
-                                    type: 'line',
-                                    style: {color:'blue'}
-                                });
-                                highRenderCtrl.drawHighlight();
-                                tooltipsCtrl.setCurrentTooltip("已选则出线,点击空格键保存或继续选择接续线!");
-                            }
-                        })
-                    })
+                    var tempLink = null;
+                    if(!$scope.limitRelation.vias.length){
+                        tempLink = $scope.limitRelation.outLinkPid;
+                    }
+                    if(parseInt(dataId)==parseInt(tempLink)){
+                        tooltipsCtrl.setCurrentTooltip("退出线已选择,点击空格键保存或继续选择接续线!");
+                        return;
+                    }else{
+                        $scope.limitRelation.vias.push(parseInt(dataId));
+                    }
+                    highLightFeatures.push({
+                        id: parseInt(dataId).toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {color:'blue'}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    tooltipsCtrl.setCurrentTooltip("已选接续线,点击空格键保存或继续选择接续线!");
                 }
+
                 //选择分歧监听事件;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
@@ -2022,7 +2003,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             tooltipsCtrl.setCurrentTooltip("已经选择进入点!");
                             setTimeout(function(){
                                 tooltipsCtrl.setCurrentTooltip("请选择退出线!");
-                            },2000)
+                            },30)
                             //清除吸附的十字
                             map.currentTool.snapHandler.snaped = false;
                             map.currentTool.clearCross();

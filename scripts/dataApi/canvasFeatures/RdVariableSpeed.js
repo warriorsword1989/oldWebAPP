@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdVariableSpeed = fastmap.uikit.canvasFeature.Featur
         this.properties["featType"] = "RDVARIABLESPEED";
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                    iconName: '../../../images/road/intRtic/1.svg',
+                    iconName: '../../../images/road/variableSpeed/1.svg',
                     row: 0,
                     column: 1,
                     location: this.geometry['coordinates']

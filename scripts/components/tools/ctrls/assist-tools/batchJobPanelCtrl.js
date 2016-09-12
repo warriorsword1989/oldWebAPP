@@ -3,19 +3,79 @@
  */
 angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'dsEdit',
     function($scope, $interval, dsEdit) {
-        $scope.batchList = [{
+
+        $scope.poiBatchList = [{
+            check:false,
             id: '110',
-            name: '道路Urban'
+            name: 'POI批处理1',
+            rule:[{
+                id: '1',
+                name: 'POI处理规则1',
+                check:false,
+                pid:'110'
+            }, {
+                id: '2',
+                name: 'POI处理规则2',
+                check:false,
+                pid:'110'
+            }, {
+                id: '3',
+                name: 'POI处理规则3',
+                check:false,
+                pid:'110'
+            }, {
+                id: '4',
+                name: 'POI处理规则4',
+                check:false,
+                pid:'110'
+            }]
         }, {
+            check:false,
             id: '120',
-            name: '道路ZoneID'
+            name: 'POI批处理2',
+            rule:[{
+                id: '1',
+                name: 'POI处理规则1',
+                check:false
+            }, {
+                id: '2',
+                name: 'POI处理规则2',
+                check:false
+            }]
         }, {
+            check:false,
             id: '130',
-            name: '道路ADID'
+            name: 'POI批处理3',
+            rule:[{
+                id: '1',
+                name: 'POI处理规则1',
+                check:false
+            }, {
+                id: '2',
+                name: 'POI处理规则2',
+                check:false
+            }]
         }, {
+            check:false,
             id: '140',
-            name: 'POI引导线'
+            name: 'POI批处理4',
+            rule:[{
+                id: '1',
+                name: 'POI处理规则1',
+                check:false
+            }]
         }];
+
+
+
+        $scope.currentRuleDatas = $scope.poiBatchList[0].rule;
+        $scope.setCurrentRules = function(param){
+            $scope.currentRuleDatas = param.rule;
+        }
+        $scope.watchObject = function(param){
+
+        }
+
         $scope.selectedBatches = {};
         $scope.running = false;
         $scope.progress = 0;

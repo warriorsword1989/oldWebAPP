@@ -309,7 +309,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         item.flag = parseInt(item.flag);
         if (item.flag === 1) {
             if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
-                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
+                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[2];
             }
         } else {
             restrictInfoArr[$scope.flag] = "[" + restrictInfoArr[$scope.flag] + "]";
