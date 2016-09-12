@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016-09-03
  */
-angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs',
-    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs) {
+angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', '$document', 'appPath', '$interval', '$timeout', 'dsMeta','$compile','$attrs','dsColumn',
+    function($scope, $ocLazyLoad, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, $document, appPath, $interval, $timeout, dsMeta,$compile,$attrs,dsColumn) {
 		var objCtrl = fastmap.uikit.ObjectEditController();
 		var _self = $scope;
         $scope.editPanelIsOpen = false;
@@ -95,27 +95,43 @@ angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 
                 filter: $scope.filter
             }, {
                 counts: [],
-                getData: function($defer, params) {
-                    var param = {
-                        subtaskId: parseInt(App.Temp.subTaskId),
-                        pageNum: params.page(),
-                        pageSize: params.count(),
-                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
-                        params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
-                    };
-                    dsMeta.columnDataList(param).then(function(data) {
-                        $scope.loadTableDataMsg = '列表无数据';
-                        // $scope.roadNameList = data.data;
-                        // _self.tableParams.total(data.total);
-                        // $defer.resolve(data.data);
-
-                        var temp = new FM.dataApi.ColPoiList(data.data);
-                        console.info(temp);
-                        $scope.tableDataList = new FM.dataApi.ColPoiList(data.data).dataList;
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(temp.dataList);
-                    });
-                }
+//                getData: function($defer, params) {
+//                    var param = {
+//                        subtaskId: parseInt(App.Temp.subTaskId),
+//                        pageNum: params.page(),
+//                        pageSize: params.count(),
+//                        sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+//                        params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroup,"admin":params.filter().admin,"sql":params.filter().sql}
+//                    };
+//                    dsMeta.columnDataList(param).then(function(data) {
+//                        $scope.loadTableDataMsg = '列表无数据';
+//                        // $scope.roadNameList = data.data;
+//                        // _self.tableParams.total(data.total);
+//                        // $defer.resolve(data.data);
+//
+//                        var temp = new FM.dataApi.ColPoiList(data.data);
+//                        console.info(temp);
+//                        $scope.tableDataList = new FM.dataApi.ColPoiList(data.data).dataList;
+//                        _self.tableParams.total(data.total);
+//                        $defer.resolve(temp.dataList);
+//                    });
+//                }
+	            getData: function($defer, params) {
+	            	var param = {
+	                        "type":'integrate',
+	                        "firstWorkItem":"poi_englishname",
+	                        "secondWorkItem":"confirmEngName",
+	                        "status":1
+	                 };
+	                dsColumn.queryColumnDataList(param).then(function (data){
+	                    $scope.loadTableDataMsg = '列表无数据';
+	                        var temp = new FM.dataApi.ColPoiList(data);
+	                        console.info(temp);
+	                        $scope.tableDataList = new FM.dataApi.ColPoiList(data).dataList;
+	                        _self.tableParams.total(data.total);
+	                        $defer.resolve(temp.dataList);
+	                });
+	            }
             });
         };
         //给每条数据安排序号;
@@ -304,7 +320,8 @@ angular.module('app').controller('ConfirmEngNameCtl', ['$scope', '$ocLazyLoad', 
             _self.tableParams.reload();
         };
         
-        $scope.showView = function (){
+        $scope.showView = function (row){
+        	$scope.showInfo =  row;
             $scope.showImgInfoo = true;
             $scope.slides = [
                 {

@@ -1,80 +1,36 @@
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head lang="en">-->
-    <!--<meta charset="UTF-8">-->
-    <!--<link href="../../../../../images/favicon.ico" rel="icon" type="image/x-icon"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../../styles/imeep/editor.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../../styles/imeep/animate.min.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">-->
-    <!--<script type="text/javascript" src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>-->
-    <!--<script type="text/javascript" src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>-->
-    <!--<script type="text/javascript" src="../../../apps/imeep/Application.js"></script>-->
-    <!--<script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>-->
-    <!--<script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>-->
-    <!--<script type="text/javascript" src="loadMapApi.js"></script>-->
-    <!--<script type="text/javascript" src="loadUikit.js"></script>-->
-    <!--<script type="text/javascript" src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>-->
-<!--</head>-->
-<!--<body ng-controller="rdLaneTopoCtrl">-->
-<!--<div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>-->
-    <!--<div ui-layout-container>-->
-        <!--<div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">-->
-            <!--<div ui-layout-container>-->
-                <!--<div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">-->
-
-                    <!--<div ui-layout-container class="fm-no-scroll">-->
-                        <!--<div id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>-->
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>-->
-
-<!--<script type="text/javascript" data-main="taskSelection-require"-->
-        <!--src="../../../scripts/components/road/ctrls/attr_lane_ctrl/rdLaneTopo-require.js"></script>-->
-<!--</body>-->
-<!--</html>-->
 <div ng-controller="rdLaneTopoCtrl">
-<div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-    <div ui-layout-container>
-        <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
-            <div ui-layout-container>
-                <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
+    <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+        <div ui-layout-container>
+            <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
+                <div ui-layout-container>
+                    <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
 
-                    <div ui-layout-container class="fm-no-scroll">
-                        <div id="topoMap" style="background-color:#FFF;width: 100%;height: 90%;position: absolute;"></div>
-                        <div class="btn-group btn-group-justified fm-btn-group"  style="bottom:5px;left:5px;width:100px;position: absolute;">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-xs" ng-click="doSave()">
-                                    <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-xs" ng-click="doDelete()">
-                                    <i class="glyphicon glyphicon-trash"></i> 删 除
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-xs" ng-click="doCancel()">
-                                    <i class="glyphicon glyphicon-floppy-remove"></i> 取 消
-                                </button>
+                        <div ui-layout-container class="fm-no-scroll">
+                            <div id="topoMap"
+                                 style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
+                            <div class="btn-group btn-group-justified fm-btn-group"
+                                 style="bottom:5px;left:250px;width:300px;position: absolute;">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doSave()">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doDelete()">
+                                        <i class="glyphicon glyphicon-plus"></i> 创 建
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doCancel()">
+                                        <i class="glyphicon glyphicon-floppy-remove"></i> 关 闭
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 </div>

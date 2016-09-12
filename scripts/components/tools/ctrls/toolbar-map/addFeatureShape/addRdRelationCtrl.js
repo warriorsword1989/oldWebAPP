@@ -499,7 +499,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 editLayer.draw(marker, editLayer);
                                 sObj.setOriginalGeometry(marker);
                                 sObj.setFinalGeometry(marker);
-                                shapeCtrl.setEditingType("transformDirect");
+                                shapeCtrl.setEditingType("speedLimit");
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
                                 eventController.on(eventController.eventTypes.DIRECTEVENT,function(event){
@@ -510,7 +510,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
-                                shapeCtrl.setEditingType("transformDirect");
+                                shapeCtrl.setEditingType("speedLimit");
                             }
                         } else {}
                     })
@@ -600,10 +600,19 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
                 objCtrl.setOriginalData(obj);
-                var addLaneObj = {
+
+                var addLaneObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
                     "loadType": "attrTplContainer",
-                    "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
-                    "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
+                    "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                    "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+                    "callback": function () {
+                        var laneObj = {
+                            "loadType": "attrTplContainer",
+                            "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
+                            "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
+                        };
+                        $scope.$emit("transitCtrlAndTpl", laneObj);
+                    }
                 };
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             }  else if (type === 'RDGSC') {

@@ -226,7 +226,8 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
                 dataset: $scope.currentEdited
             });
         };
-        $scope.showView = function (){
+        $scope.showView = function (row){
+        	$scope.showInfo =  row;
             $scope.showImgInfoo = true;
             $scope.slides = [
                 {

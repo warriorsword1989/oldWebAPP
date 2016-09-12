@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
@@ -20,6 +21,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/srs/srs.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
+        <script src="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
@@ -131,7 +133,7 @@
                                 <div ng-include="specialWorkPanelTpl"></div>
                             </div>
                         </div>
-                        <div class="fm-foldable fm-row" style="height:100%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                        <div class="fm-foldable fm-row" style="height:90%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
                             <div class="fm-container fm-row" style="height:100%;">
                                 <div ng-include="rdLaneTopoPanelTpl"></div>
                             </div>
