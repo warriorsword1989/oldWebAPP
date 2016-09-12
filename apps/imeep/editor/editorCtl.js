@@ -391,6 +391,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on('openModelEvent', function (event, data) {
 			$scope.openAdvancedToolsPanel(data);
 		});
+
 		$scope.openAdvancedToolsPanel = function (toolType) {
 			if ($scope.advancedTool == toolType) {
 				return;
