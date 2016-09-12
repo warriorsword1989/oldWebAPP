@@ -417,9 +417,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             direct = 3;
                         }
                     }
-                } else {
-                    direct = feature.direct;
                 }
+            } else if (shapeCtrl.editType === "speedLimit") {
+                var disFromStart, disFromEnd, direct, pointOfArrow,
+                    feature = selectCtrl.selectedFeatures;
+                var startPoint = feature.geometry[0],
+                    point = feature.point;
+                direct = feature.direct;
                 param = {
                     "command": "CREATE",
                     "type": "RDSPEEDLIMIT",
