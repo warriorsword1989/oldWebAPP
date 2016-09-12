@@ -601,6 +601,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/attr_lane_tpl/rdLaneTopoTpl.html';
 			});
 		});
+		//道路作业面板是否展开
+		$scope.$on("CLOSERDLANETOPO", function (event, data) {
+			$scope.workPanelOpened = !$scope.workPanelOpened;
+		});
 		/**
 		 * 为了解决多次点击保存子表重复新增的问题，增加此方法，保存完成之后重新调用查询方法
 		 */

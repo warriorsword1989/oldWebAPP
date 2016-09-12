@@ -68,7 +68,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         break;
                     }
                 }
-                scope.selectData(scope.tableParams.data[i], i);
+                if(scope.tableParams.data[i]){ //排除最后一条报错的问题
+                    scope.selectData(scope.tableParams.data[i], i);
+                }
                 // $timeout(function(){
                 //     scope.$apply();
                 //     scope.selectData(scope.tableParams.data[i],i);
@@ -227,9 +229,15 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     };
                     dsEdit.getPoiList(param).then(function(data) {
                         scope.poiListTableMsg = '列表无数据';
-                        scope.poiList = data.rows;
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(data.rows);
+                        if(data){
+                            scope.poiList = data.rows;
+                            _self.tableParams.total(data.total);
+                            $defer.resolve(data.rows);
+                        } else {
+                            scope.poiList = [];
+                            _self.tableParams.total(0);
+                            $defer.resolve([]);
+                        }
                     });
                 }
             });

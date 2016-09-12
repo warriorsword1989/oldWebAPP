@@ -36,6 +36,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'electronicEye': new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                     'pathBreak': new fastmap.mapApi.PathBreak({shapeEditor:shapeEditor}),
                     'transformDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
+                    'speedLimit':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                     'transformSpeedDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                     'elecTransformDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                     'pathNodeMove':new fastmap.mapApi.PathNodeMove({shapeEditor:shapeEditor}),

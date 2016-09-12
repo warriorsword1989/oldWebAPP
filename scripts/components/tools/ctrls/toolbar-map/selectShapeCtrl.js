@@ -3253,14 +3253,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
 
                     if(objCtrl.data.indoor == 0){//外部poi，只能以parent=1的poi为父
                         for(var i = 0 ;i <newData.length;i++){
-                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parent != 1){
+                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 1){
                                 newData.splice(i,1);
                                 i--;
                             }
                         }
                     } else {//内部poi，只能以parent=1 和2的poi为父
                         for(var i = 0 ;i <newData.length;i++){
-                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parent != 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parent != 2){
+                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 2){
                                 newData.splice(i,1);
                                 i--;
                             }
@@ -3288,7 +3288,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     highRenderCtrl.drawHighlight();
                     //判断相交点数
                     if (newData.length == 0) {
-                        tooltipsCtrl.setCurrentTooltip('所选区域无POI点，请重新选择！');
+                        tooltipsCtrl.setCurrentTooltip('所选区域无合适的POI点，请重新选择！');
                     } else {
                         var html = '<ul id="layerpopup">';
                         //this.overlays = this.unique(this.overlays);

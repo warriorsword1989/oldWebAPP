@@ -19,12 +19,21 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     $scope.highFeatures = [];
 
 
-    var changedDirectObj = {
-        "loadType":"subAttrTplContainer",
-        "propertyCtrl":appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
-        "propertyHtml":appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
+    var changedDirectObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+        "loadType": "subAttrTplContainer",
+        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+        "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+        "callback": function () {
+            var laneObj = {
+                "loadType": "subAttrTplContainer",
+                "propertyCtrl":appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
+                "propertyHtml":appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
+            };
+            $scope.$emit("transitCtrlAndTpl", laneObj);
+        }
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
+
 
     //增加公交车道方向(单击)
     $scope.addTransitData=function(item,index) {

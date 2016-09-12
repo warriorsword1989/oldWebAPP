@@ -114,5 +114,14 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             }
         }
     };
-
+    /**
+     * 名称为空或者长度大于35的校验
+     */
+    $scope.validataName = function (obj){
+        console.info(obj);
+        var value = obj.target.value;
+        if (!(value && value.length <= 35)) {
+            swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
+        }
+    }
 }]);
