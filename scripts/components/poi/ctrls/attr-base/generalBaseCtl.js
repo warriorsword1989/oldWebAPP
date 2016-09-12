@@ -326,6 +326,18 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         return flag;
     }
+
+    /**
+     * 部分属性转全角
+     */
+    var attrToDBC = function (){
+        if(objectCtrl.data.name.name){
+            objectCtrl.data.name.name = Utils.ToDBC(objectCtrl.data.name.name);
+        }
+        if(objectCtrl.data.address.fullname){
+            objectCtrl.data.address.fullname = Utils.ToDBC(objectCtrl.data.address.fullname);
+        }
+    };
     // 保存数据
     function save() {
         if(!validateForm()){
@@ -336,6 +348,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             return;
         }
         clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
+
+        attrToDBC();
+
         objectCtrl.save();
         var chaged =  objectCtrl.changedProperty;
         if(!chaged){

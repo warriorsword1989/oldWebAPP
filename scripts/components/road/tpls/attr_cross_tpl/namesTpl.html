@@ -1,45 +1,52 @@
-
-<div id="namesOfCrossDiv" ng-controller="namesController">
-    <form name="nameCrossForm">
-    <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
-
-        <li class="list-group-item">
-            <div><label class="control-label">名称组号</label></div>
-            <div class="inline"><input type="text" ng-model="oridiData.nameGroupid" disabled/></div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">代码语言</label></div>
-            <div class="inline">
-                <select  ng-model="oridiData.langCode"
-                        ng-options="value.id as value.label for value in langCodeOptions">
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div>
-                <label class="control-label">名称内容</label>
-            </div>
-            <div class="inline">
-                <input type="text" ng-model="oridiData.name" ng-blur="diverName(oridiData.nameGroupid,oridiData.name)">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">名称发音</label></div>
-            <div class="inline"><input type="text" ng-model="oridiData.phonetic"></div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">名称来源</label></div>
-            <div class="radio inline" style="text-align: left">
-                <label>
-                    <input type="radio" name="originOfName{{$index}}" value=0 ng-model="oridiData.srcFlag">
-                    未定义
-                </label>
-                <label>
-                    <input type="radio" name="originOfName{{$index}}" value=1 ng-model="oridiData.srcFlag">
-                    翻译
-                </label>
-            </div>
-        </li>
-    </ul>
-    </form>
+<div ng-controller="namesController">
+    <div class="fm-component" >
+        <div class="add-icon" ng-click="addNameInfo();">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+        </div>
+        <div class="content" ng-repeat="info in rdCrossNames">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>名称组号</label>
+                        <div >
+                            <input type="text" readonly class="fm-control" ng-model="info.nameGroupid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>代码语言</label>
+                        <div>
+                            <select ng-model="info.langCode" class="fm-control"
+                                    ng-options="value.id as value.label for value in langCodeOptions">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称内容</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.name" ng-blur="namePronunciation(info.name,info);"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称发音</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.phonetic"/>
+                        </div>
+                    </li>
+                    <li >
+                        <label >名称来源</label>
+                        <div class="radio inline" style="text-align: left">
+                            <label>
+                                <input type="radio" name="originOfName{{$index}}" value=0 ng-model="info.srcFlag">
+                                未定义
+                            </label>
+                            <label>
+                                <input type="radio" name="originOfName{{$index}}" value=1 ng-model="info.srcFlag">
+                                翻译
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
 </div>
