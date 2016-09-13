@@ -3,7 +3,7 @@
  */
 fastmap.dataApi.RdCrossLink=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
-        L.setOptions(this, options);
+        // L.setOptions(this, options);
         this.geoLiveType = "RDCROSSLINK";
         this.setAttributeData(data);
     },
