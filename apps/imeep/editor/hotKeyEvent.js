@@ -66,6 +66,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 map.currentTool.snapHandler._enabled = true;
                 map.currentTool.snapHandler.snaped = false;
             }
+            if (map.currentTool.captureHandler) {
+                map.currentTool.captureHandler._enabled = true;
+                map.currentTool.captureHandler.snaped = false;
+            }
             map.currentTool._enabled = true;
             map.currentTool.disable();
             if (map.currentTool.rwEvent) {
@@ -166,12 +170,30 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         if (rest) {
                             objEditCtrl.setCurrentObject('IXPOI', rest);
                             objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+
+                            scope.$emit("transitCtrlAndTpl", {
+                                "loadType": "attrTplContainer",
+                                "propertyCtrl": appPath.poi + 'ctrls/' + ctrl,
+                                "propertyHtml": appPath.root + appPath.poi + 'tpls/' + tpl
+                            });
                             scope.$emit("transitCtrlAndTpl", {
                                 "loadType": "tipsTplContainer",
                                 "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
                                 "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                             });
                             scope.$emit("highLightPoi", rest.pid);
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            var highLightFeatures = [];
+                            highLightFeatures.push({
+                                id: rest.pid.toString(),
+                                layerid: 'poi',
+                                type: 'IXPOI',
+                                style: {}
+                            });
+                            //高亮
+                            highRenderCtrl.highLightFeatures = highLightFeatures;
+                            highRenderCtrl.drawHighlight();
                         }
                     });
                 }
@@ -842,7 +864,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
                         layerCtrl.getLayerById("poi").redraw();
-                        treatmentOfChanged(data, "IXPOI", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
+                        treatmentOfChanged(data, "IXPOI", 'attr-base/generalBaseCtl', 'attr-base/generalBaseTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
@@ -874,7 +896,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         layerCtrl.getLayerById("poi").redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
-                        treatmentOfChanged(data, "IXPOI", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
+                        treatmentOfChanged(data, "IXPOI", 'attr-base/generalBaseCtl', 'attr-base/generalBaseTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "trafficSignal") {    //信号灯
@@ -1334,15 +1356,15 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     //获取当前的ctrl和tpl的对象
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures.length = 0;
+                    for(var i=0,len=featCodeCtrl.getFeatCode().links.length;i<len;i++){
+                      featCodeCtrl.getFeatCode().links[i] = parseInt(featCodeCtrl.getFeatCode().links[i]);
+                    }
                     objEditCtrl.memo = featCodeCtrl.getFeatCode();
                     objEditCtrl.setCurrentObject('RDLANE', {
                       linkPids:featCodeCtrl.getFeatCode().links,
                       laneDir:featCodeCtrl.getFeatCode().laneDir,
                       laneInfos:data.data
                     });
-                    // ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
-                    // 	scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
-                    // });
                     var showLaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
                        "loadType": "attrTplContainer",
                        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
@@ -1357,11 +1379,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                        }
                    };
                    scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
-                    // scope.$emit("SWITCHCONTAINERSTATE", {
-                    //     "attrContainerTpl": true,
-                    //     "subAttrContainerTpl": false
-                    // });
-                    // $scope.attrTplContainerSwitch(true);
                   });
             } else if (shapeCtrl.editType === "rdLaneTopoDetail") {    //查询详细车道
                 var param = {

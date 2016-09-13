@@ -10,8 +10,10 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeRdCrossData = function () {
+        $scope.nameGroup = [];
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
+        initNameInfo();
         var links = $scope.rdCrossData.links,highLightFeatures=[];
 
         for(var i= 0,len=links.length;i<len;i++) {
@@ -35,44 +37,111 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
             $scope.rdCrossForm.$setPristine();
         }
     };
+
+    // 刷新rdCrossData.names
+    $scope.refreshNames = function(){
+        $scope.rdCrossData.names = [];
+        for(var i=0,len=$scope.nameGroup.length;i<len;i++){
+            for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
+                $scope.rdCrossData.names.unshift($scope.nameGroup[i][j]);
+            }
+        }
+
+    };
+    function initNameInfo(){
+        if($scope.rdCrossData.names.length > 0){
+            $scope.nameGroup = [];
+            $scope.rdCrossData.names = $scope.rdCrossData.names.sort(function(a,b){
+                return b.nameGroupid >= a.nameGroupid;
+            });
+            for(var i=0,len=$scope.rdCrossData.names[0].nameGroupid;i<len;i++){
+                var tempArr = [];
+                for(var j=0,le=$scope.rdCrossData.names.length;j<le;j++){
+                    if($scope.rdCrossData.names[j].nameGroupid == i+1){
+                        tempArr.push($scope.rdCrossData.names[j]);
+                    }
+                }
+                $scope.nameGroup.push(tempArr);
+            }
+            $scope.refreshNames();
+        }
+    }
+
     if (objCtrl.data) {
         $scope.initializeRdCrossData();
     }
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.rdCrossData.pid), "RDCROSS").then(function(data){
     		if (data) {
-                objCtrl.setCurrentObject("RDCROSS", data.data);
+                objCtrl.setCurrentObject("RDCROSS", data);
                 $scope.initializeRdCrossData();
             }
     	});
     };
-    $scope.showCrossNames=function(nameItem) {
+
+    /*查看详情*/
+    $scope.showCrossNames = function (index ,nameInfo,nameGroupid) {
         var crossNamesObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
             "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
             "callback": function () {
-                var crossObj = {
+                var detailInfo = {
                     "loadType": "subAttrTplContainer",
                     "propertyCtrl":appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
                     "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
                 };
-                $scope.$emit("transitCtrlAndTpl", crossObj);
+                objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
+                $scope.$emit("transitCtrlAndTpl", detailInfo);
             }
         };
         $scope.$emit("transitCtrlAndTpl", crossNamesObj);
-
-        $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
+    };
+    /*增加item*/
+    $scope.addItem = function (type) {
+        $scope.refreshNames();
+        objCtrl.data.names.push(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.nameGroup.length+1,"pid": $scope.rdCrossData.pid,"name":"路口名"}));
+        initNameInfo();
+        // $scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
+    };
+    /*移除item*/
+    $scope.removeItem = function (index ,item) {
+        for(var i=0,len=$scope.nameGroup.length;i<len;i++){
+            if($scope.nameGroup[i]){
+                for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
+                    if($scope.nameGroup[i][j] === item){
+                        if($scope.nameGroup[i].length == 1){
+                            $scope.nameGroup.splice(i,1);
+                            for(var n=0,nu=$scope.nameGroup.length;n<nu;n++){
+                                if(n >= i){
+                                    for(var m=0,num=$scope.nameGroup[n].length;m<num;m++){
+                                        $scope.nameGroup[n][m].nameGroupid--;
+                                    }
+                                }
+                            }
+                        }else{
+                            $scope.nameGroup[i].splice(index,1);
+                        }
+                    }
+                }
+            }
+        }
+        $scope.refreshNames();
+        // $scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
+        $scope.$emit('SWITCHCONTAINERSTATE', {
+            'subAttrContainerTpl': false,
+            'attrContainerTpl': true
+        });
     };
 
-    $scope.addRdCrossName = function () {
-        var newName = fastmap.dataApi.rdCrossName({"linkPid": $scope.rdCrossData.pid,"name":"路口名"});
-        $scope.rdCrossData.names.unshift(newName)
-    };
 
-    $scope.minuscrossName=function(id){
-        $scope.rdCrossData.names.splice(id, 1);
-    };
+    $scope.$watch($scope.nameGroup,function(newValue,oldValue,scope){
+        $scope.refreshNames();
+    });
+
+    // $scope.minuscrossName=function(id){
+    //     $scope.rdCrossData.names.splice(id, 1);
+    // };
 
     $scope.changeColor=function(index){
         $("#crossnameSpan"+index).css("color","#FFF");
@@ -82,6 +151,7 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
     };
 
     $scope.save = function () {
+        $scope.refreshNames();
         objCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -108,10 +178,10 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                $scope.refreshData();
                 }
-            $scope.refreshData();
+
         })
     };
     $scope.delete = function () {

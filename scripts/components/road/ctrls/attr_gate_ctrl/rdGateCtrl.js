@@ -7,7 +7,7 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
     var layerCtrl = fastmap.uikit.LayerController();
     var relationData = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
-    var selectCtrl = fastmap.uikit.SelectController();
+    //var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
@@ -74,13 +74,17 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         $scope.rdGateData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         highLightFeatures.push({
-			id: $scope.rdGateData.pid.toString(),
+			id: $scope.rdGateData.inLinkPid.toString(),
 			layerid: 'rdLink',
 			type: 'line',
-			style: {
-				size: 5
-			}
+			style: {}
 		});
+        highLightFeatures.push({
+            id: $scope.rdGateData.outLinkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {}
+        });
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
     };

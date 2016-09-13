@@ -95,20 +95,24 @@
                 </div>
             </div>
             <div class="fm-panel">
-                <div class="title">
-                    <div><a ng-click="addRdCrossName()" style="cursor: pointer;color:#FFF;">名称信息（共<span
-                            ng-if="rdCrossData.names!=undefined">{{rdCrossData.names.length}}</span>条）</a></div>
-                </div>
                 <div class="content">
-                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in rdCrossData.names">
-                        <li>
-                            <div ng-click="showCrossNames(cItem)"><label
-                                    class="control-label">{{cItem.name}}</label>
-                                <div id="crossnameSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
-
-                                     ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"
-                                     ng-click="minuscrossName($index)"></div>
+                    <ul class="list-group list-group-lg m-b-none">
+                        <li class="list-group-item">
+                            <div class="list-name">
+                                <a ng-click="addItem('name')" class="fm-cursor">名称（共 {{nameGroup.length}} 组）</a>
                             </div>
+                            <div class="list-add-icon" ng-click="addItem('name');">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </div>
+                            <div class="list-line"></div>
+                        </li>
+                        <li class="list-group-item">
+                            <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
+                                <li class="list-group-item" ng-repeat="item in namesItem">
+                                    <label class="control-label fm-cursor" ng-click="showCrossNames($index ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
+                                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,item)"></i>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

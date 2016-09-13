@@ -4,6 +4,7 @@
 var namesOfCross = angular.module("app");
 namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.rdCrossNames = objCtrl.namesInfos;
     $scope.langCodeOptions = [
         {"id": "CHI", "label": "简体中文"},
         {"id": "CHT", "label": "繁体中文"},
@@ -40,8 +41,10 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
 
     $scope.names = objCtrl.data.names;
     $scope.realtimeData = objCtrl.data;
-
-
+    // 增加名称信息
+    $scope.addNameInfo = function(){
+        $scope.rdCrossNames.unshift(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名","rowId":""}));
+    };
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
@@ -49,57 +52,19 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
         }
     }
 
-    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-    if($scope.nameCrossForm) {
-        $scope.nameCrossForm.$setPristine();
-    }
-    /*路口名称输入完查询发音和拼音*/
-    $scope.diverName = function (id, name) {
+    /*名称语音*/
+    $scope.namePronunciation = function (nameCn,nameInfo) {
         var param = {
-            "word": name
-        }
-//        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-//            $scope.$apply();
-//            if (data.errcode == 0) {
-//                $.each( $scope.names, function (i, v) {
-//                    if (v.nameGroupid == id) {
-//                        v.phonetic = data.data.phonetic;
-//                    }
-//                });
-//                $scope.$apply();
-//            } else {
-//                swal("查找失败", "问题原因：" + data.errmsg, "error");
-//            }
-//        });
-        dsMeta.getNamePronunciation(param).then(function(data){
-        	// $scope.$apply();
-          if (data) {
-              $.each( $scope.names, function (i, v) {
-                  if (v.nameGroupid == id) {
-                      v.phonetic = data.data.phonetic;
-                  }
-              });
-              // $scope.$apply();
-          }
-        });
-    }
-    $scope.minusrdCrossName = function (id) {
-        $scope.names.splice(id, 1);
-        if ($scope.names.length === 0) {
-        }
-    };
-    $scope.addrdCrossName = function () {
-        var maxNum = -1;
-        if ($scope.names.length === 0) {
-            maxNum = 0;
-        } else {
-            for (var i = 0, len = $scope.names.length; i < len; i++) {
-                if ($scope.names[i]["nameGroupid"] > maxNum) {
-                    maxNum = $scope.names[i]["nameGroupid"];
-                }
+            "word":nameCn
+        };
+        dsMeta.getNamePronunciation(param).then(function (data) {
+            if(data.errcode == 0){
+                nameInfo.phonetic = data.data.phonetic;
+            }else{
+                swal("查找失败", "问题原因："+data.errmsg, "error");
             }
-        }
-        var newName = fastmap.dataApi.rdCrossName({nameGroupid: maxNum + 1});
-        $scope.names.unshift(newName);
-    }
+        });
+    };
+
+
 }])

@@ -10,8 +10,8 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
     var relationData = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    $scope.clmData = objCtrl.data;
     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+    $scope.clmData = objCtrl.data;
     $scope.carData=[];
     // 高亮link
     $scope.highLightLaneLink = function(){
@@ -65,7 +65,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.laneInfo = fastmap.dataApi.rdLane({pid:0});
         $scope.clmData.laneInfos.push($scope.laneInfo);
       }
-      if($scope.laneInfo && $scope.laneInfo.conditions.lenth > 0){
+      if($scope.laneInfo && $scope.laneInfo.conditions.length > 0){
         $scope.showvehicle($scope.laneInfo.conditions[0].vehicle);
       }
       var _width = $scope.clmData.laneInfos.length * 30 + 20;
@@ -80,7 +80,6 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
       $scope.laneLength = $scope.clmData.laneInfos.length;
       $('body .carTypeTip:last').hide();
     };
-    $scope.initializeData();
     $scope.refreshData = function () {
         var param = {
             "type": "RDLANE",
@@ -96,6 +95,8 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
             laneDir:$scope.clmData.laneDir,
             laneInfos:data.data
           });
+          objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+          $scope.clmData = objCtrl.data;
           $scope.initializeData();
           $scope.refreshLaneData();
         });
@@ -129,6 +130,12 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         $scope.laneInfo = $scope.clmData.laneInfos[0];
       }else{
         $scope.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex];
+      }
+      objCtrl.originalData.laneInfos.splice(index,1);
+      for(var i=0,len=objCtrl.originalData.laneInfos.length;i<len;i++){
+        if(i >= index){
+          objCtrl.originalData.laneInfos[i].seqNum--;
+        }
       }
     };
     // 修改车道类型
@@ -420,17 +427,48 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
         objCtrl.laneInfo = $scope.clmData.laneInfos[$scope.laneIndex].conditions[index];
         $scope.$emit("transitCtrlAndTpl", laneInfo);
     };
+    $scope.initializeData();
     $scope.save = function(){
-        objCtrl.save();
+        // if(objCtrl.data != $scope.clmData){
+          // objCtrl.data = $scope.clmData;
+        // }
+        // objCtrl.save();
+        objCtrl.changedProperty = objCtrl.data.getIntegrate();
+        delete objCtrl.changedProperty['_initHooksCalled'];
+        delete objCtrl.changedProperty['geoLiveType'];
+        for(var i=0,len=objCtrl.changedProperty.laneInfos.length;i<len;i++){
+          for(var item in objCtrl.changedProperty.laneInfos[i]){
+            delete objCtrl.changedProperty.laneInfos[i]['_initHooksCalled'];
+            if(i <= objCtrl.originalData.laneInfos.length - 1){ //删除或修改
+              if(item != 'pid' && objCtrl.changedProperty.laneInfos[i][item] == objCtrl.originalData.laneInfos[i][item]){
+                delete objCtrl.changedProperty.laneInfos[i][item];
+              }
+              objCtrl.changedProperty.laneInfos[i].pid = objCtrl.originalData.laneInfos[i].pid;
+              objCtrl.changedProperty.laneInfos[i].seqNum = objCtrl.originalData.laneInfos[i].seqNum;
+              if(objCtrl.changedProperty.laneInfos[i].conditions.length > 0){
+                delete objCtrl.changedProperty.laneInfos[i].conditions[0].geoLiveType;
+              }
+            }
+          }
+        }
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return ;
         }
-        for(var i=0,len=objCtrl.changedProperty.laneInfos.length;i<len;i++){
-          if(objCtrl.changedProperty.laneInfos[i].objStatus){
-            delete objCtrl.changedProperty.laneInfos[i].objStatus;
-          }
-        }
+        // for(var i=0,len=objCtrl.changedProperty.laneInfos.length;i<len;i++){
+        //   if(objCtrl.changedProperty.laneInfos[i].objStatus){
+        //     delete objCtrl.changedProperty.laneInfos[i].objStatus;
+        //   }
+        // }
+        // for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
+        //   if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('pid')){
+        //     objCtrl.changedProperty.laneInfos[i].pid = objCtrl.data.laneInfos[i].pid;
+        //   }
+        //   if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('seqNum')){
+        //     objCtrl.changedProperty.laneInfos[i].seqNum = objCtrl.data.laneInfos[i].seqNum;
+        //   }
+        // }
+
         // if(objCtrl.changedProperty.laneInfos.length == objCtrl.data.laneInfos.length){
         //   for(var i=0,len=objCtrl.data.laneInfos.length;i<len;i++){
         //     if(!objCtrl.changedProperty.laneInfos[i].hasOwnProperty('pid')){
