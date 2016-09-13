@@ -300,7 +300,13 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                dsEdit.getByPid(data.pid, "RDLINK").then(function(ret) {
+					if (ret) {
+						objectCtrl.setCurrentObject('RDLINK', ret);
+						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+					}
+				});
+//                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
             }
         })
     };

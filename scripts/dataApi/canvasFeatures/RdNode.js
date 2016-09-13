@@ -6,8 +6,8 @@ fastmap.uikit.canvasFeature.RdNode = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['style']['strokeColor'] = 'black';
         this.properties['style']['strokeWidth'] = 1;
         this.properties['style']['strokeOpacity'] = 1;
-        this.properties['style']['radius'] = 3;
-        this.properties['style']['fillColor'] = 'black';
+        this.properties['style']['radius'] = 2.5;
+        this.properties['style']['fillColor'] = '#272727';
         this.properties['style']['fillOpacity'] = 0.2;
     }
 });

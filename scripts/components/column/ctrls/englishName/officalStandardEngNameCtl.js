@@ -25,7 +25,7 @@ angular.module('app').controller('OfficalStandardEngNameCtl', ['$scope', '$ocLaz
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'150px'},
             { field: "name11Chi", title: "官方标准中文名称",getValue:get11Names,show: true},
             { field: "name12Eng", title: "原始英文名称",getValue:get12EngNames,show: true},
             { field: "name11Eng", title: "官方标准英文名称",getValue:get11EngNames,show: true},
@@ -276,7 +276,7 @@ angular.module('app').controller('OfficalStandardEngNameCtl', ['$scope', '$ocLaz
         /*******************  编辑页面begin  ****************/
         $scope.editor = {};
         $scope.editor.editorCols = [
-            { field: "num_index", title: "序号",show: true,width:'20px'},
+//            { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'80px'},
             { field: "name11Chi", title: "官方标准中文名称",getValue: get11Names,show: true,width:'120px'},
             { field: "name12Eng", title: "原始英文名称",getValue: get12EngNames,show: true,width:'120px'},

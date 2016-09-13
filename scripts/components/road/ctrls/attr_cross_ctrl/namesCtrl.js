@@ -43,10 +43,8 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
     $scope.realtimeData = objCtrl.data;
     // 增加名称信息
     $scope.addNameInfo = function(){
-        $scope.rdCrossNames.push(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名"}));
-        objCtrl.data.names.push(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名"}));
+        $scope.rdCrossNames.unshift(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名","rowId":""}));
     };
-
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
@@ -54,28 +52,6 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
         }
     }
 
-    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-    if($scope.nameCrossForm) {
-        $scope.nameCrossForm.$setPristine();
-    }
-    /*路口名称输入完查询发音和拼音*/
-    $scope.diverName = function (id, name) {
-        var param = {
-            "word": name
-        }
-
-        dsMeta.getNamePronunciation(param).then(function(data){
-        	// $scope.$apply();
-          if (data) {
-              $.each( $scope.names, function (i, v) {
-                  if (v.nameGroupid == id) {
-                      v.phonetic = data.data.phonetic;
-                  }
-              });
-              // $scope.$apply();
-          }
-        });
-    };
     /*名称语音*/
     $scope.namePronunciation = function (nameCn,nameInfo) {
         var param = {
@@ -89,23 +65,6 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
             }
         });
     };
-    $scope.minusrdCrossName = function (id) {
-        $scope.names.splice(id, 1);
-        if ($scope.names.length === 0) {
-        }
-    };
-    $scope.addrdCrossName = function () {
-        var maxNum = -1;
-        if ($scope.names.length === 0) {
-            maxNum = 0;
-        } else {
-            for (var i = 0, len = $scope.names.length; i < len; i++) {
-                if ($scope.names[i]["nameGroupid"] > maxNum) {
-                    maxNum = $scope.names[i]["nameGroupid"];
-                }
-            }
-        }
-        var newName = fastmap.dataApi.rdCrossName({nameGroupid: maxNum + 1});
-        $scope.names.unshift(newName);
-    }
+
+
 }])

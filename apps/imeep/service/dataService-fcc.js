@@ -80,21 +80,21 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         }).success(function(data) {
             if (data.errcode == 0) {
                 dsOutput.push({
-                    "op": "状态修改成功",
+                    "op": "Tips状态修改成功",
                     "type": "succ",
                     "pid": "0",
                     "childPid": ""
                 });
-                swal("状态修改成功", "", "success");
+                swal("Tips状态修改成功", "", "success");
                 defer.resolve(1);
             } else {
                 dsOutput.push({
-                    "op": "操作出错：" + data.errmsg,
+                    "op": "Tips状态修改出错：" + data.errmsg,
                     "type": "fail",
                     "pid": data.errcode,
                     "childPid": ""
                 });
-                swal("状态修改出错：", data.errmsg, "error");
+                swal("Tips状态修改出错：", data.errmsg, "error");
                 defer.resolve(-1);
             }
         }).error(function(rejection) {
