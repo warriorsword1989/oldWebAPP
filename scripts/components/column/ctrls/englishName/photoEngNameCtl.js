@@ -32,7 +32,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'70px'},
             { field: "num_index",title:'编号', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'130px', sortable: "classifyRules11"},
-            { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'130px', sortable: "kind"},
+            { field: "kindCodeName", title: "分类",show: true,width:'130px', sortable: "kind"},
             { field: "name11Chi", title: "官方标准中文名称",getValue:get11ChiNames,show: true, sortable: "name11Chi"},
             { field: "name12Eng", title: "原始英文名称",getValue:get12EngNames,show: true, sortable: "name12Eng"},
             { field: "pid", title: "PID",show: false,width:'100px', sortable: "pid"}
@@ -239,7 +239,7 @@ angular.module('app').controller('photoEngNameCtrl', ['$scope', '$ocLazyLoad',"$
         /*---------------------------------------编辑部分---------------------------------------*/
         $scope.editor = {};
         $scope.editor.editorCols = [
-            { field: "num_index", title: "序号",show: true,width:'20px'},
+//            { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'70px'},
             { field: "name12Chi", title: "官方标准中文名称",getValue:get11ChiNames,show: true,width:'130px'},
             { field: "name11Chi", title: "原始英文名称",getValue: getEng12NameByEdit,html:true,show: true,width:'130px'},

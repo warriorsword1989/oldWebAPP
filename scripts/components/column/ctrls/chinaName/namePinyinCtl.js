@@ -26,7 +26,7 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'150px'},
             { field: "nameObj", title: "名称",getValue:getName,show: true},
             { field: "nameObj", title: "拼音",getValue:getPinyin,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
@@ -219,9 +219,9 @@ angular.module('app').controller('NamePinyinCtl', ['$scope', '$ocLazyLoad', 'NgT
         /*******************  编辑页面begin  ****************/
         $scope.editor = {};
         $scope.editor.editorCols = [
-            { field: "num_index", title: "序号",show: true,width:'20px'},
+//            { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
-            { field: "kindCode", title: "分类",show: true,width:'50px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'50px'},
             { field: "nameObj", title: "名称",getValue:getName,show: true,width:'50px'},
             { field: "nameObj", title: "拼音",getValue:getPinyin,show: true,width:'80px'},
             { field: "refMsg", title: "参考信息",getValue:getReferenceInfo,html:true,show: true,width:'50px'},
