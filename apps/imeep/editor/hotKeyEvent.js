@@ -34,6 +34,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         var lcNode = layerCtrl.getLayerById('lcNode');
         var lcFace = layerCtrl.getLayerById('lcFace');
         var relationData = layerCtrl.getLayerById('relationData');
+        var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
         if (event.keyCode == 27) {
             resetPage();
@@ -65,6 +66,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             if (map.currentTool.snapHandler) {
                 map.currentTool.snapHandler._enabled = true;
                 map.currentTool.snapHandler.snaped = false;
+            }
+            if (map.currentTool.captureHandler) {
+                map.currentTool.captureHandler._enabled = true;
+                map.currentTool.captureHandler.snaped = false;
             }
             map.currentTool._enabled = true;
             map.currentTool.disable();
@@ -166,12 +171,30 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         if (rest) {
                             objEditCtrl.setCurrentObject('IXPOI', rest);
                             objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+
+                            scope.$emit("transitCtrlAndTpl", {
+                                "loadType": "attrTplContainer",
+                                "propertyCtrl": appPath.poi + 'ctrls/' + ctrl,
+                                "propertyHtml": appPath.root + appPath.poi + 'tpls/' + tpl
+                            });
                             scope.$emit("transitCtrlAndTpl", {
                                 "loadType": "tipsTplContainer",
                                 "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
                                 "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                             });
                             scope.$emit("highLightPoi", rest.pid);
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            var highLightFeatures = [];
+                            highLightFeatures.push({
+                                id: rest.pid.toString(),
+                                layerid: 'poi',
+                                type: 'IXPOI',
+                                style: {}
+                            });
+                            //高亮
+                            highRenderCtrl.highLightFeatures = highLightFeatures;
+                            highRenderCtrl.drawHighlight();
                         }
                     });
                 }
@@ -545,7 +568,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcFace.redraw();
                             ctrl = 'attr_lc_ctrl/lcNodeCtrl';
                             tpl = 'attr_lc_tpl/lcNodeTpl.html';
-                        } else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL") {
+                        } else if (param["type"] == "RDCROSS") {
+                            rdCross.redraw();
+                        } else if (param["type"] == "RDTRAFFICSIGNAL") {
                             relationData.redraw();
                         }
                         treatmentOfChanged(data, param["type"], ctrl, tpl);
@@ -631,7 +656,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
-                        relationData.redraw();
+                        rdCross.redraw();
                         treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     }
                 })
@@ -842,7 +867,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
                         layerCtrl.getLayerById("poi").redraw();
-                        treatmentOfChanged(data, "IXPOI", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
+                        treatmentOfChanged(data, "IXPOI", 'attr-base/generalBaseCtl', 'attr-base/generalBaseTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
@@ -874,7 +899,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         layerCtrl.getLayerById("poi").redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
-                        treatmentOfChanged(data, "IXPOI", 'attr_base/generalBaseCtl', 'attr_base/generalBaseTpl.html');
+                        treatmentOfChanged(data, "IXPOI", 'attr-base/generalBaseCtl', 'attr-base/generalBaseTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "trafficSignal") {    //信号灯

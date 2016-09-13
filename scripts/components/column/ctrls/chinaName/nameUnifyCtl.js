@@ -28,7 +28,7 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'150px'},
             { field: "name12Chi", title: "官方原始名称",getValue:get12Names,show: true},
             { field: "name11Chi", title: "官方标准中文名称",getValue:get11Names,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
@@ -252,10 +252,10 @@ angular.module('app').controller('NameUnifyCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.edit.editCols = [
 //            { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'70px'},
-            { field: "kindCode", title: "分类",show: true,width:'50px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'50px'},
             { field: "kindCode", title: "品牌名",show: true,width:'50px'},
             { field: "name12Chi", title: "官方原始名称",getValue:get12Names,show: true,width:'80px'},
-            { field: "addressFullname", title: "父名称",getValue: getFullName, show: true,width:'50px'},
+            { field: "parentName", title: "父名称", show: true,width:'50px'},
             { field: "name11Chi", title: "标准中文名称",getValue: getName,html:true,show: true,width:'150px'},
             { field: "refMsg", title: "参考信息",show: true,width:'50px'},
             { field: "details", title: "详情",getValue: getDetails,html:true,show: true,width:'30px'}
