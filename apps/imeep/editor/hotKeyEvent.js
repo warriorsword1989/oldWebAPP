@@ -34,6 +34,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
         var lcNode = layerCtrl.getLayerById('lcNode');
         var lcFace = layerCtrl.getLayerById('lcFace');
         var relationData = layerCtrl.getLayerById('relationData');
+        var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
         if (event.keyCode == 27) {
             resetPage();
@@ -567,7 +568,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcFace.redraw();
                             ctrl = 'attr_lc_ctrl/lcNodeCtrl';
                             tpl = 'attr_lc_tpl/lcNodeTpl.html';
-                        } else if (param["type"] == "RDCROSS" || param["type"] == "RDTRAFFICSIGNAL") {
+                        } else if (param["type"] == "RDCROSS") {
+                            rdCross.redraw();
+                        } else if (param["type"] == "RDTRAFFICSIGNAL") {
                             relationData.redraw();
                         }
                         treatmentOfChanged(data, param["type"], ctrl, tpl);
@@ -653,7 +656,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
-                        relationData.redraw();
+                        rdCross.redraw();
                         treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     }
                 })
