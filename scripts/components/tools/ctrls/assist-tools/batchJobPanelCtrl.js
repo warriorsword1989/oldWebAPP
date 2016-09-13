@@ -4,67 +4,68 @@
 angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'dsEdit',
     function($scope, $interval, dsEdit) {
 
-        $scope.poiBatchList = [{
-            check:false,
-            id: '110',
-            name: 'POI批处理1',
-            rule:[{
-                id: '1',
-                name: 'POI处理规则1',
-                check:false,
-                pid:'110'
-            }, {
-                id: '2',
-                name: 'POI处理规则2',
-                check:false,
-                pid:'110'
-            }, {
-                id: '3',
-                name: 'POI处理规则3',
-                check:false,
-                pid:'110'
-            }, {
-                id: '4',
-                name: 'POI处理规则4',
-                check:false,
-                pid:'110'
-            }]
-        }, {
-            check:false,
-            id: '120',
-            name: 'POI批处理2',
-            rule:[{
-                id: '1',
-                name: 'POI处理规则1',
-                check:false
-            }, {
-                id: '2',
-                name: 'POI处理规则2',
-                check:false
-            }]
-        }, {
-            check:false,
-            id: '130',
-            name: 'POI批处理3',
-            rule:[{
-                id: '1',
-                name: 'POI处理规则1',
-                check:false
-            }, {
-                id: '2',
-                name: 'POI处理规则2',
-                check:false
-            }]
-        }, {
-            check:false,
-            id: '140',
-            name: 'POI批处理4',
-            rule:[{
-                id: '1',
-                name: 'POI处理规则1',
-                check:false
-            }]
-        }];
+        //$scope.poiBatchList = [{
+        //    check:false,
+        //    id: '110',
+        //    name: 'POI批处理1',
+        //    rule:[{
+        //        id: '1',
+        //        name: 'POI处理规则1',
+        //        check:false,
+        //        pid:'110'
+        //    }, {
+        //        id: '2',
+        //        name: 'POI处理规则2',
+        //        check:false,
+        //        pid:'110'
+        //    }, {
+        //        id: '3',
+        //        name: 'POI处理规则3',
+        //        check:false,
+        //        pid:'110'
+        //    }, {
+        //        id: '4',
+        //        name: 'POI处理规则4',
+        //        check:false,
+        //        pid:'110'
+        //    }]
+        //}, {
+        //    check:false,
+        //    id: '120',
+        //    name: 'POI批处理2',
+        //    rule:[{
+        //        id: '1',
+        //        name: 'POI处理规则1',
+        //        check:false
+        //    }, {
+        //        id: '2',
+        //        name: 'POI处理规则2',
+        //        check:false
+        //    }]
+        //}, {
+        //    check:false,
+        //    id: '130',
+        //    name: 'POI批处理3',
+        //    rule:[{
+        //        id: '1',
+        //        name: 'POI处理规则1',
+        //        check:false
+        //    }, {
+        //        id: '2',
+        //        name: 'POI处理规则2',
+        //        check:false
+        //    }]
+        //}, {
+        //    check:false,
+        //    id: '140',
+        //    name: 'POI批处理4',
+        //    rule:[{
+        //        id: '1',
+        //        name: 'POI处理规则1',
+        //        check:false
+        //    }]
+        //}];
+
 
 
 

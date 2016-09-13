@@ -43,7 +43,7 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
         $scope.rdCrossData.names = [];
         for(var i=0,len=$scope.nameGroup.length;i<len;i++){
             for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
-                $scope.rdCrossData.names.push($scope.nameGroup[i][j]);
+                $scope.rdCrossData.names.unshift($scope.nameGroup[i][j]);
             }
         }
 
@@ -73,29 +73,11 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.rdCrossData.pid), "RDCROSS").then(function(data){
     		if (data) {
-                objCtrl.setCurrentObject("RDCROSS", data.data);
+                objCtrl.setCurrentObject("RDCROSS", data);
                 $scope.initializeRdCrossData();
             }
     	});
     };
-    // $scope.showCrossNames=function(nameItem) {
-    //     var crossNamesObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
-    //         "loadType": "subAttrTplContainer",
-    //         "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
-    //         "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-    //         "callback": function () {
-    //             var crossObj = {
-    //                 "loadType": "subAttrTplContainer",
-    //                 "propertyCtrl":appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
-    //                 "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
-    //             };
-    //             $scope.$emit("transitCtrlAndTpl", crossObj);
-    //         }
-    //     };
-    //     $scope.$emit("transitCtrlAndTpl", crossNamesObj);
-    //
-    //     $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
-    // };
 
     /*查看详情*/
     $scope.showCrossNames = function (index ,nameInfo,nameGroupid) {
@@ -107,8 +89,7 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
                 var detailInfo = {
                     "loadType": "subAttrTplContainer",
                     "propertyCtrl":appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
-                    "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html',
-                    "data": $scope.nameGroup[nameGroupid-1]
+                    "propertyHtml":appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
                 };
                 objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
                 $scope.$emit("transitCtrlAndTpl", detailInfo);
@@ -129,13 +110,6 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
             if($scope.nameGroup[i]){
                 for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
                     if($scope.nameGroup[i][j] === item){
-                        if(item.nameId != 0){
-                            var tempDel = {
-                                rowId:item.rowId,
-                                objStatus:'DELETE'
-                            };
-                            $scope.deleteNames.push(tempDel);
-                        }
                         if($scope.nameGroup[i].length == 1){
                             $scope.nameGroup.splice(i,1);
                             for(var n=0,nu=$scope.nameGroup.length;n<nu;n++){
@@ -165,11 +139,6 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
         $scope.refreshNames();
     });
 
-    $scope.addRdCrossName = function () {
-        var newName = fastmap.dataApi.rdCrossName({"linkPid": $scope.rdCrossData.pid,"name":"路口名"});
-        $scope.rdCrossData.names.unshift(newName)
-    };
-
     // $scope.minuscrossName=function(id){
     //     $scope.rdCrossData.names.splice(id, 1);
     // };
@@ -182,6 +151,7 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
     };
 
     $scope.save = function () {
+        $scope.refreshNames();
         objCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -208,10 +178,10 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                $scope.refreshData();
                 }
-            $scope.refreshData();
+
         })
     };
     $scope.delete = function () {
