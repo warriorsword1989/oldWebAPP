@@ -1,8 +1,8 @@
 /**
  * Created by liuyang on 2016/8/5.
  */
-angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath','$timeout',
-    function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
+angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 'dsEdit', 'appPath','$timeout','$q',
+    function($scope, $ocLazyLoad, dsEdit, appPath,$timeout,$q) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -1845,31 +1845,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
-
                             featCodeCtrl.setFeatCode($scope.rdVoiceguide);
                             tooltipsCtrl.setCurrentTooltip("继续选择退出线,或者点击空格键保存!");
                         }
                     }
                 });
             } else if(type === 'VARIABLESPEED'){
-                //tooltipsCtrl.setEditEventType('variableSpeed');
-                //tooltipsCtrl.setCurrentTooltip('正要新建可变限速,先选择线！');
-                //shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.VARIABLESPEED);
-                //map.currentTool = new fastmap.uikit.SelectNodeAndPath({
-                //    map: map,
-                //    shapeEditor: shapeCtrl,
-                //    selectLayers: [rdLink,rdnode],
-                //    snapLayers: [rdLink]//将rdnode放前面，优先捕捉
-                //});
-                //map.currentTool.enable();
-                //eventController.off(eventController.eventTypes.GETFEATURE);
-                //eventController.on(eventController.eventTypes.GETFEATURE, function (data) {
-                //    console.log(data);
-                //})
-                /*-----------------------------------------------------------------------*/
-
-
-                /*-----------------------------------------------------------------------*/
+                $scope.allNode = [];
                 $scope.limitRelation.vias = [];
                 //可变限速
                 $scope.resetOperator("addRelation", type);
@@ -1884,12 +1866,22 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     createBranchFlag: true,
                     currentEditLayer: rdLink,
                     shapeEditor: shapeCtrl,
-                    operationList:['line','point','line','line']
+                    operationList:['line','point','line']
                 });
                 map.currentTool.enable();
                 //添加自动吸附的图层
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
-                //获取退出线并高亮;
+                //
+                $scope.getLinkInfos = function(param){
+                    var defer = $q.defer();
+                    dsEdit.getByPid(param, "RDLINK").then(function(data) {
+                        if(data){
+                            defer.resolve(data);
+                        }
+                    })
+                    return defer.promise;
+                }
+                //判断是否为推出线;
                 $scope.getOutLink = function(dataId) {
                     var param = {};
                     param["dbId"] = App.Temp.dbId;
@@ -1897,6 +1889,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     param["data"] = {
                         "nodePid": $scope.limitRelation.nodePid
                     };
+                    var defer = $q.defer();
                     //查进入点的关联link，如果所选的退出线不在里面，则提示错误;
                     dsEdit.getByCondition(param).then(function(linkData) {
                         if (linkData.errcode === -1) {return;}
@@ -1905,50 +1898,46 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             outlinks.push(linkData.data[i].pid)
                         }
                         //如果不衔接;
-                        if(outlinks.indexOf(parseInt(dataId))==-1){return;}
-                        //如果衔接;
-                        else{
-                            //高亮显示退出线;
-                            $scope.limitRelation.outLinkPid = parseInt(dataId);
-                            if (highLightFeatures.length === 3) {highLightFeatures.pop();}
-                            highRenderCtrl._cleanHighLight();
-                            highLightFeatures.push({
-                                id: $scope.limitRelation.outLinkPid.toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {}
-                            });
-                            highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存或继续选择接续线!");
+                        if(outlinks.indexOf(parseInt(dataId))==-1){
+                            defer.resolve(false);
+                        }else{
+                            defer.resolve(true);
                         }
                     })
+                    return defer.promise;
                 }
-                //接续线;
-                $scope.getjointLink = function(dataId) {
-                    var tempLink = null;
-                    if(!$scope.limitRelation.vias.length){
-                        tempLink = $scope.limitRelation.outLinkPid;
-                    }
-                    if(parseInt(dataId)==parseInt(tempLink)){
-                        tooltipsCtrl.setCurrentTooltip("退出线已选择,点击空格键保存或继续选择接续线!");
-                        return;
-                    }else{
-                        $scope.limitRelation.vias.push(parseInt(dataId));
-                    }
-                    highLightFeatures.push({
-                        id: parseInt(dataId).toString(),
-                        layerid: 'rdLink',
-                        type: 'line',
-                        style: {color:'blue'}
-                    });
-                    highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltip("已选接续线,点击空格键保存或继续选择接续线!");
+
+                //判断接续线是否连接退出线;
+                $scope.isLinksJoinOutlink = function(linknodePid,dataId){
+                    var defer = $q.defer();
+                    var param = {};
+                    param["dbId"] = App.Temp.dbId;
+                    param["type"] = "RDLINK";
+                    param["data"] = {"nodePid": linknodePid};
+                    dsEdit.getByCondition(param).then(function(linkData) {
+                        if (linkData.errcode === -1) {return;}
+                        var jointLinks = [];
+                        for(var i=0;i<linkData.data.length;i++){
+                            jointLinks.push(linkData.data[i].pid)
+                        }
+                        //如果不衔接;
+                        if(jointLinks.indexOf(parseInt(dataId))==-1){
+                            defer.resolve(false);
+                        } else{
+                            defer.resolve(true);
+                        }
+                    })
+                    return defer.promise;
                 }
 
                 //选择分歧监听事件;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) {//第一次选择进入线的逻辑
+                        $scope.limitRelation.vias = [];
+                        $scope.limitRelation.inLinkPid='';
+                        $scope.limitRelation.nodePid='';
+                        $scope.limitRelation.outLinkPid='';
                         //清除吸附的十字
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -1981,16 +1970,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.drawHighlight();
                             map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
                             tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
-
+                            map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
-                    }
-                    //第二次选择（进入点/退出线）逻辑
-                    else if (data.index === 1) {
-                        if (linkDirect == 2 || linkDirect == 3) {
-                            //如果进入线是单方向的，根据用户选择计算退出线;
-                            $scope.getOutLink(data.id);
-                        }
-                        else {
+                    }else if(data.index === 1){
                             //如果进入线是双方向的，则根据用户的选择高亮进入点;
                             $scope.limitRelation.nodePid = parseInt(data.id);
                             highLightFeatures.push({
@@ -2004,18 +1986,85 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             setTimeout(function(){
                                 tooltipsCtrl.setCurrentTooltip("请选择退出线!");
                             },30)
-                            //清除吸附的十字
-                            map.currentTool.snapHandler.snaped = false;
-                            map.currentTool.clearCross();
-                            map.currentTool.snapHandler._guides = [];
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
-                        }
-                    }
-                    else if (data.index > 1 && data.index<=2) {
-                        $scope.getOutLink(data.id);
-                        $scope.limitRelation.outLinkPid = parseInt(data.id);
-                    }else{
-                        $scope.getjointLink(data.id);
+                    }else if(data.index>=2){
+                          $scope.getOutLink(parseInt(data.id)).then(function(res){
+                              if(res){
+                                  //如果连续，再判断方向性是否正确;
+                                  $scope.getLinkInfos(parseInt(data.id)).then(function(response){
+                                      //如果方向正确；
+                                      if(($scope.limitRelation.nodePid==response.sNodePid&&response.direct==2)||($scope.limitRelation.nodePid==response.eNodePid&&response.direct==3)||(response.direct==1)){
+                                          if($scope.limitRelation.outLinkPid){
+                                              var tempIndex = '';
+                                              for(var i=0;i<highLightFeatures.length;i++){
+                                                  if($scope.limitRelation.outLinkPid==highLightFeatures[i].id){
+                                                      tempIndex = i;
+                                                  }
+                                              }
+                                              $scope.limitRelation.outLinkPid = parseInt(data.id);
+                                              $scope.limitRelation.vias = [];
+                                              map.currentTool.selectedFeatures.splice(tempIndex);
+                                              highLightFeatures.splice(tempIndex);
+                                          }else{
+                                              $scope.limitRelation.outLinkPid = parseInt(data.id);
+                                          }
+                                      }else{
+                                          tooltipsCtrl.setCurrentTooltip("退出线方向选择错误!");
+                                          return;
+                                      }
+                                      highLightFeatures.push({
+                                          id: $scope.limitRelation.outLinkPid.toString(),
+                                          layerid: 'rdLink',
+                                          type: 'line',
+                                          style: {}
+                                      });
+                                      highRenderCtrl._cleanHighLight();
+                                      highRenderCtrl.drawHighlight();
+                                      tooltipsCtrl.setCurrentTooltip("已经选择退出线!");
+                                      setTimeout(function(){
+                                          tooltipsCtrl.setCurrentTooltip("继续选择接续线或按ESC/Space键取消或保存!");
+                                      },30)
+                                  });
+                              }else if(!res){
+                                  if($scope.limitRelation.outLinkPid){
+                                      if($scope.limitRelation.vias.length){
+                                          $scope.limitRelation.vias.push(parseInt(data.id));
+                                          highLightFeatures.push({
+                                              id: parseInt(data.id).toString(),
+                                              layerid: 'rdLink',
+                                              type: 'line',
+                                              style: {color:'blue'}
+                                          });
+                                          highRenderCtrl._cleanHighLight();
+                                          highRenderCtrl.drawHighlight();
+                                      }else{
+                                          $scope.getLinkInfos(parseInt($scope.limitRelation.outLinkPid)).then(function(result){
+                                                var tempNode = result.sNodePid==$scope.limitRelation.nodePid?result.eNodePid:result.sNodePid;
+                                                $scope.isLinksJoinOutlink(parseInt(tempNode),parseInt(data.id)).then(function(result){
+                                                    if(result){
+                                                        $scope.limitRelation.vias.push(parseInt(data.id));
+                                                        highLightFeatures.push({
+                                                            id: parseInt(data.id).toString(),
+                                                            layerid: 'rdLink',
+                                                            type: 'line',
+                                                            style: {color:'blue'}
+                                                        });
+                                                        highRenderCtrl._cleanHighLight();
+                                                        highRenderCtrl.drawHighlight();
+                                                        tooltipsCtrl.setCurrentTooltip("已选择一条接续线!");
+                                                    }else{
+                                                        tooltipsCtrl.setCurrentTooltip("接续线选择错误!");
+                                                        return;
+                                                    }
+                                                })
+                                          })
+                                      }
+                                  }else{
+                                      map.currentTool.selectedFeatures.pop();
+                                      tooltipsCtrl.setCurrentTooltip("退出线是必选要素!");
+                                  }
+                              }
+                          })
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
