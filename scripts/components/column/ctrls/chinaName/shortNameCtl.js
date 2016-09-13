@@ -27,7 +27,7 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         $scope.cols = [
             { field: "selector",headerTemplateURL: "headerCheckboxId",title:'选择', show: true,width:'60px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'150px'},
-            { field: "kind", title: "分类",getValue:getClassifyRules,show: true,width:'150px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'150px'},
             { field: "name11Chi", title: "官方标准中文名称",getValue:get11Name,show: true},
             { field: "name51ChiArr", title: "简称",getValue:get51name,show: true},
             { field: "pid", title: "PID",show: false,width:'100px'}
@@ -172,9 +172,9 @@ angular.module('app').controller('ShortNameCtl', ['$scope', '$ocLazyLoad', 'NgTa
         /*******************  编辑页面begin  ****************/
         $scope.editor = {};
         $scope.editor.editorCols = [
-            { field: "num_index", title: "序号",show: true,width:'20px'},
+//            { field: "num_index", title: "序号",show: true,width:'20px'},
             { field: "classifyRules11", title: "作业类型",getValue:getClassifyRules,show: true,width:'50px'},
-            { field: "kindCode", title: "分类",show: true,width:'50px'},
+            { field: "kindCodeName", title: "分类",show: true,width:'50px'},
             { field: "name11Chi", title: "官方标准中文名称",getValue:get11Name,show: true,width:'50px'},
             { field: "name51ChiArr", title: "简称",getValue:getName,show: true,html:true,width:'80px',inputType: "text"},
             { field: "refMsg", title: "参考信息",show: true,width:'50px'},

@@ -17,8 +17,9 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         this.photos = data['photos'];
         this.meshId = data['meshId'];
         this.detailArea = data['detailArea'];
-
-
+        this.parentName = data["parentName"] || "";
+        this.kindCodeName = data["kindCodeName"] || "";
+        this.chainName = data["chainName"] || "";
 
         this.addressChi = {};//大陆地址
         this.addressEng = {};//英文地址
@@ -109,8 +110,9 @@ FM.dataApi.ColPoi = FM.dataApi.GeoDataModel.extend({
         ret['attachments'] = this.attachments;
         ret['meshId'] = this.meshId;
         ret['detailArea'] = this.detailArea;
-
-
+        ret["parentName"] = this.parentName;
+        ret["kindCodeName"] = this.kindCodeName;
+        ret["chainName"] = this.chainName;
         ret["addresses"] = [];
         if(!FM.Util.isEmptyObject(this.addressChi)){
             ret["addresses"].push(this.addressChi.getIntegrate());
