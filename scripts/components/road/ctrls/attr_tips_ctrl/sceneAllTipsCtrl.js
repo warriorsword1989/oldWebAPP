@@ -977,7 +977,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 "geometry": {
                     "type": "LineString",
                     "coordinates": $scope.dataTipsData.g_location.coordinates
-                }
+                },
+                "catchLinks":[]
             };
             //等于3时不允许修改
             if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 3) {
