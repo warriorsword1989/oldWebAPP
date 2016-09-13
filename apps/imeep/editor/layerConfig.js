@@ -220,7 +220,7 @@ App.layersConfig = [{
         clazz: fastmap.mapApi.tileJSON,
         options: {
             id: 'rdCross',
-            name: '关系',
+            name: '关系-路口',
             maxZoom: 20,
             debug: false,
             // this value should be equal to 'radius' of your points
@@ -262,7 +262,7 @@ App.layersConfig = [{
             zIndex: 7,
             restrictZoom: 10,
             visible: false,
-            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE',
+            requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE',
             showNodeLevel: 17
         }
     },{
