@@ -1845,13 +1845,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
-
                             featCodeCtrl.setFeatCode($scope.rdVoiceguide);
                             tooltipsCtrl.setCurrentTooltip("继续选择退出线,或者点击空格键保存!");
                         }
                     }
                 });
             } else if(type === 'VARIABLESPEED'){
+                $scope.allNode = [];
                 $scope.limitRelation.vias = [];
                 //可变限速
                 $scope.resetOperator("addRelation", type);
@@ -1875,7 +1875,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.getLinkInfos = function(param){
                     var defer = $q.defer();
                     dsEdit.getByPid(param, "RDLINK").then(function(data) {
-                        if(data){defer.resolve(data);}
+                        if(data){
+                            defer.resolve(data);
+                        }
                     })
                     return defer.promise;
                 }
@@ -2026,7 +2028,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                               }else if(!res){
                                   if($scope.limitRelation.outLinkPid){
                                       if($scope.limitRelation.vias.length){
-                                            //alert('已存在接续线');
                                           $scope.limitRelation.vias.push(parseInt(data.id));
                                           highLightFeatures.push({
                                               id: parseInt(data.id).toString(),
@@ -2036,7 +2037,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                           });
                                           highRenderCtrl._cleanHighLight();
                                           highRenderCtrl.drawHighlight();
-                                          tooltipsCtrl.setCurrentTooltip("已选择一条接续线!");
                                       }else{
                                           $scope.getLinkInfos(parseInt($scope.limitRelation.outLinkPid)).then(function(result){
                                                 var tempNode = result.sNodePid==$scope.limitRelation.nodePid?result.eNodePid:result.sNodePid;
@@ -2058,7 +2058,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                                     }
                                                 })
                                           })
-
                                       }
                                   }else{
                                       map.currentTool.selectedFeatures.pop();
