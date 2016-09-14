@@ -1,5 +1,8 @@
 (function($) {
     $.fn.timepicki = function(scope,model) {
+        if(model == "end_time"){
+            console.info("============");
+        }
         // var defaults = {};
         /*var settings = $.extend({},
         defaults, setting);*/
@@ -7,29 +10,37 @@
             var ele = $(this);
             var ele_hei = ele.outerHeight();
             // var ele_lef = ele.position().left;
-            ele_hei += 15;
-            $(ele).wrap("<div class='time_pick'>");
+            ele_hei += 10;
+            if($(ele).parent(".time_pick").length < 1){
+                $(ele).wrap("<div class='time_pick'>");
+            };
             var ele_par = $(this).parents(".time_pick");
             $.each($(".timepicker_wrap"),function(i,v){
                 $(v).hide();
-            })
-            ele_par.append("<div class='timepicker_wrap'>"+
-                "<div class='arrow_top'></div>"+
-                "<div class='time'><div class='time-prev'></div>"+
-                "<div class='ti_tx'></div><div class='time-next'></div></div>"+
-                "<div class='mins'><div class='time-prev'></div><div class='mi_tx'></div>"+
-                "<div class='time-next'></div></div><div class='date-empty'>清空</div>"+
-                "<div class='close-btn'>关闭</div></div>");
+            });
+
+            if(ele_par.find(".timepicker_wrap").length < 1){
+                ele_par.append("<div class='timepicker_wrap'>"+
+                    "<div class='arrow_top'></div>"+
+                    "<div class='time'><div class='time-prev'></div>"+
+                    "<div class='ti_tx'></div><div class='time-next'></div></div>"+
+                    "<div class='mins'><div class='time-prev'></div><div class='mi_tx'></div>"+
+                    "<div class='time-next'></div></div><div class='date-empty'>清空</div>"+
+                    "<div class='close-btn'>关闭</div></div>");
+            }
+
+            ele_par.find(".timepicker_wrap").show();
             var ele_next = $(this).next(".timepicker_wrap");
             var ele_next_all_child = ele_next.find("div");
+            var ele_close_btn = ele_next.find("div");
             ele_next.css({
                 "top": ele_hei + "px",
                 // "left": ele_lef + "px"
             });
             var cur_time = new Date().getHours();
             var cur_mins = '00';
-            $(document).on("click",
-            function(event) {
+            $(".datetip.fm-datepick-tip").off("click").on("click",function(event) {
+                console.info("aaa");
                 if (!$(event.target).is(ele_next)) {
                     if (!$(event.target).is(ele)) {
                         var tim = ele_next.find(".ti_tx").html();
@@ -37,12 +48,15 @@
                         if (!$(event.target).is(ele_next) && !$(event.target).is(ele_next_all_child)) {
                             if(tim){
                                 // ele.val(tim + ':' + mini);
-                                if(!_emptyFlag){
-                                    scope.$apply(function(){
-                                        scope[model] = tim + ':' + mini;
-                                        _emptyFlag = false;
-                                    });
+                                if(!$(event.target).is($(document).find('button[name=fmSaveDateIdTemporary]'))){ //取消点击保存重新赋值的bug
+                                    if(!_emptyFlag){
+                                        scope.$apply(function(){
+                                            scope[model] = tim + ':' + mini;
+                                            _emptyFlag = false;
+                                        });
+                                    }
                                 }
+
                             }
                             ele_next.fadeOut();
                         }
@@ -57,6 +71,8 @@
                                 cur_time = h_time;
                                 cur_mins = m_time;
                             }
+                            ele_next.find(".ti_tx").text(h_time);
+                            ele_next.find(".mi_tx").text(m_time);
                             scope.$apply();
                         }
                         ele_next.fadeIn();
@@ -84,7 +100,7 @@
             var cur_next = ele_next.find(".time-next");
             var cur_prev = ele_next.find(".time-prev");
             /*改变时间*/
-            $(cur_prev).add(cur_next).on("click",
+            $(cur_prev).add(cur_next).off("click").on("click",
             function() {
                 var cur_ele = $(this);
                 var cur_cli = null;
