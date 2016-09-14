@@ -752,6 +752,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     tooltipsCtrl.setCurrentTooltip('点击空格保存信号灯,或者按ESC键取消!');
                 }
             } else if(type === "RD_GATE"){ //大门
+                featCodeCtrl.setFeatCode({});
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;
@@ -896,6 +897,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                 });
             } else if (type === 'RD_WARNINGINFO'){ //警示信息
+                featCodeCtrl.setFeatCode({});
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;
@@ -1609,6 +1611,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                 });
             } else if(type === "RDTOLLGATE"){ //收费站
+                featCodeCtrl.setFeatCode({});
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;

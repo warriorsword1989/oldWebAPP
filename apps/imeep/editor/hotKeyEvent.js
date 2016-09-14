@@ -917,6 +917,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "gate") {    //大门
+                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 var gate = featCodeCtrl.getFeatCode();
                 if (!(gate.nodePid && gate.inLinkPid && gate.outLinkPid )) {
                     swal("操作失败", "请选进入线和进入点以及退出线", "error");
@@ -935,6 +936,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             } else if (shapeCtrl.editType === "warningInfo") {    //警示信息
                 var warning = featCodeCtrl.getFeatCode();
+                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 if (!(warning.nodePid && warning.inLinkPid)) {
                     swal("操作失败", "请选进入线和进入点", "error");
                     return;
@@ -1219,6 +1221,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "rdTollgate") {    //收费站
+                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 var param = {
                     "command": "CREATE",
                     "type": "RDTOLLGATE",
