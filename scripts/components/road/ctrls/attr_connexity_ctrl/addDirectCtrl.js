@@ -9,6 +9,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var hLayer = layerCtrl.getLayerById('highlightLayer');
+    var highRenderCtrl = new fastmap.uikit.HighRenderController()
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -84,8 +85,10 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
             type:'line',
             style:{}
         })
-        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
-        highLightLinks.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
+        // var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
+        // highLightLinks.drawHighlight();
     }
     $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
 
