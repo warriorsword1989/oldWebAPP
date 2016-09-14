@@ -1,8 +1,5 @@
 (function($) {
     $.fn.timepicki = function(scope,model) {
-        if(model == "end_time"){
-            console.info("============");
-        }
         // var defaults = {};
         /*var settings = $.extend({},
         defaults, setting);*/
@@ -40,7 +37,6 @@
             var cur_time = new Date().getHours();
             var cur_mins = '00';
             $(".datetip.fm-datepick-tip").off("click").on("click",function(event) {
-                console.info("aaa");
                 if (!$(event.target).is(ele_next)) {
                     if (!$(event.target).is(ele)) {
                         var tim = ele_next.find(".ti_tx").html();
