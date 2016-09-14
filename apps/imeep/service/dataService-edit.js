@@ -614,4 +614,15 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         return defer.promise;
     }
 
+    //搜索批处理包;
+    this.batchBox = function(url) {
+        var defer = $q.defer();
+        $http.get(url).success(function(data) {
+            defer.resolve(data);
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
 }]);

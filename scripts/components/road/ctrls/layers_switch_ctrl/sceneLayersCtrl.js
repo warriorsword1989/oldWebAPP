@@ -17,7 +17,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "poi"
         }, {
-            "layerId": "relationData",
+            "layerId": "rdCross",
             "requestType": "RDCROSS"
         }]
     }, {

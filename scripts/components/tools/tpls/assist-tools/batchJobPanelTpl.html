@@ -9,36 +9,62 @@
         background-color: #313131;
         transition: all .3s;
     }
+    .tableOdd{
+        background-color: #313131;
+    }
 </style>
 <div class="fm-panel" ng-controller="BatchJobPanelCtrl" style="margin:0px;">
     <div class="title">批处理</div>
     <div class="content">
-        <div class="fm-tabs" style="padding:0px;" ng-init="batchType='poi'">
+        <div class="fm-tabs" style="padding: 0 10px;" ng-init="batchType='poi'">
             <a href="#" class="tab" ng-class="{'poi':'active'}[batchType]" ng-click="batchType='poi'">POI批处理</a>
             <a href="#" class="tab" ng-class="{'road':'active'}[batchType]" ng-click="batchType='road'">道路批处理</a>
         </div>
         <div class="container-fluid" ng-switch="batchType">
-            <div ng-switch-when="poi" class="row scroll-styled dark" style="min-height: 200px;max-height: 300px">
-                <div style="margin-right: -15px" class="col-md-4">
-                    <!--<p style="padding: 0 5px;letter-spacing: 2px;" ng-repeat="item in poiBatchList">-->
-                        <!--<input type="checkbox" ui-indeterminate="" ng-model="item.check"> <span ng-click="setCurrentRules(item)" ng-bind="item.name"></span>-->
-                        <!--<div style="height: {{24*poiBatchList.length+'px'}};border: 1px solid #ccc;padding: 8px 0;border-radius: 5px;" class="col-md-8">-->
-                            <!--<label class="col-md-6" style="padding: 0 5px;letter-spacing: 2px;" ng-repeat="ruleitem in item.rule">-->
-                                <!--<input type="checkbox" ng-click="watchObject(ruleitem)" ng-model="item.check"> {{ruleitem.name}}-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</p>-->
+            <div ng-switch-when="poi" class="row scroll-styled dark" style="min-height: 200px;max-height: 300px;padding: 0 10px;">
+                <div style="width: 40%;float: left">
                     <table class="table table-bordered table-condensed fm-console-table">
-                        <thead><tr><th ng-repeat="item in theadInfo">{{item}}</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>批处理类型</th>
+                                <th>批处理范围</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                        <!--<tr ng-if="!poi.checkResultData || poi.checkResultData.length == 0">-->
-                            <!--<td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>-->
-                        <!--</tr>-->
-                        <tr ng-repeat="item in poi.checkResultData">
-                            <td>{{$index + 1}}</td>
-                            <td>{{item.errorCode}}</td>
-                            <td>{{item.errorMsg || item.description}}</td>
-                        </tr>
+                            <tr ng-if="!batchBoxData || batchBoxData.length == 0">
+                                <td colspan="3" class="text-center">无数据!!!</td>
+                            </tr>
+                            <tr ng-class-odd="'tableOdd'" ng-repeat="item in batchBoxData">
+                                <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
+                                <td ng-click="getBatchItem(item)">{{item.type}}</td>
+                                <td ng-click="getBatchItem(item)">{{item.handleArea}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 58%;float: right">
+                    <table class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>批处理项</th>
+                                <th>批处理描述</th>
+                                <th>优先级</th>
+                                <th>前置依赖</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!currentBatchItems || currentBatchItems.length == 0">
+                                <td colspan="5" class="text-center">无数据!!!</td>
+                            </tr>
+                            <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentBatchItems">
+                                <td><input ng-model="item.checked" type="checkbox" /></td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.desc}}</td>
+                                <td>{{item.level}}</td>
+                                <td>{{item.dec}}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
