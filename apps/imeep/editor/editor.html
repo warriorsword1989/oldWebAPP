@@ -66,14 +66,14 @@
                     <div ui-layout-container class="fm-no-scroll">
                         <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
                             <div class="div-float map-toolbar" ng-style="{top:'0px',left:'100px'}">
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search')">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto')">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch')">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search');leftDis='30%';rightDis='30%'">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto');leftDis='28%';rightDis='28%'">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch');leftDis='15%';rightDis='15%'">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
                             </div>
                             <div ng-include="mapToolbar" class="div-float map-toolbar" ng-style="{top:'0px',left:'290px'}"></div>
                             <!-- <div ng-include="specialOperationToolbar" class="div-float map-toolbar" style="top:0px;left:580px;"></div> -->
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
-                            <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" style="top:80px;left:15%;right:15%;border-radius:5px;">
+                            <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{top:'80px',left:leftDis,right:rightDis,borderRadius:'5px'}">
                                 <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
                                 <div ng-include="advancedToolPanelTpl"></div>
                             </div>
@@ -119,7 +119,7 @@
                         </div>
                         <!--下方输出信息面板-->
                         <div class="fm-foldable fm-row" style="height:255px;left:2px;width:auto;" ng-style="{'bottom':{true: '0px', false: '-240px'}[consolePanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
-                            <div class="fm-fold-btn">
+                            <div style="z-index: 10000" class="fm-fold-btn">
                                 <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[consolePanelOpened]" ng-click="consolePanelOpened=!consolePanelOpened">
                                 </a>
                             </div>

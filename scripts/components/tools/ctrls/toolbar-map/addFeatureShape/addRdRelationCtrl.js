@@ -1854,7 +1854,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                 });
             } else if(type === 'VARIABLESPEED'){
-
                 $scope.jointNode = $scope.jointLink = '';
                 $scope.limitRelation.vias = [];
                 var highLightFeatures = [], linkDirect = 0;
