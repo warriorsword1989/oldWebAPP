@@ -404,10 +404,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         if (param.command === 'UPDATETOPO') {
             param.command = 'UPDATE'
         }
-
         var defer = $q.defer();
         var url = "edit/run/";
-        if(param.type == "IXPOI"){
+        if (param.type == "IXPOI") {
             url = "editrow/run/";
         }
         param = JSON.stringify(param);
@@ -422,14 +421,17 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": "0",
                     "childPid": ""
                 });
-                //swal(opDesc + "操作成功", "", "success");
-               swal({
-                   title: opDesc + "操作成功",
-                   type: "success",
-                   timer: 2000,
-                   showConfirmButton: false
-               });
-                defer.resolve(data.data);
+                // swal(opDesc + "操作成功", "", "success");
+                swal({
+                    title: opDesc + "操作成功",
+                    type: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    allowEscapeKey: false
+                }, function() {
+                    swal.close();
+                    defer.resolve(data.data);
+                });
             } else {
                 dsOutput.push({
                     "op": opDesc + "操作出错：" + data.errmsg,
@@ -438,14 +440,15 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "childPid": ""
                 });
                 //swal(opDesc + "操作出错：", data.errmsg, "error");
-               swal({
-                   title: opDesc + "操作出错：" + data.errmsg,
-                   type: "error",
-                   timer: 2000,
-                   showConfirmButton: false
-               });
-
-                defer.resolve(null);
+                swal({
+                    title: opDesc + "操作出错：" + data.errmsg,
+                    type: "error",
+                    // timer: 2000,
+                    // showConfirmButton: false,
+                    allowEscapeKey: false
+                }, function() {
+                    defer.resolve(null);
+                });
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -558,32 +561,32 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @returns {Promise}
      */
     this.getJobById = function(jobId) {
-        var defer = $q.defer();
-        ajax.get("job/get/", {
-            parameter: JSON.stringify({
-                jobId: jobId
-            })
-        }).success(function(data) {
-            if (data.errcode == 0) {
-                defer.resolve(data.data);
-            } else {
-                defer.resolve("查看后台任务进度失败：" + data.errmsg);
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    }
-    //搜索
-    this.getSearchData = function(num,sType,content) {
+            var defer = $q.defer();
+            ajax.get("job/get/", {
+                parameter: JSON.stringify({
+                    jobId: jobId
+                })
+            }).success(function(data) {
+                if (data.errcode == 0) {
+                    defer.resolve(data.data);
+                } else {
+                    defer.resolve("查看后台任务进度失败：" + data.errmsg);
+                }
+            }).error(function(rejection) {
+                defer.reject(rejection);
+            });
+            return defer.promise;
+        };
+        //搜索
+    this.getSearchData = function(num, sType, content) {
         var defer = $q.defer();
         var params = {
             dbId: App.Temp.dbId,
             pageNum: num,
             pageSize: 5,
-            data:{}
+            data: {}
         };
-        if(sType == 'linkPid') {
+        if (sType == 'linkPid') {
             params.type = 'RDLINK';
         } else if (sType == 'rdName') {
             sType = 'name';
@@ -607,31 +610,31 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
     //面批处理;
     this.PolygonBatchWork = function(params) {
-        var defer = $q.defer();
-        var param = {
-            command:'ONLINEBATCH',
-            type:'FACE',
-            dbId: App.Temp.dbId,
-            pid: params.pid,
-            ruleId:params.ruleId
-        }
-        ajax.get("edit/run", {parameter: JSON.stringify(param)}).success(function(data) {
-            if (data.errcode == 0) {
-                defer.resolve(data.data);
-            } else {
-                swal("查看后台任务进度失败：", data.errmsg, "error");
-                defer.resolve(null);
+            var defer = $q.defer();
+            var param = {
+                command: 'ONLINEBATCH',
+                type: 'FACE',
+                dbId: App.Temp.dbId,
+                pid: params.pid,
+                ruleId: params.ruleId
             }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    }
-
-    //搜索批处理包;
+            ajax.get("edit/run", {
+                parameter: JSON.stringify(param)
+            }).success(function(data) {
+                if (data.errcode == 0) {
+                    defer.resolve(data.data);
+                } else {
+                    swal("查看后台任务进度失败：", data.errmsg, "error");
+                    defer.resolve(null);
+                }
+            }).error(function(rejection) {
+                defer.reject(rejection);
+            });
+            return defer.promise;
+        };
+        //搜索批处理包;
     this.batchBox = function(url) {
         var defer = $q.defer();
         $http.get(url).success(function(data) {
@@ -641,5 +644,4 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
 }]);
