@@ -533,7 +533,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     }
     $scope.translate($scope.arrEmpty(newArr));
     /*删除时间段*/
-    $scope.removeList = function(e){
+    $scope.removeList = function(e,index){
         var dateTimeWell = $(e.target).parents('.date-well').parent();
         var itemCode = $(e.target).parents('.date-list').find('.date-code-list').attr('date-code');
         $(e.target).parents('.date-list').remove();
@@ -542,6 +542,9 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         $scope.dateString = ($scope.dateString).replace(/\+\+/, "+");
         $scope.dateString = ($scope.dateString).replace(/\[\+\[/, "[[");
         $scope.dateString = ($scope.dateString).replace(/\]\+\]/, "]]");
+
+        $scope.dateList.splice(index,1); //解决删除时间段，再点击保存，还是会将时间段添加
+
         $scope.$emit('get-date',$scope.dateString);
         if(dateTimeWell.hasClass('muti-date'))
             dateTimeWell.attr('date-str',$scope.dateString);
@@ -792,6 +795,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             }
         }
     };
+
     /*保存时间段*/
     $scope.dateSave = function(e){
         var dateWell = $(e.target).parents('.datetip');

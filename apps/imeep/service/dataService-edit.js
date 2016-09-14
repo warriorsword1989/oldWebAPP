@@ -412,7 +412,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         param = JSON.stringify(param);
         ajax.get(url, {
-            parameter: param.replace(/\+/g, '%2B')
+            parameter: param //.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
                 dsOutput.pushAll(data.data.log);
