@@ -29,6 +29,7 @@
                                   no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'" search_contains=true
                                   ng-options="value as lable.kindName for (value, lable) in metaData.kindFormatPart"
                                   chosen ng-disabled="isSpecialOperation">
+                              <option></option>
                           </select>
                       </div>
                   </li>
@@ -39,6 +40,7 @@
                                   no_results_text="'--无--'"  placeholder_text_single="'--请选择--'"
                                   ng-options="value as lable.chainName for (value, lable) in chainList"
                                   chosen ng-change="brandChange($event, this)" ng-disabled="isSpecialOperation">
+                              <option></option>
                           </select>
                       </div>
                   </li>
