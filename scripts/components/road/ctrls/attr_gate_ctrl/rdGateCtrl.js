@@ -3,11 +3,9 @@
  */
 angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit","$timeout","$ocLazyLoad",function($scope,appPath,dsEdit,$timeout,$ocLazyLoad){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var relationData = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
-    //var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
