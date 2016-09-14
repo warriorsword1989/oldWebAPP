@@ -3,81 +3,38 @@
  */
 angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'dsEdit',
     function($scope, $interval, dsEdit) {
-
-        //$scope.poiBatchList = [{
-        //    check:false,
-        //    id: '110',
-        //    name: 'POI批处理1',
-        //    rule:[{
-        //        id: '1',
-        //        name: 'POI处理规则1',
-        //        check:false,
-        //        pid:'110'
-        //    }, {
-        //        id: '2',
-        //        name: 'POI处理规则2',
-        //        check:false,
-        //        pid:'110'
-        //    }, {
-        //        id: '3',
-        //        name: 'POI处理规则3',
-        //        check:false,
-        //        pid:'110'
-        //    }, {
-        //        id: '4',
-        //        name: 'POI处理规则4',
-        //        check:false,
-        //        pid:'110'
-        //    }]
-        //}, {
-        //    check:false,
-        //    id: '120',
-        //    name: 'POI批处理2',
-        //    rule:[{
-        //        id: '1',
-        //        name: 'POI处理规则1',
-        //        check:false
-        //    }, {
-        //        id: '2',
-        //        name: 'POI处理规则2',
-        //        check:false
-        //    }]
-        //}, {
-        //    check:false,
-        //    id: '130',
-        //    name: 'POI批处理3',
-        //    rule:[{
-        //        id: '1',
-        //        name: 'POI处理规则1',
-        //        check:false
-        //    }, {
-        //        id: '2',
-        //        name: 'POI处理规则2',
-        //        check:false
-        //    }]
-        //}, {
-        //    check:false,
-        //    id: '140',
-        //    name: 'POI批处理4',
-        //    rule:[{
-        //        id: '1',
-        //        name: 'POI处理规则1',
-        //        check:false
-        //    }]
-        //}];
-
-
-
-
-        $scope.currentRuleDatas = $scope.poiBatchList[0].rule;
-        $scope.setCurrentRules = function(param){
-            $scope.currentRuleDatas = param.rule;
-        }
-        $scope.watchObject = function(param){
-
-        }
-
+        $scope.batchBoxData = [];
+        $scope.currentBatchItems = [];
         $scope.selectedBatches = {};
+
+        //获取所有批处理包;
+        function getBatchBox(){
+            dsEdit.batchBox("batchbag.json").then(function(data){
+                $scope.batchBoxData = data;
+            });
+        }
+        //点击table行查询当前批处理包下的批处理规则;
+        $scope.getBatchItem = function(param){
+            dsEdit.batchBox('batchItem.json').then(function(res){
+                $scope.currentBatchItems = res[parseInt(param.id)-1].data;
+                $scope.batchSelect(param);
+            })
+        }
+        //全选或反选处理;
+        $scope.batchSelect = function(param){
+            if(param.checked){
+                for(var i=0;i<$scope.currentBatchItems.length;i++){
+                    $scope.currentBatchItems[i].checked = true
+                }
+            }else{
+                for(var i=0;i<$scope.currentBatchItems.length;i++){
+                    $scope.currentBatchItems[i].checked = false
+                }
+            }
+        }
+
+        $scope.selectedBatches = [1];
+
         $scope.running = false;
         $scope.progress = 0;
         $scope.doExecute = function() {
@@ -111,5 +68,9 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                 return;
             }
         };
+
+
+        getBatchBox()
+
     }
 ]);

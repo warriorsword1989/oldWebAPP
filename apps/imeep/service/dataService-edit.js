@@ -105,6 +105,23 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+    /***
+     * 消息推送
+     */
+    this.getMsgNotify = function() {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/unread/get",{parameter:''}).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("消息推送查询出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /*获取poi列表*/
     this.getPoiList = function(params) {
         var defer = $q.defer();
@@ -395,7 +412,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         param = JSON.stringify(param);
         ajax.get(url, {
-            parameter: param.replace(/\+/g, '%2B')
+            parameter: param //.replace(/\+/g, '%2B')
         }).success(function(data) {
             if (data.errcode == 0) {
                 dsOutput.pushAll(data.data.log);
@@ -613,5 +630,16 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     }
+
+    //搜索批处理包;
+    this.batchBox = function(url) {
+        var defer = $q.defer();
+        $http.get(url).success(function(data) {
+            defer.resolve(data);
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 
 }]);
