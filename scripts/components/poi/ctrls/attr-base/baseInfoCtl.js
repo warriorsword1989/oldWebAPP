@@ -30,7 +30,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         $scope.chainList = {};
         if (chainArray) {
             chainArray.unshift({
-                "chainCode": "0",
+                "chainCode": "0", //增加默认值0，可以使 “--请选择--”显示在最前面
                 "chainName": "--请选择--"
             });
             for (var i = 0, len = chainArray.length; i < len; i++) {
@@ -46,12 +46,15 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     };
 
     var checkLevel = function (level){
-        $scope.poi.level = "";//清空等级
+        //$scope.poi.level = "";//清空等级
         $scope.levelArr = [];
         if (level) {
             $scope.levelArr = level.split("|");
         }
-        $scope.poi.level = $scope.levelArr[0];
+        if(!$scope.poi.level){
+            $scope.poi.level = $scope.levelArr[0];
+        }
+
     };
 
     /*切换 分类（种别）*/
