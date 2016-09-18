@@ -169,6 +169,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 } else {
                     dsEdit.getByPid(data.pid, "IXPOI").then(function (rest) {
                         if (rest) {
+
+                            scope.getCurrentKindByLittle(rest); //获取当前小分类所对应的大分类下的所有小分类
                             objEditCtrl.setCurrentObject('IXPOI', rest);
                             objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
 
