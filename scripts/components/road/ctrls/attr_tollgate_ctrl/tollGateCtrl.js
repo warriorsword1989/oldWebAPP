@@ -87,6 +87,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
 				$scope.tollGateData.passages[i]['cardType'] = 2;
 				$scope.tollGateData.passages[i]['tollForm'] = 0;
+
 			}
 		} else if ($scope.tollGateData.type == 2 || $scope.tollGateData.type == 3 || $scope.tollGateData.type == 4 || $scope.tollGateData.type == 5 || $scope.tollGateData.type == 6 || $scope.tollGateData.type == 7) {
 			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
@@ -211,11 +212,12 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		} else {
 			if (objCtrl.data.passages.length < 32) {
 				if($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10){
-					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:2}));
-				}else if($scope.tollGateData.type == 0 || $scope.tollGateData.type == 2 || $scope.tollGateData.type == 3 || $scope.tollGateData.type == 4 || $scope.tollGateData.type == 5 || $scope.tollGateData.type == 6 || $scope.tollGateData.type == 7){
-					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:0}));
+					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:2,tollForm:0}));
+				}else if($scope.tollGateData.type == 2 || $scope.tollGateData.type == 3 || $scope.tollGateData.type == 4 || $scope.tollGateData.type == 5 || $scope.tollGateData.type == 6 || $scope.tollGateData.type == 7){
+					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:0,tollForm:2}));
+				}else if($scope.tollGateData.type == 0){
+					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
 				}
-//				objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 				$scope.showDetail('passage',0);
 			}
