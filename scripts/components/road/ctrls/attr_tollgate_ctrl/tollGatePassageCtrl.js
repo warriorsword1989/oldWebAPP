@@ -144,6 +144,17 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
             }
             newArray = [1];
           }
+        }else if(value.id == 0){
+          if($scope.chargeWay[num][0].checked){
+            for(var j=0;j<$scope.chargeWay[num].length;j++){
+                if(j != 0){
+                  $scope.chargeWay[num][j].checked = false;
+                }else{
+                  $scope.chargeWay[num][j].checked = true;
+                }
+            }
+            newArray = [0];
+          }
         }else{
           for(var j=0;j<$scope.chargeWay[num].length;j++){
               if($scope.chargeWay[num][j].checked){
@@ -159,6 +170,16 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
                 }
             }
             newArray = [1];
+          }
+          if(newArray.indexOf(0) > -1){
+            for(var j=0;j<$scope.chargeWay[num].length;j++){
+                if(j != 0){
+                  $scope.chargeWay[num][j].checked = false;
+                }else{
+                  $scope.chargeWay[num][j].checked = true;
+                }
+            }
+            newArray = [0];
           }
         }
 
