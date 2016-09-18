@@ -4,8 +4,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 	road: "scripts/components/road/",
 	poi: "scripts/components/poi/",
 	tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
-	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout', '$interval',
+	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout ,$interval) {
 		// var layerCtrl = new fastmap.uikit.LayerController({
 		// 	config: App.layersConfig
 		// });
@@ -270,6 +270,24 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 //				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 //			});
 		};
+		// 消息推送
+		$scope.msgNotify = function(){
+			var timer = $interval(function() {
+				dsEdit.getMsgNotify().then(function(data) {
+						if (data.errcode == 0) {
+							// data.data = [{"msgId":22,"msgType":1,"msgContent":"CCC","createTime":1473414246000,"targetUserId":1664}];
+							if (data.data.length > 0) {
+									// $interval.cancel(timer);
+									for(var i=0,len=data.data.length;i<len;i++){
+										logMsgCtrl.pushMsg($scope,data.data[i].msgContent);
+									}
+							}
+						}else{
+							logMsgCtrl.pushMsg($scope,data.errmsg);
+						}
+				});
+			}, 10000);
+		};
 		//页面初始化方法调用
 		var initPage = function () {
 			var subtaskId = App.Util.getUrlParam("subtaskId"),
@@ -308,6 +326,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.logMsgStyle = {
 				'display':'block'
 			}
+			$scope.msgNotify();
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {

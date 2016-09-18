@@ -5,7 +5,7 @@ var selectApp = angular.module("app");
 selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',function ($scope,dsEdit,dsFcc,appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var rdcross = layerCtrl.getLayerById('relationData');
+    var rdcross = layerCtrl.getLayerById('rdCross');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();

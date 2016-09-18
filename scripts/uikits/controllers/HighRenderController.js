@@ -394,10 +394,10 @@ fastmap.uikit.HighRenderController = (function() {
                             lineColor: 'rgb(4, 187, 245)',
                             fillColor: 'rgba(4, 187, 245, 0.5)',
                             lineWidth: 1,
-                            width: 6,
-                            height: 6,
-                            drawx: -3,
-                            drawy: -3
+                            width: 4,
+                            height: 4,
+                            drawx: -2,
+                            drawy: -2
                         })
                     }
                 }
