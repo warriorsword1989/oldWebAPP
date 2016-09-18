@@ -259,7 +259,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
         var towbin=dec2bin(tollType);
         if(towbin.length){
             for(var i=1;i<=towbin.length;i++){
-                if(towbin.split("").reverse().join("")[i]==1){
+                if(towbin.split("").reverse().join("")[i-1]==1){
                     $scope.chargeWay[$index][i].checked = true;
                 }
             }
