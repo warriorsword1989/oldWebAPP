@@ -13,7 +13,7 @@
                 <label class="control-label">道路种别</label>
             </div>
             <div class="inline">
-                <select  ng-model="linkData.kind"
+                <select  ng-model="linkData.kind" ng-change="changeKindCode();"
                         ng-options="value.id as value.label for value in kindOptions">
                     <option>--</option>
                 </select>

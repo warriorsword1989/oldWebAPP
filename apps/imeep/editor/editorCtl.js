@@ -286,7 +286,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 							logMsgCtrl.pushMsg($scope,data.errmsg);
 						}
 				});
-			}, 500);
+			}, 10000);
 		};
 		//页面初始化方法调用
 		var initPage = function () {
