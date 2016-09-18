@@ -1394,6 +1394,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "dbId": App.Temp.dbId,
                     "data": geo
                 };
+                var rdLaneData = geo;
                 //调用编辑接口;
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
@@ -1401,7 +1402,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         // highRenderCtrl._cleanHighLight();
                         // highRenderCtrl.highLightFeatures.length = 0;
                         featCodeCtrl.setFeatCode({
-                            laneTopo:data.data
+                            laneTopo:data.data,
+                            rdLaneData:rdLaneData
                         });
                         scope.$emit("OPENRDLANETOPO");
                     }
