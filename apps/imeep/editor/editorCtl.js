@@ -217,7 +217,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.metaData.kindListPart = [];
 			/*解析分类，组成select-chosen需要的数据格式*/
 			for (var i = 0; i < $scope.allKindList.length; i++) {
-				if(uRecord == 1 ||  uRecord == 0){ //新增 or 无
+				if(uRecord == 1 ||  uRecord == 0 || poiKindCode == ""){ //新增 or 无 or 种别为空
 					$scope.metaData.kindFormatPart[$scope.allKindList[i].kindCode] = {
 						kindId: $scope.allKindList[i].id,
 						kindName: $scope.allKindList[i].kindName,
