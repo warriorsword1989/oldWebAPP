@@ -2,6 +2,9 @@
     <div class="fm-component" >
         <div class="content" ng-repeat="passage in tollGateInfo.passages track by $index">
             <form>
+              <div class="date-body">
+                当收费方式为"ETC"时,不允许设置其他方式
+              </div>
                 <ul class="fm-ul fm-ul-form">
                     <li style="padding: 10px" ng-if="tollGateInfo.type == 0 ||tollGateInfo.type == 2 ||tollGateInfo.type == 3 ||tollGateInfo.type == 4 || tollGateInfo.type == 5 ||tollGateInfo.type == 6 ||tollGateInfo.type == 7">
                         <label>收费方式</label>
