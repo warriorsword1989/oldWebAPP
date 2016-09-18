@@ -145,7 +145,15 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         $("#difGroupIdText").val("");
     }
 
-
+    // 修改道路种别
+    $scope.changeKindCode = function(){
+      console.log($scope.linkData )
+      if (linkData.kind == 1 || linkData.kind == 2 || linkData.kind == 3) {
+        for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
+          $scope.linkData.names[i] = 1;
+        }
+      }
+    };
     $scope.showNames = function () {
         var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
