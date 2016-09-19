@@ -153,10 +153,9 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
 
     // 修改道路种别
     $scope.changeKindCode = function(){
-      console.log($scope.linkData )
-      if (linkData.kind == 1 || linkData.kind == 2 || linkData.kind == 3) {
+      if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
         for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
-          $scope.linkData.names[i] = 1;
+          $scope.linkData.names[i].code = 1;
         }
       }
     };

@@ -31,8 +31,8 @@
                     未调查
                 </label>
             </div>
-        </li>-->
-        <li class="list-group-item">
+        </li> -->
+        <!-- <li class="list-group-item">
             <div><label class="control-label" >铺设状态</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
@@ -44,7 +44,7 @@
                     未铺设
                 </label>
             </div>
-        </li>
+        </li> -->
         <li class="list-group-item">
             <div><label class="control-label" >收费信息</label></div>
             <div class="inline">
@@ -87,24 +87,17 @@
             </div>
         </li>
         <li class="list-group-item">
-            <div><label class="control-label">差分产品ID</label></div>
-            <div class="inline">
-                <input id="difGroupIdText" type="text" value="0" style="width:150px" ng-model="roadlinkData.difGroupid">
-                <span ng-click="emptyGroupId()" class="glyphicon glyphicon-remove" style="cursor: pointer;color:#FFF;"></span>
+            <div><label class="control-label">左区划号码</label></div>
+
+            <div class="inline" style="text-align: left">
+                <input type="text" placeholder="0530" ng-model="roadlinkData.leftRegionId">
             </div>
         </li>
         <li class="list-group-item">
-            <div><label class="control-label">LINK长度</label></div>
-            <div class="inline">
-                <input type="text"  placeholder="0"
-                       ng-model="roadlinkData.length">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">图幅编号</label></div>
-            <div class="inline">
-                <input type="text" placeholder="0"
-                       ng-model="roadlinkData.meshId">
+            <div><label class="control-label">右区划号码</label></div>
+
+            <div class="inline" style="text-align: left">
+                <input type="text" placeholder="0530" ng-model="roadlinkData.rightRegionId">
             </div>
         </li>
         <li class="list-group-item">
@@ -122,6 +115,45 @@
             </div>
         </li>
         <li class="list-group-item">
+            <div><label class="control-label">LINK长度</label></div>
+            <div class="inline">
+                <input type="text"  placeholder="0"
+                       ng-model="roadlinkData.length">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >精度级别</label></div>
+            <div class="inline">
+                <select  ng-model="roadlinkData.digitalLevel"
+                        ng-options="value.id as value.label for value in digitalLevelOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >数据来源</label></div>
+            <div class="inline">
+                <select  ng-model="roadlinkData.srcFlag"
+                        ng-options="value.id as value.label for value in srcFlagOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">差分产品ID</label></div>
+            <div class="inline">
+                <input id="difGroupIdText" type="text" value="0" style="width:150px" ng-model="roadlinkData.difGroupid">
+                <span ng-click="emptyGroupId()" class="glyphicon glyphicon-remove" style="cursor: pointer;color:#FFF;"></span>
+            </div>
+        </li>
+        <!-- <li class="list-group-item">
+            <div><label class="control-label">图幅编号</label></div>
+            <div class="inline">
+                <input type="text" placeholder="0"
+                       ng-model="roadlinkData.meshId">
+            </div>
+        </li> -->
+        <li class="list-group-item">
             <div><label class="control-label" >辅助标志</label></div>
             <div class="inline" ng-repeat="auxi in roadlinkData.forms|filter:auxiFilter">
                 <input type="text" ng-if="auxi.auxiFlag===0" placeholder="无" />
@@ -134,21 +166,7 @@
             </div>
         </li>
         <li class="list-group-item">
-            <div><label class="control-label">左区划号码</label></div>
-
-            <div class="inline" style="text-align: left">
-                <input type="text" placeholder="0530" ng-model="roadlinkData.leftRegionId">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">右区划号码</label></div>
-
-            <div class="inline" style="text-align: left">
-                <input type="text" placeholder="0530" ng-model="roadlinkData.rightRegionId">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label" >占道停车</label></div>
+            <div><label class="control-label" >占道停车场</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
                     <input type="radio" name="parkingFlagRadio" value=0 ng-model="roadlinkData.parkingFlag">

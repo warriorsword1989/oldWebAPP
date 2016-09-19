@@ -27,8 +27,13 @@ basicApp.controller("nameController", function ($scope, $ocLazyLoad) {
     };
 
     $scope.addRdName = function () {
-        var newName = fastmap.dataApi.rdLinkName({"linkPid": $scope.linkData.pid});
-        $scope.linkData.names.unshift(newName)
+      var newName = {};
+      if($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
+          newName = fastmap.dataApi.rdLinkName({"linkPid": $scope.linkData.pid,"code":1});
+      } else {
+          newName = fastmap.dataApi.rdLinkName({"linkPid": $scope.linkData.pid});
+      }
+      $scope.linkData.names.unshift(newName);
     };
 
 

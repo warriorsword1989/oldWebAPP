@@ -71,6 +71,21 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         {"id":2,"label":"免费"},
         {"id":3,"label":"收费道路的免费区间"}
     ];
+    $scope.srcFlagOption=[
+        {"id":1,"label":"施工图"},
+        {"id":2,"label":"高精度测量"},
+        {"id":3,"label":"卫星影像"},
+        {"id":4,"label":"惯导测量"},
+        {"id":5,"label":"基础数据"},
+        {"id":6,"label":"GPS测量"}
+    ];
+    $scope.digitalLevelOption=[
+        {"id":0,"label":"无"},
+        {"id":1,"label":"±0~5米"},
+        {"id":2,"label":"±5~10米"},
+        {"id":3,"label":"±10~15米"},
+        {"id":4,"label":"±15~20米"}
+    ];
     $scope.initOtherData = function(){
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.basicOtherForm) {

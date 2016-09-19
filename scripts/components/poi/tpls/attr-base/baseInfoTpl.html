@@ -37,7 +37,7 @@
                       <label>品 牌</label>
                       <div>
                           <select fm-edit-view class="fm-control"  ng-model="selectedChain"
-                                  no_results_text="'--无--'"  placeholder_text_single="'--请选择--'"
+                                  no_results_text="'--无--'"  placeholder_text_single="'--请选择--'" search_contains=true
                                   ng-options="value as lable.chainName for (value, lable) in chainList"
                                   chosen ng-change="brandChange($event, this)" ng-disabled="isSpecialOperation">
                               <option></option>

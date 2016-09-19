@@ -130,14 +130,59 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
      * 收费类型选择事件监听
      * @param num
      */
-    $scope.selectChargeType = function(num){
+    $scope.selectChargeType = function(num,value){
         var newArray=[];
         var result="";
-        for(var j=0;j<$scope.chargeWay[num].length;j++){
-            if($scope.chargeWay[num][j].checked){
-                newArray.push($scope.chargeWay[num][j].id);
+        if(value.id == 1) {
+          if($scope.chargeWay[num][1].checked){
+            for(var j=0;j<$scope.chargeWay[num].length;j++){
+                if(j != 1){
+                  $scope.chargeWay[num][j].checked = false;
+                }else{
+                  $scope.chargeWay[num][j].checked = true;
+                }
             }
+            newArray = [1];
+          }
+        }else if(value.id == 0){
+          if($scope.chargeWay[num][0].checked){
+            for(var j=0;j<$scope.chargeWay[num].length;j++){
+                if(j != 0){
+                  $scope.chargeWay[num][j].checked = false;
+                }else{
+                  $scope.chargeWay[num][j].checked = true;
+                }
+            }
+            newArray = [0];
+          }
+        }else{
+          for(var j=0;j<$scope.chargeWay[num].length;j++){
+              if($scope.chargeWay[num][j].checked){
+                  newArray.push($scope.chargeWay[num][j].id);
+              }
+          }
+          if(newArray.indexOf(1) > -1){
+            for(var j=0;j<$scope.chargeWay[num].length;j++){
+                if(j != 1){
+                  $scope.chargeWay[num][j].checked = false;
+                }else{
+                  $scope.chargeWay[num][j].checked = true;
+                }
+            }
+            newArray = [1];
+          }
+          if(newArray.indexOf(0) > -1){
+            for(var j=0;j<$scope.chargeWay[num].length;j++){
+                if(j != 0){
+                  $scope.chargeWay[num][j].checked = false;
+                }else{
+                  $scope.chargeWay[num][j].checked = true;
+                }
+            }
+            newArray = [0];
+          }
         }
+
         for(var i=6;i>=0;i--){
             if($.inArray(i, newArray)!=-1){
                 result+="1";
@@ -146,7 +191,8 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
             }
         }
         objCtrl.data.passages[num].tollForm=parseInt(bin2dec(result));
-    }
+        $scope.$emit('tollGateCardType',true);
+    };
 
 /*---------------------------------------------公共方法---------------------------------------------*/
 

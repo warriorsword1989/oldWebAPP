@@ -2892,6 +2892,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             "vias":tempObj.vias
                         });
                     });
+                    return;
                 }
                 if (!selectCtrl.selectedFeatures) {
                     return;
