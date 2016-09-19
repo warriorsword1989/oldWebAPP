@@ -28,7 +28,7 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
         {"id": "LIT", "label": "立陶宛语"},
         {"id": "NOR", "label": "挪威语"},
         {"id": "POL", "label": "波兰语"},
-        {"id": "RUM", "label": "罗马尼西亚语"},
+        {"id": "RUM", "label": "罗马尼亚语"},
         {"id": "RUS", "label": "俄语"},
         {"id": "SLO", "label": "斯洛伐克语"},
         {"id": "SPA", "label": "西班牙语"},
