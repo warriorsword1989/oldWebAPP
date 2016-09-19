@@ -225,6 +225,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     propertyHtml: ""
                 },
                 toolsObj = null;
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                'subAttrContainerTpl': false,
+                'attrContainerTpl': false
+            });
             switch (data.optype) {
                 case "RDLINK":
                     //悬浮工具条的设置
