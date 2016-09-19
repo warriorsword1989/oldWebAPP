@@ -21,8 +21,8 @@
             <a href="#" class="tab" ng-class="{'road':'active'}[batchType]" ng-click="batchType='road'">道路批处理</a>
         </div>
         <div class="container-fluid" ng-switch="batchType">
-            <div ng-switch-when="poi" class="row scroll-styled dark" style="min-height: 200px;max-height: 300px;padding: 0 10px;">
-                <div style="width: 40%;float: left">
+            <div ng-switch-when="poi" class="row dark">
+                <div class="scroll-styled" style="width: 40%;float: left;min-height: 200px;max-height: 300px;padding: 0 10px;">
                     <table class="table table-bordered table-condensed fm-console-table">
                         <thead>
                             <tr>
@@ -43,7 +43,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="width: 58%;float: right">
+                <div style="width: 57%;float: left;margin-left: 10px">
                     <table class="table table-bordered table-condensed fm-console-table">
                         <thead>
                             <tr>

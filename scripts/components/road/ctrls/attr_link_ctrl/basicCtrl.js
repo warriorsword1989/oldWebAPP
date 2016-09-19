@@ -145,6 +145,12 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         $("#difGroupIdText").val("");
     }
 
+    //$scope.$watch('linkData.laneNum',function(newValue,oldValue){
+    //    if(newValue.length&&newValue.length>2){
+    //        $scope.linkData.laneNum = newValue.toString().substr(0,2);
+    //    }
+    //})
+
     // 修改道路种别
     $scope.changeKindCode = function(){
       console.log($scope.linkData )
@@ -240,6 +246,5 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         }
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
-
 
 })
