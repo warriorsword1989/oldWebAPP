@@ -118,20 +118,20 @@ a:hover {
   background-color: transparent;
   border: none;
   transition: all 0.2s ease-in-out;
+  z-index: 1;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\00003173}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\00003174}}
 .fm-foldable .fm-fold-btn > a {
   display: block;
   background-color: #404040 !important;
   opacity: 0.95;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\00003180}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\00003181}}
 .fm-foldable.fm-col .fm-fold-btn {
   width: 15px;
   position: relative;
   display: inline-block;
   top: 50%;
-  z-index: 10000;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\00003187}}
 .fm-foldable.fm-col .fm-fold-btn > a {
