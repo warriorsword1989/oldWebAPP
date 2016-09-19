@@ -2209,7 +2209,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                           $scope.chargeTrackLink($scope.formatLink(data.properties));
                         } else {
                           $scope.laneInfo.nodePid = parseInt(data.id);
-                          if(parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
+                          if($scope.linkArray.length > 0 && parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
                             $scope.laneInfo.laneDir = 1;
                           }else{
                             $scope.laneInfo.laneDir = 2;
@@ -2231,7 +2231,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                     } else if (data.index > 1) {
                       $scope.chargeTrackLink($scope.formatLink(data.properties));
-                      if(parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
+                      if($scope.linkArray.length > 0 && parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid){
                         $scope.laneInfo.laneDir = 1;
                       }else{
                         $scope.laneInfo.laneDir = 2;
@@ -2353,7 +2353,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
                     tooltipsCtrl.setEditEventType('laneTopoData');
-                    tooltipsCtrl.setCurrentTooltip("点击空格保存坡度信息,或者按ESC键取消!");
+                    tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
                 });
             }
