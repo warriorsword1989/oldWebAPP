@@ -238,11 +238,19 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         }
     }
     $scope.showOther=function(){
-        var showOtherObj={
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":'scripts/components/road/ctrls/attr_link_ctrl/basicOfOtherCtrl',
-            "propertyHtml":'../../../scripts/components/road/tpls/attr_link_tpl/basicOfOtherTpl.html'
-        }
+        var showOtherObj = {
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var basicObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/basicOfOtherCtrl",
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/basicOfOtherTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", basicObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
 
