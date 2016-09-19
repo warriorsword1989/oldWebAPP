@@ -15,6 +15,7 @@ rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
     var laneArr = [];
     $scope.doCancel = function () {
         $scope.$emit("CLOSERDLANETOPO");
+        featCodeCtrl.setFeatCode(null);
     };
     $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;
     for(var i = 0;i<laneTopo.length;i++){
@@ -63,22 +64,27 @@ rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
         });
         polyLines.addLayer(guideLine);
         miniPolyLines.addLayer(miniLine);
-        var html = "<div class ='lane-img-container' style='width: 300px'>";
-        html += "<div class='roadside-left'></div>";
-        html += "<div class='lane-driveway'>";
+        var _width = laneInfoArr[i].lanes.length *30 +20;
+        var html = "<div class ='lane-img-container' style='width: 90px;>";
+        html += "<div class='roadside-left'>";
+        html +=  "</div>";
         for(var k =0;k<laneInfoArr[i].lanes.length;k++){
-            html += "<span class='top'>"+k+"</span>";
+            var m = k+1;
+            html += "<div class='lane-driveway'>";
+            html += "<span class='top'>"+m+"</span>";
             html += "<div class='middle'>";
-            html += "<img ng-src='../../../images/road/1301/1301_0_"+k+".svg' style='width: 30px;height:30px;'/>";
+            html += "<img src='../../../images/road/1301/1301_0_"+m+".svg' style='width: 30px;height:30px;'/>";
             html += "</div>";
-            html += "<span class='bottom' ng-click='removeLane("+k+");' ng-if='laneArr.length!=1'>";
+            html += "<span class='bottom' click='removeLane("+m+");' ng-if='laneArr.length!=1'>";
             html += "<i class='glyphicon glyphicon-remove'></i>";
             html += "</span>";
+            html += "</div>";
         }
+        html += "<div class='roadside-right'></div>";
         html += "</div>";
-        html += "<div class='roadside-left'></div>";
-        html += "</div>";
-        var myIcon = L.divIcon({className:'my-div-icon',html:html});
+        var myIcon = L.divIcon({
+            iconSize:new L.point(_width,_width),
+            html:html});
         L.marker([laneInfoArr[i].geometry.coordinates[0][1], laneInfoArr[i].geometry.coordinates[0][0]],{icon:myIcon}).addTo(topoMap);
     }
 
@@ -92,7 +98,6 @@ rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
         width: 200,
         height: 200,
         toggleDisplay: true,
-        zoomLevelOffset:-2,
         strings: {
             hideText: '隐藏小地图',
             showText: '显示小地图'
