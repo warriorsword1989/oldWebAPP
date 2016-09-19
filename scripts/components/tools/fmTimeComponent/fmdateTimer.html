@@ -449,7 +449,7 @@
         <!-- begin 固定时间 -->
         <div class="form-group fix-time time-slide-well">
             <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
-                <label class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
+                <label name="weekGroupBtn" class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
                        check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values"
                        style="font-size: 12px;width: 14.28%;">
                     {{week.value}}

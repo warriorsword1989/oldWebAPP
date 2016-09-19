@@ -10,7 +10,7 @@
             ele_hei += 10;
             if($(ele).parent(".time_pick").length < 1){
                 $(ele).wrap("<div class='time_pick'>");
-            };
+            }
             var ele_par = $(this).parents(".time_pick");
             $.each($(".timepicker_wrap"),function(i,v){
                 $(v).hide();
@@ -44,7 +44,7 @@
                         if (!$(event.target).is(ele_next) && !$(event.target).is(ele_next_all_child)) {
                             if(tim){
                                 // ele.val(tim + ':' + mini);
-                                if(!$(event.target).is($(document).find('button[name=fmSaveDateIdTemporary]'))){ //取消点击保存重新赋值的bug
+                                if(!$(event.target).is($(document).find('button[name=fmSaveDateIdTemporary]')) && !$(event.target).is($(document).find('label[name=weekGroupBtn]')) ){ //取消点击保存重新赋值的bug,以及week重新赋值的bug
                                     if(!_emptyFlag){
                                         scope.$apply(function(){
                                             scope[model] = tim + ':' + mini;
@@ -107,6 +107,8 @@
                     ele_en = 23;
                     cur_time = ele_next.find("." + cur_cli + " .ti_tx").text();
                     cur_time = parseInt(cur_time);
+                    cur_mins = ele_next.find(".mins .mi_tx").text();
+                    //cur_mins = parseInt(cur_mins);
                     if (cur_ele.attr("class") == "time-next") {
                         if (cur_time == 23) {
                             ele_next.find("." + cur_cli + " .ti_tx").text("00");
@@ -138,6 +140,8 @@
                 } else if (cur_ele.parent().attr("class") == "mins") {
                     cur_cli = "mins";
                     ele_en = 30;
+                    cur_time = ele_next.find(".time .ti_tx").text();
+                    //cur_time = parseInt(cur_time);
                     cur_mins = ele_next.find("." + cur_cli + " .mi_tx").text();
                     cur_mins = parseInt(cur_mins);
                     if (cur_ele.attr("class") == "time-next") {
@@ -170,7 +174,7 @@
                     scope[model] = cur_time + ':' + cur_mins;
                 }
                 scope.$apply();
-            })
+            });
             /*点击当前时间*/
             var _nowDate = ele_next.find(".close-btn");
             /*改变时间*/
