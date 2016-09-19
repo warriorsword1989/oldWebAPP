@@ -45,7 +45,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
             }
         }
     }
-
+    $scope.initializeSelNodeData();
     $scope.getCheck=function(item){
         item.isCheck=true;
         var form = fastmap.dataApi.rdNodeForm({"auxiFlag":0,"formOfWay":item.id,"nodePid":$scope.rdNodepid});
