@@ -622,6 +622,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		});
 		//道路作业面板是否展开
 		$scope.$on("CLOSERDLANETOPO", function (event, data) {
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/blank_ctrl/blankCtrl.js').then(function () {
+				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/blank_tpl/blankTpl.html';
+			});
 			$scope.workPanelOpened = !$scope.workPanelOpened;
 		});
 		/**

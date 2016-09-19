@@ -91,6 +91,19 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     /*时间段list*/
     $scope.dateList = [];
     $scope.dateListAll = [];
+    
+
+    $scope.initOption = function (){
+        dwm.selection = dwm.values[0];
+
+        $("label[name=weekGroupBtn]").removeClass('active');
+        $scope.wks.checks = [];
+        
+        $scope.begin_time = "";
+        $scope.end_time = "";
+        //$scope.$apply();
+    };
+
     /*——————————解析————————*/
     /*根据总的时间字符串拆分成多个字符串数组*/
     $scope.newStr = function(str){
@@ -105,7 +118,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         }else{
             return false;
         }
-    }
+    };
     $scope.listInit = function(){
         var indexList = [];     //新建数组，用于记录要清空的数组角标
         /*遍历寻找二维数组重新整合数组，二维则进行拼接*/
@@ -551,6 +564,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     }
     /*点击选择日期*/
     $scope.dateSelect = function(e){
+        $scope.initOption();
+
         var dateTimeWell = $(e.target).parents('.date-well').parent();
         $('body').append($(e.target).parents(".date-well").find(".datetip"));
         if($('body .datetip:last').css('display') == 'none'){
@@ -659,7 +674,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             name:$(e.target).attr('check-name'),
             value:$(e.target).attr('check-value'),
             code:$(e.target).attr('check-code')
-        }
+        };
         if($(e.target).hasClass('active')){
             $(e.target).removeClass('active');
             $scope.wks.checks.splice(jQuery.inArray(checkObject,$scope.wks.checks),1);
@@ -1258,6 +1273,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     /*清空*/
     $scope.dateEmpty = function(e){
         $scope.dateList.length = 0;
+        $scope.$emit('get-date',"[]");
         if($(e.target).parents('.date-well').parent().hasClass('muti-date'))
             $(e.target).parents('.date-well').parent().attr('date-str','');
     }

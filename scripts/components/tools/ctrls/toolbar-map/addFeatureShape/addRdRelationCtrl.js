@@ -1856,6 +1856,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
             } else if(type === 'VARIABLESPEED'){
                 $scope.jointNode = $scope.jointLink = '';
                 $scope.limitRelation.vias = [];
+                $scope.viasLinkNode = [];
                 var highLightFeatures = [], linkDirect = 0;
                 //可变限速
                 $scope.resetOperator("addRelation", type);
@@ -1885,26 +1886,76 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 //选择接续线的公共方法;
                 function selectJoinLinks(param){
                     getLinkInfos(parseInt(param)).then(function(outLinkData){
-                        if(outLinkData.eNodePid!=$scope.jointNode&&outLinkData.sNodePid!=$scope.jointNode){
-                            tooltipsCtrl.setCurrentTooltip("接续线必须相互连接!");
-                            return;
-                        }else{
-                            if(param==$scope.jointLink){tooltipsCtrl.setCurrentTooltip("接续线重复了,只能选一次!");return;}
-                            if(outLinkData.eNodePid==$scope.jointNode){
-                                $scope.jointNode = outLinkData.sNodePid
-                            }else{
-                                $scope.jointNode = outLinkData.eNodePid
-                            }
-                            $scope.jointLink = outLinkData.pid;
-                            $scope.limitRelation.vias.push(parseInt(param));
+                        if((outLinkData.eNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==3||outLinkData.direct==1))){
+                            $scope.jointNode = outLinkData.sNodePid
+                            $scope.limitRelation.outLinkPid = parseInt(param);
+                            highLightFeatures.splice(2);
+                            $scope.limitRelation.vias = [];
                             highLightFeatures.push({
                                 id: parseInt(param).toString(),
                                 layerid: 'rdLink',
                                 type: 'line',
-                                style: {color:'blue'}
+                                style: {}
                             });
+                            $scope.jointLink = parseInt(param);
+                            highRenderCtrl._cleanHighLight();
                             highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setCurrentTooltip("已选择一条接续线!");
+                            tooltipsCtrl.setCurrentTooltip("退出线已选!");
+                        }else if((outLinkData.sNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==2||outLinkData.direct==1))){
+                            $scope.jointNode = outLinkData.eNodePid;
+                            $scope.limitRelation.outLinkPid = parseInt(param);
+                            highLightFeatures.splice(2);
+                            $scope.limitRelation.vias = [];
+                            highLightFeatures.push({
+                                id: parseInt(param).toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                            $scope.jointLink = parseInt(param);
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.drawHighlight();
+                            tooltipsCtrl.setCurrentTooltip("退出线已选!");
+                        }else{
+                            if($scope.limitRelation.vias.indexOf(parseInt(param))!=-1){
+                                $scope.viasLinkNode.splice($scope.limitRelation.vias.indexOf(parseInt(param))+1);
+                                $scope.jointNode = $scope.viasLinkNode[$scope.viasLinkNode.length-1]
+                                $scope.limitRelation.vias.splice($scope.limitRelation.vias.indexOf(parseInt(param)));
+                                highLightFeatures.splice(3);
+                                for(var i=0;i<$scope.limitRelation.vias.length;i++){
+                                    highLightFeatures.push({
+                                        id: $scope.limitRelation.vias[i].toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {color:'blue'}
+                                    });
+                                }
+                                highRenderCtrl._cleanHighLight();
+                                highRenderCtrl.drawHighlight();
+                            }else if(outLinkData.eNodePid!=$scope.jointNode&&outLinkData.sNodePid!=$scope.jointNode){
+                                tooltipsCtrl.setCurrentTooltip("接续线选择错误!");
+                                return;
+                            }else{
+                                if(outLinkData.eNodePid==$scope.jointNode&&(outLinkData.direct==3||outLinkData.direct==1)){
+                                    $scope.jointNode = outLinkData.sNodePid;
+                                }else if((outLinkData.sNodePid==$scope.jointNode&&(outLinkData.direct==2||outLinkData.direct==1))){
+                                    $scope.jointNode = outLinkData.eNodePid;
+                                }else{
+                                    tooltipsCtrl.setCurrentTooltip("接续线选择错误!");
+                                    return;
+                                }
+                                tooltipsCtrl.setCurrentTooltip("已选择接续线!");
+                                $scope.viasLinkNode.push($scope.jointNode);
+                                $scope.limitRelation.vias.push(parseInt(param));
+                                highLightFeatures.push({
+                                    id: parseInt(param).toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {color:'blue'}
+                                });
+                                highRenderCtrl.drawHighlight();
+                            }
+
                         }
                     });
                 }
@@ -1972,12 +2023,21 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
                                 return;
                             }else{
-                                if(outLinkData.eNodePid==$scope.limitRelation.nodePid){
+                                if((outLinkData.eNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==3))){
                                     $scope.jointNode = outLinkData.sNodePid
-                                }else{
+                                }else if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==2)){
                                     $scope.jointNode = outLinkData.eNodePid
+                                }else if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==1){
+                                    $scope.jointNode = outLinkData.eNodePid
+                                }else if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==1){
+                                    $scope.jointNode = outLinkData.sNodePid
+                                } else{
+                                    map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
+                                    tooltipsCtrl.setCurrentTooltip("退出线方向错误!");
+                                    return;
                                 }
                                 $scope.jointLink = outLinkData.pid;
+                                $scope.viasLinkNode.push($scope.jointNode);
                                 $scope.limitRelation.outLinkPid = parseInt(data.id);
                                 highLightFeatures.push({
                                     id: parseInt(data.id).toString(),
