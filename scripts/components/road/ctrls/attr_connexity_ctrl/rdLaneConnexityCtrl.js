@@ -91,8 +91,14 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             layerid:'rdLink',
             type:'line',
             style:{
-                color: '#3A5FCD'
+                color: '#CD0000'
             }
+        });
+        highLightFeatures.push({
+            id:objCtrl.data["nodePid"].toString(),
+            layerid:'rdLink',
+            type:'node',
+            style:{}
         });
 
         for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
@@ -101,7 +107,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 layerid:'rdLink',
                 type:'line',
                 style:{
-                    color: '#CD0000'
+                    color: '#3CB371'
                 }
             });
         }
@@ -151,6 +157,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     if (objCtrl.data) {
         $scope.initializeData();
     }
+
     $scope.addLeftAdditionalLane = function (event) {
         var p = /^([0-9])$/;
         if (p.test($scope.lanesData.leftExtend)) {
@@ -321,10 +328,8 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                     type:'line',
                     style:{}
                 });
-                var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
-
-                highLightLinks.highLightFeatures = highLightFeatures;
-                highLightLinks.drawHighlight();
+                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.drawHighlight();
             });
         }
     };

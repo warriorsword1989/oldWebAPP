@@ -145,7 +145,20 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         $("#difGroupIdText").val("");
     }
 
+    //$scope.$watch('linkData.laneNum',function(newValue,oldValue){
+    //    if(newValue.length&&newValue.length>2){
+    //        $scope.linkData.laneNum = newValue.toString().substr(0,2);
+    //    }
+    //})
 
+    // 修改道路种别
+    $scope.changeKindCode = function(){
+      if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
+        for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
+          $scope.linkData.names[i].code = 1;
+        }
+      }
+    };
     $scope.showNames = function () {
         var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
@@ -225,13 +238,20 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         }
     }
     $scope.showOther=function(){
-        var showOtherObj={
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":'scripts/components/road/ctrls/attr_link_ctrl/basicOfOtherCtrl',
-            "propertyHtml":'../../../scripts/components/road/tpls/attr_link_tpl/basicOfOtherTpl.html'
-        }
+        var showOtherObj = {
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var basicObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/basicOfOtherCtrl",
+                    "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/basicOfOtherTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", basicObj);
+            }
+        };
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
-
 
 })

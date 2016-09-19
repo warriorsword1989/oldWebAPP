@@ -4,8 +4,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 	road: "scripts/components/road/",
 	poi: "scripts/components/poi/",
 	tool: "scripts/components/tools/"
-}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout',
-	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout) {
+}).controller('EditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout', '$interval',
+	function ($scope, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout ,$interval) {
 		// var layerCtrl = new fastmap.uikit.LayerController({
 		// 	config: App.layersConfig
 		// });
@@ -217,7 +217,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.metaData.kindListPart = [];
 			/*解析分类，组成select-chosen需要的数据格式*/
 			for (var i = 0; i < $scope.allKindList.length; i++) {
-				if(uRecord == 1 ||  uRecord == 0){ //新增 or 无
+				if(uRecord == 1 ||  uRecord == 0 || poiKindCode == ""){ //新增 or 无 or 种别为空
 					$scope.metaData.kindFormatPart[$scope.allKindList[i].kindCode] = {
 						kindId: $scope.allKindList[i].id,
 						kindName: $scope.allKindList[i].kindName,
@@ -270,6 +270,24 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 //				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 //			});
 		};
+		// 消息推送
+		$scope.msgNotify = function(){
+			var timer = $interval(function() {
+				dsEdit.getMsgNotify().then(function(data) {
+						if (data.errcode == 0) {
+							// data.data = [{"msgId":22,"msgType":1,"msgContent":"CCC","createTime":1473414246000,"targetUserId":1664}];
+							if (data.data.length > 0) {
+									// $interval.cancel(timer);
+									for(var i=0,len=data.data.length;i<len;i++){
+										logMsgCtrl.pushMsg($scope,data.data[i].msgContent);
+									}
+							}
+						}else{
+							logMsgCtrl.pushMsg($scope,data.errmsg);
+						}
+				});
+			}, 10000);
+		};
 		//页面初始化方法调用
 		var initPage = function () {
 			var subtaskId = App.Util.getUrlParam("subtaskId"),
@@ -308,6 +326,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.logMsgStyle = {
 				'display':'block'
 			}
+			$scope.msgNotify();
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
@@ -603,6 +622,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		});
 		//道路作业面板是否展开
 		$scope.$on("CLOSERDLANETOPO", function (event, data) {
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/blank_ctrl/blankCtrl.js').then(function () {
+				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/blank_tpl/blankTpl.html';
+			});
 			$scope.workPanelOpened = !$scope.workPanelOpened;
 		});
 		/**

@@ -169,6 +169,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 } else {
                     dsEdit.getByPid(data.pid, "IXPOI").then(function (rest) {
                         if (rest) {
+
+                            scope.getCurrentKindByLittle(rest); //获取当前小分类所对应的大分类下的所有小分类
                             objEditCtrl.setCurrentObject('IXPOI', rest);
                             objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
 
@@ -917,6 +919,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "gate") {    //大门
+                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 var gate = featCodeCtrl.getFeatCode();
                 if (!(gate.nodePid && gate.inLinkPid && gate.outLinkPid )) {
                     swal("操作失败", "请选进入线和进入点以及退出线", "error");
@@ -935,6 +938,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             } else if (shapeCtrl.editType === "warningInfo") {    //警示信息
                 var warning = featCodeCtrl.getFeatCode();
+                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 if (!(warning.nodePid && warning.inLinkPid)) {
                     swal("操作失败", "请选进入线和进入点", "error");
                     return;
@@ -1219,6 +1223,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "rdTollgate") {    //收费站
+                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 var param = {
                     "command": "CREATE",
                     "type": "RDTOLLGATE",
@@ -1389,6 +1394,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "dbId": App.Temp.dbId,
                     "data": geo
                 };
+                var rdLaneData = geo;
                 //调用编辑接口;
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
@@ -1396,7 +1402,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         // highRenderCtrl._cleanHighLight();
                         // highRenderCtrl.highLightFeatures.length = 0;
                         featCodeCtrl.setFeatCode({
-                            laneTopo:data.data
+                            laneTopo:data.data,
+                            rdLaneData:rdLaneData
                         });
                         scope.$emit("OPENRDLANETOPO");
                     }

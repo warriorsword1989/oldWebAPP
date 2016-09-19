@@ -18,16 +18,18 @@
 <div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div  class="lanePic">
-                <img  ng-if="!laneFlag"
+            <div>
+                <img class="lanePic"  ng-if="!laneFlag"
                       ng-repeat="showItem in directArr track by $index"
-                      ng-click="getLanesInfo(showItem)"
+                      ng-click="getLanesInfo(showItem,$event)"
                       ng-src="../../../images/road/1301/1301_0_{{showItem}}.svg"
+                      title="点击可修改退出线"
                 >
-                <img  ng-if="laneFlag"
+                <img class="lanePic"  ng-if="laneFlag"
                       ng-repeat="showItem in directArr track by $index"
-                      ng-click="getLanesInfo(showItem)"
+                      ng-click="getLanesInfo(showItem,$event)"
                       ng-src="../../../images/road/1301/1301_2_{{showItem}}.svg"
+                      title="点击可修改退出线"
                 >
             </div>
         </li>

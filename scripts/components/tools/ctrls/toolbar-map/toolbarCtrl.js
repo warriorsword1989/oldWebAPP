@@ -99,7 +99,6 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         };
         //重新设置选择工具
         $scope.resetToolAndMap = function () {
-
             eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
             eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
