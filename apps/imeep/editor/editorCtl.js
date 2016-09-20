@@ -272,21 +272,23 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 		// 消息推送
 		$scope.msgNotify = function(){
-			var timer = $interval(function() {
-				dsEdit.getMsgNotify().then(function(data) {
+			if(App.Config.msgNotify){
+				var timer = $interval(function() {
+					dsEdit.getMsgNotify().then(function(data) {
 						if (data.errcode == 0) {
 							// data.data = [{"msgId":22,"msgType":1,"msgContent":"CCC","createTime":1473414246000,"targetUserId":1664}];
 							if (data.data.length > 0) {
-									// $interval.cancel(timer);
-									for(var i=0,len=data.data.length;i<len;i++){
-										logMsgCtrl.pushMsg($scope,data.data[i].msgContent);
-									}
+								// $interval.cancel(timer);
+								for(var i=0,len=data.data.length;i<len;i++){
+									logMsgCtrl.pushMsg($scope,data.data[i].msgContent);
+								}
 							}
 						}else{
 							logMsgCtrl.pushMsg($scope,data.errmsg);
 						}
-				});
-			}, 10000);
+					});
+				}, App.Config.msgNotify);
+			}
 		};
 		//页面初始化方法调用
 		var initPage = function () {

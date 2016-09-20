@@ -7,7 +7,8 @@ App.Config = {
     serviceUrl: 'http://192.168.4.188:8000/service',
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
-    specialUrl: "http://192.168.4.189/fos"
+    specialUrl: "http://192.168.4.189/fos",
+    msgNotify: 10000
 };
 App.Temp = {
     accessToken: null,
@@ -24,6 +25,7 @@ App.Temp = {
         RDLINKINTRTIC: '实时信息',
         RDGSC: '立交',
         RDWARNINGINFO:'警示信息',
+        RDVARIABLESPEED:'可变限速',
         RDTRAFFICSIGNAL:'信号灯',
         RDELECTRONICEYE:'电子眼',
         RDSLOPE:'坡度',

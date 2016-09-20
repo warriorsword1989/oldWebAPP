@@ -782,7 +782,7 @@ App.layersConfig = [{
             type: 'TipPoint',
             zIndex: 9,
             restrictZoom: 10,
-            visible: true,
+            visible: false,
             requestType: "",
             showNodeLevel: 17
         }

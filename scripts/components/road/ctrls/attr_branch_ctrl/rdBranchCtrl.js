@@ -199,7 +199,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
             }
         }else if($scope.diverObj.details[0].branchType == 3){
-            if($scope.diverObj.details[0].patternCode.charAt(0)!=5 && $scope.diverObj.details[0].patternCode.charAt(0)!=8){
+            if($scope.diverObj.details[0].patternCode.charAt(0)!=5 && $scope.diverObj.details[0].patternCode.charAt(0)!=7 && $scope.diverObj.details[0].patternCode.charAt(0)!=8){
                 $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
             }
         }

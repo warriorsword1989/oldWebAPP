@@ -19,6 +19,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         {"id": 13, "label": "13 轮渡"}
     ];
     $scope.laneClassOptions = [
+        {"id": 0, "label": "0: 为赋值"},
         {"id": 1, "label": "1: 一条车道"},
         {"id": 2, "label": "2: 2或3条"},
         {"id": 3,"label":"3: 4条及以上"}
@@ -130,6 +131,73 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
                 }
             }
         }
+
+        //当为单方向时根据车道总数监听车道等级的变化；
+        if($scope.linkData.direct==2||$scope.linkData.direct==3){
+            $scope.showLeftRight = false;
+            $scope.$watch('linkData.laneNum',function(newValue){
+                if(newValue==0){
+                    $scope.linkData.laneClass = 0;
+                }else if(newValue==1){
+                    $scope.linkData.laneClass = 1;
+                }else if(newValue>=2&&newValue<=3){
+                    $scope.linkData.laneClass = 2;
+                }else{
+                    $scope.linkData.laneClass = 3;
+                }
+            })
+        }else{
+            $scope.showLeftRight = true;
+        }
+
+        //当为双方向时;
+        if($scope.linkData.direct==1){
+            if($scope.linkData.laneNum!=0){
+                if($scope.linkData.laneNum%2==1){
+                    $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum+1)/2;
+                }else{
+                    $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum)/2;
+                }
+                if($scope.linkData.laneNum%2==1){
+                    tempVar = ($scope.linkData.laneNum+1)/2;
+                }else{
+                    tempVar = ($scope.linkData.laneNum)/2;
+                }
+                if(tempVar==0){
+                    $scope.linkData.laneClass = 0;
+                }else if(tempVar==1){
+                    $scope.linkData.laneClass = 1;
+                }else if(tempVar>=2&&tempVar<=3){
+                    $scope.linkData.laneClass = 2;
+                }else{
+                    $scope.linkData.laneClass = 3;
+                }
+            }else{
+                if($scope.linkData.laneLeft>$scope.linkData.laneRight){
+                    if($scope.linkData.laneLeft==0){
+                        $scope.linkData.laneClass = 0;
+                    }else if($scope.linkData.laneLeft==1){
+                        $scope.linkData.laneClass = 1;
+                    }else if($scope.linkData.laneLeft>=2&&$scope.linkData.laneLeft<=3){
+                        $scope.linkData.laneClass = 2;
+                    }else{
+                        $scope.linkData.laneClass = 3;
+                    }
+                }else{
+                    if($scope.linkData.laneRight==0){
+                        $scope.linkData.laneClass = 0;
+                    }else if($scope.linkData.laneRight==1){
+                        $scope.linkData.laneClass = 1;
+                    }else if($scope.linkData.laneRight>=2&&$scope.linkData.laneRight<=3){
+                        $scope.linkData.laneClass = 2;
+                    }else{
+                        $scope.linkData.laneClass = 3;
+                    }
+                }
+            }
+        }
+
+
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.basicFrom) {
             $scope.basicFrom.$setPristine();
@@ -145,11 +213,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         $("#difGroupIdText").val("");
     }
 
-    //$scope.$watch('linkData.laneNum',function(newValue,oldValue){
-    //    if(newValue.length&&newValue.length>2){
-    //        $scope.linkData.laneNum = newValue.toString().substr(0,2);
-    //    }
-    //})
+
 
     // 修改道路种别
     $scope.changeKindCode = function(){
@@ -159,6 +223,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         }
       }
     };
+
     $scope.showNames = function () {
         var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
