@@ -24,6 +24,7 @@ App.Temp = {
         RDLINKINTRTIC: '实时信息',
         RDGSC: '立交',
         RDWARNINGINFO:'警示信息',
+        RDVARIABLESPEED:'可变限速',
         RDTRAFFICSIGNAL:'信号灯',
         RDELECTRONICEYE:'电子眼',
         RDSLOPE:'坡度',
