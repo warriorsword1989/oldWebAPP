@@ -2730,35 +2730,42 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     for(var i=0;i<tempObj.vias.length;i++){
                         tempObj.vias[i] = tempObj.vias[i].linkPid.toString();
                     }
-
+                    function uniqueArray(arr) {
+                        var result = [], hash = {};
+                        for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+                            if (!hash[elem]) {
+                                result.push(elem);
+                                hash[elem] = true;
+                            }
+                        }
+                        return result;
+                    }
+                    function allLinkNode(){
+                        var defer = $q.defer();
+                        for(var i=0;i<objCtrl.data.vias.length;i++){
+                            $scope.getSelectLinkInfos(objCtrl.data.vias[i].linkPid).then(function(data){
+                                $scope.allLinkNode.push(data.sNodePid);
+                                $scope.allLinkNode.push(data.eNodePid);
+                                if(i==objCtrl.data.vias.length){defer.resolve($scope.allLinkNode)}
+                            })
+                        }
+                        return defer.promise;
+                    }
                     if(tempObj.vias.length){
-                        $scope.getSelectLinkInfos(tempObj.vias[tempObj.vias.length-1]).then(
+                        allLinkNode().then(function(data){
+                            $scope.allLinkNode = uniqueArray(data);
+                        })
+                    }else{
+                        $scope.getSelectLinkInfos(tempObj.outLinkPid).then(
                             function(data){
-                                if(tempObj.vias.length==1){
-                                    $scope.getSelectLinkInfos(tempObj.outLinkPid).then(
-                                        function(res){
-                                            if(data.eNodePid==res.eNodePid||data.eNodePid==res.sNodePid){
-                                                $scope.allLinkNode.push(data.sNodePid)
-                                            }else{
-                                                $scope.allLinkNode.push(data.eNodePid)
-                                            }
-                                        }
-                                    )
+                                if(data.eNodePid==tempObj.nodePid){
+                                    $scope.allLinkNode.push(data.sNodePid)
                                 }else{
-                                    $scope.getSelectLinkInfos(tempObj.vias[tempObj.vias.length-2]).then(
-                                        function(res){
-                                            if(data.eNodePid==res.eNodePid||data.eNodePid==res.sNodePid){
-                                                $scope.allLinkNode.push(data.sNodePid)
-                                            }else{
-                                                $scope.allLinkNode.push(data.eNodePid)
-                                            }
-                                        }
-                                    )
+                                    $scope.allLinkNode.push(data.eNodePid)
                                 }
                             }
                         )
                     }
-
                     //高亮退出线方法;
                     function hightlightOutLink(param){
                         tempObj.vias = [];
