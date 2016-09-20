@@ -153,8 +153,25 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         //当为双方向时;
         if($scope.linkData.direct==1){
             if($scope.linkData.laneNum!=0){
-                $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum)/2;
-                $scope.linkData.laneClass = $scope.linkData.laneNum;
+                if($scope.linkData.laneNum%2==1){
+                    $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum+1)/2;
+                }else{
+                    $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum)/2;
+                }
+                if($scope.linkData.laneNum%2==1){
+                    tempVar = ($scope.linkData.laneNum+1)/2;
+                }else{
+                    tempVar = ($scope.linkData.laneNum)/2;
+                }
+                if(tempVar==0){
+                    $scope.linkData.laneClass = 0;
+                }else if(tempVar==1){
+                    $scope.linkData.laneClass = 1;
+                }else if(tempVar>=2&&tempVar<=3){
+                    $scope.linkData.laneClass = 2;
+                }else{
+                    $scope.linkData.laneClass = 3;
+                }
             }else{
                 if($scope.linkData.laneLeft>$scope.linkData.laneRight){
                     if($scope.linkData.laneLeft==0){
