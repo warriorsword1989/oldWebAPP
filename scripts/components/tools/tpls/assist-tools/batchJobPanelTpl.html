@@ -23,7 +23,7 @@
         <div class="container-fluid" ng-switch="batchType">
             <div ng-switch-when="poi" class="row dark">
                 <div class="scroll-styled" style="width: 40%;float: left;min-height: 200px;max-height: 300px;padding: 0 10px;">
-                    <table class="table table-bordered table-condensed fm-console-table">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
                         <thead>
                             <tr>
                                 <th>选择</th>
@@ -44,7 +44,7 @@
                     </table>
                 </div>
                 <div style="width: 57%;float: left;margin-left: 10px">
-                    <table class="table table-bordered table-condensed fm-console-table">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
                         <thead>
                             <tr>
                                 <th>选择</th>
@@ -68,6 +68,11 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="clearfix"></div>
+                <!--pagation part-->
+                <div class="" style="padding:10px;">
+                    <ul style="margin: 0" uib-pagination boundary-links="true" total-items="12" ng-model="1" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                </div>
             </div>
 
             <div ng-switch-when="road" class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
@@ -78,7 +83,7 @@
         </div>
 
         <!---->
-        <div class="progress fm-progress" style="margin:8px;">
+        <div class="progress fm-progress" style="margin-bottom: 10px;">
             <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
         </div>
         <div style="text-align:center;">
