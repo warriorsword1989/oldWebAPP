@@ -101,7 +101,7 @@
         "TipsSketchs.js",
         "TipsSketch.js",
         "TipsSketchPart.js",
-        "TipElectroniceye.js",
+        "TipsElectroniceye.js",
         "TipsJVCBranch.js",
         "TipsWarningInfo.js",
         "TipsWarningInfos.js",

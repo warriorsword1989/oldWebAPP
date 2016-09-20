@@ -17,6 +17,8 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "poi"
         }, {
+            "layerId": "workPoint"
+        }, {
             "layerId": "rdCross",
             "requestType": "RDCROSS"
         }]
