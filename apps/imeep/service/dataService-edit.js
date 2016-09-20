@@ -389,6 +389,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "UPDATE": "更新" + [param.type] + "属性",
             "DELETE": "删除" + [param.type],
             "MOVE": "移动" + [param.type] + "点位",
+            "BATCH": "批量操作" + [param.type],
             "REPAIR": [param.type] + "修形",
             "CREATEPARENT": "POI增加父",
             "UPDATEPARENT": "POI更新父",

@@ -73,7 +73,9 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 id:  $scope.limitRelation.inLinkPid.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {}
+                style: {
+                    color: '#3A5FCD'
+                }
             });
             highRenderCtrl.highLightFeatures = $scope.highFeatures;
             highRenderCtrl.drawHighlight();
@@ -85,7 +87,9 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 id:  $scope.limitRelation.nodePid.toString(),
                 layerid: 'rdLink',
                 type: 'rdnode',
-                style: {}
+                style: {
+                    color: 'yellow'
+                }
             });
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
@@ -96,7 +100,9 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 id:  data.id.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {}
+                style: {
+                    color: '#CD0000'
+                }
             });
             highRenderCtrl.drawHighlight();
             $scope.limitRelation.outLinkPids = $scope.excitLineArr;
