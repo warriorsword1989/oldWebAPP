@@ -73,10 +73,10 @@
                             <div ng-include="mapToolbar" class="div-float map-toolbar" ng-style="{top:'0px',left:'290px'}"></div>
                             <!-- <div ng-include="specialOperationToolbar" class="div-float map-toolbar" style="top:0px;left:580px;"></div> -->
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
-                            <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{top:'80px',left:leftDis,right:rightDis,borderRadius:'5px'}">
-                                <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
-                                <div ng-include="advancedToolPanelTpl"></div>
-                            </div>
+                        </div>
+                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{top:'80px',left:leftDis,right:rightDis,borderRadius:'5px'}">
+                            <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
+                            <div ng-include="advancedToolPanelTpl"></div>
                         </div>
                         <!--右侧属性编辑面板-->
                         <div class="fm-foldable fm-col" ng-style="{top:'0px',width: '315px','right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">

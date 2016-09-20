@@ -2743,6 +2743,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     function allLinkNode(){
                         var defer = $q.defer();
                         for(var i=0;i<objCtrl.data.vias.length;i++){
+                            //(function(index){
+                            //    $scope.getSelectLinkInfos(objCtrl.data.vias[i].linkPid).then(function(data){
+                            //        $scope.allLinkNode.push(data.sNodePid);
+                            //        $scope.allLinkNode.push(data.eNodePid);
+                            //        if(index+1==objCtrl.data.vias.length){defer.resolve($scope.allLinkNode)}
+                            //    })
+                            //})(i)
                             $scope.getSelectLinkInfos(objCtrl.data.vias[i].linkPid).then(function(data){
                                 $scope.allLinkNode.push(data.sNodePid);
                                 $scope.allLinkNode.push(data.eNodePid);
@@ -2793,7 +2800,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltipText("已选继续线!");
+                        tooltipsCtrl.setCurrentTooltipText("已选接续线!");
                     }
                     eventController.off(eventController.eventTypes.GETLINKID);
                     eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
@@ -2809,6 +2816,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             $scope.allLinkNode.push(dataresult.properties.enode)
                             hightlightOutLink(dataresult.id)
                         }else{
+                            //如果直接修改退出线;
                             if(dataresult.properties.enode==$scope.allLinkNode[$scope.allLinkNode.length-1]&&(dataresult.properties.direct==3||dataresult.properties.direct==1)){
                                 tempObj.vias.push(dataresult.id)
                                 $scope.allLinkNode.push(dataresult.properties.snode)
@@ -2817,13 +2825,22 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                 tempObj.vias.push(dataresult.id)
                                 $scope.allLinkNode.push(dataresult.properties.enode)
                                 hightlightViasLink();
-                            }else if(tempObj.vias.indexOf(dataresult.id)!=-1){
+                            }
+                            ////如果选择的是已有的接续线;
+                            //if(tempObj.vias.indexOf(dataresult.id)!=-1){
+                            //    if(tempObj.vias.length==1){
+                            //        $scope.allLinkNode =
+                            //    }else{
+                            //        $scope.allLinkNode =
+                            //    }
+                            //}
+                            else if(tempObj.vias.indexOf(dataresult.id)!=-1){
                                 var tempnum = tempObj.vias.indexOf(dataresult.id)
                                 tempObj.vias.splice(tempObj.vias.indexOf(dataresult.id));
                                 $scope.allLinkNode.splice(tempnum+1);
                                 hightlightViasLink(tempnum);
                             }else{
-                                tooltipsCtrl.setCurrentTooltipText("错误操作!");
+                                tooltipsCtrl.setCurrentTooltipText("接续线或退出线选择错误!");
                                 return;
                             }
                         }
