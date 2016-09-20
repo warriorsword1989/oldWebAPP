@@ -4,7 +4,7 @@ fastmap.uikit.canvasFeature.RdLane = fastmap.uikit.canvasFeature.Feature.extend(
       this.geometry['type'] = 'LineString';
       var color = '#7D7DFF',
           symbolData = {};
-      if (item.m.b == 'N') {
+      if (item.m.b == 'Y') {//车道连通，实线渲染
         symbolData = {
             type: 'CompositeLineSymbol',
             symbols: [
@@ -16,7 +16,7 @@ fastmap.uikit.canvasFeature.RdLane = fastmap.uikit.canvasFeature.Feature.extend(
                 }
             ]
         };
-      } else {
+      } else {//详细车道，虚线渲染
         symbolData = {
             type: 'CompositeLineSymbol',
             symbols: [
