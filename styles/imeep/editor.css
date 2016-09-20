@@ -1252,30 +1252,30 @@ a.fm-panel-controlArrowRight > span {
   animation-delay: -0.8s;
 }
 @-webkit-keyframes stretchdelay {
-  @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031066}}
-  0%,
-  40%,
-  100% {
-    -webkit-transform: scaleY(0.4);
-  }
-  @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031069}}
-  20% {
-    -webkit-transform: scaleY(1);
-  }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031066}}
+0%,
+40%,
+100% {
+  -webkit-transform: scaleY(0.4);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031069}}
+20% {
+  -webkit-transform: scaleY(1);
+}
 }
 @keyframes stretchdelay {
-  @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031074}}
-  0%,
-  40%,
-  100% {
-    transform: scaleY(0.4);
-    -webkit-transform: scaleY(0.4);
-  }
-  @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031078}}
-  20% {
-    transform: scaleY(1);
-    -webkit-transform: scaleY(1);
-  }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031074}}
+0%,
+40%,
+100% {
+  transform: scaleY(0.4);
+  -webkit-transform: scaleY(0.4);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031078}}
+20% {
+  transform: scaleY(1);
+  -webkit-transform: scaleY(1);
+}
 }
 /*********************floatMenu**********************/
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/Code\/fastmap\/WebApp\/less\/editor\.less}line{font-family:\000031084}}
@@ -2138,7 +2138,6 @@ form input[type=checkbox].ng-dirty:before {
   opacity: 0.9;
 }
 /*
-
 .custom-popover{
   padding-left: 6px;
   input{
