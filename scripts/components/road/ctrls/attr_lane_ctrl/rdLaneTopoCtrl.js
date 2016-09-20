@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/9/9.
  */
 var rdLineApp = angular.module("app");
-rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
+rdLineApp.controller("rdLaneTopoCtrl", ['$scope','$compile', function ($scope,$compile) {
     /***********************************地图相关配置以及外部js注入***********************************/
 
     var layerCtrl = fastmap.uikit.LayerController();
@@ -12,17 +12,17 @@ rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
     //初始化地图;
     var laneTopo = featCodeCtrl.getFeatCode().laneTopo;//当前修改的分歧的类型;
     var laneInfoArr = [];
-    var laneArr = [];
     $scope.doCancel = function () {
         $scope.$emit("CLOSERDLANETOPO");
         featCodeCtrl.setFeatCode(null);
     };
     $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;
-    for(var i = 0;i<laneTopo.length;i++){
-        for(var j = 0;j<laneTopo[i].laneInfos.length;j++){
-            if(laneTopo[i].laneInfos[j].geometry.type == "LineString"){
+    var inLinkPid = $scope.rdLaneData.linkPids[0];//进入线
+
+    for (var i = 0; i < laneTopo.length; i++) {
+        for (var j = 0; j < laneTopo[i].laneInfos.length; j++) {
+            if (laneTopo[i].laneInfos[j].geometry.type == "LineString") {
                 laneInfoArr.push(laneTopo[i].laneInfos[j]);
-                laneArr = laneArr.concat(laneTopo[i].laneInfos[j].lanes);
             }
         }
     }
@@ -35,63 +35,147 @@ rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
     var miniPolyLines = new L.layerGroup();
     polyLines.id = "polyLines";
     miniPolyLines.id = "miniPolyLines";
-    for(var i=0;i<laneInfoArr.length;i++){
+    for (var i = 0; i < laneInfoArr.length; i++) {
+        var linkPid = laneInfoArr[i].linkPid;
         var geo = [];
-        for(var j = 0;j<laneInfoArr[i].geometry.coordinates.length;j++){
+        for (var j = 0; j < laneInfoArr[i].geometry.coordinates.length; j++) {
             geo.push({
-                lng:laneInfoArr[i].geometry.coordinates[j][0],
-                lat:laneInfoArr[i].geometry.coordinates[j][1]
+                lng: laneInfoArr[i].geometry.coordinates[j][0],
+                lat: laneInfoArr[i].geometry.coordinates[j][1]
             });
         }
-        if(laneInfoArr[i].linkPid == $scope.rdLaneData.linkPids[0]){
+        if (laneInfoArr[i].linkPid == inLinkPid) {
             var guideLine = L.polyline(geo, {
                 color: '#FF0000',
                 weight: 5,
-                id:"guideLine"
+                id: "guideLine"
             });
         } else {
             var guideLine = L.polyline(geo, {
                 color: '#AE8F00',
                 weight: 5,
-                id:"guideLine"
+                id: "guideLine"
             });
         }
 
         var miniLine = L.polyline(geo, {
             color: 'red',
-            weight: 5,
-            id:"miniLine"
+            weight: 3,
+            id: "miniLine"
         });
         polyLines.addLayer(guideLine);
         miniPolyLines.addLayer(miniLine);
-        var _width = laneInfoArr[i].lanes.length *30 +20;
-        var html = "<div class ='lane-img-container' style='width: 90px;>";
-        html += "<div class='roadside-left'>";
-        html +=  "</div>";
-        for(var k =0;k<laneInfoArr[i].lanes.length;k++){
-            var m = k+1;
-            html += "<div class='lane-driveway'>";
-            html += "<span class='top'>"+m+"</span>";
-            html += "<div class='middle'>";
-            html += "<img src='../../../images/road/1301/1301_0_"+m+".svg' style='width: 30px;height:30px;'/>";
-            html += "</div>";
-            html += "<span class='bottom' click='removeLane("+m+");' ng-if='laneArr.length!=1'>";
-            html += "<i class='glyphicon glyphicon-remove'></i>";
-            html += "</span>";
-            html += "</div>";
+
+        var lanes1Arr = [], lanes2Arr = [], lanes3Arr = [];
+        for (var j = 0; j < laneInfoArr[i].lanes.length; j++) {
+            if (laneInfoArr[i].lanes[j].laneDir == 1) {
+                lanes1Arr.push(laneInfoArr[i].lanes[j]);
+            } else if (laneInfoArr[i].lanes[j].laneDir == 2) {
+                lanes2Arr.push(laneInfoArr[i].lanes[j]);
+            } else {
+                lanes3Arr.push(laneInfoArr[i].lanes[j]);
+            }
         }
-        html += "<div class='roadside-right'></div>";
-        html += "</div>";
-        var myIcon = L.divIcon({
-            iconSize:new L.point(_width,_width),
-            html:html});
-        L.marker([laneInfoArr[i].geometry.coordinates[0][1], laneInfoArr[i].geometry.coordinates[0][0]],{icon:myIcon}).addTo(topoMap);
+        if (lanes1Arr.length > 0) {
+            var kk = (laneInfoArr[i].geometry.coordinates[0][0] - laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][0]) / (laneInfoArr[i].geometry.coordinates[0][1] - laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][1]);
+            // var distance = (L.latLng(laneInfoArr[i].geometry.coordinates[0][1],laneInfoArr[i].geometry.coordinates[0][0])).distanceTo(L.latLng(laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length-1][1],laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length-1][0]))
+            var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI) + 180;//旋转角度
+            // var scale = distance/150;
+            var _width = lanes1Arr.length * 30 + 20;
+            var xtrans = _width / 2 * Math.sin(deg);
+            var ytrans = _width / 2 * Math.cos(deg);
+            var html = "<div class ='lane-img-container' style='width:" + _width + "px;transform: translateX(" + xtrans + "px);transform: translateX(" + ytrans + "px);-webkit-transform:rotate(" + deg + "deg);'>";
+            html += "<div class='roadside-left'>";
+            html += "</div>";
+            for (var k = 0; k < lanes1Arr.length; k++) {
+                var lanePid = lanes1Arr[k].pid;
+                var seqNum = lanes1Arr[k].seqNum;
+                var laneDir = lanes1Arr[k].laneDir;
+                var arrowDir = lanes1Arr[k].arrowDir;
+                var m = k+1;
+                html += "<div class='lane-driveway'>";
+                html += "<span class='top'>" + m + "</span>";
+                html += "<div class='middle'>";
+                html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
+                html += "</div>";
+                html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' click='selectLane(" + linkPid + ',' + lanePid + ',' + seqNum + ',' + laneDir + ");'>";
+                html += "</div>";
+            }
+            html += "<div class='roadside-right'></div>";
+            html += "</div>";
+            var myIcon = L.divIcon({
+                // iconAnchor:[0,50],
+                html: $compile(html)($scope)
+            });
+            L.marker([(laneInfoArr[i].geometry.coordinates[0][1] + laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][1]) / 2, (laneInfoArr[i].geometry.coordinates[0][0] + laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][0]) / 2], {icon: myIcon}).addTo(topoMap);
+
+        } else {
+            if (lanes2Arr.length > 0) {
+                var kk = (laneInfoArr[i].geometry.coordinates[0][0] - laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][0]) / (laneInfoArr[i].geometry.coordinates[0][1] - laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][1]);
+                var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI);//旋转角度
+                var _width = lanes2Arr.length * 30 + 20;
+                var xtrans = _width / 2 * Math.sin(deg);
+                var ytrans = _width / 2 * Math.cos(deg);
+                var html = "<div class ='lane-img-container' style='width:" + _width + "px;-webkit-transform:rotate(" + deg + "deg);transform-origin:left'>";
+                html += "<div class='roadside-left'>";
+                html += "</div>";
+                for (var k = 0; k < lanes2Arr.length; k++) {
+                    var lanePid = lanes2Arr[k].pid;
+                    var seqNum = lanes2Arr[k].seqNum;
+                    var laneDir = lanes2Arr[k].laneDir;
+                    var arrowDir = lanes2Arr[k].arrowDir;
+                    var m = k+1;
+                    html += "<div class='lane-driveway'>";
+                    html += "<span class='top'>" + m + "</span>";
+                    html += "<div class='middle'>";
+                    html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
+                    html += "</div>";
+                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' click='selectLane(" + linkPid + ',' + lanePid + ',' + seqNum + ',' + laneDir + ");'>";
+                    html += "</div>";
+                }
+                html += "<div class='roadside-right'></div>";
+                html += "</div>";
+                var myIcon = L.divIcon({
+                    // iconAnchor:[0,50],
+                    html: html
+                });
+                L.marker([(laneInfoArr[i].geometry.coordinates[0][1] + laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][1]) / 2, (laneInfoArr[i].geometry.coordinates[0][0] + laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][0]) / 2], {icon: myIcon}).addTo(topoMap);
+
+            } else if (lanes3Arr.length > 0) {
+                var kk = (laneInfoArr[i].geometry.coordinates[0][0] - laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][0]) / (laneInfoArr[i].geometry.coordinates[0][1] - laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][1]);
+                var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI) + 180;//旋转角度
+                var _width = lanes3Arr.length * 30 + 20;
+                var xtrans = _width / 2 * Math.sin(deg);
+                var ytrans = _width / 2 * Math.cos(deg);
+                var html = "<div class ='lane-img-container' style='width:" + _width + "px;-webkit-transform:rotate(" + deg + "deg);transform-origin:right'>";
+                html += "<div class='roadside-left'>";
+                html += "</div>";
+                for (var k = 0; k < lanes3Arr.length; k++) {
+                    var lanePid = lanes3Arr[k].pid;
+                    var seqNum = lanes3Arr[k].seqNum;
+                    var laneDir = lanes3Arr[k].laneDir;
+                    var arrowDir = lanes3Arr[k].arrowDir;
+                    var m = k+1;
+                    html += "<div class='lane-driveway'>";
+                    html += "<span class='top'>" + m + "</span>";
+                    html += "<div class='middle'>";
+                    html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
+                    html += "</div>";
+                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' click='selectLane(" + linkPid + ',' + lanePid + ',' + seqNum + ',' + laneDir + ");'>";
+                    html += "</div>";
+                }
+                html += "<div class='roadside-right'></div>";
+                html += "</div>";
+                var myIcon = L.divIcon({
+                    // iconAnchor:[0,50],
+                    html: html
+                });
+                L.marker([(laneInfoArr[i].geometry.coordinates[0][1] + laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][1]) / 2, (laneInfoArr[i].geometry.coordinates[0][0] + laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length - 1][0]) / 2], {icon: myIcon}).addTo(topoMap);
+            }
+        }
     }
 
-
     topoMap.addLayer(polyLines);
-
-
 
     topoMap.setView([laneInfoArr[0].geometry.coordinates[0][1], laneInfoArr[0].geometry.coordinates[0][0]], 17);
     var miniMap = new L.Control.MiniMap(miniPolyLines, {
@@ -110,18 +194,5 @@ rdLineApp.controller("rdLaneTopoCtrl",['$scope', function ($scope) {
             topoMap.invalidateSize()
         }, 400);
     });
-
-
-
-    //对要加载的图层事件监听;
-    // layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
-    //     for (var layer in event.layer) {
-    //         topoMap.addLayer(event.layer[layer]);
-    //     }
-    // });
-    //设置要加载显示的图层;
-    // layerCtrl.setLayersVisible(['rdLink']);
-    //layerCtrl.setLayersVisible(['mesh']);
-
 
 }]);

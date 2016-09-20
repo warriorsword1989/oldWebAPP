@@ -170,6 +170,7 @@ a{
   background-color: transparent;
   border: none;
   transition: all .2s ease-in-out;
+  z-index: 1;
   .fm-fold-btn > a {
     display: block;
     background-color: @light-gray !important;
@@ -181,8 +182,7 @@ a{
     width: 15px;
     position: relative;
     display: inline-block;
-    top: 50%;
-    z-index: 10000;
+    margin-top: 50%;
   }
   .fm-fold-btn > a {
     width: 100%;
@@ -194,7 +194,7 @@ a{
   .fm-fold-btn {
     height: 15px;
     position: relative;
-    left: 50%;
+    margin-left: 50%;
   }
   .fm-fold-btn > a {
     width: 50px;
