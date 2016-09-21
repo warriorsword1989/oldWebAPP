@@ -44,7 +44,9 @@
                         if (!$(event.target).is(ele_next) && !$(event.target).is(ele_next_all_child)) {
                             if(tim){
                                 // ele.val(tim + ':' + mini);
-                                if(!$(event.target).is($(document).find('button[name=fmSaveDateIdTemporary]')) && !$(event.target).is($(document).find('label[name=weekGroupBtn]')) ){ //取消点击保存重新赋值的bug,以及week重新赋值的bug
+                                if(!$(event.target).is($(document).find('button[name=fmSaveDateIdTemporary]'))
+                                    && !$(event.target).is($(document).find('label[name=weekGroupBtn]'))
+                                    && !$(event.target).is($(document).find('input[name=timeType]')) ){ //取消点击保存重新赋值的bug,以及week重新赋值的bug,以及类型切换的bug
                                     if(!_emptyFlag){
                                         scope.$apply(function(){
                                             scope[model] = tim + ':' + mini;
