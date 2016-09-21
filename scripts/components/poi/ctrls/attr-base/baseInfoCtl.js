@@ -86,16 +86,15 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     $scope.deleteContact = function(index) {
         $scope.poi.contacts.splice(index, 1);
     };
-    //$scope.controlFlag.isTelEmptyArr = [];//用于保存时对电话的校验
     $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
-        if( !/^[0-9]*$/.test(temp.contact)){
+        if(!Utils.verifyNumber(temp.contact)){
             swal("保存提示","电话填写不正确,不能保存！","warning");
             return ;
         }
-        if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
+        if(Utils.verifyTelphone(temp.contact)){
             temp.contactType = 2;
-        }else {
+        } else {
             temp.contactType = 1;
             if(temp.code){
                 if($scope.$parent.teleCodeToLength[temp.code]){
@@ -110,11 +109,30 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                         if(temp.contact.length != $scope.$parent.teleCodeToLength[temp.code]){
                             swal("提示","电话填写不正确,长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
                         }
+                    } else {
+                        $scope.$parent.teleCodeToLength[temp.code] = 0;
+                        swal("保存提示","电话区号不正确,不能保存！","warning");
                     }
                 });
             } else {
-                swal("保存提示","电话填写不正确,不能保存！","warning");
+                swal("保存提示","电话区号不正确,不能保存！","warning");
             }
+        }
+    };
+    /**
+     * 校验区号
+     */
+    $scope.checkTelAreaCode = function (index,t){
+        var areaCode = $scope.poi.contacts[index].code;
+        if(!$scope.$parent.teleCodeToLength[areaCode]){
+            dsMeta.queryTelLength(areaCode).then(function (data){
+                if(data){
+                    $scope.$parent.teleCodeToLength[areaCode] = data - areaCode.length;
+                } else {
+                    $scope.$parent.teleCodeToLength[areaCode] = 0;
+                    swal("保存提示","电话区号不正确,不能保存！","warning");
+                }
+            });
         }
     };
     /**
