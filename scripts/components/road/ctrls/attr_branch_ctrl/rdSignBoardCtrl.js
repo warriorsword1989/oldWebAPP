@@ -346,6 +346,8 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                     delete v.attributes;
                     delete v.snapShot;
                     delete v.integrate;
+                    delete v['$$hashKey'];
+                    param.data.signboards[0].names[i].nameGroupid = objCtrl.data.signboards[0].names[i].nameGroupid;
                 });
                 $scope.delEmptyNames(param.data.signboards[0].names);
             }

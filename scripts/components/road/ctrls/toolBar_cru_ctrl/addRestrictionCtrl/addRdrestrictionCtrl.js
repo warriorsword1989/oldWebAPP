@@ -79,8 +79,36 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             });
             highRenderCtrl.highLightFeatures = $scope.highFeatures;
             highRenderCtrl.drawHighlight();
-            tooltipsCtrl.setStyleTooltip("color:black;");
+
+            // //清除鼠标十字
+            // map.currentTool.snapHandler.snaped = false;
+            // map.currentTool.clearCross();
+            // map.currentTool.snapHandler._guides = [];
+            // map.currentTool.snapHandler.addGuideLayer(rdnode);
+
+            //tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+            var linkDirect = data["properties"]["direct"];
+            if (linkDirect == 2 || linkDirect == 3) { //单方向
+                // map.currentTool.snapHandler.snaped = false;
+                // map.currentTool.clearCross();
+                // map.currentTool.snapHandler._guides = [];
+
+                $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
+                $scope.highFeatures.push({
+                    id:  $scope.limitRelation.nodePid.toString(),
+                    layerid: 'rdLink',
+                    type: 'rdnode',
+                    style: {
+                        color: 'yellow'
+                    }
+                });
+                highRenderCtrl.drawHighlight();
+                map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
+
+                //tooltipsCtrl.setStyleTooltip("color:red;");
+                tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
+            }
         } else if (data.index === 1) {
             $scope.limitRelation.nodePid = parseInt(data.id);
             $scope.highFeatures.push({

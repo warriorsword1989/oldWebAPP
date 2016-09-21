@@ -5,13 +5,11 @@ var rdLineApp = angular.module("app");
 /*
 * 动态拼的div作用域在controllor之外，只能写到这里
 * */
-var featCodeCtrl = fastmap.uikit.FeatCodeController();
 var inLanePid = null;
 var outLanePid = null;
 var outLinkPid = null;
 var laneTopoVias = [];
-var inLinkPid  = featCodeCtrl.getFeatCode().rdLaneData.linkPids[0];
-function selectLane (linkPid, lanePid, seqNum, laneDir) {
+function selectLane (inLinkPid,linkPid, lanePid, seqNum, laneDir) {
     if (linkPid == inLinkPid) {//进入车道
         inLanePid = lanePid;
     } else {//作为退出线、经过线
@@ -26,21 +24,22 @@ function selectLane (linkPid, lanePid, seqNum, laneDir) {
 };
 rdLineApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sce','$timeout', function ($scope, $compile, dsEdit, $sce ,$timeout) {
     /***********************************地图相关配置以及外部js注入***********************************/
-
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
     var layerCtrl = fastmap.uikit.LayerController();
     var eventCtrl = fastmap.uikit.EventController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var relationData = layerCtrl.getLayerById('relationData');
     //初始化地图;
     var laneTopo = featCodeCtrl.getFeatCode().laneTopo;//当前修改的分歧的类型;
+    $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;
     var laneInfoArr = [];
-
     var rdLaneTopoDetail = {
         topoIds: [],
         inLinkPid: null,
         inNodePid: null,
         laneTopoInfos: []
     };
+
     $scope.doClose = function () {
         $scope.$emit("CLOSERDLANETOPO");
         featCodeCtrl.setFeatCode(null);
@@ -74,7 +73,6 @@ rdLineApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sce','
             }
         });
     };
-    $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;
 
     var inLinkPid = $scope.rdLaneData.linkPids[0];//进入线
     rdLaneTopoDetail.inLinkPid = $scope.rdLaneData.linkPids[0];

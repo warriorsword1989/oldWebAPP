@@ -202,6 +202,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 }
             } else {
                 if (shapeCtrl.editType === "pathBreak") {
+                    shapeCtrl.editType = "";
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": false,
                         "subAttrContainerTpl": false
@@ -210,9 +211,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
                     });
                 }
-            }
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
             }
         }
 
@@ -229,15 +227,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             if (shapeCtrl.editType === 'drawPath') {
                 if (map.currentTool._enabled) {
                     swal("操作失败", "请双击结束增加线段", "error");
-                    var info = [{
-                        "op": -1,
-                        "type": "请双击结束画线",
-                        "pid": 0
-                    }];
-                    outPutCtrl.pushOutput(info);
-                    if (outPutCtrl.updateOutPuts !== "") {
-                        outPutCtrl.updateOutPuts();
-                    }
+                    return;
                 } else {
                     var properties = shapeCtrl.shapeEditorResult.getProperties();
                     var showContent, ctrl, tpl, type;
@@ -363,22 +353,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 if (shapeCtrl.editFeatType === "RDLINK") {
                     param["type"] = "RDLINK";
-                    breakPathContent = "打断rdLink成功";
                 } else if (shapeCtrl.editFeatType === "ADLINK") {
                     param["type"] = "ADLINK";
-                    breakPathContent = "打断adLink成功";
                 } else if (shapeCtrl.editFeatType === "RWLINK") {
                     param["type"] = "RWLINK";
-                    breakPathContent = "打断rwLink成功";
                 } else if (shapeCtrl.editFeatType === "ZONELINK") {
                     param["type"] = "ZONELINK";
-                    breakPathContent = "打断rwLink成功";
                 } else if (shapeCtrl.editFeatType === "LULINK") {
                     param["type"] = "LULINK";
-                    breakPathContent = "打断luLink成功";
                 } else if (shapeCtrl.editFeatType === "LCLINK") {
                     param["type"] = "LCLINK";
-                    breakPathContent = "打断lcLink成功";
                 }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
@@ -401,7 +385,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcLink.redraw();
                             lcNode.redraw();
                         }
-                        treatmentOfChanged(data, param["type"], breakPathContent);
+                        shapeCtrl.editType = "pathBreak";//被清空了，下面方法的分支进不去，因此再次临时赋值
+                        treatmentOfChanged(data, param["type"]);
                     }
                 })
             } else if (shapeCtrl.editType === "transformDirect") {

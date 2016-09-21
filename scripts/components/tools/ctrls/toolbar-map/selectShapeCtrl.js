@@ -655,6 +655,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             }
                         })
                     }
+                    var showLaneInfoObj = {
+                        "loadType": "attrTplContainer",
+                        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                        "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html'
+                    };
+                    $scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
                     locllBranchCtlAndTpl(data.branchType);
                     $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
