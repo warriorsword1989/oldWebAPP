@@ -59,7 +59,7 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
             var img = new FM.dataApi.IxPoiPhoto({
                 thumbnailUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"thumbnail"}',
                 originUrl:App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + response.data.PID + '",type:"origin"}',
-                pid:response.data.PID
+                fccPid:response.data.PID
             });
             imgItems.unshift(img);
             $scope.poi.photos.unshift(img);

@@ -132,19 +132,22 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             }
         }
 
+        function linkClassCtr(tempVar){
+            if(tempVar==0){
+                $scope.linkData.laneClass = 0;
+            }else if(tempVar==1){
+                $scope.linkData.laneClass = 1;
+            }else if(tempVar>=2&&tempVar<=3){
+                $scope.linkData.laneClass = 2;
+            }else{
+                $scope.linkData.laneClass = 3;
+            }
+        }
         //当为单方向时根据车道总数监听车道等级的变化；
         if($scope.linkData.direct==2||$scope.linkData.direct==3){
             $scope.showLeftRight = false;
             $scope.$watch('linkData.laneNum',function(newValue){
-                if(newValue==0){
-                    $scope.linkData.laneClass = 0;
-                }else if(newValue==1){
-                    $scope.linkData.laneClass = 1;
-                }else if(newValue>=2&&newValue<=3){
-                    $scope.linkData.laneClass = 2;
-                }else{
-                    $scope.linkData.laneClass = 3;
-                }
+                linkClassCtr(newValue);
             })
         }else{
             $scope.showLeftRight = true;
@@ -152,48 +155,20 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
 
         //当为双方向时;
         if($scope.linkData.direct==1){
+            $scope.$watch('linkData',function(newValue){
+                if(newValue.laneRight>newValue.laneLeft){
+                    linkClassCtr(newValue.laneRight);
+                }else{
+                    linkClassCtr(newValue.laneLeft);
+                }
+            },true)
+            //左右车道相等;
             if($scope.linkData.laneNum!=0){
-                if($scope.linkData.laneNum%2==1){
-                    $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum+1)/2;
-                }else{
-                    $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt($scope.linkData.laneNum)/2;
-                }
-                if($scope.linkData.laneNum%2==1){
-                    tempVar = ($scope.linkData.laneNum+1)/2;
-                }else{
-                    tempVar = ($scope.linkData.laneNum)/2;
-                }
-                if(tempVar==0){
-                    $scope.linkData.laneClass = 0;
-                }else if(tempVar==1){
-                    $scope.linkData.laneClass = 1;
-                }else if(tempVar>=2&&tempVar<=3){
-                    $scope.linkData.laneClass = 2;
-                }else{
-                    $scope.linkData.laneClass = 3;
-                }
-            }else{
-                if($scope.linkData.laneLeft>$scope.linkData.laneRight){
-                    if($scope.linkData.laneLeft==0){
-                        $scope.linkData.laneClass = 0;
-                    }else if($scope.linkData.laneLeft==1){
-                        $scope.linkData.laneClass = 1;
-                    }else if($scope.linkData.laneLeft>=2&&$scope.linkData.laneLeft<=3){
-                        $scope.linkData.laneClass = 2;
-                    }else{
-                        $scope.linkData.laneClass = 3;
-                    }
-                }else{
-                    if($scope.linkData.laneRight==0){
-                        $scope.linkData.laneClass = 0;
-                    }else if($scope.linkData.laneRight==1){
-                        $scope.linkData.laneClass = 1;
-                    }else if($scope.linkData.laneRight>=2&&$scope.linkData.laneRight<=3){
-                        $scope.linkData.laneClass = 2;
-                    }else{
-                        $scope.linkData.laneClass = 3;
-                    }
-                }
+                $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt(parseInt($scope.linkData.laneNum)/2);
+                linkClassCtr($scope.linkData.laneLeft)
+            }else{//左右车道不同
+                var bigNum = $scope.linkData.laneLeft>$scope.linkData.laneRight?$scope.linkData.laneLeft:$scope.linkData.laneRight;
+                linkClassCtr(bigNum);
             }
         }
 
