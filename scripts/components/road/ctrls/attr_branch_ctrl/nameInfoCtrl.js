@@ -51,7 +51,7 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
     ];
     $scope.codeTypeOptions=[
         {"id":0,"label":"0 无"},
-        {"id":1,"label":"1 普通路名"},
+        {"id":1,"label":"1 普通道路名"},
         {"id":2,"label":"2 设施名"},
         {"id":3,"label":"3 高速道路名"},
         {"id":4,"label":"4 国家高速编号"},
