@@ -80,21 +80,37 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             }
         });
     }
+    //校验箭头图合法性
+    $scope.validArrowCode = function(){
+        switch($scope.diverObj.details[0].branchType){
+            case 0:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+            case 1:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+            case 3:
+                return new RegExp('^[e]|[c]$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+            case 4:
+                return new RegExp('^[e]|[c]|[d]$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+        }
+    };
     /*输入箭头图代码显示选择图片界面*/
     $scope.showPicSelect = function () {
+        if(!$scope.validArrowCode()){
+            $scope.diverObj.details[0].arrowCode = '';
+        }
         $scope.showImgData = false;
         $timeout(function () {
             if ($.trim($scope.diverObj.details[0].arrowCode) == '') {
                 $scope.diverObj.details[0].patternCode = '';
-            };
+            }
             $scope.diverObj.details[0].arrowCode = CtoH($scope.diverObj.details[0].arrowCode);
             if($scope.diverObj.details[0].branchType != 3 && !testRegExp($scope.diverObj.details[0].arrowCode)){
                 $scope.diverObj.details[0].arrowCode = $scope.diverObj.details[0].arrowCode.substring(0, $scope.diverObj.details[0].arrowCode.length - 1);
                 $scope.$apply();
                 return false;
             }
-        });
-        $timeout(function () {
+        /*});
+        $timeout(function () {*/
             if ($.trim($scope.diverObj.details[0].arrowCode).length > 0) {
                 $scope.diverObj.details[0].patternCode = '8' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
             }
@@ -109,7 +125,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             }
             $scope.$apply();
         }, 1000);
-    }
+    };
     /*正则检测实景图输入是否正确*/
     function testRegExp(str){
         if(str.length < 12){
@@ -142,12 +158,12 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.picNext = function () {
         $scope.picNowNum += 1;
         $scope.getPicsDate();
-    }
+    };
     /*箭头图代码点击上一页*/
     $scope.picPre = function () {
         $scope.picNowNum -= 1;
         $scope.getPicsDate();
-    }
+    };
     /*改变当前箭头图的坐标位置*/
     function changeArrowPosition() {
         var $picMapShow = $("#picMapShow");
@@ -236,7 +252,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 }
             }
         }
-    }
+        $scope.diverObj.details[0].arrowCode = '';
+        $scope.diverObj.details[0].patternCode = '';
+        $scope.$emit('SWITCHCONTAINERSTATE', {
+            'subAttrContainerTpl': false,
+            'attrContainerTpl': true
+        });
+    };
     /*关系类型*/
     $scope.relationType = [
         {"code": 1, "label": "路口"},
@@ -344,6 +366,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
+                $scope.arrowMapShow = '';
+                $scope.patternCodeSrc = '';
                 if ($scope.diverObj.details[0].arrowCode) {
                     $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
                 }
@@ -461,6 +485,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             if (param.data.details[0].names) {
                 $.each(param.data.details[0].names, function (i, v) {
                     delete v.linkPid;
+                    param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
+                    param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
                 });
                 $scope.delEmptyNames(param.data.details[0].names);
             }
