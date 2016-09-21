@@ -113,15 +113,25 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
         $scope.temp.typeCodeName = name;
     };
 
+    // $timeout(function(){
+    //     $scope.$broadcast('set-code',str);
+    //     $scope.rdGateData.condition[$scope.index].timeDomain = str;
+    //     $scope.$apply();
+    // },100);
+
     $scope.initializeData = function(){
         if($scope.warningInfoForm) {
             $scope.warningInfoForm.$setPristine();
         }
-
+        //objCtrl.data.timeDomain = "[[(h18m00)(h18m30)]+[(h17m00)(h19m30)]]";
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdWarningInfoObj = objCtrl.data;
         $scope.typeCodeImg = objCtrl.data.typeCode; //用于显示图片
         $scope.setTypeName(objCtrl.data.typeCode);
+
+        $timeout(function() {
+            $scope.$broadcast('set-code', $scope.rdWarningInfoObj.timeDomain);
+        }, 100);
 
         var highlightFeatures = [];
         highlightFeatures.push({
@@ -228,12 +238,10 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
                 $timeout(function() {
                     $scope.$on('get-date', function(event, data) {
+                        console.info(data);
                         $scope.rdWarningInfoObj.timeDomain = data;
                     });
-                    $timeout(function() {
-                        $scope.$broadcast('set-code', $scope.rdWarningInfoObj.timeDomain);
-                        $scope.$apply();
-                    }, 100);
+                    $scope.$broadcast('set-code', $scope.rdWarningInfoObj.timeDomain);
                 }, 100);
             });
         });
@@ -249,6 +257,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
     // 保存数据
     $scope.save  = function () {
+
         if($scope.rdWarningInfoObj.typeCode && !(new RegExp("^[0-9]*$")).test($scope.rdWarningInfoObj.typeCode)){
             swal("操作提示",'标牌类型输入有误！', "warning");
             return ;

@@ -9,18 +9,19 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this.poiPid = data['poiPid'];
         this.photoId = data['photoId'] || 0;
-        this.pid = data['pid'] || "";
+        //this.pid = data['pid'] || ""; //由于此处的PID是一个有意义的字段，所以修改成了fccPid
+        this.fccPid = data['fccPid'] || "";
         this.status = data['status'] || "";
         this.tag = data['tag'] || 1;
         this.memo = data['memo'] || "";
-        this.thumbnailUrl = data['thumbnailUrl'] || this.getThumbnailUrl(this.pid);
-        this.originUrl = data['originUrl'] || this.getOriginUrl(this.pid);
+        this.thumbnailUrl = data['thumbnailUrl'] || this.getThumbnailUrl(this.fccPid);
+        this.originUrl = data['originUrl'] || this.getOriginUrl(this.fccPid);
         this.rowId = data["rowId"];
     },
     getIntegrate: function() {
         var ret = {};
         ret["poiPid"] = this.poiPid;
-        ret["pid"] = this.pid;
+        ret["fccPid"] = this.fccPid;
         ret["tag"] = this.tag;
         ret["photoId"] = this.photoId;
         ret["status"] = this.status;
