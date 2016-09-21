@@ -109,7 +109,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         switch (data.extend) {
             case 1: //停车场
                 $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTplOld.html";
                 });
                 break;
             case 2: //加油站
