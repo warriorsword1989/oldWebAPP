@@ -36,11 +36,11 @@
                 <label ng-show="!showLeftRight" for="LaneNum" style="margin-left: -3px;">总</label>
                 <input ng-show="!showLeftRight" class="limit-length" id="LaneNum" type="text" style="width: 30px" ng-model="linkData.laneNum"
                        ng-change="addLeftAdditionalLane($event)"/>
-                <label ng-show="showLeftRight" for="leftLaneNum">左</label>
-                <input ng-show="showLeftRight" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
+                <label for="leftLaneNum">左</label>
+                <input ng-class="{'chosen-disabled':(linkData.direct==2||linkData.direct==3)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
                        ng-change="addLeftAdditionalLane($event)"/>
-                <label ng-show="showLeftRight" for="rightLneNum">右</label>
-                <input ng-show="showLeftRight" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"/>
+                <label for="rightLneNum">右</label> <!--ng-show="showLeftRight"-->
+                <input ng-class="{'chosen-disabled':(linkData.direct==2||linkData.direct==3)}" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"/>
             </div>
         </li>
         <li class="list-group-item">
