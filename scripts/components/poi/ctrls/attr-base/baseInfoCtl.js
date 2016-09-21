@@ -99,7 +99,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             if(temp.code){
                 if($scope.$parent.teleCodeToLength[temp.code]){
                     if($scope.$parent.teleCodeToLength[temp.code] != temp.contact.length){
-                        swal("提示","电话填写不正确,长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
+                        swal("提示","电话填写不正确,不算区号长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
                     }
                     return ;
                 }
@@ -107,7 +107,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                     if(data){
                         $scope.$parent.teleCodeToLength[temp.code] = data - temp.code.length;
                         if(temp.contact.length != $scope.$parent.teleCodeToLength[temp.code]){
-                            swal("提示","电话填写不正确,长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
+                            swal("提示","电话填写不正确,不算区号长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
                         }
                     } else {
                         $scope.$parent.teleCodeToLength[temp.code] = 0;

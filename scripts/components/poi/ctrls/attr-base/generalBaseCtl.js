@@ -315,7 +315,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 } else if(!($scope.teleCodeToLength[contacts[i].code] == contacts[i].contact.length)) {
                     if($scope.teleCodeToLength[contacts[i].code]){
                         flag = false;
-                        errMsg = "电话填写不正确,长度应该是"+$scope.teleCodeToLength[contacts[i].code]+"位！";
+                        errMsg = "电话填写不正确,不算区号长度应该是"+$scope.teleCodeToLength[contacts[i].code]+"位！";
                         break;
                     } else if($scope.teleCodeToLength[contacts[i].code] == 0){
                         flag = false;
@@ -329,17 +329,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             swal("保存提示", errMsg, "warning");
             return flag;
         }
-        // for (var i = 0,len = contacts.length; i<len;i++){
-        //     if(contacts[i].contactType == 1){ //固话
-        //         if($scope.teleCodeToLength[contacts[i].code] && contacts[i].contact.length != $scope.teleCodeToLength[contacts[i].code]){
-        //             flag = false;
-        //             break;
-        //         }
-        //     }
-        // }
-        // if(!flag){
-        //     swal("保存提示", '电话长度不正确,不能保存！', "warning");
-        // }
         return flag;
     }
 
