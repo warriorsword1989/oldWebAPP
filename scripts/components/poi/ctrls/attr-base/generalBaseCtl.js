@@ -279,7 +279,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             return false;
         }
         var kindCode = objectCtrl.data.kindCode;
-        if (!kindCode) {
+        if (!kindCode || kindCode == '0') {
             swal("保存提示", '种别为必填项，请检查！', "warning");
             return false;
         }

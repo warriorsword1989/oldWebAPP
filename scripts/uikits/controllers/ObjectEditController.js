@@ -258,7 +258,8 @@ fastmap.uikit.ObjectEditController = (function() {
                             retObj[item] = data[item];
                             if (oriData["rowId"]) {
                                 retObj["rowId"] = oriData["rowId"];
-                            } else  if (oriData["pid"]) { //为了解决有些字表中包含pid属性，并且pid属性是一般的可以修改的有意义的
+                            }
+                            if (oriData["pid"]) {
                                 retObj["pid"] = oriData["pid"];
                             }
                             // if (oriData["pid"]) {
