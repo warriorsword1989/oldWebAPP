@@ -229,18 +229,27 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         if(!$scope.linkData){
             return;
         }
-        //对车道数进行判断;
+
+        //如果为双方向时对车道数进行判断;
         if($scope.linkData.direct==1){
             if($scope.linkData.laneLeft==$scope.linkData.laneRight){
                 $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
                 $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-                $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
-                $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
             }
             if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
                 $scope.linkData.laneNum=0;
+                $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
+                $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
             }
         }
+        //如果为单方向时,左右车道清零;
+        if($scope.linkData.direct==2||$scope.linkData.direct==3){
+            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+            $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
+        }
+
+
+
 
         if ($scope.linkData.forms.length == 0) {
             var newForm = fastmap.dataApi.rdLinkForm({
