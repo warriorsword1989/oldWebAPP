@@ -1,4 +1,4 @@
-fastmap.uikit.canvasTips.TipSelectroniceye = fastmap.uikit.canvasTips.Tips.extend({
+fastmap.uikit.canvasTips.TipsElectroniceye = fastmap.uikit.canvasTips.Tips.extend({
     setAttribute: function (item) {
         this.geometry['coordinates'] = item.g;
         this.properties['markerStyle']["icon"].push(
