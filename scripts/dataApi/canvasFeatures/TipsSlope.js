@@ -9,8 +9,8 @@ fastmap.uikit.canvasTips.TipsSlope = fastmap.uikit.canvasTips.Tips.extend({
                         row: 0,
                         column: 1,
                         location: this.geometry['coordinates'],
-                        scalex: 0.7,
-                        scaley: 0.7,
+                        scalex: 1,
+                        scaley: 1,
                         fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                     })
                 );
@@ -22,8 +22,8 @@ fastmap.uikit.canvasTips.TipsSlope = fastmap.uikit.canvasTips.Tips.extend({
                         row: 0,
                         column: 1,
                         location: this.geometry['coordinates'],
-                        scalex: 0.7,
-                        scaley: 0.7,
+                        scalex: 1,
+                        scaley: 1,
                         fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                     })
                 );
@@ -35,8 +35,8 @@ fastmap.uikit.canvasTips.TipsSlope = fastmap.uikit.canvasTips.Tips.extend({
                         row: 0,
                         column: 1,
                         location: this.geometry['coordinates'],
-                        scalex: 0.7,
-                        scaley: 0.7,
+                        scalex: 1,
+                        scaley: 1,
                         fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                     })
                 );
@@ -48,8 +48,8 @@ fastmap.uikit.canvasTips.TipsSlope = fastmap.uikit.canvasTips.Tips.extend({
                         row: 0,
                         column: 1,
                         location: this.geometry['coordinates'],
-                        scalex: 0.7,
-                        scaley: 0.7,
+                        scalex: 1,
+                        scaley: 1,
                         fillStyle:item.m.a == "0"?this.redFill:this.blueFill
                     })
                 );

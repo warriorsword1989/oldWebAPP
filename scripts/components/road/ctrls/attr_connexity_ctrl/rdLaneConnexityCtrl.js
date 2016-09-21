@@ -157,6 +157,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     if (objCtrl.data) {
         $scope.initializeData();
     }
+
     $scope.addLeftAdditionalLane = function (event) {
         var p = /^([0-9])$/;
         if (p.test($scope.lanesData.leftExtend)) {

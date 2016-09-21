@@ -229,6 +229,19 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         if(!$scope.linkData){
             return;
         }
+        //对车道数进行判断;
+        if($scope.linkData.direct==1){
+            if($scope.linkData.laneLeft==$scope.linkData.laneRight){
+                $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
+                $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+                $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
+                $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
+            }
+            if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
+                $scope.linkData.laneNum=0;
+            }
+        }
+
         if ($scope.linkData.forms.length == 0) {
             var newForm = fastmap.dataApi.rdLinkForm({
                 "linkPid": $scope.linkData.pid,

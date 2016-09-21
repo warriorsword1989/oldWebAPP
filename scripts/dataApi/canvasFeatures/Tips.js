@@ -62,7 +62,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsSpeedBump(item);
                     break;
                 case 1109://电子眼
-                    ret = new fastmap.uikit.canvasTips.TipElectroniceye(item);
+                    ret = new fastmap.uikit.canvasTips.TipsElectroniceye(item);
                     break;
                 case 1111://条件限速 *
                     ret = new fastmap.uikit.canvasTips.TipsSpeedlimit(item);
