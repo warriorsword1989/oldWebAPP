@@ -38,7 +38,11 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         this.functionClass = data["functionClass"] || 5;
         this.urban = data["urban"] || 0;
         this.paveStatus = data["paveStatus"] || 0;
-        this.laneNum = data["laneNum"] || 2;
+        if(data["laneNum"]!='undefied'){
+            this.laneNum = data["laneNum"];
+        }else{
+            this.laneNum = 2;
+        }
         this.laneLeft = data["laneLeft"] || 0;
         this.laneRight = data["laneRight"] || 0;
         this.laneWidthLeft = data["laneWidthLeft"] || 1;

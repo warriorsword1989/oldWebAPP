@@ -102,7 +102,7 @@ a:hover {
   z-index: 1;
 }
 .fm-foldable .fm-fold-btn > a {
-  display: block;
+  display: inline-block;
   background-color: #404040 !important;
   opacity: 0.95;
 }
@@ -110,7 +110,7 @@ a:hover {
   width: 15px;
   position: relative;
   display: inline-block;
-  margin-top: 50%;
+  top: 50%;
 }
 .fm-foldable.fm-col .fm-fold-btn > a {
   width: 100%;
