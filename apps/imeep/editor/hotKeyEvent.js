@@ -363,22 +363,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 if (shapeCtrl.editFeatType === "RDLINK") {
                     param["type"] = "RDLINK";
-                    breakPathContent = "打断rdLink成功";
                 } else if (shapeCtrl.editFeatType === "ADLINK") {
                     param["type"] = "ADLINK";
-                    breakPathContent = "打断adLink成功";
                 } else if (shapeCtrl.editFeatType === "RWLINK") {
                     param["type"] = "RWLINK";
-                    breakPathContent = "打断rwLink成功";
                 } else if (shapeCtrl.editFeatType === "ZONELINK") {
                     param["type"] = "ZONELINK";
-                    breakPathContent = "打断rwLink成功";
                 } else if (shapeCtrl.editFeatType === "LULINK") {
                     param["type"] = "LULINK";
-                    breakPathContent = "打断luLink成功";
                 } else if (shapeCtrl.editFeatType === "LCLINK") {
                     param["type"] = "LCLINK";
-                    breakPathContent = "打断lcLink成功";
                 }
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
@@ -401,7 +395,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             lcLink.redraw();
                             lcNode.redraw();
                         }
-                        treatmentOfChanged(data, param["type"], breakPathContent);
+                        treatmentOfChanged(data, param["type"]);
                     }
                 })
             } else if (shapeCtrl.editType === "transformDirect") {
