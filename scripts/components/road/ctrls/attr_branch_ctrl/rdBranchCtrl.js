@@ -438,11 +438,16 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.initDiver();
     };
     var oldPatCode = $scope.diverObj.details[0]?$scope.diverObj.details[0].patternCode:'';
+
     /*保存分歧数据*/
     $scope.save = function () {
         if (!$scope.diverObj) {
             swal("操作失败", "请输入属性值！", "error");
             return false;
+        }
+        //将出口编号转换成大写
+        if(objCtrl.data.details[0].exitNum){
+            objCtrl.data.details[0].exitNum = Utils.ToDBC(objCtrl.data.details[0].exitNum);
         }
         objCtrl.save();
         var param = {};
