@@ -84,6 +84,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
         });
         $timeout(function () {
             if ($.trim($scope.diverObj.signasreals[0].arrowCode).length > 0) {
+
                 $scope.diverObj.signasreals[0].backimageCode = '0' + $.trim($scope.diverObj.signasreals[0].arrowCode).substr(1);
                 $scope.picNowNum = 1;
                 $scope.getPicsData();

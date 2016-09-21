@@ -33,6 +33,7 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 		{"id": "CZE", "label": "捷克语"},
 		{"id": "DAN", "label": "丹麦语"},
 		{"id": "DUT", "label": "荷兰语"},
+		{"id": "EST", "label": "爱沙尼亚语"},
 		{"id": "FIN", "label": "芬兰语"},
 		{"id": "FRE", "label": "法语"},
 		{"id": "GER", "label": "德语"},

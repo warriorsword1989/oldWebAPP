@@ -1061,6 +1061,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     // $scope.$parent.$parent.$apply();
                     if (data != '属性值未发生变化') {
                         objCtrl.data['kind'] = $scope.dataTipsData.kind;
+                        objCtrl.originalData['kind'] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus(oPid);
                         workPoint.redraw();
                     }
