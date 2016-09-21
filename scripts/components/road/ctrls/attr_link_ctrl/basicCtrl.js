@@ -132,14 +132,6 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             }
         }
 
-        //$scope.$watch('linkData.direct',function(newValue){
-        //    if(newValue==2||newValue==3){
-        //        $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-        //    }else{
-        //
-        //    }
-        //});
-
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.basicFrom) {
             $scope.basicFrom.$setPristine();
@@ -164,6 +156,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             $scope.linkData.laneNum = 0;
         }else{
             $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)+parseInt($scope.linkData.laneRight);
+            if($scope.linkData.laneNum>99)$scope.linkData.laneNum=98;
         }
     }
 
@@ -206,6 +199,20 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
                 break;
         }
     }
+
+    $scope.$watch('linkData.direct',function(newValue){
+        if(newValue==2||newValue==3){
+            linkClassCtr($scope.linkData.laneNum);
+        }else{
+            if($scope.linkData.laneNum%2){
+                $scope.linkData.laneNum = 0;
+                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
+                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+            }else{
+                linkClassCtr($scope.linkData.laneNum);
+            }
+        }
+    });
 
     if(objectEditCtrl.data) {
         $scope.initOtherData();

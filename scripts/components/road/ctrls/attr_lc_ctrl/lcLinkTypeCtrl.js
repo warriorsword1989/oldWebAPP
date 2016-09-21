@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/5.
  */
 var formOfWayApp = angular.module("app");
-formOfWayApp.controller("addDirectOfRestController",function($scope){
+formOfWayApp.controller("addLclinkTypeController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     $scope.formsData = objCtrl.data.kinds;
