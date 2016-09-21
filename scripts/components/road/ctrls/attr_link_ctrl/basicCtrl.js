@@ -205,11 +205,12 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             linkClassCtr($scope.linkData.laneNum);
         }else{
             if($scope.linkData.laneNum%2){
-                $scope.linkData.laneNum = 0;
                 $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
                 $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+                $scope.linkData.laneNum = 0;
+                linkClassCtr($scope.linkData.laneRight);
             }else{
-                linkClassCtr($scope.linkData.laneNum);
+                linkClassCtr($scope.linkData.laneLeft);
             }
         }
     });
