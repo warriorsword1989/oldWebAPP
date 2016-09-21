@@ -456,6 +456,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             if (param.data.details[0].names) {
                 $.each(param.data.details[0].names, function (i, v) {
                     delete v.linkPid;
+                    param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
+                    param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
                 });
                 $scope.delEmptyNames(param.data.details[0].names);
             }

@@ -10,6 +10,7 @@ fastmap.dataApi.RdBranchDetail=fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.pid = data["pid"];
+        this.rowId = data["rowId"];
         this.branchPid = data["branchPid"];
         this.branchType = data["branchType"] || 0;
         this.estabType = data["estabType"]|| 0;
@@ -30,6 +31,7 @@ fastmap.dataApi.RdBranchDetail=fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function(){
         var data={};
         data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["branchPid"] = this.branchPid;
         data["branchType"] = this.branchType;
         data["estabType"] = this.estabType;
@@ -52,6 +54,7 @@ fastmap.dataApi.RdBranchDetail=fastmap.dataApi.GeoDataModel.extend({
     getSnapShot:function(){
         var data={};
         data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["branchPid"] = this.branchPid;
         data["branchType"] = this.branchType;
         data["estabType"] = this.estabType;
