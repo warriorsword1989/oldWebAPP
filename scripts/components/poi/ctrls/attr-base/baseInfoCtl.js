@@ -24,6 +24,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         }
         $scope.$emit("kindChange", pKindFormat[newVlaue]);
     });
+
     /*初始化品牌*/
     var initChain = function(kindCode) {
         var chainArray = pAllChain[kindCode];

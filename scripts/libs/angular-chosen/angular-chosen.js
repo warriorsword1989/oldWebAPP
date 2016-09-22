@@ -92,6 +92,16 @@
               return initOrUpdate();
             };
             element.on('chosen:hiding_dropdown', function() {
+
+              // begin ******update by wuzhen 20160922 解决有时候不能增加ng-dirty的bug *******
+              // if(!element.hasClass('ng-dirty')){
+              //   element.addClass('ng-dirty');
+              // }
+              scope.$apply(function() {
+                return ngModel.$setDirty();
+              });
+              //end
+
               return scope.$apply(function() {
                 return ngModel.$setTouched();
               });

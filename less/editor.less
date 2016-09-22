@@ -1434,25 +1434,25 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   font-size: 12px;
 }
 /*** 表单修改后样式 ***/
-.border-left(@borderStyle:auto,@borderWidth:auto,@borderColor:auto){
-  border-left:@borderStyle @borderWidth @borderColor;
-}
-form input[type="text"].ng-dirty,form textarea.ng-dirty,form select.ng-dirty,form input[type="number"].ng-dirty {
-  .border-left(solid,2px,@red) !important;
-}
-form select.localytics-chosen.ng-dirty + div > a {
-  .border-left(solid,2px,@red) !important;
-}
-form input[type=radio]:checked.ng-dirty:before{
-  content:"";
-  .border-left(solid,2px,@red) !important;
-  margin-left:-2px;
-}
-form input[type=checkbox].ng-dirty:before {
-  content:"";
-  .border-left(solid,2px,@red) !important;
-  margin-left:-2px;
-}
+//.border-left(@borderStyle:auto,@borderWidth:auto,@borderColor:auto){
+//  border-left:@borderStyle @borderWidth @borderColor;
+//}
+//form input[type="text"].ng-dirty,form textarea.ng-dirty,form select.ng-dirty,form input[type="number"].ng-dirty {
+//  .border-left(solid,2px,@red) !important;
+//}
+//form select.localytics-chosen.ng-dirty + div > a {
+//  .border-left(solid,2px,@red) !important;
+//}
+//form input[type=radio]:checked.ng-dirty:before{
+//  content:"";
+//  .border-left(solid,2px,@red) !important;
+//  margin-left:-2px;
+//}
+//form input[type=checkbox].ng-dirty:before {
+//  content:"";
+//  .border-left(solid,2px,@red) !important;
+//  margin-left:-2px;
+//}
 .modifiedInfo {
   color: @red !important;
 }

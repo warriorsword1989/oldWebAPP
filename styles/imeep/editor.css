@@ -1457,25 +1457,6 @@ a.fm-panel-controlArrowRight > span {
   font-size: 12px;
 }
 /*** 表单修改后样式 ***/
-form input[type="text"].ng-dirty,
-form textarea.ng-dirty,
-form select.ng-dirty,
-form input[type="number"].ng-dirty {
-  border-left: solid 2px #ff0000 !important;
-}
-form select.localytics-chosen.ng-dirty + div > a {
-  border-left: solid 2px #ff0000 !important;
-}
-form input[type=radio]:checked.ng-dirty:before {
-  content: "";
-  border-left: solid 2px #ff0000 !important;
-  margin-left: -2px;
-}
-form input[type=checkbox].ng-dirty:before {
-  content: "";
-  border-left: solid 2px #ff0000 !important;
-  margin-left: -2px;
-}
 .modifiedInfo {
   color: #ff0000 !important;
 }
