@@ -695,15 +695,11 @@ a.fm-panel-controlArrowRight > span {
   cursor: pointer;
 }
 .close-tips {
-  top: 40px;
-  right: 2px;
-  bottom: auto;
-  left: auto;
-  position: absolute;
+  float: right;
   color: #fff;
+  top: -20px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 20px;
-  transition: all .3s;
 }
 .close-tips:hover {
   color: #A5A1A1;
