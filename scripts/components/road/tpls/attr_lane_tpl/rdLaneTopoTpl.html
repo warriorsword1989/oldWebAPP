@@ -31,6 +31,65 @@
                                     </button>
                                 </div>
                             </div>
+                            <div style="background-color:#1c1c20;right:0px;position: absolute;width: 250px;"
+                                 class="content scroll-styled dark">
+                                <!--<form>-->
+                                    <div class="fm-panel" style="margin-bottom: 5px;">
+                                        <div class="title">
+                                            <div>原始车道连通（共 <span ng-bind="laneTopoInfoArr.length">0</span> 条）</div>
+                                        </div>
+                                        <div class="content">
+                                            <div ng-repeat="cItem in laneTopoInfoArr" class="blackTheme module-box">
+                                                <ul class="fm-ul fm-ul-form">
+                                                    <li>
+                                                        <div style="width: 10%;min-width:0px">
+                                                            <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
+                                                        </div>
+                                                        <label>显示</label>
+                                                        <label style="width: 70%">连通PID：{{cItem.pid}}</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;">
+                                    <div class="title">
+                                        <div>删除车道连通（共 <span ng-bind="deleteLaneTopoArr.length">0</span> 条）</div>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-repeat="cItem in deleteLaneTopoArr" class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <div style="width: 10%;min-width:0px">
+                                                        <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
+                                                    </div>
+                                                    <label>显示</label>
+                                                    <label style="width: 70%">连通PID：{{cItem.pid}}</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;">
+                                    <div class="title">
+                                        <div>新增车道连通（共 <span ng-bind="insertLaneTopoArr.length">0</span> 条）</div>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-repeat="cItem in insertLaneTopoArr" class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <div style="width: 10%;min-width:0px">
+                                                        <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
+                                                    </div>
+                                                    <label>显示</label>
+                                                    <label style="width: 70%">连通PID：{{cItem.pid}}</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--</form>-->
+                            </div>
                         </div>
                     </div>
 

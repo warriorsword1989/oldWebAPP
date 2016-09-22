@@ -56,10 +56,10 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
             }
             $scope.addDirectData.details.unshift($scope.newLimited);
             if ($scope.newLimited.type === 1) {
-                $scope.addDirectData.restrictInfo += "," + $scope.newLimited.restricInfo;
+                $scope.addDirectData.restricInfo = $scope.addDirectData.restricInfo +"," + $scope.newLimited.restricInfo;
             } else {
                 var newDirect = ",[" + $scope.newLimited.restricInfo + "]";
-                $scope.addDirectData.restrictInfo += newDirect;
+                $scope.addDirectData.restricInfo += newDirect;
 
             }
 
