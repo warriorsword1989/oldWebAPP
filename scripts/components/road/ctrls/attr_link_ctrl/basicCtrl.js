@@ -288,6 +288,18 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 				}
 			}
 		}
+        //10级路变非10级以及非10级切换为10级时对行人导航面板联动控制;
+        if(oldValue != 10 && newValue == 10 ){
+            $scope.linkData.walkFlag = 1;
+            $scope.linkData.sidewalkFlag = 0;
+            $scope.linkData.sidewalks = [];
+            $scope.linkData.walkerLimitFlag = true;
+        }else if(oldValue == 10 && newValue != 10 ){
+            $scope.linkData.walkFlag = 0;
+            $scope.linkData.sidewalkFlag = 0;
+            $scope.linkData.walkerLimitFlag = false;
+        }
+
 	});
 	// 修改道路种别
 	$scope.changeKindCode = function () {
