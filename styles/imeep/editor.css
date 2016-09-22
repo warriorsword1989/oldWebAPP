@@ -1925,6 +1925,30 @@ ul.fm-ul-insert > li {
   box-shadow: 0 0 0 2px #49A7DA;
   z-index: 9;
 }
+.lane-img-container .lane-driveway.red {
+  background-color: #da4542;
+  box-shadow: 0 0 0 2px #da4542;
+  z-index: 9;
+}
+.lane-img-container .lane-driveway.yellow {
+  background-color: #d9da5d;
+  box-shadow: 0 0 0 2px #d9da5d;
+  z-index: 9;
+}
+.lane-img-container .lane-driveway.green {
+  background-color: #b5da61;
+  box-shadow: 0 0 0 2px #b5da61;
+  z-index: 9;
+}
+.lane-img-container .lane-driveway .number {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  bottom: 30px;
+  position: absolute;
+  color: #bfb921;
+  font-size: 16px;
+}
 .lane-img-container .lane-driveway .top {
   position: absolute;
   top: 0;

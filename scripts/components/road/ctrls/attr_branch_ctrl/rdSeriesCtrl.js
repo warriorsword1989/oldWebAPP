@@ -308,15 +308,13 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         }
     }
     /*展示详细信息*/
-    $scope.showDetail = function (type) {
-        var tempCtr = '', tempTepl = '';
-        if (type == 0) {  //名称信息
-            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/nameInfoCtrl';
-            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/nameInfoTepl.html';
-        } else {  //经过线
-            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
-            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
+    $scope.showDetail = function () {
+        if($scope.diverObj.vias.length == 0){
+            return;
         }
+        var tempCtr = '', tempTepl = '';
+        tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
+        tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,

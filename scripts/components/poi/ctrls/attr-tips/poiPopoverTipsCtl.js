@@ -108,7 +108,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         }
     });
     // };
-}]).directive('image404', function() { //图片404时显示默认图片
+}])/*.directive('image404', function() { //图片404时显示默认图片
     return {
         restrict: 'A',
         link: function(scope, element, attributes) {
@@ -147,4 +147,4 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
             }
         }
     }
-});
+})*/;
