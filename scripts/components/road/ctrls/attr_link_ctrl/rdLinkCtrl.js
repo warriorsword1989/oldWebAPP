@@ -336,7 +336,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         if(!$scope.linkData){
             return ;
         }
-        dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
+        dsEdit.delete($scope.linkData.pid, "RDLINK", 1).then(function(data) {
             if (data) {
                 rdLink.redraw();
                 rdNode.redraw();

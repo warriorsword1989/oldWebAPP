@@ -117,7 +117,7 @@
             <div class="d-group">
                 <div class="d-name">设施类型：</div>
                 <div class="d-value">
-                    <select class="rounded d-input"  ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                    <select ng-disabled="diverObj.details[0].estabType==9" class="rounded d-input"  ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
                 </div>
             </div>
             <div class="d-group">

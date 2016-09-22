@@ -132,11 +132,20 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 			}
 		}
 
-		//回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-		if ($scope.basicFrom) {
-			$scope.basicFrom.$setPristine();
-		}
-	}
+        //if($scope.linkData.direct==1){
+        //    if($scope.linkData.laneNum){
+        //        linkClassCtr(parseInt($scope.linkData.laneNum)/2);
+        //    }else{
+        //        var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
+        //        linkClassCtr(temp);
+        //    }
+        //}
+
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.basicFrom) {
+            $scope.basicFrom.$setPristine();
+        }
+    }
 
 	//车道等级的联动控制;
 	function linkClassCtr(tempVar) {
@@ -201,20 +210,44 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		}
 	}
 
-	$scope.$watch('linkData.direct', function (newValue) {
-		if (newValue == 2 || newValue == 3) {
-			linkClassCtr($scope.linkData.laneNum);
-		} else {
-			if ($scope.linkData.laneNum % 2) {
-				$scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum) - 1) / 2;
-				$scope.linkData.laneRight = (parseInt($scope.linkData.laneNum) + 1) / 2;
-				$scope.linkData.laneNum = 0;
-				linkClassCtr($scope.linkData.laneRight);
-			} else {
-				linkClassCtr($scope.linkData.laneLeft);
-			}
-		}
-	});
+    $scope.$watch('linkData.direct',function(newValue){
+        if(newValue==2||newValue==3){
+            linkClassCtr($scope.linkData.laneNum);
+        }else{
+            if($scope.linkData.laneNum%2){
+                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
+                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+                $scope.linkData.laneNum = 0;
+                linkClassCtr($scope.linkData.laneRight);
+            }else{
+                if(!$scope.linkData.laneNum){
+                    var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
+                    linkClassCtr(temp);
+                }else{
+                    linkClassCtr(parseInt($scope.linkData.laneNum)/2);
+                }
+            }
+        }
+    });
+
+    if(objectEditCtrl.data) {
+        $scope.initOtherData();
+    }
+    objectEditCtrl.updateObject=function() {
+        $scope.initOtherData();
+    }
+    $scope.emptyGroupId = function () {
+        $("#difGroupIdText").val("");
+    }
+    // 修改道路种别
+    $scope.changeKindCode = function(){
+        //修改道路种别对道路名的维护;
+        if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
+            for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
+                $scope.linkData.names[i].code = 1;
+            }
+        }
+    };
 
 	if (objectEditCtrl.data) {
 		$scope.initOtherData();
