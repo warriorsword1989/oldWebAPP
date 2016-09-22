@@ -91,10 +91,12 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
             case 1:
                 return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+            case 2:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
             case 3:
                 return new RegExp('^[ec]').test($scope.diverObj.details[0].arrowCode);
             case 4:
-                return new RegExp('^[e]|[c]|[d]$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+                return new RegExp('^[ecd]').test($scope.diverObj.details[0].arrowCode);
         }
     };
     /*输入箭头图代码显示选择图片界面*/
