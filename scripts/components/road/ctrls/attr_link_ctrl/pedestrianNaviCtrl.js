@@ -48,6 +48,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         $scope.naviData.sidewalks.splice(id, 1);
     };
     $scope.addSidewalk = function () {
+        if($scope.naviData.walkerLimitFlag){return;}
         var newSidewalk = fastmap.dataApi.rdLinkSideWalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.sidewalks.unshift(newSidewalk);
         $scope.walkFlag++;
