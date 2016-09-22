@@ -10,6 +10,10 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeRdCrossData = function () {
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.rdCrossForm) {
+            $scope.rdCrossForm.$setPristine();
+        }
         $scope.nameGroup = [];
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
@@ -25,17 +29,18 @@ selectApp.controller("rdCrossController", ['$scope','dsEdit','dsFcc','appPath',f
             })
         }
         highLightFeatures.push({
-            id:$scope.rdCrossData.pid.toString(),
-            layerid:'relationData',
-            type:'relationData',
-            style:{}
+            id: $scope.rdCrossData.pid.toString(),
+            layerid: 'rdCross',
+            type: 'rdCross',
+            style: {
+                fillColor:'#ff00ff',
+                radius:7
+            }
         });
+
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        if($scope.rdCrossForm) {
-            $scope.rdCrossForm.$setPristine();
-        }
+
     };
 
     // 刷新rdCrossData.names

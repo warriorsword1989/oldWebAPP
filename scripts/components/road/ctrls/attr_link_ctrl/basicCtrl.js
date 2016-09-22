@@ -132,52 +132,89 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             }
         }
 
-        function linkClassCtr(tempVar){
-            if(tempVar==0){
-                $scope.linkData.laneClass = 0;
-            }else if(tempVar==1){
-                $scope.linkData.laneClass = 1;
-            }else if(tempVar>=2&&tempVar<=3){
-                $scope.linkData.laneClass = 2;
-            }else{
-                $scope.linkData.laneClass = 3;
-            }
-        }
-        //当为单方向时根据车道总数监听车道等级的变化；
-        if($scope.linkData.direct==2||$scope.linkData.direct==3){
-            $scope.showLeftRight = false;
-            $scope.$watch('linkData.laneNum',function(newValue){
-                linkClassCtr(newValue);
-            })
-        }else{
-            $scope.showLeftRight = true;
-        }
-
-        //当为双方向时;
-        if($scope.linkData.direct==1){
-            $scope.$watch('linkData',function(newValue){
-                if(newValue.laneRight>newValue.laneLeft){
-                    linkClassCtr(newValue.laneRight);
-                }else{
-                    linkClassCtr(newValue.laneLeft);
-                }
-            },true)
-            //左右车道相等;
-            if($scope.linkData.laneNum!=0){
-                $scope.linkData.laneLeft = $scope.linkData.laneRight = parseInt(parseInt($scope.linkData.laneNum)/2);
-                linkClassCtr($scope.linkData.laneLeft)
-            }else{//左右车道不同
-                var bigNum = $scope.linkData.laneLeft>$scope.linkData.laneRight?$scope.linkData.laneLeft:$scope.linkData.laneRight;
-                linkClassCtr(bigNum);
-            }
-        }
-
-
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.basicFrom) {
             $scope.basicFrom.$setPristine();
         }
     }
+
+    //车道等级的联动控制;
+    function linkClassCtr(tempVar){
+        if(tempVar==0){
+            $scope.linkData.laneClass = 0;
+        }else if(tempVar==1){
+            $scope.linkData.laneClass = 1;
+        }else if(tempVar>=2&&tempVar<=3){
+            $scope.linkData.laneClass = 2;
+        }else{
+            $scope.linkData.laneClass = 3;
+        }
+    }
+    //双方向情况下左右车道改变联动总车道的控制;
+    function leftAndRightRoadChangeCtrl(){
+        if($scope.linkData.laneLeft != $scope.linkData.laneRight){
+            $scope.linkData.laneNum = 0;
+        }else{
+            $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)+parseInt($scope.linkData.laneRight);
+            if($scope.linkData.laneNum>99)$scope.linkData.laneNum=98;
+        }
+    }
+
+    $scope.numberLengthLimit = function(){
+        switch (arguments[0]){
+            case 1:
+                if(parseInt($scope.linkData.laneNum)){
+                    if($scope.linkData.laneNum){
+                        $scope.linkData.laneNum = parseInt($scope.linkData.laneNum.substr(0,2))
+                    }
+                }else{
+                    $scope.linkData.laneNum = 0;
+                }
+                $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+                linkClassCtr($scope.linkData.laneNum);
+                break;
+            case 2:
+                if(parseInt($scope.linkData.laneLeft)){
+                    if($scope.linkData.laneLeft){
+                        $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft.substr(0,2))
+                    }
+                }else{
+                    $scope.linkData.laneLeft = 0;
+                }
+                leftAndRightRoadChangeCtrl();
+                var temp = $scope.linkData.laneLeft>$scope.linkData.laneRight?$scope.linkData.laneLeft:$scope.linkData.laneRight;
+                linkClassCtr(temp)
+                break;
+            case 3:
+                if(parseInt($scope.linkData.laneRight)){
+                    if($scope.linkData.laneRight){
+                        $scope.linkData.laneRight = parseInt($scope.linkData.laneRight.substr(0,2))
+                    }
+                }else{
+                    $scope.linkData.laneRight = 0;
+                }
+                leftAndRightRoadChangeCtrl();
+                var temp = $scope.linkData.laneLeft>$scope.linkData.laneRight?$scope.linkData.laneLeft:$scope.linkData.laneRight;
+                linkClassCtr(temp)
+                break;
+        }
+    }
+
+    $scope.$watch('linkData.direct',function(newValue){
+        if(newValue==2||newValue==3){
+            linkClassCtr($scope.linkData.laneNum);
+        }else{
+            if($scope.linkData.laneNum%2){
+                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
+                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+                $scope.linkData.laneNum = 0;
+                linkClassCtr($scope.linkData.laneRight);
+            }else{
+                linkClassCtr($scope.linkData.laneLeft);
+            }
+        }
+    });
+
     if(objectEditCtrl.data) {
         $scope.initOtherData();
     }
@@ -187,9 +224,6 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     $scope.emptyGroupId = function () {
         $("#difGroupIdText").val("");
     }
-
-
-
     // 修改道路种别
     $scope.changeKindCode = function(){
       if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {

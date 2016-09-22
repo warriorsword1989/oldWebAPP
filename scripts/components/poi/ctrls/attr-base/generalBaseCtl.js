@@ -294,35 +294,40 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             return false;
         }
 
+        var errMsg;
         var contacts = objectCtrl.data.contacts;
         for (var i = 0,len = contacts.length; i<len;i++){
             if(contacts[i].contactType == 2){ //手机
-                if(!contacts[i].contact){
+                if(!Utils.verifyTelphone(contacts[i].contact) ){
                     flag = false;
+                    errMsg = "电话填写不正确,不能保存！";
                     break;
                 }
-            } else { //非手机
-                if(!contacts[i].contact || !contacts[i].code){
+            } else { //非手机 ,存在区号，区号和电话都是纯数字，电话的长度等于根据区号查出的长度
+                if(!(contacts[i].code && Utils.verifyNumber(contacts[i].code))){
                     flag = false;
+                    errMsg = "区号填写不正确,不能保存！";
                     break;
+                } else if(!Utils.verifyNumber(contacts[i].contact)) {
+                    flag = false;
+                    errMsg = "电话填写不正确,不能保存！";
+                    break;
+                } else if(!($scope.teleCodeToLength[contacts[i].code] == contacts[i].contact.length)) {
+                    if($scope.teleCodeToLength[contacts[i].code]){
+                        flag = false;
+                        errMsg = "电话填写不正确,不算区号长度应该是"+$scope.teleCodeToLength[contacts[i].code]+"位！";
+                        break;
+                    } else if($scope.teleCodeToLength[contacts[i].code] == 0){
+                        flag = false;
+                        errMsg = "区号填写不正确,不能保存！";
+                        break;
+                    }
                 }
-
             }
         }
         if(!flag){
-            swal("保存提示", '电话填写不正确,不能保存！', "warning");
+            swal("保存提示", errMsg, "warning");
             return flag;
-        }
-        for (var i = 0,len = contacts.length; i<len;i++){
-            if(contacts[i].contactType == 1){ //固话
-                if($scope.teleCodeToLength[contacts[i].code] && contacts[i].contact.length != $scope.teleCodeToLength[contacts[i].code]){
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        if(!flag){
-            swal("保存提示", '电话长度不正确,不能保存！', "warning");
         }
         return flag;
     }
@@ -349,7 +354,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
 
-        attrToDBC();
+        attrToDBC(); //部分属性转全角
 
         objectCtrl.save();
         var chaged =  objectCtrl.changedProperty;

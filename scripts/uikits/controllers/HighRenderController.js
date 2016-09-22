@@ -99,7 +99,8 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
-                                        this.drawCross(id, hightlightfeature, ctx);
+                                        //this.drawCross(id, hightlightfeature, ctx);
+                                        this.drawPoint(id, hightlightfeature,ctx,style)
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDRESTRICTION') {
                                         this.drawRestrict(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDLANECONNEXITY') {
@@ -377,6 +378,20 @@ fastmap.uikit.HighRenderController = (function() {
                         height: 30,
                         drawx: -15,
                         drawy: -15
+                    })
+                }
+            },
+            drawPoint:function (id, feature, ctx,style){
+                var fillColor = style.fillColor ? style.fillColor : "red";
+                var radius = style.radius ? style.radius : 6;
+                for (var j in feature.geometry.coordinates) {
+                    var geo = feature.geometry.coordinates[j];
+                    this.layer._drawPoint({
+                        boolPixelCrs: true,
+                        ctx: ctx,
+                        fillColor: fillColor,
+                        radius: 6,
+                        geom: geo
                     })
                 }
             },
