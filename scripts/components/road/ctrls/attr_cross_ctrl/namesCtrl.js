@@ -66,5 +66,12 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
         });
     };
 
+    $scope.changeLanguage = function (index){
+        if( $scope.rdCrossNames[index].langCode == 'ENG'){
+            $scope.rdCrossNames[index].srcFlag = 1;
+        } else {
+            $scope.rdCrossNames[index].srcFlag = 0;
+        }
+    };
 
-}])
+}]);
