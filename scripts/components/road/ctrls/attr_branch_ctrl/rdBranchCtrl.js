@@ -447,6 +447,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/nameInfoCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/nameInfoTepl.html';
         } else {  //经过线
+            if($scope.diverObj.vias.length == 0){
+                return;
+            }
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }
