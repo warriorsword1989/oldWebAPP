@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("app");
-angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsEdit", "appPath","$timeout", function($scope, $ocLazyLoad, dsEdit, appPath,$timeout) {
+angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad', "dsEdit", "appPath", "$timeout", function($scope, $ocLazyLoad, dsEdit, appPath, $timeout) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -20,7 +20,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     $scope.modelArray = [false, false, false, false, false, false];
     //改变模块的背景
     $scope.initializeLinkData = function() {
-        $scope.changeModule('basicModule',0)
+        $scope.changeModule('basicModule', 0)
         for (var layer in layerCtrl.layers) {
             if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[layer].options.visible) {
                 for (var i = 0; i < $scope.modelArray.length; i++) {
@@ -103,7 +103,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
             point: pointOfSelect
         });
     };
-
     //获取某个模块的信息
     $scope.changeModule = function(url, ind) {
         for (var i = 0; i < $scope.modelArray.length; i++) {
@@ -226,22 +225,21 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         $scope.initializeLinkData();
     }
     $scope.save = function() {
-        if(!$scope.linkData){
+        if (!$scope.linkData) {
             return;
         }
         //对车道数进行判断;
-        if($scope.linkData.direct==1){
-            if($scope.linkData.laneLeft==$scope.linkData.laneRight){
-                $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
+        if ($scope.linkData.direct == 1) {
+            if ($scope.linkData.laneLeft == $scope.linkData.laneRight) {
+                $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft) * 2;
                 $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
                 $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
                 $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
             }
-            if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
-                $scope.linkData.laneNum=0;
+            if ($scope.linkData.laneLeft != $scope.linkData.laneRight) {
+                $scope.linkData.laneNum = 0;
             }
         }
-
         if ($scope.linkData.forms.length == 0) {
             var newForm = fastmap.dataApi.rdLinkForm({
                 "linkPid": $scope.linkData.pid,
@@ -314,20 +312,20 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     $(editLayer.options._div).unbind();
                 }
                 dsEdit.getByPid(data.pid, "RDLINK").then(function(ret) {
-					if (ret) {
-						objectCtrl.setCurrentObject('RDLINK', ret);
-						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-					}
-				});
-//                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                    if (ret) {
+                        objectCtrl.setCurrentObject('RDLINK', ret);
+                        objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                    }
+                });
+                //                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
             }
         })
     };
     $scope.delete = function() {
-        if(!$scope.linkData){
-            return ;
+        if (!$scope.linkData) {
+            return;
         }
-        dsEdit.delete($scope.linkData.pid, "RDLINK").then(function(data) {
+        dsEdit.delete($scope.linkData.pid, "RDLINK", 1).then(function(data) {
             if (data) {
                 rdLink.redraw();
                 rdNode.redraw();
@@ -339,7 +337,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     map.floatMenu = null;
                 }
                 if (map.currentTool) {
-                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                    map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
                 }
                 //清空编辑图层和shapeCtrl
                 editLayer.drawGeometry = null;
@@ -349,13 +347,11 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+                $scope.$emit("SWITCHCONTAINERSTATE", {
+                    "attrContainerTpl": false,
+                    "subAttrContainerTpl": false
+                });
                 $scope.linkData = null;
-
-                // $scope.$emit("SWITCHCONTAINERSTATE",{
-                //     "attrContainerTpl":false,
-                //     "subAttrContainerTpl":false
-                // });
             }
         });
     };
