@@ -162,6 +162,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             })
                         });
                     }
+                    var showLaneInfoObj = {
+                        "loadType": "attrTplContainer",
+                        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                        "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html'
+                    };
+                    scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
+                    
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": true,
                         "subAttrContainerTpl": false
