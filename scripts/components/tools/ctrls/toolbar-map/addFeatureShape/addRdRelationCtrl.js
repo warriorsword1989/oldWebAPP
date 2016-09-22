@@ -737,10 +737,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;
                     }
-                    //复合路口上不能制作信号灯
-                    if(data.imiCode == 1){
-                        return;
-                    }
                     //清除上一个选择的高亮
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [];
