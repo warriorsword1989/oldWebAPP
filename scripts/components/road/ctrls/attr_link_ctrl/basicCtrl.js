@@ -132,6 +132,15 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             }
         }
 
+        //if($scope.linkData.direct==1){
+        //    if($scope.linkData.laneNum){
+        //        linkClassCtr(parseInt($scope.linkData.laneNum)/2);
+        //    }else{
+        //        var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
+        //        linkClassCtr(temp);
+        //    }
+        //}
+
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.basicFrom) {
             $scope.basicFrom.$setPristine();
@@ -210,7 +219,12 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
                 $scope.linkData.laneNum = 0;
                 linkClassCtr($scope.linkData.laneRight);
             }else{
-                linkClassCtr($scope.linkData.laneLeft);
+                if(!$scope.linkData.laneNum){
+                    var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
+                    linkClassCtr(temp);
+                }else{
+                    linkClassCtr(parseInt($scope.linkData.laneNum)/2);
+                }
             }
         }
     });
@@ -226,11 +240,12 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     }
     // 修改道路种别
     $scope.changeKindCode = function(){
-      if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
-        for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
-          $scope.linkData.names[i].code = 1;
+        //修改道路种别对道路名的维护;
+        if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
+            for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
+                $scope.linkData.names[i].code = 1;
+            }
         }
-      }
     };
 
     $scope.showNames = function () {
