@@ -122,22 +122,18 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 
     /*十进制转二进制*/
     function conversionSystem() {
-        $scope.variableSpeed.location = parseInt(objCtrl.data.location, 10).toString(2);
-        if ($scope.variableSpeed.location.length) {
-            if ($scope.variableSpeed.location.length == 1) {
-                $scope.variableSpeed.locationLeft = false;
-                $scope.variableSpeed.locationRight = false;
-                $scope.variableSpeed.locationTop = true;
-            } else if ($scope.variableSpeed.location.length == 2) {
-                $scope.variableSpeed.locationLeft = false;
-                $scope.variableSpeed.locationRight = true;
-                $scope.variableSpeed.locationTop = true;
-            } else if ($scope.variableSpeed.location.length == 3) {
-                $scope.variableSpeed.locationLeft = true;
-                $scope.variableSpeed.locationRight = true;
-                $scope.variableSpeed.locationTop = true;
-            }
+        var temp = parseInt(objCtrl.data.location, 10).toString(2);//$scope.variableSpeed.location
+        switch (temp.length){
+            case 1:
+                temp = '00'+temp;
+                break;
+            case 2:
+                temp = '0'+temp;
+                break;
         }
+        $scope.variableSpeed.locationTop = parseInt(temp[0])?true:false;
+        $scope.variableSpeed.locationRight = parseInt(temp[1])?true:false;
+        $scope.variableSpeed.locationLeft = parseInt(temp[2])?true:false;
     }
 
 	/*二进制转十进制*/
@@ -158,7 +154,7 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 	}
 
 	$scope.save = function () {
-		objCtrl.data.location = bin2dec(Number($scope.variableSpeed.locationLeft) + '' + Number($scope.variableSpeed.locationTop) + '' + Number($scope.variableSpeed.locationRight));
+		objCtrl.data.location = bin2dec(Number($scope.variableSpeed.locationTop) + '' + Number($scope.variableSpeed.locationRight) + '' + Number($scope.variableSpeed.locationLeft));
         if($scope.variableSpeed.speedValue>9999){
             swal("警告", '限速值超过最大值！', "warning");
             return;
