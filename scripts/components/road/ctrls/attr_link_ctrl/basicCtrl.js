@@ -132,15 +132,6 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 			}
 		}
 
-        //if($scope.linkData.direct==1){
-        //    if($scope.linkData.laneNum){
-        //        linkClassCtr(parseInt($scope.linkData.laneNum)/2);
-        //    }else{
-        //        var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
-        //        linkClassCtr(temp);
-        //    }
-        //}
-
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.basicFrom) {
             $scope.basicFrom.$setPristine();
@@ -210,6 +201,7 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		}
 	}
 
+    //道路link但双方向切换对车道数和车道等级的维护;
     $scope.$watch('linkData.direct',function(newValue){
         if(newValue==2||newValue==3){
             linkClassCtr($scope.linkData.laneNum);
@@ -229,6 +221,7 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
             }
         }
     });
+    //
 
     if(objectEditCtrl.data) {
         $scope.initOtherData();
