@@ -16,6 +16,7 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['limit'] = data.m.c;
         this.properties['form'] = data.m.h;
         this.properties['fc'] = data.m.i;
+        this.properties['imiCode'] = data.m.j;
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
         var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
         if (this.properties['form'] && this.properties['form'].indexOf('30') !== -1) {

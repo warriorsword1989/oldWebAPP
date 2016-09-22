@@ -301,7 +301,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
         //     }
         // });
 
-        dsEdit.delete($scope.rdNodeData.pid, "RDNODE").then(function(data) {
+        dsEdit.delete($scope.rdNodeData.pid, "RDNODE", 1).then(function(data) {
             if (data) {
                 rdLink.redraw();
                 rdNode.redraw();

@@ -22,6 +22,10 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
+        if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
+            $scope.diverObj.details[0].estabType = 9;
+        }
         objCtrl.namesInfo = objCtrl.data.details[0].names;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
@@ -87,10 +91,12 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
             case 1:
                 return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+            case 2:
+                return new RegExp('^[0-2]*$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
             case 3:
-                return new RegExp('^[e]|[c]$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+                return new RegExp('^[ec]').test($scope.diverObj.details[0].arrowCode);
             case 4:
-                return new RegExp('^[e]|[c]|[d]$').test($scope.diverObj.details[0].arrowCode.substr(0,1));
+                return new RegExp('^[ecd]').test($scope.diverObj.details[0].arrowCode);
         }
     };
     /*输入箭头图代码显示选择图片界面*/
