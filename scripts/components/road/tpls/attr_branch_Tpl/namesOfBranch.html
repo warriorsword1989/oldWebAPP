@@ -46,10 +46,10 @@
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
                     <div ng-show="diverObj.details[0].branchType != 3">
-                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()">
+                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()">
                     </div>
                     <div ng-show="diverObj.details[0].branchType == 3">
-                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
+                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
                     </div>
                     <div class="pic-show" ng-show="showImgData">
                         <div class="option-hide">
@@ -146,7 +146,7 @@
     </form>
     <!--end 模式图信息-->
     <!--begin 名称信息-->
-    <div ng-if="diverObj.details[0].branchType != 3">
+    <div ng-if="diverObj.details[0].branchType == 1||diverObj.details[0].branchType == 2">
         <div class="module-box show-detail-title" ng-click="showDetail(0);">
             <div class="box-head font-bold">
                 名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）

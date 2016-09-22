@@ -84,6 +84,12 @@
                       </div>
                   </li>
                   <li>
+                      <label >关联LINK</label>
+                      <div>
+                          <span ng-bind="poi.linkPid"></span>
+                      </div>
+                  </li>
+                  <li>
                       <label >备注</label>
                       <div>
                           <textarea fm-edit-view class="fm-control" ng-model="poi.poiMemo" rows=""></textarea>
@@ -105,7 +111,7 @@
                 <ul class="fm-ul fm-ul-list">
                     <li ng-repeat="item in poi.contacts">
                         <div>
-                            <input type='text' class="fm-control tel-code" ng-class="{'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="5" ng-model="item.code" ng-show="item.contactType==1" ng-disabled="isSpecialOperation">
+                            <input type='text' class="fm-control tel-code" ng-class="{'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="5" ng-model="item.code" ng-show="item.contactType==1" ng-blur="checkTelAreaCode($index,$event)" ng-disabled="isSpecialOperation">
                             <span ng-show="item.contactType==1"> - </span>
                             <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2,'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="11" ng-blur="checkTelNo($index,$event)" ng-model="item.contact" ng-disabled="isSpecialOperation">
                         </div>

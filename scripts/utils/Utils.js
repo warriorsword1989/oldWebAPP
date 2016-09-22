@@ -82,5 +82,17 @@ Utils = {
             dObj[arr[i]] = true;
         }
         return Object.keys(dObj);
+    },
+    /**
+     * 校验是否是纯数字，如果是纯数字就返回true
+     */
+    verifyNumber:function (str){
+        return /^[0-9]*$/.test(str)
+    },
+    /**
+     * 校验是否是电话，如果是电话就返回true
+     */
+    verifyTelphone:function (str){
+        return /^[1][3-8]+\d{9}$/.test(str)
     }
 };
