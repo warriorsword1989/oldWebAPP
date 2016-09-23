@@ -6,7 +6,7 @@
                     <li>
                         <label>信用卡类型</label>
                         <div class="block">
-                            <label ng-repeat="(key, value) in creditCard" ng-if="key == 0" class="fm-specialopt">
+                            <label ng-repeat="(key, value) in creditCard" ng-if="key == 0" style="color: greenyellow;">
                                 <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in creditCard" ng-if="key != 0">
@@ -43,7 +43,6 @@
                                 </label>
                             </div>
                             <br>
-                            <div style="border-bottom: 1px solid red;"></div>
                             <div style="margin-top: 10px;">
                                 <label ng-repeat="(key, value) in foodType2Obj" style="font-weight: normal;margin-right: 2px;">
                                     <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}
