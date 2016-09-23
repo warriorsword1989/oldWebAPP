@@ -296,8 +296,15 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
                     break;
                 } else {
                     if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
+                        var infoArr = $scope.rdRestrictData.restricInfo.split(",");
+                        for(var j=0;j<infoArr.length;j++){
+                            if(infoArr[j] == item.restricInfo){
+                                infoArr.splice(j,1);
+                                break;
+                            }
+                        }
+                        $scope.rdRestrictData.restricInfo = infoArr.join(",");
                         $scope.rdRestrictData.details.splice(i, 1);
-                        $scope.rdRestrictData.restricInfo = $scope.rdRestrictData.restricInfo.split(",").splice(item.flag,1).join(",");
                         len--;
                     }
                 }
