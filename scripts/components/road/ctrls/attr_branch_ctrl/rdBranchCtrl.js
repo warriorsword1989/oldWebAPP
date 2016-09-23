@@ -221,7 +221,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
             }
         }else if($scope.diverObj.details[0].branchType == 3){
-            if($scope.diverObj.details[0].patternCode.charAt(0)!=5 && $scope.diverObj.details[0].patternCode.charAt(0)!=7 && $scope.diverObj.details[0].patternCode.charAt(0)!=8){
+            if($scope.diverObj.details[0].patternCode.charAt(0)==5 || $scope.diverObj.details[0].patternCode.charAt(0)==8){
+                $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(0);
+            }else{
                 $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
             }
         }
@@ -445,6 +447,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/nameInfoCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/nameInfoTepl.html';
         } else {  //经过线
+            if($scope.diverObj.vias.length == 0){
+                return;
+            }
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }
@@ -478,6 +483,11 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         //将出口编号转换成大写
         if(objCtrl.data.details[0].exitNum){
             objCtrl.data.details[0].exitNum = Utils.ToDBC(objCtrl.data.details[0].exitNum);
+        }
+        if(objCtrl.data.details[0].names && objCtrl.data.details[0].names.length > 0){
+            for(var i = 0 ; i < objCtrl.data.details[0].names.length; i ++ ){
+                objCtrl.data.details[0].names[i].name = Utils.ToDBC(objCtrl.data.details[0].names[i].name);
+            }
         }
         objCtrl.save();
         var param = {};

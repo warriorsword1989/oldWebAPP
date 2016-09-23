@@ -690,9 +690,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     //判断相交点数
                     if (crossGeos.length == 0) {
-                        tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
+                        swal("错误信息", "所选区域无相交点，请重新选择立交点位！", "error");
+                        // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
-                        tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
+                        swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
+                        // tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
                     } else {
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/

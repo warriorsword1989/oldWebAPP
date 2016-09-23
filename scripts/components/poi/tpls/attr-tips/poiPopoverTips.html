@@ -4,7 +4,7 @@
             POI状态
         </label>
     </div>
-    <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-remove-sign close-tips" ng-click="closeTips();"></span>
     <div class="col-sm-12 img-preview-container">
         <span ng-if="nowActiveImg.thumbnailUrl" class="glyphicon glyphicon-trash remove-preview-img" title="删除" ng-click="deletePhoto(nowActiveImg);"></span>
         <img ng-if="nowActiveImg.thumbnailUrl" ng-click="showImage(nowActiveImg,nowActiveIndex);" image-404="../../../images/road/img/noimg.png" ng-src="{{nowActiveImg.originUrl}}" class="img-preview" alt="">

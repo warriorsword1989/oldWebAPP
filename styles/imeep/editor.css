@@ -695,15 +695,11 @@ a.fm-panel-controlArrowRight > span {
   cursor: pointer;
 }
 .close-tips {
-  top: 40px;
-  right: 2px;
-  bottom: auto;
-  left: auto;
-  position: absolute;
+  float: right;
   color: #fff;
+  top: -20px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 20px;
-  transition: all .3s;
 }
 .close-tips:hover {
   color: #A5A1A1;
@@ -1457,25 +1453,6 @@ a.fm-panel-controlArrowRight > span {
   font-size: 12px;
 }
 /*** 表单修改后样式 ***/
-form input[type="text"].ng-dirty,
-form textarea.ng-dirty,
-form select.ng-dirty,
-form input[type="number"].ng-dirty {
-  border-left: solid 2px #ff0000 !important;
-}
-form select.localytics-chosen.ng-dirty + div > a {
-  border-left: solid 2px #ff0000 !important;
-}
-form input[type=radio]:checked.ng-dirty:before {
-  content: "";
-  border-left: solid 2px #ff0000 !important;
-  margin-left: -2px;
-}
-form input[type=checkbox].ng-dirty:before {
-  content: "";
-  border-left: solid 2px #ff0000 !important;
-  margin-left: -2px;
-}
 .modifiedInfo {
   color: #ff0000 !important;
 }
@@ -2106,4 +2083,40 @@ a.batchButton {
   color: #fff;
   cursor: pointer;
   font-size: 16px !important;
+}
+.select-car {
+  margin: 5px !important;
+  border-radius: 3px;
+  padding: 3px 0 3px 13px;
+  transition: all .3s;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.select-car.blue {
+  background-color: #40A2D7;
+}
+.select-car.blue:hover {
+  background-color: #358BBA;
+}
+.select-car.red {
+  background-color: #EA7070;
+}
+.select-car.red:hover {
+  background-color: #B25151;
+}
+.select-car:hover {
+  padding-right: 13px !important;
+  padding-left: 0 !important;
+}
+.select-car .select-car-text {
+  color: #ffffff;
+  right: -2px;
+  position: relative;
+}
+.select-car .remove-car-type {
+  position: relative;
+  right: -12px;
+  cursor: pointer;
 }
