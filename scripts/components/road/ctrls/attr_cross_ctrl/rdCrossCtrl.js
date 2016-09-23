@@ -53,9 +53,23 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
     function initNameInfo() {
         if ($scope.rdCrossData.names.length > 0) {
             $scope.nameGroup = [];
-            $scope.rdCrossData.names = $scope.rdCrossData.names.sort(function(a, b) {
-                return b.nameGroupid >= a.nameGroupid;
-            });
+            /*根据数据中对象某一属性值排序*/
+            function compare(propertyName) {
+                return function (object1, object2) {
+                    var value1 = object1[propertyName];
+                    var value2 = object2[propertyName];
+                    if (value2 < value1) {
+                        return -1;
+                    }
+                    else if (value2 > value1) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                }
+            }
+            $scope.rdCrossData.names.sort(compare('nameGroupid'));
             for (var i = 0, len = $scope.rdCrossData.names[0].nameGroupid; i < len; i++) {
                 var tempArr = [];
                 for (var j = 0, le = $scope.rdCrossData.names.length; j < le; j++) {

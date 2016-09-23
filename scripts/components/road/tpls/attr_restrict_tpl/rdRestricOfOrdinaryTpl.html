@@ -9,15 +9,17 @@
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
-                            <div ng-repeat="item in rdRestrictData.details" class="inline">
+                            <div ng-repeat="item in rdRestrictData.details" class="inline" style="width: auto;min-width: 20px;">
+                                 <span style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"
+                                       class="glyphicon glyphicon-remove-sign" ng-click="deleteDirect(item,$event)"></span>
                                 <img ng-if="item.flag===1"
                                      ng-src="../../../images/road/1302/1302_1_{{item.restricInfo}}.svg"
                                      class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}"
-                                     ng-click="showTips(item,$event,$index)" ng-mousedown="deleteDirect(item,$event)">
+                                     ng-click="showTips(item,$event,$index)">
                                 <img ng-if="item.flag===2||item.flag===0"
                                      ng-src="../../../images/road/1302/1302_2_{{item.restricInfo}}.svg"
                                      data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips"
-                                     ng-click="showTips(item,$event,$index)" ng-mousedown="deleteDirect(item,$event)">
+                                     ng-click="showTips(item,$event,$index)">
                             </div>
                             <div class="inline">
                                 <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer"

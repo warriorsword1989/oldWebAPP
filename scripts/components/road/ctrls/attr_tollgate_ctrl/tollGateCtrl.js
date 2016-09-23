@@ -56,9 +56,23 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	function initNameInfo(){
 		if($scope.tollGateData.names.length > 0){
 			$scope.nameGroup = [];
-			$scope.tollGateData.names = $scope.tollGateData.names.sort(function(a,b){
-					return b.nameGroupid >= a.nameGroupid;
-			});
+			/*根据数据中对象某一属性值排序*/
+			function compare(propertyName) {
+				return function (object1, object2) {
+					var value1 = object1[propertyName];
+					var value2 = object2[propertyName];
+					if (value2 < value1) {
+						return -1;
+					}
+					else if (value2 > value1) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
+				}
+			}
+			$scope.tollGateData.names.sort(compare('nameGroupid'));
 			for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
 				var tempArr = [];
 				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
@@ -379,6 +393,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
 				swal("操作成功", "修改收费站成功！", "success");
+				$scope.$emit('SWITCHCONTAINERSTATE', {
+					'subAttrContainerTpl': false,
+					'attrContainerTpl': true
+				});
 			}
 			$scope.refreshData();
 		})

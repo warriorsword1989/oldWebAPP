@@ -21,7 +21,7 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
         $.each($('.trafficPic'), function (i, v) {
             $(v).find('img').removeClass('active');
         });
-    }
+    };
     //选择弹出框中的交限
     $scope.selectTip = function (item, e) {
         /*选中高亮*/
@@ -35,7 +35,7 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
         } else {
             flag = 1;
         }
-        var newDirectObj = fastmap.dataApi.rdRestrictionDetail({"restricInfo": item.id, "flag": flag,"conditions":[]})
+        var newDirectObj = fastmap.dataApi.rdRestrictionDetail({"restricInfo": item.id, "flag": flag,"conditions":[]});
         $scope.newLimited = newDirectObj;
     };
     //添加交限
@@ -56,10 +56,10 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
             }
             $scope.addDirectData.details.unshift($scope.newLimited);
             if ($scope.newLimited.type === 1) {
-                $scope.addDirectData.restrictInfo += "," + $scope.newLimited.restricInfo;
+                $scope.addDirectData.restricInfo = $scope.addDirectData.restricInfo +"," + $scope.newLimited.restricInfo;
             } else {
                 var newDirect = ",[" + $scope.newLimited.restricInfo + "]";
-                $scope.addDirectData.restrictInfo += newDirect;
+                $scope.addDirectData.restricInfo += newDirect;
 
             }
 

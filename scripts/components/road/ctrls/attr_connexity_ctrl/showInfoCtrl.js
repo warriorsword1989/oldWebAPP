@@ -208,8 +208,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-        map.currentTool = new fastmap.uikit.SelectPath(
-            {
+        map.currentTool = new fastmap.uikit.SelectPath({
                 map: map,
                 currentEditLayer: rdLink,
                 linksFlag: false,
@@ -277,6 +276,12 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                     $scope.$apply();
                     newTopo["pid"] = 0;
                     $scope.infoData["topos"].unshift(newTopo);
+                    for(var i = 0;i<$scope.infoData.topos.length;i++){
+                        if($scope.infoData.topos[i].outLinkPid == 0){
+                            $scope.infoData.topos.splice(i,1);
+                            i--;
+                        }
+                    }
                 }
             }
             for(var x= 0,lenX= Object.keys(outLinkObj).length;x<lenX;x++) {

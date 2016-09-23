@@ -12,7 +12,7 @@ requirejs.config({
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
         'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
         "chosenJquery": "scripts/libs/angular-chosen/chosen.jquery.min",
-        "angularChosen": "scripts/libs/angular-chosen/angular-chosen.min",
+        "angularChosen": "scripts/libs/angular-chosen/angular-chosen",
         'fileUpload': 'scripts/libs/angular-file-upload/angular-file-upload',
         "angularDrag": "scripts/libs/angular-drag/angular-drag",
         "sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",

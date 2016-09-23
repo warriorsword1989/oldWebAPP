@@ -383,9 +383,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     $scope.getLinkSpeedLimit(data.speedData.properties, data.orgtype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDCROSS':
+                    toolsObj = {
+                        items: [  {
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "编辑组成点",
+                            'type': 'MODIFYRDCROSS',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDGSC':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdgsc_ctrl/rdGscCtrl';
@@ -1867,7 +1876,42 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         });
                     });
                     return;
-                }  else if (type === "MODIFYLINKPID") {
+                } else if (type === "MODIFRDCROSS") {
+                    swal("无法操作", "等下一个迭代开发好了再做吧！", "info");
+                    return;
+                    map.currentTool = new fastmap.uikit.SelectNodeAndPath({
+                        map: map,
+                        shapeEditor: shapeCtrl,
+                        selectLayers: [rdNode],
+                        snapLayers: [rdNode]//将rdnode放前面，优先捕捉
+                    });
+                    map.currentTool.enable();
+                    tooltipsCtrl.setCurrentTooltip('请选择需要增加或者删除的Node！');
+                    eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                        //退出线;
+                        highRenderCtrl.highLightFeatures.push({
+                            id: data.id,
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {}
+                        });
+                        //绘制当前的退出线
+                        highRenderCtrl.drawHighlight();
+                        //设置热键修改时的监听类型;
+                        shapeCtrl.setEditingType("UPDATEELECTRONICEYE");
+                        //退出线选完后的鼠标提示;
+                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                        //设置修改确认的数据;
+                        featCodeCtrl.setFeatCode({
+                            "linkPid": data.id.toString(),
+                            "pid": objCtrl.data.pid.toString(),
+                            "objStatus": "UPDATE"
+                        });
+                    });
+                    return;
+                } else if (type === "MODIFYLINKPID") {
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,

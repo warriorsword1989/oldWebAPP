@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/2/29.
  */
 var addDirectOfRest = angular.module("lazymodule",[]);
-addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout){
+addDirectOfRest.controller("addDirectOfNodeController",function($scope,$timeout){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
     $scope.closeWin= function () {

@@ -35,9 +35,14 @@
                                 </div>
                             </div>
                             <div class="date-body full-width">
-                                <div class="date-list col-md-6" ng-repeat="item in carData[$index] track by $index">
-                                    <div ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="padding: 5px;" ng-bind="item.label"></div><i ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="carSelect(item)"></i>
+                                <div ng-class="{'select-car animated-fast':true,'blue':checkValue,'red':!checkValue}" ng-repeat="item in carData[$index] track by $index" ng-click="carSelect(item);">
+                                    <div class="select-car-text" ng-bind="item.label"></div>
+                                    <span class="glyphicon glyphicon-remove remove-car-type"></span>
                                 </div>
+                                <!--<div class="date-list col-md-6" ng-repeat="item in carData[$index] track by $index">
+                                    <div ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="padding: 5px;" ng-bind="item.label"></div>
+                                    <i ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="carSelect(item)"></i>
+                                </div>-->
                                 <div class="clearfix"></div>
                                 <div class="line"></div>
                             </div>

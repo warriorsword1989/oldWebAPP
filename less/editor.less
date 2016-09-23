@@ -735,11 +735,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   cursor: pointer;
 }
 .close-tips {
-  .absolute-position(40px,2px,auto,auto);
+  float: right;
   color: #fff;
+  top: -20px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 20px;
-  transition: all .3s;
 }
 .close-tips:hover {
   color: #A5A1A1;
@@ -1434,25 +1434,25 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   font-size: 12px;
 }
 /*** 表单修改后样式 ***/
-.border-left(@borderStyle:auto,@borderWidth:auto,@borderColor:auto){
-  border-left:@borderStyle @borderWidth @borderColor;
-}
-form input[type="text"].ng-dirty,form textarea.ng-dirty,form select.ng-dirty,form input[type="number"].ng-dirty {
-  .border-left(solid,2px,@red) !important;
-}
-form select.localytics-chosen.ng-dirty + div > a {
-  .border-left(solid,2px,@red) !important;
-}
-form input[type=radio]:checked.ng-dirty:before{
-  content:"";
-  .border-left(solid,2px,@red) !important;
-  margin-left:-2px;
-}
-form input[type=checkbox].ng-dirty:before {
-  content:"";
-  .border-left(solid,2px,@red) !important;
-  margin-left:-2px;
-}
+//.border-left(@borderStyle:auto,@borderWidth:auto,@borderColor:auto){
+//  border-left:@borderStyle @borderWidth @borderColor;
+//}
+//form input[type="text"].ng-dirty,form textarea.ng-dirty,form select.ng-dirty,form input[type="number"].ng-dirty {
+//  .border-left(solid,2px,@red) !important;
+//}
+//form select.localytics-chosen.ng-dirty + div > a {
+//  .border-left(solid,2px,@red) !important;
+//}
+//form input[type=radio]:checked.ng-dirty:before{
+//  content:"";
+//  .border-left(solid,2px,@red) !important;
+//  margin-left:-2px;
+//}
+//form input[type=checkbox].ng-dirty:before {
+//  content:"";
+//  .border-left(solid,2px,@red) !important;
+//  margin-left:-2px;
+//}
 .modifiedInfo {
   color: @red !important;
 }
@@ -1913,6 +1913,30 @@ ul.fm-ul-insert > li{
       box-shadow: 0 0 0 2px #49A7DA;
       z-index: 9;
     }
+    &.red{
+      background-color: #da4542;
+      box-shadow: 0 0 0 2px #da4542;
+      z-index: 9;
+    }
+    &.yellow{
+      background-color: #d9da5d;
+      box-shadow: 0 0 0 2px #d9da5d;
+      z-index: 9;
+    }
+    &.green{
+      background-color: #b5da61;
+      box-shadow: 0 0 0 2px #b5da61;
+      z-index: 9;
+    }
+    .number{
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      bottom: 30px;
+      position: absolute;
+      color: #bfb921;
+      font-size: 16px;
+    }
     .top{
       position: absolute;
       top: 0;
@@ -2075,3 +2099,42 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   font-size: 16px !important;
 }
+//begin 车辆类型
+.select-car{
+  //border: 1px solid;
+  margin: 5px !important;
+  border-radius: 3px;
+  padding: 3px 0 3px 13px;
+  transition: all .3s;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  &.blue{
+    background-color: #40A2D7;
+    &:hover{
+      background-color: #358BBA;
+    }
+  }
+  &.red{
+    background-color: #EA7070;
+    &:hover{
+      background-color: #B25151;
+    }
+  }
+  &:hover{
+    padding-right: 13px !important;
+    padding-left: 0 !important;
+  }
+  .select-car-text{
+    color: #ffffff;
+    right: -2px;
+    position: relative;
+  }
+  .remove-car-type{
+    position: relative;
+    right: -12px;
+    cursor: pointer;
+  }
+}
+//end 车辆类型
