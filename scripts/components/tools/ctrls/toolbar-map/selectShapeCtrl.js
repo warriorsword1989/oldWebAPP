@@ -2920,11 +2920,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             hightlightViasLink()
                             //tooltipsCtrl.setCurrentTooltipText("重复!");
                         }
-
-
-
-
-
 //                        else{
 //                            //如果直接修改接续线;
 //                            if(dataresult.properties.enode==$scope.allLinkNode[$scope.allLinkNode.length-1]&&(dataresult.properties.direct==3||dataresult.properties.direct==1)){
