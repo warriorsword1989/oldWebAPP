@@ -34,7 +34,7 @@
                     <li>
                         <label>菜品风味</label>
                         <div class="block">
-                            <div style="border-bottom: 1px solid gray;width:100%;">
+                            <div style="border-bottom: 1px solid gray;width:100%;padding-left:4px;">
                                 <label ng-repeat="(key, value) in foodType1Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key == 2016 || key == 1001 || key == 3009 || key == 3015" class="fm-specialopt">
                                     <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
                                 </label>
@@ -43,7 +43,7 @@
                                 </label>
                             </div>
                             <br>
-                            <div style="margin-top: 10px;">
+                            <div style="margin-top: 10px;padding-left:4px;">
                                 <label ng-repeat="(key, value) in foodType2Obj" style="font-weight: normal;margin-right: 2px;">
                                     <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}
                                 </label>
