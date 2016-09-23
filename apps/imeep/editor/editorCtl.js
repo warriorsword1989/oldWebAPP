@@ -386,9 +386,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				type: "warning",
 				animation: 'slide-from-top',
 				showCancelButton: true,
-				closeOnConfirm: true,
 				confirmButtonText: "是的，我要删除",
-				cancelButtonText: "取消"
+				confirmButtonColor: "#ec6c62"
 			}, function (f) {
 				if (f) {
 					eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);

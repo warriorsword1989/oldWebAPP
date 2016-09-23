@@ -1,9 +1,8 @@
 angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutput", function($http, $q, ajax, dsOutput) {
     /**
      * 根据pid获取要素详细属性
-     * @param id
-     * @param type
-     * @param detailId
+     * @param id     要素PID
+     * @param type   要素类型
      */
     this.getByPid = function(pid, type) {
         var defer = $q.defer();
@@ -28,9 +27,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     /**
      * 根据道路id获得分歧的详细属性(branchType = 0、1、2、3、4、6、8、9)
-     * @param id
-     * @param type
-     * @param func
+     * @param detailId     分歧的DetailId
+     * @param branchType   分歧类型
      */
     this.getBranchByDetailId = function(detailId, branchType) {
         var defer = $q.defer();
@@ -58,9 +56,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     /**
      * 根据道路id获得分歧的详细属性(branchType = 5、7)
-     * @param id
-     * @param type
-     * @param func
+     * @param rowId        分歧的rowId
+     * @param branchType   分歧类型
      */
     this.getBranchByRowId = function(rowId, branchType) {
         var defer = $q.defer();
@@ -110,7 +107,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      */
     this.getMsgNotify = function() {
         var defer = $q.defer();
-        ajax.get("sys/sysmsg/unread/get",{parameter:''}).success(function(data) {
+        ajax.get("sys/sysmsg/unread/get", {
+            parameter: ''
+        }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data);
             } else {
@@ -240,17 +239,66 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         };
         return this.save(param);
     };
-    /***
-     * 删除对象
+    /**
+     * 删除要素
+     * @param pid          要素PID
+     * @param branchType   要素类型
+     * @param infect       前检查标识，为1时表示要进行删除前的检查，确认要执行删除操作后，再执行具体的删除操作；
+                           不传或为0时表示直接执行删除操作
      */
-    this.delete = function(pid, type) {
+    this.delete = function(pid, type, infect) {
         var param = {
             "command": "DELETE",
             "dbId": App.Temp.dbId,
             "type": type,
             "objId": pid
+        };
+        if (infect) {
+            var that = this;
+            var defer = $q.defer();
+            param.infect = infect;
+            this.save(param).then(function(data) {
+                if (data) {
+                    var test = data.result;
+                    var html = [],
+                        temp;
+                    html.push("<div style='max-height:200px;overflow:auto;'>");
+                    for (var key in test) {
+                        html.push("<p style='text-align:left;font-weight:bold;'>" + key + "：</p>");
+                        temp = test[key];
+                        html.push("<ul style='text-align:left;padding:5px 25px;margin:0px;list-style-type:decimal;'>");
+                        for (var i = 0; i < temp.length; i++) {
+                            html.push("<li>" + temp[i].objType + "|" + temp[i].pid + "|" + temp[i].status + "</li>");
+                        }
+                        html.push("</ul>");
+                    }
+                    html.push("</div>");
+                    swal({
+                        title: "以下操作将会执行，是否继续？",
+                        text: html.join(''),
+                        html: true,
+                        showCancelButton: true,
+                        allowEscapeKey: false,
+                        confirmButtonText: "是的，我要删除",
+                        confirmButtonColor: "#ec6c62"
+                    }, function(f) {
+                        if (f) { // 执行删除操作
+                            delete param.infect; // 去掉检查标识，执行删除操作
+                            that.save(param).then(function(data) {
+                                defer.resolve(data);
+                            });
+                        } else { // 取消删除
+                            defer.resolve(null);
+                        }
+                    });
+                } else { // 服务端返回错误信息，结束执行
+                    defer.resolve(null);
+                }
+            });
+            return defer.promise;
+        } else {
+            return this.save(param);
         }
-        return this.save(param);
     };
     /**
      * 根据道路rowId获得分歧的详细属性(branchType = 5、7)
@@ -414,7 +462,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         ajax.get(url, {
             parameter: param //.replace(/\+/g, '%2B')
         }).success(function(data) {
-            if (data.errcode == 0) {
+            if (data.errcode == 0) { // 操作成功
                 dsOutput.pushAll(data.data.log);
                 dsOutput.push({
                     "op": opDesc + "操作成功",
@@ -433,7 +481,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     swal.close();
                     defer.resolve(data.data);
                 });
-            } else {
+            } else if (data.errcode == 999) { // 删除前的检查返回的确认信息
+                defer.resolve(data.data);
+            } else if (data.errcode < 0) { // 操作失败
                 dsOutput.push({
                     "op": opDesc + "操作出错：" + data.errmsg,
                     "type": "fail",
@@ -562,23 +612,23 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @returns {Promise}
      */
     this.getJobById = function(jobId) {
-            var defer = $q.defer();
-            ajax.get("job/get/", {
-                parameter: JSON.stringify({
-                    jobId: jobId
-                })
-            }).success(function(data) {
-                if (data.errcode == 0) {
-                    defer.resolve(data.data);
-                } else {
-                    defer.resolve("查看后台任务进度失败：" + data.errmsg);
-                }
-            }).error(function(rejection) {
-                defer.reject(rejection);
-            });
-            return defer.promise;
-        };
-        //搜索
+        var defer = $q.defer();
+        ajax.get("job/get/", {
+            parameter: JSON.stringify({
+                jobId: jobId
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查看后台任务进度失败：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //搜索
     this.getSearchData = function(num, sType, content) {
         var defer = $q.defer();
         var params = {
@@ -613,29 +663,29 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     //面批处理;
     this.PolygonBatchWork = function(params) {
-            var defer = $q.defer();
-            var param = {
-                command: 'ONLINEBATCH',
-                type: 'FACE',
-                dbId: App.Temp.dbId,
-                pid: params.pid,
-                ruleId: params.ruleId
+        var defer = $q.defer();
+        var param = {
+            command: 'ONLINEBATCH',
+            type: 'FACE',
+            dbId: App.Temp.dbId,
+            pid: params.pid,
+            ruleId: params.ruleId
+        }
+        ajax.get("edit/run", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查看后台任务进度失败：", data.errmsg, "error");
+                defer.resolve(null);
             }
-            ajax.get("edit/run", {
-                parameter: JSON.stringify(param)
-            }).success(function(data) {
-                if (data.errcode == 0) {
-                    defer.resolve(data.data);
-                } else {
-                    swal("查看后台任务进度失败：", data.errmsg, "error");
-                    defer.resolve(null);
-                }
-            }).error(function(rejection) {
-                defer.reject(rejection);
-            });
-            return defer.promise;
-        };
-        //搜索批处理包;
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //搜索批处理包;
     this.batchBox = function(url) {
         var defer = $q.defer();
         $http.get(url).success(function(data) {
