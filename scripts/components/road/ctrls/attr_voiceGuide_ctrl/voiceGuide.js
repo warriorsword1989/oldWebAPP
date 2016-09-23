@@ -10,17 +10,17 @@ angular.module('app').controller('voiceGuideCtl', ['$scope','$timeout', 'dsEdit'
     var relationData = layerCtrl.getLayerById('relationData');
 
     $scope.guideCodeList = [
-        {id:0,label:'未定义'},
+        //{id:0,label:'未定义'},
         {id:1,label:'直行'},
         {id:2,label:'右斜前'},
         {id:4,label:'右转'},
         {id:6,label:'右后转'},
-        {id:7,label:'掉头'},
+        {id:7,label:'调头'},
         {id:8,label:'左后转'},
         {id:10,label:'左转'},
-        {id:12,label:'左斜前'},
-        {id:16,label:'3D模式上没有方向指定'},
-        {id:19,label:'右转专用link'}
+        {id:12,label:'左斜前'}
+        //{id:16,label:'3D模式上没有方向指定'},
+        //{id:19,label:'右转专用link'}
     ];
 
     $scope.guideTypeList = [

@@ -24,6 +24,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.dataListType = 1;
 		$scope.projectType = 1; //1--POI作业，其他为道路作业
 		$scope.outputType = 1;
+		$scope.rootCommonTemp = {}; //用于保存需要全局控制的变量
 		//面板显示控制开关
 		$scope.editorPanelOpened = 'none';
 		$scope.suspendPanelOpened = false;
