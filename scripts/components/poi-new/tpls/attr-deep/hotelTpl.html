@@ -1,0 +1,19 @@
+<div ng-controller="hotelCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>酒店星级</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in reting">
+                                <input type="radio" value="{{key}}" ng-model="hotel.reting"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

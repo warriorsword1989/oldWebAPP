@@ -424,4 +424,10 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
             }
         }
     });
+
+
+    //高亮显示指定的子poi
+    $scope.$on("doLeftRight",function (event) {
+        setTimeout(function(){ pMap.invalidateSize()}, 400);
+    });
 }] );

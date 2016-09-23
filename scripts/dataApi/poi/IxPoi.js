@@ -62,7 +62,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['checkResults'] = [];
         if (this.checkResults){
             for (var i = 0 ,len = this.checkResults.length ;i < len ; i++){
-                //ret['checkResults'].push(this.checkResults[i].getIntegrate());
+                ret['checkResults'].push(this.checkResults[i].getIntegrate());
             }
         }
         ret['phaseHistory'] = this.phaseHistory;
@@ -72,7 +72,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['sportsVenues'] = this.sportsVenues;
         ret['projectHistory'] = this.projectHistory;
         ret['freshnessVerification'] = this.freshnessVerification;
-        ret['ckException'] = this.ckException;
+        ret['ckException'] = [];
+            if (this.ckException){
+                 for (var i = 0 ,len = this.ckException.length ;i < len ; i++){
+                     ret['ckException'].push(this.ckException[i].getIntegrate());
+                 }
+            }
         ret['operateDate'] = this.operateDate;
         ret['srcInformation'] = this.srcInformation;
         ret['batchModifyStatus'] = this.batchModifyStatus;
@@ -98,7 +103,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['editHistory'] = [];
         if (this.editHistory){
             for (var i = 0 ,len = this.editHistory.length ;i < len ; i++){
-                //ret['editHistory'].push(this.editHistory[i].getIntegrate());
+                ret['editHistory'].push(this.editHistory[i].getIntegrate());
             }
         }
         ret['fieldVerification'] = this.fieldVerification;
@@ -134,6 +139,18 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['relateChildren'] = this.relateChildren;
         ret['rowkey'] = this.rowkey;
         ret['vipFlag'] = this.vipFlag;
+         if (this.vipFlag) {
+             var tmp = this.vipFlag.split("|");
+             for (var i = 0; i < tmp.length; i++) {
+                 if (tmp[i] == 1) {
+                     /*重要车场*/
+                     ret['poiCarIcon'] = true;
+                 } else if (tmp[i] == 2) {
+                     /*后项收费*/
+                     ret['poiRmbIcon'] = true;
+                 }
+             }
+         }
         ret['postCode'] = this.postCode;
         ret['adminCode'] = this.adminCode;
         ret['latestMergeDate'] = this.latestMergeDate;
@@ -185,10 +202,19 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         }
 
         this.pid = data["pid"] || 0;
+        /*检查结果*/
+        this.checkResultData = [];
+        /*冲突检测*/
+        this.confusionInfoData = [];
         this.checkResults = [];
         if(data['checkResults'] && data['checkResults'].length > 0){
             for (var i = 0, len = data["checkResults"].length; i < len; i++) {
                 var checkResult = new FM.dataApi.IxCheckResult(data["checkResults"][i]);
+                if(checkResult.poiType == '重复' || checkResult.poiType == '冲突'){
+                    this.confusionInfoData.push(checkResult);
+                }else{
+                    this.checkResultData.push(checkResult);
+                }
                 this.checkResults.push(checkResult);
             }
         }
@@ -201,6 +227,18 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.projectHistory = data["projectHistory"] || null;
         this.freshnessVerification = data["freshnessVerification"] || 0;
         this.ckException = data["ckException"] || [];
+        this.ckException = [];
+        if(data['ckException'] && data['ckException'].length > 0){
+            for (var i = 0, len = data["ckException"].length; i < len; i++) {
+                var exception = new FM.dataApi.IxCheckResult(data["ckException"][i]);
+                if(exception.poiType == '重复' || exception.poiType == '冲突'){
+                    this.confusionInfoData.push(exception);
+                }else{
+                    this.checkResultData.push(exception);
+                }
+                this.ckException.push(exception);
+            }
+        }
         this.operateDate = data["operateDate"] || null;
         this.srcInformation = data["srcInformation"] || null;
 
@@ -230,6 +268,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 this.editHistory.push(editHistory);
             }
         }
+        /*履历*/
+        this.editHistoryData = [];
+        /*履历默认取最后一条*/
+        this.editHistoryData = this.editHistory[this.editHistory.length-1];
         this.fieldVerification = data['fieldVerification'] || 0;
         this.sourceFlags = data['sourceFlags'] || null;
         this.website = data['website'] || null;
@@ -252,6 +294,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.rawFields = data["rawFields"] || null;
         this.rental = data["rental"] || null;
         this.lifecycle = data["lifecycle"] || null;
+        this.lifecycleName = FM.dataApi.Constant.LIFE_CYCLE[this.lifecycle] || null;
         this.submitStatus = data["submitStatus"] || 0;
         this.gasStation = data["gasStation"] || null;
         this.name = data['name'] || null;
@@ -272,6 +315,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         // 
         this.guide = data['guide'] || null;
         this.auditStatus = data['auditStatus'] || 0;
+        this.auditStatusText = FM.dataApi.Constant.AUDITU_STATUS[this.auditStatus] || null;
     },
     /*getSnapShot: function() {
         var data = {};

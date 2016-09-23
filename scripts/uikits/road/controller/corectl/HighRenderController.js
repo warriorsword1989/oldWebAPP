@@ -117,13 +117,16 @@ fastmap.uikit.HighRenderController = (function () {
                                     }  else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDGSC') {
+                                    } else if (this.highLightFeatures[item].type == 'RDGSC') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         cusFeature = this.highLightFeatures[item];
                                         this.drawOverpass(this.highLightFeatures[item].id, feature, ctx, cusFeature);
                                     } else if (this.highLightFeatures[item].type == 'adadmin') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
+                                    } else if (this.highLightFeatures[item].type == 'poi') {
+                                        var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                        this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
                                     } else if (this.highLightFeatures[item].type == 'adface') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
@@ -390,6 +393,46 @@ fastmap.uikit.HighRenderController = (function () {
                         drawy: -10
 
                     })
+                }
+            },
+            drawPoi: function (id, feature, ctx) {
+                if (feature.properties.id == id) {
+                    if (feature.properties.id === undefined) {
+                        return;
+                    }
+                    var geo = [];
+                    geo.push(feature.geometry.coordinates);
+                    geo.push(feature.guide.coordinates);
+                    this.layer._drawImg({
+                        ctx:ctx,
+                        geo:feature.geometry.coordinates,
+                        style:{src:'../../../images/poi/map/marker_red_16.png'},
+                        boolPixelCrs:true,
+                        drawy:-31
+                    });
+                    // this.layer._drawPoint({
+                    //     boolPixelCrs: true,
+                    //     ctx: ctx,
+                    //     fillColor: 'red',
+                    //     radius: 3,
+                    //     geom: feature.geometry.coordinates
+                    // });
+
+                    var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+                    feature.properties['symbol'] = symbolFactory.dataToSymbol({
+                        type:'SampleLineSymbol',
+                        style:'dash',
+                        color:'red'
+                    });
+                    this.layer._drawLineStringWithSymbol(ctx, geo, true,feature.properties['symbol']);
+
+                    this.layer._drawImg({
+                        ctx:ctx,
+                        geo:feature.guide.coordinates,
+                        style:{src:'../../../images/poi/map/marker_circle.png'},
+                        boolPixelCrs:true,
+                        drawy:0
+                    });
                 }
             },
             drawPolygon: function (id, feature, ctx) {

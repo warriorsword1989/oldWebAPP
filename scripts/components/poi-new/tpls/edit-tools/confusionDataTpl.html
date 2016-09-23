@@ -1,0 +1,56 @@
+<div ng-controller="ConfusionDataCtl">
+    <div class="box-shadow conf-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+                <span class="panel-title">{{confusionData.poiType}}数据</span>
+                <span class="label label-primary">{{confusionData.poiType}}</span>
+                <span type="button" class="close" ng-click="closeConflictInfo();">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </span>
+            </div>
+            <div class="panel-body conf-content">
+                <table class="table navi-table conf-table">
+                    <tbody>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.fid]" class="active">FID:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.fid"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.pid]" class="active">PID:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.pid"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.name]" class="active">名称:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.name"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.address]" class="active">地址:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.address"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.contacts]" class="active">电话:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.contacts"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.postCode]" class="active">邮编:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.postCode"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.kindCode]" class="active">分类:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.kindName">公司</span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.brandCode]" class="active">品牌:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.chainName"></span></td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{true: 'textColorRed'}[conflict.level]" class="active">等级:</td>
+                        <td colspan="3"><span ng-bind="dupPoi.level"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

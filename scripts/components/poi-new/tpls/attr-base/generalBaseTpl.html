@@ -1,0 +1,25 @@
+<div ng-controller="generalBaseCtl">
+    <div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;">
+        <div class="title"><i class="glyphicon glyphicon-edit"></i> POI属性</div>
+        <div class="fm-tabs">
+            <a href="#" ng-class="{'tab': true, 'active': propertyType == 'base'}" ng-click="changeProperty('base')">基本属性</a>
+            <a href="#" ng-class="{'tab': true, 'active': propertyType == 'deep'}" ng-click="changeProperty('deep')">深度信息</a>
+            <a href="#" ng-class="{'tab': true, 'active': propertyType == 'relate'}" ng-click="changeProperty('relate')">父子关系</a>
+            <a href="#" ng-class="{'tab': true, 'active': propertyType == 'file'}" ng-click="changeProperty('file')">文件上传</a>
+        </div>
+        <div ng-show="propertyType=='base'">
+            <div ng-include="baseInfoTpl"></div>
+        </div>
+        <div ng-show="propertyType=='deep'">
+            <div ng-include="deepInfoTpl"></div>
+        </div>
+        <div ng-show="propertyType=='relate'">
+            <div ng-include="relationInfoTpl"></div>
+        </div>
+        <div ng-show="propertyType=='file'">
+            <div ng-include="fileUploadTpl"></div>
+        </div>
+
+    </div>
+</div>
+

@@ -18,11 +18,15 @@ FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
         }
         this.operation = data['operation'];
         this.mergeDate = data['mergeDate'];
+        this.mergeFormateData = FM.Util.dateFormat(this.mergeDate);
         this.mergeContents = [];
         if(data['mergeContents'] && data['mergeContents'].length > 0){
             for(var i=0;i<data['mergeContents'].length;i++){
-                var fieldName = data['mergeContents'][i];
-                this.mergeContents.push(fieldName);
+                var content = {
+                    newValue:data['mergeContents'][i].newValue,
+                    oldValue:data['mergeContents'][i].oldValue
+                };
+                this.mergeContents.push(content);
             }
         }
         this.validationMethod = data['validationMethod'];
@@ -35,9 +39,8 @@ FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
         ret["sourceTask"] = this.sourceTask;
         ret['operator'] = {};
         if(ret['operator']){
-            ret['operator'].latitude = this.operator.user;
-            ret['operator'].longitude = this.operator.role;
-            ret['operator'].linkPid = '';
+            ret['operator'].user = this.operator.user;
+            ret['operator'].role = this.operator.role;
         }
         ret["operation"] = this.operation;
         ret["mergeDate"] = this.mergeDate;

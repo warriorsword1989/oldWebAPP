@@ -1,0 +1,22 @@
+<style>
+    .adAdmin_false{
+        background: url('../../../images/road//button/adAdmin.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .adAdmin_true{
+        background: url('../../../images/road//button/adAdmin_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #fm-selectPoiContainer>button:focus{
+        outline: none;
+    }
+</style>
+<div id="fm-selectPoiContainer" ng-controller="selectPoiController" class="btn-group btn-group-sm" style="width: 100%;">
+    <!--<button type="button" class="btn node_{{classArr[0]}}"  id="node" ng-click="selectAddShape('adNode',0)" title="选择ADNODE"></button>-->
+    <!--<button type="button" class="btn adLink_{{classArr[1]}}" id="adLink" ng-click="selectAddShape('adLink',1)" title="选择ADLINK"></button>-->
+    <button type="button" class="btn adAdmin_{{classArr[0]}}" id="adAdmin" ng-click="selectPoiShape('poi',0)" title="POI点"></button>
+    <!--<button type="button" class="btn adFace_{{classArr[3]}}" id="adFace" ng-click="selectAddShape('adFace',3)" title="选择行政区划面"></button>-->
+
+</div>

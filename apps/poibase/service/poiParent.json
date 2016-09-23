@@ -1,0 +1,19 @@
+{
+  "pid": 6718,
+  "names": [
+    {
+      "namePhonetic": "Bei Jing Shi Jing Lian Xin Lu Yong Cai Liao You Xian Gong Si",
+      "nameType": 2,
+      "langCode": "CHI",
+      "nameClass": 1,
+      "name": "北京市京联鑫有限公司父测试"
+    },
+    {
+      "namePhonetic": "Jing Lian Xin Lu Yong Cai Liao Gong Si",
+      "nameType": 1,
+      "langCode": "CHI",
+      "nameClass": 1,
+      "name": "京联鑫路用材料公司"
+    }
+  ]
+}

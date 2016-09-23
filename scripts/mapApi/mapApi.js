@@ -65,6 +65,8 @@
          //mapApi/tools
          "mapApi/tools/adAdminAdd.js",
          "mapApi/tools/adAdminMove.js",
+         "mapApi/tools/poiLocMove.js",
+         "mapApi/tools/poiGuideMove.js",
          "mapApi/tools/CrossingAdd.js",
          "mapApi/tools/DrawPath.js",
          "mapApi/tools/DrawPolygon.js",

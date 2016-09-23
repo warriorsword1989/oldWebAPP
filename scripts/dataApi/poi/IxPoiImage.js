@@ -11,8 +11,11 @@
      getIntegrate: function (){
         var ret = {};
         ret['type'] = this.type;
-        ret['url'] = this.url; 
-        ret['tag'] = this.tag;  
+        if(this.url && this.url.indexOf('?') > -1){
+            this.url = this.url.substring(0,this.url.indexOf('?'));
+        }
+        ret['url'] = this.url;
+        ret['tag'] = this.tag;
         return ret;
      },
     /*
@@ -22,5 +25,16 @@
         this.type = data["type"];
         this.url = data["url"] || null;
         this.tag = data["tag"];
+        this.tagName = function (){
+            var temp = FM.dataApi.Constant.IMAGE_TAG;
+            var val = "";
+            for (var i = 0 ;i < temp.length ; i++){
+                if(temp[i].key == this.tag){
+                    val = temp[i].value;
+                    break;
+                }
+            }
+            return val;
+        }
     },
 });

@@ -53,6 +53,8 @@ require.config({
         'symbol.CompositeLineSymbol': 'scripts/mapApi/symbol/CompositeLineSymbol',
         'symbol.SymbolsFile': 'scripts/mapApi/symbol/SymbolsFile',
         'symbol.SymbolFactory': 'scripts/mapApi/symbol/SymbolFactory',
+        'mapApi.AdLink':'scripts/dataApi/road/AdLink',
+        'mapApi.GeoDataModel':'scripts/dataApi/road/GeoDataModel',
         'mapApi.Tile':'scripts/mapApi/Tile'
     },
 
@@ -91,6 +93,8 @@ require.config({
         'symbol.CompositeLineSymbol': {deps: ['fastmap', 'leaflet', 'symbol.Template']},
         'mapApi.Tile':{deps: ['fastmap', 'leaflet']},
         'symbol.SymbolsFile': {deps: ['fastmap']},
+        'mapApi.AdLink':{deps: [ 'mapApi.GeoDataModel']},
+        'mapApi.GeoDataModel':{deps: ['fastmap', 'leaflet']},
         'symbol.SymbolFactory': {
             deps: ['symbol.CirclePointSymbol',
                 'symbol.SolidCirclePointSymbol',
@@ -105,8 +109,7 @@ require.config({
                 'symbol.MarkerLineSymbol',
                 'symbol.HashLineSymbol',
                 'symbol.CompositeLineSymbol',
-                'symbol.SymbolsFile',
-                'mapApi.Tile'
+                'symbol.SymbolsFile'
             ]
         }
     },

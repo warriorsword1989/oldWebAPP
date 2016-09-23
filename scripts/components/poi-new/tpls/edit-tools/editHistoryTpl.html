@@ -1,0 +1,23 @@
+<div ng-controller="EditHistoryCtl">
+    <table class="table table-bordered table-condensed fm-console-table">
+        <thead>
+            <tr>
+                <th ng-repeat="item in theadInfo">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!editHistory || editHistory.length == 0">
+                <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
+            </tr>
+            <tr ng-repeat="item in editHistory">
+                <td>{{$index + 1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.mergeDate}}</td>
+                <td>{{item.operDesc}}</td>
+                <td>{{item.sourceName}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

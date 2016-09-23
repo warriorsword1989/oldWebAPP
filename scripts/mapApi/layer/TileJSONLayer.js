@@ -540,7 +540,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
 
         //rdlink 从hbase获取
-        if(this._map.getZoom()< this.showNodeLevel && this.requestType.indexOf('RDLINK')!=-1){
+        if(this._map.getZoom()< this.showNodeLevel && this.requestType.indexOf('RDLINK')!=-1&&this.requestType.indexOf("RDLINKINTRTIC")===-1){
             url = this.url.hbaseUrl;
             parameter = this.url.parameter;
             if (parameter != null) {

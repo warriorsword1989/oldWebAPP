@@ -41,6 +41,8 @@ L.Mixin.EventTypes={
     SELECTEDFEATURECHANGE:'selectedfeaturechange',//objectcontroller选择要素(pid)变化事件
 
 
-    CHEKCRESULT:'checkresult'//检查刷新事件
+    CHEKCRESULT:'checkresult',//检查刷新事件
+    
+    GETPOIID:'getPoiId'
 
 }

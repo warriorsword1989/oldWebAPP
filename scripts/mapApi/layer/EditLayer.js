@@ -138,6 +138,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Buffer':
                 drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
                 break;
+            case 'Poi':
+                drawPoiAndLink(currentGeo.components,{color: 'blue', size: 2}, self);
+                break;
         }
 
         function drawCross(geom, style, boolPixelCrs, self) {
@@ -466,7 +469,79 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 }
             }
         }
+
+        function drawPoiAndLink(geom, style, self) {
+            if (!geom) {
+                return;
+            }
+            this.transform = new fastmap.mapApi.MecatorTranform();
+            var proj = [];
+            for (var i = 0; i < geom.length; i++) {
+                var point = this.map.latLngToContainerPoint([geom[i].y, geom[i].x])
+                proj.push([point.x,point.y]);
+                if (i == 0) {
+                    drawPoi(point, {
+                        src:"../../../images/poi/map/marker_blue_32.png",
+                        drawy:-32
+                    }, true);
+                } else if (i == 1) {
+                    drawPoi(point, {
+                        src:"../../../images/poi/map/marker_circle_blue_16.png"
+                    }, true);
+                }
+            }
+            var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+            var symbol = symbolFactory.dataToSymbol({
+                type:'SampleLineSymbol',
+                style:'dash',
+                color:'blue'
+            });
+            drawSymbolLineString(self._ctx, proj, true,symbol);
+        }
+        function drawPoi(geom, style, boolPixelCrs) {
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+            var g = self._ctx;
+            var image = new Image();
+            image.src = style.src;
+            image.onload = function () {
+                var scalex = style.scalex ? style.scalex : 1;
+                var scaley = style.scaley ? style.scaley : 1;
+                var drawx = style.drawx ? style.drawx : -image.width * scalex / 2;
+                var drawy = style.drawy ? style.drawy : -image.height * scalex / 2;
+                g.save();
+                g.translate(p.x, p.y);
+                g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
+                g.restore();
+            }
+        }
+        function drawSymbolLineString(ctx, geom, boolPixelCrs, symbol) {
+                if (!symbol) {
+                    return;
+                }
+                var geometry = [];
+                for (var i = 0; i < geom.length; i++) {
+                    if (boolPixelCrs) {
+                        geometry.push([geom[i][0], geom[i][1]]);
+                    } else {
+                        var point = this._tilePoint(ctx, geom[i]);
+                        geometry.push([point.x, point.y]);
+                    }
+                }
+                var lsGeometry = new fastmap.mapApi.symbol.LineString(geometry);
+                var g = ctx.canvas.getContext('2d');
+                symbol.geometry = lsGeometry;
+                symbol.draw(g);
+        }
     },
+
 
     /***
      * 清空图层

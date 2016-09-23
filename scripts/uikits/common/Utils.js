@@ -23,4 +23,13 @@ Utils = {
         }
         return tmp;
     },
+    dateFormat: function(str) {
+        var ret;
+        if (str.length < 14) {
+            ret = str;
+        } else { // yyyy-mm-dd hh:mi:ss
+            ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
+        }
+        return ret;
+    }
 }

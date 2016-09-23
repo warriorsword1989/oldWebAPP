@@ -1,0 +1,44 @@
+<div ng-controller="restaurantCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>信用卡类型</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in creditCard">
+                                <input type="radio" value="{{key}}" ng-model="restaurant.creditCard"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>停车信息</label>
+                        <div>
+                            <select class="fm-control" ng-model="restaurant.parking"
+                                    ng-options="value.id as value.label for value in parkingOptions"
+                                    >
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>人均消费</label>
+                        <div><input type="number" class="fm-control" ng-model="restaurant.avgCost"/></div>
+                    </li>
+                    <li>
+                        <label>营业时间</label>
+                        <div><input type="text" class="fm-control" ng-model="restaurant.openHour"/></div>
+                    </li>
+                    <li>
+                        <label>菜品风味</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in tollWay">
+                                <input type="checkbox" value="{{key}}" ng-model="parking.tollWay"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

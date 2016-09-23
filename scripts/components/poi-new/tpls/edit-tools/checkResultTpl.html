@@ -1,0 +1,30 @@
+<div ng-controller="CheckResultCtl">
+    <table class="table table-bordered table-condensed fm-console-table">
+        <thead>
+            <tr>
+                <th ng-repeat="item in theadInfo">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!poi.checkResultData || poi.checkResultData.length == 0">
+                <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
+            </tr>
+            <tr ng-repeat="item in poi.checkResultData">
+                <td>{{$index + 1}}</td>
+                <td>{{item.errorCode}}</td>
+                <td>{{item.errorMsg || item.description}}</td>
+                <td>
+                    <a ng-if="item.type == 0" class="textColorRed" href="javascript:void(0);" ng-click="ignoreCheckResult(item);">忽略</a>
+                    <p ng-if="item.type == 1" class="fm-console-table-p text-muted">忽略</p>
+                    <p ng-if="item.type == 2" class="fm-console-table-p text-success">已忽略</p>
+                </td>
+                <td>
+                    <p ng-if="item.refFeatures.length == 0" class="fm-console-table-p">无</p>
+                    <a ng-if="item.refFeatures.length > 0" class="fm-console-table-p" href='javascript:void(0);' ng-click="showCRRefFtInMap($index);"><span class='label label-primary'>{{item.refFeatures.length}}</span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -7,6 +7,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var objCtrl = fastmap.uikit.ObjectEditController();
             var layerCtrl = fastmap.uikit.LayerController();
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
+            $scope.guideLayer = layerCtrl.getLayerById("guideLineLayer");
             $scope.eventController = fastmap.uikit.EventController();
             var highCtrl = fastmap.uikit.HighRenderController();
             $scope.showOrHideId = "";
@@ -646,6 +647,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
 
                 $scope.workPoint.redraw();
+                //$scope.guideLayer._redraw();
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {

@@ -6,13 +6,17 @@ FM.Util.extend(FM.Util, {
     split: function(str, sep) {
         return FM.Util.trim(str).split(sep || /\s+/);
     },
+    isObject: Object.isObject || function(obj) {
+        return (Object.prototype.toString.call(obj) === '[object Object]');
+    },
     isArray: Array.isArray || function(obj) {
         return (Object.prototype.toString.call(obj) === '[object Array]');
     },
     clone: function(obj) {
-        var ret = obj;
-        if (obj[key] && typeof obj[key] == 'object') {
-            ret = {};
+        // var ret = obj;
+        // if (obj[key] && typeof obj[key] == 'object') {
+        console.log(typeof obj);
+            var ret = {};
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
                     if (obj[key] && typeof obj[key] == 'object') {
@@ -33,7 +37,7 @@ FM.Util.extend(FM.Util, {
                     }
                 }
             }
-        }
+        // }
         return ret;
     },
     stringToJson: function(str) {
@@ -61,5 +65,11 @@ FM.Util.extend(FM.Util, {
             ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
         }
         return ret;
+    },
+    isEmptyObject: function(obj) {
+        for (var key in obj) {
+            return false;
+        }
+        return true;
     }
 });

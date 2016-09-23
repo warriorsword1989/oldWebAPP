@@ -427,10 +427,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$emit("transitCtrlAndTpl", openOriginObj);
     };
     $scope.noPic=function() {
-        swal("没有照片可被查看", "", "");
+        swal("没有照片资料", "", "");
     };
     $scope.noRad=function() {
-        swal("没有音频数据", "", "");
+        swal("没有音频资料", "", "");
     };
     $scope.openVideo=function(id) {
         selectCtrl.rowKey["VideoId"] = id;

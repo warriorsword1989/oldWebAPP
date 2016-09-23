@@ -40,7 +40,7 @@
             </div>
             <div ui-layout-container>
                 <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-                    <div class="fm-container fm-col" ui-layout-container size="250px" min-size="250px">
+                    <div class="fm-container fm-col dark scroll-styled" ui-layout-container size="250px" min-size="250px">
                         <div class="title"><i class="glyphicon glyphicon-list"></i> POI数据</div>
                         <div class="fm-tabs">
                             <a href="#" ng-class="{'tab': true, 'active': dataListType == 1}" ng-click="changeDataList(1)">待作业</a>
@@ -216,9 +216,9 @@
                                     <div class="title">停车场</div>
                                     <div class="content">
                                         <ul class="fm-ul fm-ul-form">
-                                            <li>
+                                            <li class="flexbox-container">
                                                 <label>类 型</label>
-                                                <div>
+                                                <div class="block">
                                                     <label>
                                                         <input type="radio" name="parkingType" value="A"> 室内
                                                     </label>
@@ -243,7 +243,7 @@
                                             </li>
                                             <li>
                                                 <label>收费方式</label>
-                                                <div>
+                                                <div class="block">
                                                     <label>
                                                         <input type="checkbox" name="parkingFeeType" value="A"> 人工收费
                                                     </label>
@@ -345,6 +345,7 @@
                                 </div>
                             </div>
                             <div ng-show="propertyType=='file'">
+                                <div ng-include="fileUploadTpl"></div>
                                 <div class="fm-panel">
                                     <div class="title">上传文件
                                         <span style="float:right;">
@@ -376,7 +377,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="bottom: 0px;position:absolute;margin: 0px 10px;">
+                            <div style="bottom: 0px;position:fixed;margin: 0px 10px;">
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-xs fm-btn" ng-click="save()">
@@ -446,6 +447,9 @@
                             </div>
                         </div>
                     </div>
+
+
+
                 </div>
             </div>
             <script type="text/javascript" data-main="../../scripts/uikits/poibase/poiEditor-require" src="../../scripts/libs/require/require.js"></script>

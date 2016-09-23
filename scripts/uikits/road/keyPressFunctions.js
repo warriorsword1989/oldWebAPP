@@ -131,38 +131,53 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                 }
                 if (shapeCtrl.editType === 'drawPath') {
-                    var properties = shapeCtrl.shapeEditorResult.getProperties();
-                    var showContent, ctrl, tpl, type;
-                    param["command"] = "CREATE";
-                    param["projectId"] = Application.projectid;
-                    param["data"] = {
-                        "eNodePid": properties.enodePid ? properties.enodePid : 0,
-                        "sNodePid": properties.snodePid ? properties.snodePid : 0,
-                        "geometry": {"type": "LineString", "coordinates": coordinate},
-                        'catchLinks': properties.catches
-                    }
-                    if (shapeCtrl.editFeatType === "rdLink") {
-                        param["type"] = "RDLINK";
-                        showContent = "创建道路link成功";
-                        ctrl = 'attr_link_ctrl/rdLinkCtrl';
-                        tpl = 'attr_link_tpl/rdLinkTpl.html';
-
-                    } else if (shapeCtrl.editFeatType === "adLink") {
-                        param["type"] = "ADLINK";
-                        showContent = "创建AdLink成功";
-                        ctrl = 'attr_administratives_ctrl/adLinkCtrl';
-                        tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
-                    }
-                    Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        if (param["type"] === "RDLINK") {
-                            layerCtrl.getLayerById("referenceLine").redraw();
-                            layerCtrl.getLayerById("referenceNode").redraw();
-                        } else if (param["type"] === "ADLINK") {
-                            layerCtrl.getLayerById("adLink").redraw();
-                            layerCtrl.getLayerById("adnode").redraw();
+                    if(map.currentTool._enabled) {
+                       swal("操作失败", "请双击结束增加线段", "error");
+                        var info = [{
+                            "op": -1,
+                            "type": "请双击结束画线",
+                            "pid": 0
+                        }];
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
                         }
-                        treatmentOfChanged(data, param["type"], showContent, ctrl, tpl)
-                    })
+                    }else{
+                        var properties = shapeCtrl.shapeEditorResult.getProperties();
+                        var showContent, ctrl, tpl, type;
+                        param["command"] = "CREATE";
+                        param["projectId"] = Application.projectid;
+                        param["data"] = {
+                            "eNodePid": properties.enodePid ? properties.enodePid : 0,
+                            "sNodePid": properties.snodePid ? properties.snodePid : 0,
+                            "geometry": {"type": "LineString", "coordinates": coordinate},
+                            'catchLinks': properties.catches
+                        }
+                        if (shapeCtrl.editFeatType === "rdLink") {
+                            param["type"] = "RDLINK";
+                            showContent = "创建道路link成功";
+                            ctrl = 'attr_link_ctrl/rdLinkCtrl';
+                            tpl = 'attr_link_tpl/rdLinkTpl.html';
+
+
+                        } else if (shapeCtrl.editFeatType === "adLink") {
+                            param["type"] = "ADLINK";
+                            showContent = "创建AdLink成功";
+                            ctrl = 'attr_administratives_ctrl/adLinkCtrl';
+                            tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
+                        }
+                        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+                            if (param["type"] === "RDLINK") {
+                                layerCtrl.getLayerById("referenceLine").redraw();
+                                layerCtrl.getLayerById("referenceNode").redraw();
+                            } else if (param["type"] === "ADLINK") {
+                                layerCtrl.getLayerById("adLink").redraw();
+                                layerCtrl.getLayerById("adnode").redraw();
+                            }
+                            treatmentOfChanged(data, param["type"], showContent, ctrl, tpl)
+                        })
+                    }
+
 
                 } else if (shapeCtrl.editType === "addRestriction") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
@@ -382,6 +397,18 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
+                }else if (shapeCtrl.editType === "RDBRANCH") {
+                    param = {
+                        "command": "CREATE",
+                        "type": "RDBRANCH",
+                        "projectId": Application.projectid,
+                        "data": featCodeCtrl.getFeatCode()
+                    };
+                    Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("relationdata").redraw();
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
+                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
+                    })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",
@@ -472,7 +499,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": {
                             "longitude": geo.x,
                             "latitude": geo.y,
-                            "linkPid": parseInt(selectCtrl.selectedFeatures.linkPid)
+                            "linkPid": (selectCtrl.selectedFeatures.linkPid==null?0:parseInt(selectCtrl.selectedFeatures.linkPid))
                         }
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
@@ -502,6 +529,10 @@ function keyEvent(ocLazyLoad, scope) {
                     })
                 } else if (shapeCtrl.editType === "addAdFaceLine") {
                     var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                    if(adLinksArr.length<2) {
+                        swal("操作失败", "请双击结束增加线段", "error");
+                        return;
+                    }
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",
