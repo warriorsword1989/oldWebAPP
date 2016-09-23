@@ -2918,7 +2918,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             $scope.linkNodes.splice(selectIndex+2);
                             tempObj.vias.splice(selectIndex-2);
                             hightlightViasLink()
-                            tooltipsCtrl.setCurrentTooltipText("重复!");
+                            //tooltipsCtrl.setCurrentTooltipText("重复!");
                         }
 
 
