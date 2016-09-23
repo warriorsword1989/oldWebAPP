@@ -2794,7 +2794,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             $scope.links.push(tempObj.vias[i].linkPid);
                         }
                     }
-                    $scope.linkNodes.push(tempObj.nodePid);
+                    //$scope.linkNodes.push(tempObj.nodePid);
                     /*-------------------获取所有点数组------------------*/
                     var currentIndex = 0;
                     function requestfn(){
@@ -2810,11 +2810,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     requestfn()
                     /*-------------------获取所有点数组------------------*/
                     //修改退出线时高亮所有选中要素的方法;
-                    function hightlightOutLink(param){
-                        tempObj.vias = [];
+                    function hightlightOutLink(){
                         highRenderCtrl.highLightFeatures.splice(2);
                         highRenderCtrl.highLightFeatures.push({
-                            id: parseInt(param).toString(),
+                            id: parseInt(tempObj.outLinkPid).toString(),
                             layerid: 'rdLink',
                             type: 'line',
                             style: {}
@@ -2822,11 +2821,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltipText("已选择一条退出线!");
+                        console.log($scope.links)
+                        console.log($scope.linkNodes)
                     }
                     //高亮接续线方法;
-                    function hightlightViasLink(param){
-                        if(!param)param = 0;
-                        highRenderCtrl.highLightFeatures.splice(3+param);
+                    function hightlightViasLink(){
+                        highRenderCtrl.highLightFeatures.splice(3);
                         for(var i=0;i<tempObj.vias.length;i++){
                             highRenderCtrl.highLightFeatures.push({
                                 id: parseInt(tempObj.vias[i]).toString(),
@@ -2842,18 +2842,89 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
 
                     eventController.off(eventController.eventTypes.GETLINKID);
                     eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
+                        $scope.linkNodes[1] = tempObj.nodePid;
+                        var selectIndex = $scope.links.indexOf(parseInt(dataresult.id));
+                        if(selectIndex==-1){
+                            selectIndex = $scope.links.length-1;
+                        }
                         //如果是修改退出线;
-                        if(dataresult.properties.enode==$scope.linkNodes[0]&&dataresult.properties.direct==3&&$scope.links[0]!=dataresult.id){
-                            hightlightOutLink(dataresult.id)
-                        }else if(dataresult.properties.snode==$scope.linkNodes[0]&&dataresult.properties.direct==2&&$scope.links[0]!=dataresult.id){
-                            hightlightOutLink(dataresult.id)
-                        }else if($scope.links[0]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[0]||dataresult.properties.snode==$scope.linkNodes[0])&&dataresult.properties.direct==1){
-                            hightlightOutLink(dataresult.id)
+                        if(dataresult.properties.enode==$scope.linkNodes[1]&&dataresult.properties.direct==3&&$scope.links[0]!=dataresult.id){
+                            tempObj.outLinkPid = dataresult.id;
+                            tempObj.vias = [];
+                            //对于node和link数组的维护;
+                            $scope.links.splice(1);
+                            $scope.links.push(parseInt(dataresult.id));
+                            $scope.linkNodes.splice(2);
+                            $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                            hightlightOutLink();
+                            return;
+                        }else if(dataresult.properties.snode==$scope.linkNodes[1]&&dataresult.properties.direct==2&&$scope.links[0]!=dataresult.id){
+                            tempObj.outLinkPid = dataresult.id;
+                            tempObj.vias = [];
+                            //对于node和link数组的维护;
+                            $scope.links.splice(1);
+                            $scope.links.push(parseInt(dataresult.id));
+                            $scope.linkNodes.splice(2);
+                            $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                            hightlightOutLink();
+                            return;
+                        }else if($scope.links[0]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[1]||dataresult.properties.snode==$scope.linkNodes[1])&&dataresult.properties.direct==1){
+                            tempObj.outLinkPid = dataresult.id;
+                            tempObj.vias = [];
+                            //对于node和link数组的维护;
+                            $scope.links.splice(1);
+                            $scope.links.push(parseInt(dataresult.id));
+                            $scope.linkNodes.splice(2);
+                            $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                            (dataresult.properties.enode==$scope.linkNodes[1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                            hightlightOutLink();
+                            return;
                         }else{
+                            tempObj.outLinkPid = dataresult.id;
                             tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
                         }
+
+                        //如果没有接续线接续线直接跟退出线挂接;
+                        if(tempObj.vias.indexOf(parseInt(dataresult.id))==-1){
+                            if(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==3&&$scope.links[1]!=dataresult.id){
+                                tempObj.outLinkPid = dataresult.id;
+                                tempObj.vias.push(parseInt(dataresult.id));
+                                //对于node和link数组的维护;
+                                $scope.links.push(parseInt(dataresult.id));
+                                $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                                hightlightViasLink()
+                            }else if(dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==2&&$scope.links[1]!=dataresult.id){
+                                tempObj.outLinkPid = dataresult.id;
+                                tempObj.vias.push(parseInt(dataresult.id));
+                                //对于node和link数组的维护;
+                                $scope.links.push(parseInt(dataresult.id));
+                                $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                                hightlightViasLink()
+                            }else if($scope.links[1]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]||dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1])&&dataresult.properties.direct==1){
+                                tempObj.outLinkPid = dataresult.id;
+                                //对于node和link数组的维护;
+                                $scope.links.push(parseInt(dataresult.id));
+                                tempObj.vias.push(parseInt(dataresult.id));
+                                (dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                                hightlightViasLink()
+                            }else{
+                                tempObj.outLinkPid = dataresult.id;
+                                tooltipsCtrl.setCurrentTooltipText("接续线选择错误!");
+                            }
+                        }else{
+                            $scope.links.splice(selectIndex);
+                            $scope.linkNodes.splice(selectIndex+2);
+                            tempObj.vias.splice(selectIndex-2);
+                            hightlightViasLink()
+                            tooltipsCtrl.setCurrentTooltipText("重复!");
+                        }
+
+
+
+
+
 //                        else{
-//                            //如果直接修改退出线;
+//                            //如果直接修改接续线;
 //                            if(dataresult.properties.enode==$scope.allLinkNode[$scope.allLinkNode.length-1]&&(dataresult.properties.direct==3||dataresult.properties.direct==1)){
 //                                tempObj.vias.push(dataresult.id)
 //                                $scope.allLinkNode.push(dataresult.properties.snode)
@@ -2875,13 +2946,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
 //                        }
 
                         //设置修改确认的数据;
-//                        featCodeCtrl.setFeatCode({
-//                            "pid": tempObj.pid.toString(),
-//                            "nodePid": tempObj.nodePid.toString(),
-//                            "inLinkPid": tempObj.inLinkPid.toString(),
-//                            "outLinkPid": tempObj.outLinkPid.toString(),
-//                            "vias":tempObj.vias
-//                        });
+                        featCodeCtrl.setFeatCode({
+                            "pid": tempObj.pid.toString(),
+                            "nodePid": tempObj.nodePid.toString(),
+                            "inLinkPid": tempObj.inLinkPid.toString(),
+                            "outLinkPid": tempObj.outLinkPid.toString(),
+                            "vias":tempObj.vias
+                        });
                     });
                     return;
                 }
