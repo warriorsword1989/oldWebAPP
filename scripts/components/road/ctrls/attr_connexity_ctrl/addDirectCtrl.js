@@ -1,15 +1,12 @@
 /**
  * Created by liwanchong on 2016/3/9.
  */
-/**
- * Created by liwanchong on 2016/3/4.
- */
+
 var addDirectConnexityApp = angular.module("app");
 addDirectConnexityApp.controller("addDirectOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var hLayer = layerCtrl.getLayerById('highlightLayer');
-    var highRenderCtrl = new fastmap.uikit.HighRenderController()
+    var highRenderCtrl = new fastmap.uikit.HighRenderController();
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -90,7 +87,6 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         // var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
         // highLightLinks.drawHighlight();
     }
-    $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
 
     $scope.changeInfo=function(num,item) {
         for (var i = 0, len = $scope.laneInfo["topos"].length; i < len; i++) {
@@ -102,7 +98,20 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
 
         }
     };
+    $scope.removeImgActive = function () {
+        $.each($('.trafficPic'), function (i, v) {
+            $(v).find('img').removeClass('active');
+        });
+    };
+    //选择弹出框中的车信
+    $scope.selectTopo = function (item, e) {
+        /*选中高亮*/
+        $scope.item = item;
+        $scope.removeImgActive();
+        $(e.target).addClass('active');
+    };
     $scope.addLaneConnexity=function() {
+        $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
         var lastLane= $scope.lanesArr[$scope.lanesArr.length-1].split("");
         var zeroLane = $scope.lanesArr[0].split("");
         if( $scope.laneInfo["selectNum"]) {
@@ -163,15 +172,17 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                     laneNum = $scope.lanesArr.length;
                 }
                 var newNum = parseInt($scope.intToDecial(laneNum));
-                var obj={
+                var obj = fastmap.dataApi.rdLaneTopology({
                     "busLaneInfo": 0,
                     "connexityPid": $scope.laneInfo["pid"],
                     "inLaneInfo":newNum,
                     "outLinkPid": 0,
                     "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
-                    "relationshipType": 1
-                }
+                    "relationshipType": 1,
+                    "vias":[]
+                });
                 $scope.laneInfo["topos"].unshift(obj);
+                $scope.removeImgActive();
             }
         }
 
