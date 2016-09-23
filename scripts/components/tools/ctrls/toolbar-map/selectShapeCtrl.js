@@ -258,9 +258,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                             }, {
-                                'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
+                                'text': "<a class='glyphicon glyphicon-resize-full'></a>",
                                 'title': "打断link",
                                 'type': 'PATHBREAK',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                            }, {
+                                'text': "<a class='glyphicon glyphicon-export'></a>",
+                                'title': "分离结点",
+                                'type': 'PATHNODEMOVE',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                             }]

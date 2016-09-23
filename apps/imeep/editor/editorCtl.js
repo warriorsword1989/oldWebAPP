@@ -140,6 +140,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				//     }
 				// }
 			});
+			map.on("moveend", function (e) {
+				console.log('****************************************');
+			});
 			map.on('resize', function () {
 				setTimeout(function () {
 					map.invalidateSize()
