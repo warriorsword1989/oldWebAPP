@@ -11,7 +11,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
      */
     initialize: function (options) {
         var layerCtrl = fastmap.uikit.LayerController();
-        this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
+        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
         this.tiles = this.currentEditLayer.tiles;
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.options = options || {};
@@ -27,7 +27,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('adAdmin'));
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
@@ -49,15 +49,9 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
     },
 
     onMouseMove:function(event){
-        this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
-            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
-        }else{
-            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        }
+        this.container.style.cursor = 'pointer';
+        this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
 

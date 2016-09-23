@@ -1,0 +1,32 @@
+
+<div class="fm-component"  ng-controller="rwNodeController" >
+    <div class="title">
+        铁路点 <span class="label label-info" >{{rwNodeData.pid}}</span>
+    </div>
+    <div class="content" style="padding-bottom: 18px;">
+        <ul class="fm-ul fm-ul-form">
+            <li>
+                <label>种 别</label>
+                <div>
+                    <select  ng-model="rwNodeData.kind"
+                             ng-options="value.id as value.label for value in kind" >
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label>形 态</label>
+                <div>
+                    <select  ng-model="rwNodeData.form"
+                             ng-options="value.id as value.label for value in form" >
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label>图符号</label>
+                <div>
+                    <input type="text"  ng-model="rwNodeData.meshId" disabled="disabled">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

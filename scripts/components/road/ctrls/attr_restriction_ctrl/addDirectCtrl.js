@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var addDirectOfRest = angular.module("mapApp");
+var addDirectOfRest = angular.module("app");
 addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.addDirectData = objCtrl.data;
@@ -56,10 +56,10 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
             }
             $scope.addDirectData.details.unshift($scope.newLimited);
             if ($scope.newLimited.type === 1) {
-                $scope.addDirectData.restrictInfo += "," + $scope.newLimited.restricInfo;
+                $scope.addDirectData.restricInfo = $scope.addDirectData.restricInfo +"," + $scope.newLimited.restricInfo;
             } else {
                 var newDirect = ",[" + $scope.newLimited.restricInfo + "]";
-                $scope.addDirectData.restrictInfo += newDirect;
+                $scope.addDirectData.restricInfo += newDirect;
 
             }
 

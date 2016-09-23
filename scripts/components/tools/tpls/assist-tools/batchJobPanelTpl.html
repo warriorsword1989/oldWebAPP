@@ -1,0 +1,93 @@
+<style>
+    .fm-tabs a.tab{
+        padding: 6px 10px;
+        background-color: #555555;
+    }
+    .fm-tabs a.tab.active{
+        color: #fff;
+        border-bottom: 1px solid rgba(255, 255, 255, .8);
+        background-color: #313131;
+        transition: all .3s;
+    }
+    .tableOdd{
+        background-color: #313131;
+    }
+</style>
+<div class="fm-panel" ng-controller="BatchJobPanelCtrl" style="margin:0px;">
+    <div class="title">批处理</div>
+    <div class="content">
+        <div class="fm-tabs" style="padding: 0 10px;" ng-init="batchType='poi'">
+            <a href="#" class="tab" ng-class="{'poi':'active'}[batchType]" ng-click="batchType='poi'">POI批处理</a>
+            <a href="#" class="tab" ng-class="{'road':'active'}[batchType]" ng-click="batchType='road'">道路批处理</a>
+        </div>
+        <div class="container-fluid" ng-switch="batchType">
+            <div ng-switch-when="poi" class="row dark">
+                <div class="scroll-styled" style="width: 40%;float: left;min-height: 200px;max-height: 300px;padding: 0 10px;">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>批处理类型</th>
+                                <th>批处理范围</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!batchBoxData || batchBoxData.length == 0">
+                                <td colspan="3" class="text-center">无数据!!!</td>
+                            </tr>
+                            <tr ng-class-odd="'tableOdd'" ng-repeat="item in batchBoxData">
+                                <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
+                                <td ng-click="getBatchItem(item)">{{item.type}}</td>
+                                <td ng-click="getBatchItem(item)">{{item.handleArea}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 57%;float: left;margin-left: 10px">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>批处理项</th>
+                                <th>批处理描述</th>
+                                <th>优先级</th>
+                                <th>前置依赖</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!currentBatchItems || currentBatchItems.length == 0">
+                                <td colspan="5" class="text-center">无数据!!!</td>
+                            </tr>
+                            <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentBatchItems">
+                                <td><input ng-model="item.checked" type="checkbox" /></td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.desc}}</td>
+                                <td>{{item.level}}</td>
+                                <td>{{item.dec}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix"></div>
+                <!--pagation part-->
+                <div class="" style="padding:10px;">
+                    <ul style="margin: 0" uib-pagination boundary-links="true" total-items="12" ng-model="1" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                </div>
+            </div>
+
+            <div ng-switch-when="road" class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
+                <label ng-repeat="item in batchList" class="col-md-6">
+                    <input type="checkbox" name="batchList" ng-model="selectedBatches[item.id]" ng-value="item.id"> {{item.name}}
+                </label>
+            </div>
+        </div>
+
+        <!---->
+        <div class="progress fm-progress" style="margin-bottom: 10px;">
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
+        </div>
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行</button>
+        </div>
+    </div>
+</div>

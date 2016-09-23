@@ -1,0 +1,49 @@
+<style>
+    .addAdNode_false {
+        background: url('../../../images/road//button/dot_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdNode_true {
+        background: url('../../../images/road//button/dot_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdLink_false {
+        background: url('../../../images/road//button/line_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdLink_true {
+        background: url('../../../images/road//button/line_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    #fm-addRwShapContainer>button:focus{
+        outline: none;
+    }
+    .btn-shape{
+        color: #fff;
+        background-color: #7F7F7F;
+        border: 1px solid #494949;
+    }
+    .btn-shape:hover{
+        border: 1px solid #494949;
+    }
+    .shape-well{
+        min-width: 367px;
+        background-color: #494949;
+        text-align: center;
+        opacity: .9;
+    }
+</style>
+<div id="fm-addRwShapContainer" ng-controller="addRwShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
+    <button type="button" class="btn addAdNode_{{classArr[12]}}" id="addRwNode" ng-click="addShape('RWNODE',12,$event)"
+            title="新增RWNODE+"></button>
+    <button type="button" class="btn addAdLink_{{classArr[13]}}" id="addAwLink" ng-click="addShape('RWLINK',13,$event)"
+            title="新增RWLINE+"></button>
+</div>

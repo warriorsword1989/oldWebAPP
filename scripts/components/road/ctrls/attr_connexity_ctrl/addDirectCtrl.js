@@ -4,11 +4,12 @@
 /**
  * Created by liwanchong on 2016/3/4.
  */
-var addDirectConnexityApp = angular.module("mapApp");
+var addDirectConnexityApp = angular.module("app");
 addDirectConnexityApp.controller("addDirectOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var hLayer = layerCtrl.getLayerById('highlightLayer');
+    var highRenderCtrl = new fastmap.uikit.HighRenderController()
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -80,12 +81,14 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{}
         })
-        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
-        highLightLinks.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
+        // var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
+        // highLightLinks.drawHighlight();
     }
     $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
 
@@ -109,7 +112,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                 "connexityPid": $scope.laneInfo["pid"],
                 "inLaneInfo": parseInt($scope.intToDecial($scope.laneInfo["selectNum"]+1)),
                 "outLinkPid": 0,
-                "reachDir": $scope.changeData($scope.item.id),
+                "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                 "relationshipType": 1
             }
             for (var m= 0,lenM=$scope.laneInfo["topos"].length;m<lenM;m++) {
@@ -140,7 +143,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                     "connexityPid": $scope.laneInfo["pid"],
                     "inLaneInfo": parseInt($scope.intToDecial($scope.laneInfo["topos"].length-1)),
                     "outLinkPid": 0,
-                    "reachDir": $scope.changeData($scope.item.id),
+                    "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                     "relationshipType": 1
                 }
                 $scope.lanesArr.splice($scope.lanesArr.length - 1, 0, $scope.item.id);
@@ -165,7 +168,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                     "connexityPid": $scope.laneInfo["pid"],
                     "inLaneInfo":newNum,
                     "outLinkPid": 0,
-                    "reachDir": $scope.changeData($scope.item.id),
+                    "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                     "relationshipType": 1
                 }
                 $scope.laneInfo["topos"].unshift(obj);

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/1.
  */
-var infoOfConnexityApp = angular.module("mapApp");
+var infoOfConnexityApp = angular.module("app");
 infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -15,7 +15,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.laneFlag = false;
     $scope.laneNum = $scope.infoData["laneInfo"].split(",").length;
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
    //清除高亮
     highRenderCtrl._cleanHighLight();
     highRenderCtrl.highLightFeatures.length = 0;
@@ -48,6 +48,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         "l": "db",
         "m": "dbc",
         "n": "dc",
+        "o": "o",
         "p": "bace",
         "t": "ar",
         "u": "br",
@@ -69,8 +70,9 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         "c": 3,
         "d": 4,
         "r": 5,
-        "s": 6
-    }
+        "s": 6,
+        "o": 7
+    };
     $scope.decimalToArr = function (data) {
         var arr = [];
         arr = data.toString(2).split("");
@@ -79,10 +81,16 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var highLightFeatures = [];
     highLightFeatures.push({
         id: objCtrl.data["inLinkPid"].toString(),
-        layerid:'referenceLine',
+        layerid:'rdLink',
         type:'line',
+        style:{color: '#CD0000'}
+    });
+    highLightFeatures.push({
+        id:objCtrl.data["nodePid"].toString(),
+        layerid:'rdLink',
+        type:'node',
         style:{}
-    })
+    });
     for (var i = 0, len = $scope.infoData["topos"].length; i < len; i++) {
         var arrOfDecimal = $scope.decimalToArr($scope.infoData["topos"][i]["inLaneInfo"]), lenOfInfo;
         if (arrOfDecimal.lastIndexOf('1') === 0) {
@@ -90,7 +98,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             if (lenOfInfo === $scope.infoData["index"]) {
                 highLightFeatures.push({
                     id:$scope.infoData["topos"][i].outLinkPid.toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -110,7 +118,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 if (lenOfInfo === $scope.infoData["index"]) {
                     highLightFeatures.push({
                         id:$scope.infoData["topos"][i].outLinkPid.toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     })
@@ -143,6 +151,12 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             }
         }
     };
+
+    $scope.removeTipsActive = function(){
+        $.each($('.lanePic'),function(i,v){
+            $(v).removeClass('active');
+        });
+    };
     $scope.currentValue = function () {
         for (var i = 0, len = $scope.outLanesArr.length; i < len; i++) {
             if ($scope.outLanesArr[i]["reachDir"] === $scope.transData[$scope.directArr[0]]) {
@@ -152,7 +166,9 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     };
     $scope.getChangedDirect();
     $scope.currentValue();
-    $scope.getLanesInfo = function (item) {
+    $scope.getLanesInfo = function (item, event) {
+        $scope.removeTipsActive();
+        $(event.target).addClass("active");
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
         highLightFeatures.length = 0;
@@ -170,19 +186,25 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 $scope.showLaneInfo.push($scope.outLanesArr[i]);
                 highLightFeatures.push({
                     id: $scope.outLanesArr[i]["outLinkPid"].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
-                })
+                });
                 outLinkObj[$scope.outLanesArr[i]["outLinkPid"].toString()] = true;
             }
         }
         highLightFeatures.push({
             id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
+            style:{color: '#CD0000'}
+        });
+        highLightFeatures.push({
+            id:objCtrl.data["nodePid"].toString(),
+            layerid:'rdLink',
+            type:'node',
             style:{}
-        })
+        });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -260,7 +282,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             for(var x= 0,lenX= Object.keys(outLinkObj).length;x<lenX;x++) {
                 highLightFeatures.push({
                     id:Object.keys(outLinkObj)[x].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 })
@@ -268,10 +290,16 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             //高亮进入线和退出线
             highLightFeatures.push({
                 id: objCtrl.data["inLinkPid"].toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
+                style:{color: '#CD0000'}
+            });
+            highLightFeatures.push({
+                id:objCtrl.data["nodePid"].toString(),
+                layerid:'rdLink',
+                type:'node',
                 style:{}
-            })
+            });
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
 

@@ -74,7 +74,7 @@ fastmap.dataApi.RdLinkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
         data["toLimitSrc"] = this.toLimitSrc;
         data["speedDependent"] = this.speedDependent;
         data["timeDomain"]  = this.timeDomain;
-        data["speedClassWork"] = this.speedClassWork;
+        data["speedClassWork"] = parseInt(this.speedClassWork);
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

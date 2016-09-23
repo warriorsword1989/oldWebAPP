@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var zonePeopertyApp = angular.module("mapApp");
+var zonePeopertyApp = angular.module("app");
 zonePeopertyApp.controller("zonePeopertyController", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.zoneData = objCtrl.data;
@@ -15,8 +15,8 @@ zonePeopertyApp.controller("zonePeopertyController", function ($scope, $timeout,
         $scope.linkData["oridiRowId"] = item.rowId;
         var showZoneWinObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/infoOfZoneCtrl',
-            "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/infoOfZoneTpl.html'
+            "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/infoOfZoneCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/infoOfZoneTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showZoneWinObj);
     }

@@ -3,7 +3,7 @@
  */
 fastmap.dataApi.RdCrossName = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
-        L.setOptions(this, options);
+        // L.setOptions(this, options);
         this.geoLiveType = "RDCROSSNAME";
         this.setAttributeData(data);
     },
@@ -11,7 +11,7 @@ fastmap.dataApi.RdCrossName = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData: function (data) {
         this.pid = data["pid"];
         this.nameGroupid = data["nameGroupid"] || 1;
-        this.nameId = data["nameId"] || 1;
+        // this.nameId = data["nameId"] || 1;
         this.langCode = data["langCode"] || "CHI";
         this.name = data["name"] || "";
         this.phonetic = data["phonetic"] || "";
@@ -23,7 +23,7 @@ fastmap.dataApi.RdCrossName = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["pid"] = this.pid;
         data["nameGroupid"] = this.nameGroupid;
-        data["nameId"] = this.nameId;
+        // data["nameId"] = this.nameId;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
@@ -36,7 +36,7 @@ fastmap.dataApi.RdCrossName = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["pid"] = this.pid;
         data["nameGroupid"] = this.nameGroupid;
-        data["nameId"] = this.nameId;
+        // data["nameId"] = this.nameId;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;

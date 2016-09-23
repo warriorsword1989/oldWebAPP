@@ -1,0 +1,26 @@
+<div ng-controller="SameLinkController">
+    <div class="fm-component">
+        <div class="title">
+            同一线
+            <span class="label label-info">{{rdSameLinkList.pid}}</span>
+        </div>
+        <div class="content">
+            <form>
+                <ul class="fm-ul fm-ul-form" ng-repeat="link in rdSameLinkList.parts">
+                    <li style="padding:5px">
+                        <label>Link{{$index+1}}号码</label>
+                        <div >
+                            <input type="text"  class="fm-control chosen-disabled" value="{{link.linkPid}}"/>
+                        </div>
+                    </li>
+                    <li style="padding:5px">
+                        <label>Link{{$index+1}}类型</label>
+                        <div>
+                            <input type="text"  class="fm-control chosen-disabled" value="{{link.tableName}}"/>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>

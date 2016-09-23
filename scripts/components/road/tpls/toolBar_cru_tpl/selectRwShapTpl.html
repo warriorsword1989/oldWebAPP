@@ -1,0 +1,29 @@
+<style>
+    .node_false{
+        background: url('../../../images/road//button/dot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .node_true{
+        background: url('../../../images/road//button/dot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .link_false{
+        background: url('../../../images/road//button/line.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .link_true{
+        background: url('../../../images/road//button/line_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #fm-selectRwShapeContainer>button:focus{
+        outline: none;
+    }
+</style>
+<div id="fm-selectRwShapeContainer" ng-controller="selectRwShapeController" class="btn-group btn-group-sm" style="width: 100%;">
+    <button type="button" class="btn node_{{classArr[10]}}"  id="node" ng-click="selectRwShape('RWNODE',10)" title="选择RWNODE"></button>
+    <button type="button" class="btn link_{{classArr[11]}}" id="link" ng-click="selectRwShape('RWLINK',11)" title="选择RWLINK"></button>
+</div>

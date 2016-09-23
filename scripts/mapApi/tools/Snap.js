@@ -40,6 +40,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousemove', this.onMouseMove, this);
     },
+    /*
+    * 先加的优先捕捉
+    * */
     addGuideLayer: function (layer) {
         for (var i = 0, n = this._guides.length; i < n; i++)
             if (L.stamp(layer) === L.stamp(this._guides[i]))
@@ -108,8 +111,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                    //break;
-                } else {
+                    break;//增加break，多个捕捉层的时候要用到
+                }
+                else {
                     //this.selectedVertex = closest.selectedVertexe;
                     this.snaped = false;
                 }

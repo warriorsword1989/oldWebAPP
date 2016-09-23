@@ -2,8 +2,7 @@
  * Created by zhongxiaoming on 2015/10/26.
  * Class ajaxConstruct
  */
-fastmap.mapApi.ajaxConstruct = function (url, func) {
-
+fastmap.mapApi.ajaxConstruct = function(url, func) {
     if (document.getElementById) {
         var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
         if (window.XDomainRequest) {
@@ -11,16 +10,16 @@ fastmap.mapApi.ajaxConstruct = function (url, func) {
         }
     }
     if (x) {
-        x.onreadystatechange = function () {
+        x.onreadystatechange = function() {
             var el = el || {};
             if (x.xdomain || x.readyState == 4) {
                 var d = 0;
                 var el;
                 if (x.xdomain || x.status == 200) {
                     //if(url.match(/\/edit\?/)!=null && url.match(/\/edit\?/).length >0){
-                    if(url.match("CREATE")!=null||url.match("UPDATE")!=null||url.match("DELETE")!=null){
+                    if (url.match("CREATE") != null || url.match("UPDATE") != null || url.match("DELETE") != null) {
                         var eventController = fastmap.uikit.EventController();
-                        eventController.fire('editAjaxCompleted',{});
+                        eventController.fire('editAjaxCompleted', {});
                     }
                     if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                         if (window.JSON) {
@@ -34,13 +33,13 @@ fastmap.mapApi.ajaxConstruct = function (url, func) {
             }
         };
         if (x.xdomain) {
-            x.onerror = function () {
+            x.onerror = function() {
                 console.log('ajax error!');
             };
-            x.ontimeout = function () {
+            x.ontimeout = function() {
                 console.log('ajax timeout!');
             };
-            x.onprogress = function () {
+            x.onprogress = function() {
                 console.log('ajax progress!');
             };
             x.onload = x.onreadystatechange
@@ -50,5 +49,4 @@ fastmap.mapApi.ajaxConstruct = function (url, func) {
         x.send()
     }
     return x;
-
 };

@@ -1,0 +1,25 @@
+<div class="fm-component" ng-controller="crfRoadCtrl">
+    <div class="title">
+        CRF道路PID
+        <span class="label label-info">{{crfRoadData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <from name="crfInterForm">
+            <div class="fm-panel">
+                <div class="title">
+                    <div>组成Link（共 <span ng-bind="crfRoadData.links.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfRoadData.links">
+                        <li>
+                            <label>Link{{$index+1}}号码</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="cItem.linkPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </from>
+    </div>
+</div>

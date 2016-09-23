@@ -1,0 +1,70 @@
+<div class="fm-component" ng-controller="crfObjectCtrl">
+    <div class="title">
+        CRF对象
+        <span class="label label-info">{{crfObjData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <from name="crfObjForm">
+            <div class="fm-panel">
+                <div class="title">
+                    <div><a ng-click="addRdName()" style="cursor: pointer;color:#FFF;">名称组（共<span ng-if="crfObjData.names!=undefined">{{crfObjData.names.length}}</span>条）</a></div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.names">
+                        <li>
+                            <div ng-click="showNames(cItem,$index)" style="cursor: pointer;">
+                                <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name||"无名称"}}</label>
+                                <span id="nameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minusName($index)"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fm-panel">
+                <div class="title">
+                    <div>组成Link（共 <span ng-bind="crfObjData.links.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.links">
+                        <li>
+                            <label>Link{{$index+1}}号码</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="cItem.linkPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fm-panel">
+                <div class="title">
+                    <div>组成道路（共 <span ng-bind="crfObjData.roads.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.roads">
+                        <li>
+                            <label>道路ID{{$index+1}}</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="cItem.roadPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fm-panel">
+                <div class="title">
+                    <div>组成交叉点（共 <span ng-bind="crfObjData.inters.length">0</span> 条）</div>
+                </div>
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form" ng-repeat="cItem in crfObjData.inters">
+                        <li>
+                            <label>交叉点{{$index+1}}</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="cItem.interPid" disabled/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </from>
+    </div>
+</div>

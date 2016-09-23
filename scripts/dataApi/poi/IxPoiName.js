@@ -1,27 +1,46 @@
 /**
- * Created by linglong on 2016/4/29.
+ * Created by wuz on 2016/5/27.
  */
 FM.dataApi.IxPoiName = FM.dataApi.DataModel.extend({
-    
     dataModelType: "IX_POI_NAME",
     /*
-     * 初始化
+     * DB-->UI
      */
-    // initialize: function(data, options) {
-    //     FM.setOptions(this, options);
-    //     this.geoLiveType = "IxPoiName";
-    //     this.setAttributeData(data);
-    // },
-    /*
-     * 设置参数赋值;
-     */
-    setAttributeData: function(data) {
-        this.nameId = data["nameId"] || 0;
-        this.langCode = data["langCode"] || 'CHI';
-        this.nameStr = data["nameStr"] || null;
-        this.nameStrPinyin = data["nameStrPinyin"] || null;
+    setAttributes: function(data) {
+        //this.nameId = data['nameId'] || 0;
+        this.pid = data['pid'] || 0;
+        this.poiPid = data['poiPid'] || 0;
+        this.nameGroupid = data['nameGroupid'] || 1;
+        this.langCode = data['langCode'];
         this.nameClass = data['nameClass'] || 1;
-        this.type = data["type"] || 2;
-        this.nameGrpId = data['nameGrpId'] || null;
+        this.nameType = data['nameType'] || 1;
+        this.name = data['name'] || "";
+        this.shortInfo = this.name;
+        if (this.name.length > 10) {
+            this.shortInfo = this.name.substring(0, 10) + '...';
+        }
+        this.namePhonetic = data['namePhonetic'] || "";
+        this.keywords = data['keywords'] || "";
+        this.nidbPid = data['nidbPid'] || "";
+        this.rowId = data["rowId"] || "";
     },
+    /*
+     * UI-->DB
+     */
+    getIntegrate: function() {
+        var ret = {};
+        //ret["nameId"] = this.nameId;
+        ret["pid"] = this.pid;
+        ret["poiPid"] = this.poiPid;
+        ret["nameGroupid"] = this.nameGroupid;
+        ret["langCode"] = this.langCode;
+        ret["nameClass"] = this.nameClass;
+        ret["nameType"] = this.nameType;
+        ret["name"] = this.name;
+        ret["namePhonetic"] = this.namePhonetic;
+        ret["keywords"] = this.keywords;
+        ret["nidbPid"] = this.nidbPid;
+        ret["rowId"] = this.rowId;
+        return ret;
+    }
 });

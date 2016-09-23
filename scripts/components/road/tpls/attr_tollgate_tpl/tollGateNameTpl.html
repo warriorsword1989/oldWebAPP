@@ -1,0 +1,39 @@
+<div ng-controller="TollGateNameCtl">
+    <div class="fm-component" >
+        <div class="add-icon" ng-click="addNameInfo();">
+          <i class="glyphicon glyphicon-plus-sign"></i>
+        </div>
+        <div class="content" ng-repeat="info in tollGateNames">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>名称组号</label>
+                        <div >
+                            <input type="text" readonly class="fm-control" ng-model="info.nameGroupid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>代码语言</label>
+                        <div>
+                            <select ng-model="info.langCode" class="fm-control"
+                                    ng-options="value.id as value.label for value in langCodeOptions">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称内容</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.name" ng-blur="namePronunciation(info.name,info);"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称发音</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.phonetic"/>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>

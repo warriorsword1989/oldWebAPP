@@ -17,13 +17,13 @@ fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
 
-        this.pid = data["pid"] || 0;
+        // this.pid = data["pid"] || 0;
         this.restricPid = data["restricPid"] || 0;
         this.outLinkPid = data["outLinkPid"] || 0;
-        this.flag = data["flag"] || 2;
+        this.flag = (data["flag"] === undefined || data["flag"] === '') ? 2 :data["flag"];
         this.restricInfo = data["restricInfo"] ||0;
-        this.type = data["type"] || 1;
-        this.relationshipType = data["relationshipType"] || 1;
+        this.type = (data["type"] === undefined || data["type"] === '') ? 1 :data["type"];
+        this.relationshipType = (data["relationshipType"] === undefined || data["relationshipType"] === '') ? 1 :data["relationshipType"];
 
         this.conditions = [];
         if (data["conditions"]&&data["conditions"].length > 0) {
@@ -44,7 +44,7 @@ fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid;
+        // data["pid"] = this.pid;
         data["restricPid"] = this.restricPid;
         data["outLinkPid"] = this.outLinkPid;
         data["flag"] = this.flag;
@@ -63,7 +63,7 @@ fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid;
+        // data["pid"] = this.pid;
         data["restricPid"] = this.restricPid;
         data["outLinkPid"] = this.outLinkPid;
         data["flag"] = this.flag;

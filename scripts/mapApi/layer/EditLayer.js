@@ -100,7 +100,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * @param index 鼠标拖动的当前点
      */
     draw: function (currentGeo, self, index) {
-        //this.clear();
+        // this.clear();
         if (!currentGeo) {
             return;
         }

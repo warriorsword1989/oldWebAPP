@@ -14,6 +14,7 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+        this.pid = data["pid"];
         this.linkPid = data["linkPid"];
         this.featurePid = data["featurePid"] || 0;
         this.sNodePid = data["sNodePid"];
@@ -21,12 +22,20 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
         this.kind = data["kind"] || 1;
         this.form = data["form"] || 0;
         this.length = data["length"] || 0;
-        this.geoemtry = data["geoemtry"];
+        this.geometry = data["geometry"];
         this.meshId = data["meshId"] || 0;
         this.scale = data["scale"] || 0;
         this.detailFlag = data["detailFlag"] || 0;
         this.editFlag = data["editFlag"] || 1;
         this.color = data["color"] || null;
+
+        this.names = [];
+        if (data["names"] && data["names"].length > 0 ){
+            for (var i = 0, len = data["names"].length; i < len; i++) {
+                var name = fastmap.dataApi.rwLinkName(data["names"][i]);
+                this.names.push(name);
+            }
+        }
 
        /* this.links = [];
         if (data["links"]&&data["links"].length > 0) {
@@ -45,6 +54,7 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
+        data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["featurePid"] = this.featurePid;
         data["sNodePid"] = this.sNodePid;
@@ -59,6 +69,12 @@ fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
         data["editFlag"] = this.editFlag;
         data["color"] = this.color;
         data["geoLiveType"] = this.geoLiveType;
+        var names = [];
+        for (var i = 0, len = this.names.length; i < len; i++){
+            names.push(this.names[i].getIntegrate());
+        }
+        data["names"] = names;
+
       /*  var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
             links.push(this.links[i].getIntegrate());
