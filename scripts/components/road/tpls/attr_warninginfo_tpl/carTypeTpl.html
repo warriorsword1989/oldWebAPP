@@ -410,7 +410,7 @@
         <div class="clearfix"></div>
     </div>
     <div class="date-body">
-        <div ng-class="{'select-car animated-fast':true,'blue':checkValue,'red':!checkValue}" ng-repeat="item in carData" ng-click="removeCarType(item);">
+        <div ng-class="{'select-car animated-fast':true,'blue':checkValue,'red':!checkValue}" ng-repeat="item in carData" ng-click="carSelect(item);">
             <div class="select-car-text" ng-bind="item.label"></div>
             <span class="glyphicon glyphicon-remove remove-car-type"></span>
         </div>

@@ -105,16 +105,6 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
         }
         $scope.checkViche();
     };
-    //移除车辆类型
-    $scope.removeCarType = function(item){
-        item.checked=false;
-        for(var i in $scope.carData){
-            if($scope.carData[i].id.toString()==item.id){
-                $scope.carData.splice(i,1);
-            }
-        }
-        $scope.checkViche();
-    };
     $scope.checkViche=function(){
         var newArray=[];
         var result="";
