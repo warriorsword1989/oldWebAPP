@@ -2809,7 +2809,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             requestfn()
                         })
                     }
-                    requestfn()
+                    requestfn();
+                    setTimeout(function(){console.log($scope.links)
+                        console.log($scope.linkNodes)},3000)
                     /*-------------------获取所有点数组------------------*/
                     //修改退出线时高亮所有选中要素的方法;
                     function hightlightOutLink(){
@@ -2877,70 +2879,47 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
                             $scope.linkNodes.splice(2);
-                            $scope.linkNodes.push(parseInt(dataresult.properties.snode));
                             (dataresult.properties.enode==$scope.linkNodes[1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightOutLink();
                             return;
                         }else{
-                            tempObj.outLinkPid = dataresult.id;
                             tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
                         }
 
+
+                        if(dataresult.id==$scope.links[0]){
+                            tooltipsCtrl.setCurrentTooltipText("接续线不能与进入线重合!");
+                            return;
+                        }
                         //如果没有接续线接续线直接跟退出线挂接;
                         if(tempObj.vias.indexOf(parseInt(dataresult.id))==-1){
                             if(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==3&&$scope.links[1]!=dataresult.id){
-                                tempObj.outLinkPid = dataresult.id;
                                 tempObj.vias.push(parseInt(dataresult.id));
                                 //对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
                                 $scope.linkNodes.push(parseInt(dataresult.properties.snode));
                                 hightlightViasLink()
                             }else if(dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==2&&$scope.links[1]!=dataresult.id){
-                                tempObj.outLinkPid = dataresult.id;
                                 tempObj.vias.push(parseInt(dataresult.id));
                                 //对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
                                 $scope.linkNodes.push(parseInt(dataresult.properties.snode));
                                 hightlightViasLink()
                             }else if($scope.links[1]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]||dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1])&&dataresult.properties.direct==1){
-                                tempObj.outLinkPid = dataresult.id;
                                 //对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
                                 tempObj.vias.push(parseInt(dataresult.id));
                                 (dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
                                 hightlightViasLink()
                             }else{
-                                tempObj.outLinkPid = dataresult.id;
                                 tooltipsCtrl.setCurrentTooltipText("接续线选择错误!");
                             }
                         }else{
                             $scope.links.splice(selectIndex);
-                            $scope.linkNodes.splice(selectIndex+2);
+                            $scope.linkNodes.splice(selectIndex+1);
                             tempObj.vias.splice(selectIndex-2);
                             hightlightViasLink()
-                            //tooltipsCtrl.setCurrentTooltipText("重复!");
                         }
-//                        else{
-//                            //如果直接修改接续线;
-//                            if(dataresult.properties.enode==$scope.allLinkNode[$scope.allLinkNode.length-1]&&(dataresult.properties.direct==3||dataresult.properties.direct==1)){
-//                                tempObj.vias.push(dataresult.id)
-//                                $scope.allLinkNode.push(dataresult.properties.snode)
-//                                hightlightViasLink()
-//                            }else if(dataresult.properties.snode==$scope.allLinkNode[$scope.allLinkNode.length-1]&&(dataresult.properties.direct==2||dataresult.properties.direct==1)) {
-//                                tempObj.vias.push(dataresult.id)
-//                                $scope.allLinkNode.push(dataresult.properties.enode)
-//                                hightlightViasLink();
-//                            }
-//                            else if(tempObj.vias.indexOf(dataresult.id)!=-1){
-//                                var tempnum = tempObj.vias.indexOf(dataresult.id)
-//                                tempObj.vias.splice(tempObj.vias.indexOf(dataresult.id));
-//                                $scope.allLinkNode.splice(tempnum+1);
-//                                hightlightViasLink(tempnum);
-//                            }else{
-//                                tooltipsCtrl.setCurrentTooltipText("接续线或退出线选择错误!");
-//                                return;
-//                            }
-//                        }
 
                         //设置修改确认的数据;
                         featCodeCtrl.setFeatCode({
