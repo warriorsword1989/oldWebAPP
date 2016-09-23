@@ -2761,7 +2761,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     tooltipsCtrl.setEditEventType('rdvariable');
                     tooltipsCtrl.setCurrentTooltip('开始修改退出线和接续线！');
-
                     //获取一条link对象;
                     $scope.getSelectLinkInfos = function(param){
                         var defer = $q.defer();
@@ -2773,7 +2772,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     //可变限速当前数据模型的拷贝;
                     var tempObj = objCtrl.data.getIntegrate();
                     $scope.linkNodes = [],$scope.links = [];
-
+                    //将临时接续线对象数组改为pid的数组;
                     function uniqueArray(arr) {
                         var result = [], hash = {};
                         for (var i = 0, elem; (elem = arr[i]) != null; i++) {
@@ -2796,6 +2795,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             $scope.links.push(tempObj.vias[i].linkPid);
                         }
                     }
+                    for(var i=0;i<tempObj.vias.length;i++){
+                        tempObj.vias[i] = tempObj.vias[i].linkPid;
+                    }
                     //$scope.linkNodes.push(tempObj.nodePid);
                     /*-------------------获取所有点数组------------------*/
                     var currentIndex = 0;
@@ -2810,8 +2812,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         })
                     }
                     requestfn();
-                    setTimeout(function(){console.log($scope.links)
-                        console.log($scope.linkNodes)},3000)
+                    setTimeout(function(){
+                        console.log($scope.linkNodes)
+                    },3000)
                     /*-------------------获取所有点数组------------------*/
                     //修改退出线时高亮所有选中要素的方法;
                     function hightlightOutLink(){
@@ -2885,7 +2888,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }else{
                             tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
                         }
-
 
                         if(dataresult.id==$scope.links[0]){
                             tooltipsCtrl.setCurrentTooltipText("接续线不能与进入线重合!");
