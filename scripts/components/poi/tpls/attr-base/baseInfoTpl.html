@@ -47,7 +47,7 @@
                   <li>
                       <label>等 级</label>
                       <div class="lv-container">
-                          <label ng-repeat="lev in levelArr">
+                          <label ng-repeat="lev in rootCommonTemp.levelArr">
                               <input fm-edit-view type="radio" ng-class="{'chosen-disabled':isSpecialOperation,'lv-radio':true}" class="lv-radio" ng-model="poi.level" value="{{lev}}" ng-disabled="isSpecialOperation"> {{lev}}
 
                           </label>

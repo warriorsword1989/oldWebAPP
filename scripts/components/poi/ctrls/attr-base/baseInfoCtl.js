@@ -24,6 +24,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         }
         $scope.$emit("kindChange", pKindFormat[newVlaue]);
     });
+
     /*初始化品牌*/
     var initChain = function(kindCode) {
         var chainArray = pAllChain[kindCode];
@@ -45,16 +46,25 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         }
     };
 
+    $scope.rootCommonTemp.levelArr = [];
     var checkLevel = function (level){
         //$scope.poi.level = "";//清空等级
-        $scope.levelArr = [];
-        if (level) {
-            $scope.levelArr = level.split("|");
+        $scope.rootCommonTemp.levelArr = [];
+        if($scope.poi.kindCode == '120101'){ //星级酒店特殊处理
+            var rat = $scope.poi.hotels[0].rating;
+            if(rat==5 || rat==15 || rat==4|| rat==14){
+                $scope.rootCommonTemp.levelArr = ["A"];
+            } else {
+                $scope.rootCommonTemp.levelArr = ["B1"];
+            }
+        } else {
+            if (level) {
+                $scope.rootCommonTemp.levelArr = level.split("|");
+            }
+            if(!$scope.poi.level){
+                $scope.poi.level = $scope.rootCommonTemp.levelArr[0];
+            }
         }
-        if(!$scope.poi.level){
-            $scope.poi.level = $scope.levelArr[0];
-        }
-
     };
 
     /*切换 分类（种别）*/
@@ -70,7 +80,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                 checkLevel(dataLevel);
             }
         });
-    }
+    };
 
     $scope.addContact = function() {
         $scope.poi.contacts.reverse(); //反转

@@ -1871,6 +1871,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     });
                     return;
                 } else if (type === "MODIFRDCROSS") {
+                    swal("无法操作", "等下一个迭代开发好了再做吧！", "info");
+                    return;
                     map.currentTool = new fastmap.uikit.SelectNodeAndPath({
                         map: map,
                         shapeEditor: shapeCtrl,

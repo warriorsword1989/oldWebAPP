@@ -8,11 +8,15 @@
             <div  class="trafficPic">
                 <img  ng-repeat="addItem in addRdLancdData"
                       ng-src="../../../images/road/1301/1301_0_{{addItem.id}}.svg"
-                      ng-click="selectLaneInfo(addItem,$index)">
+                      ng-click="selectTopo(addItem,$event)">
             </div>
         </li>
 
     </ul>
 
-
+    <div style="padding: 5px 10px;text-align: right">
+        <button type="button" class="btn btn-primary btn-xs" style="width: 60px;text-align: center" ng-click="addLaneConnexity()">
+            增 加
+        </button>
+    </div>
 </div>
