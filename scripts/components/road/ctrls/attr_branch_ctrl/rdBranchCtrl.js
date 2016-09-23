@@ -484,6 +484,11 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if(objCtrl.data.details[0].exitNum){
             objCtrl.data.details[0].exitNum = Utils.ToDBC(objCtrl.data.details[0].exitNum);
         }
+        if(objCtrl.data.details[0].names && objCtrl.data.details[0].names.length > 0){
+            for(var i = 0 ; i < objCtrl.data.details[0].names.length; i ++ ){
+                objCtrl.data.details[0].names[i].name = Utils.ToDBC(objCtrl.data.details[0].names[i].name);
+            }
+        }
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
