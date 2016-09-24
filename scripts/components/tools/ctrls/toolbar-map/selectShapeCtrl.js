@@ -2798,9 +2798,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     for(var i=0;i<tempObj.vias.length;i++){
                         tempObj.vias[i] = tempObj.vias[i].linkPid;
                     }
-                    //$scope.linkNodes.push(tempObj.nodePid);
+                    $scope.linkNodes.push(tempObj.nodePid);
                     /*-------------------获取所有点数组------------------*/
-                    var currentIndex = 0;
+                    var currentIndex = 1;
                     function requestfn(){
                         if(currentIndex>=$scope.links.length){return;}
                         $scope.getSelectLinkInfos($scope.links[currentIndex]).then(function(data){
@@ -2849,40 +2849,39 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
 
                     eventController.off(eventController.eventTypes.GETLINKID);
                     eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
-                        $scope.linkNodes[1] = tempObj.nodePid;
                         var selectIndex = $scope.links.indexOf(parseInt(dataresult.id));
                         if(selectIndex==-1){
                             selectIndex = $scope.links.length-1;
                         }
                         //如果是修改退出线;
-                        if(dataresult.properties.enode==$scope.linkNodes[1]&&dataresult.properties.direct==3&&$scope.links[0]!=dataresult.id){
+                        if(dataresult.properties.enode==$scope.linkNodes[0]&&dataresult.properties.direct==3&&$scope.links[0]!=dataresult.id){
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
                             //对于node和link数组的维护;
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
-                            $scope.linkNodes.splice(2);
+                            $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.snode));
                             hightlightOutLink();
                             return;
-                        }else if(dataresult.properties.snode==$scope.linkNodes[1]&&dataresult.properties.direct==2&&$scope.links[0]!=dataresult.id){
+                        }else if(dataresult.properties.snode==$scope.linkNodes[0]&&dataresult.properties.direct==2&&$scope.links[0]!=dataresult.id){
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
                             //对于node和link数组的维护;
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
-                            $scope.linkNodes.splice(2);
-                            $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                            $scope.linkNodes.splice(1);
+                            $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightOutLink();
                             return;
-                        }else if($scope.links[0]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[1]||dataresult.properties.snode==$scope.linkNodes[1])&&dataresult.properties.direct==1){
+                        }else if($scope.links[0]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[0]||dataresult.properties.snode==$scope.linkNodes[0])&&dataresult.properties.direct==1){
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
                             //对于node和link数组的维护;
                             $scope.links.splice(1);
                             $scope.links.push(parseInt(dataresult.id));
-                            $scope.linkNodes.splice(2);
-                            (dataresult.properties.enode==$scope.linkNodes[1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                            $scope.linkNodes.splice(1);
+                            (dataresult.properties.enode==$scope.linkNodes[0])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightOutLink();
                             return;
                         }else{
@@ -2905,7 +2904,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                 tempObj.vias.push(parseInt(dataresult.id));
                                 //对于node和link数组的维护;
                                 $scope.links.push(parseInt(dataresult.id));
-                                $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                                $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                                 hightlightViasLink()
                             }else if($scope.links[1]!=dataresult.id&&(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]||dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1])&&dataresult.properties.direct==1){
                                 //对于node和link数组的维护;
@@ -2918,11 +2917,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             }
                         }else{
                             $scope.links.splice(selectIndex);
-                            $scope.linkNodes.splice(selectIndex+1);
+                            $scope.linkNodes.splice(selectIndex);
                             tempObj.vias.splice(selectIndex-2);
                             hightlightViasLink()
                         }
-
                         //设置修改确认的数据;
                         featCodeCtrl.setFeatCode({
                             "pid": tempObj.pid.toString(),
