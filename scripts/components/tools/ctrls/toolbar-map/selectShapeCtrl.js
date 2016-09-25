@@ -2812,9 +2812,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         })
                     }
                     requestfn();
-                    setTimeout(function(){
-                        console.log($scope.linkNodes)
-                    },3000)
                     /*-------------------获取所有点数组------------------*/
                     //修改退出线时高亮所有选中要素的方法;
                     function hightlightOutLink(){
@@ -2828,8 +2825,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltipText("已选择一条退出线!");
-                        console.log($scope.links)
-                        console.log($scope.linkNodes)
                     }
                     //高亮接续线方法;
                     function hightlightViasLink(){
@@ -2887,12 +2882,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }else{
                             tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
                         }
-
+                        /*判断接续线是否能与进入线重合，原则上不能重合*/
                         if(dataresult.id==$scope.links[0]){
                             tooltipsCtrl.setCurrentTooltipText("接续线不能与进入线重合!");
                             return;
                         }
-                        //如果没有接续线接续线直接跟退出线挂接;
+                        /*如果没有接续线接续线直接跟退出线挂接;*/
                         if(tempObj.vias.indexOf(parseInt(dataresult.id))==-1){
                             if(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==3&&$scope.links[1]!=dataresult.id){
                                 tempObj.vias.push(parseInt(dataresult.id));
@@ -2913,7 +2908,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                 (dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
                                 hightlightViasLink()
                             }else{
-                                tooltipsCtrl.setCurrentTooltipText("接续线选择错误!");
+                                tooltipsCtrl.setCurrentTooltipText("您选择的接续线与上一条不连续或方向错误!");
                             }
                         }else{
                             $scope.links.splice(selectIndex);

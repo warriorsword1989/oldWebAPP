@@ -1858,8 +1858,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
             } else if(type === 'VARIABLESPEED'){
                 $scope.jointNode = $scope.jointLink = '';
                 $scope.limitRelation.vias = [];
-                $scope.viasLinkNode = [];
-                var highLightFeatures = [], linkDirect = 0;
+                highRenderCtrl.highLightFeatures = [];
+                $scope.linkNodes = [],$scope.links = [];
+                var linkDirect = 0;
                 //可变限速
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;
@@ -1885,86 +1886,120 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     })
                     return defer.promise;
                 }
-                //选择接续线的公共方法;
-                function selectJoinLinks(param){
-                    getLinkInfos(parseInt(param)).then(function(outLinkData){
-                        if((outLinkData.eNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==3||outLinkData.direct==1))){
-                            $scope.jointNode = outLinkData.sNodePid
-                            $scope.limitRelation.outLinkPid = parseInt(param);
-                            highLightFeatures.splice(2);
-                            $scope.limitRelation.vias = [];
-                            highLightFeatures.push({
-                                id: parseInt(param).toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {}
-                            });
-                            $scope.jointLink = parseInt(param);
-                            highRenderCtrl._cleanHighLight();
-                            highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setCurrentTooltip("退出线已选!");
-                        }else if((outLinkData.sNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==2||outLinkData.direct==1))){
-                            $scope.jointNode = outLinkData.eNodePid;
-                            $scope.limitRelation.outLinkPid = parseInt(param);
-                            highLightFeatures.splice(2);
-                            $scope.limitRelation.vias = [];
-                            highLightFeatures.push({
-                                id: parseInt(param).toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {}
-                            });
-                            $scope.jointLink = parseInt(param);
-                            highRenderCtrl._cleanHighLight();
-                            highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setCurrentTooltip("退出线已选!");
-                        }else{
-                            if($scope.limitRelation.vias.indexOf(parseInt(param))!=-1){
-                                $scope.viasLinkNode.splice($scope.limitRelation.vias.indexOf(parseInt(param))+1);
-                                $scope.jointNode = $scope.viasLinkNode[$scope.viasLinkNode.length-1]
-                                $scope.limitRelation.vias.splice($scope.limitRelation.vias.indexOf(parseInt(param)));
-                                highLightFeatures.splice(3);
-                                for(var i=0;i<$scope.limitRelation.vias.length;i++){
-                                    highLightFeatures.push({
-                                        id: $scope.limitRelation.vias[i].toString(),
-                                        layerid: 'rdLink',
-                                        type: 'line',
-                                        style: {color:'blue'}
-                                    });
-                                }
-                                highRenderCtrl._cleanHighLight();
-                                highRenderCtrl.drawHighlight();
-                            }else if(outLinkData.eNodePid!=$scope.jointNode&&outLinkData.sNodePid!=$scope.jointNode){
-                                tooltipsCtrl.setCurrentTooltip("接续线选择错误!");
-                                return;
-                            }else{
-                                if(outLinkData.eNodePid==$scope.jointNode&&(outLinkData.direct==3||outLinkData.direct==1)){
-                                    $scope.jointNode = outLinkData.sNodePid;
-                                }else if((outLinkData.sNodePid==$scope.jointNode&&(outLinkData.direct==2||outLinkData.direct==1))){
-                                    $scope.jointNode = outLinkData.eNodePid;
-                                }else{
-                                    tooltipsCtrl.setCurrentTooltip("接续线选择错误!");
-                                    return;
-                                }
-                                tooltipsCtrl.setCurrentTooltip("已选择接续线!");
-                                $scope.viasLinkNode.push($scope.jointNode);
-                                $scope.limitRelation.vias.push(parseInt(param));
-                                highLightFeatures.push({
-                                    id: parseInt(param).toString(),
-                                    layerid: 'rdLink',
-                                    type: 'line',
-                                    style: {color:'blue'}
-                                });
-                                highRenderCtrl.drawHighlight();
-                            }
-
-                        }
+                //高亮退出线方法;
+                function hightlightOutLink(){
+                    highRenderCtrl.highLightFeatures.splice(2);
+                    highRenderCtrl.highLightFeatures.push({
+                        id: parseInt($scope.limitRelation.outLinkPid).toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {}
                     });
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.drawHighlight();
+                    tooltipsCtrl.setCurrentTooltipText("已选择一条退出线!");
+                }
+                //高亮接续线方法;
+                function hightlightViasLink(){
+                    highRenderCtrl.highLightFeatures.splice(3);
+                    for(var i=0;i<$scope.limitRelation.vias.length;i++){
+                        highRenderCtrl.highLightFeatures.push({
+                            id: parseInt($scope.limitRelation.vias[i]).toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {color:'blue'}
+                        });
+                    }
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.drawHighlight();
+                    tooltipsCtrl.setCurrentTooltipText("已选接续线!");
+                }
+                //选择接续线（支持修改退出线和接续线）;
+                function selectOutOrSeriesLinks(dataresult){
+                    //判断选的线的合法性;
+                    if(dataresult.id==$scope.limitRelation.inLinkPid){
+                        tooltipsCtrl.setCurrentTooltipText("所选线不能与进入线重复!");return;
+                    }
+                    //如果是修改的是退出线（支持修改）;
+                    if(dataresult.properties.enode==$scope.linkNodes[0]&&dataresult.properties.direct==3){
+                        $scope.limitRelation.outLinkPid = dataresult.id;
+                        $scope.limitRelation.vias = [];
+                        //对于node和link数组的维护;
+                        $scope.links.splice(0);
+                        $scope.links.push(parseInt(dataresult.id));
+                        $scope.linkNodes.splice(1);
+                        $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                        hightlightOutLink();
+                        return;
+                    }else if(dataresult.properties.snode==$scope.linkNodes[0]&&dataresult.properties.direct==2){
+                        $scope.limitRelation.outLinkPid = dataresult.id;
+                        $scope.limitRelation.vias = [];
+                        //对于node和link数组的维护;
+                        $scope.links.splice(0);
+                        $scope.links.push(parseInt(dataresult.id));
+                        $scope.linkNodes.splice(1);
+                        $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                        hightlightOutLink();
+                        return;
+                    }else if((dataresult.properties.enode==$scope.linkNodes[0]||dataresult.properties.snode==$scope.linkNodes[0])&&dataresult.properties.direct==1){
+                        $scope.limitRelation.outLinkPid = dataresult.id;
+                        $scope.limitRelation.vias = [];
+                        //对于node和link数组的维护;
+                        $scope.links.splice(0);
+                        $scope.links.push(parseInt(dataresult.id));
+                        $scope.linkNodes.splice(1);
+                        (dataresult.properties.enode==$scope.linkNodes[0])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                        hightlightOutLink();
+                        return;
+                    }else{
+                        tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
+                    }
+
+                    /*-----------------------------------如果增加的是接续线（支持修改）;-----------------------------------*/
+                    /*判断接续线是否能与进入线重合，原则上不能重合*/
+                    if(dataresult.id==$scope.limitRelation.inLinkPid){
+                        tooltipsCtrl.setCurrentTooltipText("接续线不能与进入线重合!");return;
+                    }
+                    /*判断接续线是否能与退出线线重合，原则上不能重合*/
+                    if(dataresult.id==$scope.limitRelation.outLinkPid){
+                        tooltipsCtrl.setCurrentTooltipText("接续线不能与退出线重合!");return;
+                    }
+                    /*如果没有接续线接续线直接跟退出线挂接;*/
+                    if($scope.limitRelation.vias.indexOf(parseInt(dataresult.id))==-1){
+                        if(dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==3){
+                            $scope.limitRelation.vias.push(parseInt(dataresult.id));
+                            //对于node和link数组的维护;
+                            $scope.links.push(parseInt(dataresult.id));
+                            $scope.linkNodes.push(parseInt(dataresult.properties.snode));
+                            hightlightViasLink()
+                        }else if(dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1]&&dataresult.properties.direct==2){
+                            $scope.limitRelation.vias.push(parseInt(dataresult.id));
+                            //对于node和link数组的维护;
+                            $scope.links.push(parseInt(dataresult.id));
+                            $scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                            hightlightViasLink()
+                        }else if((dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1]||dataresult.properties.snode==$scope.linkNodes[$scope.linkNodes.length-1])&&dataresult.properties.direct==1){
+                            //对于node和link数组的维护;
+                            $scope.links.push(parseInt(dataresult.id));
+                            $scope.limitRelation.vias.push(parseInt(dataresult.id));
+                            (dataresult.properties.enode==$scope.linkNodes[$scope.linkNodes.length-1])?$scope.linkNodes.push(parseInt(dataresult.properties.snode)):$scope.linkNodes.push(parseInt(dataresult.properties.enode));
+                            hightlightViasLink()
+                        }else{
+                            tooltipsCtrl.setCurrentTooltipText("您选择的接续线与上一条不连续或方向错误!");
+                        }
+                    }else{
+                        var selectIndex = $scope.limitRelation.vias.indexOf(parseInt(dataresult.id));
+                        $scope.links.splice(selectIndex);
+                        $scope.linkNodes.splice(selectIndex+2);
+                        $scope.limitRelation.vias.splice(selectIndex);
+                        hightlightViasLink();
+                    }
                 }
                 //选择分歧监听事件;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) {//第一次选择进入线的逻辑
+                        //初始化新增数据;
                         $scope.limitRelation.vias = [];
                         $scope.limitRelation.inLinkPid='';
                         $scope.limitRelation.nodePid='';
@@ -1976,13 +2011,12 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         map.currentTool.snapHandler.addGuideLayer(rdnode);
                         //高亮进入线;
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
-                        highLightFeatures.push({
+                        highRenderCtrl.highLightFeatures.push({
                             id: $scope.limitRelation.inLinkPid.toString(),
                             layerid: 'rdLink',
                             type: 'line',
                             style: {color: '#21ed25'}
                         });
-                        highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltip('已经选择进入线,选择进入点!');
                         //进入线的方向属性;
@@ -1990,13 +2024,12 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         //如果进入线是单方向道路，自动选择进入点;
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
-                            highLightFeatures.push({
+                            $scope.linkNodes.push($scope.limitRelation.nodePid);
+                            highRenderCtrl.highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
                                 type: 'rdnode',
-                                style: {
-                                    color: 'yellow'
-                                }
+                                style: {color: 'yellow'}
                             });
                             highRenderCtrl.drawHighlight();
                             map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
@@ -2006,7 +2039,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }else if(data.index === 1){
                             //如果进入线是双方向的，则根据用户的选择高亮进入点;
                             $scope.limitRelation.nodePid = parseInt(data.id);
-                            highLightFeatures.push({
+                            $scope.linkNodes.push($scope.limitRelation.nodePid);
+                            highRenderCtrl.highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
                                 type: 'rdnode',
@@ -2020,40 +2054,56 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                     }else if(data.index==2){
                         getLinkInfos(parseInt(data.id)).then(function(outLinkData){
+                            /*判断退出线的合法与否*/
                             if(outLinkData.eNodePid!=$scope.limitRelation.nodePid&&outLinkData.sNodePid!=$scope.limitRelation.nodePid){
                                 tooltipsCtrl.setCurrentTooltip("退出线必须与进入点衔接!");
                                 map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
                                 return;
-                            }else{
-                                if((outLinkData.eNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==3))){
-                                    $scope.jointNode = outLinkData.sNodePid
-                                }else if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&(outLinkData.direct==2)){
-                                    $scope.jointNode = outLinkData.eNodePid
-                                }else if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==1){
-                                    $scope.jointNode = outLinkData.eNodePid
-                                }else if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==1){
-                                    $scope.jointNode = outLinkData.sNodePid
-                                } else{
-                                    map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
-                                    tooltipsCtrl.setCurrentTooltip("退出线方向错误!");
+                            }
+                            if(data.id==$scope.limitRelation.inLinkPid){
+                                tooltipsCtrl.setCurrentTooltipText("退出线不能与进入线重合!");
+                                map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
+                                return;
+                            }
+                            /*判断退出线的方向的正确与否*/
+                            if(outLinkData.direct==1){
+                                $scope.jointNode = outLinkData.eNodePid==$scope.limitRelation.nodePid?outLinkData.sNodePid:outLinkData.eNodePid;
+                            }else if(outLinkData.direct==2||outLinkData.direct==3){
+                                if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2){
+                                    $scope.jointNode = outLinkData.eNodePid;
+                                }else{
+                                    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
                                     return;
                                 }
-                                $scope.jointLink = outLinkData.pid;
-                                $scope.viasLinkNode.push($scope.jointNode);
-                                $scope.limitRelation.outLinkPid = parseInt(data.id);
-                                highLightFeatures.push({
-                                    id: parseInt(data.id).toString(),
-                                    layerid: 'rdLink',
-                                    type: 'line',
-                                    style: {}
-                                });
-                                highRenderCtrl.drawHighlight();
-                                tooltipsCtrl.setCurrentTooltip("退出线已选择!");
+                                if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
+                                    $scope.jointNode = outLinkData.sNodePid;
+                                }else{
+                                    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
+                                    return;
+                                }
+                            }else{
+                                tooltipsCtrl.setCurrentTooltipText("该道路方向不确定!");
+                                map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
+                                return;
                             }
+                            $scope.limitRelation.outLinkPid = parseInt(data.id);
+                            $scope.links.push(parseInt(data.id));
+                            $scope.linkNodes.push($scope.jointNode);
+                            highRenderCtrl.highLightFeatures.push({
+                                id: parseInt(data.id).toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                            highRenderCtrl.drawHighlight();
+                            tooltipsCtrl.setCurrentTooltip("退出线已选择!");
+                            console.log($scope.links)
+                            console.log($scope.linkNodes)
                         });
                     }else if(data.index>2){
-                        selectJoinLinks(data.id);
+                        selectOutOrSeriesLinks(data);
                     }
+                    /*组装数据对象*/
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
             } else if (type === 'RDLANE'){ //详细车道
