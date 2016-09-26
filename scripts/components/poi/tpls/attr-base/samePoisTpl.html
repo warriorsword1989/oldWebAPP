@@ -16,7 +16,7 @@
                         </label>
                     </li>
                     <li ng-if="poi.samepoiParts.length > 0" ng-repeat="cItem in poi.samepoiParts">
-                        <label>
+                        <label ng-if="cItem.poiPid!=poi.pid">
                             {{cItem.poiPid}}
                         </label>
                     </li>

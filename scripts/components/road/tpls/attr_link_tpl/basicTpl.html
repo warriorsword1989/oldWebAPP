@@ -37,10 +37,10 @@
                 <input ng-class="{'chosen-disabled':(linkData.direct==1)}" class="limit-length" id="LaneNum" type="text" style="width: 30px;" ng-model="linkData.laneNum"
                        ng-change="numberLengthLimit(1,linkData.laneNum)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="leftLaneNum">左</label>
-                <input ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
+                <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
                        ng-change="numberLengthLimit(2,linkData.laneLeft,linkData.laneRight)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="rightLneNum">右</label>
-                <input ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"
+                <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"
                        ng-change="numberLengthLimit(3,linkData.laneLeft,linkData.laneRight)"/>
             </div>
         </li>

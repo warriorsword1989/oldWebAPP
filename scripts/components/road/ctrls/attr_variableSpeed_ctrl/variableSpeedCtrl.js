@@ -196,7 +196,6 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
                 relationData.redraw();
                 highRenderCtrl.highLightFeatures = null
                 highRenderCtrl._cleanHighLight();
-                $scope.resetToolAndMap();
                 $scope.$emit('SWITCHCONTAINERSTATE',{
                     'subAttrContainerTpl':false,
                     'attrContainerTpl':false
@@ -212,8 +211,9 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
     if (objCtrl.data) {
         $scope.initializeData();
     }
+    
 	eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
 	eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
 	eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
-	eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);
+	eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);//SELECTEDFEATURETYPECHANGE
 }]);

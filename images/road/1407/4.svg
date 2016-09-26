@@ -9,9 +9,7 @@
 	<sodipodi:guide  orientation="vertical" position="1116" id="guide22942"></sodipodi:guide>
 	<sodipodi:guide  orientation="vertical" position="1147" id="guide22944"></sodipodi:guide>
 </sodipodi:namedview>
-<path fill="#0F57DF" d="M8.938,0.417V3h-2V0.417H5.25v29.167h1.688v-3.458h2v3.458h1.688V0.417H8.938z M8.938,24h-2v-4.875h2V24z
-	 M8.938,17h-2v-4.875h2V17z M8.938,10h-2V5.125h2V10z"/>
-<path fill="#0F57DF" d="M9.083,14.76v8.427h1.451c0-6.942,5.628-12.569,12.569-12.569V6.813C17.147,6.813,11.949,10.004,9.083,14.76
-	z"/>
-<polygon fill="#0F57DF" points="28,8.875 22.375,14.288 22.375,3.462 "/>
+<path fill="#0F57DF" d="M29.896,15c0,4.133-3.351,7.484-7.484,7.484H7.588c-4.133,0-7.484-3.351-7.484-7.484l0,0
+	c0-4.133,3.351-7.484,7.484-7.484h14.824C26.545,7.516,29.896,10.867,29.896,15L29.896,15z"/>
+<text transform="matrix(1 0 0 1 6.2922 20.277)" fill="#FFFFFF" font-family="'MicrosoftYaHei'" font-size="14">3D</text>
 </svg>

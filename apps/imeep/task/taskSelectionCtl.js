@@ -158,7 +158,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     window.location.href = "../colEditor/colEditor.html?access_token=" + App.Temp.accessToken+poideepStr;
                     return;
                 }
-                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId+tempStr+$scope.deepType;
+                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId+tempStr+$scope.deepType+"&t=" + Date.parse( new Date());
             }
         };
         //高亮作业区域方法;
