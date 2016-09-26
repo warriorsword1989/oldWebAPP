@@ -22,10 +22,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
-            $scope.diverObj.details[0].estabType = 9;
-        }
         objCtrl.namesInfo = objCtrl.data.details[0].names;
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
@@ -37,6 +33,16 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         });
 
     }
+
+    $scope.$watch('',function(){
+        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
+        if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
+            $scope.diverObj.details[0].estabType = 9;
+            $scope.diverObj.details[0].nameKind = 9;
+        }else{
+
+        }
+    })
 
     $scope.setOriginalDataFunc = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -260,6 +266,15 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 }
             }
         }
+        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
+        if(type == 3 || type == 4){
+            $scope.diverObj.details[0].estabType = 9;
+            $scope.diverObj.details[0].nameKind = 9;
+        }else{
+            $scope.diverObj.details[0].estabType = 0;
+            $scope.diverObj.details[0].nameKind = 0;
+        }
+
         $scope.diverObj.details[0].arrowCode = '';
         $scope.diverObj.details[0].patternCode = '';
         $scope.$emit('SWITCHCONTAINERSTATE', {
