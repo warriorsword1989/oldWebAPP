@@ -388,9 +388,9 @@
         <div class="clearfix"></div>
     </div>
     <div class="date-body" ng-if="!!carData.length">
-        <div class="date-list" ng-repeat="item in carData">
-            <div style="color:#ffffff;padding: 5px;" ng-bind="item.label">
-            </div>
+        <div ng-class="{'select-car animated-fast':true,'blue':checkValue,'red':!checkValue}" ng-repeat="item in carData track by $index">
+            <div class="select-car-text" ng-bind="item.label"></div>
+            <span ng-click="carSelect(item)" class="glyphicon glyphicon-remove remove-car-type"></span>
         </div>
     </div>
     <div class="carTypeTip" style="display: none;">
