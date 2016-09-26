@@ -61,7 +61,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             if (level) {
                 $scope.rootCommonTemp.levelArr = level.split("|");
             }
-            if(!$scope.poi.level){
+            if(!$scope.poi.level || $scope.rootCommonTemp.levelArr.indexOf($scope.poi.level) < 0){
                 $scope.poi.level = $scope.rootCommonTemp.levelArr[0];
             }
         }

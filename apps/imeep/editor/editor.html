@@ -2,6 +2,8 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
+        <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
         <title>FastMap一体化编辑平台</title>
         <link href="../../../images/favicon.ico" rel="icon" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
@@ -175,6 +177,8 @@
         <!-- 统一关系 -->
         <div ng-include="sameRelationShapTplContainer"></div>
 
-        <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
+        <script>
+            document.write('<scri' + 'pt data-main="editor-require" src="../../../scripts/libs/require/require.js?' + new Date().getTime() + '" type="text/javascript"></s' + 'cript>');
+        </script>
     </body>
 </html>
