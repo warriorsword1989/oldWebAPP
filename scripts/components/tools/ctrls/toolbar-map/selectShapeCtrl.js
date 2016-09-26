@@ -3294,7 +3294,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }
                     } else {//内部poi，只能以parent=1 和2的poi为父
                         for(var i = 0 ;i <newData.length;i++){
-                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 2){
+                            if (!($scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag == 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag == 2)){
                                 newData.splice(i,1);
                                 i--;
                             }
@@ -3324,6 +3324,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     if (newData.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('所选区域无合适的POI点，请重新选择！');
                     } else {
+                        tooltipsCtrl.setCurrentTooltip('请编辑父子关系！');
                         var html = '<ul id="layerpopup">';
                         //this.overlays = this.unique(this.overlays);
                         for (var item in newData) {
