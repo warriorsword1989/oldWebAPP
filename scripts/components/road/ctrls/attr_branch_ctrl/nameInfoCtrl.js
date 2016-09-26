@@ -62,6 +62,15 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
         {"id": 9, "label": "9 专用道编号"},
         {"id": 10, "label": "10 省级高速编号"}
     ];
+    //名称来源
+    $scope.langSourceOptions = [
+        {id:0,label:'未定义'},
+        {id:1,label:'翻译'},
+        {id:2,label:'道路名英文名'},
+        {id:3,label:'行政区划英文名'},
+        {id:4,label:'Hamlet英文名'},
+        {id:5,label:'POI英文名'}
+    ];
     /*语言代码*/
     $scope.languageCode = [
         {"code":"CHI","name":"简体中文"},
@@ -98,14 +107,18 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
         {"code":"SCR","name":"克罗地亚语"}
     ];
     /*分歧名称输入完查询发音和拼音*/
-    $scope.diverName = function(id,name){
+    $scope.diverName = function(braName){
         var param = {
-            "word":name
+            "word":braName.name
         };
+        if(braName.langCode != 'CHI' && braName.langCode != 'CHT') {
+            braName.phonetic = '';
+            return;
+        }
         dsMeta.getNamePronunciation(param).then(function (data) {
             if(data.errcode == 0){
                 $.each($scope.details[0].names,function(i,v){
-                    if(v.nameGroupid == id){
+                    if(v.nameGroupid == braName.nameGroupid){
                         v.phonetic = data.data.phonetic;
                         v.voiceFile = data.data.voicefile;
                     }
@@ -114,7 +127,7 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
                 swal("查找失败", "问题原因："+data.errmsg, "error");
             }
         });
-    }
+    };
     /*点击名称分类*/
     $scope.switchNameClass = function(code,id){
         $.each($scope.details[0].names,function(i,v){
@@ -218,6 +231,15 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
         protoArr.unshift(newName);
         $scope.sortNameGroup(protoArr);
     }
+    //修改语言代码
+    $scope.changeLangCode = function(branchName){
+        if(branchName.langCode != 'CHI' && branchName.langCode != 'CHT') {
+            branchName.phonetic = '';
+        }
+        if(branchName.langCode != 'ENG') {
+            branchName.srcFlag = 0;
+        }
+    };
     // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
     $scope.$watch('subAttributeData',function(){
         if(!objCtrl.data.hasOwnProperty('details') && !objCtrl.data.hasOwnProperty('signboards')){
