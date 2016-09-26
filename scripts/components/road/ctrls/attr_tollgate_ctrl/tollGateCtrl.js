@@ -108,7 +108,13 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData.passages[i]['cardType'] = 0;
 				$scope.tollGateData.passages[i]['tollForm'] = 2;
 			}
+		} else if ($scope.tollGateData.type == 0) {
+			for (var i = 0, len = $scope.tollGateData.passages.length; i < len; i++) {
+				$scope.tollGateData.passages[i]['cardType'] = 0;
+				$scope.tollGateData.passages[i]['tollForm'] = 0;
+			}
 		}
+		$scope.changeEtcCode();
 		$scope.$emit('SWITCHCONTAINERSTATE', {
 			'subAttrContainerTpl': false,
 			'attrContainerTpl': true
