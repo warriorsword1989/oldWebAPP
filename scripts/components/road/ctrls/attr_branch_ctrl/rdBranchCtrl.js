@@ -293,7 +293,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         {"id": 1, "label": "方面分歧"},
         {"id": 2, "label": "IC分歧"},
         {"id": 3, "label": "3D分歧"},
-        {"id": 4, "label": "复杂路口模式图"}
+        {"id": 4, "label": "复杂路口模式图(7开头)"}
     ];
     /*箭头图标志*/
     $scope.arrowPicFlag = [
