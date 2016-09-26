@@ -105,7 +105,6 @@ oridinaryInfoApp.controller("carTypeController",function($scope) {
         }
         $scope.checkViche();
     };
-
     $scope.checkViche=function(){
         var newArray=[];
         var result="";

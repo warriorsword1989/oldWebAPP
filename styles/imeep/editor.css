@@ -2084,3 +2084,39 @@ a.batchButton {
   cursor: pointer;
   font-size: 16px !important;
 }
+.select-car {
+  margin: 5px !important;
+  border-radius: 3px;
+  padding: 3px 0 3px 13px;
+  transition: all .3s;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.select-car.blue {
+  background-color: #40A2D7;
+}
+.select-car.blue:hover {
+  background-color: #358BBA;
+}
+.select-car.red {
+  background-color: #EA7070;
+}
+.select-car.red:hover {
+  background-color: #B25151;
+}
+.select-car:hover {
+  padding-right: 13px !important;
+  padding-left: 0 !important;
+}
+.select-car .select-car-text {
+  color: #ffffff;
+  right: -2px;
+  position: relative;
+}
+.select-car .remove-car-type {
+  position: relative;
+  right: -12px;
+  cursor: pointer;
+}

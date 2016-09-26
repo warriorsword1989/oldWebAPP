@@ -125,9 +125,7 @@
 <div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" style="width:100%;">
     <div class="tips-title">
         <label class="col-sm-12 control-label">Tips--{{featureConfig[allTipsType].name}}</label>
-        <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();">
-        <span aria-hidden="true">&times;</span>
-        </button>
+        <span class="glyphicon glyphicon-remove-sign close-tips" ng-click="closeTips();"></span>
     </div>
     <div class="tips-title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">

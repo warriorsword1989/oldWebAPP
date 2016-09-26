@@ -1,10 +1,10 @@
 <div ng-controller="TollGatePassageCtl">
     <div class="fm-component" >
+        <div class="date-body content">
+            当收费方式为"ETC"和"未调查"时,不允许设置其他方式
+        </div>
         <div class="content" ng-repeat="passage in tollGateInfo.passages track by $index">
             <form>
-              <div class="date-body">
-                当收费方式为"ETC"和"未调查"时,不允许设置其他方式
-              </div>
                 <ul class="fm-ul fm-ul-form">
                     <li><label>通道 {{$index+1}}:</label></li>
                     <li style="padding: 10px" ng-if="tollGateInfo.type == 0 ||tollGateInfo.type == 2 ||tollGateInfo.type == 3 ||tollGateInfo.type == 4 || tollGateInfo.type == 5 ||tollGateInfo.type == 6 ||tollGateInfo.type == 7">
@@ -35,9 +35,14 @@
                                 </div>
                             </div>
                             <div class="date-body full-width">
-                                <div class="date-list col-md-6" ng-repeat="item in carData[$index] track by $index">
-                                    <div ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="padding: 5px;" ng-bind="item.label"></div><i ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="carSelect(item)"></i>
+                                <div ng-class="{'select-car animated-fast':true,'blue':isAllowed[$parent.$index],'red':!isAllowed[$parent.$index]}" ng-repeat="item in carData[$index] track by $index" ng-click="carSelect(item);">
+                                    <div class="select-car-text" ng-bind="item.label"></div>
+                                    <span class="glyphicon glyphicon-remove remove-car-type"></span>
                                 </div>
+                                <!--<div class="date-list col-md-6" ng-repeat="item in carData[$index] track by $index">
+                                    <div ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="padding: 5px;" ng-bind="item.label"></div>
+                                    <i ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="carSelect(item)"></i>
+                                </div>-->
                                 <div class="clearfix"></div>
                                 <div class="line"></div>
                             </div>

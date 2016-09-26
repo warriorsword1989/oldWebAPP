@@ -16,15 +16,16 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
                 inLanePid = lanePid;
                 $("#"+lanePid).addClass('red');
             }else {
+                $("#"+inLanePid).removeClass('red');
+                $("#checkbox"+inLanePid).prop({
+                    checked:false
+                });
                 inLanePid = lanePid;
-                removeLaneClass('red');
                 $("#"+lanePid).addClass('red');
-                removeChecked();
-                $("#"+lanePid).prop({
+                $("#checkbox"+lanePid).prop({
                     checked:true
-                })
+                });
             }
-
         } else {//作为退出线、经过线
             outLanePid = lanePid;
             outLinkPid = linkPid;
@@ -40,19 +41,12 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
         if (linkPid == inLinkPid) {//进入车道
             inLanePid = null;//清空进入车道
             $("#"+lanePid).removeClass('red');
+        } else if(linkPid == outLinkPid){//退出线
+            outLinkPid = null;
         }
     }
 }
-function removeLaneClass (name) {
-    $.each($('.number'), function (i, v) {
-        $(v).removeClass(name);
-    });
-};
-function removeChecked () {
-    $(".bottom input[type='checkbox']:checked").prop({
-        checked:false
-    })
-};
+
 rdLineApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sce','$timeout', function ($scope, $compile, dsEdit, $sce ,$timeout) {
     var featCodeCtrl = fastmap.uikit.FeatCodeController();
     var layerCtrl = fastmap.uikit.LayerController();
