@@ -226,11 +226,11 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		} else {
 			if (objCtrl.data.passages.length < 32) {
 				if($scope.tollGateData.type == 1 || $scope.tollGateData.type == 8 || $scope.tollGateData.type == 9 || $scope.tollGateData.type == 10){
-					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:2,tollForm:0}));
+					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:2,tollForm:0,seqNum:$scope.tollGateData.passages.length+1}));
 				}else if($scope.tollGateData.type == 2 || $scope.tollGateData.type == 3 || $scope.tollGateData.type == 4 || $scope.tollGateData.type == 5 || $scope.tollGateData.type == 6 || $scope.tollGateData.type == 7){
-					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:0,tollForm:2}));
+					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({cardType:0,tollForm:2,seqNum:$scope.tollGateData.passages.length+1}));
 				}else if($scope.tollGateData.type == 0){
-					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({}));
+					objCtrl.data.passages.push(fastmap.dataApi.rdTollgatePassage({seqNum:$scope.tollGateData.passages.length+1}));
 				}
 				$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 				$scope.showDetail('passage',0);
@@ -272,6 +272,9 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		} else {
 			$scope.tollGateData.passages.splice(index, 1);
 			$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
+			for(var i=index,len=$scope.tollGateData.passages.length;i<len;i++){
+				$scope.tollGateData.passages[i].seqNum--;
+			}
 		}
 		$scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
 		$scope.$emit('SWITCHCONTAINERSTATE', {
