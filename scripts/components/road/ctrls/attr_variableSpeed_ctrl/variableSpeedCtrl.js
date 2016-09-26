@@ -215,5 +215,5 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
 	eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
 	eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
 	eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
-	eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);
+	eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);//SELECTEDFEATURETYPECHANGE
 }]);
