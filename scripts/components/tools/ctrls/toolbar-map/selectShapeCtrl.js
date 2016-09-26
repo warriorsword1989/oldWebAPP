@@ -3273,7 +3273,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         }
                     } else {//内部poi，只能以parent=1 和2的poi为父
                         for(var i = 0 ;i <newData.length;i++){
-                            if ($scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag != 2){
+                            if (!($scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag == 1 || $scope.metaData.kindFormat[newData[i].properties.kindCode].parentFlag == 2)){
                                 newData.splice(i,1);
                                 i--;
                             }
