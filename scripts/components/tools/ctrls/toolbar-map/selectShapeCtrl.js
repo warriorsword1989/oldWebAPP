@@ -3324,6 +3324,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     if (newData.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('所选区域无合适的POI点，请重新选择！');
                     } else {
+                        tooltipsCtrl.setCurrentTooltip('请编辑父子关系！');
                         var html = '<ul id="layerpopup">';
                         //this.overlays = this.unique(this.overlays);
                         for (var item in newData) {
