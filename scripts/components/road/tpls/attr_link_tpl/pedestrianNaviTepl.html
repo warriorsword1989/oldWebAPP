@@ -73,7 +73,7 @@
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
             <div class="list-name" style="width:120px;">
-                <a ng-click="addSidewalk()" style="cursor: pointer;color: #ffffff;">人行便道 共{{naviData.sidewalks.length}}个</a>
+                <a ng-class="{'text-muted':naviData.walkerLimitFlag}" ng-click="addSidewalk()">人行便道 共{{naviData.sidewalks.length}}个</a>
             </div>
             <div class="list-line"></div>
         </li>
