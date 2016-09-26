@@ -123,7 +123,7 @@
             <div class="d-group">
                 <div class="d-name">名称种别：</div>
                 <div class="d-value">
-                    <select class="d-input" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                    <select ng-disabled="diverObj.details[0].nameKind==9" class="d-input" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
                     </select>
                 </div>
             </div>

@@ -6,7 +6,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
         $scope.batchBoxData = [];
         $scope.currentBatchItems = [];
         $scope.selectedBatches = {};
-
+        $scope.currentPage = 1;
         //获取所有批处理包;
         function getBatchBox(){
             dsEdit.batchBox("batchbag.json").then(function(data){
