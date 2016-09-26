@@ -196,7 +196,6 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
                 relationData.redraw();
                 highRenderCtrl.highLightFeatures = null
                 highRenderCtrl._cleanHighLight();
-                $scope.resetToolAndMap();
                 $scope.$emit('SWITCHCONTAINERSTATE',{
                     'subAttrContainerTpl':false,
                     'attrContainerTpl':false
