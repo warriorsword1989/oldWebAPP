@@ -3220,6 +3220,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             newData.push(data[i]);
                         }
                     }
+                    //去除自己
+                    for(var i = 0;i<newData.length;i++){
+                        if(parseInt(newData[i].properties.id) == objCtrl.data.pid){
+                            newData.splice(i,1);
+                            i--;
+                        }
+                    }
                     // /*高亮link*/
                     // for (var i = 0, lenI = newData.length; i < lenI; i++) {
                     //     highlightFeatures.push({
@@ -3310,16 +3317,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             rectangleData.coordinates[0].push(rectangleData.coordinates[0][0]);
                         }
                     }
-                    /*高亮link*/
-                    for (var i = 0, lenI = newData.length; i < lenI; i++) {
-                        highlightFeatures.push({
-                            id: newData[i].properties.id.toString(),
-                            layerid: 'poi',
-                            type: 'IXPOI'
-                        })
-                    }
-                    highRenderCtrl.highLightFeatures = highlightFeatures;
-                    highRenderCtrl.drawHighlight();
+                    // highRenderCtrl._cleanHighLight();
+                    // highRenderCtrl.highLightFeatures = [];
+                    // highlightFeatures.push({
+                    //     id: objCtrl.data.pid.toString(),
+                    //     layerid: 'poi',
+                    //     type: 'IXPOI'
+                    // });
+                    // /*高亮link*/
+                    // for (var i = 0, lenI = newData.length; i < lenI; i++) {
+                    //     highlightFeatures.push({
+                    //         id: newData[i].properties.id.toString(),
+                    //         layerid: 'poi',
+                    //         type: 'IXPOI'
+                    //     })
+                    // }
+                    // highRenderCtrl.highLightFeatures = highlightFeatures;
+                    // highRenderCtrl.drawHighlight();
                     //判断相交点数
                     if (newData.length == 0) {
                         tooltipsCtrl.setCurrentTooltip('所选区域无合适的POI点，请重新选择！');
@@ -3448,7 +3462,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
         };
         $scope.resetMap =function (myPid) {
             map.closePopup();
-            $scope.clearMap();
+            // $scope.clearMap();
             var drawLayer = $scope.getLayerById('parentLayer');
             if(drawLayer!=undefined){
                 map.removeLayer(drawLayer);
