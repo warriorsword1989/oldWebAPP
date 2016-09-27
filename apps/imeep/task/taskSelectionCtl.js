@@ -47,8 +47,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
         $scope.requestParams = {
-            classType: 2,
-            classStage:1
+            classType: 0,
+            classStage:0
         };
         //当前选中子任务对象;
         $scope.currentTaskData = null;
@@ -68,23 +68,52 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             //构建过滤请求参数;
             switch ($scope.dataListType) {
                 case 1:
-                    $scope.requestParams.classType = 2;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 0;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 2:
-                    $scope.requestParams.classType = 0;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 1;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 3:
-                    $scope.requestParams.classType = 1;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 2;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;
-                    $scope.requestParams.classStage = 2;
+                    $scope.requestParams.classStage = 1;
                     break;
                 case 5:
                     $scope.requestParams.classType = 3;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 16:
+                    $scope.requestParams.classType = 4;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 17:
+                    $scope.requestParams.classType = 5;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 18:
+                    $scope.requestParams.classType = 6;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 19:
+                    $scope.requestParams.classType = 7;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 20:
+                    $scope.requestParams.classType = 8;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 21:
+                    $scope.requestParams.classType = 9;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 22:
+                    $scope.requestParams.classType = 10;
+                    $scope.requestParams.classStage = 2;
                     break;
                 case 6:
                     $scope.isDeepTask = true;

@@ -25,28 +25,46 @@
         <div  ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
-                <div class="banner-center">
-                    <div tooltip-class="subTooltip" uib-tooltip="日 一体化任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{1: 'selected'}[dataListType]" ng-click="changeDataList(1)">
-                        <a><i class="fa fa-map-o" aria-hidden="true"></i></i></a>
+                <div style="margin-top:0" class="banner-center">
+                    <div tooltip-class="subTooltip" uib-tooltip="POI采集" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{1: 'selected'}[dataListType]" ng-click="changeDataList(1)">
+                        <a><i class="fa fa-map-o" aria-hidden="true"></i></a>
                     </div>
-                    <div tooltip-class="subTooltip" uib-tooltip="日 POI任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{2: 'selected'}[dataListType]" ng-click="changeDataList(2)">
-                        <a><i class="fa fa-map-pin" aria-hidden="true"></i></a>
-                    </div>
-                    <div tooltip-class="subTooltip" uib-tooltip="月 道路任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{3: 'selected'}[dataListType]" ng-click="changeDataList(3)">
+                    <div tooltip-class="subTooltip" uib-tooltip="道路采集" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{2: 'selected'}[dataListType]" ng-click="changeDataList(2)">
                         <a><i class="fa fa-road" aria-hidden="true"></i></a>
                     </div>
-                    <div tooltip-class="subTooltip" uib-tooltip="月 POI任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{4: 'selected'}[dataListType]" ng-click="changeDataList(4)">
+                    <div tooltip-class="subTooltip" uib-tooltip="一体化采集" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{3: 'selected'}[dataListType]" ng-click="changeDataList(3)">
+                        <a><i class="fa fa-list-alt" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="POI 日编" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{4: 'selected'}[dataListType]" ng-click="changeDataList(4)">
                         <a><i class="fa fa-map-marker" aria-hidden="true"></i></a>
                     </div>
-                    <div tooltip-class="subTooltip" uib-tooltip="专项任务" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{5: 'selected'}[dataListType]" ng-click="changeDataList(5)">
-                        <a><i class="fa fa-pencil-square" aria-hidden="true"></i></i></a>
+                    <div tooltip-class="subTooltip" uib-tooltip="一体化grid粗编" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{5: 'selected'}[dataListType]" ng-click="changeDataList(5)">
+                        <a><i class="fa fa-th-large" aria-hidden="true"></i></a>
                     </div>
-                    <div tooltip-class="subTooltip" uib-tooltip="深度信息专项作业" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{6: 'selected'}[dataListType]" ng-click="changeDataList(6)">
-                        <a><i class="fa fa-newspaper-o" aria-hidden="true"></i></i></a>
+                    <div tooltip-class="subTooltip" uib-tooltip="一体化区域" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{16: 'selected'}[dataListType]" ng-click="changeDataList(16)">
+                        <a><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
                     </div>
-                    <div tooltip-class="subTooltip" uib-tooltip="POI精编任务选择" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{7: 'selected'}[dataListType]" ng-click="changeDataList(7)">
-                        <a><i class="fa fa-pencil-square-o" aria-hidden="true"></i></i></a>
+                    <div tooltip-class="subTooltip" uib-tooltip="多源POI" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{17: 'selected'}[dataListType]" ng-click="changeDataList(17)">
+                        <a><i class="fa fa-files-o" aria-hidden="true"></i></a>
                     </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="代理店" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{18: 'selected'}[dataListType]" ng-click="changeDataList(18)">
+                        <a><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="POI专项" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{19: 'selected'}[dataListType]" ng-click="changeDataList(19)">
+                        <a><i class="fa fa-ticket" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="道路Grid精编" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{20: 'selected'}[dataListType]" ng-click="changeDataList(20)">
+                        <a><i class="fa fa-th" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="道路一体化粗编" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{21: 'selected'}[dataListType]" ng-click="changeDataList(21)">
+                        <a><i class="fa fa-deviantart" aria-hidden="true"></i></a>
+                    </div>
+                    <div tooltip-class="subTooltip" uib-tooltip="道路区域" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true ng-class="{22: 'selected'}[dataListType]" ng-click="changeDataList(22)">
+                        <a><i class="fa fa-delicious" aria-hidden="true"></i></a>
+                    </div>
+
+
+
                 </div>
                 <div class="banner-bottom">
                     <div><a href="javascript:void(0);"><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -85,7 +103,7 @@
                                     </ul>
                                     <ul class="fm-ul fm-ul-list">
                                         <li ng-if="dataLoaded" ng-repeat="item in currentSubTaskList">
-                                            <a ng-if="item.name.length>12" uib-tooltip="{{item.name}}" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip-append-to-body=true href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
+                                            <a ng-if="item.name.length>12"  href='javascript:void(0);' uib-tooltip="{{item.name}}" class="col-lg-11 text-ellipsis" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip-append-to-body=true ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
                                             <a ng-if="item.name.length<=12" href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
                                             <i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check col-lg-1" aria-hidden="true"></i>
                                         </li>
