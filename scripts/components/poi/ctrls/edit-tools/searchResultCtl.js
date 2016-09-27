@@ -12,6 +12,7 @@ angular.module('app').controller('SearchResultCtl', ['$scope','dsEdit', 'appPath
             highRenderCtrl.highLightFeatures.length = 0;
         }
         var highlightFeatures = [];
+        $scope.$emit('closeAdvancedTools',true);
         dsEdit.getByPid(id,type).then(function (data) {
             if(data){
                 switch (type){

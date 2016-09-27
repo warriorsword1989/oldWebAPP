@@ -37,6 +37,7 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
             });
             $("#"+lanePid).addClass('green');
             $("#label"+lanePid).text(laneTopoVias.length);
+            modifyNums();
         }
     } else {
         if (linkPid == inLinkPid) {//进入车道
@@ -52,7 +53,7 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
             $("#"+lanePid).removeClass('green');
 
             $("#label"+lanePid).text("");
-            modifyNums()
+            modifyNums();
         } else {//经过线
             for (var i = 0; i < laneTopoVias.length; i++) {
                 if (laneTopoVias[i].lanePid == outLanePid) {
@@ -62,7 +63,7 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
             }
             $("#"+lanePid).removeClass('green');
             $("#label"+lanePid).text("");
-            modifyNums()
+            modifyNums();
         }
     }
 }
