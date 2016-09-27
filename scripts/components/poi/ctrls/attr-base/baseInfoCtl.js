@@ -50,18 +50,20 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     var checkLevel = function (level){
         //$scope.poi.level = "";//清空等级
         $scope.rootCommonTemp.levelArr = [];
-        if($scope.poi.kindCode == '120101'){ //星级酒店特殊处理
+        if($scope.poi.kindCode == '120101'){ //星级酒店特殊处理,
             var rat = $scope.poi.hotels[0].rating;
-            if(rat==5 || rat==15 || rat==4|| rat==14){
+            if(rat==5 || rat==15 || rat==4|| rat==14 || rat==6){
                 $scope.rootCommonTemp.levelArr = ["A"];
+                $scope.poi.level = "A";
             } else {
                 $scope.rootCommonTemp.levelArr = ["B1"];
+                $scope.poi.level = "B1";
             }
         } else {
             if (level) {
                 $scope.rootCommonTemp.levelArr = level.split("|");
             }
-            if(!$scope.poi.level){
+            if(!$scope.poi.level || $scope.rootCommonTemp.levelArr.indexOf($scope.poi.level) < 0){
                 $scope.poi.level = $scope.rootCommonTemp.levelArr[0];
             }
         }

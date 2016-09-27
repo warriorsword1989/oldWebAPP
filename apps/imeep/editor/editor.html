@@ -22,7 +22,7 @@
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.js"></script>
-        <script type="text/javascript" language="JavaScript" src="../Application.js?time="'+New Date()+'"></script>
+        <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-poi.js"></script>
@@ -175,6 +175,8 @@
         <!-- 统一关系 -->
         <div ng-include="sameRelationShapTplContainer"></div>
 
-        <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
+        <script>
+            document.write('<scri' + 'pt data-main="editor-require" src="../../../scripts/libs/require/require.js?' + new Date().getTime() + '" type="text/javascript"></s' + 'cript>');
+        </script>
     </body>
 </html>
