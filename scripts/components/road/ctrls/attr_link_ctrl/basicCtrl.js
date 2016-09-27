@@ -19,6 +19,7 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": 13, "label": "13 轮渡"}
 	];
 	$scope.laneClassOptions = [
+		{"id": 0, "label": "0: 未赋值"},
 		{"id": 1, "label": "1: 一条车道"},
 		{"id": 2, "label": "2: 2或3条"},
 		{"id": 3, "label": "3: 4条及以上"}
@@ -239,6 +240,18 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
                 $scope.linkData.names[i].code = 1;
             }
         }
+
+		//根据道路种别维护路径采纳字段 ，参考的是bug4修改
+		var kind = $scope.linkData.kind;
+		if(kind == 1){
+			$scope.linkData.routeAdopt = 5;
+		}else if(kind == 2 || kind == 3){
+			$scope.linkData.routeAdopt = 4;
+		}else if(kind == 4 || kind == 6 || kind == 7 ){
+			$scope.linkData.routeAdopt = 2;
+		}else if(kind == 8 || kind == 9 || kind == 10 || kind == 11 || kind == 13){
+			$scope.linkData.routeAdopt = 0;
+		}
     };
 
 	if (objectEditCtrl.data) {
