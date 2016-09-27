@@ -762,6 +762,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 this.transform = new fastmap.mapApi.MecatorTranform();
                 var scale = this.transform.scale(map);
                 var linkWidth = parseFloat(geo.linkWidth * scale);
+                map.scrollWheelZoom.enable();
+                map.currentTool.disable();
                 linkWidth = linkWidth.toFixed(1);
                 var linkIds = selectCtrl.selectedFeatures.id;
                 param = {
