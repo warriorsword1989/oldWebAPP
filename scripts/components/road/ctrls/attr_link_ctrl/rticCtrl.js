@@ -17,9 +17,9 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
 
 
     $scope.resetToolAndMap = function () {
-        if (typeof map.currentTool.cleanHeight === "function") {
-            map.currentTool.cleanHeight();
-        }
+        // if (typeof map.currentTool.cleanHeight === "function") {
+        //     map.currentTool.cleanHeight();
+        // }
         // if (tooltipsCtrl.getCurrentTooltip()) {
         //     tooltipsCtrl.onRemoveTooltip();
         // }
@@ -27,7 +27,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         shapeCtrl.stopEditing();
         editLayer.bringToBack();
         $(editLayer.options._div).unbind();
-        $scope.changeBtnClass("");
+        // $scope.changeBtnClass("");
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();

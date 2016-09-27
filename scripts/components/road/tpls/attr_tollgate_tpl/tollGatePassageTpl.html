@@ -11,7 +11,7 @@
                         <label>收费方式</label>
                         <div style="border-radius: 4px" class="block">
                             <label ng-repeat="(key, value) in chargeWay[$index]" class="col-md-5">
-                                <input title="value.label" ng-checked="value.checked" fm-edit-view type="checkbox" value="{{value.id}}"
+                                <input title="{{value.label}}" ng-checked="value.checked" fm-edit-view type="checkbox" value="{{value.id}}"
                                       ng-model="value.checked" ng-click="selectChargeType($parent.$index,value)"> {{value.label | limitTo : 3}}
                             </label>
                         </div>

@@ -190,6 +190,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
                 result+="0";
             }
         }
+        result = result.substr(0,result.length-1);
         objCtrl.data.passages[num].tollForm=parseInt(bin2dec(result));
         $scope.$emit('tollGateCardType',true);
     };
@@ -279,8 +280,9 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
     function showChargeWay(tollType,$index){
         var towbin=dec2bin(tollType);
         if(towbin.length){
-            for(var i=1;i<=towbin.length;i++){
-                if(towbin.split("").reverse().join("")[i-1]==1){
+            towbin += '0';
+            for(var i=0;i<towbin.length;i++){
+                if(towbin.split("").reverse()[i]==1){
                     $scope.chargeWay[$index][i].checked = true;
                 }
             }

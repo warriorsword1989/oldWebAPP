@@ -5,6 +5,7 @@ var rdLineApp = angular.module("app");
 /*
 * 动态拼的div作用域在controllor之外，只能写到这里
 * */
+// var featCodeCtrl = fastmap.uikit.FeatCodeController();
 var inLanePid = null;
 var outLanePid = null;
 var outLinkPid = null;
@@ -36,14 +37,40 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
             });
             $("#"+lanePid).addClass('green');
             $("#label"+lanePid).text(laneTopoVias.length);
+            modifyNums();
         }
     } else {
         if (linkPid == inLinkPid) {//进入车道
             inLanePid = null;//清空进入车道
             $("#"+lanePid).removeClass('red');
         } else if(linkPid == outLinkPid){//退出线
-            outLinkPid = null;
+            laneTopoVias.splice(laneTopoVias.length-1, 1);
+            if(laneTopoVias.length >0){
+                outLinkPid = laneTopoVias[laneTopoVias.length-1].linkPid;
+            } else {
+                outLinkPid = null;
+            }
+            $("#"+lanePid).removeClass('green');
+
+            $("#label"+lanePid).text("");
+            modifyNums();
+        } else {//经过线
+            for (var i = 0; i < laneTopoVias.length; i++) {
+                if (laneTopoVias[i].lanePid == outLanePid) {
+                    laneTopoVias.splice(i, 1);
+                    i--;
+                }
+            }
+            $("#"+lanePid).removeClass('green');
+            $("#label"+lanePid).text("");
+            modifyNums();
         }
+    }
+}
+function modifyNums() {
+    for (var i = 0; i < laneTopoVias.length; i++) {
+        laneTopoVias[i].seqNum = i+1;
+        $("#label"+laneTopoVias[i].lanePid).text(laneTopoVias[i].seqNum.toString());
     }
 }
 
@@ -55,11 +82,13 @@ rdLineApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sce','
     var relationData = layerCtrl.getLayerById('relationData');
     //初始化地图;
     var laneTopo = featCodeCtrl.getFeatCode().laneTopo;//服务返回的数据;
-    $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;
+    $scope.rdLaneData = featCodeCtrl.getFeatCode().rdLaneData;//创建前保留的数据
     $scope.laneInfoArr = laneTopo[0].laneInfos;//所有的详细车道
     $scope.laneTopoInfoArr = laneTopo[0].laneTopoInfos;//所有的原始的车道连通
     $scope.deleteLaneTopoArr = [];//所有的删除的车道连通
     $scope.insertLaneTopoArr = [];//所有的新增的车道连通
+    $scope.showLaneDetail = false;
+    $scope.laneDetail = null;
     var rdLaneTopoDetail = {
         topoIds: [],
         inLinkPid: null,
@@ -70,25 +99,64 @@ rdLineApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sce','
     rdLaneTopoDetail.inLinkPid = $scope.rdLaneData.linkPids[0];
     rdLaneTopoDetail.inNodePid = $scope.rdLaneData.nodePid;
 
-
-
+    $scope.showLaneDetails = function (item) {
+        $scope.showLaneDetail = true;
+        $scope.laneDetail = item;
+    };
+    $scope.clearLanes = function () {//清除车道样式
+        $("#"+inLanePid).removeClass('red');
+        $("#"+outLanePid).removeClass('green');
+        for (var i = 0; i < laneTopoVias.length; i++) {
+            $("#label"+laneTopoVias[i].lanePid).text("");
+            $("#"+laneTopoVias[i].lanePid).removeClass('green');
+        }
+        inLanePid = null;
+        outLanePid = null;
+        outLinkPid = null;
+        laneTopoVias = [];
+    };
+    $scope.checkLanes =function(){
+        var checkFlag = true;
+        if(inLanePid == null){
+            checkFlag = false;
+            swal("提示","进入线错误！","error");
+            return checkFlag;
+        }
+        if(outLanePid == null || outLinkPid == null){
+            checkFlag = false;
+            swal("提示","退出线错误！","error");
+            return checkFlag;
+        }
+        for (var i = 0;i<$scope.laneTopoInfoArr.length;i++){
+            if($scope.laneTopoInfoArr[i].inLanePid == inLanePid && $scope.laneTopoInfoArr[i].outLanePid == outLanePid){
+                swal("提示","车道重复！","error");
+                checkFlag = false;
+                return checkFlag;
+            }
+        }
+        return checkFlag;
+    };
     $scope.doClose = function () {
         $scope.$emit("CLOSERDLANETOPO");
         featCodeCtrl.setFeatCode(null);
     };
     $scope.doCreate = function () {
-        for (var i = 0; i < laneTopoVias.length; i++) {
-            if (laneTopoVias[i].lanePid == outLanePid) {
-                laneTopoVias.splice(i, 1);
-                i--;
-            }
+        $scope.clearLanes();
+        laneTopoVias.splice(laneTopoVias.length-1, 1);
+        var flag = $scope.checkLanes();
+        if(flag){
+            rdLaneTopoDetail.laneTopoInfos.push({
+                inLanePid: inLanePid,
+                outLanePid: outLanePid,
+                outLinkPid: outLinkPid,
+                laneTopoVias: laneTopoVias
+            });
+            $scope.insertLaneTopoArr.push({
+                pid:0,
+                rdLaneTopoDetail:rdLaneTopoDetail
+            });
+            swal("提示","创建车道连通成功！","success");
         }
-        rdLaneTopoDetail.laneTopoInfos.push({
-            inLanePid: inLanePid,
-            outLanePid: outLanePid,
-            outLinkPid: outLinkPid,
-            laneTopoVias: laneTopoVias
-        });
     };
     $scope.doSave = function () {
         var param = {
@@ -101,6 +169,8 @@ rdLineApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sce','
         dsEdit.save(param).then(function (data) {
             if (data != null) {
                 relationData.redraw();
+                $scope.clearLanes();1
+                swal("提示","保存车道连通成功！","success");
                 $scope.doClose();
             }
         });

@@ -169,7 +169,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
-                $scope.changeBtnClass("");
+                // $scope.changeBtnClass("");
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
@@ -477,13 +477,14 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
                                 var link = linkArr;
-                                for (var i = 0, len = link.length; i < len; i++) {
-                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
-                                    if (pointsOfDis < minLen) {
-                                        minLen = pointsOfDis;
-                                        pointForAngle = link[i];
-                                    }
-                                }
+                                // for (var i = 0, len = link.length; i < len; i++) {
+                                //     pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
+                                //     if (pointsOfDis < minLen) {
+                                //         minLen = pointsOfDis;
+                                //         pointForAngle = link[i];
+                                //     }
+                                // }
+                                pointForAngle = link[link.length-1];
                                 angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
                                     flag: false,

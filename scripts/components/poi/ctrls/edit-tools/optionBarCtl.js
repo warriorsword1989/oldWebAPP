@@ -47,6 +47,9 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
             dsOutput.clear();
         } else { //搜索结果
             $scope.searchResultData = [];
+            $scope.searchResultTotal = 0;
+            $scope.searchPageNow = 1;
+            $scope.searchPageTotal = 1;
         }
     };
     /*刷新检查*/

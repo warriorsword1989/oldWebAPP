@@ -31,8 +31,8 @@
                                     </button>
                                 </div>
                             </div>
-                            <div style="background-color:#1c1c20;right:0px;position: absolute;width: 250px;"
-                                 class="content scroll-styled dark">
+                            <!--<div class="fm-component" s>-->
+                            <div style="background-color:#1c1c20;right:0px;position: absolute;width: 250px;" class="content scroll-styled dark">
                                 <!--<form>-->
                                     <div class="fm-panel" style="margin-bottom: 5px;">
                                         <div class="title">
@@ -46,7 +46,8 @@
                                                             <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
                                                         </div>
                                                         <label>显示</label>
-                                                        <label style="width: 70%">连通PID：{{cItem.pid}}</label>
+                                                        <label style="width: 70%;cursor:Pointer" ng-click="showLaneDetails(cItem)">连通PID：{{cItem.pid}}</label>
+
                                                     </li>
                                                 </ul>
                                             </div>
@@ -88,8 +89,56 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;margin-top: 40px" ng-if="showLaneDetail">
+                                    <div class="title">
+                                        <div>属性列表</div>
+                                    </div>
+                                    <div class="content">
+                                        <div  class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <label style="width: auto">进入车道：</label>
+                                                    <div>
+                                                        <input type="text" class="ng-pristine ng-valid ng-touched" ng-model="laneDetail.inLanePid" disabled>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label style="width: auto">退出车道：</label>
+                                                    <div>
+                                                        <input type="text" class="ng-pristine ng-valid ng-touched" ng-model="laneDetail.outLanePid" disabled>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;"  ng-if="showLaneDetail">
+                                    <div class="title">
+                                        <div>经过线（共 <span ng-bind="laneDetail.topoVias.length">0</span> 条）</div>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-repeat="cItem in laneDetail.topoVias" class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li >
+                                                    <label style="width: auto">Lane序号</label>
+                                                    <div>
+                                                        <input type="text" class="fm-control" ng-model="cItem.seqNum" disabled/>
+                                                    </div>
+                                                </li>
+                                                <li >
+                                                    <label style="width: auto">Lane号码</label>
+                                                    <div>
+                                                        <input type="text" class="fm-control" ng-model="cItem.lanePid" disabled/>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!--</form>-->
                             </div>
+                                <!--</div>-->
                         </div>
                     </div>
 

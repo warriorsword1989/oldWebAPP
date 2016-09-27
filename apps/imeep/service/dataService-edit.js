@@ -685,11 +685,23 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+
     //搜索批处理包;
-    this.batchBox = function(url) {
+    this.batchBox = function(params) {
         var defer = $q.defer();
-        $http.get(url).success(function(data) {
-            defer.resolve(data);
+        var param = {
+            pageSize:params.pageNumber,
+            pageNum:params.currentPage,
+            type:params.batchType
+        }
+        ajax.get("edit/batch/getBatchRules",{
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("搜索信批处理包出错：" + data.errmsg);
+            }
         }).error(function(rejection) {
             defer.reject(rejection);
         });
