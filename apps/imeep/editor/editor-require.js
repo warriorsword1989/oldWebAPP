@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
@@ -41,7 +41,7 @@ requirejs.config({
         'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
         'fmEditView': 'scripts/components/directives/fmEditView/fmEditView',
     },
-    //urlArgs: "bust=" +  (new Date()).getTime(),
+    urlArgs: "bust=" +  (new Date()).getTime(),
     shim: {
         'angular': {
             exports: 'angular'
