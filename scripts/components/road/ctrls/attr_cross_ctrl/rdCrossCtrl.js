@@ -89,7 +89,8 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         dsEdit.getByPid(parseInt($scope.rdCrossData.pid), "RDCROSS").then(function(data) {
             if (data) {
                 objCtrl.setCurrentObject("RDCROSS", data);
-                $scope.initializeRdCrossData();
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+//                $scope.initializeRdCrossData();
             }
         });
     };
@@ -189,9 +190,11 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 $scope.refreshData();
             }
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                'subAttrContainerTpl': false
+            });
         })
     };
     $scope.delete = function() {

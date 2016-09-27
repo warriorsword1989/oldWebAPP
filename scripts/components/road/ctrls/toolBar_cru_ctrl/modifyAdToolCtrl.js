@@ -24,7 +24,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             shapeCtrl.stopEditing();
         }
         var feature = null;
-        $scope.changeBtnClass(num);
+        // $scope.changeBtnClass(num);
         if(!$scope.classArr[num]){
             if(map.currentTool) {
                 map.currentTool.disable();
