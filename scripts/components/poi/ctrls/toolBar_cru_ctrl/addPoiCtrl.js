@@ -71,7 +71,7 @@ addPoiApp.controller("addPoiController", ['$scope', '$ocLazyLoad', function ($sc
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
-        $scope.changeBtnClass(num);
+        // $scope.changeBtnClass(num);
          if (type === "IXPOI") {
             if (shapeCtrl.shapeEditorResult) {
                 var feature={};

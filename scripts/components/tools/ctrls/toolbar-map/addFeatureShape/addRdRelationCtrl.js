@@ -169,7 +169,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
-                $scope.changeBtnClass("");
+                // $scope.changeBtnClass("");
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
