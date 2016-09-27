@@ -207,6 +207,7 @@ rdElectronicEyeApp.controller("variableSpeedCtl", ['$scope', 'dsEdit','$ocLazyLo
             map.floatMenu = null;
         }
 	};
+
 	$scope.cancel = function () {};
     if (objCtrl.data) {
         $scope.initializeData();
