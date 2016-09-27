@@ -191,10 +191,10 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                     });
                 }
                 $scope.refreshData();
-                $scope.$emit('SWITCHCONTAINERSTATE', {
-                    'subAttrContainerTpl': false
-                });
             }
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                'subAttrContainerTpl': false
+            });
         })
     };
     $scope.delete = function() {
