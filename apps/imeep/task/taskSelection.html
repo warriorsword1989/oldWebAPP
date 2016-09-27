@@ -103,8 +103,8 @@
                                     </ul>
                                     <ul class="fm-ul fm-ul-list">
                                         <li ng-if="dataLoaded" ng-repeat="item in currentSubTaskList">
-                                            <a ng-if="item.name.length>12"  href='javascript:void(0);' uib-tooltip="{{item.name}}" class="col-lg-11 text-ellipsis" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip-append-to-body=true ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
-                                            <a ng-if="item.name.length<=12" href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
+                                            <!--<a ng-if="item.name.length>12"  href='javascript:void(0);' uib-tooltip="{{item.name}}" class="col-lg-11 text-ellipsis" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip-append-to-body=true ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>-->
+                                            <a href='javascript:void(0);' class="col-lg-11 text-ellipsis" ng-click="selectSubtask(item)" ng-bind="($index + 1) + ' . ' + item.name"></a>　
                                             <i ng-if="currentTaskData.subtaskId===item.subtaskId" class="fa fa-check col-lg-1" aria-hidden="true"></i>
                                         </li>
                                     </ul>
