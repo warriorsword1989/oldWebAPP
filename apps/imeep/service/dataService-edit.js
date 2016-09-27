@@ -273,24 +273,26 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                         html.push("</ul>");
                     }
                     html.push("</div>");
-                    swal({
-                        title: "以下操作将会执行，是否继续？",
-                        text: html.join(''),
-                        html: true,
-                        showCancelButton: true,
-                        allowEscapeKey: false,
-                        confirmButtonText: "是的，我要删除",
-                        confirmButtonColor: "#ec6c62"
-                    }, function(f) {
-                        if (f) { // 执行删除操作
-                            delete param.infect; // 去掉检查标识，执行删除操作
-                            that.save(param).then(function(data) {
-                                defer.resolve(data);
-                            });
-                        } else { // 取消删除
-                            defer.resolve(null);
-                        }
-                    });
+                    setTimeout(function(){
+                        swal({
+                            title: "以下操作将会执行，是否继续？",
+                            text: html.join(''),
+                            html: true,
+                            showCancelButton: true,
+                            allowEscapeKey: false,
+                            confirmButtonText: "是的，我要删除",
+                            confirmButtonColor: "#ec6c62"
+                        }, function(f) {
+                            if (f) { // 执行删除操作
+                                delete param.infect; // 去掉检查标识，执行删除操作
+                                that.save(param).then(function(data) {
+                                    defer.resolve(data);
+                                });
+                            } else { // 取消删除
+                                defer.resolve(null);
+                            }
+                        });
+                    },1000)
                 } else { // 服务端返回错误信息，结束执行
                     defer.resolve(null);
                 }

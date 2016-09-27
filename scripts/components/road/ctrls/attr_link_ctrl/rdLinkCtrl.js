@@ -9,7 +9,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var rdLink = layerCtrl.getLayerById("rdLink");
     var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
-    var rdCross = layerCtrl.getLayerById("relationData");
+    var rdCross = layerCtrl.getLayerById("rdCross");
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
