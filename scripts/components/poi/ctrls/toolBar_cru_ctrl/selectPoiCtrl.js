@@ -311,7 +311,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         originalFeature = [];
         selectCount = 0;
 
-        $scope.changeBtnClass(num);
+        // $scope.changeBtnClass(num);
 
         //连续点击选择按钮的操作
         if (!$scope.classArr[num]) {
