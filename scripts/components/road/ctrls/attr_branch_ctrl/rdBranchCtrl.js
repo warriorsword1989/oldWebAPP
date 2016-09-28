@@ -44,6 +44,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         }
     })
 
+    $scope.refreshData = function () {
+        dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject("RDBRANCH", data);
+                $scope.initDiver();
+            }
+        });
+    };
     $scope.setOriginalDataFunc = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     }
@@ -486,15 +494,29 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }
-        var detailInfo = {
+        var showBranchInfoObj = {
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var detailInfo = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": tempCtr,
+                    "propertyHtml": tempTepl
+                };
+                $scope.$emit("transitCtrlAndTpl", detailInfo);
+            }
+        };
+        /*var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,
             "propertyHtml": tempTepl,
             "data":objCtrl.data.details[0].names
-        };
+        };*/
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
-        $scope.$emit("transitCtrlAndTpl", detailInfo);
+        // $scope.$emit("transitCtrlAndTpl", detailInfo);
+        $scope.$emit("transitCtrlAndTpl", showBranchInfoObj);
     };
 
     if (objCtrl.data) {
@@ -534,6 +556,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             if (param.data.details[0].names) {
                 $.each(param.data.details[0].names, function (i, v) {
                     delete v.linkPid;
+                    if(param.data.details[0].names[i].objStatus == 'DELETE'){
+                        return;
+                    }
                     param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
                     param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
                 });
@@ -545,8 +570,21 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             return false;
         }
         dsEdit.save(param).then(function (data) {
-            $scope.setOriginalDataFunc();
-            rdBranch.redraw();
+            if (data) {
+                if (selectCtrl.rowkey) {
+                    var stageParam = {
+                        "rowkey": selectCtrl.rowkey.rowkey,
+                        "stage": 3,
+                        "handler": 0
+                    };
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
+                        selectCtrl.rowkey.rowkey = undefined;
+                    });
+                }
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                rdBranch.redraw();
+            }
+            $scope.refreshData();
         });
     }
 

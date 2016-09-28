@@ -35,6 +35,13 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
             var form = fastmap.dataApi.rdNodeForm(data["forms"][i]);
             this.forms.push(form);
         }
+        
+        this.meshes = [];
+        for(var i=0;i<data["meshes"].length;i++){
+        	var mesh = fastmap.dataApi.rdNodeMesh(data["meshes"][i]);
+        	this.meshes.push(mesh);
+        }
+        this.meshStr = meshes.join(",");
     },
 
     /**
@@ -62,7 +69,14 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
         for(var i=0;i<this.forms.length;i++){
             data["forms"].push(this.forms[i].getIntegrate());
         }
+        
+        data["meshes"] = [];
+        for(var i=0;i<this.meshes.length;i++){
+            data["meshes"].push(this.meshes[i].getIntegrate());
+        }
         return data;
+        
+        
     },
 
     /**
@@ -89,6 +103,11 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
 
         for(var i=0;i<this.forms.length;i++){
             data["forms"].push(this.forms[i].getIntegrate());
+        }
+        
+        data["meshes"] = [];
+        for(var i=0;i<this.meshes.length;i++){
+            data["meshes"].push(this.meshes[i].getIntegrate());
         }
         return data;
     }
