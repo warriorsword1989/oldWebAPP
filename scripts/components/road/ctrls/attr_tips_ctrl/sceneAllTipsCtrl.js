@@ -208,17 +208,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1102": //红绿灯
                 var trafficLightArr = $scope.dataTipsData.f_array;
                 $scope.inCt = $scope.dataTipsData.inCt;
-                $scope.enableCtl = [];
-                $scope.disableCtl = [];
-                if(trafficLightArr){
+                $scope.dataTipsData.enableCtl = [];
+                $scope.dataTipsData.disableCtl = [];
+                // if(trafficLightArr){
+                try {
                     for (var i = 0, len = trafficLightArr.length; i < len; i++) {
-                        if (trafficLightArr[i].ctrl == 1) {
-                            $scope.enableCtl.push(trafficLightArr[i]);
+                        if (trafficLightArr[i].ctr == 1) {
+                            $scope.dataTipsData.enableCtl.push(trafficLightArr[i]);
                         } else {
-                            $scope.disableCtl.push(trafficLightArr[i]);
+                            $scope.dataTipsData.disableCtl.push(trafficLightArr[i]);
                         }
                     }
+                } catch (e) {
+                    console.log(e.toLocaleString());
                 }
+                // }
                 $scope.dataTipsData.isTrafficLights = true;
                 break;
             case "1103": //红绿灯方向
