@@ -82,6 +82,9 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     /*查找检查结果*/
     function getCheckResultData(num) {
         dsEdit.getCheckData(num).then(function(data) {
+            if(data == -1){
+                return;
+            }
             $scope.checkResultData = [];
             for (var i = 0, len = data.length; i < len; i++) {
                 $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
