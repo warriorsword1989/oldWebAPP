@@ -444,6 +444,16 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
                 $scope.dataTipsData.isConditionLimit = true;
                 break;
+            case "1112":
+                var limitDirObj = {
+                    0: '未调查',
+                    1: '左',
+                    2: '右',
+                    3: '上'
+                };
+                $scope.dataTipsData.limitDir = limitDirObj[$scope.dataTipsData.loc];
+                $scope.dataTipsData.isVariableSpeedLimit = true;
+                break;
             case "1113":
                 var limitValue = $scope.dataTipsData.value;
                 limitValue.sort(function(a, b) {

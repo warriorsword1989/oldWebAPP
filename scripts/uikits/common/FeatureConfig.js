@@ -140,6 +140,9 @@ fastmap.uikit.FeatureConfig = {
         1111:{
             name:'条件限速'
         },
+        1112:{
+            name:'可变限速'
+        },
         1113:{
             name:'车道限速'
         },
