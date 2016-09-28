@@ -68,6 +68,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 $scope.workPoint.redraw();
             }
             dsFcc.getTipsStatics(stages[type]).then(function(data) {
+                if(data == -1){
+                    return;
+                }
                 var arr = [],
                     transArr = [];
                 transArr = data.data.rows;
