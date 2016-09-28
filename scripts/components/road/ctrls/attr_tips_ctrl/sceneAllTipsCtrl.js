@@ -213,7 +213,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 // if(trafficLightArr){
                 try {
                     for (var i = 0, len = trafficLightArr.length; i < len; i++) {
-                        if (trafficLightArr[i].ctr == 1) {
+                        if (trafficLightArr[i].ctrl == 1) {
                             $scope.dataTipsData.enableCtl.push(trafficLightArr[i]);
                         } else {
                             $scope.dataTipsData.disableCtl.push(trafficLightArr[i]);
