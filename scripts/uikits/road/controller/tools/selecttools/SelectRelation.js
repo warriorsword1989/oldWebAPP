@@ -170,7 +170,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             }
         }
         return result;
-
     },
 
     /***
