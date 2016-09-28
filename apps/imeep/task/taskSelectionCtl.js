@@ -47,7 +47,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
         $scope.requestParams = {
-            classType: 0,
+            classType: 2,
             classStage:0
         };
         //当前选中子任务对象;
