@@ -37,8 +37,8 @@
                             </tr>
                             <tr ng-class-odd="'tableOdd'" ng-repeat="item in batchBoxData">
                                 <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
-                                <td ng-click="getBatchItem(item)">{{item.ruleCode}}</td>
                                 <td ng-click="getBatchItem(item)">{{item.suiteName}}</td>
+                                <td ng-click="getBatchItem(item)">{{item.suiteRange}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,7 +59,7 @@
                                 <td colspan="5" class="text-center">无数据!!!</td>
                             </tr>
                             <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentBatchItems">
-                                <td><input ng-model="item.checked" type="checkbox" /></td>
+                                <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
                                 <td>{{item.ruleName}}</td>
                                 <td>{{item.ruleDesc}}</td>
                                 <td>{{item.severity}}</td>
