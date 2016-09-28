@@ -44,6 +44,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         }
     })
 
+    $scope.refreshData = function () {
+        dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject("RDBRANCH", data);
+                $scope.initDiver();
+            }
+        });
+    };
     $scope.setOriginalDataFunc = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     }
@@ -545,7 +553,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             return false;
         }
         dsEdit.save(param).then(function (data) {
-            $scope.setOriginalDataFunc();
+            $scope.refreshData();
+            // $scope.setOriginalDataFunc();
             rdBranch.redraw();
         });
     }
