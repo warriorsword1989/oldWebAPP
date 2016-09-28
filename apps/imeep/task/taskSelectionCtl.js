@@ -230,25 +230,40 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         function getCurrentDataType(param){
             switch(param){
                 case 1:
-                    return '日一体化任务';
+                    return 'POI采集';
                     break;
                 case 2:
-                    return '日POI任务';
+                    return '道路采集';
                     break;
                 case 3:
-                    return '月道路任务';
+                    return '一体化采集';
                     break;
                 case 4:
-                    return '月POI任务';
+                    return 'POI日编';
                     break;
                 case 5:
-                    return '专项任务';
+                    return '一体化gGRID粗编';
                     break;
-                case 6:
-                    return '深度信息专项作业';
+                case 16:
+                    return '一体化区域';
                     break;
-                case 7:
-                    return 'POI精编任务';
+                case 17:
+                    return '多源POI';
+                    break;
+                case 18:
+                    return '代理店';
+                    break;
+                case 19:
+                    return 'POI专项';
+                    break;
+                case 20:
+                    return '道路GRID精编';
+                    break;
+                case 21:
+                    return '道路一体化粗编';
+                    break;
+                case 22:
+                    return '道路区域';
                     break;
             }
         }
