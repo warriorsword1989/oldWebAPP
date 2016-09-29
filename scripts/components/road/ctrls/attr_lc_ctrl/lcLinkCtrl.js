@@ -35,7 +35,7 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
            {"id": "18", "label": "绿地假象线","isCheck":false},
        ];
     $scope.form = [
-        {"id": 0, "label": "未调查"},
+        {"id": 0, "label": "无属性"},
         {"id": 1, "label": "暗沙"},
         {"id": 2, "label": "浅滩"},
         {"id": 3, "label": "珊瑚礁"},
