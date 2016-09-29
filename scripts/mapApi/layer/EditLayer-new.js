@@ -245,24 +245,19 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                             }, true);
                         }
                     } else {
-                        if (boolnode) {
-                            if (i == 0 || i == geom.length - 1) {
-                                drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                                    color: 'blue',
-                                    radius: 4
-                                }, true);
-                            }
-                        } else {
-
+                        if (i == 0 || i == geom.length - 1) {
+                            drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                                color: 'red',
+                                radius: 4
+                            }, true);
+                        }
+                        else if(!boolnode) {
                             drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
                                 color: 'blue',
                                 radius: 4
                             }, true);
-
                         }
                     }
-
-
                 }
             }
 
