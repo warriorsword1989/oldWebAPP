@@ -709,7 +709,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
-                        selectCtrl.onSelected($scope.jsonData);
+                        shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
+                        // selectCtrl.onSelected($scope.jsonData);
                     }
                 });
             }  else if (type === 'TRAFFIC_SIGNAL') {     //信号灯

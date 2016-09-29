@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modified by liuyang on 2016/05/04.
  */
 requirejs.config({

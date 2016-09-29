@@ -14,6 +14,13 @@
                                 <a  ng-click="showPopover()" style="cursor: pointer;">编辑</a>
                             </div>
                         </li>
+                        <li style="padding-left: 20px">
+				            <div style="width:260px;" >
+				                <div ng-repeat="item in lcLinkData.kinds track by $index" class="checkboxli">
+				                      {{item.label}}
+				                </div>
+				            </div>
+				        </li>
                         <li>
                             <label>Link形态</label>
                             <div>
@@ -25,13 +32,13 @@
                         <li>
                             <label>Link长度</label>
                             <div>
-                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.length" > m
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.length" disabled> 米
                             </div>
                         </li>
                         <li>
                             <label>图幅号码</label>
                             <div>
-                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.meshId" >
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.meshId" disabled>
                             </div>
                         </li>
                     </ul>

@@ -10,8 +10,6 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
         $scope.batchType=1;
         $scope.pageSize = 1;
 
-
-
         //获取所有批处理包;
         function getBatchBox(){
             var param = {
