@@ -40,22 +40,23 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
             this._draw(ctx, this.options.boolPixelCrs, this.options.parse);
         };
-        this.on('loading', function() {
-            this._beginTime = new Date().getTime();
-        });
-        var that = this;
-        this.on('load', function() {
-            var endTime = new Date().getTime();
-            var cnt = 0,
-                dataCnt = 0;
-            for (var key in that.tiles) {
-                if (that.tiles[key].data.length) {
-                    dataCnt += that.tiles[key].data.length;
-                }
-                cnt++;
-            }
-            console.log('------Tilelayer load info:' + this._beginTime + '|' + endTime + '|' + cnt + '|' + dataCnt);
-        });
+        // by chenx on 2016-9-23:打印瓦片图层加载时间，调试效率的时候用，正常情况下可以注释掉
+        // this.on('loading', function() {
+        //     this._beginTime = new Date().getTime();
+        // });
+        // var that = this;
+        // this.on('load', function() {
+        //     var endTime = new Date().getTime();
+        //     var cnt = 0,
+        //         dataCnt = 0;
+        //     for (var key in that.tiles) {
+        //         if (that.tiles[key].data.length) {
+        //             dataCnt += that.tiles[key].data.length;
+        //         }
+        //         cnt++;
+        //     }
+        //     console.log('------Tilelayer load info:' + this._beginTime + '|' + endTime + '|' + cnt + '|' + dataCnt);
+        // });
     },
     redraw: function() {
         if (this._map) {
