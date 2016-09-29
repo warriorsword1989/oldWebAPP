@@ -16,6 +16,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
          * @param type
          */
         $scope.switchBatchType = function(type){
+            //$scope.currentPaging = 1;
             $scope.batchType = type;
             getBatchBox();
         }
@@ -24,7 +25,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
          * 分页
          */
         $scope.pageChanged = function(){
-            $scope.currentPaging = $scope.$$childHead.currentPaging
+            $scope.currentPaging = $scope.$$childHead.$$childHead.currentPaging
             getBatchBox($scope.currentPaging);
         }
 
@@ -39,13 +40,14 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
             };
             dsEdit.batchBox(param).then(function(data){
                 $scope.batchBoxData = data;
-                $scope.currentBatchItems = $scope.batchBoxData[0].rules;
+                $scope.currentBatchItems = data.length?$scope.batchBoxData[0].rules:[];
+                $scope.totalNum = data.length?data[0].total:0;
                 for(var i=0;i<$scope.currentBatchItems.length;i++){
                     if($scope.selectedBatches.indexOf($scope.currentBatchItems[i].ruleCode)!=-1){
                         $scope.currentBatchItems[i].checked = true;
                     }
                 }
-                $scope.totalNum = data[0].total;
+
             });
         }
 
@@ -116,20 +118,18 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                 swal("请选择要执行的批处理", "", "info");
                 return;
             } else {
+                var param = {
+                    taskId:App.Temp.subTaskId,
+                    ruleCode:$scope.selectedBatches,
+                    type:$scope.batchType
+                }
                 $scope.running = true;
                 $scope.$emit("job-batch", {
                     status: 'begin'
                 });
-                swal("自动录入服务启动成功（模拟运行，服务正在调试中）！", "", "success");
-                $scope.progress = 0;
-                dsEdit.exeOnlinebatch($scope.selectedBatches).then(function(data){
+                dsEdit.exeOnlinebatch(param).then(function(data){
                     if(data){
-                        $scope.progress = 100;
-                        $scope.running = false;
-                        $scope.$emit("job-batch", {
-                            status: 'end'
-                        });
-                        swal("自动录入服务模拟运行完成！", "", "success");
+                        $scope.closeAdvancedToolsPanel();
                     }
                 })
             }

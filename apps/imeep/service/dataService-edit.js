@@ -714,9 +714,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     this.exeOnlinebatch = function(params) {
         var defer = $q.defer();
         var param = {
-            subtaskId:34,
-            batchRules:params,
-            batchType:1
+            subtaskId:params.taskId,
+            batchRules:params.ruleCode,
+            batchType:params.type
         }
         ajax.get("edit/batch/run",{
             parameter: JSON.stringify(param)
