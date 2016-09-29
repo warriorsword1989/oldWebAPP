@@ -4,6 +4,8 @@
 var oridinaryInfoApp = angular.module("app");
 oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var layerCtrl = fastmap.uikit.LayerController();
     $scope.appInfoOptions = [{
         "id": 0,
         "label": "调查中"
@@ -361,6 +363,53 @@ oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout
         $scope.showvehicle($scope.oridiData.vehicle);
         timeoutLoad();
     });
+
+    $scope.angleOfLink = function(pointA, pointB) {
+        var PI = Math.PI,
+            angle;
+        if ((pointA.x - pointB.x) === 0) {
+            angle = PI / 2;
+        } else {
+            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
+        }
+        return angle;
+    };
+
+    $scope.changeDirect = function(direct) {
+        map.currentTool.disable();
+        map.currentTool = shapeCtrl.getCurrentTool();
+        map.currentTool.disable();
+        var containerPoint;
+        var endNum = parseInt($scope.linkData.geometry.coordinates.length / 2);
+        var point = {
+            x: $scope.linkData.geometry.coordinates[0][0],
+            y: $scope.linkData.geometry.coordinates[0][1]
+        };
+        var pointVertex = {
+            x: $scope.linkData.geometry.coordinates[endNum][0],
+            y: $scope.linkData.geometry.coordinates[endNum][1]
+        };
+        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        var marker = {
+            flag: true,
+            pid: $scope.linkData.pid,
+            point: point,
+            type: "marker",
+            angle: angle,
+            orientation: direct.toString()
+        };
+        var editLayer = layerCtrl.getLayerById('edit');
+        layerCtrl.pushLayerFront('edit');
+        var sObj = shapeCtrl.shapeEditorResult;
+        editLayer.drawGeometry = marker;
+        editLayer.draw(marker, editLayer);
+        sObj.setOriginalGeometry(marker);
+        sObj.setFinalGeometry(marker);
+        shapeCtrl.setEditingType("transformDirect");
+        shapeCtrl.startEditing();
+    };
     //$scope.applicArray = getEndArray();
     //$scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
     //    console.log(newValue);

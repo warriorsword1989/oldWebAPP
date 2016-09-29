@@ -172,7 +172,18 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 					$scope.linkData.laneNum = 0;
 				}
 				$scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-				linkClassCtr($scope.linkData.laneNum);
+                var tempnum = '';
+                if($scope.linkData.direct==1){
+                    if($scope.linkData.laneNum%2){
+                        tempnum = ($scope.linkData.laneNum+1)/2;
+                    }else{
+                        tempnum = ($scope.linkData.laneNum)/2;
+                    }
+                }else{
+                    tempnum = ($scope.linkData.laneNum);
+                }
+
+				linkClassCtr(tempnum);
 				break;
 			case 2:
 				if (parseInt($scope.linkData.laneLeft)) {
@@ -205,12 +216,13 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
     $scope.$watch('linkData.direct',function(newValue){
         if(newValue==2||newValue==3){
             linkClassCtr($scope.linkData.laneNum);
+            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
         }else{
             if($scope.linkData.laneNum%2){
-                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
-                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
-                $scope.linkData.laneNum = 0;
-                linkClassCtr($scope.linkData.laneRight);
+                //$scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
+                //$scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+                //$scope.linkData.laneNum = 0;
+                linkClassCtr((parseInt($scope.linkData.laneNum)+1)/2);
             }else{
                 if(!$scope.linkData.laneNum){
                     var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
