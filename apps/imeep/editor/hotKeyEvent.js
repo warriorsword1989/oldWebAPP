@@ -534,6 +534,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         if (param["type"] === "RDNODE") {
                             rdLink.redraw();
                             rdnode.redraw();
+                            ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
+                            tpl = 'attr_node_tpl/rdNodeFormTpl.html';
                         } else if (param["type"] === "ADNODE") {
                             adLink.redraw();
                             adNode.redraw();
