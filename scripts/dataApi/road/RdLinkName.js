@@ -49,12 +49,12 @@ fastmap.dataApi.RdLinkName = fastmap.dataApi.GeoDataModel.extend({
         data["nameGroupid"] = this.nameGroupid;
         data["name"] = this.name;
         data["seqNum"] = this.seqNum;
-        data["nameClass"] = this.nameClass;
+        data["nameClass"] = parseInt(this.nameClass);
         data["inputTime"] = this.inputTime;
         data["nameType"] = this.nameType;
         data["srcFlag"]= this.srcFlag;
         data["routeAtt"] = this.routeAtt;
-        data["code"]  = this.code;
+        data["code"]  = parseInt(this.code);
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -72,12 +72,12 @@ fastmap.dataApi.RdLinkName = fastmap.dataApi.GeoDataModel.extend({
         data["nameGroupid"] = this.nameGroupid;
         data["name"] = this.name;
         data["seqNum"] = this.seqNum;
-        data["nameClass"] = this.nameClass;
+        data["nameClass"] = parseInt(this.nameClass);
         data["inputTime"] = this.inputTime;
         data["nameType"] = this.nameType;
         data["srcFlag"]= this.srcFlag;
         data["routeAtt"] = this.routeAtt;
-        data["code"]  = this.code;
+        data["code"]  = parseInt(this.code);
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

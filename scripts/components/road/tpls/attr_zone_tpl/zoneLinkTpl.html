@@ -1,0 +1,52 @@
+<div class="fm-component" ng-controller="zoneLinkController">
+    <div class="title">
+        Zone线
+        <span class="label label-info">{{zoneLinkData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="zoneLinkForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>种别</label>
+                            <div>
+                                <select ng-model="zoneLinkData.kinds[0].kind"
+                                        ng-options="value.id as value.label for value in kind">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>形态</label>
+                            <div>
+                                <select ng-model="zoneLinkData.kinds[0].form"
+                                        ng-options="value.id as value.label for value in form">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>比例尺</label>
+                            <div>
+                                <select ng-model="zoneLinkData.scale"
+                                        ng-options="value.id as value.label for value in scale" disabled="disabled">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号</label>
+                            <div>
+                                <input type="text" ng-model="zoneLinkData.meshId" class="chosen-disabled" disabled="disabled">
+                            </div>
+                        </li>
+                        <li>
+                            <label>Link长度</label>
+                            <div class="form-inline">
+                                <input type="text" ng-model="zoneLinkData.length" class="chosen-disabled" disabled="disabled">&nbsp;m
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

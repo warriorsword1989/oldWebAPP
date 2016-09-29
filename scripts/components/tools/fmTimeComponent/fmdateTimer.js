@@ -91,6 +91,19 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     /*时间段list*/
     $scope.dateList = [];
     $scope.dateListAll = [];
+    
+
+    $scope.initOption = function (){
+        dwm.selection = dwm.values[0];
+
+        $("label[name=weekGroupBtn]").removeClass('active');
+        $scope.wks.checks = [];
+        
+        $scope.begin_time = "";
+        $scope.end_time = "";
+        //$scope.$apply();
+    };
+
     /*——————————解析————————*/
     /*根据总的时间字符串拆分成多个字符串数组*/
     $scope.newStr = function(str){
@@ -105,7 +118,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         }else{
             return false;
         }
-    }
+    };
     $scope.listInit = function(){
         var indexList = [];     //新建数组，用于记录要清空的数组角标
         /*遍历寻找二维数组重新整合数组，二维则进行拼接*/
@@ -533,7 +546,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     }
     $scope.translate($scope.arrEmpty(newArr));
     /*删除时间段*/
-    $scope.removeList = function(e){
+    $scope.removeList = function(e,index){
         var dateTimeWell = $(e.target).parents('.date-well').parent();
         var itemCode = $(e.target).parents('.date-list').find('.date-code-list').attr('date-code');
         $(e.target).parents('.date-list').remove();
@@ -542,12 +555,17 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         $scope.dateString = ($scope.dateString).replace(/\+\+/, "+");
         $scope.dateString = ($scope.dateString).replace(/\[\+\[/, "[[");
         $scope.dateString = ($scope.dateString).replace(/\]\+\]/, "]]");
+
+        $scope.dateList.splice(index,1); //解决删除时间段，再点击保存，还是会将时间段添加
+
         $scope.$emit('get-date',$scope.dateString);
         if(dateTimeWell.hasClass('muti-date'))
             dateTimeWell.attr('date-str',$scope.dateString);
     }
     /*点击选择日期*/
     $scope.dateSelect = function(e){
+        $scope.initOption();
+
         var dateTimeWell = $(e.target).parents('.date-well').parent();
         $('body').append($(e.target).parents(".date-well").find(".datetip"));
         if($('body .datetip:last').css('display') == 'none'){
@@ -556,6 +574,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         }else{
             $('body .datetip:last').hide();
         }
+        $('body .carTypeTip:last').hide();//关闭车辆类型
     }
     /*点击选择时间*/
     $scope.selectTime = function(e){
@@ -655,7 +674,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             name:$(e.target).attr('check-name'),
             value:$(e.target).attr('check-value'),
             code:$(e.target).attr('check-code')
-        }
+        };
         if($(e.target).hasClass('active')){
             $(e.target).removeClass('active');
             $scope.wks.checks.splice(jQuery.inArray(checkObject,$scope.wks.checks),1);
@@ -791,6 +810,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             }
         }
     };
+
     /*保存时间段*/
     $scope.dateSave = function(e){
         var dateWell = $(e.target).parents('.datetip');
@@ -1253,6 +1273,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     /*清空*/
     $scope.dateEmpty = function(e){
         $scope.dateList.length = 0;
+        $scope.$emit('get-date',"[]");
         if($(e.target).parents('.date-well').parent().hasClass('muti-date'))
             $(e.target).parents('.date-well').parent().attr('date-str','');
     }

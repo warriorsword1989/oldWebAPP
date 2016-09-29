@@ -1,0 +1,54 @@
+<div class="fm-component" ng-controller="zoneFaceController">
+    <div class="title">
+        Zone面
+        <span class="label label-info">{{zoneFaceData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="zoneFaceForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>区划号码</label>
+                            <div>
+                                <input type="text" class="fm-control" ng-model="zoneFaceData.regionId" disabled="disabled">
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号</label>
+                            <div>
+                                <input type="text" disabled class="fm-control chosen-disabled" ng-model="zoneFaceData.meshId" >
+                            </div>
+                        </li>
+                        <li>
+                            <label>面积</label>
+                            <div>
+                                <input type="text" disabled class="fm-control chosen-disabled" ng-model="zoneFaceData.area" >㎡
+                            </div>
+                        </li>
+                        <li>
+                            <label>周长</label>
+                            <div>
+                                <input type="text" disabled class="fm-control chosen-disabled" ng-model="zoneFaceData.perimeter" >m
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="fm-panel">
+            <div class="content">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>批量处理</label>
+                        <div class="batchButtonGroup">
+                            <a href="#" ng-click="setZoneID()" class="zocial batchButton" title="为目标Zone面内的道路赋 ZoneID">赋 ZoneID</a>
+                            <a href="#" ng-click="deleteZoneID()" class="zocial batchButton" title="为目标Zone面内的道路删除 ZoneID">删除 ZoneID</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

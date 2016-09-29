@@ -1,0 +1,21 @@
+<div ng-controller="OutputResultCtl">
+    <table class="table table-bordered table-condensed fm-console-table">
+        <thead>
+            <tr>
+                <th ng-repeat="item in theadInfo">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!outputResult || outputResult.length == 0">
+                <td colspan="{{theadInfo.length}}" class="text-center">暂时无输出结果</td>
+            </tr>
+            <tr ng-repeat="item in outputResult">
+                <td>{{item.op}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.pid}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

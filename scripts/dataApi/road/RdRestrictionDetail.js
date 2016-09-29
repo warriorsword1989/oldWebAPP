@@ -20,10 +20,10 @@ fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         this.pid = data["pid"] || 0;
         this.restricPid = data["restricPid"] || 0;
         this.outLinkPid = data["outLinkPid"] || 0;
-        this.flag = data["flag"] || 2;
+        this.flag = (data["flag"] === undefined || data["flag"] === '') ? 2 :data["flag"];
         this.restricInfo = data["restricInfo"] ||0;
-        this.type = data["type"] || 1;
-        this.relationshipType = data["relationshipType"] || 1;
+        this.type = (data["type"] === undefined || data["type"] === '') ? 1 :data["type"];
+        this.relationshipType = (data["relationshipType"] === undefined || data["relationshipType"] === '') ? 1 :data["relationshipType"];
 
         this.conditions = [];
         if (data["conditions"]&&data["conditions"].length > 0) {

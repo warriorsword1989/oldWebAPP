@@ -26,11 +26,11 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
     initialize: function (options) {
         this.type = options.type;
         this._map = options.map;
-        this.boxLayer = options.layer;
+//        this.boxLayer = options.layer;
+        this.boxLayers = options.layer;
         this._container = this._map._container;
         this.eventController = fastmap.uikit.EventController();
     },
-
     /***
      * 添加事件处理
      */
@@ -115,7 +115,15 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
         //var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
-        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
+        var dataOfRectangle = [];
+        for(var i = 0; i<this.boxLayers.length; i++){
+            var middleArr = this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles);
+        	if(middleArr.length>0){
+        		dataOfRectangle = dataOfRectangle.concat(middleArr);
+        	}
+
+        }
+//        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
 
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
             {data: dataOfRectangle, layerType: this.type,border:rectangle});

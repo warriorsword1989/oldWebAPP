@@ -13,9 +13,10 @@ FM.Util.extend(FM.Util, {
         return (Object.prototype.toString.call(obj) === '[object Array]');
     },
     clone: function(obj) {
-        var ret = obj;
-        if (obj[key] && typeof obj[key] == 'object') {
-            ret = {};
+        // var ret = obj;
+        // if (obj[key] && typeof obj[key] == 'object') {
+        console.log(typeof obj);
+            var ret = {};
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
                     if (obj[key] && typeof obj[key] == 'object') {
@@ -36,33 +37,13 @@ FM.Util.extend(FM.Util, {
                     }
                 }
             }
-        }
+        // }
         return ret;
     },
-    stringToJson: function(str) {
-        var ret = str;
-        try {
-            ret = JSON.parse(str);
-        } catch (e) {
-            try {
-                ret = JSON.parse(str.replace(/\\"/g, '"'));
-            } catch (e) {
-                try {
-                    ret = JSON.parse(str.replace(/'/g, '"'));
-                } catch (e) {
-                    ret = str;
-                }
-            }
+    isEmptyObject: function(obj) {
+        for (var key in obj) {
+            return false;
         }
-        return ret;
-    },
-    dateFormat: function(str) {
-        var ret;
-        if (str.length < 14) {
-            ret = str;
-        } else { // yyyy-mm-dd hh:mi:ss
-            ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
-        }
-        return ret;
+        return true;
     }
 });

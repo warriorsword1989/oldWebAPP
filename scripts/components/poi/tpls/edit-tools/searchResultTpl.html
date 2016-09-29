@@ -1,0 +1,26 @@
+<div ng-controller="SearchResultCtl">
+    <table class="table table-bordered table-condensed fm-console-table">
+        <thead>
+            <tr>
+                <th ng-repeat="item in theadInfo">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!searchResultData || searchResultData.length == 0">
+                <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
+            </tr>
+            <tr ng-repeat="item in searchResultData">
+                <td>{{$index + 1}}</td>
+                <td>
+                    <a href="#" class="fm-target" ng-click="showOnMap(item.pid,item.type)">{{item.pid}}</a>
+                </td>
+                <td>{{item.type}}</td>
+                <td>{{item.name}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

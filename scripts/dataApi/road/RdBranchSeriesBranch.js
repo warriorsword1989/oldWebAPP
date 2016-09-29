@@ -9,7 +9,7 @@ fastmap.dataApi.RdBranchSeriesBranch=fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"];
+        this.rowId = data["rowId"];
         this.branchPid = data["branchPid"];
         this.voiceDir = data["voiceDir"] || 0;
         this.arrowCode = data["arrowCode"] || "";
@@ -20,7 +20,7 @@ fastmap.dataApi.RdBranchSeriesBranch=fastmap.dataApi.GeoDataModel.extend({
 
     getIntegrate:function(){
         var data={};
-        data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["branchPid"] = this.branchPid;
         data["voiceDir"] = this.voiceDir;
         data["arrowCode"] = this.arrowCode;
@@ -33,7 +33,7 @@ fastmap.dataApi.RdBranchSeriesBranch=fastmap.dataApi.GeoDataModel.extend({
 
     getSnapShot:function(){
         var data={};
-        data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["branchPid"] = this.branchPid;
         data["voiceDir"] = this.voiceDir;
         data["arrowCode"] = this.arrowCode;

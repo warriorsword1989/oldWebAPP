@@ -1,45 +1,49 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var braName = angular.module("mapApp");
-braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
+var braName = angular.module("app");
+braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-     $scope.details = objCtrl.data.details?objCtrl.data.details:0;
+    var eventController = fastmap.uikit.EventController();
+     $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
      $scope.nameGroup = [];
-    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-    if($scope.branchNameForm) {
-        $scope.branchNameForm.$setPristine();
-    }
-     /*根据nameGroupid排序*/
-     $scope.details[0].names.sort(function(a,b){
-        return b.nameGroupid >= a.nameGroupid;
-     });
-     /*重组源数据用新建变量nameGroup显示*/
-     $scope.sortNameGroup = function(arr){
+    if (objCtrl.data) {
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
         $scope.nameGroup = [];
-        for (var i = 0; i <= arr.length - 1; i++) {
-            var tempArr = [];
-            if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
-                if($.inArray(arr[i],$scope.nameGroup) == -1){
+    }
+
+    function initNameInfo(){
+        /*根据nameGroupid排序*/
+        $scope.details[0].names.sort(function(a,b){
+            return b.nameGroupid >= a.nameGroupid;
+        });
+        /*重组源数据用新建变量nameGroup显示*/
+        $scope.sortNameGroup = function(arr){
+            $scope.nameGroup = [];
+            for (var i = 0; i <= arr.length - 1; i++) {
+                var tempArr = [];
+                if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
+                    if($.inArray(arr[i],$scope.nameGroup) == -1){
+                        tempArr.push(arr[i])
+                    }
+                    for(var j=i+1;j<arr.length-1;j++){
+                        if(arr[j].nameGroupid == arr[i].nameGroupid){
+                            tempArr.push(arr[j]);
+                            i = j;
+                        }
+                    }
+                }else{
                     tempArr.push(arr[i])
                 }
-                for(var j=i+1;j<arr.length-1;j++){
-                    if(arr[j].nameGroupid == arr[i].nameGroupid){
-                        tempArr.push(arr[j]);
-                        i = j;
-                    }
-                }
-            }else{
-                tempArr.push(arr[i])
-            }
-            $scope.nameGroup.push(tempArr);
-        };
-     }
-     $scope.sortNameGroup($scope.details[0].names);
-     // console.log($scope.nameGroup)
-     $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+                $scope.nameGroup.push(tempArr);
+            };
+        }
+        $scope.sortNameGroup($scope.details[0].names);
+        // console.log($scope.nameGroup)
+        $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
-         });
+        });
+    }
     /*名称分类*/
     $scope.nameClassType = [
         {"code":0,"label":"方向"},
@@ -47,7 +51,7 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     ];
     $scope.codeTypeOptions=[
         {"id":0,"label":"0 无"},
-        {"id":1,"label":"1 普通路名"},
+        {"id":1,"label":"1 普通道路名"},
         {"id":2,"label":"2 设施名"},
         {"id":3,"label":"3 高速道路名"},
         {"id":4,"label":"4 国家高速编号"},
@@ -57,6 +61,15 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         {"id":8,"label":"8 乡道编号"},
         {"id": 9, "label": "9 专用道编号"},
         {"id": 10, "label": "10 省级高速编号"}
+    ];
+    //名称来源
+    $scope.langSourceOptions = [
+        {id:0,label:'未定义'},
+        {id:1,label:'翻译'},
+        {id:2,label:'道路名英文名'},
+        {id:3,label:'行政区划英文名'},
+        {id:4,label:'Hamlet英文名'},
+        {id:5,label:'POI英文名'}
     ];
     /*语言代码*/
     $scope.languageCode = [
@@ -94,25 +107,27 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         {"code":"SCR","name":"克罗地亚语"}
     ];
     /*分歧名称输入完查询发音和拼音*/
-    $scope.diverName = function(id,name){
+    $scope.diverName = function(braName){
         var param = {
-            "word":name
+            "word":braName.name
+        };
+        if(braName.langCode != 'CHI' && braName.langCode != 'CHT') {
+            braName.phonetic = '';
+            return;
         }
-        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$apply();
+        dsMeta.getNamePronunciation(param).then(function (data) {
             if(data.errcode == 0){
                 $.each($scope.details[0].names,function(i,v){
-                    if(v.nameGroupid == id){
+                    if(v.nameGroupid == braName.nameGroupid){
                         v.phonetic = data.data.phonetic;
                         v.voiceFile = data.data.voicefile;
                     }
                 });
-                $scope.$apply();
             }else{
                 swal("查找失败", "问题原因："+data.errmsg, "error");
             }
         });
-    }
+    };
     /*点击名称分类*/
     $scope.switchNameClass = function(code,id){
         $.each($scope.details[0].names,function(i,v){
@@ -216,4 +231,26 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         protoArr.unshift(newName);
         $scope.sortNameGroup(protoArr);
     }
+    //修改语言代码
+    $scope.changeLangCode = function(branchName){
+        if(branchName.langCode != 'CHI' && branchName.langCode != 'CHT') {
+            branchName.phonetic = '';
+        }
+        if(branchName.langCode != 'ENG') {
+            branchName.srcFlag = 0;
+        }
+    };
+    // eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, alert());
+    $scope.$watch('subAttributeData',function(){
+        if(!objCtrl.data.hasOwnProperty('details') && !objCtrl.data.hasOwnProperty('signboards')){
+            return;
+        }
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
+        $scope.nameGroup = [];
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.branchNameForm) {
+            $scope.branchNameForm.$setPristine();
+        }
+        initNameInfo();
+    });
 });

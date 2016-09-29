@@ -7,7 +7,7 @@
 
     .arrow_right {
         position: absolute;
-        background: url('../../scripts/libs/timepicki/images/top_arr_dark.png') no-repeat;
+        background: url('../../../scripts/libs/timepicki/images/top_arr_dark.png') no-repeat;
         width: 18px;
         height: 10px;
         z-index: 3;
@@ -89,6 +89,7 @@
     .date-head {
         color: #FFF;
         padding: 4px;
+        width: 100%;
     }
     .date-head a{
         color: #FFF;
@@ -412,7 +413,7 @@
     <div class="date-body">
         <div class="date-list"></div>
         <div class="date-list" ng-repeat="item in carData">
-            <div class="col-md-6" style="color:#ffffff;padding: 5px;"  ng-bind="item.label">
+            <div class="col-md-6" style="color:#ffffff;padding: 5px;" ng-bind="item.label">
             </div>
         </div>
         <div class="clearfix"></div>
@@ -421,7 +422,7 @@
     <div class="datetip">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">车辆类型</div>
         <div class="pull-right" style="margin-top: -10px;">
-            <button type="button" class="close" aria-label="Close" ng-click="showPopover($event)"
+            <button type="button" class="close" aria-label="Close" ng-click="showPopover($event);"
                     style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
                 <span aria-hidden="true">&times;</span>
             </button>

@@ -1,16 +1,20 @@
 /**
  * Created by zhaohang on 2016/4/25.
  */
-var adNodeApp = angular.module("mapApp");
-adNodeApp.controller("adNodeController",function($scope) {
+var adNodeApp = angular.module("app");
+adNodeApp.controller("adNodeController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById("adLink");
-    var adNode = layerCtrl.getLayerById("adnode");
+    var adNode = layerCtrl.getLayerById("adNode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+    var editLayer = layerCtrl.getLayerById('edit');
+    var objectEditCtrl = fastmap.uikit.ObjectEditController();
     //形态
     $scope.form = [
         {"id": 0, "label": "无"},
@@ -33,17 +37,16 @@ adNodeApp.controller("adNodeController",function($scope) {
             $scope.adNodeForm.$setPristine();
         }
 
-
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据
         var highlightFeatures = [];
         /**
          * 根据点去获取多条adlink，再高亮点线
          */
-        Application.functions.getByCondition(JSON.stringify({
-            projectId: Application.projectid,
+        dsEdit.getByCondition({
+            dbId: App.Temp.dbId,
             type: 'ADLINK',
             data: {"nodePid":  $scope.adNodeData.pid}
-        }), function (data) {
+        }).then(function (data){
             if (data.errcode === -1) {
                 return;
             }
@@ -74,10 +77,9 @@ adNodeApp.controller("adNodeController",function($scope) {
                 layerid:'adLink',
                 type:'node',
                 style:{}
-            })
+            });
             highRenderCtrl .highLightFeatures =highlightFeatures;
             highRenderCtrl .drawHighlight();
-
         });
     };
     if (objCtrl.data) {
@@ -86,14 +88,8 @@ adNodeApp.controller("adNodeController",function($scope) {
     //保存
     $scope.save = function(){
         objCtrl.save();
-        var param = {
-            "command": "UPDATE",
-            "type":"ADNODE",
-            "projectId": Application.projectid,
-            "data": objCtrl.changedProperty
-        }
         if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
+            swal("操作成功",'属性值没有变化，不需要保存', "info");
             return;
         }
         if(objCtrl.changedProperty && objCtrl.changedProperty.forms && objCtrl.changedProperty.forms.length > 0){
@@ -107,77 +103,38 @@ adNodeApp.controller("adNodeController",function($scope) {
                 return v;
             });
         }
-
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
-                swal("操作成功",'保存成功！', "success");
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                var sInfo={
-                    "op":"修改ADNODE成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-                adLink.redraw();
-                adNode.redraw();
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            //数据解析后展示到输出框
-            if(info!=null){
-                outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
-                    outputCtrl.updateOutPuts();
+        dsEdit.update($scope.adNodeData.pid, "ADNODE", objectEditCtrl.changedProperty).then(function(data) {
+            if (data) {
+                if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
                 }
+                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             }
-
         });
     };
     //删除
     $scope.delete = function(){
-        var pid = parseInt($scope.adNodeData.pid);
-        var param =
-        {
-            "command": "DELETE",
-            "type": "ADNODE",
-            "projectId": Application.projectid,
-            "objId": pid
-        };
-        //结束编辑状态
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.errcode == 0) {
-                swal("操作成功",'删除成功！', "success");
-                var sinfo = {
-                    "op": "删除ADNODE成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
+        dsEdit.delete($scope.adNodeData.pid, "ADNODE").then(function(data) {
+            if (data) {
                 adLink.redraw();
                 adNode.redraw();
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("删除失败", data.errmsg, "error");
+                $scope.adNodeData = null;
+                // var editorLayer = layerCtrl.getLayerById("edit");
+                // editorLayer.clear();
+                highRenderCtrl._cleanHighLight(); //清空高亮
             }
-            //返回数据显示到输出框
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
-            }
-        })
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        });
     };
     $scope.cancel = function(){
 
@@ -188,4 +145,4 @@ adNodeApp.controller("adNodeController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}]);

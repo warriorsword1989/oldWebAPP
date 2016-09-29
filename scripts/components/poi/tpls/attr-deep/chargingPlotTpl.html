@@ -1,0 +1,188 @@
+<div ng-controller="chargingPlotCtrl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel">
+            <div class="content" ng-repeat="charging in chargingArr">
+                <ul>
+                    <a href="#deepInfoOne" data-toggle="tab" data-width="">专有信息{{$index+1}}
+                        <div class="btn-group" style="display: inline-block;float: right;"
+                             ng-if="chargingArr.length==2">
+                            <button data-toggle="tooltip" data-index="{{$index}}" title="删除"
+                                    class="glyphicon glyphicon-remove" type="button"
+                                    ng-click="removeChargPole($index)"/>
+                        </div>
+                        <div class="btn-group" style="display: inline-block;float: right;"
+                             ng-if="chargingArr.length==1 ||chargingArr.length==0">
+                            <button data-toggle="tooltip" title="添加" class="glyphicon glyphicon-plus"
+                                    style="margin-right: 5px;" type="button" ng-click="addChargPole()"/>
+                        </div>
+                    </a>
+                </ul>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>充电桩组</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.groupId"/></div>
+                    </li>
+                    <li>
+                        <label>同组桩数</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.count"/></div>
+                    </li>
+                    <li>
+                        <label>交直流电</label>
+                        <div>
+                            <label>
+                                <input fm-edit-view fm-edit-view type="radio" name="indoor" value="0"
+                                       ng-model="charging.acdc">
+                                交流
+                            </label>
+                            <label>
+                                <input fm-edit-view fm-edit-view type="radio" name="indoor" value="1"
+                                       ng-model="charging.acdc">
+                                直流
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>插头类型</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in chargingPlugType" class="col-md-5">
+                                <input fm-edit-view fm-edit-view type="checkbox" value="{{key}}"
+                                       ng-model="charging.plugType[key]"
+                                       ng-click="chargingPlugTypeChange($event)"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>充电功率</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.power"/></div>
+                    </li>
+                    <li>
+                        <label>充电电压</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.voltage"/></div>
+                    </li>
+                    <li>
+                        <label>充电电流</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.current"/></div>
+                    </li>
+                    <li>
+                        <label>充电模式</label>
+                        <div>
+                            <label>
+                                <input fm-edit-view type="radio" name="indoor" value="0" ng-model="charging.mode">
+                                常规充电
+                            </label>
+                            <label>
+                                <input fm-edit-view type="radio" name="indoor" value="1" ng-model="charging.mode">
+                                快速充电
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>备注信息</label>
+                        <div>
+                            <input fm-edit-view class="fm-control" ng-model="charging.memo">
+                        </div>
+                    </li>
+                    <li>
+                        <label>插孔数量</label>
+                        <div><input fm-edit-view type="number" class="fm-control" ng-model="charging.plugNum"/></div>
+                    </li>
+                    <li>
+                        <label>充电价格</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.prices"/></div>
+                    </li>
+                    <li>
+                        <label>开放状态</label>
+                        <div>
+                            <label ng-repeat="(key, value) in chargingOpenType" ng-if="key == 1"
+                                   style="padding:0px;color:green">
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="charging.openType[key]"
+                                       ng-click="changeOpenType($event,charging)"> {{value}}
+                            </label>
+                            <label ng-repeat="(key, value) in chargingOpenType" ng-if="key != 1">
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="charging.openType[key]"
+                                       ng-click="changeOpenType($event,charging)"> {{value}}
+                            </label>
+                            <div>
+                                <select fm-edit-view class="fm-control" ng-model="charging.selectedChain"
+                                        ng-options="value as lable.chainName for (value, lable) in charging.chargeChainObj"
+                                        chosen style="width: 80%;" ng-change="chianChange($event, charging)">
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <label>可用状态</label>
+                        <div>
+                            <select fm-edit-view class="fm-control" ng-model="charging.availableState"
+                                    ng-options="value.id as value.label for value in chargingAvailableState">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>设备厂商</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.manufacturer"/></div>
+                    </li>
+                    <li>
+                        <label>出厂编号</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.factoryNum"/></div>
+                    </li>
+                    <li>
+                        <label>充电桩编号</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.plotNum"/></div>
+                    </li>
+                    <li>
+                        <label>产品型号</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.productNum"/></div>
+                    </li>
+                    <li>
+                        <label>位置类型</label>
+                        <div>
+                            <label ng-repeat="(key, value) in locationtype">
+                                <input type="radio" value="{{key}}" ng-model="charging.locationType"> {{value}}
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input fm-edit-view type="radio" name="indoor" value="0"
+                                       ng-model="charging.locationType">
+                                室外
+                            </label>
+                            <label>
+                                <input fm-edit-view type="radio" name="indoor" value="1"
+                                       ng-model="charging.locationType">
+                                室内地上
+                            </label>
+                            <label>
+                                <input fm-edit-view type="radio" name="indoor" value="1"
+                                       ng-model="charging.locationType">
+                                地下
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>楼层</label>
+                        <div><input fm-edit-view type="number" class="fm-control" ng-model="charging.floor" min="-5"
+                                    maxLength="6" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                    onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div>
+                    </li>
+                    <li>
+                        <label>泊位号码</label>
+                        <div><input fm-edit-view type="text" class="fm-control" ng-model="charging.parkingNum"/></div>
+                    </li>
+                    <li>
+                        <label>支付方式</label>
+                        <div>
+                            <div>
+                                <select fm-edit-view class="fm-control" ng-model="charging.chargingPayment"
+                                        ng-options="value as lable.chainName for (value, lable) in charging.chargingPayment"
+                                        chosen style="width: 80%;" ng-change="chianChange($event, charging)">
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var pedestrianNaviApp = angular.module("mapApp");
+var pedestrianNaviApp = angular.module("app");
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.naviData =  objCtrl.data;
@@ -29,8 +29,8 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
        $scope.linkData["oridiRowId"] = sidewalkItem.rowId;
        var showSidewalkObj = {
            "loadType":"subAttrTplContainer",
-           "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/pedestrianNaviOfSidewalkCtrl',
-           "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviOfSideWalkTepl.html'
+           "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/pedestrianNaviOfSidewalkCtrl',
+           "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviOfSideWalkTepl.html'
        }
        $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
   };
@@ -38,8 +38,8 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
        $scope.linkData["oridiRowId"] = walkstairItem.rowId;
        var showSidewalkObj = {
            "loadType":"subAttrTplContainer",
-           "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/pedestrianNaviOfWalkStairCtrl',
-           "propertyHtml": '../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviOfWalkStairTepl.html'
+           "propertyCtrl": 'scripts/components/road/ctrls/attr_link_ctrl/pedestrianNaviOfWalkStairCtrl',
+           "propertyHtml": '../../../scripts/components/road/tpls/attr_link_tpl/pedestrianNaviOfWalkStairTepl.html'
        }
        $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
    };
@@ -48,6 +48,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         $scope.naviData.sidewalks.splice(id, 1);
     };
     $scope.addSidewalk = function () {
+        if($scope.naviData.walkerLimitFlag){return;}
         var newSidewalk = fastmap.dataApi.rdLinkSideWalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.sidewalks.unshift(newSidewalk);
         $scope.walkFlag++;

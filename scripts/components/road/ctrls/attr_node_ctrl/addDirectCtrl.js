@@ -2,8 +2,9 @@
  * Created by liwanchong on 2016/2/29.
  */
 var addDirectOfRest = angular.module("lazymodule",[]);
-addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout){
+addDirectOfRest.controller("addDirectOfNodeController",function($scope,$timeout){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
+    var eventCtrl = fastmap.uikit.EventController();
     $scope.closeWin= function () {
 
     }
@@ -35,8 +36,6 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
             {"id":41,"label":"KDZone与道路交点","isCheck":false}
         ];
 
-
-
         $scope.newFromOfWRoadDate=[];
         for(var p in $scope.rdNodeData.forms){
             for(var s in $scope.fromOfWayOption){
@@ -46,10 +45,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
             }
         }
     }
-    if(objectEditCtrl.data) {
-        $scope.initializeSelNodeData();
-    }
-
+    $scope.initializeSelNodeData();
     $scope.getCheck=function(item){
         item.isCheck=true;
         var form = fastmap.dataApi.rdNodeForm({"auxiFlag":0,"formOfWay":item.id,"nodePid":$scope.rdNodepid});
@@ -67,4 +63,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
         objectEditCtrl.nodeObjRefresh(false);
     }
 
+
+    eventCtrl.off('SHOWSUBTABLEDATA');
+    eventCtrl.on('SHOWSUBTABLEDATA',$scope.initializeSelNodeData);
 })

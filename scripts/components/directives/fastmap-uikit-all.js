@@ -5,8 +5,8 @@
     jsFiles = [
         "components/directives/fastmap-uikit.js",
         "components/directives/loginForm/loginForm.js",
-        "components/directives/loginForm/newloginForm.js",
-        "components/directives/showBox/showBox.js"
+        "components/directives/showBox/showBox.js",
+        "components/directives/fmTable/fmTable.js"
     ]; // etc.
 
     // use "parser-inserted scripts" for guaranteed execution order

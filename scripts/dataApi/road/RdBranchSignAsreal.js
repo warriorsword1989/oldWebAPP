@@ -42,6 +42,6 @@ fastmap.dataApi.RdBranchSignAsreal=fastmap.dataApi.GeoDataModel.extend({
     }
 })
 
-fastmap.dataApi.RdBranchSignAsreal = function (data, options) {
+fastmap.dataApi.rdBranchSignAsreal = function (data, options) {
     return new fastmap.dataApi.RdBranchSignAsreal(data, options);
 }

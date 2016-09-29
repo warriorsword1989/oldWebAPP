@@ -1,0 +1,99 @@
+<div class="btn-group">
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addNode':'active'}[shapeOperator]" data-toggle="dropdown">点 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <li class="btn-group btn-group-xs">
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDNODE':'active'}[featureOperator]" ng-controller="addNodeFeatureCtrl" ng-click="addNode('RDNODE')">道路Node</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RWNODE':'active'}[featureOperator]" ng-controller="addNodeFeatureCtrl" ng-click="addNode('RWNODE')">铁路Node</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADNODE':'active'}[featureOperator]" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ADNODE')">行政区划Node</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONENODE':'active'}[featureOperator]" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ZONENODE')">ZoneNode</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LUNODE':'active'}[featureOperator]" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LUNODE')">LuNode</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LCNODE':'active'}[featureOperator]" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LCNODE')">LcNode</button>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addLink':'active'}[shapeOperator]" data-toggle="dropdown">线 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <label style="padding:0px;color:white;font-size: 10px;font-weight:normal">
+                <input class="date-body" type="checkbox" ng-model="nodeChecked" ng-checked="nodeChecked" ng-click="changeSnapAndLayer('node')"> 捕捉Node
+            </label>
+            <label style="padding:0px;color:white;font-size: 9px;font-weight:normal">
+                <input class="date-body" type="checkbox" ng-model="linkChecked" ng-checked="linkChecked" ng-click="changeSnapAndLayer('link')"> 捕捉Link
+            </label>
+            <li class="btn-group btn-group-xs">
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDLINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RDLINK')">道路Link</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RWLINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RWLINK')">铁路Link</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADLINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('ADLINK')">行政区划Link</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONELINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('ZONELINK')">ZoneLink</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LULINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('LULINK')">LuLink</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LCLINK':'active'}[featureOperator]" ng-controller="addLinkFeatureCtrl" ng-click="addLink('LCLINK')">LcLink</button>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addFace':'active'}[shapeOperator]" data-toggle="dropdown">面 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <li class="btn-group btn-group-xs">
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADFACE',1)">行政区划Face</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ADLINKFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADLINKFACE',2)">Ad线构面</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONEFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONEFACE',1)">ZoneFace</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ZONELINKFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONELINKFACE',2)">Zone线构面</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LUFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LUFACE',1)">LuFace</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'LCFACE':'active'}[featureOperator]" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LCFACE',1)">LcFace</button>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addRelation':'active'}[shapeOperator]" data-toggle="dropdown">关系 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <li class="btn-group btn-group-sm" style="margin:0 2px;color:#fff;font-size:12px;">
+              <label>
+                <input type="checkbox" ng-model="isLinkTrack" ng-checked="isLinkTrack"> 追踪Link
+              </label>
+            </li>
+            <li class="btn-group btn-group-sm" style="margin: 0 2px;">
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'RDCROSS':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDCROSS')">路口</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'RDSPEEDLIMIT':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDSPEEDLIMIT')">限速</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'RDRESTRICTION':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDRESTRICTION')">交限</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'RDLANECONNEXITY':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDLANECONNEXITY')">车信</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'RDGSC':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDGSC')">立交</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_3D':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_3D')">3D分歧</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_HIGHWAY':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_HIGHWAY')">高速分歧</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_SERIESBRANCH':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_SERIESBRANCH')">连续分歧</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_SIGNBOARDNAME':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_SIGNBOARDNAME')">方向看板</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_BIGCROSSSCHEMATIC':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_BIGCROSSSCHEMATIC')">大路口交叉点模式图</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_NORMALROAD':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_NORMALROAD')">普通方面名称</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_REALIMAGE':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_REALIMAGE')">实景图</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'BRANCH_SIGNASREAL':'active'}[featureOperator]" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_SIGNASREAL')">实景看板</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'TRAFFIC_SIGNAL':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('TRAFFIC_SIGNAL')">信号灯</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RD_GATE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RD_GATE')">大门</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RD_WARNINGINFO':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RD_WARNINGINFO')">警示信息</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'ELECTRONIC_EYE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('ELECTRONIC_EYE')">电子眼</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSLOPE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDSLOPE')">坡度</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDDIRECTROUTE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDDIRECTROUTE')">顺行</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSPEEDBUMP':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDSPEEDBUMP')">减速带</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'CRFINTER':'active'}[featureOperator]" ng-controller="addCRFShapeCtrl" ng-click="addCRFShape('CRFINTER')">CRF交叉点</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'CRFROAD':'active'}[featureOperator]" ng-controller="addCRFShapeCtrl" ng-click="addCRFShape('CRFROAD')">CRF道路</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'CRFOBJECT':'active'}[featureOperator]" ng-controller="addCRFShapeCtrl" ng-click="addCRFShape('CRFOBJECT')">CRF对象</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSAMENODE':'active'}[featureOperator]" ng-controller="addSameFeatureCtrl" ng-click="addShape('RDSAMENODE')">同一点</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSAMELINK':'active'}[featureOperator]" ng-controller="addSameFeatureCtrl" ng-click="addShape('RDSAMELINK')">同一线</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDSE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDSE')">分叉口</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDTOLLGATE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDTOLLGATE')">收费站</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDVOICEGUIDE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDVOICEGUIDE')">语音引导</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'VARIABLESPEED':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('VARIABLESPEED')">可变限速</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDLANE':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDLANE')">详细车道</button>
+                <button type="button" class="btn btn-xs btn-feat" ng-class="{'RDLANETOPO':'active'}[featureOperator]" ng-controller="addRdRelationCtrl" ng-click="addShape('RDLANETOPO')">车道连通</button>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape dropdown-toggle" ng-class="{'addPointFeature':'active'}[shapeOperator]" data-toggle="dropdown">点要素 <span class="caret"></span></button>
+        <ul class="dropdown-menu shape-well" role="menu">
+            <li class="btn-group btn-group-sm" style="margin: 0px 2px;">
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'IXPOI':'active'}[featureOperator]" ng-controller="addPoiCtrl" ng-click="addPoi('IXPOI')">兴趣点</button>
+                <button type="button" class="btn btx-xs btn-feat" ng-class="{'ADADMIN':'active'}[featureOperator]" ng-controller="addShapeCtrl" ng-click="addShape('ADADMIN')">行政区划代表点</button>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div ng-controller="restaurantCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>信用卡类型</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in creditCard" ng-if="key == 0" style="color: greenyellow;">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
+                            </label>
+                            <label ng-repeat="(key, value) in creditCard" ng-if="key != 0">
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>停车信息</label>
+                        <div>
+                            <select class="fm-control" ng-model="poi.restaurants[0].parking"
+                                    ng-options="value.id as value.label for value in parkingOptions"
+                                    >
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>人均消费</label>
+                        <div><input type="number" class="fm-control" min="0" ng-model="poi.restaurants[0].avgCost"/></div>
+                    </li>
+                    <li>
+                        <label>营业时间</label>
+                        <div><input type="text" class="fm-control" ng-model="poi.restaurants[0].openHour"/></div>
+                    </li>
+                    <li>
+                        <label>菜品风味</label>
+                        <div class="block">
+                            <div style="border-bottom: 1px solid gray;width:100%;padding-left:4px;">
+                                <label ng-repeat="(key, value) in foodType1Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key == 2016 || key == 1001 || key == 3009 || key == 3015" class="fm-specialopt">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
+                                </label>
+                                <label ng-repeat="(key, value) in foodType1Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key != 2016 && key != 1001 && key != 3009 && key != 3015">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
+                                </label>
+                            </div>
+                            <br>
+                            <div style="margin-top: 10px;padding-left:4px;">
+                                <label ng-repeat="(key, value) in foodType2Obj" style="font-weight: normal;margin-right: 2px;">
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
