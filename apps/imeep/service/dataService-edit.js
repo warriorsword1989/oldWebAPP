@@ -709,4 +709,27 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+
+    //执行批处理;
+    this.exeOnlinebatch = function(params) {
+        var defer = $q.defer();
+        var param = {
+            subtaskId:34,
+            batchRules:params,
+            batchType:1
+        }
+        ajax.get("edit/batch/run",{
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("执行批处理出错：", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);
