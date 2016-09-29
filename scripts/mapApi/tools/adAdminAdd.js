@@ -11,7 +11,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
      */
     initialize: function (options) {
         var layerCtrl = fastmap.uikit.LayerController();
-        this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
+        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
         this.tiles = this.currentEditLayer.tiles;
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.options = options || {};
@@ -27,7 +27,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('adAdmin'));
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 

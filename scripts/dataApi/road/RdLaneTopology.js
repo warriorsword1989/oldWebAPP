@@ -3,18 +3,22 @@
  */
 fastmap.dataApi.RdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
-        L.setOptions(this, options);
+        // L.setOptions(this, options);
         this.geoLiveType = "RDLANETOPOLOGY";
         this.setAttributeData(data);
     },
 
     setAttributeData: function (data) {
-        this.pid = data["pid"];
+        this.pid = data["pid"] || 0;
         this.busLaneInfo = data["busLaneInfo"] || 0;
         this.connexityPid = data["connexityPid"];
         this.inLaneInfo = data["inLaneInfo"] || 0;
-        this.outLinkPid = data["outLinkPid"];
-        this.reachDir = data["reachDir"] || 0;
+        this.outLinkPid = data["outLinkPid"] || 0;
+        if(data['reachDir'] == '' || data['reachDir'] == 'undefined'){
+          this.reachDir = 0;
+        } else {
+          this.reachDir = data['reachDir'];
+        }
         this.relationshipType = data["relationshipType"] || 1;
         this.vias = [];
         for (var i = 0; i < data["vias"].length; i++) {

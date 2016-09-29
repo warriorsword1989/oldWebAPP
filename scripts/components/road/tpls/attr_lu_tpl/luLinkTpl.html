@@ -1,0 +1,36 @@
+<div class="fm-component" ng-controller="luLinkController">
+    <div class="title">
+        土地利用LinkPID
+        <span class="label label-info">{{luLinkData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="zoneLinkForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                         <li>
+				            <label>种别</label>
+				            <div class="inline">
+				                <label ng-click="addKind()" style="cursor: pointer">编辑</label>
+				            </div>
+
+				        </li>
+                        <li>
+                            <div id="fromOfWRoaddiv" style="width:260px;">
+                                <div ng-repeat="fromitem in showData track by $index" class="checkboxli">
+                                    {{fromitem.label}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号</label>
+                            <div>
+                                <input type="text" class="chosen-disabled" ng-model="luLinkData.meshId" >
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

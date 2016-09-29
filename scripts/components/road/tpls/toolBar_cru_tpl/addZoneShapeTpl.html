@@ -1,0 +1,69 @@
+<style>
+    .addAdNode_false {
+        background: url('../../../images/road//button/dot_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdNode_true {
+        background: url('../../../images/road//button/dot_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdLink_false {
+        background: url('../../../images/road//button/line_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdLink_true {
+        background: url('../../../images/road//button/line_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .addAdFace_false {
+        background: url('../../../images/road//button/adAdFace_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    .addAdFace_true {
+        background: url('../../../images/road//button/adAdFace_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+    #fm-addZoneShapContainer>button:focus{
+        outline: none;
+    }
+    .btn-shape{
+        color: #fff;
+        background-color: #7F7F7F;
+        border: 1px solid #494949;
+    }
+    .btn-shape:hover{
+        border: 1px solid #494949;
+    }
+    .shape-well{
+        min-width: 367px;
+        background-color: #494949;
+        text-align: center;
+        opacity: .9;
+    }
+</style>
+<div id="fm-addZoneShapContainer" ng-controller="addZoneShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
+    <button type="button" class="btn addAdNode_{{classArr[25]}}" ng-click="addZoneShape('zoneNode',25,$event)"
+            title="新增ZONENODE+"></button>
+    <button type="button" class="btn addAdLink_{{classArr[26]}}" ng-click="addZoneShape('zoneLink',26,$event)"
+            title="新增ZONELINE+"></button>
+    <button type="button" class="btn addAdFace_{{classArr[27]}} dropdown-toggle" id="addPolygonZone"
+            data-toggle="dropdown" title="新增ZONEFACE">
+    </button>
+    <ul class="dropdown-menu shape-well" role="menu">
+        <div class="btn-group btn-group-sm" style="float: none;">
+            <button type="button" class="btn btn-shape" ng-click="addZoneShape('zoneFace',27,$event)">新增面</button>
+            <button type="button" class="btn btn-shape" ng-click="addZoneShape('zoneFaceLine',27,$event)">线构面</button>
+        </div>
+    </ul>
+</div>

@@ -1,0 +1,25 @@
+<div ng-controller="mapToolbarCtrl">
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape-cap" ng-class="{true:'active'}[selectBtnOpened]" ng-click="toggleSelectBtn()" ng-bind="selectBtnOpened?'收起《':'选择 》'"></button>
+        <div ng-include="selectShapeTpl" ng-if="selectBtnOpened" class="btn-group">
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape-cap" ng-class="{true:'active'}[addBtnOpened]" ng-click="toggleAddBtn()" ng-bind="addBtnOpened?'收起《':'新增 》'"></button>
+        <div ng-include="addShapeTpl" ng-if="addBtnOpened" class="btn-group">
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape-cap" ng-class="{true:'active'}[advanceBtnOpened]" ng-click="toggleAdvanceBtn()" ng-bind="advanceBtnOpened?'收起《':'高级 》'"></button>
+        <div ng-include="advanceToolsTpl" ng-if="advanceBtnOpened" class="btn-group">
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape" ng-class="{'navigate':'active'}[shapeOperator]" ng-click="clearOperator()"><i class="glyphicon glyphicon-hand-up"></i></button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-xs btn-shape-cap" ng-class="{true:'active'}[specialOperAdvanceBtnOpened]" ng-click="togglEspecialOperAdvanceBtn()" ng-bind="specialOperAdvanceBtnOpened?'收起《':'专项 作业》'"></button>
+        <div ng-include="specialOperAdvanceToolsTpl" ng-if="specialOperAdvanceBtnOpened" class="btn-group">
+        </div>
+    </div>
+</div>

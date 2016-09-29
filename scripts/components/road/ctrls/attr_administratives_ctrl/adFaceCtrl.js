@@ -1,13 +1,13 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-var adFaceApp = angular.module("mapApp");
-adFaceApp.controller("adFaceController",function($scope) {
+var adFaceApp = angular.module("app");
+adFaceApp.controller("adFaceController",["$scope","dsEdit" , function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var adFace = layerCtrl.getLayerById("adface");
+    var adFace = layerCtrl.getLayerById("adFace");
     var outputCtrl = fastmap.uikit.OutPutController({});
     //初始化
     $scope.initializeData = function(){
@@ -18,12 +18,12 @@ adFaceApp.controller("adFaceController",function($scope) {
             $scope.adFaceForm.$setPristine();
         }
 
-        //高亮adface
+        //高亮adFace
         var highLightFeatures=[];
         highLightFeatures.push({
             id:$scope.adFaceData.pid.toString(),
-            layerid:'adface',
-            type:'adface',
+            layerid:'adFace',
+            type:'adFace',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -33,49 +33,49 @@ adFaceApp.controller("adFaceController",function($scope) {
     if(objCtrl.data) {
         $scope.initializeData();
     }
-    $scope.save = function(){
+    /*admin面批处理*/
+    $scope.batchAdminID = function(typeParam){
+        var tempRuleId = '';
+        switch (typeParam){
+            case 'addAdminId':
+                tempRuleId = "BATCHREGIONIDRDLINK";
+                break;
+            case 'addAdminIdToPoi':
+                tempRuleId = "BATCHREGIONIDPOI";
+                break
+        }
+        $scope.$emit('showFullLoadingOrNot',true);
+        var param = {};
+        param.pid = $scope.adFaceData.pid;
+        param.ruleId = tempRuleId;
+        dsEdit.PolygonBatchWork(param).then(function(data){
+            if(typeof data=='string'){
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("不存在需要批处理的数据", data, "warning");
+            }else{
+                $scope.$emit('showFullLoadingOrNot',false);
+                swal("批处理成功：", '处理了'+data.log.length+'条数据', "success");
+            }
+        })
+    }
 
+    $scope.save = function(){
+        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
     };
 
     //删除
     $scope.delete = function(){
-        var objId = parseInt($scope.adFaceData.pid);
-        var param = {
-            "command": "DELETE",
-            "type":"ADFACE",
-            "projectId": Application.projectid,
-            "objId": objId
-        }
-        //删除调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            adFace.redraw();//重绘
-            //返回正确时解析数据
-            if (data.errcode==0) {
-                var sInfo={
-                    "op":"删除行政区划面成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
+        dsEdit.delete($scope.adFaceData.pid, "ADFACE").then(function(data) {
+            if (data) {
+                adFace.redraw();//重绘
+                $scope.adFaceData = null;
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                var editorLayer = layerCtrl.getLayerById("edit");
+                editorLayer.clear();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
-            if(info!=null){
-                //显示到output输出窗口
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
-            }
-
-        })
+        });
     };
     $scope.cancel = function(){
 
@@ -85,4 +85,4 @@ adFaceApp.controller("adFaceController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}])

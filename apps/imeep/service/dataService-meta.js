@@ -15,7 +15,6 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
     this.getMediumKind = function() {
         var defer = $q.defer();
         ajax.get("metadata/queryMediumKind/", {
-            region: 0
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
@@ -58,6 +57,39 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    //根据分类和品牌获取等级
+    this.getChainLevel = function(kindCode,chainCode) {
+        var defer = $q.defer();
+        ajax.get("metadata/chainLevel/", {
+            parameter: JSON.stringify({
+                kindCode:kindCode,
+                chainCode:chainCode
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取等级出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
+    //根据区号查询电话号码长度
+    this.queryTelLength = function (code){
+        var defer = $q.defer();
+        ajax.get("metadata/queryTelLength/", {
+            parameter: JSON.stringify({
+                code:code
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取电话长度出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
     this.getFocus = function() {
         var defer = $q.defer();
         ajax.get("metadata/queryFocus/", {}).success(function(data) {
@@ -84,7 +116,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             }
         }).error(function(rejection) {
             defer.reject(rejection);
-        })
+        });
         return defer.promise;
     };
     /*****************-------------------------------道路相关----------------------------************************/
@@ -155,4 +187,152 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    /***
+     * 获取道路名数据列表
+     */
+    this.roadNameList = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/websearch", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询道路名列表出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 获取道路名数据列表
+     */
+    this.columnDataList = function(params) {
+        var defer = $q.defer();
+        ajax.getLocalJson("../colEditor/test.json", {}).success(function(data) {
+            defer.resolve(data);
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名称类型查询
+     */
+    this.nametypeList = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/nametype", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询道路名类型列表出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名行政区划查询
+     */
+    this.adminareaList = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/adminarea", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询道路名行政区划列表出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 中文转拼音
+     */
+    this.convert = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/pinyin/convert", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("中文转拼音出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名称保存
+     */
+    this.roadNameSave = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/websave", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("道路名称保存出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名组下英文/葡文检查
+     */
+    this.rdnameGroup = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/group", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("道路名组下英文/葡文检查出错：", data.errmsg, "error");
+                defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /***
+     * 道路名拆分
+     */
+    this.rdnameSplit = function(params) {
+        var defer = $q.defer();
+        ajax.get("metadata/rdname/webteilen", {
+        	parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+            	data = 1;
+                defer.resolve(data);
+            } else {
+            	data = 0;
+                swal("道路名拆分出错：", data.errmsg, "error");
+                defer.resolve(data);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    
 }]);

@@ -120,6 +120,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Point':
                 drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
+            case 'SpeedLimit':
+                drawPoint(currentGeo.components[0], {color: 'red', radius: 3}, false);
+                break;
             case'Polygon':
                 drawPolygon(currentGeo, {color: 'red', outline: 3}, false);
                 break;
@@ -138,7 +141,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Buffer':
                 drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
                 break;
-            case 'Poi':
+            case 'IXPOI':
                 drawPoiAndLink(currentGeo.components,{color: 'blue', size: 2}, self);
                 break;
         }

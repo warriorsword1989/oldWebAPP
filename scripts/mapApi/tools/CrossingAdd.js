@@ -117,9 +117,11 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         //var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
         var dataOfRectangle = [];
         for(var i = 0; i<this.boxLayers.length; i++){
-        	if(this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles).length>0){
-        		dataOfRectangle = dataOfRectangle.concat(this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles));
-        	};
+            var middleArr = this._getDataOfRectangle(rectangle, this.boxLayers[i].tiles);
+        	if(middleArr.length>0){
+        		dataOfRectangle = dataOfRectangle.concat(middleArr);
+        	}
+
         }
 //        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
 
@@ -139,7 +141,6 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         return re;
     },
     _getDataOfRectangle: function (layer, tiles) {
-    	console.log(tiles)
         var points = layer._latlngs, dataOfRectangle = [];
         var transform = new fastmap.mapApi.MecatorTranform();
         var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),

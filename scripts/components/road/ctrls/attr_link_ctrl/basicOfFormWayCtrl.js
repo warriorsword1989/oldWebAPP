@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/5.
  */
-var formOfWayApp = angular.module("mapApp");
+var formOfWayApp = angular.module("app");
 formOfWayApp.controller("formOfWayController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.formsData = objCtrl.data.forms;
@@ -47,6 +47,7 @@ formOfWayApp.controller("formOfWayController",function($scope){
         {"id": "81", "label": "停车位引导道路","isCheck":false},
         {"id": "82", "label": "虚拟提左提右","isCheck":false}
     ];
+
     $scope.noAttributes=true;
     $scope.formOfWayArr = [];
         for(var p in $scope.formsData){

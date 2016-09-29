@@ -1,0 +1,30 @@
+<div class="fm-component" ng-controller="lcNodeController">
+    <div class="title">
+        LC点PID
+        <span class="label label-info" >{{lcNodeData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <from name="lcNodeForm">
+            <div class="fm-panel" >
+                <div class="content">
+					<ul class="fm-ul fm-ul-form">
+		                <li>
+		                    <label>形态</label>
+		                    <div>
+		                        <select  ng-model="lcNodeData.form"
+		                                 ng-options="value.id as value.label for value in form" >
+		                        </select>
+		                    </div>
+		                </li>
+		                <li>
+		                    <label>图幅号</label>
+		                    <div>
+		                        <input type="text" class="chosen-disabled" ng-model="lcNodeData.meshId" >
+		                    </div>
+		                </li>
+		            </ul>
+                </div>
+            </div>
+        </from>
+    </div>
+</div>

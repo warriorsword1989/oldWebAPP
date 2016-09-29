@@ -27,7 +27,7 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.eventController = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
-        this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
+        this.currentEditLayer = layerCtrl.getLayerById('rdLink');
         this.tiles = this.currentEditLayer.tiles;
     },
 

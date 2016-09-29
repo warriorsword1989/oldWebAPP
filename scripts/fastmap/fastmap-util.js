@@ -40,60 +40,10 @@ FM.Util.extend(FM.Util, {
         // }
         return ret;
     },
-    stringToJson: function(str) {
-        var ret = str;
-        try {
-            ret = JSON.parse(str);
-        } catch (e) {
-            try {
-                ret = JSON.parse(str.replace(/\\"/g, '"'));
-            } catch (e) {
-                try {
-                    ret = JSON.parse(str.replace(/'/g, '"'));
-                } catch (e) {
-                    ret = str;
-                }
-            }
-        }
-        return ret;
-    },
-    dateFormat: function(str) {
-        var ret;
-        if (str.length < 14) {
-            ret = str;
-        } else { // yyyy-mm-dd hh:mi:ss
-            ret = str.substr(0, 4) + "-" + str.substr(4, 2) + "-" + str.substr(6, 2) + " " + str.substr(8, 2) + ":" + str.substr(10, 2) + ":" + str.substr(12, 2);
-        }
-        return ret;
-    },
     isEmptyObject: function(obj) {
         for (var key in obj) {
             return false;
         }
         return true;
-    },
-    setCheckboxMutex: function(event,obj,rejectVal) {
-        if (event.target.value == rejectVal) {
-            if (event.target.checked) {
-                for (var key in obj) {
-                    if (key != rejectVal) {
-                        obj[key] = false;
-                    }
-                }
-            }
-        } else {
-            if (event.target.checked) {
-                obj[rejectVal] = false;
-            }
-        }
-    },
-    setCheckBoxSingleCheck : function(event,obj){
-        if(event.target.checked){
-            for(var key in obj){
-                if(key != event.target.value){
-                    obj[key] = false;
-                }
-            }
-        }
     }
 });

@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function($http, $q, ajax) {
+angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput", function($http, $q, ajax,dsOutput) {
     /***
      * 根据getStats接口获取相关数据
      * @param stage 1：待作业；3：已作业
@@ -30,6 +30,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
         var params = {
             "grids": App.Temp.gridList,
             "stage": stage,
+            "mdFlag":App.Temp.mdFlag,
             "type": type,
             "dbId": App.Temp.dbId
         };
@@ -74,13 +75,52 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax", function(
      */
     this.changeDataTipsState = function(param) {
         var defer = $q.defer();
-        ajax.get("/fcc/tip/edit", {
+        ajax.get("fcc/tip/edit", {
             parameter: param
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data.data);
+                dsOutput.push({
+                    "op": "Tips状态修改成功",
+                    "type": "succ",
+                    "pid": "0",
+                    "childPid": ""
+                });
+                swal("Tips状态修改成功", "", "success");
+                defer.resolve(1);
             } else {
-                swal("查询数据出错：", data.errmsg, "error");
+                dsOutput.push({
+                    "op": "Tips状态修改出错：" + data.errmsg,
+                    "type": "fail",
+                    "pid": data.errcode,
+                    "childPid": ""
+                });
+                swal("Tips状态修改出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*自动录入*/
+    this.runAutomaticInput = function(types) {
+        var defer = $q.defer();
+        var params = {
+            'jobType':'niRobot',
+            'request':{
+                "grids": App.Temp.gridList,
+                "targetDbId":App.Temp.dbId,
+                "type":types
+            },
+            'descp':''
+        };
+        ajax.get("job/create/", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode === 0) {
+                defer.resolve(data);
+            } else {
+                swal("创建Job出错：", data.errmsg, "error");
                 defer.resolve(-1);
             }
         }).error(function(rejection) {

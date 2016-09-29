@@ -6,7 +6,7 @@
  * validType == 2 在不合法时输入框标红并提示错误信息;
  * validType == 3 在提交时统一显示错误信息;
  */
-angular.module('fastmap.uikit').directive('login', function() {
+angular.module('fastmap.uikit').directive('login', function($timeout) {
     return {
         restrict: 'EA',
         replace: true,
@@ -24,7 +24,8 @@ angular.module('fastmap.uikit').directive('login', function() {
                 }
                 $scope.$emit("startLogin", {
                     userName: $scope.username,
-                    password: $scope.pwd
+                    password: $scope.pwd,
+                    remember: $scope.rememberMe
                 });
             }
         },

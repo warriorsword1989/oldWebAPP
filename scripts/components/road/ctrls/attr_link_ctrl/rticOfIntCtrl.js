@@ -1,8 +1,8 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("mapApp");
-oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
+var oridinaryInfoApp = angular.module("app");
+oridinaryInfoApp.controller("oridinaryRticsController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -41,15 +41,13 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
         }
     }
 
-
-
     $scope.changeRank=function(){
         if($scope.oridiData.rank==0){
             swal("", "RTIC等级不能为无，请选择RTIC等级", "");
         }else if($scope.rank!=1&&$scope.oridiData.rank==1){
             swal("", "RTIC等级不能正确，请选择RTIC等级", "");
         }
-    }
+    };
 
     $scope.changeDirect = function (direct) {
         map.currentTool.disable();
@@ -92,38 +90,29 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
 
     };
 
-    if($scope.realtimeData.direct!=1){
-        if($scope.oridiData) {
-            if($scope.realtimeData.direct==3){
-                $scope.oridiData.rticDr = 2;
-                $scope.changeDirect(2);
-            }else if($scope.realtimeData.direct==2){
-                $scope.oridiData.rticDr = 1;
-                $scope.changeDirect(1);
-            }
-
-        }
-
-    }else{
-        if($scope.oridiData){
-            $scope.oridiData.rticDr=1;
-            $scope.changeDirect(1);
-        }
-
-    }
-
+    // if($scope.realtimeData.direct!=1){
+    //     if($scope.oridiData) {
+    //         if($scope.realtimeData.direct==3){
+    //             $scope.oridiData.rticDr = 2;
+    //             $scope.changeDirect(2);
+    //         }else if($scope.realtimeData.direct==2){
+    //             $scope.oridiData.rticDr = 1;
+    //             $scope.changeDirect(1);
+    //         }
+    //
+    //     }
+    //
+    // }else{
+    //     if($scope.oridiData){
+    //         $scope.oridiData.rticDr=1;
+    //         $scope.changeDirect(1);
+    //     }
+    //
+    // }
     //添加新的RTIC代码
     $scope.addRticCode=function(){
-        var param = {
-            "type": "rtic"
-        };
-        Application.functions.getIntRticRank(JSON.stringify(param), function (data) {
-            if (data.errcode == 0) {
-                $scope.oridiData.code=data.data;
-                $scope.$apply();
-            }
+        dsEdit.applyPid("rtic").then(function (data) {
+            $scope.oridiData.code=data.data;
         });
-    }
-
-
-})
+    };
+}]);

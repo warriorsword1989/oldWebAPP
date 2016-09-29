@@ -2,49 +2,58 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>FastMap设施编辑系统</title>
-        <link href="../../../favicon.ico" rel="icon" type="image/x-icon" />
+        <title>FastMap一体化编辑平台</title>
+        <link href="../../../images/favicon.ico" rel="icon" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor-road.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/imeep/animate.min.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/z-tree/css/zTreeStyle.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/timepicki/css/timepicki.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-datepicker/css/datepicker3.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/srs/srs.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+        <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
+        <script src="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
-        <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
-        <script type="text/javascript" src="../../../scripts/dataApi/dataApi-new.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataApi-poi.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataApi-road.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>
         <script type="text/javascript" src="../../../scripts/utils/Utils.js"></script>
         <script src="loadMapApi.js"></script>
         <script src="loadUikit.js"></script>
-        <script src="loadCanvasFeature.js"></script>
     </head>
     <body ng-controller="EditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="40px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">
-                        <a><i title="成果" class="glyphicon glyphicon-home"></i></a>
+                        <a tooltip-class="subTooltip" uib-tooltip="成　果" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true><i title="成果" class="glyphicon glyphicon-home"></i></a>
+                        <div ng-if="selectedTool == 1" class="fill-azure pin-left"></div>
                     </div>
                     <div ng-class="{2:'selected'}[selectedTool]" ng-click="changeEditTool('scenePanel')">
-                        <a><i title="场景" class="glyphicon glyphicon-facetime-video"></i></a>
+                        <a tooltip-class="subTooltip" uib-tooltip="场　景" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true><i title="场景" class="glyphicon glyphicon-facetime-video"></i></a>
+                        <div ng-if="selectedTool == 2" class="fill-azure pin-left"></div>
                     </div>
                 </div>
                 <div class="banner-bottom">
                     <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
-                    <div><a><i title="退出" class="glyphicon glyphicon-log-out"></i></a></div>
+                    <div><a href="javascript:void(0);" ng-click="goback()"><i title="返回" class="glyphicon glyphicon-log-out"></i></a></div>
                 </div>
             </div>
             <div ui-layout-container>
                 <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-                    <div ui-layout-container class="fm-container fm-col dark scroll-styled animated fadeInLeft" size="250px">
+                    <div ui-layout-container class="fm-container fm-col animated fadeInLeft" size="250px">
                         <div class="fm-tabs" ng-if="showTab" style="padding:0px;">
                             <a href="#" class="tab col-sm-6" ng-class="{1:'active'}[projectType]" ng-click="changeProject(1)">POI作业</a>
                             <a href="#" class="tab col-sm-6" ng-class="{2:'active'}[projectType]" ng-click="changeProject(2)">道路作业</a>
@@ -55,31 +64,27 @@
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
-                        <div ui-layout="{flow:'row',dividerSize:'0'}">
-                            <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;">
+                        <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
+                            <div class="div-float map-toolbar" ng-style="{top:'0px',left:'100px'}">
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search');leftDis='30%';rightDis='30%'">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto');leftDis='28%';rightDis='28%'">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
+                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch');leftDis='15%';rightDis='15%'">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
                             </div>
-                            <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
-                                <div class="btn-toolbar" style="margin-left: 0px">
-                                    <div ng-include="selectShapeURL" style="float: left"></div>
-                                    <div ng-include="selectPoiURL" style="float: left"></div>
-                                    <div ng-include="addPoiURL" style="float: left;"></div>
-                                    <div ng-include="addShapeURL" style="float: left;"></div>
-                                    <div ng-include="modifyToolURL" style="float: left"></div>
-                                    <div ng-include="selectAdShapeURL" style="float: left"></div>
-                                    <div ng-include="addAdShapeURL" style="float: left;"></div>
-                                    <div ng-include="selectRwShapeURL" style="float: left"></div>
-                                    <div ng-include="addRwShapeURL" style="float: left"></div>
-                                </div>
-                            </div>
-                            <div id="zoomLevelBar" class="div_float"></div>
+                            <div ng-include="mapToolbar" class="div-float map-toolbar" ng-style="{top:'0px',left:'290px'}"></div>
+                            <!-- <div ng-include="specialOperationToolbar" class="div-float map-toolbar" style="top:0px;left:580px;"></div> -->
+                            <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
+                        </div>
+                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{top:'80px',left:leftDis,right:rightDis,borderRadius:'5px'}">
+                            <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
+                            <div ng-include="advancedToolPanelTpl"></div>
                         </div>
                         <!--右侧属性编辑面板-->
-                        <div class="fm-foldable fm-col" style="width: 315px;" ng-style="{'right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">
+                        <div class="fm-foldable fm-col" ng-style="{top:'0px',width: '315px','right':{true: '0px', false: '-300px', 'none': '-315px'}[editorPanelOpened]}">
                             <div class="fm-fold-btn">
                                 <a href="#" ng-class="{true: 'arrow-right', false: 'arrow-left'}[editorPanelOpened]" ng-click="editorPanelOpened=!editorPanelOpened">
                                 </a>
                             </div>
-                            <div class="fm-container fm-col" style="width:300px;">
+                            <div ng-cloak class="fm-container fm-col"  ng-style="{width: '300px'}">
                                 <div ng-include="attrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="bottom: 25px;"></div>
                                 <div style="bottom: 0px;position:absolute;width: 100%;">
                                     <div class="btn-group btn-group-justified fm-btn-group">
@@ -103,23 +108,34 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div class="fm-container fm-col" style="width:300px;right:301px;" ng-style="{display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px','z-index':2,display: {true: 'block', false:'none'}[suspendPanelOpened]}">
                             <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
                                 </button>
                             </div>
-                            <div  ng-include="subAttrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="top: 32px;padding: 0px 5px;">
+                            <div  ng-include="subAttrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="top: 32px;padding: 0px 0px;">
                             </div>
                         </div>
                         <!--下方输出信息面板-->
-                        <div class="fm-foldable fm-row" style="height: 255px;left: 5px;width: auto;" ng-style="{'bottom':{true: '0px', false: '-240px'}[consolePanelOpened], right: {true: '305px', false: '5px', 'none': '5px'}[editorPanelOpened]}">
+                        <div class="fm-foldable fm-row" style="height:255px;left:2px;width:auto;" ng-style="{'bottom':{true: '0px', false: '-240px'}[consolePanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
                             <div class="fm-fold-btn">
                                 <a href="#" ng-class="{true: 'arrow-down', false: 'arrow-up'}[consolePanelOpened]" ng-click="consolePanelOpened=!consolePanelOpened">
                                 </a>
                             </div>
                             <div class="fm-container fm-row" style="height:240px;">
                                 <div ng-include="consoleDeskTpl"></div>
+                            </div>
+                        </div>
+                        <!--上方输出信息面板-->
+                        <div class="fm-foldable fm-row" style="height:100%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                            <div class="fm-container fm-row" style="height:100%;">
+                                <div ng-include="specialWorkPanelTpl"></div>
+                            </div>
+                        </div>
+                        <div class="fm-foldable fm-row" style="height:90%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                            <div class="fm-container fm-row" style="height:100%;">
+                                <div ng-include="rdLaneTopoPanelTpl"></div>
                             </div>
                         </div>
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
@@ -137,6 +153,7 @@
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
         </div>
+
         <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
         <div id="dataTipsOriginModal" style="display:none">
             <div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
@@ -144,7 +161,22 @@
         <div id="dataTipsVideoModal" style="display:none">
             <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>
         </div>
-        <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();"><img src=""></div>
-        <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
+        <!-- <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();"><img src=""></div> -->
+        <!-- logMsg提示 -->
+        <div class="log-message-container" ng-style="logMsgStyle">
+          <div class="log-message animated-fast fadeInLeft" ng-repeat="msg in logMessage">
+            {{msg.value}}
+            <div class="log-message-remove" ng-click="msg.remove(msg);">
+              <i class="glyphicon glyphicon-remove-sign"></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div style="position:absolute;left:0;bottom:0;width:40px;height:40px;background-color:red;" ng-click="addLogMsg();"></div> -->
+        <!-- 统一关系 -->
+        <div ng-include="sameRelationShapTplContainer"></div>
+
+        <script>
+            document.write('<scri' + 'pt data-main="editor-require" src="../../../scripts/libs/require/require.js?' + new Date().getTime() + '" type="text/javascript"></s' + 'cript>');
+        </script>
     </body>
 </html>

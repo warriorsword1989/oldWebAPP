@@ -1,0 +1,25 @@
+<div ng-controller="SamePoiController">
+    <div ng-class="{true:'divMsgBack',false:'divMsgHide'}[same.sameTplShow]"></div>
+    <div ng-class="{true:'divMsg',false:'divMsgHide'}[same.sameTplShow]">
+        <div>框选区域内POI：</div>
+        <div class="content">
+            <div class="fm-fitsize scroll-styled">
+                <table ng-if="true" class="table">
+                    <tbody>
+                    <tr ng-repeat="node in same.sameNameList">
+                        <td >{{$index+1}}</td>
+                        <td class="tdWidthText">{{node.name}}</td>
+                        <td class="tdWidthLable"><label class="label label-primary">{{node.kindName}}</label> </td>
+                        <td > <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: left;cursor:pointer;" ng-click="minusSamePoi($index)"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-sm btn-lev" ng-click="saveSame();">创 建</button>
+            <button type="button" class="btn btn-sm btn-lev" ng-click="clearSame();">取 消</button>
+        </div>
+    </div>
+</div>

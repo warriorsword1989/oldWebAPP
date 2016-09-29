@@ -1,9 +1,8 @@
 angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutput", function($http, $q, ajax, dsOutput) {
     /**
      * 根据pid获取要素详细属性
-     * @param id
-     * @param type
-     * @param detailId
+     * @param id     要素PID
+     * @param type   要素类型
      */
     this.getByPid = function(pid, type) {
         var defer = $q.defer();
@@ -28,9 +27,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     /**
      * 根据道路id获得分歧的详细属性(branchType = 0、1、2、3、4、6、8、9)
-     * @param id
-     * @param type
-     * @param func
+     * @param detailId     分歧的DetailId
+     * @param branchType   分歧类型
      */
     this.getBranchByDetailId = function(detailId, branchType) {
         var defer = $q.defer();
@@ -45,6 +43,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
+                data.data['branchType'] = branchType;
                 defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
@@ -57,9 +56,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     /**
      * 根据道路id获得分歧的详细属性(branchType = 5、7)
-     * @param id
-     * @param type
-     * @param func
+     * @param rowId        分歧的rowId
+     * @param branchType   分歧类型
      */
     this.getBranchByRowId = function(rowId, branchType) {
         var defer = $q.defer();
@@ -74,37 +72,11 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
+                data.data['branchType'] = branchType;
                 defer.resolve(data.data);
             } else {
                 swal("查询分歧数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    };
-    /**
-     * 根据detailId获取要素详细属性
-     * @param id
-     * @param type
-     * @param func
-     */
-    this.getByDetailId = function(detailId, type) {
-        var defer = $q.defer();
-        var params = {
-            "dbId": App.Temp.dbId,
-            "type": type,
-            "detailId": detailId
-        };
-        ajax.get("edit/getByPid", {
-            parameter: JSON.stringify(params)
-        }).success(function(data) {
-            if (data.errcode == 0) {
-                defer.resolve(data);
-            } else {
-                swal("根据DetailId查询" + type + "数据出错：", data.errmsg, "error");
-                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -130,10 +102,29 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+    /***
+     * 消息推送
+     */
+    this.getMsgNotify = function() {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/unread/get", {
+            parameter: ''
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else {
+                swal("消息推送查询出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /*获取poi列表*/
     this.getPoiList = function(params) {
         var defer = $q.defer();
-        ajax.get("edit/poi/base/list", {
+        ajax.get("editrow/poi/base/list", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
@@ -141,6 +132,82 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             } else {
                 swal("查询POI列表出错：", data.errmsg, "error");
                 defer.resolve([]);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //获取检查结果
+    this.getCheckData = function(num) {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            pageNum: num,
+            pageSize: 5,
+            grids: App.Temp.gridList
+        };
+        ajax.get("edit/check/get", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查找检查结果信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*获取检查结果条数*/
+    this.getCheckDataCount = function() {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            grids: App.Temp.gridList
+        };
+        ajax.get("edit/check/count", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查找检查结果条数出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //获取检查状态
+    this.updateCheckType = function(id, type) {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            type: type,
+            id: id
+        };
+        ajax.get("edit/check/update", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+                dsOutput.push({
+                    "op": "修改 pid 为 " + id + " 的数据状态操作成功",
+                    "type": "succ",
+                    "pid": "0",
+                    "childPid": ""
+                });
+            } else {
+                dsOutput.push({
+                    "op": "修改 pid 为 " + id + " 的数据状态操作失败，失败原因：" + data.errmsg,
+                    "type": "fail",
+                    "pid": "0",
+                    "childPid": ""
+                });
+                swal("获取检查状态出错：", data.errmsg, "error");
+                defer.resolve("获取检查状态出错：" + data.errmsg);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -169,20 +236,71 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "type": type,
             "objId": pid,
             "data": data
-        }
+        };
         return this.save(param);
     };
-    /***
-     * 删除对象
+    /**
+     * 删除要素
+     * @param pid          要素PID
+     * @param branchType   要素类型
+     * @param infect       前检查标识，为1时表示要进行删除前的检查，确认要执行删除操作后，再执行具体的删除操作；
+                           不传或为0时表示直接执行删除操作
      */
-    this.delete = function(pid, type) {
+    this.delete = function(pid, type, infect) {
         var param = {
             "command": "DELETE",
             "dbId": App.Temp.dbId,
             "type": type,
             "objId": pid
+        };
+        if (infect) {
+            var that = this;
+            var defer = $q.defer();
+            param.infect = infect;
+            this.save(param).then(function(data) {
+                if (data) {
+                    var test = data.result;
+                    var html = [],
+                        temp;
+                    html.push("<div style='max-height:200px;overflow:auto;'>");
+                    for (var key in test) {
+                        html.push("<p style='text-align:left;font-weight:bold;'>" + key + "：</p>");
+                        temp = test[key];
+                        html.push("<ul style='text-align:left;padding:5px 25px;margin:0px;list-style-type:decimal;'>");
+                        for (var i = 0; i < temp.length; i++) {
+                            html.push("<li>" + temp[i].objType + "|" + temp[i].pid + "|" + temp[i].status + "</li>");
+                        }
+                        html.push("</ul>");
+                    }
+                    html.push("</div>");
+                    setTimeout(function(){
+                        swal({
+                            title: "以下操作将会执行，是否继续？",
+                            text: html.join(''),
+                            html: true,
+                            showCancelButton: true,
+                            allowEscapeKey: false,
+                            confirmButtonText: "是的，我要删除",
+                            confirmButtonColor: "#ec6c62"
+                        }, function(f) {
+                            if (f) { // 执行删除操作
+                                delete param.infect; // 去掉检查标识，执行删除操作
+                                that.save(param).then(function(data) {
+                                    defer.resolve(data);
+                                });
+                            } else { // 取消删除
+                                defer.resolve(null);
+                            }
+                        });
+                    },1000)
+                } else { // 服务端返回错误信息，结束执行
+                    defer.resolve(null);
+                }
+            });
+            return defer.promise;
+        } else {
+            return this.save(param);
         }
-        return this.save(param);
     };
     /**
      * 根据道路rowId获得分歧的详细属性(branchType = 5、7)
@@ -220,7 +338,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     };
     /***
      * 移动点要素位置
-     * 适用于rdnode，adnode，poi等
+     * 适用于rdnode，adNode，poi等
      */
     this.move = function(pid, type, data) {
         var param = {
@@ -244,6 +362,20 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "objId": pid,
             "data": data
         }
+        return this.save(param);
+    };
+    /***
+     * 打断link
+     * 适用于rdlink、adlink等
+     */
+    this.break = function(pid, type, data) {
+        var param = {
+            "command": "BREAK",
+            "dbId": App.Temp.dbId,
+            "type": type,
+            "objId": pid,
+            "data": data
+        };
         return this.save(param);
     };
     /***
@@ -284,7 +416,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         return this.save(param);
     };
-    this.updateTopo = function(pid, type, data){
+    this.updateTopo = function(pid, type, data) {
         var param = {
             "command": "UPDATETOPO",
             "dbId": App.Temp.dbId,
@@ -293,7 +425,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "data": data
         }
         return this.save(param);
-    }
+    };
     /***
      * 属性和几何编辑相关 editGeometryOrProperty
      * @param param
@@ -302,42 +434,74 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
     this.save = function(param) {
         var opDesc = {
             "CREATE": "创建" + [param.type],
+            "UPDOWNDEPART": "创建上下线分离",
+            "BREAK": "打断" + [param.type],
             "UPDATE": "更新" + [param.type] + "属性",
             "DELETE": "删除" + [param.type],
             "MOVE": "移动" + [param.type] + "点位",
+            "BATCH": "批量操作" + [param.type],
             "REPAIR": [param.type] + "修形",
             "CREATEPARENT": "POI增加父",
             "UPDATEPARENT": "POI更新父",
             "DELETEPARENT": "POI解除父",
-            "UPDATETOPO":"更新"+[param.type]+"拓扑"
+            "UPDATETOPO": "更新" + [param.type] + "拓扑"
         }[param.command];
-        if(param.command==='UPDATETOPO'){
-            param.command='UPDATE'
+        if (param.type == "IXPOI" && param.data) { //poi属性不修改也可进行保存，所以需要进行特殊处理
+            var keys = Object.keys(param.data);
+            if (keys.length == 3 && param.data["rowId"] && param.data["objStatus"] && param.data["pid"]) {
+                opDesc = param.type;
+            }
+        }
+        if (param.command === 'UPDATETOPO') {
+            param.command = 'UPDATE'
+        }
+        var defer = $q.defer();
+        var url = "edit/run/";
+        if (param.type == "IXPOI") {
+            url = "editrow/run/";
         }
         param = JSON.stringify(param);
-        var defer = $q.defer();
-        ajax.get("edit/run/", {
-            parameter: param.replace(/\+/g, '%2B')
+        ajax.get(url, {
+            parameter: param //.replace(/\+/g, '%2B')
         }).success(function(data) {
-            if (data.errcode == 0) {
+            if (data.errcode == 0) { // 操作成功
+                dsOutput.pushAll(data.data.log);
                 dsOutput.push({
                     "op": opDesc + "操作成功",
                     "type": "succ",
                     "pid": "0",
                     "childPid": ""
                 });
-                dsOutput.pushAll(data.data.log);
-                swal(opDesc + "操作成功", "", "success");
+                // swal(opDesc + "操作成功", "", "success");
+                swal({
+                    title: opDesc + "操作成功",
+                    type: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    allowEscapeKey: false
+                }, function() {
+                    swal.close();
+                    defer.resolve(data.data);
+                });
+            } else if (data.errcode == 999) { // 删除前的检查返回的确认信息
                 defer.resolve(data.data);
-            } else {
+            } else if (data.errcode < 0) { // 操作失败
                 dsOutput.push({
                     "op": opDesc + "操作出错：" + data.errmsg,
                     "type": "fail",
                     "pid": data.errcode,
                     "childPid": ""
                 });
-                swal(opDesc + "操作出错：", data.errmsg, "error");
-                defer.resolve(null);
+                //swal(opDesc + "操作出错：", data.errmsg, "error");
+                swal({
+                    title: opDesc + "操作出错：" + data.errmsg,
+                    type: "error",
+                    // timer: 2000,
+                    // showConfirmButton: false,
+                    allowEscapeKey: false
+                }, function() {
+                    defer.resolve(null);
+                });
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -359,6 +523,186 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             } else {
                 swal("申请Pid出错：", data.errmsg, "error");
                 defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 执行检查信息
+     * @returns {Promise}
+     */
+    this.runCheck = function(checkType) {
+        var defer = $q.defer();
+        var params = {
+            subtaskId: App.Temp.subTaskId,
+            checkType: checkType //0 poi行编，1poi精编, 2道路
+        };
+        ajax.get("edit/check/run", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("执行检查信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * POI提交接口
+     * @param param
+     * @returns {Promise}
+     */
+    this.submitPoi = function(param) {
+        var defer = $q.defer();
+        ajax.get("editrow/poi/base/release", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                dsOutput.push({
+                    "op": "POI提交操作成功",
+                    "type": "succ",
+                    "pid": "0",
+                    "childPid": ""
+                });
+                defer.resolve(data.data);
+            } else {
+                dsOutput.push({
+                    "op": "POI提交操作失败",
+                    "type": "fail",
+                    "pid": "0",
+                    "childPid": ""
+                });
+                defer.resolve("提交POI出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 创建后台任务
+     * @param jobId
+     * @returns {Promise}
+     */
+    this.createJob = function(jobType, requestParam) {
+        var defer = $q.defer();
+        ajax.get("job/create/", {
+            parameter: JSON.stringify({
+                "jobType": jobType,
+                "request": requestParam
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("创建后台任务失败：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 查询后台任务进度
+     * @param jobId
+     * @returns {Promise}
+     */
+    this.getJobById = function(jobId) {
+        var defer = $q.defer();
+        ajax.get("job/get/", {
+            parameter: JSON.stringify({
+                jobId: jobId
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查看后台任务进度失败：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //搜索
+    this.getSearchData = function(num, sType, content) {
+        var defer = $q.defer();
+        var params = {
+            dbId: App.Temp.dbId,
+            pageNum: num,
+            pageSize: 5,
+            data: {}
+        };
+        if (sType == 'linkPid') {
+            params.type = 'RDLINK';
+        } else if (sType == 'rdName') {
+            sType = 'name';
+            params.type = 'RDLINK';
+        } else if (sType == 'pid') {
+            params.type = 'IXPOI';
+        } else if (sType == 'name') {
+            params.type = 'IXPOI';
+        }
+        params.data[sType] = content;
+        ajax.get("edit/getByElementCondition", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("搜索信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //面批处理;
+    this.PolygonBatchWork = function(params) {
+        var defer = $q.defer();
+        var param = {
+            command: 'ONLINEBATCH',
+            type: 'FACE',
+            dbId: App.Temp.dbId,
+            pid: params.pid,
+            ruleId: params.ruleId
+        }
+        ajax.get("edit/run", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查看后台任务进度失败：", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    //搜索批处理包;
+    this.batchBox = function(params) {
+        var defer = $q.defer();
+        var param = {
+            pageSize:params.pageNumber,
+            pageNum:params.currentPage,
+            type:params.batchType
+        }
+        ajax.get("edit/batch/getBatchRules",{
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("搜索信批处理包出错：" + data.errmsg);
             }
         }).error(function(rejection) {
             defer.reject(rejection);

@@ -1,0 +1,95 @@
+<div ng-controller="warningInfoCtl">
+    <div class="fm-component" >
+        <div class="title">
+            警示信息PID
+            <span class="label label-info">{{rdWarningInfoObj.pid}}</span>
+        </div>
+        <div style="text-align: center;">
+            <div ng-if="typeCodeImg">
+                <img ng-src="../../../images/road/warningInfo/{{typeCodeImg}}.svg" style="height: 100px;width: 140px;">
+            </div>
+            <div ng-if="!typeCodeImg">
+                <img ng-src="../../../images/road/img/noimg.png" style="height: 100px;width: 140px;">
+            </div>
+        </div>
+        <div class="content">
+            <form name="warningInfoForm">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>进入线</label>
+                        <div >
+                            <input type="text"  class="fm-control chosen-disabled" ng-model="rdWarningInfoObj.linkPid" />
+                        </div>
+                    </li>
+                    <li>
+                        <label>进入点</label>
+                        <div>
+                            <input type="text"  class="fm-control chosen-disabled" ng-model="rdWarningInfoObj.nodePid" />
+                        </div>
+                    </li>
+                    <li>
+                        <label>标牌类型</label>
+                        <div>
+                            <input type="text" class="fm-control" style="width:26%;" ng-model="rdWarningInfoObj.typeCode" ng-keydown="showPicSelect()"/>
+                            <input type="text" class="fm-control chosen-disabled" style="width:60%;" ng-model="temp.typeCodeName" />
+                            <div class="fm-pic-show" ng-show="showImgData" style="display: block;">
+                                <div class="fm-option-hide">
+                                    <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
+                                    </button>
+                                </div>
+                                <div class="fm-pic-show-well">
+                                    <div class="fm-img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.code)">
+                                        <img ng-src="{{picture.src}}" title="{{picture.name}}">
+                                        <div class="img-describe">{{picture.code}}</div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="pull-left num-well">
+                                    第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 |
+                                    共 <span class="pic-total" ng-bind="picTotal">1</span> 页
+                                </div>
+                                <div class="pic-show-btn pull-right">
+                                    <div class="pull-right btn-group">
+                                        <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" ng-disabled="picNowNum == 1">
+                                            <i class="glyphicon glyphicon-menu-left"></i>
+                                        </button>
+                                        <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">
+                                            <i class="glyphicon glyphicon-menu-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="pic-loading" ng-show="showPicLoading" ng-bind="loadText">loading...</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <label>有效距离</label>
+                        <div >
+                            <input type="number" class="fm-control" min="1" max="99999" ng-model="rdWarningInfoObj.validDis"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>预告距离</label>
+                        <div >
+                            <input type="number" class="fm-control" min="1" max="99999"  ng-model="rdWarningInfoObj.warnDis"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>文字说明</label>
+                        <div>
+                            <input type="text"  ng-model="rdWarningInfoObj.descript" >
+                        </div>
+                    </li>
+                    <li>
+                        <div ng-include="dateURL" class="muti-date" data-type="1" style="width:100%;padding: 5px;"></div>
+                    </li>
+                    <li>
+                        <div ng-include="carPopoverURL" data-type="1" style="width:100%;padding: 5px;"></div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+</div>

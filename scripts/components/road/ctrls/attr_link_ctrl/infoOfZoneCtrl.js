@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("mapApp");
+var oridinaryInfoApp = angular.module("app");
 oridinaryInfoApp.controller("zoneInfoController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.zoneData = objCtrl.data;

@@ -1,0 +1,27 @@
+<div class="fm-panel" ng-controller="SearchPanelCtrl" style="margin:0px;">
+    <div class="title">搜 索</div>
+    <div class="content" >
+        <div style="height:150px;">
+            <div class="input-group input-group-sm">
+                <div class="input-group-btn" uib-dropdown>
+                    <button type="button" class="btn btn-main dropdown-toggle" uib-dropdown-toggle>
+                    {{searchType || '搜索项'}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'道路Pid'"><a href="#" class="dropdown-menu-name">道路Pid</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'道路名称'"><a href="#" class="dropdown-menu-name">道路名称</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'POI Pid'"><a href="#" class="dropdown-menu-name">POI Pid</a></li>
+                        <li role="menuitem" ng-model="searchType" uib-btn-radio="'POI名称'"><a href="#" class="dropdown-menu-name">POI名称</a></li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" placeholder="搜 索" ng-keydown="keyDoExecute($event);" ng-model="searchText"/>
+            </div>
+        </div>
+        <div class="progress fm-progress" style="margin:8px;">
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
+        </div>
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">搜 索</button>
+        </div>
+    </div>
+</div>

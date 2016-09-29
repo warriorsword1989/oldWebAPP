@@ -1,43 +1,53 @@
-
-<div id="rdNodediv"  ng-controller="adFaceController" >
-    <div style="height:50px">
-        <form class="form-horizontal" method="get">
-            <div class="panel panel-default " style="background-color: transparent;border:0;">
-                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
-                    行政区划面
-                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adFaceData.pid}}</span>
+<div class="fm-component" ng-controller="adFaceController">
+    <div class="title">
+        行政区划面
+        <span class="label label-info">{{adFaceData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="adFaceForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                           <label>区划号码</label>
+                            <div>
+                                <input type="text" ng-model="adFaceData.regionId" disabled="disabled">
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号</label>
+                            <div>
+                                <input type="text" ng-model="adFaceData.meshId" disabled="disabled">
+                            </div>
+                        </li>
+                        <li>
+                            <label>面积</label>
+                            <div>
+                                <input type="text" ng-model="adFaceData.area" disabled="disabled">&nbsp;㎡
+                            </div>
+                        </li>
+                        <li>
+                            <label>周长</label>
+                            <div>
+                                <input type="text" ng-model="adFaceData.perimeter" disabled="disabled">&nbsp;m
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </form>
+        <div class="fm-panel" style="margin-top: 10px">
+            <div class="content">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>批量处理</label>
+                        <div class="batchButtonGroup">
+                            <a href="#" ng-click="batchAdminID('addAdminId')" class="zocial batchButton" title="为目行政区划内的Link赋 AdminID">赋AdminID（道路）</a>
+                            <a href="#" ng-click="batchAdminID('addAdminIdToPoi')" class="zocial batchButton" title="删除行政区划内的所选要素赋 ZoneID">赋AdminID（合并）</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <form name="adFaceForm">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div ><label class="control-label">区划号码</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="adFaceData.regionId" disabled="disabled">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ><label class="control-label">图幅号</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="adFaceData.meshId" disabled="disabled">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ><label class="control-label">面积</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="adFaceData.area" disabled="disabled" style="width: 140px">
-                <label style="font-size: 18px">&nbsp;㎡</label>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div ><label class="control-label">周长</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="adFaceData.perimeter" disabled="disabled"style="width: 140px">
-                <label style="font-size: 16px">&nbsp;m</label>
-            </div>
-        </li>
-    </ul>
-    </form>
 </div>

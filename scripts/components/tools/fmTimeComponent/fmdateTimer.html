@@ -98,17 +98,20 @@
     .date-title {
         font-size: 12px;
         margin: 2px;
-        color:#FFF;
+        color: #FFF;
     }
 
     .date-head {
         color: #FFF;
         padding: 4px;
+        width: 100%;
     }
-    .date-head a{
+
+    .date-head a {
         color: #FFF;
         text-decoration: inherit;
     }
+
     .date-body {
         color: #FFF;
     }
@@ -124,14 +127,16 @@
         font-size: 19px;
         margin-right: 4px;
     }
+
     .remove-date-list:hover {
         color: #fff;
     }
 
-     .btn-option{
+    .btn-option {
         width: 271px;
         margin-left: -10px;
-    } 
+    }
+
     .select-time {
         background-color: #333 !important;
         border-radius: 0;
@@ -176,10 +181,12 @@
     .full-width {
         width: 100%;
     }
-    .full-width > label{
+
+    .full-width > label {
         background-color: #333;
         color: #FFF;
     }
+
     .time-select > .input-group > .seleted-span-addon {
         background-color: #FFFFFF;
         border: 0;
@@ -274,84 +281,117 @@
         color: #fff;
         border-radius: 0;
     }
-    .date-btn:hover{
-        background-color: rgba(255,255,255,0.7);
+
+    .date-btn:hover {
+        background-color: rgba(255, 255, 255, 0.7);
         color: #333
     }
-    .date-btn:first-child{
+
+    .date-btn:first-child {
         border-left: 0 !important;
     }
-    .date-btn:last-child{
+
+    .date-btn:last-child {
         border-right: 0 !important;
     }
-    .week-group{
+
+    .week-group {
         background-color: #5D5D5D;
-        color: rgba(255,255,255,.5);
+        color: rgba(255, 255, 255, .5);
         border: 0;
         margin: 5px;
         width: 12% !important;
     }
-    .week-group:hover{
+
+    .week-group:hover {
         color: #FFF !important;
-        background-color: rgba(255,255,255,0.25);
+        background-color: rgba(255, 255, 255, 0.25);
     }
-    .week-group.active{
+
+    .week-group.active {
         color: #FFF !important;
-        background-color: hsla(0,0%,20%,1) !important;
+        background-color: hsla(0, 0%, 20%, 1) !important;
         box-shadow: inset 0px 5px 7px rgba(0, 0, 0, .625);
     }
-    .week-group:first-child{
+
+    .week-group:first-child {
         border-top-left-radius: 3px !important;
-        border-bottom-left-radius:3px !important;
+        border-bottom-left-radius: 3px !important;
     }
-    .week-group:last-child{
+
+    .week-group:last-child {
         border-top-right-radius: 3px !important;
-        border-bottom-right-radius:3px !important;
+        border-bottom-right-radius: 3px !important;
     }
-    .cur-time{
+
+    .cur-time {
         background-color: #5D5D5D !important;
-        color: rgba(255,255,255,.5) !important;
+        color: rgba(255, 255, 255, .5) !important;
         border: 0;
         margin: 5px;
         width: 31%;
         font-size: 12px;
     }
-    .cur-time:hover{
+
+    .cur-time:hover {
         color: #FFF !important;
-        background-color: rgba(255,255,255,0.25);
+        background-color: rgba(255, 255, 255, 0.25);
     }
-    .cur-time.active{
+
+    .cur-time.active {
         color: #FFF !important;
-        background-color: hsla(0,0%,20%,1) !important;
+        background-color: hsla(0, 0%, 20%, 1) !important;
         box-shadow: inset 0px 5px 7px rgba(0, 0, 0, .625);
     }
-    .cur-time:first-child{
+
+    .cur-time:first-child {
         border-top-left-radius: 3px !important;
-        border-bottom-left-radius:3px !important;
+        border-bottom-left-radius: 3px !important;
     }
-    .cur-time:last-child{
+
+    .cur-time:last-child {
         border-top-right-radius: 3px !important;
-        border-bottom-right-radius:3px !important;
+        border-bottom-right-radius: 3px !important;
     }
-    .radio-text{
+
+    .radio-text {
         color: #FFF;
         line-height: 1.5;
     }
+
+    .date-switch-type {
+        margin-top: 0;
+    }
+
     /* 选择日期 */
     .datepicker {
-        background-color: #333 !important;
+        background-color: #555 !important;
+        color: #fff !important;
+        padding: 8px;
+    }
+
+    .datepicker-switch {
+        text-align: center;
+    }
+
+    .table-condensed > tfoot > tr > th {
+        text-align: center;
     }
 
     .datepicker thead tr:first-child th:hover, .datepicker tfoot tr th:hover {
-        color: #000;
+        color: #262525;
+        cursor: pointer;
+        text-align: center;
     }
 
     .datepicker table tr td.day:hover, .datepicker table tr td.day.focused {
-        color: #000;
+        color: #262525;
+        cursor: pointer;
     }
 
     .datepicker table tr td span:hover {
-        color: #000;
+        color: #262525;
+        cursor: pointer;
     }
 
     .datepicker-dropdown.datepicker-orient-bottom:after {
@@ -367,25 +407,26 @@
         <h3 class="date-title pull-left">时间段</h3>
 
         <div class="pull-right">
-            <a href="javascript:;" ng-hide="emptyBtnHide" class="data-empty pull-right" ng-click="dateEmpty($event)">清空</a>
+            <a href="javascript:;" ng-hide="emptyBtnHide" class="data-empty pull-right"
+               ng-click="dateEmpty($event)">清空</a>
             <a href="javascript:;" ng-hide="addBtnHide" class="data-add pull-right" ng-click="dateSelect($event)">添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="date-body">
-        <div class="date-list"></div>
-        <div class="date-list" ng-repeat="item in dateList">
+    <div class="date-body col-md-12">
+        <div class="date-list" style="margin-bottom: 5px;"></div>
+        <div class="date-list col-md-12" ng-repeat="item in dateList">
             <div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
             </div>
             <div class="col-xs-2 col-md-2 col-lg-1">
                 <span ng-hide="delBtnHide" class="glyphicon glyphicon-minus-sign remove-date-list pull-right"
-                      ng-click="removeList($event)"></span>
+                      ng-click="removeList($event,$index)"></span>
             </div>
             <div class="clearfix"></div>
             <div class="line"></div>
         </div>
     </div>
-    <div class="datetip">
+    <div class="datetip fm-datepick-tip" style="display: none">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">时间段设置</div>
         <div class="pull-right" style="margin-top: -10px;">
             <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)"
@@ -395,20 +436,20 @@
         </div>
         <div class="clearfix"></div>
         <div class="line line-date"></div>
-        <div class="radio radio-inline">
+        <div class="radio radio-inline date-switch-type">
             <label class="radio-text">
                 <input type="radio" name="timeType" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
             </label>
         </div>
-        <div class="radio radio-inline">
+        <div class="radio radio-inline date-switch-type">
             <label class="radio-text">
                 <input type="radio" name="timeType" time-type="continue-time" ng-click="timeType($event)"> 持续时间
             </label>
         </div>
-                <!-- begin 固定时间 -->
+        <!-- begin 固定时间 -->
         <div class="form-group fix-time time-slide-well">
             <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
-                <label class="btn btn-default week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
+                <label name="weekGroupBtn" class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
                        check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values"
                        style="font-size: 12px;width: 14.28%;">
                     {{week.value}}
@@ -437,8 +478,8 @@
         <!-- begin 持续时间 -->
         <div class="form-group continue-time time-slide-well" style="display:none">
             <div class="btn-group full-width d-btn" data-toggle="buttons">
-                <label class="btn btn-default cur-time" ng-repeat="value in dwm.values"
-                       ng-class="{btn: true,'btn-default': true, active: value.code == dwm.selection.code}"
+                <label class="btn cur-time" ng-repeat="value in dwm.values"
+                       ng-class="{btn: true, active: value.code == dwm.selection.code}"
                        ng-click="dwmType($event,value)">
                     <input type="radio" name="week" ng-model="dwm.selection" ng-value="value" autocomplete="off"
                            dwm-type="dwm.selection" checked> {{value.value}}
@@ -541,8 +582,8 @@
             </label>
         </div>
         <div class="btn-option btn-group">
-            <button class="btn btn-default date-btn" type="button" ng-click="dateSelect($event)">关闭</button>
-            <button class="btn btn-default date-btn" ng-click="dateSave($event)" type="button">
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" type="button" ng-click="dateSelect($event)">关闭</button>
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" ng-click="dateSave($event)" type="button">
                 <i class="glyphicon glyphicon-floppy-disk"></i> 保存
             </button>
         </div>

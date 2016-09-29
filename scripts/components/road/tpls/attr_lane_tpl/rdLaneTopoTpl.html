@@ -1,0 +1,149 @@
+<div ng-controller="rdLaneTopoCtrl">
+    <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+        <div ui-layout-container>
+            <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
+                <div ui-layout-container>
+                    <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
+
+                        <div ui-layout-container class="fm-no-scroll">
+                            <div id="topoMap"
+                                 style="background-color:#DDDDFF;width: 100%;height: 100%;position: absolute;"></div>
+                            <div class="btn-group btn-group-justified fm-btn-group"
+                                 style="bottom:5px;left:250px;width:400px;position: absolute;">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doCreate()">
+                                        <i class="glyphicon glyphicon-plus"></i> 创建连通
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doSave()">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doCancel()">
+                                        <i class="glyphicon glyphicon-repeat"></i> 取消操作
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn" ng-click="doClose()">
+                                        <i class="glyphicon glyphicon-floppy-remove"></i> 关 闭
+                                    </button>
+                                </div>
+                            </div>
+                            <!--<div class="fm-component" s>-->
+                            <div style="background-color:#1c1c20;right:0px;position: absolute;width: 250px;" class="content scroll-styled dark">
+                                <!--<form>-->
+                                    <div class="fm-panel" style="margin-bottom: 5px;">
+                                        <div class="title">
+                                            <div>原始车道连通（共 <span ng-bind="laneTopoInfoArr.length">0</span> 条）</div>
+                                        </div>
+                                        <div class="content">
+                                            <div ng-repeat="cItem in laneTopoInfoArr" class="blackTheme module-box">
+                                                <ul class="fm-ul fm-ul-form">
+                                                    <li>
+                                                        <div style="width: 10%;min-width:0px">
+                                                            <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
+                                                        </div>
+                                                        <label>显示</label>
+                                                        <label style="width: 70%;cursor:Pointer" ng-click="showLaneDetails(cItem)">连通PID：{{cItem.pid}}</label>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;">
+                                    <div class="title">
+                                        <div>删除车道连通（共 <span ng-bind="deleteLaneTopoArr.length">0</span> 条）</div>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-repeat="cItem in deleteLaneTopoArr" class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <div style="width: 10%;min-width:0px">
+                                                        <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
+                                                    </div>
+                                                    <label>显示</label>
+                                                    <label style="width: 70%">连通PID：{{cItem.pid}}</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;">
+                                    <div class="title">
+                                        <div>新增车道连通（共 <span ng-bind="insertLaneTopoArr.length">0</span> 条）</div>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-repeat="cItem in insertLaneTopoArr" class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <div style="width: 10%;min-width:0px">
+                                                        <input type="checkbox" class="ng-pristine ng-valid ng-touched" ng-click="showInMap(cItem.pid)">
+                                                    </div>
+                                                    <label>显示</label>
+                                                    <label style="width: 70%">连通PID：{{cItem.pid}}</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;margin-top: 40px" ng-if="showLaneDetail">
+                                    <div class="title">
+                                        <div>属性列表</div>
+                                    </div>
+                                    <div class="content">
+                                        <div  class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li>
+                                                    <label style="width: auto">进入车道：</label>
+                                                    <div>
+                                                        <input type="text" class="ng-pristine ng-valid ng-touched" ng-model="laneDetail.inLanePid" disabled>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label style="width: auto">退出车道：</label>
+                                                    <div>
+                                                        <input type="text" class="ng-pristine ng-valid ng-touched" ng-model="laneDetail.outLanePid" disabled>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fm-panel" style="margin-bottom: 5px;"  ng-if="showLaneDetail">
+                                    <div class="title">
+                                        <div>经过线（共 <span ng-bind="laneDetail.topoVias.length">0</span> 条）</div>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-repeat="cItem in laneDetail.topoVias" class="blackTheme module-box">
+                                            <ul class="fm-ul fm-ul-form">
+                                                <li >
+                                                    <label style="width: auto">Lane序号</label>
+                                                    <div>
+                                                        <input type="text" class="fm-control" ng-model="cItem.seqNum" disabled/>
+                                                    </div>
+                                                </li>
+                                                <li >
+                                                    <label style="width: auto">Lane号码</label>
+                                                    <div>
+                                                        <input type="text" class="fm-control" ng-model="cItem.lanePid" disabled/>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--</form>-->
+                            </div>
+                                <!--</div>-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

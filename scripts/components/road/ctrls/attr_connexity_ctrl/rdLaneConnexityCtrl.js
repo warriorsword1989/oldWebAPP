@@ -1,17 +1,17 @@
 /**
  * Created by liuzhaoxia on 2015/12/23.
  */
-var otherApp = angular.module('mapApp');
-otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, $document) {
+var otherApp = angular.module('app');
+otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$document','appPath','dsEdit', function ($scope, $ocLazyLoad, $document,appPath,dsEdit) {
 
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdLink = layerCtrl.getLayerById('rdLink');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdConnexity = layerCtrl.getLayerById("relationdata");
+    var rdConnexity = layerCtrl.getLayerById("relationData");
 
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -88,28 +88,34 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var highLightFeatures = [];
         highLightFeatures.push({
             id:objCtrl.data["inLinkPid"].toString(),
-            layerid:'referenceLine',
+            layerid:'rdLink',
             type:'line',
             style:{
-                color: '#3A5FCD'
+                color: '#CD0000'
             }
+        });
+        highLightFeatures.push({
+            id:objCtrl.data["nodePid"].toString(),
+            layerid:'rdLink',
+            type:'node',
+            style:{}
         });
 
         for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
             highLightFeatures.push({
                 id:objCtrl.data.topos[i].outLinkPid.toString(),
-                layerid:'referenceLine',
+                layerid:'rdLink',
                 type:'line',
                 style:{
-                    color: '#CD0000'
+                    color: '#3CB371'
                 }
             });
         }
 
         highLightFeatures.push({
             id:$scope.lanesData.pid.toString(),
-            layerid:'relationdata',
-            type:'relationdata',
+            layerid:'relationData',
+            type:'relationData',
             style:{}
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -151,6 +157,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     if (objCtrl.data) {
         $scope.initializeData();
     }
+
     $scope.addLeftAdditionalLane = function (event) {
         var p = /^([0-9])$/;
         if (p.test($scope.lanesData.leftExtend)) {
@@ -193,8 +200,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.changeItem = item;
             var changedDirectObj = {
                 "loadType":"subAttrTplContainer",
-                "propertyCtrl":'components/road/ctrls/attr_connexity_components/road/ctrls/changeDirectCtrl',
-                "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/changeDirectTpl.html'
+                "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/changeDirectCtrl',
+                "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/changeDirectTpl.html'
             };
             $scope.$emit("transitCtrlAndTpl", changedDirectObj);
             map.currentTool = new fastmap.uikit.SelectPath(
@@ -212,7 +219,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
                     highLightFeatures.push({
                         id: objCtrl.data["inLinkPid"].toString(),
-                        layerid:'referenceLine',
+                        layerid:'rdLink',
                         type:'line',
                         style:{}
                     });
@@ -223,7 +230,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                         if (lenOfInfo === index) {
                             highLightFeatures.push({
                                 id:data.id,
-                                layerid:'referenceLine',
+                                layerid:'rdLink',
                                 type:'line',
                                 style:{}
                             });
@@ -241,7 +248,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $.each($('.lanePic'),function(i,v){
             $(v).removeClass('active');
         });
-    }
+    };
     //REACH_DIR
     $scope.showLanesInfo = function (item, index, event) {
         $scope.removeTipsActive();
@@ -254,12 +261,21 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.changeItem = item;
 
         $scope.lanesData["index"] = index;
-        var showInfoObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_connexity_ctrl/showInfoCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/showInfoTpl.html'
+        var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var showInfoObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/showInfoCtrl',
+                    "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/showInfoTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", showInfoObj);
+            }
         };
-        $scope.$emit("transitCtrlAndTpl", showInfoObj);
+        $scope.$emit("transitCtrlAndTpl", rdlaneInfoObj);
+
     };
     //增加车道
     $scope.addLane = function () {
@@ -274,8 +290,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.showInfoFlag = false;
         var addDirectObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_connexity_ctrl/addDirectCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/addDirectTpl.html'
+            "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/addDirectCtrl',
+            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", addDirectObj);
         layerCtrl.pushLayerFront('edit');
@@ -298,7 +314,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     if (lenOfInfo === index) {
                         highLightFeatures.push({
                             id:data.id,
-                            layerid:'referenceLine',
+                            layerid:'rdLink',
                             type:'line',
                             style:{}
                         })
@@ -308,14 +324,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
                 highLightFeatures.push({
                     id:objCtrl.data["inLinkPid"].toString(),
-                    layerid:'referenceLine',
+                    layerid:'rdLink',
                     type:'line',
                     style:{}
                 });
-                var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
-
-                highLightLinks.highLightFeatures = highLightFeatures;
-                highLightLinks.drawHighlight();
+                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.drawHighlight();
             });
         }
     };
@@ -367,8 +381,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.lanesData["transitFlag"] = true;
             var changedTransitObj = {
                 "loadType":"subAttrTplContainer",
-                "propertyCtrl":'components/road/ctrls/attr_connexity_ctrl/changeDirectCtrl',
-                "propertyHtml":'../../scripts/components/road/tpls/attr_connexity_tpl/changeDirectTpl.html'
+                "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/changeDirectCtrl',
+                "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/changeDirectTpl.html'
             };
             $scope.$emit("transitCtrlAndTpl", changedTransitObj);
         }
@@ -420,7 +434,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var param = {
             "command": "UPDATE",
             "type": "RDLANECONNEXITY",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
 
@@ -429,28 +443,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             return;
         }
 
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
-                var sinfo = {
-                    "op": "修改车信成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
             }
             rdConnexity.redraw();
         })
@@ -460,41 +455,26 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var param = {
             "command": "DELETE",
             "type": "RDLANECONNEXITY",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": objId
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode == 0) {
+        };
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 rdConnexity.redraw();
                 $scope.rdCrossData = null;
-                var sinfo = {
-                    "op": "删除车信成功",
-                    "type": "",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info = data.data.log;
-            } else {
-                info = [{
-                    "op": data.errcode,
-                    "type": data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
+                highRenderCtrl._cleanHighLight();
+                $scope.$emit('SWITCHCONTAINERSTATE', {
+                  'subAttrContainerTpl': false,
+                  'attrContainerTpl': false
+                });
             }
         })
-    }
+    };
 
     $scope.cancel=function(){
-    }
+    };
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-});
-
+}]);

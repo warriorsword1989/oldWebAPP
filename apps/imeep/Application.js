@@ -8,11 +8,13 @@ App.Config = {
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     specialUrl: "http://192.168.4.189/fos",
+    msgNotify: 10000
 };
 App.Temp = {
     accessToken: null,
     dbId: 42,
     subTaskId: 168,
+    mdFlag: 'd',
     gridList: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
     relationNameObj: {
         RDRESTRICTION: '交限',
@@ -21,7 +23,24 @@ App.Temp = {
         RDCROSS: '路口',
         RDLANECONNEXITY: '车信',
         RDLINKINTRTIC: '实时信息',
-        RDGSC: '立交'
+        RDGSC: '立交',
+        RDWARNINGINFO:'警示信息',
+        RDVARIABLESPEED:'可变限速',
+        RDTRAFFICSIGNAL:'信号灯',
+        RDELECTRONICEYE:'电子眼',
+        RDSLOPE:'坡度',
+        RDGATE:'大门',
+        RDDIRECTROUTE:'顺行',
+        RDSPEEDBUMP:'减速带',
+        RDSE:'分叉口',
+        RDINTER:'CRF交叉点',
+        RDROAD:'CRF道路',
+        RDOBJECT:'CRF对象',
+        RDTOLLGATE:'收费站',
+        RDVOICEGUIDE:'语音引导',
+        RDSAMENODE:'同一点',
+        RDSAMELINK:'同一线',
+        RDLANE:'详细车道'
     }
 };
 // web app的公用函数命名空间
@@ -53,23 +72,17 @@ App.Util = {
         }
         return reqObj;
     },
-    createTipsTileRequestObject: function(url, requestType) {
-        var urlObj = {};
-        if (requestType != "") {
-            urlObj.url = App.Config.serviceUrl + url;
-            urlObj.parameter = {
-                dbId: App.Temp.dbId,
-                gap: 80,
-                types: requestType
-            }
-        } else {
-            urlObj.url = App.Config.serviceUrl + url;
-            urlObj.parameter = {
-                dbId: App.Temp.dbId,
-                gap: 80
-            }
+    createTileRequestObjectForTips: function(url, requestType) {
+        var reqObj = {};
+        reqObj.url = App.Config.serviceUrl + url;
+        reqObj.parameter = {
+            gap: 80,
+            mdFlag: App.Temp.mdFlag,
         }
-        return urlObj;
+        if (requestType) {
+            reqObj.parameter['types'] = requestType.split(',');
+        }
+        return reqObj;
     },
     getUrlParam: function(paramName) {
         var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");

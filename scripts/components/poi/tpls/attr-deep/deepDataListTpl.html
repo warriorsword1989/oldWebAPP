@@ -1,0 +1,176 @@
+<style>
+    #tipsTabContent #dataList {
+        list-style-type: none;
+        padding-left: 10px;
+    }
+    #tipsTabContent #dataList > li {
+        list-style-type: none;
+        margin-bottom: 10px;
+        padding-left: 15px;
+    }
+    #tipsTabContent #dataList > li>div:hover>a {
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataList > li>div:hover>i{
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataList > li > ul {
+        padding-left: 8px;
+    }
+    #tipsTabContent #dataList > li.selected > ul {
+        display: block;
+    }
+    #tipsTabContent #dataList > li > div > img {
+    }
+    #tipsTabContent #dataList > li > div > label {
+        color: #FFF;
+        cursor: pointer;
+        font-weight: 100;
+    }
+    #tipsTabContent #dataList > li > div > label>span{
+        color:rgba(255,255,255,0.5);
+        font-size: 10px;
+        margin-left: 5px;
+    }
+    #tipsTabContent #dataList > li > div:hover > label>span{
+        color:#FFF;
+    }
+    #tipsTabContent #dataList > li > div > label:hover {
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataList > li > div > i {
+        cursor: pointer;
+        color: #FFF;
+    }
+    #tipsTabContent #dataList > li > ul {
+        list-style-type: none;
+    }
+    #tipsTabContent #dataList > li > ul > li {
+        color: #FFF;
+        list-style-type: none;
+        padding: 2px;
+    }
+    #tipsTabContent #dataList > li > ul > li:hover {
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataList > li > ul > li.selected {
+        color: #FAA645;
+    }
+    #tipsTabContent #dataList > li > ul > li > label {
+        cursor: pointer;
+        font-weight: 100;
+    }
+    #tipsTabContent #dataListOfPended {
+        list-style-type: none;
+        padding-left: 10px;
+    }
+    #tipsTabContent #dataListOfPended > li {
+        list-style-type: none;
+        margin-bottom: 10px;
+    }
+    #tipsTabContent #dataListOfPended > li>div:hover>a {
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataListOfPended > li>div:hover>i{
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataListOfPended > li > ul {
+        display: none;
+    }
+    #tipsTabContent #dataListOfPended > li.selected > ul {
+        display: block;
+    }
+    #tipsTabContent #dataListOfPended > li > div > img {
+        vertical-align: top;
+    }
+    #tipsTabContent #dataListOfPended > li > div > label {
+        color: #FFF;
+        cursor: pointer;
+        vertical-align: top;
+    }
+    #tipsTabContent #dataListOfPended > li > div > label>span{
+        color:rgba(255,255,255,0.5);
+        font-size: 10px;
+        margin-left: 5px;
+    }
+    #tipsTabContent #dataListOfPended > li > div:hover > label>span{
+        color:#FFF;
+    }
+    #tipsTabContent #dataListOfPended > li > div > i {
+        cursor: pointer;
+        color: #FFF;
+        vertical-align: top;
+    }
+    #tipsTabContent #dataListOfPended > li > ul {
+        list-style-type: none;
+    }
+    #tipsTabContent #dataListOfPended > li > ul > li {
+        color: #FFF;
+        list-style-type: none;
+    }
+    #tipsTabContent #dataListOfPended > li > ul > li:hover {
+        color: rgba(255,255,255,0.5);
+    }
+    #tipsTabContent #dataListOfPended > li > ul > li.selected {
+        color: #FAA645;
+    }
+    #tipsTabContent #dataListOfPended > li > ul > li > label {
+        cursor: pointer;
+    }
+    #tipsTabContent #dataListOfPended > li > div > label:hover {
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
+    }
+    #dataList a{
+        color:#FFF;
+        text-decoration: none;
+    }
+    #dataList>li>div>a{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    #dataListOfPended a{
+        color:#FFF;
+        text-decoration: none;
+    }
+    #dataListOfPended>li>div>a{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+</style>
+<div id="tipsTabContent" class="tab-content">
+    <div ng-controller="PoiDataListCtl">
+        <div class="btn-group btn-group-justified" role="group" style="padding:5px;">
+            <div class="btn-group" role="group">
+                <button class="btn btn-xs btn-purple" ng-class="{1: 'active'}[dataListType]" ng-click="changeDataList(1)">
+                    <i class="glyphicon glyphicon-edit"></i> 待作业
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-xs btn-purple" ng-class="{2: 'active'}[dataListType]" ng-click="changeDataList(2)">
+                    <i class="glyphicon glyphicon-th-list"></i> 已作业
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-xs btn-purple" ng-class="{3: 'active'}[dataListType]" ng-click="changeDataList(3)">
+                    <i class="glyphicon glyphicon-inbox"></i> 已提交
+                </button>
+            </div>
+        </div>
+        <div class="fm-fitsize dark scroll-styled" style="top:80px;">
+            <ul id="dataList">
+                <!-- 外侧li-->
+                <li id="{{pItem.id}}" style="color: #FFFFFF">
+                    <div ng-click="showContent(pItem,1,0,$event)">
+                        <i style="margin-right: 10px" class="glyphicon glyphicon glyphicon-folder-open"></i><label style="font-weight: bold;letter-spacing: 1px">{{item.name}} <span>{{item.total}}</span></label>
+                    </div>
+                    <ul>
+                        <li ng-repeat="aItem in allSubItems" ng-click="showTab(aItem.id)">
+                            <i style="margin-right: 10px" class="glyphicon glyphicon-tag"></i><label>{{aItem.name}}</label>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
