@@ -79,7 +79,6 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-
     };
 
 
