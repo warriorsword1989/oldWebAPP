@@ -25,12 +25,31 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
         {"id": 9, "label": "湖泊(国界外)"},
         {"id": 10, "label": "界河"}
     ];
-
+    $scope.kindsLabel = {
+        0:"未分类",
+        1:"海岸线",
+        2:"河川",
+        3:"湖沼地",
+        4:"水库",
+        5:"港湾",
+        6:"运河",
+        7:"单线河",
+        8:"水系假想线",
+        11:"公园",
+        12:"高尔夫球场",
+        13:"滑雪场",
+        14:"树林林地",
+        15:"草地",
+        16:"绿化带",
+        17:"岛",
+        18:"绿地假想线"
+    };
 
     //初始化
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.lcLinkData = objCtrl.data;
+        $scope.formModel = $scope.lcLinkData.kinds[0].form;
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.lcLinkForm) {
@@ -67,6 +86,10 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
 
     //保存
     $scope.save = function(){
+        var kinds = objCtrl.data.kinds;
+        for(var i = 0 ,len = kinds.length; i < len; i++){
+            kinds[i].form = $scope.formModel;
+        }
         objCtrl.save();
         var changed = objCtrl.changedProperty;
         if(!changed){
