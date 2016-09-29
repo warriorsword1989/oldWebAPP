@@ -37,11 +37,13 @@ fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
         }
         
         this.meshes = [];
+        this.meshIdArr = [];
         for(var i=0;i<data["meshes"].length;i++){
         	var mesh = fastmap.dataApi.rdNodeMesh(data["meshes"][i]);
+        	this.meshIdArr.push(mesh.meshId);
         	this.meshes.push(mesh);
         }
-        this.meshStr = meshes.join(",");
+        this.meshIdStr = this.meshIdArr.join(",");
     },
 
     /**

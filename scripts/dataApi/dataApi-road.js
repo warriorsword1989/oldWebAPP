@@ -28,6 +28,7 @@
                 "dataApi/road/RdLinkZone.js",
                 "dataApi/road/RdNode.js",
                 "dataApi/road/RdNodeForm.js",
+                "dataApi/road/RdNodeMesh.js",
                 "dataApi/road/RdRestriction.js",
                 "dataApi/road/RdRestrictionDetail.js",
                 "dataApi/road/RdRestrictionCondition.js",
