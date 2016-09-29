@@ -1,6 +1,6 @@
 <div class="fm-component" ng-controller="lcLinkController">
     <div class="title">
-        土地覆盖PID
+        LC线PID
         <span class="label label-info">{{lcLinkData.pid}}</span>
     </div>
     <div class="content scroll-styled dark" style="height:90%;">
@@ -25,14 +25,13 @@
                             <label>Link形态</label>
                             <div>
                                 <select ng-model="formModel" ng-options="value.id as value.label for value in form">
-                                    <option value="">请选形态种别</option>
                                 </select>
                             </div>
                         </li>
                         <li>
                             <label>Link长度</label>
                             <div>
-                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.length" disabled> m
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.length" disabled> 米
                             </div>
                         </li>
                         <li>

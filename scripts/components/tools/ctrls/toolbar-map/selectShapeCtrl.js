@@ -263,7 +263,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'type': 'PATHBREAK',
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        }]
+                        },
+                            {
+                            'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
+                            'title': "分离节点",
+                            'type': 'DEPARTNODE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                            }
+                        ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
@@ -2927,6 +2935,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     });
                     return;
                 }
+
                 if (!selectCtrl.selectedFeatures) {
                     return;
                 }
@@ -2939,7 +2948,37 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
-                } else {
+                }else if(type === "DEPARTNODE"){
+                    editLayer.drawGeometry = feature;
+                    editLayer.draw(feature, editLayer);
+                    sObj.setOriginalGeometry(feature);
+                    sObj.setFinalGeometry(feature);
+                    tooltipsCtrl.setChangeInnerHtml("请选择要移动的link节点!");
+                    //选择分歧监听事件;
+                    //初始化选择点工具
+                    map.currentTool = new fastmap.uikit.SelectNode({
+                        map: map,
+                        nodesFlag: true,
+                        shapeEditor: shapeCtrl
+                    });
+                    map.currentTool.enable();
+                    //添加自动吸附的图层
+                    map.currentTool.snapHandler.addGuideLayer(rdNode);
+                    eventController.off(eventController.eventTypes.GETNODEID);
+                    eventController.on(eventController.eventTypes.GETNODEID, function(data) {
+                        highRenderCtrl.highLightFeatures.push({
+                            id: data.id.toString(),
+                            layerid: 'rdLink',
+                            type: 'rdnode',
+                            style: {color: 'yellow'}
+                        });
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已经选择移动点，开始移动!");
+                        shapeCtrl.setEditingType('pathNodeMove'); //设置编辑状态
+                        shapeCtrl.startEditing();
+                    })
+                    return;
+                }else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); //把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);

@@ -8,9 +8,9 @@ fastmap.uikit.canvasFeature.RdGscPart = fastmap.uikit.canvasFeature.Feature.exte
         this.properties['featType'] = data.t;
         if (data.g[idx].z === 0) {
             this.properties['style'] = {
-                'strokeColor': '#14B7FC',
+                'strokeColor': 'red',
                 'strokeWidth': 5,
-                'strokeOpacity': 0.8
+                'strokeOpacity': 1
             };
         } else if (data.g[idx].z === 1) {
             this.properties['style'] = {
@@ -22,7 +22,7 @@ fastmap.uikit.canvasFeature.RdGscPart = fastmap.uikit.canvasFeature.Feature.exte
             this.properties['style'] = {
                 'strokeColor': '#F8B19C',
                 'strokeWidth': 5,
-                'strokeOpacity': 0.8
+                'strokeOpacity': 1
             };
         }
     },
