@@ -116,6 +116,10 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
     };
 
     $scope.save = function () {
+        if($scope.speedLimitData.speedValue < 1 || $scope.speedLimitData.speedValue > 9999){
+            swal("信息提示", '限速值在1-9999之间！', "error");
+            return;
+        }
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
