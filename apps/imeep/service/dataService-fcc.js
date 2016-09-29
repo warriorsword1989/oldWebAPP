@@ -110,7 +110,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
             'request':{
                 "grids": App.Temp.gridList,
                 "targetDbId":App.Temp.dbId,
-                "type":types
+                "types":types
             },
             'descp':''
         };

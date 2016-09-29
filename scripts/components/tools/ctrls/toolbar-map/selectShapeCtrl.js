@@ -13,6 +13,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
         var transform = new fastmap.mapApi.MecatorTranform();
 
         var rdLink = layerCtrl.getLayerById('rdLink');
+        var rwLink = layerCtrl.getLayerById('rwLink');
+        var lcLink = layerCtrl.getLayerById('lcLink');
         var rdNode = layerCtrl.getLayerById('rdNode');
         var workPoint = layerCtrl.getLayerById('workPoint');
         var editLayer = layerCtrl.getLayerById('edit');
@@ -34,7 +36,123 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             return angle;
 
         };
-
+        /**
+         * 数据中是否有rdLink
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.containsRdLink = function(data) {
+            return data.filter(function(item) {
+                    return item["tableName"] === "RD_LINK";
+                }).length !== 0;
+        };
+        /**
+         * 数据中是否有rwLink
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.containsRwLink = function(data) {
+            return data.filter(function(item) {
+                    return item["tableName"] === "RW_LINK";
+                }).length !== 0;
+        };
+        /**
+         * 数据中是否有lcLink
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.containsLcLink = function(data) {
+            return data.filter(function(item) {
+                    return item["tableName"] === "LC_LINK";
+                }).length !== 0;
+        };
+        $scope.changeIndexCallback = function(data) {
+            objCtrl.data.links.sort(function(a, b) {
+                if (a["zlevel"] < b["zlevel"]) {
+                    return 1
+                } else if (a["zlevel"] > b["zlevel"]) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+            /*把当前link的zlevel升高一级*/
+            for (var zLevelNum = 0, zLevelLen = objCtrl.data.links.length; zLevelNum < zLevelLen; zLevelNum++) {
+                if (objCtrl.data.links[zLevelNum].linkPid == data.id) {
+                    if ((objCtrl.data.links[zLevelNum].zlevel) <= zLevelLen - 1 && zLevelNum !== 0) {
+                        objCtrl.data.links[zLevelNum - 1].zlevel -= 1;
+                        objCtrl.data.links[zLevelNum].zlevel += 1;
+                        break;
+                    }
+                }
+            }
+            /*重绘link颜f色*/
+            highRenderCtrl.highLightFeatures = [];
+            for (var i = 0; i < objCtrl.data.links.length; i++) {
+                var tempObj = {
+                    'RD_LINK':'rdLink',
+                    'RW_LINK':'rwLink',
+                    'LC_LINK':'lcLink'
+                };
+                highRenderCtrl.highLightFeatures.push({
+                    id: objCtrl.data.links[i].linkPid.toString(),
+                    layerid: tempObj[objCtrl.data.links[i]["tableName"]],
+                    type: 'RDGSC',
+                    index: objCtrl.data.links[i].zlevel,
+                    style: {
+                        size: 5
+                    }
+                });
+            }
+            highRenderCtrl.drawHighlight();
+            tooltipsCtrl.setCurrentTooltip('调整完成点击属性面板“保存”按钮以保存！');
+        };
+        /**
+         * 调整link层级高低
+         */
+        $scope.changeLevel = function() {
+            editLayer.drawGeometry = null;
+            map.currentTool.options.repeatMode = false;
+            // shapeCtrl.stopEditing();
+            editLayer.bringToBack();
+            $(editLayer.options._div).unbind();
+            // $scope.changeBtnClass("");
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            editLayer.clear();
+            map._container.style.cursor = '';
+            if ($scope.containsRdLink(objCtrl.data.links)) {
+                map.currentTool = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.enable();
+            }
+            if ($scope.containsRwLink(objCtrl.data.links)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rwLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
+            if ($scope.containsLcLink(objCtrl.data.links)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: lcLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
+            rdLink.options.selectType = 'link';
+            rdLink.options.editable = true;
+            eventController.off(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback);
+            eventController.on(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
+        };
         /**
          *  显示属性栏
          * @param data 点击地图上的点获取的数据
@@ -400,9 +518,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDGSC':
+                    toolsObj = {
+                        items: [  {
+                            'text': "<a class='glyphicon glyphicon-retweet'></a>",
+                            'title': "调整层级关系",
+                            'type': 'CHANGELEVEL',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_rdgsc_ctrl/rdGscCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_gsc_tpl/rdGscTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case 'RDWARNINGINFO': //警示信息
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_warninginfo_ctrl/warningInfoCtrl';
@@ -2935,6 +3062,34 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         });
                     });
                     return;
+                } else if (type === "CHANGELEVEL") {
+                    /*重绘link颜f色*/
+                    highRenderCtrl.highLightFeatures = [];
+                    for (var i = 0; i < objCtrl.data.links.length; i++) {
+                        var tempObj = {
+                            'RD_LINK':'rdLink',
+                            'RW_LINK':'rwLink',
+                            'LC_LINK':'lcLink'
+                        };
+                        highRenderCtrl.highLightFeatures.push({
+                            id: objCtrl.data.links[i].linkPid.toString(),
+                            layerid: tempObj[objCtrl.data.links[i]["tableName"]],
+                            type: 'RDGSC',
+                            index: objCtrl.data.links[i].zlevel,
+                            style: {
+                                size: 5
+                            }
+                        });
+                    }
+                    highRenderCtrl.drawHighlight();
+                    $scope.changeLevel();
+                    /*if (selectCtrl.selectedFeatures) {
+                        tooltipsCtrl.setEditEventType('moveDot');
+                        tooltipsCtrl.setCurrentTooltip('点击link调整层级关系！');
+                    } else {
+                        tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
+                        return;
+                    }*/
                 }
 
                 if (!selectCtrl.selectedFeatures) {
