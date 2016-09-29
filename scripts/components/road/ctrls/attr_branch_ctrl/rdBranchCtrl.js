@@ -19,10 +19,20 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             // objCtrl.data.details[0].branchType = 3;
             $('[data-toggle="tooltip"]').tooltip();
         }
+
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
+
+        if($scope.diverObj.details[0].branchType == 3 || $scope.diverObj.details[0].branchType == 4){
+            $scope.diverObj.details[0].estabType = 9;
+            $scope.diverObj.details[0].nameKind = 9;
+        }else{
+            $scope.diverObj.details[0].estabType = 0;
+            $scope.diverObj.details[0].nameKind = 0;
+        }
+
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
@@ -33,17 +43,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         });
 
     }
-
-    $scope.$watch('diverObj.details[0].branchType',function(newvalue,oldValue){
-        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if(newvalue == 3 || newvalue == 4){
-            $scope.diverObj.details[0].estabType = 9;
-            $scope.diverObj.details[0].nameKind = 9;
-        }else{
-            $scope.diverObj.details[0].estabType = 0;
-            $scope.diverObj.details[0].nameKind = 0;
-        }
-    })
 
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
@@ -292,6 +291,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     $scope.diverObj.details[0].patternCode = '7' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
                 }
             }
+        }
+
+        if($scope.diverObj.details[0].branchType == 3 || $scope.diverObj.details[0].branchType == 4){
+            $scope.diverObj.details[0].estabType = 9;
+            $scope.diverObj.details[0].nameKind = 9;
+        }else{
+            $scope.diverObj.details[0].estabType = 0;
+            $scope.diverObj.details[0].nameKind = 0;
         }
 
         $scope.diverObj.details[0].arrowCode = '';
@@ -585,17 +592,16 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.delete = function () {
         var detailId = $scope.diverObj.details[0].pid;
         var branchType = $scope.diverObj.details[0].branchType;
-        dsEdit.deleteBranchByDetailId(detailId,branchType).then(
-            function(params){
+        dsEdit.deleteBranchByDetailId(detailId,branchType).then(function(params){
                 if(params){
-                    //map.floatMenu.onRemove();
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
                     highRenderCtrl.highLightFeatures = null;
                     highRenderCtrl._cleanHighLight();
                     rdBranch.redraw();
-                    $scope.$emit('SWITCHCONTAINERSTATE', {
-            					'subAttrContainerTpl': false,
-            					'attrContainerTpl': false
-            				});
+                    $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 }
             }
         );
