@@ -219,10 +219,10 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
             $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
         }else{
             if($scope.linkData.laneNum%2){
-                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
-                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
-                $scope.linkData.laneNum = 0;
-                linkClassCtr($scope.linkData.laneRight);
+                //$scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
+                //$scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+                //$scope.linkData.laneNum = 0;
+                linkClassCtr((parseInt($scope.linkData.laneNum)+1)/2);
             }else{
                 if(!$scope.linkData.laneNum){
                     var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
