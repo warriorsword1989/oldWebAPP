@@ -30,6 +30,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
         }
 
         $scope.pageChanged = function(){
+            $scope.currentPaging = $scope.$$childHead.currentPaging
             getBatchBox($scope.currentPaging);
         }
 

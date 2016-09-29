@@ -71,7 +71,7 @@
                 <div class="clearfix"></div>
                 <!--pagation part-->
                 <div style="padding:10px;">
-                    <uib-pagination style="margin: 0" items-per-page="pageSize" boundary-links="true" ng-model="currentPaging" total-items="totalNum" ng-change="pageChanged()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                    <ul uib-pagination items-per-page="pageSize"  max-size="5" ng-model="currentPaging" total-items="totalNum" ng-change="pageChanged()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                 </div>
             </div>
 
@@ -87,7 +87,7 @@
             <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
         </div>
         <div style="text-align:center;">
-            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行{{currentPaging}}</button>
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行</button>
         </div>
     </div>
 </div>

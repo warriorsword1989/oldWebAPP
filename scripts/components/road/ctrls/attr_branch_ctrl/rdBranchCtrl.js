@@ -34,15 +34,15 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
 
     }
 
-    $scope.$watch('',function(){
-        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
-            $scope.diverObj.details[0].estabType = 9;
-            $scope.diverObj.details[0].nameKind = 9;
-        }else{
-
-        }
-    })
+    //$scope.$watch('',function(){
+    //    //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
+    //    if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
+    //        $scope.diverObj.details[0].estabType = 9;
+    //        $scope.diverObj.details[0].nameKind = 9;
+    //    }else{
+    //
+    //    }
+    //})
 
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
