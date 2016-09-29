@@ -153,7 +153,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
-                defer.resolve("查找检查结果信息出错：" + data.errmsg);
+                swal("查找检查结果信息出错：", data.errmsg, "error");
+                defer.resolve(-1);
             }
         }).error(function(rejection) {
             defer.reject(rejection);

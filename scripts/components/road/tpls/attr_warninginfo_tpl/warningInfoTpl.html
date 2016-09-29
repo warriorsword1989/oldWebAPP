@@ -18,20 +18,20 @@
                     <li>
                         <label>进入线</label>
                         <div >
-                            <input type="text"  class="fm-control chosen-disabled" ng-model="rdWarningInfoObj.linkPid" />
+                            <input type="text" disabled class="fm-control chosen-disabled" ng-model="rdWarningInfoObj.linkPid" />
                         </div>
                     </li>
                     <li>
                         <label>进入点</label>
                         <div>
-                            <input type="text"  class="fm-control chosen-disabled" ng-model="rdWarningInfoObj.nodePid" />
+                            <input type="text" disabled class="fm-control chosen-disabled" ng-model="rdWarningInfoObj.nodePid" />
                         </div>
                     </li>
                     <li>
                         <label>标牌类型</label>
                         <div>
                             <input type="text" class="fm-control" style="width:26%;" ng-model="rdWarningInfoObj.typeCode" ng-keydown="showPicSelect()"/>
-                            <input type="text" class="fm-control chosen-disabled" style="width:60%;" ng-model="temp.typeCodeName" />
+                            <input type="text" disabled class="fm-control chosen-disabled" style="width:60%;" ng-model="temp.typeCodeName" />
                             <div class="fm-pic-show" ng-show="showImgData" style="display: block;">
                                 <div class="fm-option-hide">
                                     <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
