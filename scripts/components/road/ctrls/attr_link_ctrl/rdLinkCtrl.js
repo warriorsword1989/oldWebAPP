@@ -249,8 +249,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         }
 
 
-
-
         if ($scope.linkData.forms.length == 0) {
             var newForm = fastmap.dataApi.rdLinkForm({
                 "linkPid": $scope.linkData.pid,
