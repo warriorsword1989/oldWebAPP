@@ -48,9 +48,10 @@
                         <li>
                             <label>图幅号码</label>
                             <div>
-                                <div style="text-align: left" ng-repeat="mitem in rdNodeData.meshes">
+                                <!-- <div style="text-align: left" ng-repeat="mitem in rdNodeData.meshes">
                                     <input type="text"  ng-model="mitem.meshId">
-                                </div>
+                                </div> -->
+                                <input type="text"  ng-model="rdNodeData.meshIdStr" class="chosen-disabled" disabled>
                             </div>
                         </li>
                         <li>

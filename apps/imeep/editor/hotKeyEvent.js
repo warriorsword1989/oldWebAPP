@@ -712,7 +712,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "command": "CREATE",
                     "type": "RDGSC",
                     "dbId": App.Temp.dbId,
-                    "data": selectCtrl.selectedFeatures
+                    "data": geo
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
