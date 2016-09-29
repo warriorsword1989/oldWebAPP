@@ -34,13 +34,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
 
     }
 
-    $scope.$watch('',function(){
+    $scope.$watch('diverObj.details[0].branchType',function(newvalue,oldValue){
         //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
+        if(newvalue == 3 || newvalue == 4){
             $scope.diverObj.details[0].estabType = 9;
             $scope.diverObj.details[0].nameKind = 9;
         }else{
-
+            $scope.diverObj.details[0].estabType = 0;
+            $scope.diverObj.details[0].nameKind = 0;
         }
     })
 
@@ -291,14 +292,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     $scope.diverObj.details[0].patternCode = '7' + $.trim($scope.diverObj.details[0].arrowCode).substr(1);
                 }
             }
-        }
-        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if(type == 3 || type == 4){
-            $scope.diverObj.details[0].estabType = 9;
-            $scope.diverObj.details[0].nameKind = 9;
-        }else{
-            $scope.diverObj.details[0].estabType = 0;
-            $scope.diverObj.details[0].nameKind = 0;
         }
 
         $scope.diverObj.details[0].arrowCode = '';
