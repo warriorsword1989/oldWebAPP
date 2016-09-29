@@ -21,7 +21,6 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         this.sNodePid = data["sNodePid"];
         this.eNodePid = data["eNodePid"];
         this.geometry = data["geometry"];
-        this.geoLiveType = data["geoLiveType"];
         this.length = data["length"] || 0;
         this.linkKinds = [];
         if (data["linkKinds"]) {
@@ -49,6 +48,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         data["eNodePid"] = this.eNodePid;
         data["geometry"] = this.geometry;
         data["length"] = this.length;
+        data["geoLiveType"] = this.geoLiveType;
         data["linkKinds"] = [];
         if (this.linkKinds) {
             for (var i = 0, len = this.linkKinds.length; i < len; i++) {
@@ -69,6 +69,7 @@ fastmap.dataApi.LULink = fastmap.dataApi.GeoDataModel.extend({
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
         data["geometry"] = this.geometry;
+        data["geoLiveType"] = this.geoLiveType;
         data["length"] = this.length;
         data["linkKinds"] = [];
         if (this.linkKinds) {
