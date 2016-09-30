@@ -269,7 +269,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*新鲜度验证*/
         function getKindName(scope, row) {
             if(row.kindCode){
-                return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+                if(scope.metaData.kindFormat[row.kindCode] && scope.metaData.kindFormat[row.kindCode].kindName){
+                    return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+                }else {
+                    return $sce.trustAsHtml("");
+                }
             } else {
                 return $sce.trustAsHtml("");
             }
