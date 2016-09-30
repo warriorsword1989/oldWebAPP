@@ -40,7 +40,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         //编辑开关;
         $scope.startBtnDisabled = true;
         //顶标签初始状态;
-        $scope.dataListType = 1;
+        $scope.dataListType = 4;
         //顶标签的当前字符状态;
         $scope.dataStringType = '';
         //侧标签初始状态;
