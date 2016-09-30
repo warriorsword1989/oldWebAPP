@@ -313,6 +313,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     swal("提示", '请选择进入点！', "warning");
                     return;
                 }
+                if(laneInfo.outLinkPids.length != laneData.length){
+                    swal("提示", '退出线和交限不匹配！', "warning");
+                    return;
+                }
                 // if (laneInfo.outLinkPids == undefined || (laneInfo.outLinkPids && laneInfo.outLinkPids.length == 0)) {
                 //     swal("提示", '请选择退出线！', "warning");
                 //     return;

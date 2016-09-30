@@ -251,8 +251,9 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         }
     };
     //修改退出线
+    var currentTool = null;
     $scope.changeOutLink = function (item) {
-        var currentTool = new fastmap.uikit.SelectPath({
+        currentTool = new fastmap.uikit.SelectPath({
             map: map,
             currentEditLayer: rdLink,
             linksFlag: false,
@@ -317,11 +318,11 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         item.flag = parseInt(item.flag);
         if (item.flag === 1) {
             if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
-                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[2];
+                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
             }
         } else {
             if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
-                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[2];
+                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
             }
             restrictInfoArr[$scope.flag] = "[" + restrictInfoArr[$scope.flag] + "]";
         }
@@ -412,6 +413,11 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         if (!objectEditCtrl.changedProperty) {
             swal("操作成功", '属性值没有变化！', "success");
             return;
+        }
+
+        if(currentTool){
+            currentTool.disable();
+            currentTool = null;
         }
 
         dsEdit.save(param).then(function (data) {
