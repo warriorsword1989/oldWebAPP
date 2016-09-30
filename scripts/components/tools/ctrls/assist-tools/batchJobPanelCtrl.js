@@ -8,7 +8,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
         $scope.selectedBatches = [];
         $scope.currentPaging = 1;
         $scope.batchType=1;
-        $scope.pageSize = 1;
+        $scope.pageSize = 10;
 
 
         /**
@@ -73,6 +73,8 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
             }
             getAllBatchRules(param);
         }
+
+
 
         $scope.clickBatchSelect = function(param){
             getAllBatchRules(param);

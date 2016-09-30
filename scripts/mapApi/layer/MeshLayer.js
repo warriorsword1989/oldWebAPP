@@ -55,7 +55,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
             var latlngbounds = this.gridArr[i].getBounds();
             var bound = L.bounds(this.map.latLngToContainerPoint(latlngbounds.getNorthWest()), this.map.latLngToContainerPoint(latlngbounds.getSouthEast()));
             var size = bound.getSize();
-            this.drawRect(this._ctx, this.gridArr[i].options.meshid,bound);
+            this.drawRect(this._ctx, this.gridArr[i].options.meshid, bound);
         }
     },
     /***
@@ -65,13 +65,16 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param options 可选参数
      */
     drawRect: function(context, meshId, options) {
-        context.strokeStyle = '#B3ADE9' //边框颜色
-        context.font = "30px Verdana";
-        context.fillText(meshId, options.min.x+(options.max.x-options.min.x)/2-57, options.min.y+(options.max.y-options.min.y)/2+12);
+        var fontSize = this.map.getZoom();
+        if (fontSize >= 10) {
+            fontSize = fontSize + 5;
+            context.font = fontSize + "px Verdana";
+            context.fillText(meshId, options.min.x + (options.max.x - options.min.x) / 2 - fontSize * 2, options.min.y + (options.max.y - options.min.y) / 2 + fontSize / 3);
+        }
         context.strokeStyle = '#00ff00' //边框颜色
         context.linewidth = 3; //边框宽
         context.strokeRect(options.min.x, options.min.y, options.getSize().x, options.getSize().y); //填充边框 x y坐标 宽 高
-        context.stroke()
+        context.stroke();
     },
     /***
      * 重绘
