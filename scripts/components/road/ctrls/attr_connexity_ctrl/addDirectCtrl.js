@@ -3,7 +3,7 @@
  */
 
 var addDirectConnexityApp = angular.module("app");
-addDirectConnexityApp.controller("addDirectOfConnexityController",function($scope) {
+addDirectConnexityApp.controller("addDirectOfConnexityController",["$scope",'dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -107,6 +107,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
     //选择弹出框中的车信
     $scope.selectTopo = function (item, e) {
         $scope.links = [];
+        $scope.vais = {};
         $scope.item = item;
         $scope.removeImgActive();
         $(e.target).addClass('active');
@@ -121,9 +122,35 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
             });
         map.currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-            //删除以前高亮的进入线和退出线
+
             if($scope.links.indexOf(parseInt(data.id)) < 0){
                 $scope.links.push(parseInt(data.id));
+
+                var param1 = {};
+                param1["dbId"] = App.Temp.dbId;
+                param1["type"] = "RDLANEVIA";
+                param1["data"] = {
+                    "inLinkPid": $scope.laneInfo.inLinkPid,
+                    "nodePid":$scope.laneInfo.nodePid,
+                    "outLinkPid":parseInt(data.id)
+                };
+                dsEdit.getByCondition(param1).then(function (conLinks) {//找出经过线
+                    if (conLinks.errcode === -1) {
+                        return;
+                    }
+                    if (conLinks.data) {
+                        $scope.vais[data.id] = conLinks.data
+                    }
+                    for(var i =0;i<conLinks.data.length;i++){
+                        highRenderCtrl.highLightFeatures.push({
+                            id:conLinks.data[i].toString(),
+                            layerid:'rdLink',
+                            type:'line',
+                            style:{color:"yellow"}
+                        });
+                    }
+                    highRenderCtrl.drawHighlight();
+                });
                 highRenderCtrl.highLightFeatures.push({
                     id:data.id.toString(),
                     layerid:'rdLink',
@@ -137,6 +164,10 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
     $scope.addLaneConnexity=function() {
         if($scope.links == undefined ||$scope.links.length == 0){
             swal("提示","请选择退出线！","info");
+            return;
+        }
+        if($scope.item){
+            swal("提示","请选择图标！","info");
             return;
         }
         $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
@@ -157,15 +188,24 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                 }
                 $scope.laneInfo["topos"][outLinkArr.indexOf($scope.links[i])]["inLaneInfo"] = parseInt(parseInt(str,2).toString(10));//二进制转十进制
             } else {
-                var selObj={
+                var viaArr = [];
+                if($scope.vais && $scope.vais[$scope.links[i]]){
+                    for(var j = 0;j<$scope.vais[$scope.links[i]].length;j++){
+                        viaArr.push(fastmap.dataApi.rdLaneVIA({
+                            rowId:"",
+                            linkPid:$scope.vais[$scope.links[i]][j]
+                        }))
+                    }
+                }
+                var selObj=fastmap.dataApi.rdLaneTopology({
                     "busLaneInfo": 0,
                     "connexityPid": $scope.laneInfo["pid"],
                     "inLaneInfo": parseInt($scope.intToDecial($scope.lanesArr.length+1)),
                     "outLinkPid": $scope.links[i],
                     "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                     "relationshipType": 1,
-                    "vias":[]
-                };
+                    "vias":viaArr
+                });
                 $scope.laneInfo["laneNum"] += 1;
                 $scope.laneInfo["topos"].unshift(selObj);
                 $scope.laneInfo["selectNum"] = undefined;
@@ -177,9 +217,12 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         }
         $scope.laneInfo["laneInfo"] += $scope.item.id;
 
+        $scope.item = null;
+        $scope.removeImgActive();
+        $scope.vais = {};
         $scope.links = [];
         objCtrl.rdLaneObject(false);
-        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false});
         // for(var i=0;i<$scope.links.length;i++){
         //     if( $scope.laneInfo["selectNum"]) {
         //         var selectLane = $scope.lanesArr[$scope.laneInfo["selectNum"]].split("");
@@ -276,4 +319,4 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         $scope.item = item;
         $scope.addLaneConnexity();
     }
-});
+}]);
