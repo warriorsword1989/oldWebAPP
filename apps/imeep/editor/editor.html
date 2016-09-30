@@ -33,8 +33,23 @@
         <script src="loadUikit.js"></script>
     </head>
     <body ng-controller="EditorCtl">
+        <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+        <div ui-layout-container size="40px">
+            <div class="fm-top" style="left:0px;width:60px;text-align:center;">
+                <img src="../../../images/main/fm-logo.png">
+            </div>
+            <div class="fm-top" style="left:60px;right:200px;position:fixed;">
+                <div ng-include="editorToolbarTpl"></div>
+            </div>
+            <div class="fm-top" style="width:260px;right:0px;text-align:right;padding:0px 25px;">
+                <button class="fm-top-right-btn profile" title="个人信息"></button>
+                <button class="fm-top-right-btn notice" title="我的消息"></button>
+                <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>
+            </div>
+        </div>
+        <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="40px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="60px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">
@@ -152,6 +167,8 @@
                 </span>
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
+        </div>
+        </div>
         </div>
 
         <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>

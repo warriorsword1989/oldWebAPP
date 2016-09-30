@@ -58,7 +58,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             }
 
         }
-    }
+    };
     $scope.decimalToArr = function (data) {
         var arr = [];
         arr = data.toString(2).split("");
@@ -294,44 +294,45 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", addDirectObj);
-        layerCtrl.pushLayerFront('edit');
-        map.currentTool = new fastmap.uikit.SelectPath(
-            {
-                map: map,
-                currentEditLayer: rdLink,
-                linksFlag: false,
-                shapeEditor: shapeCtrl
-            });
-        map.currentTool.enable();
-        if ($scope.addFlag) {
-            eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-                //删除以前高亮的进入线和退出线
-                linksObj = {};
-                var highLightFeatures = [];
-                for(var i= 0,len=$scope.lanesData["topos"].length;i<len;i++) {
-                    var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-                    var lenOfInfo = (16 - arrOfDecimal.length);
-                    if (lenOfInfo === index) {
-                        highLightFeatures.push({
-                            id:data.id,
-                            layerid:'rdLink',
-                            type:'line',
-                            style:{}
-                        })
-                    }
-                }
-                //高亮进入线和退出线
-
-                highLightFeatures.push({
-                    id:objCtrl.data["inLinkPid"].toString(),
-                    layerid:'rdLink',
-                    type:'line',
-                    style:{}
-                });
-                highRenderCtrl.highLightFeatures = highLightFeatures;
-                highRenderCtrl.drawHighlight();
-            });
-        }
+        // layerCtrl.pushLayerFront('edit');
+        // map.currentTool.disable();
+        // map.currentTool = new fastmap.uikit.SelectPath(
+        //     {
+        //         map: map,
+        //         currentEditLayer: rdLink,
+        //         linksFlag: false,
+        //         shapeEditor: shapeCtrl
+        //     });
+        // map.currentTool.enable();
+        // if ($scope.addFlag) {
+        //     eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
+        //         //删除以前高亮的进入线和退出线
+        //         linksObj = {};
+        //         var highLightFeatures = [];
+        //         for(var i= 0,len=$scope.lanesData["topos"].length;i<len;i++) {
+        //             var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
+        //             var lenOfInfo = (16 - arrOfDecimal.length);
+        //             if (lenOfInfo === index) {
+        //                 highLightFeatures.push({
+        //                     id:data.id,
+        //                     layerid:'rdLink',
+        //                     type:'line',
+        //                     style:{}
+        //                 })
+        //             }
+        //         }
+        //         //高亮进入线和退出线
+        //
+        //         highLightFeatures.push({
+        //             id:objCtrl.data["inLinkPid"].toString(),
+        //             layerid:'rdLink',
+        //             type:'line',
+        //             style:{}
+        //         });
+        //         highRenderCtrl.highLightFeatures = highLightFeatures;
+        //         highRenderCtrl.drawHighlight();
+        //     });
+        // }
     };
     //删除车道
     $scope.minusLane = function (index) {
@@ -363,8 +364,12 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     $scope.minusTransitData = function (item, index) {
         var num = index;
         $scope.lanesData["selectNum"] = index;
-        $scope.showTransitData[num] = "test";
-        $scope.lanesArr[num] = $scope.showNormalData[num];
+        $scope.showTransitData[num].flag = "test";
+        if($scope.showNormalData[num].type == 2){//附加
+            $scope.lanesArr[num] = "<" + $scope.showNormalData[num].flag + ">";
+        } else if($scope.showNormalData[num].type == 0){
+            $scope.lanesArr[num] = $scope.showNormalData[num].flag;
+        }
         $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
         for (var k = 0, lenK = $scope.lanesData["topos"].length; k < lenK; k++) {
             var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
@@ -390,6 +395,10 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
 
     $document.bind("keydown", function (event) {
         if (event.keyCode == 16) {//shift键 公交车道
+            if($scope.lanesArr[$scope.selectNum].indexOf("<") > -1){
+                return;
+            }
+
             var transitStr = "<" + $scope.changeItem.flag + ">";
             $scope.showTransitData[$scope.selectNum] = {"flag":$scope.changeItem.flag.toString(),"type":1};
 
@@ -410,9 +419,20 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             }
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
+            if($scope.lanesArr[$scope.selectNum].indexOf("[") > -1){
+                return;
+            }
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
-                var additionStr = "[" + $scope.changeItem.flag + "]",
+                var additionStr,showAdditionStr;
+                if($scope.lanesArr[$scope.selectNum].split("").length == 1){//普通车道的情况
+                     additionStr = "[" + $scope.lanesArr[$scope.selectNum] + "]";
+                     showAdditionStr = {"flag":$scope.changeItem.flag.toString(),"type":2};
+                } else {
+                    var arrs = $scope.lanesArr[$scope.selectNum].split("<");
+                    additionStr = "[" + arrs[0] + "]" +"<"+ arrs[1];
                     showAdditionStr = {"flag":$scope.changeItem.flag.toString(),"type":2};
+                }
+
                 if ($scope.selectNum === 0) {
                     $scope.showNormalData[0] = showAdditionStr;
                     $scope.lanesArr[0] = additionStr;

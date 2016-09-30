@@ -53,20 +53,21 @@ fastmap.mapApi.pathBuffer = L.Handler.extend({
      * @param event
      */
     onMouseWheel: function (event) {
-        this.scale =  this.transform.scale( this._map);
+        if(this.shapeEditor.shapeEditorResult.original){
+            this.scale =  this.transform.scale( this._map);
 
-        var k =  this.shapeEditor.shapeEditorResult.original.linkWidth;
-        var e = window.event || event; // old IE support
-        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-        var scale =  k+delta*(1.7/this.scale);
-        if (scale*this.scale<6.6) {
-            scale = 6.6/this.scale;
-        }else if (scale*this.scale>160) {
-            scale = 160/this.scale;
+            var k =  this.shapeEditor.shapeEditorResult.original.linkWidth;
+            var e = window.event || event; // old IE support
+            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+            var scale =  k+delta*(1.7/this.scale);
+            if (scale*this.scale<6.6) {
+                scale = 6.6/this.scale;
+            }else if (scale*this.scale>160) {
+                scale = 160/this.scale;
+            }
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().linkWidth = scale;
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().linkWidth = scale;
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-
     },
     //两点之间的距离
     distance:function(pointA, pointB) {
