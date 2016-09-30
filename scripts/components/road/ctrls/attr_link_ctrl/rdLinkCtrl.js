@@ -232,7 +232,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
 
         //如果为双方向时对车道数进行判断;
         if($scope.linkData.direct==1){
-            if($scope.linkData.laneLeft==$scope.linkData.laneRight){
+            if($scope.linkData.laneLeft==$scope.linkData.laneRight&&$scope.linkData.laneLeft!=0&&$scope.linkData.laneRight!=0){
                 $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
                 $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
             }
@@ -247,8 +247,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
             $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
             $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
         }
-
-
 
 
         if ($scope.linkData.forms.length == 0) {

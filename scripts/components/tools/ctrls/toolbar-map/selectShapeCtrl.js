@@ -381,14 +381,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'type': 'PATHBREAK',
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        },
-                            {
-                            'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
-                            'title': "分离节点",
-                            'type': 'DEPARTNODE',
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                            }
+                        }
+                            //,
+                            //{
+                            //'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
+                            //'title': "分离节点",
+                            //'type': 'DEPARTNODE',
+                            //'class': "feaf",
+                            //callback: $scope.modifyTools
+                            //}
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮

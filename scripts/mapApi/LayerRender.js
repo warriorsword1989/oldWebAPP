@@ -440,6 +440,7 @@ fastmap.mapApi.LayerRender = {
         g.strokeStyle = linestyle.strokeColor;
         g.lineWidth = linestyle.strokeWidth;
         g.globalAlpha = linestyle.strokeOpacity || 1;//Opacity
+        g.lineCap = linestyle.lineCap || "butt";
         g.beginPath();
         for (var j = 0; j < proj.length; j++) {
             var method = (j === 0 ? 'move' : 'line') + 'To';

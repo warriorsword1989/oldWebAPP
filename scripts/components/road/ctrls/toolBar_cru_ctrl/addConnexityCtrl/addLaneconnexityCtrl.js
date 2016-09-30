@@ -62,9 +62,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     };
     $scope.minusTransitData=function(item,index) {
         if ( $scope.directData.showNormalData.length > 0) {
-            $scope.directData.showTransitData= {"flag":"test" , "log": ""};
-            $scope.directData.inLaneInfoArr[index] = $scope.directData.showNormalData[index];
-
+            $scope.directData.showTransitData[index] = {"flag":"test" , "log": ""};//主要是为了图标对齐
+            $scope.directData.inLaneInfoArr[index] = $scope.directData.showNormalData[index].flag;
         }
     };
 
@@ -97,7 +96,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             highRenderCtrl.highLightFeatures = $scope.highFeatures;
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
-            tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
+            tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
             $scope.laneConnexity.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
@@ -108,7 +107,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             });
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
-            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,请选择方向!");
+            tooltipsCtrl.setCurrentTooltip("已经选择进入点,请选择退出线!");
         } else if (data.index > 1) {
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
@@ -119,7 +118,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             });
             highRenderCtrl .drawHighlight();
             $scope.laneConnexity.outLinkPids = $scope.excitLineArr;
-            tooltipsCtrl.setChangeInnerHtml("已选退出线,请选择方向或者选择退出线!");
+            tooltipsCtrl.setCurrentTooltip("已选退出线,请选择方向或者选择退出线!");
         }
         $scope.directData["laneConnexity"]=$scope.laneConnexity
     });

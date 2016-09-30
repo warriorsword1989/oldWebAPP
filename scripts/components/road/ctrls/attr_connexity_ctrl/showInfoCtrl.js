@@ -144,7 +144,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             if (direct.indexOf("]") !== -1) {
                 $scope.laneFlag = true;
                 if (direct.indexOf(">") !== -1) {
-                    $scope.directArr = $scope.changeDirects[direct.charAt(2)].split("");
+                    $scope.directArr = $scope.changeDirects[direct.charAt(1)].split("");
                 } else {
                     $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 2)].split("");
                 }

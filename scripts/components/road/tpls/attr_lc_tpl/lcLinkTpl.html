@@ -11,21 +11,20 @@
                         <li>
                             <label>Link种别</label>
                             <div>
-                                <a  ng-click="showPopover()" style="cursor: pointer;">编辑</a>
+                                <a ng-click="showPopover()" style="cursor: pointer;">编辑</a>
                             </div>
                         </li>
-                        <li style="padding-left: 20px">
-				            <div style="width:260px;" >
-				                <div ng-repeat="item in lcLinkData.kinds track by $index" class="checkboxli">
-				                      {{item.label}}
-				                </div>
-				            </div>
-				        </li>
+                        <li>
+                            <div style="width: 260px;">
+                                <div ng-repeat="t in lcLinkData.kinds track by $index" class="checkboxli">
+                                    {{kindsLabel[t.kind]}}
+                                </div>
+                            </div>
+                        </li>
                         <li>
                             <label>Link形态</label>
                             <div>
-                                <select ng-model="lcLinkData.kinds[0].form" ng-options="value.id as value.label for value in form">
-                                    <!-- <option value="">请选形态种别</option> -->
+                                <select ng-model="formModel" ng-options="value.id as value.label for value in form">
                                 </select>
                             </div>
                         </li>
