@@ -12,7 +12,7 @@ fastmap.uikit.canvasFeature.LCFace = fastmap.uikit.canvasFeature.Feature.extend(
             color = Number(this.properties.id).toString(16);
         }
         this.properties['style'] = {
-            'fillColor': '#8B3A3A',
+            'fillColor': '#f90',
             'fillOpacity': 0.3,
             'strokeColor': '#8B3A3A',
             'strokeWidth': 1,
