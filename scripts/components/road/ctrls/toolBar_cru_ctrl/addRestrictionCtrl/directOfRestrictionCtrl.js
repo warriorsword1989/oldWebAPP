@@ -24,18 +24,28 @@ addDirectOfRestriction.controller("addDirectOfRestrictionController", function (
         };
         if ($scope.showData.showAdditionalData.length === 0) {
 
-            $scope.showData.showNormalData.push(normalObj);
-            if (item.flag === true) {
-                var id = "[" + item.id + "]"
-                $scope.showData.inLaneInfoArr.push(id);
-            } else {
-                $scope.showData.inLaneInfoArr.push(item.id);
+            var temp = $scope.showData.showNormalData;
+            var f = true;
+            for(var i = 0 ,len = temp.length; i < len ; i++){
+                if(temp[i].id == normalObj.id && temp[i].flag == normalObj.flag){
+                    f = false;  //防止重复增加
+                    break;
+                }
+            }
+            if(f){
+                $scope.showData.showNormalData.push(normalObj);
+                if (item.flag === true) {
+                    var id = "[" + item.id + "]";
+                    $scope.showData.inLaneInfoArr.push(id);
+                } else {
+                    $scope.showData.inLaneInfoArr.push(item.id);
+                }
             }
         } else {
             var len = $scope.showData.showNormalData.length;
             $scope.showData.showNormalData.splice(len - 1, 0, normalObj);
             if (item.flag === true) {
-                var id = "[" + item.id + "]"
+                var id = "[" + item.id + "]";
                 $scope.showData.inLaneInfoArr.splice(len - 1, 0, id);
             } else {
                 $scope.showData.inLaneInfoArr.splice(len - 1, 0, item.id);
