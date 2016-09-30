@@ -668,6 +668,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             } else if (shapeCtrl.editType === "addRdLaneConnexity") {
                 var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                     laneInfo = objEditCtrl.originalData["laneConnexity"];
+                if(laneData == undefined || laneInfo== undefined){
+                    swal("操作失败", "请检查选择的数据！", "error");
+                    return;
+                }
                 var laneStr = "";
                 if (laneData.length === 0) {
                     laneStr = laneData[0];

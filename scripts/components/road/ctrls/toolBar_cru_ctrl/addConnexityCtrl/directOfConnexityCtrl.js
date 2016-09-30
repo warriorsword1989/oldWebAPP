@@ -28,8 +28,8 @@ showDirectApp.controller("showDirectOfConnexity",function($scope) {
           normalObj = {
                 "flag": item.flag,
                 "type": 0
-            };;
-        if(  $scope.showData.showAdditionalData.length===0) {
+            };
+        if($scope.showData.showAdditionalData.length===0) {
 
             $scope.showData.showNormalData.push(normalObj);
             $scope.showData.showTransitData.push(transitObj);

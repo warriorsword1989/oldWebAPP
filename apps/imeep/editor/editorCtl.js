@@ -257,12 +257,12 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}
 		};
 
-		var loadToolsPanel = function (callback) {
+		var loadToolsPanel = function () {
+			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/editorToolbarCtrl.js').then(function () {
+				$scope.editorToolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/editorToolbarTpl.htm';
+			});
 			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
 				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
-				if (callback) {
-					callback();
-				}
 			});
 			$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
@@ -311,14 +311,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					loadMap(data);
 					var promises = loadMetaData();
 					$q.all(promises).then(function () {
-						loadToolsPanel(function () {
-							if (data.type == 0) { // POI任务
-								$scope.changeProject(1);
-							} else { // 一体化、道路、专项任务
-								$scope.changeProject(2);
-							}
-							bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
-						});
+						loadToolsPanel();
+						if (data.type == 0) { // POI任务
+							$scope.changeProject(1);
+						} else { // 一体化、道路、专项任务
+							$scope.changeProject(2);
+						}
+						bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
 					});
 				}
 			});
