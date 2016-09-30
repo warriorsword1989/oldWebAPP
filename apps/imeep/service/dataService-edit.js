@@ -735,4 +735,50 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
+
+    //搜索檢查;
+    this.seachCheckBox = function(params) {
+        var defer = $q.defer();
+        var param = {
+            pageSize: params.pageNumber,
+            pageNum: params.currentPage,
+            type: params.checkType
+        }
+        ajax.get("edit/check/getCkRules", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("搜索信批处理包出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    //执行檢查;
+    this.exeOnlineSearch = function(params) {
+        var defer = $q.defer();
+        var param = {
+            subtaskId:params.taskId,
+            ckRules:params.ruleCode,
+            checkType:params.type
+        }
+        ajax.get("edit/check/run",{
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("执行检查出错：", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
 }]);
