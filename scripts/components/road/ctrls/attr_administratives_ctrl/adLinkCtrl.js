@@ -105,39 +105,37 @@ adLinkApp.controller("adLinkController",["$scope","dsEdit" , function($scope,dsE
 
     //删除
     $scope.delete = function(){
-<<<<<<< HEAD
-        var objId = parseInt($scope.adLinkData.pid);
-        var param = {
-            "command": "DELETE",
-            "type":"ADLINK",
-            "projectId": Application.projectid,
-            "objId": objId
-        }
-        //删除调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            adLink.redraw();
-            adNode.redraw();
-            if (data.errcode==0) {
-                var sInfo={
-                    "op":"删除行政区划线成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sInfo);
-                info=data.data.log;
-
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
-            outputCtrl.pushOutput(info);
-            if (outputCtrl.updateOutPuts !== "") {
-                outputCtrl.updateOutPuts();
-=======
+//         var objId = parseInt($scope.adLinkData.pid);
+//         var param = {
+//             "command": "DELETE",
+//             "type":"ADLINK",
+//             "projectId": Application.projectid,
+//             "objId": objId
+//         }
+//         //删除调用方法
+//         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+//             var info = null;
+//             adLink.redraw();
+//             adNode.redraw();
+//             if (data.errcode==0) {
+//                 var sInfo={
+//                     "op":"删除行政区划线成功",
+//                     "type":"",
+//                     "pid": ""
+//                 };
+//                 data.data.log.push(sInfo);
+//                 info=data.data.log;
+//
+//             }else{
+//                 info=[{
+//                     "op":data.errcode,
+//                     "type":data.errmsg,
+//                     "pid": data.errid
+//                 }];
+//             }
+//             outputCtrl.pushOutput(info);
+//             if (outputCtrl.updateOutPuts !== "") {
+//                 outputCtrl.updateOutPuts();
         dsEdit.delete($scope.adLinkData.pid, "ADLINK").then(function(data) {
             if (data) {
                 adLink.redraw();//线重绘
@@ -148,7 +146,6 @@ adLinkApp.controller("adLinkController",["$scope","dsEdit" , function($scope,dsE
                 var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
->>>>>>> web/master
             }
         });
     };
