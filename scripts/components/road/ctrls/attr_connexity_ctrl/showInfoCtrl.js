@@ -70,8 +70,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         "c": 3,
         "d": 4,
         "r": 5,
-        "s": 6,
-        "o": 7
+        "s": 6
     };
     $scope.decimalToArr = function (data) {
         var arr = [];
@@ -83,7 +82,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         id: objCtrl.data["inLinkPid"].toString(),
         layerid:'rdLink',
         type:'line',
-        style:{color: '#CD0000'}
+        style:{color: 'red'}
     });
     highLightFeatures.push({
         id:objCtrl.data["nodePid"].toString(),
@@ -100,8 +99,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                     id:$scope.infoData["topos"][i].outLinkPid.toString(),
                     layerid:'rdLink',
                     type:'line',
-                    style:{}
-                })
+                    style:{color:'#FFD306'}
+                });
                 var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
                 obj["enterLaneNum"] = lenOfInfo + 1;
                 if (obj["busLaneInfo"] !== 0) {
@@ -120,7 +119,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                         id:$scope.infoData["topos"][i].outLinkPid.toString(),
                         layerid:'rdLink',
                         type:'line',
-                        style:{}
+                        style:{color:'#FFD306'}
                     })
                     var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
                     obj["enterLaneNum"] = lenOfInfo + 1;
@@ -169,9 +168,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.getLanesInfo = function (item, event) {
         $scope.removeTipsActive();
         $(event.target).addClass("active");
-        highRenderCtrl._cleanHighLight();
-        highRenderCtrl.highLightFeatures.length = 0;
-        highLightFeatures.length = 0;
         if (eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID]) {
             for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID].length; ii < lenII; ii++) {
                 eventController.off(eventController.eventTypes.GETOUTLINKSPID, eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID][ii]);
@@ -184,7 +180,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         for (var i = 0, len = $scope.outLanesArr.length; i < len; i++) {
             if ($scope.outLanesArr[i]["reachDir"] === $scope.transData[item]) {
                 $scope.showLaneInfo.push($scope.outLanesArr[i]);
-                highLightFeatures.push({
+                highRenderCtrl.highLightFeatures.push({
                     id: $scope.outLanesArr[i]["outLinkPid"].toString(),
                     layerid:'rdLink',
                     type:'line',
@@ -193,19 +189,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 outLinkObj[$scope.outLanesArr[i]["outLinkPid"].toString()] = true;
             }
         }
-        highLightFeatures.push({
-            id: objCtrl.data["inLinkPid"].toString(),
-            layerid:'rdLink',
-            type:'line',
-            style:{color: '#CD0000'}
-        });
-        highLightFeatures.push({
-            id:objCtrl.data["nodePid"].toString(),
-            layerid:'rdLink',
-            type:'node',
-            style:{}
-        });
-        highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         map.currentTool = new fastmap.uikit.SelectPath({
@@ -312,4 +295,4 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
 
         });
     };
-})
+});

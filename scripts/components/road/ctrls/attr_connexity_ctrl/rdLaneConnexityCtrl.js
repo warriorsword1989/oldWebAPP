@@ -395,7 +395,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
 
     $document.bind("keydown", function (event) {
         if (event.keyCode == 16) {//shift键 公交车道
-            if($scope.lanesArr[$scope.selectNum].indexOf("<") > -1){
+            if($scope.lanesArr[$scope.selectNum]&&$scope.lanesArr[$scope.selectNum].length >0 &&$scope.lanesArr[$scope.selectNum].indexOf("<") > -1){
                 return;
             }
 
@@ -419,7 +419,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             }
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
-            if($scope.lanesArr[$scope.selectNum].indexOf("[") > -1){
+            if($scope.lanesArr[$scope.selectNum]&&$scope.lanesArr[$scope.selectNum].length >0 &&$scope.lanesArr[$scope.selectNum].indexOf("[") > -1){
                 return;
             }
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
