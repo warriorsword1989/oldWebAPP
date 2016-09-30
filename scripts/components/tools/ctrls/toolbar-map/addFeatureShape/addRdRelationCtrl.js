@@ -11,6 +11,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rwLink = layerCtrl.getLayerById('rwLink');
+        var lcLink = layerCtrl.getLayerById('lcLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -72,8 +73,18 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          */
         $scope.containsRwLink = function(data) {
             return data.filter(function(item) {
-                return item["type"] === "RWLINK";
-            }).length !== 0;
+                    return item["type"] === "RWLINK";
+                }).length !== 0;
+        };
+        /**
+         * 数据中是否有lcLink
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.containsLcLink = function(data) {
+            return data.filter(function(item) {
+                    return item["type"] === "LCLINK";
+                }).length !== 0;
         };
         /**
          * 运算两条线的交点坐标
@@ -148,9 +159,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
             }
             /*重绘link颜f色*/
             for (var i = 0; i < $scope.jsonData.linkObjs.length; i++) {
+                var tempObj = {
+                    RDLINK:'rdLink',
+                    RWLINK:'rwLink',
+                    LCLINK:'lcLink'
+                };
                 highRenderCtrl.highLightFeatures.push({
                     id: $scope.jsonData.linkObjs[i].pid.toString(),
-                    layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
+                    // layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
+                    layerid: tempObj[$scope.jsonData.linkObjs[i]["type"]],
                     type: 'RDGSC',
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
@@ -186,15 +203,24 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     });
                     map.currentTool.enable();
                 }
-                if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
-                    map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
-                        map: map,
-                        currentEditLayer: rwLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.rwEvent.enable();
-                }
+            if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rwLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
+            if ($scope.containsLcLink($scope.jsonData.linkObjs)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: lcLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
                 rdLink.options.selectType = 'link';
                 rdLink.options.editable = true;
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
@@ -657,9 +683,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     /*高亮link*/
                     for (var i = 0, lenI = dealData.length; i < lenI; i++) {
+                        var tempObj = {
+                            RDLINK:'rdLink',
+                            RWLINK:'rwLink',
+                            LCLINK:'lcLink'
+                        };
                         highlightFeatures.push({
                             id: dealData[i].data.properties.id.toString(),
-                            layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
+                            // layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
+                            layerid: tempObj[dealData[i].data.properties.featType],
                             type: 'RDGSC',
                             index: i,
                             style: {
@@ -709,7 +741,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
-                        selectCtrl.onSelected($scope.jsonData);
+                        shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
+                        // selectCtrl.onSelected($scope.jsonData);
                     }
                 });
             }  else if (type === 'TRAFFIC_SIGNAL') {     //信号灯

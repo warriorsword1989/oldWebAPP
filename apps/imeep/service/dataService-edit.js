@@ -153,7 +153,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
-                defer.resolve("查找检查结果信息出错：" + data.errmsg);
+                swal("查找检查结果信息出错：", data.errmsg, "error");
+                defer.resolve(-1);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
@@ -273,7 +274,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                         html.push("</ul>");
                     }
                     html.push("</div>");
-                    setTimeout(function(){
+                    // by liwanchong:加上setTimeout是为了解决在mac下不能正常提示的问题
+                    setTimeout(function() {
                         swal({
                             title: "以下操作将会执行，是否继续？",
                             text: html.join(''),
@@ -292,7 +294,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                                 defer.resolve(null);
                             }
                         });
-                    },1000)
+                    }, 1000);
                 } else { // 服务端返回错误信息，结束执行
                     defer.resolve(null);
                 }
@@ -472,17 +474,19 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     "pid": "0",
                     "childPid": ""
                 });
+                // 由于直接弹出提示然后执行后续操作会导致uilayout的布局有问题，因此改成回调方式执行后续操作
                 // swal(opDesc + "操作成功", "", "success");
-                swal({
-                    title: opDesc + "操作成功",
-                    type: "success",
-                    timer: 2000,
-                    showConfirmButton: false,
-                    allowEscapeKey: false
-                }, function() {
-                    swal.close();
-                    defer.resolve(data.data);
-                });
+                // 2016-9-29 by chenx:各位老大要求操作成功时不进行弹出提示了
+                // swal({
+                //     title: opDesc + "操作成功",
+                //     type: "success",
+                //     timer: 2000,
+                //     showConfirmButton: false,
+                //     allowEscapeKey: false
+                // }, function() {
+                //     swal.close();
+                defer.resolve(data.data);
+                // });
             } else if (data.errcode == 999) { // 删除前的检查返回的确认信息
                 defer.resolve(data.data);
             } else if (data.errcode < 0) { // 操作失败
@@ -687,22 +691,44 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
     //搜索批处理包;
     this.batchBox = function(params) {
         var defer = $q.defer();
         var param = {
-            pageSize:params.pageNumber,
-            pageNum:params.currentPage,
-            type:params.batchType
+            pageSize: params.pageNumber,
+            pageNum: params.currentPage,
+            type: params.batchType
         }
-        ajax.get("edit/batch/getBatchRules",{
+        ajax.get("edit/batch/getBatchRules", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
                 defer.resolve("搜索信批处理包出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+
+    //执行批处理;
+    this.exeOnlinebatch = function(params) {
+        var defer = $q.defer();
+        var param = {
+            subtaskId:params.taskId,
+            batchRules:params.ruleCode,
+            batchType:params.type
+        }
+        ajax.get("edit/batch/run",{
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("执行批处理出错：", data.errmsg, "error");
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);

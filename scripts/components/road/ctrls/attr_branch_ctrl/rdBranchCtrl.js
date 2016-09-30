@@ -19,10 +19,20 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             // objCtrl.data.details[0].branchType = 3;
             $('[data-toggle="tooltip"]').tooltip();
         }
+
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
+
+        if($scope.diverObj.details[0].branchType == 3 || $scope.diverObj.details[0].branchType == 4){
+            $scope.diverObj.details[0].estabType = 9;
+            $scope.diverObj.details[0].nameKind = 9;
+        }else{
+            $scope.diverObj.details[0].estabType = 0;
+            $scope.diverObj.details[0].nameKind = 0;
+        }
+
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
@@ -34,16 +44,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
 
     }
 
-    $scope.$watch('',function(){
-        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if($scope.diverObj.branchType == 3 || $scope.diverObj.branchType == 4){
-            $scope.diverObj.details[0].estabType = 9;
-            $scope.diverObj.details[0].nameKind = 9;
-        }else{
-
-        }
-    })
-
+    $scope.refreshData = function () {
+        dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject("RDBRANCH", data);
+                $scope.initDiver();
+            }
+        });
+    };
     $scope.setOriginalDataFunc = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     }
@@ -197,6 +205,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.patternCodeSrc = getArrowPic($scope.diverObj.details[0].patternCode);
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.details[0].patternCode;
+        $scope.firstLetter = $scope.diverObj.details[0].patternCode.substring(0,1);
+        $scope.leftLetter = $scope.diverObj.details[0].patternCode.substring(1)
         changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/
@@ -223,6 +233,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         o.valueOf = obj.valueOf;
         return o;
     }
+
+
     /*修改模式图号*/
     $scope.changePatternCode = function(){
         if($scope.diverObj.details[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
@@ -238,7 +250,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             if($scope.diverObj.details[0].patternCode.charAt(0)==5 || $scope.diverObj.details[0].patternCode.charAt(0)==8){
                 $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(0);
             }else{
-                $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(1);
+                $scope.diverObj.details[0].patternCode = $scope.firstLetter+$scope.leftLetter
             }
         }else if($scope.diverObj.details[0].branchType == 4){
             if($scope.diverObj.details[0].patternCode.charAt(0)==7){
@@ -284,8 +296,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 }
             }
         }
-        //当为3D和复杂路口模式图(7开头)时设施类型程序自动维护为9（不应用），不允许编辑；否则，设施类型不维护，保留原值，允许编辑；
-        if(type == 3 || type == 4){
+
+        if($scope.diverObj.details[0].branchType == 3 || $scope.diverObj.details[0].branchType == 4){
             $scope.diverObj.details[0].estabType = 9;
             $scope.diverObj.details[0].nameKind = 9;
         }else{
@@ -486,15 +498,29 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }
-        var detailInfo = {
+        var showBranchInfoObj = {
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var detailInfo = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": tempCtr,
+                    "propertyHtml": tempTepl
+                };
+                $scope.$emit("transitCtrlAndTpl", detailInfo);
+            }
+        };
+        /*var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,
             "propertyHtml": tempTepl,
             "data":objCtrl.data.details[0].names
-        };
+        };*/
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
-        $scope.$emit("transitCtrlAndTpl", detailInfo);
+        // $scope.$emit("transitCtrlAndTpl", detailInfo);
+        $scope.$emit("transitCtrlAndTpl", showBranchInfoObj);
     };
 
     if (objCtrl.data) {
@@ -534,6 +560,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             if (param.data.details[0].names) {
                 $.each(param.data.details[0].names, function (i, v) {
                     delete v.linkPid;
+                    if(param.data.details[0].names[i].objStatus == 'DELETE'){
+                        return;
+                    }
                     param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
                     param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
                 });
@@ -545,8 +574,21 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             return false;
         }
         dsEdit.save(param).then(function (data) {
-            $scope.setOriginalDataFunc();
-            rdBranch.redraw();
+            if (data) {
+                if (selectCtrl.rowkey) {
+                    var stageParam = {
+                        "rowkey": selectCtrl.rowkey.rowkey,
+                        "stage": 3,
+                        "handler": 0
+                    };
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
+                        selectCtrl.rowkey.rowkey = undefined;
+                    });
+                }
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                rdBranch.redraw();
+            }
+            $scope.refreshData();
         });
     }
 
@@ -554,17 +596,16 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.delete = function () {
         var detailId = $scope.diverObj.details[0].pid;
         var branchType = $scope.diverObj.details[0].branchType;
-        dsEdit.deleteBranchByDetailId(detailId,branchType).then(
-            function(params){
+        dsEdit.deleteBranchByDetailId(detailId,branchType).then(function(params){
                 if(params){
-                    //map.floatMenu.onRemove();
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
                     highRenderCtrl.highLightFeatures = null;
                     highRenderCtrl._cleanHighLight();
                     rdBranch.redraw();
-                    $scope.$emit('SWITCHCONTAINERSTATE', {
-            					'subAttrContainerTpl': false,
-            					'attrContainerTpl': false
-            				});
+                    $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 }
             }
         );

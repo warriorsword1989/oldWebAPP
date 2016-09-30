@@ -334,8 +334,10 @@ fastmap.uikit.ObjectEditController = (function() {
                                     delete obj["geoLiveType"];
                                 }
                             }
+                            var differLen = data[item].length - oriData[item].length;
                             for (var j = oriData[item].length - 1; j >= 0; j--) {
-                                var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
+                                //var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
+                                var obj = this.compareJson(pids,oriData[item][j], data[item][differLen + j], "UPDATE");
                                 if (obj) {
                                     if (oriData[item][j]["linkPid"]) {
                                         obj["linkPid"] = oriData[item][j]["linkPid"];
