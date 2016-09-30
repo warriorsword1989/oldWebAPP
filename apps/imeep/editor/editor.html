@@ -33,8 +33,7 @@
         <script src="loadUikit.js"></script>
     </head>
     <body ng-controller="EditorCtl">
-        <!-- 930版本不提测 -->
-        <!-- <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+        <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
         <div ui-layout-container size="40px">
             <div class="fm-top" style="left:0px;width:60px;text-align:center;">
                 <img src="../../../images/main/fm-logo.png">
@@ -48,7 +47,7 @@
                 <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>
             </div>
         </div>
-        <div ui-layout-container> -->
+        <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
             <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="60px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
@@ -169,8 +168,8 @@
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
         </div>
-        <!-- </div>
-        </div> -->
+        </div>
+        </div>
 
         <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
         <div id="dataTipsOriginModal" style="display:none">
