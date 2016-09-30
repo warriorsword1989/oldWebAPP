@@ -224,6 +224,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             } else {
                 if ($scope.changeOutLinkFlag) {
                     changedObj["outLinkPid"] = data.id;
+                    changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
                     outLinkObj[data.id.toString()] = true;
                     $scope.showLaneInfo.push(changedObj);
                     for (var j = 0, lenJ = $scope.infoData["topos"].length; j < lenJ; j++) {
@@ -255,6 +256,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                     }
                     newTopo["outLinkPid"] = parseInt(data.id);
                     newShowLane["outLinkPid"] = parseInt(data.id);
+                    newShowLane["inLinkPid"] = objCtrl.data["inLinkPid"];
                     $scope.showLaneInfo.unshift(newShowLane);
                     $scope.$apply();
                     newTopo["pid"] = 0;

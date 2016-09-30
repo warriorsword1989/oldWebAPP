@@ -1566,7 +1566,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 if(continueLinks.data[i].pid != $scope.rdSe.inLinkPid){
                                     $scope.rdSe.outLinkPid = continueLinks.data[i].pid ;
 
-                                    highLightFeatures.push({
+                                    highRenderCtrl.highLightFeatures.push({
                                         id: $scope.rdSe.outLinkPid.toString(),
                                         layerid: 'rdLink',
                                         type: 'line',
