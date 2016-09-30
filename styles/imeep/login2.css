@@ -29,10 +29,8 @@ body {
 .wrapper {
   width: 100%;
   height: 100%;
-  background: url('../../images/poi/main/loginBackground.png') no-repeat 99% center;
+  background: url('../../images/poi/main/loginBackgroundColor.png') no-repeat 99% center;
   background-size: 100% 100%;
-  min-width: 1366px;
-  min-height: 667px;
 }
 .left_part,
 .right_part {
@@ -126,9 +124,7 @@ footer.bs-docs-footer {
   top: 50%;
   margin-top: -106px;
   left: 50%;
-  margin-left: -20%;
-  width: 18.75%;
-  min-width: 256.125px;
+  margin-left: -256px;
 }
 .rememberMe {
   float: right;
@@ -137,4 +133,15 @@ footer.bs-docs-footer {
   margin-top: 2px;
   height: 16px;
   width: 16px;
+}
+.backgroundImageDiv {
+  background: url('../../images/poi/main/login_logo.png') no-repeat;
+  background-size: 831.6px,630px;
+  width: 831.6px;
+  height: 630px;
+  position: absolute;
+  top: 50%;
+  margin-top: -315px;
+  left: 50%;
+  margin-left: -415.8px;
 }
