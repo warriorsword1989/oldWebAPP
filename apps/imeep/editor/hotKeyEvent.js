@@ -540,6 +540,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
                                 lcFace.redraw();
+                                lcNode.redraw();
                             }
                             treatmentOfChanged(data, param["type"], ctrl, tpl);
                         }
