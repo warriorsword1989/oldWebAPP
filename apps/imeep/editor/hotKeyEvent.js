@@ -587,7 +587,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     pointNew = L.latLng(geo.y, geo.x);
                     distanceA = pointNew.distanceTo(L.latLng(snodeGeo[1], snodeGeo[0]));
                     distanceB = pointNew.distanceTo(L.latLng(enodeGeo[1], enodeGeo[0]));
-                    if(distanceA > 3 && distanceB > 3){
+                    if(distanceA > 2 && distanceB > 2){
                         dsEdit.save(param).then(function (data) {
                             if (data != null) {
                                 if (param["type"] === "RDLINK") {
