@@ -34,7 +34,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
             type: 'rdCross',
             style: {
                 fillColor: '#ff00ff',
-                radius: 7
+                radius: 3
             }
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
