@@ -337,7 +337,19 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "pathBreak") {
                 var breakPoint = null,
-                    breakPathContent, ctrl, tpl;
+                    breakPathContent, ctrl, tpl,
+                    selectShapeType = shapeCtrl.editFeatType,
+                    snodeGeo, enodeGeo, pointNew, distanceA, distanceB;
+                if(geo.components.length - geo.points.length > 1){
+                    for(var i=0;i<geo.components.length;i++){
+                        if(geo.components[i].x.toString().split('.')[1].length > 5){
+                            geo.components.splice(i,1);
+                            i--;
+                        }
+                    }
+                    swal("操作失败", "不允许同时打断多条link，请重新操作！", "error");
+                    return;
+                }
                 for (var item in geo.components) {
                     if (!_contains(geo.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
                         breakPoint = geo.components[item];
@@ -355,44 +367,53 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "longitude": breakPoint.x,
                     "latitude": breakPoint.y
                 };
-                if (shapeCtrl.editFeatType === "RDLINK") {
+                if (selectShapeType === "RDLINK") {
                     param["type"] = "RDLINK";
-                } else if (shapeCtrl.editFeatType === "ADLINK") {
+                } else if (selectShapeType === "ADLINK") {
                     param["type"] = "ADLINK";
-                } else if (shapeCtrl.editFeatType === "RWLINK") {
+                } else if (selectShapeType === "RWLINK") {
                     param["type"] = "RWLINK";
-                } else if (shapeCtrl.editFeatType === "ZONELINK") {
+                } else if (selectShapeType === "ZONELINK") {
                     param["type"] = "ZONELINK";
-                } else if (shapeCtrl.editFeatType === "LULINK") {
+                } else if (selectShapeType === "LULINK") {
                     param["type"] = "LULINK";
-                } else if (shapeCtrl.editFeatType === "LCLINK") {
+                } else if (selectShapeType === "LCLINK") {
                     param["type"] = "LCLINK";
                 }
-                dsEdit.save(param).then(function (data) {
-                    if (data != null) {
-                        if (param["type"] === "RDLINK") {
-                            rdLink.redraw();
-                            rdnode.redraw();
-                        } else if (param["type"] === "ADLINK") {
-                            adLink.redraw();
-                            adNode.redraw();
-                        } else if (param["type"] === "RWLINK") {
-                            rwLink.redraw();
-                            rwnode.redraw();
-                        } else if (param["type"] === "ZONELINK") {
-                            zoneLink.redraw();
-                            zoneNode.redraw();
-                        } else if (param["type"] === "LULINK") {
-                            luLink.redraw();
-                            luNode.redraw();
-                        } else if (param["type"] === "LCLINK") {
-                            lcLink.redraw();
-                            lcNode.redraw();
+                snodeGeo = geo.components[0];
+                enodeGeo = geo.components[geo.components.length-1];
+                pointNew = L.latLng(breakPoint.y, breakPoint.x);
+                distanceA = pointNew.distanceTo(L.latLng(snodeGeo.y, snodeGeo.x));
+                distanceB = pointNew.distanceTo(L.latLng(enodeGeo.y, enodeGeo.x));
+                if(distanceA > 2 && distanceB > 2){
+                    dsEdit.save(param).then(function (data) {
+                        if (data != null) {
+                            if (param["type"] === "RDLINK") {
+                                rdLink.redraw();
+                                rdnode.redraw();
+                            } else if (param["type"] === "ADLINK") {
+                                adLink.redraw();
+                                adNode.redraw();
+                            } else if (param["type"] === "RWLINK") {
+                                rwLink.redraw();
+                                rwnode.redraw();
+                            } else if (param["type"] === "ZONELINK") {
+                                zoneLink.redraw();
+                                zoneNode.redraw();
+                            } else if (param["type"] === "LULINK") {
+                                luLink.redraw();
+                                luNode.redraw();
+                            } else if (param["type"] === "LCLINK") {
+                                lcLink.redraw();
+                                lcNode.redraw();
+                            }
+                            shapeCtrl.editType = "pathBreak";//被清空了，下面方法的分支进不去，因此再次临时赋值
+                            treatmentOfChanged(data, param["type"]);
                         }
-                        shapeCtrl.editType = "pathBreak";//被清空了，下面方法的分支进不去，因此再次临时赋值
-                        treatmentOfChanged(data, param["type"]);
-                    }
-                })
+                    })
+                }else{
+                    swal("操作失败", "打断link小于2米，请重新操作！", "error");
+                }
             } else if (shapeCtrl.editType === "transformDirect") {
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
