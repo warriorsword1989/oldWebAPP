@@ -108,6 +108,10 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
         for(var i = 0 ,len = kinds.length; i < len; i++){
             kinds[i].form = $scope.formModel;
         }
+        if(kinds.length == 0){
+            swal("保存提示",'请先选择一个种别！', "warning");
+            return;
+        }
         objCtrl.save();
         var changed = objCtrl.changedProperty;
         if(!changed){

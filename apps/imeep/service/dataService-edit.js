@@ -263,7 +263,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                     var test = data.result;
                     var html = [],
                         temp;
-                    html.push("<div style='max-height:200px;overflow:auto;'>");
                     for (var key in test) {
                         html.push("<p style='text-align:left;font-weight:bold;'>" + key + "：</p>");
                         temp = test[key];
@@ -273,7 +272,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
                         }
                         html.push("</ul>");
                     }
-                    html.push("</div>");
                     // by liwanchong:加上setTimeout是为了解决在mac下不能正常提示的问题
                     setTimeout(function() {
                         swal({
