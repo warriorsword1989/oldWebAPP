@@ -166,7 +166,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",["$scope",'dsE
             swal("提示","请选择退出线！","info");
             return;
         }
-        if($scope.item){
+        if(!$scope.item){
             swal("提示","请选择图标！","info");
             return;
         }
@@ -200,7 +200,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",["$scope",'dsE
                 var selObj=fastmap.dataApi.rdLaneTopology({
                     "busLaneInfo": 0,
                     "connexityPid": $scope.laneInfo["pid"],
-                    "inLaneInfo": parseInt($scope.intToDecial($scope.lanesArr.length+1)),
+                    "inLaneInfo": parseInt($scope.intToDecial($scope.lanesArr.length)),
                     "outLinkPid": $scope.links[i],
                     "reachDir": $scope.changeData($scope.item.id)?$scope.changeData($scope.item.id):0,
                     "relationshipType": 1,
