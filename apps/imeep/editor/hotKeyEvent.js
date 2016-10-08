@@ -571,6 +571,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
                 var ctrl, tpl;
+                var selectShapeType = shapeCtrl.editFeatType;
                 param["command"] = "CREATE";
                 param["dbId"] = App.Temp.dbId;
                 param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
@@ -578,50 +579,88 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "longitude": geo.x,
                     "latitude": geo.y
                 };
-                param["type"] = shapeCtrl.editFeatType;
-                dsEdit.save(param).then(function (data) {
-                    if (data != null) {
-                        if (param["type"] === "RDLINK") {
-                            rdLink.redraw();
-                            rdnode.redraw();
-                        } else if (param["type"] === "RWNODE") {
-                            rwLink.redraw();
-                            rwnode.redraw();
-                            ctrl = 'attr_node_ctrl/rwNodeCtrl';
-                            tpl = 'attr_node_tpl/rwNodeTpl.html';
-                        } else if (param["type"] === "ADNODE") {
-                            adLink.redraw();
-                            adNode.redraw();
-                            adFace.redraw();
-                            ctrl = 'attr_administratives_ctrl/adNodeCtrl';
-                            tpl = 'attr_adminstratives_tpl/adNodeTpl.html';
-                        } else if (param["type"] === "RDNODE") {
-                            rdLink.redraw();
-                            rdnode.redraw();
-                            ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
-                            tpl = 'attr_node_tpl/rdNodeFormTpl.html';
-                        } else if (param["type"] === "ZONENODE") {
-                            zoneLink.redraw();
-                            zoneNode.redraw();
-                            zoneFace.redraw();
-                            ctrl = 'attr_zone_ctrl/zoneNodeCtrl';
-                            tpl = 'attr_zone_tpl/zoneNodeTpl.html';
-                        } else if (param["type"] === "LUNODE") {
-                            luLink.redraw();
-                            luNode.redraw();
-                            luFace.redraw();
-                            ctrl = 'attr_lu_ctrl/luNodeCtrl';
-                            tpl = 'attr_lu_tpl/luNodeTpl.html';
-                        } else if (param["type"] === "LCNODE") {
-                            lcLink.redraw();
-                            lcNode.redraw();
-                            lcFace.redraw();
-                            ctrl = 'attr_lc_ctrl/lcNodeCtrl';
-                            tpl = 'attr_lc_tpl/lcNodeTpl.html';
+                param["type"] = selectShapeType;
+                var snodeGeo, enodeGeo, pointNew, distanceA, distanceB;
+                dsEdit.getByPid(selectCtrl.selectedFeatures.id,'RDLINK').then(function(data){
+                    snodeGeo = data.geometry.coordinates[0];
+                    enodeGeo = data.geometry.coordinates[data.geometry.coordinates.length-1];
+                    pointNew = L.latLng(geo.y, geo.x);
+                    distanceA = pointNew.distanceTo(L.latLng(snodeGeo[1], snodeGeo[0]));
+                    distanceB = pointNew.distanceTo(L.latLng(enodeGeo[1], enodeGeo[0]));
+                    if(distanceA > 3 && distanceB > 3){
+                        dsEdit.save(param).then(function (data) {
+                            if (data != null) {
+                                if (param["type"] === "RDLINK") {
+                                    rdLink.redraw();
+                                    rdnode.redraw();
+                                } else if (param["type"] === "RWNODE") {
+                                    rwLink.redraw();
+                                    rwnode.redraw();
+                                    ctrl = 'attr_node_ctrl/rwNodeCtrl';
+                                    tpl = 'attr_node_tpl/rwNodeTpl.html';
+                                } else if (param["type"] === "ADNODE") {
+                                    adLink.redraw();
+                                    adNode.redraw();
+                                    adFace.redraw();
+                                    ctrl = 'attr_administratives_ctrl/adNodeCtrl';
+                                    tpl = 'attr_adminstratives_tpl/adNodeTpl.html';
+                                } else if (param["type"] === "RDNODE") {
+                                    rdLink.redraw();
+                                    rdnode.redraw();
+                                    ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
+                                    tpl = 'attr_node_tpl/rdNodeFormTpl.html';
+                                } else if (param["type"] === "ZONENODE") {
+                                    zoneLink.redraw();
+                                    zoneNode.redraw();
+                                    zoneFace.redraw();
+                                    ctrl = 'attr_zone_ctrl/zoneNodeCtrl';
+                                    tpl = 'attr_zone_tpl/zoneNodeTpl.html';
+                                } else if (param["type"] === "LUNODE") {
+                                    luLink.redraw();
+                                    luNode.redraw();
+                                    luFace.redraw();
+                                    ctrl = 'attr_lu_ctrl/luNodeCtrl';
+                                    tpl = 'attr_lu_tpl/luNodeTpl.html';
+                                } else if (param["type"] === "LCNODE") {
+                                    lcLink.redraw();
+                                    lcNode.redraw();
+                                    lcFace.redraw();
+                                    ctrl = 'attr_lc_ctrl/lcNodeCtrl';
+                                    tpl = 'attr_lc_tpl/lcNodeTpl.html';
+                                }
+                                treatmentOfChanged(data, param["type"]);
+                            }
+                        })
+                    }else{
+                        swal("操作失败", "打断link小于2米，请重新操作！", "error");
+                        shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
+                        shapeCtrl.startEditing();
+                        shapeCtrl.editFeatType = selectShapeType;
+                        map.currentTool = shapeCtrl.getCurrentTool();
+                        map.currentTool.enable();
+                        map.currentTool.snapHandler._guides = [];
+                        //设置捕捉图层
+                        if (selectShapeType === "RDNODE") {
+                            map.currentTool.snapHandler.addGuideLayer(rdLink);
+                        } else if (selectShapeType === "RWNODE") {
+                            map.currentTool.snapHandler.addGuideLayer(rwLink);
+                        } else if (selectShapeType === "ADNODE") {
+                            map.currentTool.snapHandler.addGuideLayer(adLink);
+                        }else if (selectShapeType === "ZONENODE") {
+                            map.currentTool.snapHandler.addGuideLayer(zoneLink);
+                        } else if (selectShapeType === "LCNODE") {
+                            map.currentTool.snapHandler.addGuideLayer(lcLink);
+                        } else if (selectShapeType === "LUNODE") {
+                            map.currentTool.snapHandler.addGuideLayer(luLink);
                         }
-                        treatmentOfChanged(data, param["type"]);
+                        toolTipsCtrl.setEditEventType('pointVertexAdd');
+                        toolTipsCtrl.setCurrentTooltip('开始增加节点！');
+                        toolTipsCtrl.setStyleTooltip("color:black;");
+                        toolTipsCtrl.setChangeInnerHtml("点击增加节点!");
+                        toolTipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                     }
-                })
+                });
+
             } else if (shapeCtrl.editType === "BRANCH") {
                 var param = {
                     "data": featCodeCtrl.getFeatCode()
