@@ -59,7 +59,10 @@ body.stop-scrolling {
     float: none;
     margin: 0;
     padding: 0;
-    line-height: normal; }
+    line-height: normal;
+    /*add by chenx on 2016-10-8, 防止提示信息太多占满整个屏幕*/
+    max-height: 200px;
+    overflow: auto; }
   .sweet-alert fieldset {
     border: none;
     position: relative; }
