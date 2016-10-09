@@ -123,9 +123,9 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
         dsEdit.save(param).then(function (data) {
             var info = null;
             if (data) {
-                rdgsc.redraw();
                 $scope.reGscData = null;
                 rdgsc.redraw();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         })
     };

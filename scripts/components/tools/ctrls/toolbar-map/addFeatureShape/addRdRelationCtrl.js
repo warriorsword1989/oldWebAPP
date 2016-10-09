@@ -654,6 +654,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     $scope.jsonData = null;
+                    highRenderCtrl._cleanHighLight();
                     var data = event.data,
                         highlightFeatures = [],
                         containObj = {},
@@ -713,20 +714,40 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             for (var j = i + 1; j < dealData.length; j++) {
                                 if (i != j) {
                                     var lineGeoArr = function(mark) {
-                                        return [dealData[mark].line.points[0], dealData[mark].line.points[1]];
+                                        return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length-1]];
+                                    };
+                                    if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
+                                        crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                     }
-                                    crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                 }
                             }
                         }
                         crossGeos = $scope.ArrUnique(crossGeos);
+                    } else if (dealData.length == 1) {
+                        if(dealData[0].line.points.length > 3){
+                            var shapePoints = dealData[0].line.points; //形状点
+                            for(var i=0;i<shapePoints.length-1;i++){
+                                for(var j=1;j<shapePoints.length;j++){
+                                    if(i<j-1 && (shapePoints[j].x!=shapePoints[i].y) && shapePoints[j+1]){
+                                        if($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]])){
+                                            crossGeos.push($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]]));
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            swal("错误信息", "所选Link无自相交点，请重新选择立交点位！", "error");
+                            highRenderCtrl._cleanHighLight();
+                        }
                     }
                     //判断相交点数
                     if (crossGeos.length == 0) {
-                        swal("错误信息", "所选区域无相交点，请重新选择立交点位！", "error");
+                        swal("错误信息", "所选区域无相交点，如果是自相交只能选择一条link，请重新选择立交点位！", "error");
+                        highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
                         swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
+                        highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
                     } else {
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -738,6 +759,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 'zlevel': linkMark
                             };
                             $scope.jsonData.linkObjs.push(tempObj);
+                        }
+                        //如果自相交传两条一样的link
+                        if(dealData.length == 1) {
+                            var sameObj = {
+                                'pid': $scope.jsonData.linkObjs[0].pid,
+                                'type': $scope.jsonData.linkObjs[0].type,
+                                'zlevel': 1
+                            };
+                            $scope.jsonData.linkObjs.push(sameObj);
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
