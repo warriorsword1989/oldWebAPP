@@ -327,7 +327,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 	}
             	}else{
             		var param = {
-                			data : $scope.roadNameData
+                			data : $scope.roadNameData,
+                			dbId : App.Temp.dbId
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
                 		$scope.$emit("REFRESHROADNAMELIST");
@@ -345,7 +346,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 	changed.nameId = $scope.roadNameData.nameId;
                 	changed.nameGroupid = $scope.roadNameData.nameGroupid;
                 	var param = {
-                			data : $scope.roadNameData
+                			data : $scope.roadNameData,
+                			dbId : App.Temp.dbId
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
                 		swal({
