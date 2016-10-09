@@ -183,7 +183,7 @@
 <div class="fm-top-btn split"></div>
 <div class="fm-top-btn-group">
     <button class="fm-top-btn blank" title="批处理" ng-click="openAdvancedToolsPanel('batch')">批
-        <div class="fm-top-btn-loading"></div>
+        <div class="fm-top-btn loading" ng-if="batchRunning"></div>
     </button>
     <button class="fm-top-btn blank" title="自动录入" ng-click="openAdvancedToolsPanel('auto')">自</button>
     <button class="fm-top-btn blank" title="制作上下线分离" ng-controller="addShapeCtrl" ng-click="addShape('RDMULTIDIGITIZED')">上</button>
