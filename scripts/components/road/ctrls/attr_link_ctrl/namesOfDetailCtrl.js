@@ -93,7 +93,7 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
 
     $scope.selectNameInd=0;
     $scope.searchGroupidByNames=function(){
-        $("#name").css("display", "block");
+        $("#name").css("display", "block").css({"height":'300px'});
         $scope.namesOfFlag = "name";
         $scope.pagesize=5;//$("#pagesize").val();
        // $scope.selectNameInd=ind;
