@@ -2124,28 +2124,35 @@ a.batchButton {
 /************新的界面风格********************************************************/
 /********************************************************************************/
 .fm-top {
-  position: absolute;
-  border-bottom: 1px solid #acacac;
-  background-color: #ffffff;
-  height: 40px;
-  line-height: 40px;
-  padding: 0px 10px;
-  z-index: 2;
+    position: absolute;
+    border-bottom: 1px solid #acacac;
+    background-color: #ffffff;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 10px;
+    z-index: 2;
+    /*解决inline-block样式的间隙问题*/
+    font-size: 0;
 }
 .fm-top-btn {
-  display: inline-block;
-  height: 26px;
-  width: 26px;
-  line-height: 26px;
-  border: none;
-  border-radius: 5px;
-  margin: 7px 4px;
-  padding: 0px;
-  background: #ffffff;
-  vertical-align: top;
-  font-size: 12px;
-  text-align: center;
+    display: inline-block;
+    height: 26px;
+    width: 26px;
+    line-height: 12px;
+    border: none;
+    border-radius: 5px;
+    margin: 7px;
+    padding: 0px;
+    background: #ffffff;
+    vertical-align: top;
+    font-size: 12px;
+    text-align: center;
 }
+
+.fm-top-btn.eng {
+    font-size: 10px;
+}
+
 .fm-top-btn.blank {
   color: #8f9acc;
   background: url("../../images/main/btn-icon/blank.png") no-repeat center center;
@@ -2193,24 +2200,29 @@ a.batchButton {
   display: inline-block;
 }
 .fm-top-right-btn {
-  display: inline-block;
-  height: 30px;
-  width: 30px;
-  line-height: 30px;
-  border: none;
-  margin: 5px 15px;
-  padding: 0px;
-  background: #ffffff;
-  vertical-align: top;
-  font-size: 12px;
-  text-align: center;
+    display: inline-block;
+    border: none;
+    padding: 0px;
+    background: #ffffff;
+    vertical-align: top;
+    font-size: 12px;
+    text-align: center;
 }
 .fm-top-right-btn.profile {
-  background: url("../../images/main/btn-icon/profile.png") no-repeat center center;
+    height: 30px;
+    width: 30px;
+    margin: 5px 15px;
+    background: url("../../images/main/btn-icon/profile.png") no-repeat center center;
 }
 .fm-top-right-btn.notice {
-  background: url("../../images/main/btn-icon/notice.png") no-repeat center center;
+    height: 20px;
+    width: 20px;
+    margin: 10px 15px;
+    background: url("../../images/main/btn-icon/notice.png") no-repeat center center;
 }
 .fm-top-right-btn.logout {
-  background: url("../../images/main/btn-icon/logout.png") no-repeat center center;
+    height: 20px;
+    width: 18px;
+    margin: 10px 15px;
+    background: url("../../images/main/btn-icon/logout.png") no-repeat center center;
 }

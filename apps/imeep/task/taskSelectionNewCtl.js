@@ -42,26 +42,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.infoPanelOpened = 'none';
         //所有的当前高亮grid数据
         $scope.currentHighligtGrid = [];
-
-        //开始编辑跳转;
-        $scope.startEdit = function() {
-            if ($scope.currentTaskData) {
-                var param = [];
-                param.push("subtaskId=" + $scope.currentTaskData.subtaskId);
-                param.push("dbId=" + $scope.currentTaskData.dbId);
-                param.push("type=" + $scope.currentTaskData.type);
-                param.push("stage=" + $scope.currentTaskData.stage);
-                //
-                var tempStr = $scope.isDeepTask?'&specialWork=true':'';
-                var poideepStr = ''
-                poideepStr = $scope.taskStatus==9?'&workItem=chinaName':$scope.taskStatus==10?'&workItem=englishName':$scope.taskStatus==11?'&workItem=chinaAddress':$scope.taskStatus==12?'&workItem=englishAddress':'';
-                if(poideepStr){
-                    window.location.href = "../colEditor/colEditor.html?access_token=" + App.Temp.accessToken+poideepStr;
-                    return;
-                }
-                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId+tempStr+$scope.deepType+"&t=" + Date.parse( new Date());
-            }
-        };
+        
 
 
         ////获取当前任务作业类型;
