@@ -9,7 +9,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.tab1Url='../../../images/main/task/icon-c1.png';
         $scope.tab2Url='../../../images/main/task/icon-h2.png';
 
-        $scope.selectArrow = false;
+
         $scope.showLoading = true;
         $scope.condtionChange = function(){
 //            loadSubTaskfn();
@@ -64,6 +64,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
 
         /*加载子任务列表*/
         function loadSubTaskfn() {
+            $scope.selectArrow = false;
             dsManage.getSubtaskListByUser({
                 'exeUserId': $cookies.get('FM_USER_ID'),
                 'status': $scope.currentTab,
