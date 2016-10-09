@@ -2554,6 +2554,14 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 0;
 }
 
+.fm-top .dropdown-menu {
+    font-size: 12px;
+}
+
+.fm-top .eng {
+    font-size: 10px;
+}
+
 .fm-top-btn {
     display: inline-block;
     height: 26px;
@@ -2567,10 +2575,6 @@ input[type="range"]::-webkit-slider-thumb {
     vertical-align: top;
     font-size: 12px;
     text-align: center;
-}
-
-.fm-top-btn.eng {
-    font-size: 10px;
 }
 
 .fm-top-btn.blank {
