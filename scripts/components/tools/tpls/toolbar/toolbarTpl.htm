@@ -12,7 +12,7 @@
     <button class="fm-top-btn select-path" title="绘制线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RDLINK')"></button>
     <div class="btn-group" style="vertical-align: top;">
         <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
-        <ul class="dropdown-menu dropdown-menu-right animated-fast fadeInDown">
+        <ul class="dropdown-menu dropdown-menu-right">
             <li>
                 <div class="row" style="margin:0px;padding:0px;">
                     <div class="col-md-3" style="text-align:center;">
@@ -97,7 +97,7 @@
     <button class="fm-top-btn blank" title="制作大门" ng-controller="addRdRelationCtrl" ng-click="addShape('RD_GATE')">门</button>
     <div class="btn-group" style="vertical-align: top;">
         <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
-        <ul class="dropdown-menu dropdown-menu-right animated-fast fadeInDown" style="width:260px;">
+        <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
             <li>
                 <div class="row" style="margin:0px;padding:0px;">
                     <div class="col-md-3" style="text-align:center;">
@@ -190,7 +190,7 @@
     <button class="fm-top-btn blank" title="制作辅路">辅</button>
     <div class="btn-group" style="vertical-align: top;">
         <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
-        <ul class="dropdown-menu dropdown-menu-right animated-fast fadeInDown" role="menu">
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li><a href="#" ng-click="openAdvancedToolsPanel('search')">搜 索</a></li>
             <li><a href="#">检 查</a></li>
             <li><a href="#">道路专项作业</a></li>
@@ -200,7 +200,7 @@
 <div class="fm-top-btn split"></div>
 <div class="btn-group" style="vertical-align: top;">
     <button type="button" class="btn fm-top-btn blank dropdown-toggle" data-toggle="dropdown" title="选 项"><i class="glyphicon glyphicon-cog"></i></button>
-    <ul class="dropdown-menu dropdown-menu-right animated-fast fadeInDown" role="menu">
+    <ul class="dropdown-menu dropdown-menu-right" role="menu">
         <li><a href="#" ng-click="linkChecked=!linkChecked">捕捉线 <i class="glyphicon glyphicon-ok pull-right" ng-if="linkChecked"></i></a></li>
         <li><a href="#" ng-click="nodeChecked=!nodeChecked">捕捉点 <i class="glyphicon glyphicon-ok pull-right" ng-show="nodeChecked"></i></a></li>
         <li><a href="#" ng-click="isLinkTrack=!isLinkTrack">追踪选择 <i class="glyphicon glyphicon-ok pull-right" ng-show="isLinkTrack"></i></a></li>
