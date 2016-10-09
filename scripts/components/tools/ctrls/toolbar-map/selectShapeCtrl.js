@@ -3090,6 +3090,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
                         return;
                     }*/
+                    return;
                 }
 
                 if (!selectCtrl.selectedFeatures) {
@@ -3541,9 +3542,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         for (var item in newData) {
                             var index = parseInt(item) + 1;
                             if (objCtrl.data.parents.length > 0 && newData[item].properties.id == objCtrl.data.parents[0].parentPoiPid) { //当前父
-                                html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-default">' + '当前父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-warning btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="解除父">' + '</li>';
+                                html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[newData[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-default">' + '当前父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-warning btn-xs" type="button" onclick="changePoiParent(' + newData[item].properties.id + ')" value="解除父">' + '</li>';
                             } else{
-                                html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[data[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-info">' + '可为父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-success btn-xs" type="button" onclick="changePoiParent(' + data[item].properties.id + ')" value="作为父">' + '</li>';
+                                html += '<li><a href="#" id="' + newData[item].properties.id + '">' + index + '、' + newData[item].properties.name + '</a>' + '&nbsp;&nbsp;' + '<label class="label label-primary">' + $scope.metaData.kindFormat[newData[item].properties.kindCode].kindName + '</label>' + '&nbsp;&nbsp;' + '<label class="label label-info">' + '可为父' + '</label>' + '&nbsp;&nbsp;' + '<input class="btn btn-success btn-xs" type="button" onclick="changePoiParent(' + newData[item].properties.id + ')" value="作为父">' + '</li>';
                             }
                             // html += '<li><a href="#" id="' + data[item].properties.id+'">'+ index + '、' +data[item].properties.name + '<label class="label label-primary">'+$scope.metaData.kindFormat[data[item].properties.kindCode].kindName+'</label>'+ '<input type="button">' + '</a></li>';
                         }
