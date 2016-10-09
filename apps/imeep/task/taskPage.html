@@ -146,10 +146,10 @@
                         </div>
 
                         <div class="row fm-taskDataList">
-                            <div class="col-md-3 col-xs-6 col-sm-12" ng-repeat="item in currentSubTaskList">
+                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList">
                                 <div class="taskItem" ng-click="go(item.subtaskId)">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
-                                        <div style="float: left" ng-bind="'任务名称'"></div>
+                                        <div style="float: left;width: 180px;" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
                                         <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
                                         <div class="clearfix"></div>
                                     </div>
@@ -188,66 +188,62 @@
                             </div>
 
                             <!-- -->
-                            <div style="position: relative" class="col-md-3 col-xs-6 col-sm-12" ng-repeat="item in currentSubTaskList">
-                                <div class="taskItem" ng-click="go()">
-                                    <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
-                                        <div style="float: left" ng-bind="'任务名称'"></div>
-                                        <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="taskItem-body">
-                                        <ul class="fm-ul ItemInfo">
-                                            <li>
-                                                <div class="itemInfo-left"><label>完成进度：</label></div>
-                                                <div class="itemInfo-right">
-                                                    <div class="col-md-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
-                                                    <div class="col-md-3" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="itemInfo-left"><label>创建时间：</label></div>
-                                                <div class="itemInfo-right" ng-bind="'2016-10-1'"></div>
-                                            </li>
-                                            <li>
-                                                <div class="itemInfo-left"><label>结束时间：</label></div>
-                                                <div class="itemInfo-right" ng-bind="'2016-10-28'"></div>
-                                            </li>
-                                            <li>
-                                                <div class="itemInfo-left"><label style="letter-spacing: 1px;">任 务 量：</label></div>
-                                                <div class="itemInfo-right">200个POI，100条tips</div>
-                                            </li>
-                                            <li>
-                                                <div class="itemInfo-left"><label>类　　型：</label></div>
-                                                <div class="itemInfo-right">日一体化任务</div>
-                                            </li>
-                                            <li>
-                                                <div class="itemInfo-left"><label style="letter-spacing: 1px;">作 业 季：</label></div>
-                                                <div class="itemInfo-right">2016年秋</div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="taskItemTemp" ng-if="$index==0" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
-                                        <div style="padding: 50px;font-size: 20px;color: #e83b68;text-align: center;">
-                                            <p style="font-size: 20px;">存在8条错误数据</p>
-                                            <p style="letter-spacing: 1px">请修改后在提交！</p>
-                                            <p style="font-size: 20px;padding: 20px;">任务提交失败</p>
-                                        </div>
-                                    </div>
-                                    <div class="taskItemTemp" ng-if="$index==1" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
-                                        <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />
-                                        <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>
-                                    </div>
-                                    <div class="taskItemTemp" ng-if="$index==3" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
-                                        <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-succ.png" />
-                                        <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交成功</p>
-                                    </div>
-                                </div>
-
-                                <!--<div class="taskItemTemp" ng-if="$index==1" style="position: relative;width: 280px;height: 230px;top: -235px;left: 15px;background: #fff;z-index: 1;opacity: 0.9;">-->
-                                    <!--<img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />-->
-                                    <!--<p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>-->
+                            <!--<div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList">-->
+                                <!--<div class="taskItem" ng-click="go()">-->
+                                    <!--<div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">-->
+                                        <!--<div style="float: left" ng-bind="'任务名称'"></div>-->
+                                        <!--<button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>-->
+                                        <!--<div class="clearfix"></div>-->
+                                    <!--</div>-->
+                                    <!--<div class="taskItem-body">-->
+                                        <!--<ul class="fm-ul ItemInfo">-->
+                                            <!--<li>-->
+                                                <!--<div class="itemInfo-left"><label>完成进度：</label></div>-->
+                                                <!--<div class="itemInfo-right">-->
+                                                    <!--<div class="col-md-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>-->
+                                                    <!--<div class="col-md-3" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>-->
+                                                <!--</div>-->
+                                            <!--</li>-->
+                                            <!--<li>-->
+                                                <!--<div class="itemInfo-left"><label>创建时间：</label></div>-->
+                                                <!--<div class="itemInfo-right" ng-bind="'2016-10-1'"></div>-->
+                                            <!--</li>-->
+                                            <!--<li>-->
+                                                <!--<div class="itemInfo-left"><label>结束时间：</label></div>-->
+                                                <!--<div class="itemInfo-right" ng-bind="'2016-10-28'"></div>-->
+                                            <!--</li>-->
+                                            <!--<li>-->
+                                                <!--<div class="itemInfo-left"><label style="letter-spacing: 1px;">任 务 量：</label></div>-->
+                                                <!--<div class="itemInfo-right">200个POI，100条tips</div>-->
+                                            <!--</li>-->
+                                            <!--<li>-->
+                                                <!--<div class="itemInfo-left"><label>类　　型：</label></div>-->
+                                                <!--<div class="itemInfo-right">日一体化任务</div>-->
+                                            <!--</li>-->
+                                            <!--<li>-->
+                                                <!--<div class="itemInfo-left"><label style="letter-spacing: 1px;">作 业 季：</label></div>-->
+                                                <!--<div class="itemInfo-right">2016年秋</div>-->
+                                            <!--</li>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                    <!--<div class="taskItemTemp" ng-if="$index==0" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">-->
+                                        <!--<div style="padding: 50px;font-size: 20px;color: #e83b68;text-align: center;">-->
+                                            <!--<p style="font-size: 20px;">存在8条错误数据</p>-->
+                                            <!--<p style="letter-spacing: 1px">请修改后在提交！</p>-->
+                                            <!--<p style="font-size: 20px;padding: 20px;">任务提交失败</p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="taskItemTemp" ng-if="$index==1" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">-->
+                                        <!--<img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />-->
+                                        <!--<p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>-->
+                                    <!--</div>-->
+                                    <!--<div class="taskItemTemp" ng-if="$index==3" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">-->
+                                        <!--<img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-succ.png" />-->
+                                        <!--<p style="text-align: center; font-size: 15px;font-weight: bold">任务提交成功</p>-->
+                                    <!--</div>-->
                                 <!--</div>-->
-                            </div>
+                            <!--</div>-->
+
                         </div>
                     </div>
                 </div>

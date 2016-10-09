@@ -102,6 +102,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 //'stage': 1,
                 //'type': 0,
                 'snapshot': 0,
+                'platForm':1,
                 'pageNum': 1,
                 'pageSize': 20
             }).then(function(data) {
