@@ -17,7 +17,7 @@ requirejs.config({
         'dataService': 'apps/imeep/service/dataService',
         'manService': 'apps/imeep/service/dataService-manage',
         'TaskSelectionCtl': 'apps/imeep/task/taskSelectionCtl',
-        'TaskSelectionNewCtl': 'apps/imeep/task/TaskSelectionNewCtl',
+        'TaskSelectionNewCtl': 'apps/imeep/task/taskSelectionNewCtl',
         'layers': "apps/imeep/task/layerConfig",
     },
     shim: {
