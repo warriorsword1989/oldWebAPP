@@ -52,7 +52,8 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             layerid: 'rdLink',
             type: 'line',
             style: {
-                color: 'red'
+                strokeWidth:3,
+                color: '#3A5FCD'
             }
         });
         for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
@@ -60,7 +61,11 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
                 id: objectEditCtrl.data.details[i].outLinkPid.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {}
+                style: {
+                    strokeWidth:3,
+                    color: '#CD0000'
+                }
+
             });
         }
         highLightFeatures.push({
