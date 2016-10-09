@@ -654,6 +654,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     $scope.jsonData = null;
+                    highRenderCtrl._cleanHighLight();
                     var data = event.data,
                         highlightFeatures = [],
                         containObj = {},
@@ -714,8 +715,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 if (i != j) {
                                     var lineGeoArr = function(mark) {
                                         return [dealData[mark].line.points[0], dealData[mark].line.points[1]];
+                                    };
+                                    if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
+                                        crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                     }
-                                    crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                 }
                             }
                         }
@@ -726,7 +729,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             for(var i=0;i<shapePoints.length-1;i++){
                                 for(var j=1;j<shapePoints.length;j++){
                                     if(i<j-1 && (shapePoints[j].x!=shapePoints[i].y) && shapePoints[j+1]){
-                                        crossGeos.push($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]]));
+                                        if($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]])){
+                                            crossGeos.push($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]]));
+                                        }
                                     }
                                 }
                             }
@@ -736,7 +741,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     //判断相交点数
                     if (crossGeos.length == 0) {
-                        swal("错误信息", "所选区域无相交点，请重新选择立交点位！", "error");
+                        swal("错误信息", "所选区域无相交点，如果是自相交只能选择一条link，请重新选择立交点位！", "error");
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
                         swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
