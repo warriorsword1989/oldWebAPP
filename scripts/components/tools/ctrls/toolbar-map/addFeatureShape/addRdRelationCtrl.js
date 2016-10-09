@@ -720,6 +720,19 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             }
                         }
                         crossGeos = $scope.ArrUnique(crossGeos);
+                    } else if (dealData.length == 1) {
+                        if(dealData[0].line.points.length > 3){
+                            var shapePoints = dealData[0].line.points; //形状点
+                            for(var i=0;i<shapePoints.length-1;i++){
+                                for(var j=1;j<shapePoints.length;j++){
+                                    if(i<j-1 && (shapePoints[j].x!=shapePoints[i].y) && shapePoints[j+1]){
+                                        crossGeos.push($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]]));
+                                    }
+                                }
+                            }
+                        } else {
+                            swal("错误信息", "所选Link无自相交点，请重新选择立交点位！", "error");
+                        }
                     }
                     //判断相交点数
                     if (crossGeos.length == 0) {
@@ -738,6 +751,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 'zlevel': linkMark
                             };
                             $scope.jsonData.linkObjs.push(tempObj);
+                        }
+                        //如果自相交传两条一样的link
+                        if(dealData.length == 1) {
+                            var sameObj = {
+                                'pid': $scope.jsonData.linkObjs[0].pid,
+                                'type': $scope.jsonData.linkObjs[0].type,
+                                'zlevel': 1
+                            };
+                            $scope.jsonData.linkObjs.push(sameObj);
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
