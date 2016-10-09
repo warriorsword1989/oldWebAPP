@@ -11,7 +11,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
 	       {"id": 0, "label": "未分类"},
 	       {"id": 1, "label": "海域"},
 	       {"id": 2, "label": "河川域"},
-	       {"id": 3, "label": "湖沼域"},
+	       {"id": 3, "label": "湖沼池"},
 	       {"id": 4, "label": "水库"},
 	       {"id": 5, "label": "港湾"},
 	       {"id": 6, "label": "运河"},
