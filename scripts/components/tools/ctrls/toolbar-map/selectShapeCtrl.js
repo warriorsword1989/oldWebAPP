@@ -3090,6 +3090,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
                         return;
                     }*/
+                    return;
                 }
 
                 if (!selectCtrl.selectedFeatures) {

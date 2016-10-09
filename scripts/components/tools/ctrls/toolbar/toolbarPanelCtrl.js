@@ -1,8 +1,8 @@
 /**
  * Created by chenx on 2016-09-30
  */
-angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 'appPath',
-    function ($scope, $ocLazyLoad, $q, appPath) {
+angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 'appPath',
+    function($scope, $ocLazyLoad, $q, appPath) {
         var layerCtrl = fastmap.uikit.LayerController();
         var editLayer = layerCtrl.getLayerById('edit');
         var rdLink = layerCtrl.getLayerById('rdLink');
@@ -11,22 +11,16 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
         var selectCtrl = fastmap.uikit.SelectController();
         var eventCtrl = fastmap.uikit.EventController();
         var highRenderCtrl = fastmap.uikit.HighRenderController();
-
         var adLink = layerCtrl.getLayerById('adLink');
         var adNode = layerCtrl.getLayerById('adNode');
-
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rdNode = layerCtrl.getLayerById('rdNode');
-
         var lcNode = layerCtrl.getLayerById('lcNode');
         var lcLink = layerCtrl.getLayerById('lcLink');
-
         var luNode = layerCtrl.getLayerById('luNode');
         var luLink = layerCtrl.getLayerById('luLink');
-
         var rwLink = layerCtrl.getLayerById('rwLink');
         var rwNode = layerCtrl.getLayerById('rwNode');
-
         var zoneLink = layerCtrl.getLayerById('zoneLink');
         var zoneNode = layerCtrl.getLayerById('zoneNode');
         // 工具按鈕控制開關
@@ -67,37 +61,41 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
         //         });
         //     });
         // });
-
         var llPromises = [];
-        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/selectShapeCtrl.js'));
-        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addShapeCtrl.js'));
-        // llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addFeatureShape/addCRFShapeCtrl.js'));
-        // llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addFeatureShape/addSameFeatureCtrl.js'));
-        // llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addFeatureShape/addPoiCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/selectShapeCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addNodeFeatureCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addLinkFeatureCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addFaceFeatureCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdRelationCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addRdBranchCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addCRFShapeCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addSameFeatureCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js'));
+        llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addShapeCtrl.js'));
         $q.all(llPromises).then(function() {
-            console.log('all js loaded');
+            $scope.toolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarTpl.htm';;
         });
-        $scope.toggleSelectBtn = function () {
+        $scope.toggleSelectBtn = function() {
             $scope.selectBtnOpened = !$scope.selectBtnOpened;
             $scope.addBtnOpened = false;
             $scope.advanceBtnOpened = false;
         };
-        $scope.toggleAddBtn = function () {
+        $scope.toggleAddBtn = function() {
             $scope.selectBtnOpened = false;
             $scope.addBtnOpened = !$scope.addBtnOpened;
             $scope.advanceBtnOpened = false;
         };
-        $scope.toggleAdvanceBtn = function () {
+        $scope.toggleAdvanceBtn = function() {
             $scope.selectBtnOpened = false;
             $scope.addBtnOpened = false;
             $scope.advanceBtnOpened = !$scope.advanceBtnOpened;
         };
-        $scope.clearOperator = function () {
+        $scope.clearOperator = function() {
             $scope.shapeOperator = "navigate";
             $scope.featureOperator = null;
             $scope.resetToolAndMap();
         };
-        $scope.resetOperator = function (shapeOper, featureOper) {
+        $scope.resetOperator = function(shapeOper, featureOper) {
             if (shapeOper) {
                 $scope.shapeOperator = shapeOper;
             }
@@ -108,7 +106,7 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             }
         };
         //重新设置选择工具
-        $scope.resetToolAndMap = function () {
+        $scope.resetToolAndMap = function() {
             eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
             eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
@@ -119,7 +117,6 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             eventCtrl.off(eventCtrl.eventTypes.GETBOXDATA);
             eventCtrl.off(eventCtrl.eventTypes.GETRECTDATA);
             eventCtrl.off(eventCtrl.eventTypes.GETFEATURE);
-
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
@@ -129,7 +126,6 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             // }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
-
             editLayer.drawGeometry = null;
             editLayer.clear();
             editLayer.bringToBack();
@@ -143,27 +139,23 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
-
             if (selectCtrl.rowKey) {
                 selectCtrl.rowKey = null;
             }
-
             $(editLayer.options._div).unbind();
-
         };
-        $scope.$on("resetButtons", function (event) {
+        $scope.$on("resetButtons", function(event) {
             $scope.clearOperator();
         });
         //用于控制dropdown的收缩与展示
         $scope.dropdownStatus = {
             isopen: false
         };
-        $scope.togglEspecialOperAdvanceBtn = function () {
+        $scope.togglEspecialOperAdvanceBtn = function() {
             $scope.specialOperAdvanceBtnOpened = !$scope.specialOperAdvanceBtnOpened;
         };
-
         //更改捕捉，type:node,link;
-        $scope.changeSnap = function (type, featType, snapLayer) {
+        $scope.changeSnap = function(type, featType, snapLayer) {
             var snapList = shapeCtrl.getCurrentTool().snapHandler._guides;
             if (type == "node") {
                 if (!$scope.nodeChecked) {
@@ -189,9 +181,8 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
                 }
             }
         };
-
         //更改图层可见性，type:node,link;
-        $scope.changeLayer = function (type, featType) {
+        $scope.changeLayer = function(type, featType) {
             var visible = true;
             if (type == "node") {
                 visible = $scope.nodeChecked;
@@ -209,15 +200,13 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
                 }
             }
         };
-
-        $scope.changeSnapAndLayer = function (type) {
+        $scope.changeSnapAndLayer = function(type) {
             var tool = shapeCtrl.getCurrentTool();
             var nodeType = null;
             var snapNode = null;
             var snapLink = null;
             if (tool.shapeEditor != undefined) {
                 var linkType = tool.shapeEditor.editFeatType;
-
                 switch (linkType) {
                     case "RDLINK":
                         nodeType = "RDNODE";

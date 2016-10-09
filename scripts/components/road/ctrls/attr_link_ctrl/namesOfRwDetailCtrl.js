@@ -33,7 +33,8 @@ namesOfLinkApp.controller("namesOfRwLinkController",["$scope","$timeout","dsMeta
         var nameParameter = {
             "name": $scope.rwName.name,
             "pageSize": $scope.pagesize,
-            "pageNum":$scope.picNowNum
+            "pageNum":$scope.picNowNum,
+            "dbId":App.Temp.dbId
         }
         dsMeta.getNamesbyName(nameParameter).then(function (data){
             if(data.errcode == 0){

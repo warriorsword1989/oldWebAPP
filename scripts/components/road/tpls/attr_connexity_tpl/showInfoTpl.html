@@ -68,16 +68,16 @@
         </li>
         <li class="list-group-item">
             <div><label class="control-label">经过线</label></div>
-            <div class="inline"><input type="button" /></div>
-            <div ng-repeat="cItem in laneData.vias" class="blackTheme module-box">
-                <ul class="fm-ul fm-ul-form">
-                    <li >
-                        <label>Link序号</label>
-                        <div>
-                            <input type="text" class="fm-control" ng-model="cItem.linkPid" disabled/>
-                        </div>
-                    </li>
-                </ul>
+            <div class="inline">
+                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+            </div>
+
+        </li>
+        <li style="padding-left: 20px">
+            <div id="fromOfWRoaddiv" style="width:260px;" >
+                <div ng-repeat="cItem in laneData.vias track by $index" class="checkboxli">
+                    {{cItem.linkPid}}
+                </div>
             </div>
         </li>
     </ul>

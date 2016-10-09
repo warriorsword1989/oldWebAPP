@@ -35,7 +35,8 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     // CALLBACKS
     /*添加上传文件失败*/
     uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
+        //console.info('onWhenAddingFileFailed', item, filter, options);
+        swal("文件格式不符", '只能上传格式为jpg|png|jpeg|bmp|gif的图片', "warning");
     };
     /*添加完所有文件*/
     uploader.onAfterAddingFile = function(fileItem) {
