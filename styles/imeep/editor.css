@@ -2549,7 +2549,9 @@ input[type="range"]::-webkit-slider-thumb {
     height: 40px;
     line-height: 40px;
     padding: 0px 10px;
-    z-index: 2
+    z-index: 2;
+    /*解决inline-block样式的间隙问题*/
+    font-size: 0;
 }
 
 .fm-top-btn {
@@ -2559,12 +2561,16 @@ input[type="range"]::-webkit-slider-thumb {
     line-height: 12px;
     border: none;
     border-radius: 5px;
-    margin: 7px 4px;
+    margin: 7px;
     padding: 0px;
     background: #ffffff;
     vertical-align: top;
     font-size: 12px;
     text-align: center;
+}
+
+.fm-top-btn.eng {
+    font-size: 10px;
 }
 
 .fm-top-btn.blank {
@@ -2634,11 +2640,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .fm-top-right-btn {
     display: inline-block;
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
     border: none;
-    margin: 5px 15px;
     padding: 0px;
     background: #ffffff;
     vertical-align: top;
@@ -2647,13 +2649,22 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .fm-top-right-btn.profile {
+    height: 30px;
+    width: 30px;
+    margin: 5px 15px;
     background: url("../../images/main/btn-icon/profile.png") no-repeat center center;
 }
 
 .fm-top-right-btn.notice {
+    height: 20px;
+    width: 20px;
+    margin: 10px 15px;
     background: url("../../images/main/btn-icon/notice.png") no-repeat center center;
 }
 
 .fm-top-right-btn.logout {
+    height: 20px;
+    width: 18px;
+    margin: 10px 15px;
     background: url("../../images/main/btn-icon/logout.png") no-repeat center center;
 }
