@@ -3,23 +3,23 @@
     <button class="fm-top-btn select-node" title="选择节点" ng-click="selectShape('node')"></button>
     <button class="fm-top-btn select-path" title="选择线" ng-click="selectShape('link')"></button>
     <button class="fm-top-btn select-face" title="选择面" ng-click="selectShape('face')"></button>
-    <button class="fm-top-btn blank" title="选择Tips" ng-click="selectShape('tips')">Tip</button>
+    <button class="fm-top-btn blank eng" title="选择Tips" ng-click="selectShape('tips')">Tip</button>
     <button class="fm-top-btn blank" title="选择关系" ng-click="selectShape('relation')">关</button>
 </div>
 <div class="fm-top-btn split"></div>
 <div class="fm-top-btn-group">
     <button class="fm-top-btn select-node" title="绘制节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('RDNODE')"></button>
     <button class="fm-top-btn select-path" title="绘制线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RDLINK')"></button>
-    <div class="btn-group" style="vertical-align: top;">
+    <div class="dropdown" style="display:inline-block;vertical-align:top;">
         <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
-        <ul class="dropdown-menu dropdown-menu-right">
+        <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
             <li>
                 <div class="row" style="margin:0px;padding:0px;">
                     <div class="col-md-3" style="text-align:center;">
                         要素
                     </div>
                     <div class="col-md-9">
-                        <button class="fm-top-btn blank" title="制作POI" ng-controller="addPoiCtrl" ng-click="addPoi('IXPOI')">POI</button>
+                        <button class="fm-top-btn blank eng" title="制作POI" ng-controller="addPoiCtrl" ng-click="addPoi('IXPOI')">POI</button>
                         <button class="fm-top-btn blank" title="制作行政区划代表点" ng-controller="addShapeCtrl" ng-click="addShape('ADADMIN')">代</button>
                     </div>
                 </div>
@@ -34,9 +34,9 @@
                         <button class="fm-top-btn blank" title="制作道路线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('RDNODE')">道</button>
                         <button class="fm-top-btn blank" title="制作铁路线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('RWNODE')">铁</button>
                         <button class="fm-top-btn blank" title="制作行政区划面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ADNODE')">政</button>
-                        <button class="fm-top-btn blank" title="制作Zone面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ZONENODE')">ZN</button>
-                        <button class="fm-top-btn blank" title="制作土地利用面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LUNODE')">LU</button>
-                        <button class="fm-top-btn blank" title="制作土地覆盖面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LCNENODE')">LC</button>
+                        <button class="fm-top-btn blank eng" title="制作Zone面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ZONENODE')">ZN</button>
+                        <button class="fm-top-btn blank eng" title="制作土地利用面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LUNODE')">LU</button>
+                        <button class="fm-top-btn blank eng" title="制作土地覆盖面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LCNENODE')">LC</button>
                     </div>
                 </div>
             </li>
@@ -50,9 +50,9 @@
                         <button class="fm-top-btn blank" title="制作道路线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RDLINK')">道</button>
                         <button class="fm-top-btn blank" title="制作铁路线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RWLINK')">铁</button>
                         <button class="fm-top-btn blank" title="制作行政区划面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('ADLINK')">政</button>
-                        <button class="fm-top-btn blank" title="制作Zone面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('ZONELINK')">ZN</button>
-                        <button class="fm-top-btn blank" title="制作土地利用面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('LULINK')">LU</button>
-                        <button class="fm-top-btn blank" title="制作土地覆盖面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('LCLINK')">LC</button>
+                        <button class="fm-top-btn blank eng" title="制作Zone面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('ZONELINK')">ZN</button>
+                        <button class="fm-top-btn blank eng" title="制作土地利用面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('LULINK')">LU</button>
+                        <button class="fm-top-btn blank eng" title="制作土地覆盖面的组成线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('LCLINK')">LC</button>
                     </div>
                 </div>
             </li>
@@ -64,9 +64,9 @@
                     </div>
                     <div class="col-md-9" ng-controller="addFaceFeatureCtrl">
                         <button class="fm-top-btn blank" title="制作行政区划面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADFACE', 1)">政</button>
-                        <button class="fm-top-btn blank" title="制作Zone面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONEFACE', 1)">ZN</button>
-                        <button class="fm-top-btn blank" title="制作土地利用面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LUFACE', 1)">LU</button>
-                        <button class="fm-top-btn blank" title="制作土地覆盖面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LCFACE', 1)">LC</button>
+                        <button class="fm-top-btn blank eng" title="制作Zone面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONEFACE', 1)">ZN</button>
+                        <button class="fm-top-btn blank eng" title="制作土地利用面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LUFACE', 1)">LU</button>
+                        <button class="fm-top-btn blank eng" title="制作土地覆盖面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LCFACE', 1)">LC</button>
                     </div>
                 </div>
             </li>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-md-9" ng-controller="addFaceFeatureCtrl">
                         <button class="fm-top-btn blank" title="选线构建行政区划面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADLINKFACE', 2)">政</button>
-                        <button class="fm-top-btn blank" title="选线构建Zone面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONELINKFACE', 2)">ZN</button>
+                        <button class="fm-top-btn blank eng" title="选线构建Zone面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONELINKFACE', 2)">ZN</button>
                     </div>
                 </div>
             </li>
@@ -95,7 +95,7 @@
     <button class="fm-top-btn blank" title="制作限速" ng-controller="addRdRelationCtrl" ng-click="addShape('RDSPEEDLIMIT')">速</button>
     <button class="fm-top-btn blank" title="制作立交" ng-controller="addRdRelationCtrl" ng-click="addShape('RDGSC')">立</button>
     <button class="fm-top-btn blank" title="制作大门" ng-controller="addRdRelationCtrl" ng-click="addShape('RD_GATE')">门</button>
-    <div class="btn-group" style="vertical-align: top;">
+    <div class="dropdown" style="display:inline-block;vertical-align:top;">
         <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
         <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
             <li>
@@ -141,7 +141,7 @@
                         分 歧
                     </div>
                     <div class="col-md-9">
-                        <button class="fm-top-btn blank" title="制作3D分歧" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_3D')">3D</button>
+                        <button class="fm-top-btn blank eng" title="制作3D分歧" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_3D')">3D</button>
                         <button class="fm-top-btn blank" title="制作高速分歧" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_HIGHWAY')">高</button>
                         <button class="fm-top-btn blank" title="制作连续分歧" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_SERIESBRANCH')">连</button>
                         <button class="fm-top-btn blank" title="制作方向看板" ng-controller="addRdBranchCtrl" ng-click="addShape('BRANCH_SIGNBOARDNAME')">方</button>
@@ -155,7 +155,7 @@
             <li class="divider"></li>
             <li>
                 <div class="row" style="margin:0px;padding:0px;">
-                    <div class="col-md-3" style="text-align:center;">
+                    <div class="col-md-3" style="text-align:center;font-size:10px;">
                         CRF
                     </div>
                     <div class="col-md-9">
@@ -188,12 +188,16 @@
     <button class="fm-top-btn blank" title="自动录入" ng-click="openAdvancedToolsPanel('auto')">自</button>
     <button class="fm-top-btn blank" title="制作上下线分离" ng-controller="addShapeCtrl" ng-click="addShape('RDMULTIDIGITIZED')">上</button>
     <button class="fm-top-btn blank" title="制作辅路">辅</button>
-    <div class="btn-group" style="vertical-align: top;">
+    <div class="dropdown" style="display:inline-block;vertical-align:top;">
         <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li><a href="#" ng-click="openAdvancedToolsPanel('search')">搜 索</a></li>
             <li><a href="#">检 查</a></li>
             <li><a href="#">道路专项作业</a></li>
+            <li role="presentation" class="divider"></li>
+            <li><a href="#" ng-click="linkChecked=!linkChecked">捕捉线 <i class="glyphicon glyphicon-ok pull-right" ng-if="linkChecked"></i></a></li>
+            <li><a href="#" ng-click="nodeChecked=!nodeChecked">捕捉点 <i class="glyphicon glyphicon-ok pull-right" ng-show="nodeChecked"></i></a></li>
+            <li><a href="#" ng-click="isLinkTrack=!isLinkTrack">追踪选择 <i class="glyphicon glyphicon-ok pull-right" ng-show="isLinkTrack"></i></a></li>
         </ul>
     </div>
 </div>

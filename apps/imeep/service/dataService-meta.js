@@ -173,7 +173,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
     //根据输入的道路名模糊查询所有道路名
     this.getNamesbyName = function(param) {
         var defer = $q.defer();
-        ajax.get("metadata/rdname/search", {
+        ajax.get("edit/rdname/search", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
