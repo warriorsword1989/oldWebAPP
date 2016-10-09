@@ -226,22 +226,27 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
-                                <div class="taskItemTemp" ng-if="$index==0" style="position: relative;width: 280px;height: 230px;top: -235px;left: 15px;background: #fff;z-index: 1;opacity: 0.9;">
-                                    <div style="padding: 50px;font-size: 20px;color: #e83b68;">
-                                        <p style="font-size: 20px;">存在8条错误数据</p>
-                                        <p style="letter-spacing: 1px">请修改后在提交！</p>
-                                        <p style="font-size: 20px;padding: 20px;">任务提交失败</p>
+                                    <div class="taskItemTemp" ng-if="$index==0" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
+                                        <div style="padding: 50px;font-size: 20px;color: #e83b68;text-align: center;">
+                                            <p style="font-size: 20px;">存在8条错误数据</p>
+                                            <p style="letter-spacing: 1px">请修改后在提交！</p>
+                                            <p style="font-size: 20px;padding: 20px;">任务提交失败</p>
+                                        </div>
+                                    </div>
+                                    <div class="taskItemTemp" ng-if="$index==1" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
+                                        <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />
+                                        <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>
+                                    </div>
+                                    <div class="taskItemTemp" ng-if="$index==3" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
+                                        <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-succ.png" />
+                                        <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交成功</p>
                                     </div>
                                 </div>
-                                <div class="taskItemTemp" ng-if="$index==1" style="position: relative;width: 280px;height: 230px;top: -235px;left: 15px;background: #fff;z-index: 1;opacity: 0.9;">
-                                    <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />
-                                    <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>
-                                </div>
-                                <div class="taskItemTemp" ng-if="$index==2" style="position: relative;width: 279px;height: 230px;top: -235px;left: 15px;background: #fff;z-index: 1;opacity: 0.9;">
-                                    <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-succ.png" />
-                                    <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交成功</p>
-                                </div>
+
+                                <!--<div class="taskItemTemp" ng-if="$index==1" style="position: relative;width: 280px;height: 230px;top: -235px;left: 15px;background: #fff;z-index: 1;opacity: 0.9;">-->
+                                    <!--<img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />-->
+                                    <!--<p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </div>
