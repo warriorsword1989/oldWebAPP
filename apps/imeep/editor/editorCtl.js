@@ -666,6 +666,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("showSamePoi", function (event, data) {
 			$scope.$broadcast("showSamePoishap");
 		});
+		/**
+		 * 接收刷新检查结果事件
+		 */
+		$scope.$on("refreshCheckResultToMainPage",function (event,data){
+			$scope.$broadcast("refreshCheckResult");
+		});
+
 		/*修改收费站通道信息，刷新ETC code*/
 		$scope.$on("tollGateCardType", function (event, data) {
 			$scope.$broadcast('refreshEtcCode',true);

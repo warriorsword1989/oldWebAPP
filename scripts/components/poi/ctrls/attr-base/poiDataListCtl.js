@@ -323,6 +323,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         if (jobId) {
                             var timer = $interval(function() {
                                 dsEdit.getJobById(jobId).then(function(data) {
+                                    scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
+
                                     if (data.status == 3 || data.status == 4) { //1-创建，2-执行中 3-成功 4-失败
                                         scope.$parent.$parent.showLoading = false;
                                         refreshData();
@@ -348,6 +350,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                                     }
                                 });
                             }, 500);
+                        } else {
+                            scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
                         }
                     });
                 }

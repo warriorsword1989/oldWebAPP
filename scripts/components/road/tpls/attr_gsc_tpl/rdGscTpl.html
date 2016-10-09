@@ -23,14 +23,15 @@
                     <ul class="fm-ul fm-ul-form" ng-repeat="item in reGscData.links ">
                         <li>
                             <label class="control-label">组成link{{$index+1}}</label>
-                            <div><input type="text" disabled class="chosen-disabled" ng-model="item.linkPid"/>
+                            <div>
+                                <input type="text" disabled class="chosen-disabled" ng-model="item.linkPid"/>
                             </div>
                         </li>
                         <li>
                             <label class="control-label">高度层次</label>
                             <div>
-                                <select ng-model="item.zlevel"
-                                        ng-options="value.id as value.label for value in zlevel">
+                                <select ng-model="item.zlevel" class="chosen-disabled"
+                                        ng-options="value.id as value.label for value in zlevel" disabled>
                                 </select>
                             </div>
                         </li>
@@ -38,15 +39,15 @@
                             <label class="control-label">起终点标识</label>
                             <div>
                                 <label>
-                                    <input type="radio" value=0 ng-model="item.startEnd">
+                                    <input type="radio" class="chosen-disabled" value=0 ng-model="item.startEnd" disabled>
                                     形状点
                                 </label>
                                 <label>
-                                    <input type="radio" value=1 ng-model="item.startEnd">
+                                    <input type="radio" class="chosen-disabled" value=1 ng-model="item.startEnd" disabled>
                                     起点
                                 </label>
                                 <label>
-                                    <input type="radio" value=2 ng-model="item.startEnd">
+                                    <input type="radio" class="chosen-disabled" value=2 ng-model="item.startEnd" disabled>
                                     终点
                                 </label>
                             </div>
@@ -54,8 +55,8 @@
                         <li>
                             <label class="control-label">要素类型</label>
                             <div>
-                                <select ng-model="item.tableName"
-                                        ng-options="value.id as value.label for value in tableName">
+                                <select ng-model="item.tableName" class="chosen-disabled"
+                                        ng-options="value.id as value.label for value in tableName" disabled>
                                 </select>
                             </div>
                         </li>
