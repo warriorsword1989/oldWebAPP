@@ -36,13 +36,16 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.aaaa = function(){
             $scope.redUp = 'unactived';
         }
+        $scope.go = function(param){
+            window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + param;
+        }
         //当前选中子任务对象;
         $scope.currentTaskData = null;
         //是否信息面板;
         $scope.infoPanelOpened = 'none';
         //所有的当前高亮grid数据
         $scope.currentHighligtGrid = [];
-        
+
 
 
         ////获取当前任务作业类型;
@@ -96,8 +99,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             dsManage.getSubtaskListByUser({
                 'exeUserId': $cookies.get('FM_USER_ID'),
                 //'status': 0,
-                'stage': 1,
-                'type': 0,
+                //'stage': 1,
+                //'type': 0,
                 'snapshot': 0,
                 'pageNum': 1,
                 'pageSize': 20

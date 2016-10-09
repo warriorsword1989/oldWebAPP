@@ -147,7 +147,7 @@
 
                         <div class="row fm-taskDataList">
                             <div class="col-md-3 col-xs-6 col-sm-12" ng-repeat="item in currentSubTaskList">
-                                <div class="taskItem">
+                                <div class="taskItem" ng-click="go(item.subtaskId)">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left" ng-bind="'任务名称'"></div>
                                         <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
@@ -189,7 +189,7 @@
 
                             <!-- -->
                             <div style="position: relative" class="col-md-3 col-xs-6 col-sm-12" ng-repeat="item in currentSubTaskList">
-                                <div class="taskItem">
+                                <div class="taskItem" ng-click="go()">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left" ng-bind="'任务名称'"></div>
                                         <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
