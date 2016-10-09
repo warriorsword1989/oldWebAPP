@@ -76,7 +76,8 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
         var nameParameter = {
             "name": $scope.inNmae,
             "pageSize": $scope.pagesize,
-            "pageNum":$scope.picNowNum
+            "pageNum":$scope.picNowNum,
+            "dbId":App.Temp.dbId
         };
         dsMeta.getNamesbyName(nameParameter).then(function (data) {
             if(data!= -1){
