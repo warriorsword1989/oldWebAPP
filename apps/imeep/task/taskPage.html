@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css" />
     <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
     <script type="text/javascript" src="../Application.js"></script>
@@ -161,7 +160,7 @@
                 <div ui-layout-container class="scroll-styled">
                     <div class="container-fluid taskDataList">
                         <div class="row fm-taskSorter">
-                            <select ng-model="myOption" ng-change="condtionChange()" ng-click="changeSelectArrowStyle()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
+                            <select ng-model="myOption" ng-change="condtionChange()" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
                                 <option value="0">默认</option>
                                 <option value="1">任务名称</option>
                                 <option value="2">完成时间</option>
@@ -200,11 +199,11 @@
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label>类　　型：</label></div>
-                                                <div class="itemInfo-right">日一体化任务</div>
+                                                <div class="itemInfo-right" ng-bind="item.stage+' '+item.type"></div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="letter-spacing: 1px;">作 业 季：</label></div>
-                                                <div class="itemInfo-right">2016年秋</div>
+                                                <div class="itemInfo-right text-ellipsis" ng-bind="item.descp"></div>
                                             </li>
                                         </ul>
                                     </div>
@@ -275,6 +274,7 @@
         </div>
 
     </div>
+    <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'../editor/svgLoading.html'"></div>
 <script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
 </body>
 </html>
