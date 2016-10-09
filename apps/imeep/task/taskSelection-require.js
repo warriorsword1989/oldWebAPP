@@ -33,6 +33,7 @@ requirejs.config({
     }
 });
 // Start the main app logic.
-requirejs(['TaskSelectionNewCtl'], function() {
+var temp = location.href.split('?')[0].substr(location.href.split('?')[0].lastIndexOf('/')+1)=='taskPage.html'?'TaskSelectionNewCtl':'TaskSelectionCtl'
+requirejs([temp], function() {
     angular.bootstrap(document.body, ['app']);
 });

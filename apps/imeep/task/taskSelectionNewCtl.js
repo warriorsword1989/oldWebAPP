@@ -5,6 +5,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
     function($scope, dsManage, $q, $cookies, $location,$timeout) {
 
         /***********************************控制器初始化以及事件监听绑定***********************************/
+        $scope.currentTab = 1;
         $scope.deepType=''
         //是否显示精编任务列表（头部控制）;
         $scope.showDetailEdit = false;
@@ -25,6 +26,16 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         //    classType: 0,
         //    classStage:1
         //};
+        $scope.myOption = '0';
+        $scope.redUp = 'unactived';
+        $scope.tab1Url='../../../images/main/task/icon-c1.png';
+        $scope.tab2Url='../../../images/main/task/icon-h2.png';
+        $scope.hhh = function(){
+            $scope.redUp = 'actived';
+        }
+        $scope.aaaa = function(){
+            $scope.redUp = 'unactived';
+        }
         //当前选中子任务对象;
         $scope.currentTaskData = null;
         //是否信息面板;
@@ -103,7 +114,9 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             //if (!obj) return;
             dsManage.getSubtaskListByUser({
                 'exeUserId': $cookies.get('FM_USER_ID'),
-                'status': 0,
+                //'status': 0,
+                'stage': 1,
+                'type': 0,
                 'snapshot': 0,
                 'pageNum': 1,
                 'pageSize': 20
