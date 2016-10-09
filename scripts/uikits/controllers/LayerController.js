@@ -246,6 +246,20 @@ fastmap.uikit.LayerController = (function() {
                     }
                 }
             },
+
+          /**
+           * 获取所有tilejson图层
+           * @returns {Array}
+           */
+            getAllTileJsonLayer: function () {
+                var layers = [];
+                for (var item in this.layers) {
+                    if (!FM.Util.isEmptyObject(this.layers[item].tiles)) {
+                        layers.push(this.layers[item]);
+                    }
+                }
+                return layers;
+            }
         });
         return new layerController(options);
     }

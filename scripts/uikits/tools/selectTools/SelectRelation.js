@@ -31,7 +31,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         for (var item in this.editLayerIds) {
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
-        this.popup = L.popup();
+        this.popup = L.popup({className:'featuresContent'});
         this.clickcount = 0;
 
     },
@@ -42,9 +42,9 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('dblclick', this.onDbClick, this);
-        if (L.Browser.touch) {
-            this._map.on('mousedown', this.onMouseDown, this);
-        }
+        // if (L.Browser.touch) {
+        //     this._map.on('mousedown', this.onMouseDown, this);
+        // }
     },
 
 

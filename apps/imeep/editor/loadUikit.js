@@ -27,7 +27,8 @@
         "tools/selectTools/SelectPolygon.js",
         "tools/selectTools/SelectRelation.js",
         "tools/selectTools/SelectForRectang.js",
-        "tools/selectTools/SelectNodeAndPath.js"
+        "tools/selectTools/SelectNodeAndPath.js",
+        "tools/selectTools/SelectFeature.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
