@@ -21,7 +21,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
 	       {"id": 14, "label": "树林林地"},
 	       {"id": 15, "label": "草地"},
 	       {"id": 16, "label": "绿化带"},
-	       {"id": 17, "label": "岛"},
+	       {"id": 17, "label": "岛屿"},
 	   ];
     $scope.form = [
         {"id": 0, "label": "无"},
@@ -110,6 +110,17 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
     $scope.cancel = function(){
 
     };
+    
+    $scope.kindChange = function(event, obj){
+    	if(obj.lcFaceData.kind == 1 || obj.lcFaceData.kind == 2 || obj.lcFaceData.kind == 3 || obj.lcFaceData.kind == 4 || obj.lcFaceData.kind == 5 || obj.lcFaceData.kind == 6 || obj.lcFaceData.kind == 17){
+    		obj.lcFaceData.detailFlag = 3;
+    	}else if(obj.lcFaceData.kind == 11 || obj.lcFaceData.kind == 12 || obj.lcFaceData.kind == 13 || obj.lcFaceData.kind == 14 || obj.lcFaceData.kind == 15 || obj.lcFaceData.kind == 16){
+    		obj.lcFaceData.detailFlag = 1;
+    	}else if(obj.lcFaceData.kind == 0){
+    		obj.lcFaceData.detailFlag = 0;
+    	}
+    };
+    
     /*展示详细信息*/
     $scope.showDetail = function () {
         var tempCtr = '', tempTepl = '';
