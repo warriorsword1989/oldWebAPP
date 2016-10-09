@@ -1,4 +1,4 @@
-angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOutput', 'dsEdit', function($scope, $ocll, dsOutput, dsEdit) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOutput', 'dsEdit','$interval', function($scope, $ocll, dsOutput, dsEdit,$interval) {
     /*翻页事件*/
     $scope.turnPage = function(type) {
             if (type == 'prev') { //上一页
@@ -55,8 +55,15 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     /*刷新检查*/
     $scope.refreshCheckResult = function() {
         initCheckResultData();
-        initCheckDataCount();
+        //initCheckDataCount(); //方法内已经调用因此注销此方法
     };
+    /**
+     * 接收刷新检查结果的事件
+     */
+    $scope.$on("refreshCheckResult",function (event,data){
+        initCheckResultData();
+    });
+
 
     /**
      * 在线检查
