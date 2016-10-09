@@ -2556,7 +2556,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: inline-block;
     height: 26px;
     width: 26px;
-    line-height: 26px;
+    line-height: 12px;
     border: none;
     border-radius: 5px;
     margin: 7px 4px;
