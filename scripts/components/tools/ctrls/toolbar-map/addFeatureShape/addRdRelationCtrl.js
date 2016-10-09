@@ -714,7 +714,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             for (var j = i + 1; j < dealData.length; j++) {
                                 if (i != j) {
                                     var lineGeoArr = function(mark) {
-                                        return [dealData[mark].line.points[0], dealData[mark].line.points[1]];
+                                        return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length-1]];
                                     };
                                     if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
                                         crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
