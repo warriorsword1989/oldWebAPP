@@ -6,6 +6,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdcross = layerCtrl.getLayerById('rdCross');
+    var relation = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -34,7 +35,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
             type: 'rdCross',
             style: {
                 fillColor: '#ff00ff',
-                radius: 7
+                radius: 3
             }
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -53,9 +54,23 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
     function initNameInfo() {
         if ($scope.rdCrossData.names.length > 0) {
             $scope.nameGroup = [];
-            $scope.rdCrossData.names = $scope.rdCrossData.names.sort(function(a, b) {
-                return b.nameGroupid >= a.nameGroupid;
-            });
+            /*根据数据中对象某一属性值排序*/
+            function compare(propertyName) {
+                return function (object1, object2) {
+                    var value1 = object1[propertyName];
+                    var value2 = object2[propertyName];
+                    if (value2 < value1) {
+                        return -1;
+                    }
+                    else if (value2 > value1) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                }
+            }
+            $scope.rdCrossData.names.sort(compare('nameGroupid'));
             for (var i = 0, len = $scope.rdCrossData.names[0].nameGroupid; i < len; i++) {
                 var tempArr = [];
                 for (var j = 0, le = $scope.rdCrossData.names.length; j < le; j++) {
@@ -75,7 +90,8 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         dsEdit.getByPid(parseInt($scope.rdCrossData.pid), "RDCROSS").then(function(data) {
             if (data) {
                 objCtrl.setCurrentObject("RDCROSS", data);
-                $scope.initializeRdCrossData();
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+//                $scope.initializeRdCrossData();
             }
         });
     };
@@ -175,9 +191,11 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 $scope.refreshData();
             }
+            $scope.$emit('SWITCHCONTAINERSTATE', {
+                'subAttrContainerTpl': false
+            });
         })
     };
     $scope.delete = function() {
@@ -185,6 +203,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         dsEdit.delete(objId, 'RDCROSS', 1).then(function(data) {
             if (data) {
                 rdcross.redraw();
+                relation.redraw();
                 highRenderCtrl._cleanHighLight();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,

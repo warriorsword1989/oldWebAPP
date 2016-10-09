@@ -15,8 +15,27 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.lcLinkData = null;
+    $scope.fromOfTypeOption = [
+           {"id": "0", "label": "未分类","isCheck":false},
+           {"id": "1", "label": "海岸线","isCheck":false},
+           {"id": "2", "label": "河川","isCheck":false},
+           {"id": "3", "label": "湖沼地","isCheck":false},
+           {"id": "4", "label": "水库","isCheck":false},
+           {"id": "5", "label": "港湾","isCheck":false},
+           {"id": "6", "label": "运河","isCheck":false},
+           {"id": "7", "label": "单线河","isCheck":false},
+           {"id": "8", "label": "水系假象线","isCheck":false},
+           {"id": "11", "label": "公园","isCheck":false},
+           {"id": "12", "label": "高尔夫球场","isCheck":false},
+           {"id": "13", "label": "滑雪场","isCheck":false},
+           {"id": "14", "label": "树林林地","isCheck":false},
+           {"id": "15", "label": "草地","isCheck":false},
+           {"id": "16", "label": "绿化带","isCheck":false},
+           {"id": "17", "label": "岛","isCheck":false},
+           {"id": "18", "label": "绿地假象线","isCheck":false},
+       ];
     $scope.form = [
-        {"id": 0, "label": "未调查"},
+        {"id": 0, "label": "无属性"},
         {"id": 1, "label": "暗沙"},
         {"id": 2, "label": "浅滩"},
         {"id": 3, "label": "珊瑚礁"},
@@ -25,12 +44,31 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
         {"id": 9, "label": "湖泊(国界外)"},
         {"id": 10, "label": "界河"}
     ];
-
+    $scope.kindsLabel = {
+        0:"未分类",
+        1:"海岸线",
+        2:"河川",
+        3:"湖沼地",
+        4:"水库",
+        5:"港湾",
+        6:"运河",
+        7:"单线河",
+        8:"水系假想线",
+        11:"公园",
+        12:"高尔夫球场",
+        13:"滑雪场",
+        14:"树林林地",
+        15:"草地",
+        16:"绿化带",
+        17:"岛",
+        18:"绿地假想线"
+    };
 
     //初始化
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.lcLinkData = objCtrl.data;
+        $scope.formModel = $scope.lcLinkData.kinds[0].form;
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.lcLinkForm) {
@@ -60,13 +98,20 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-
     };
 
 
 
     //保存
     $scope.save = function(){
+        var kinds = objCtrl.data.kinds;
+        for(var i = 0 ,len = kinds.length; i < len; i++){
+            kinds[i].form = $scope.formModel;
+        }
+        if(kinds.length == 0){
+            swal("保存提示",'请先选择一个种别！', "warning");
+            return;
+        }
         objCtrl.save();
         var changed = objCtrl.changedProperty;
         if(!changed){
@@ -89,10 +134,18 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                dsEdit.getByPid($scope.lcLinkData.pid, "LCLINK").then(function(data) {
+                    if (data){
+                        objCtrl.setCurrentObject(type, data);
+                        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                    }
+                });
                 if($scope.lcLinkForm) {
                     $scope.lcLinkForm.$setPristine();
                 }
+                $scope.$emit("SWITCHCONTAINERSTATE",{
+                    subAttrContainerTpl:false
+                });
             }
         })
     };

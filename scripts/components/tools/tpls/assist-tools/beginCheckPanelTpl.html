@@ -13,16 +13,16 @@
         background-color: #313131;
     }
 </style>
-<div class="fm-panel" ng-controller="BeginCheckPanelCtrl" style="margin:0px;">
+<div class="fm-panel" ng-controller="BeginCheckPanelCtrl">
     <div class="title">执 行 检 查</div>
     <div class="content">
-        <div class="fm-tabs" style="padding: 0 10px;" ng-init="batchType='poi'">
-            <a href="#" class="tab" ng-class="{'road':'active'}[batchType]" ng-click="batchType='road'">道路检查</a>
-            <a href="#" class="tab" ng-class="{'poi':'active'}[batchType]" ng-click="batchType='poi'">POI检查</a>
-            <div style="position: absolute;left: 42%;top: 50px;"><lable style="font-weight: bold;"><input ng-model="currentBatchBag.checked" ng-click="batchSelect(currentBatchBag)" type="checkbox" style="position: relative;top: 3px;"> 全选</lable></div>
+        <div class="fm-tabs" style="padding: 0 10px;" ng-init="batchType=0">
+            <a href="#" class="tab" ng-class="{1:'active'}[batchType]" ng-click="switchBatchType(1)">道路检查</a>
+            <a href="#" class="tab" ng-class="{0:'active'}[batchType]" ng-click="switchBatchType(0)">POI检查</a>
+            <!--<div style="position: absolute;left: 42%;top: 50px;"><lable style="font-weight: bold;"><input ng-model="currentBatchBag.checked" ng-click="batchSelect(currentBatchBag)" type="checkbox" style="position: relative;top: 3px;"> 全选</lable></div>-->
         </div>
         <div class="container-fluid" ng-switch="batchType">
-            <div ng-switch-when="poi" class="row scroll-styled dark" style="min-height: 200px;max-height: 300px;padding: 0 10px;">
+            <div ng-switch-when=0 class="row scroll-styled dark" style="min-height: 200px;max-height: 300px;padding: 0 10px;">
                 <div style="width: 40%;float: left">
                     <table class="table table-bordered table-condensed fm-console-table">
                         <thead>
@@ -33,13 +33,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-if="!batchBoxData || batchBoxData.length == 0">
+                        <tr ng-if="!searchBoxData || searchBoxData.length == 0">
                             <td colspan="3" class="text-center">无数据!!!</td>
                         </tr>
-                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in batchBoxData">
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in searchBoxData">
                             <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
-                            <td ng-click="getBatchItem(item)">{{item.type}}</td>
-                            <td ng-click="getBatchItem(item)">{{item.handleArea}}</td>
+                            <td ng-click="getBatchItem(item)">{{item.suiteName}}</td>
+                            <td ng-click="getBatchItem(item)">{{item.suiteRange}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -56,32 +56,72 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-if="!currentBatchItems || currentBatchItems.length == 0">
+                        <tr ng-if="!currentSearchItems || currentSearchItems.length == 0">
                             <td colspan="5" class="text-center">无数据!!!</td>
                         </tr>
-                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentBatchItems">
-                            <td><input ng-model="item.checked" type="checkbox" /></td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.desc}}</td>
-                            <td>{{item.level}}</td>
-                            <td>{{item.dec}}</td>
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentSearchItems">
+                            <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
+                            <td>{{item.ruleName}}</td>
+                            <td>{{item.ruleDesc}}</td>
+                            <td>{{item.ruleLevel}}</td>
+                            <td>{{item.depends}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div ng-switch-when="road" class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
-                <label ng-repeat="item in batchList" class="col-md-6">
-                    <input type="checkbox" name="batchList" ng-model="selectedBatches[item.id]" ng-value="item.id"> {{item.name}}
-                </label>
+            <div ng-switch-when=1 class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
+                <div style="width: 40%;float: left">
+                    <table class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                        <tr>
+                            <th>选择</th>
+                            <th>检查类型</th>
+                            <th>检查范围</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="!searchBoxData || searchBoxData.length == 0">
+                            <td colspan="3" class="text-center">无数据!!!</td>
+                        </tr>
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in searchBoxData">
+                            <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
+                            <td ng-click="getBatchItem(item)">{{item.suiteName}}</td>
+                            <td ng-click="getBatchItem(item)">{{item.suiteRange}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 58%;float: right">
+                    <table class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                        <tr>
+                            <th>选择</th>
+                            <th>检查项</th>
+                            <th>检查描述</th>
+                            <th>检查等级</th>
+                            <th>前置依赖</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="!currentSearchItems || currentSearchItems.length == 0">
+                            <td colspan="5" class="text-center">无数据!!!</td>
+                        </tr>
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentSearchItems">
+                            <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
+                            <td ng-click="getCheckItem(item)">{{item.ruleName}}</td>
+                            <td ng-click="getCheckItem(item)">{{item.ruleDesc}}</td>
+                            <td ng-click="getCheckItem(item)">{{item.ruleLevel}}</td>
+                            <td ng-click="getCheckItem(item)">{{item.depends}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <!---->
-        <div class="progress fm-progress" style="margin:8px;">
-            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
-        </div>
         <div style="text-align:center;">
             <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行 检 查</button>
         </div>

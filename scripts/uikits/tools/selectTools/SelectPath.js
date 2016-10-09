@@ -144,7 +144,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         var point = new fastmap.mapApi.Point(this.transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom()));
         var data, touchedObjects = [];
         for (var i = 0; i < this.workLayers.length; i++) {
-            if (this.workLayers[i].options.showNodeLevel > this._map.getZoom()) {
+            if (!this.workLayers[i].options.visible || this.workLayers[i].options.showNodeLevel > this._map.getZoom()) {
                 continue;
             }
             data = this.workLayers[i].tiles[tilePoint[0] + ":" + tilePoint[1]].data;

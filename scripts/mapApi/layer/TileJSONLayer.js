@@ -28,6 +28,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.clickFunction = this.options.clickFunction || null;
         this.eventController = fastmap.uikit.EventController();
         this.redrawTiles = [];
+        this.options.async = true;
         this.drawTile = function(canvas, tilePoint, zoom) {
             var ctx = {
                 canvas: canvas,
@@ -39,16 +40,34 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
             this._draw(ctx, this.options.boolPixelCrs, this.options.parse);
         };
+        // by chenx on 2016-9-23:打印瓦片图层加载时间，调试效率的时候用，正常情况下可以注释掉
+        // this.on('loading', function() {
+        //     this._beginTime = new Date().getTime();
+        // });
+        // var that = this;
+        // this.on('load', function() {
+        //     var endTime = new Date().getTime();
+        //     var cnt = 0,
+        //         dataCnt = 0;
+        //     for (var key in that.tiles) {
+        //         if (that.tiles[key].data.length) {
+        //             dataCnt += that.tiles[key].data.length;
+        //         }
+        //         cnt++;
+        //     }
+        //     console.log('------Tilelayer load info:' + this._beginTime + '|' + endTime + '|' + cnt + '|' + dataCnt);
+        // });
     },
-    redraw: function () {
+    redraw: function() {
         if (this._map) {
-            this._reset({hard: true});
+            this._reset({
+                hard: true
+            });
             this._update();
         }
         return this;
     },
-
-    _redrawTile: function (tile) {
+    _redrawTile: function(tile) {
         this.drawTile(tile, tile._tilePoint, this._map._zoom);
     },
     /***
@@ -239,12 +258,14 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (parse != null || parse != undefined) {
                     data = parse(geo);
                 }
-                if (data.length == 0) {
-                    return;
+                if (data.length > 0) {
+                    self._drawFeature(data, ctx, boolPixelCrs);
                 }
-                self._drawFeature(data, ctx, boolPixelCrs);
+                self.tileDrawn(ctx.canvas);
             }, url, this.key, parse);
             this.tiles[this.key].setRequest(this.request);
+        } else {
+            this.tileDrawn(ctx.canvas);
         }
     },
     /***
@@ -281,9 +302,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             } else {
                                 d = eval("(" + x.responseText + ")")
                             }
-                            if (d.length === 0) {
-                                return;
-                            }
+                            // if (d.length === 0) {
+                            //     return;
+                            // }
                             self.tiles[key].setData(parse(d, key));
                             func(d);
                         }
@@ -334,7 +355,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var icons = feature.properties.markerStyle.icon;
                         for (var item in icons) {
                             if (icons[item].iconName) {
-                                this. _drawImg({
+                                this._drawImg({
                                     ctx: ctx,
                                     geo: icons[item].location,
                                     style: {
@@ -346,7 +367,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     drawy: icons[item].row * icons[item].dy,
                                     scalex: icons[item].scalex ? icons[item].scalex : 1,
                                     scaley: icons[item].scaley ? icons[item].scaley : 1,
-                                    fillStyle:icons[item].fillStyle ?icons[item].fillStyle : ""
+                                    fillStyle: icons[item].fillStyle ? icons[item].fillStyle : ""
                                 });
                             } else {
                                 var coords = geom.coordinates;
@@ -563,7 +584,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
         return [drawPoint, endPoint]
-    }
+    },
 });
 fastmap.mapApi.TileJSON.addInitHook(function() {
     this.isVisiable = this.options.isVisiable ? true : false;

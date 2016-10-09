@@ -242,7 +242,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     }
                 }
 
-                distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0],geometry[1]));
+               // distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0],geometry[1]));
 
             }
 

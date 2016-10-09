@@ -24,6 +24,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.dataListType = 1;
 		$scope.projectType = 1; //1--POI作业，其他为道路作业
 		$scope.outputType = 1;
+		$scope.rootCommonTemp = {}; //用于保存需要全局控制的变量
 		//面板显示控制开关
 		$scope.editorPanelOpened = 'none';
 		$scope.suspendPanelOpened = false;
@@ -256,19 +257,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}
 		};
 
-		var loadToolsPanel = function (callback) {
-			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
-				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
-				if (callback) {
-					callback();
-				}
+		var loadToolsPanel = function () {
+			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/toolbarPanelCtrl.js').then(function () {
+				$scope.editorToolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarPanelTpl.htm';
 			});
 			$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 			});
-//			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
-//				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
-//			});
 		};
 		// 消息推送
 		$scope.msgNotify = function(){
@@ -310,14 +305,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					loadMap(data);
 					var promises = loadMetaData();
 					$q.all(promises).then(function () {
-						loadToolsPanel(function () {
-							if (data.type == 0) { // POI任务
-								$scope.changeProject(1);
-							} else { // 一体化、道路、专项任务
-								$scope.changeProject(2);
-							}
-							bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
-						});
+						loadToolsPanel();
+						if (data.type == 0) { // POI任务
+							$scope.changeProject(1);
+						} else { // 一体化、道路、专项任务
+							$scope.changeProject(2);
+						}
+						bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
 					});
 				}
 			});
@@ -672,6 +666,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("showSamePoi", function (event, data) {
 			$scope.$broadcast("showSamePoishap");
 		});
+		/**
+		 * 接收刷新检查结果事件
+		 */
+		$scope.$on("refreshCheckResultToMainPage",function (event,data){
+			$scope.$broadcast("refreshCheckResult");
+		});
+
 		/*修改收费站通道信息，刷新ETC code*/
 		$scope.$on("tollGateCardType", function (event, data) {
 			$scope.$broadcast('refreshEtcCode',true);

@@ -18,19 +18,16 @@
 <div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div>
+            <div ng-repeat="showItem in directArr track by $index">
+
                 <img class="lanePic"  ng-if="!laneFlag"
-                      ng-repeat="showItem in directArr track by $index"
-                      ng-click="getLanesInfo(showItem,$event)"
                       ng-src="../../../images/road/1301/1301_0_{{showItem}}.svg"
-                      title="点击可修改退出线"
                 >
                 <img class="lanePic"  ng-if="laneFlag"
-                      ng-repeat="showItem in directArr track by $index"
-                      ng-click="getLanesInfo(showItem,$event)"
                       ng-src="../../../images/road/1301/1301_2_{{showItem}}.svg"
-                      title="点击可修改退出线"
                 >
+                <span style="font-size: 12px;top: 15px;left:-22px;color: #fff;cursor: pointer;"
+                      class="glyphicon glyphicon-edit" ng-click="getLanesInfo(showItem,$event)" title="点击可修改退出线"></span>
             </div>
         </li>
 
@@ -67,6 +64,20 @@
                     <input type="radio" name="crossingOrLine{$index}" value=1 ng-model="laneData.relationshipType">
                     线线
                 </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">经过线</label></div>
+            <div class="inline">
+                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+            </div>
+
+        </li>
+        <li style="padding-left: 20px">
+            <div id="fromOfWRoaddiv" style="width:260px;" >
+                <div ng-repeat="cItem in laneData.vias track by $index" class="checkboxli">
+                    {{cItem.linkPid}}
+                </div>
             </div>
         </li>
     </ul>

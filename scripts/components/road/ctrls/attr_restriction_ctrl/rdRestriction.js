@@ -65,6 +65,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
                     strokeWidth:3,
                     color: '#CD0000'
                 }
+
             });
         }
         highLightFeatures.push({
@@ -221,13 +222,6 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             type: 'line',
             style: {}
         });
-
-        // highLightFeatures.push({
-        //     id: item.outLinkPid.toString(),
-        //     layerid: 'restriction',
-        //     type: 'restriction',
-        //     style: {}
-        // });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
 
@@ -262,8 +256,14 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         }
     };
     //修改退出线
+    var currentTool = null;
     $scope.changeOutLink = function (item) {
-        var currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink, linksFlag: false});
+        currentTool = new fastmap.uikit.SelectPath({
+            map: map,
+            currentEditLayer: rdLink,
+            linksFlag: false,
+            shapeEditor: fastmap.uikit.ShapeEditorController()
+        });
         currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             highRenderCtrl.highLightFeatures.length = 0;
@@ -277,7 +277,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
                 id: objectEditCtrl.data["inLinkPid"].toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {}
+                style: {color:"red"}
             });
             highLightFeatures.push({
                 id: data.id.toString(),
@@ -290,24 +290,28 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         })
     };
 
-
-    //右击
     $scope.deleteDirect = function (item, event) {
-        if (event.button === 2) {
-            var len = $scope.rdRestrictData.details.length;
-            if (len === 1) {
-                alert("请点击删除按钮删除该交限");
-                return;
-            } else {
-                for (var i = 0; i < len; i++) {
-                    if (len === 1) {
-                        alert("请点击删除按钮删除该交限");
-                        break;
-                    } else {
-                        if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
-                            $scope.rdRestrictData.details.splice(i, 1);
-                            len--;
+        var len = $scope.rdRestrictData.details.length;
+        if (len === 1) {
+            swal("无法操作", "请点击删除按钮删除该交限！", "info");
+            return;
+        } else {
+            for (var i = 0; i < len; i++) {
+                if (len === 1) {
+                    swal("无法操作", "请点击删除按钮删除该交限！", "info");
+                    break;
+                } else {
+                    if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
+                        var infoArr = $scope.rdRestrictData.restricInfo.split(",");
+                        for(var j=0;j<infoArr.length;j++){
+                            if(infoArr[j] == item.restricInfo){
+                                infoArr.splice(j,1);
+                                break;
+                            }
                         }
+                        $scope.rdRestrictData.restricInfo = infoArr.join(",");
+                        $scope.rdRestrictData.details.splice(i, 1);
+                        len--;
                     }
                 }
             }
@@ -319,9 +323,12 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         item.flag = parseInt(item.flag);
         if (item.flag === 1) {
             if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
-                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[2];
+                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
             }
         } else {
+            if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
+                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
+            }
             restrictInfoArr[$scope.flag] = "[" + restrictInfoArr[$scope.flag] + "]";
         }
         $scope.rdRestrictData.restricInfo.length = 0;
@@ -360,7 +367,8 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         if ($scope.rdSubRestrictData.type == 2) {
             for (var i = 0; i < $scope.rdRestrictData.details.length; i++) {
                 if ($scope.rdRestrictData.details[i]["conditions"][0]["timeDomain"] == '' || $scope.rdRestrictData.details[i]["conditions"][0]["timeDomain"] == null) {
-                    swal("请填写禁止时间段！", '禁止时间段为空', "false");
+                    swal("请填写禁止时间段！", '禁止时间段为空', "info");
+                    return;
                 }
 
             }
@@ -412,9 +420,16 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             return;
         }
 
+        if(currentTool){
+            currentTool.disable();
+            currentTool = null;
+        }
+
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdRestriction.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures = [];
                 objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             }
         });

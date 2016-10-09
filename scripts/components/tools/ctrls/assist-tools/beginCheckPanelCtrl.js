@@ -3,76 +3,125 @@
  */
 angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit',
     function($scope, $interval, dsEdit) {
-        $scope.batchBoxData = [];
-        $scope.currentBatchItems = [];
-        $scope.currentBatchBag = null;
-        $scope.selectedBatches = {};
+        $scope.searchBoxData = [];
+        $scope.searchBoxDataItems = [];
+        $scope.currentSearchItems = [];
+
+        $scope.selectedBatches = [];
+        $scope.pageSize = 10;
+        $scope.page = 1;
+        $scope.batchType = 0;
+
+
+
+        /**
+        * 切换道路和poi批处理tab页;
+        * @param type
+        */
+        $scope.switchBatchType = function(type){
+            $scope.batchType = type;
+            getSeachBox();
+        }
 
         //获取所有批处理包;
-        function getBatchBox(){
-            dsEdit.batchBox("batchbag.json").then(function(data){
-                $scope.batchBoxData = data;
+        function getSeachBox(){
+            var params = {
+                pageNumber:$scope.pageSize,
+                currentPage:$scope.page,
+                checkType:$scope.batchType,
+            }
+            dsEdit.seachCheckBox(params).then(function(data){
+                $scope.searchBoxData = data;
+                //获取当前显示的检查项，默认为第一个检查项下的数据;
+                $scope.currentSearchItems = data.length?$scope.searchBoxData[0].rules:[];
             });
         }
+
         //点击table行查询当前批处理包下的批处理规则;
-        $scope.getBatchItem = function(param){
-            $scope.currentBatchBag = param;
-            dsEdit.batchBox('batchItem.json').then(function(res){
-                $scope.currentBatchItems = res[parseInt(param.id)-1].data;
-                $scope.batchSelect(param);
-            })
+        $scope.getCheckItem = function(param){
+            $scope.currentSearchItems = param.rules;
         }
+
+
         //全选或反选处理;
         $scope.batchSelect = function(param){
             if(param.checked){
-                for(var i=0;i<$scope.currentBatchItems.length;i++){
-                    $scope.currentBatchItems[i].checked = true
+                for(var i=0;i<$scope.currentSearchItems.length;i++){
+                    $scope.currentSearchItems[i].checked = true
                 }
             }else{
-                for(var i=0;i<$scope.currentBatchItems.length;i++){
-                    $scope.currentBatchItems[i].checked = false
+                for(var i=0;i<$scope.currentSearchItems.length;i++){
+                    $scope.currentSearchItems[i].checked = false
                 }
+            }
+            getAllBatchRules(param);
+        }
+
+        //单个选择处理;
+        $scope.clickBatchSelect = function(param){
+            getAllBatchRules(param);
+        }
+
+        //组装选中批处理规则;
+        function getAllBatchRules(param){
+            if(param.rules){//全选或反选
+                if(param.checked){
+                    for(var i=0;i<param.rules.length;i++){
+                        if($scope.selectedBatches.indexOf(param.rules[i].ruleCode)==-1){
+                            $scope.selectedBatches.push(param.rules[i].ruleCode)
+                        }
+                    }
+                }else{
+                    for(var i=0;i<param.rules.length;i++){
+                        if($scope.selectedBatches.indexOf(param.rules[i].ruleCode)!=-1){
+                            $scope.selectedBatches.splice($scope.selectedBatches.indexOf(param.rules[i].ruleCode),1);
+                        }
+                    }
+                }
+                console.log($scope.selectedBatches);
+            }else{//单选
+                if(param.checked){
+                    if($scope.selectedBatches.indexOf(param.ruleCode)==-1){
+                        $scope.selectedBatches.push(param.ruleCode)
+                    }
+                }else{
+                    if($scope.selectedBatches.indexOf(param.ruleCode)!=-1){
+                        $scope.selectedBatches.splice($scope.selectedBatches.indexOf(param.ruleCode),1);
+                    }
+                }
+                console.log($scope.selectedBatches);
             }
         }
 
-        $scope.selectedBatches = [1];
+
+
 
         $scope.running = false;
         $scope.progress = 0;
         $scope.doExecute = function() {
-            var batches = [];
-            for (var key in $scope.selectedBatches) {
-                if ($scope.selectedBatches[key]) {
-                    batches.push(key);
-                }
-            }
-            if (batches.length == 0) {
-                swal("请选择要执行的批处理", "", "info");
+            if ($scope.selectedBatches.length == 0) {
+                swal("请选择要执行的检查项", "", "info");
                 return;
             } else {
+                var param = {
+                    taskId:App.Temp.subTaskId,
+                    ruleCode:$scope.selectedBatches,
+                    type:$scope.batchType
+                }
                 $scope.running = true;
-                $scope.$emit("job-batch", {
-                    status: 'begin'
-                });
-                swal("自动录入服务启动成功（模拟运行，服务正在调试中）！", "", "success");
-                $scope.progress = 0;
-                var loop = $interval(function() {
-                    $scope.progress += 20;
-                    if ($scope.progress == 100) {
-                        clearInterval(loop);
-                        $scope.running = false;
-                        $scope.$emit("job-batch", {
-                            status: 'end'
-                        });
-                        // swal("自动录入服务模拟运行完成！", "", "success");
+                //$scope.$emit("job-search", {
+                //    status: 'begin'
+                //});
+                dsEdit.exeOnlineSearch(param).then(function(data){
+                    if(data){
+                        $scope.closeAdvancedToolsPanel();
                     }
-                }, 1000)
-                return;
+                })
             }
         };
 
 
-        getBatchBox()
+        getSeachBox()
 
     }
 ]);

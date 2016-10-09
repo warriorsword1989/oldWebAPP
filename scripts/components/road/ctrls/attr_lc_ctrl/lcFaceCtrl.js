@@ -11,7 +11,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
 	       {"id": 0, "label": "未分类"},
 	       {"id": 1, "label": "海域"},
 	       {"id": 2, "label": "河川域"},
-	       {"id": 3, "label": "湖沼域"},
+	       {"id": 3, "label": "湖沼池"},
 	       {"id": 4, "label": "水库"},
 	       {"id": 5, "label": "港湾"},
 	       {"id": 6, "label": "运河"},
@@ -21,7 +21,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
 	       {"id": 14, "label": "树林林地"},
 	       {"id": 15, "label": "草地"},
 	       {"id": 16, "label": "绿化带"},
-	       {"id": 17, "label": "岛"},
+	       {"id": 17, "label": "岛屿"},
 	   ];
     $scope.form = [
         {"id": 0, "label": "无"},
@@ -53,7 +53,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
         {"id": 0, "label": "不应用"},
         {"id": 1, "label": "只存在于详细区域"},
         {"id": 2, "label": "只存在于广域区域"},
-        {"id": 3, "label": "只存在于详细和广域区域"}
+        {"id": 3, "label": "存在于详细和广域区域"}
     ];
     //初始化
     $scope.initializeData = function(){
@@ -110,6 +110,17 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
     $scope.cancel = function(){
 
     };
+    
+    $scope.kindChange = function(event, obj){
+    	if(obj.lcFaceData.kind == 1 || obj.lcFaceData.kind == 2 || obj.lcFaceData.kind == 3 || obj.lcFaceData.kind == 4 || obj.lcFaceData.kind == 5 || obj.lcFaceData.kind == 6 || obj.lcFaceData.kind == 17){
+    		obj.lcFaceData.detailFlag = 3;
+    	}else if(obj.lcFaceData.kind == 11 || obj.lcFaceData.kind == 12 || obj.lcFaceData.kind == 13 || obj.lcFaceData.kind == 14 || obj.lcFaceData.kind == 15 || obj.lcFaceData.kind == 16){
+    		obj.lcFaceData.detailFlag = 1;
+    	}else if(obj.lcFaceData.kind == 0){
+    		obj.lcFaceData.detailFlag = 0;
+    	}
+    };
+    
     /*展示详细信息*/
     $scope.showDetail = function () {
         var tempCtr = '', tempTepl = '';

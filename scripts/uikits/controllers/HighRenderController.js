@@ -99,8 +99,10 @@ fastmap.uikit.HighRenderController = (function () {
                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                       this.drawOfLink(id, hightlightfeature, ctx, style);
                     }
+
                     else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDROAD'&&this.highLightFeatures[item].type =='marker') {
                       this.drawOfLink(id, hightlightfeature, ctx, style);
+
                     }
 
                     else if (this.highLightFeatures[item].type == 'node') {
@@ -164,6 +166,7 @@ fastmap.uikit.HighRenderController = (function () {
                     else if(this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDTOLLGATE'){
                       var fea = this.currentEditLayer.tiles[tile].data[feature];
                       this.drawTips(this.highLightFeatures[item].id, fea, ctx);
+
                     }
                     else if(this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSE'){
                       var fea = this.currentEditLayer.tiles[tile].data[feature];

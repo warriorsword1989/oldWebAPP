@@ -269,7 +269,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         /*新鲜度验证*/
         function getKindName(scope, row) {
             if(row.kindCode){
-                return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+                if(scope.metaData.kindFormat[row.kindCode] && scope.metaData.kindFormat[row.kindCode].kindName){
+                    return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
+                }else {
+                    return $sce.trustAsHtml("");
+                }
             } else {
                 return $sce.trustAsHtml("");
             }
@@ -319,6 +323,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         if (jobId) {
                             var timer = $interval(function() {
                                 dsEdit.getJobById(jobId).then(function(data) {
+                                    scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
+
                                     if (data.status == 3 || data.status == 4) { //1-创建，2-执行中 3-成功 4-失败
                                         scope.$parent.$parent.showLoading = false;
                                         refreshData();
@@ -344,6 +350,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                                     }
                                 });
                             }, 500);
+                        } else {
+                            scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
                         }
                     });
                 }

@@ -1,0 +1,185 @@
+<div ng-controller="EditorToolbarCtrl">
+    <div class="fm-top-btn-group" ng-controller="selectShapeCtrl">
+    	<button class="fm-top-btn select-node-ft" title="选择点要素" ng-click="selectShape('point')"></button>
+        <button class="fm-top-btn select-node" title="选择节点" ng-click="selectShape('node')"></button>
+        <button class="fm-top-btn select-path" title="选择线" ng-click="selectShape('link')"></button>
+        <button class="fm-top-btn select-face" title="选择面" ng-click="selectShape('face')"></button>
+        <button class="fm-top-btn blank" title="选择Tips" ng-click="selectShape('tips')">Tip</button>
+        <button class="fm-top-btn blank" title="选择关系" ng-click="selectShape('relation')">关</button>
+    </div>
+    <div class="fm-top-btn split"></div>
+    <div class="fm-top-btn-group">
+        <button class="fm-top-btn select-node" title="绘制节点"></button>
+        <button class="fm-top-btn select-path" title="绘制线"></button>
+        <div class="btn-group" style="vertical-align: top;">
+            <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <div class="row" style="margin:0px;padding:0px;">
+                        <div class="col-md-3" style="text-align:center;">
+                            要素
+                        </div>
+                        <div class="col-md-9">
+                            <button class="fm-top-btn blank" title="制作POI">POI</button>
+                            <button class="fm-top-btn blank" title="制作行政区划代表点">代</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <div class="row" style="margin:0px;padding:0px;">
+                        <div class="col-md-3" style="text-align:center;">
+                            点
+                        </div>
+                        <div class="col-md-9">
+                            <button class="fm-top-btn blank" title="制作道路线节点">道</button>
+                            <button class="fm-top-btn blank" title="制作铁路线节点">铁</button>
+                            <button class="fm-top-btn blank" title="制作行政区划面的组成线节点">政</button>
+                            <button class="fm-top-btn blank" title="制作Zone面的组成线节点">ZN</button>
+                            <button class="fm-top-btn blank" title="制作土地利用面的组成线节点">LU</button>
+                            <button class="fm-top-btn blank" title="制作土地覆盖面的组成线节点">LC</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <div class="row" style="margin:0px;padding:0px;">
+                        <div class="col-md-3" style="text-align:center;">
+                            线
+                        </div>
+                        <div class="col-md-9">
+                            <button class="fm-top-btn blank" title="制作道路线">道</button>
+                            <button class="fm-top-btn blank" title="制作铁路线">铁</button>
+                            <button class="fm-top-btn blank" title="制作行政区划面的组成线">政</button>
+                            <button class="fm-top-btn blank" title="制作Zone面的组成线">ZN</button>
+                            <button class="fm-top-btn blank" title="制作土地利用面的组成线">LU</button>
+                            <button class="fm-top-btn blank" title="制作土地覆盖面的组成线">LC</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <div class="row" style="margin:0px;padding:0px;">
+                        <div class="col-md-3" style="text-align:center;">
+                            面
+                        </div>
+                        <div class="col-md-9">
+                            <button class="fm-top-btn blank" title="制作行政区划面">政</button>
+                            <button class="fm-top-btn blank" title="制作Zone面">ZN</button>
+                            <button class="fm-top-btn blank" title="制作土地利用面">LU</button>
+                            <button class="fm-top-btn blank" title="制作土地覆盖面">LC</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="fm-top-btn split"></div>
+    <button class="fm-top-btn blank" title="制作路口">路</button>
+    <button class="fm-top-btn blank" title="制作车信">车</button>
+    <button class="fm-top-btn blank" title="制作交限">限</button>
+    <button class="fm-top-btn blank" title="制作分歧">歧</button>
+    <button class="fm-top-btn blank" title="制作顺行">顺</button>
+    <button class="fm-top-btn blank" title="制作限速">速</button>
+    <button class="fm-top-btn blank" title="制作立交">立</button>
+    <button class="fm-top-btn blank" title="制作大门">门</button>
+    <div class="btn-group" style="vertical-align: top;">
+        <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
+        <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        路 口
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="制作路口">路</button>
+                        <button class="fm-top-btn blank" title="制作车信">车</button>
+                        <button class="fm-top-btn blank" title="制作交限">限</button>
+                        <button class="fm-top-btn blank" title="制作顺行">顺</button>
+                        <button class="fm-top-btn blank" title="制作分歧">分</button>
+                        <button class="fm-top-btn blank" title="制作坡度">坡</button>
+                        <button class="fm-top-btn blank" title="制作红绿灯">灯</button>
+                    </div>
+                </div>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        路 上
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="制作立交">立</button>
+                        <button class="fm-top-btn blank" title="制作收费站">收</button>
+                        <button class="fm-top-btn blank" title="制作大门">门</button>
+                        <button class="fm-top-btn blank" title="制作电子眼">眼</button>
+                        <button class="fm-top-btn blank" title="制作减速带">减</button>
+                        <button class="fm-top-btn blank" title="制作速度限制">速</button>
+                        <button class="fm-top-btn blank" title="制作警示信息">警</button>
+                        <button class="fm-top-btn blank" title="制作可变限速">变</button>
+                        <button class="fm-top-btn blank" title="制作详细车道">详</button>
+                        <button class="fm-top-btn blank" title="制作语音引导">语</button>
+                    </div>
+                </div>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        分 歧
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="制作3D分歧">3D</button>
+                        <button class="fm-top-btn blank" title="制作高速分歧">高</button>
+                        <button class="fm-top-btn blank" title="制作连续分歧">连</button>
+                        <button class="fm-top-btn blank" title="制作方面分歧">方</button>
+                        <button class="fm-top-btn blank" title="制作减速带">大</button>
+                        <button class="fm-top-btn blank" title="制作实景看板">实</button>
+                        <button class="fm-top-btn blank" title="制作警示信息">看</button>
+                        <button class="fm-top-btn blank" title="制作方向看板">方</button>
+                    </div>
+                </div>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        CRF
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="制作CRF点">点</button>
+                        <button class="fm-top-btn blank" title="制作CRF道路">路</button>
+                        <button class="fm-top-btn blank" title="制作CRF对象">象</button>
+                    </div>
+                </div>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <div class="row" style="margin:0px;padding:0px;">
+                    <div class="col-md-3" style="text-align:center;">
+                        同一关系
+                    </div>
+                    <div class="col-md-9">
+                        <button class="fm-top-btn blank" title="制作同一线">线</button>
+                        <button class="fm-top-btn blank" title="制作同一点">点</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fm-top-btn split"></div>
+    <button class="fm-top-btn blank" title="批处理">批</button>
+    <button class="fm-top-btn blank" title="自动录入">自</button>
+    <button class="fm-top-btn blank" title="制作上下线分离">上</button>
+    <button class="fm-top-btn blank" title="制作辅路">辅</button>
+    <div class="btn-group" style="vertical-align: top;">
+        <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="#">搜 索</a></li>
+            <li><a href="#">检 查</a></li>
+            <li><a href="#">捕 捉</a></li>
+            <li><a href="#">追踪选择</a></li>
+            <li><a href="#">道路专项作业</a></li>
+        </ul>
+    </div>
+</div>

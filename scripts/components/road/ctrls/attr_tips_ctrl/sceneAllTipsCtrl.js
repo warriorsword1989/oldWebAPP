@@ -208,15 +208,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1102": //红绿灯
                 var trafficLightArr = $scope.dataTipsData.f_array;
                 $scope.inCt = $scope.dataTipsData.inCt;
-                $scope.enableCtl = [];
-                $scope.disableCtl = [];
-                for (var i = 0, len = trafficLightArr.length; i < len; i++) {
-                    if (trafficLightArr[i].ctrl == 1) {
-                        $scope.enableCtl.push(trafficLightArr[i]);
-                    } else {
-                        $scope.disableCtl.push(trafficLightArr[i]);
+                $scope.dataTipsData.enableCtl = [];
+                $scope.dataTipsData.disableCtl = [];
+                // if(trafficLightArr){
+                try {
+                    for (var i = 0, len = trafficLightArr.length; i < len; i++) {
+                        if (trafficLightArr[i].ctrl == 1) {
+                            $scope.dataTipsData.enableCtl.push(trafficLightArr[i]);
+                        } else {
+                            $scope.dataTipsData.disableCtl.push(trafficLightArr[i]);
+                        }
                     }
+                } catch (e) {
+                    console.log(e.toLocaleString());
                 }
+                // }
                 $scope.dataTipsData.isTrafficLights = true;
                 break;
             case "1103": //红绿灯方向
@@ -441,6 +447,16 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 $scope.dataTipsData.isConditionLimit = true;
+                break;
+            case "1112":
+                var limitDirObj = {
+                    0: '未调查',
+                    1: '左',
+                    2: '右',
+                    3: '上'
+                };
+                $scope.dataTipsData.limitDir = limitDirObj[$scope.dataTipsData.loc];
+                $scope.dataTipsData.isVariableSpeedLimit = true;
                 break;
             case "1113":
                 var limitValue = $scope.dataTipsData.value;

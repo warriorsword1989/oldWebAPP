@@ -33,8 +33,23 @@
         <script src="loadUikit.js"></script>
     </head>
     <body ng-controller="EditorCtl">
+        <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+        <div ui-layout-container size="40px">
+            <div class="fm-top" style="left:0px;width:60px;text-align:center;">
+                <img src="../../../images/main/fm-logo.png">
+            </div>
+            <div class="fm-top" style="left:60px;right:200px;position:fixed;min-width:1100px;">
+                <div ng-include="editorToolbarTpl"></div>
+            </div>
+            <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;">
+                <button class="fm-top-right-btn profile" title="个人信息"></button>
+                <button class="fm-top-right-btn notice" title="我的消息"></button>
+                <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>
+            </div>
+        </div>
+        <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="40px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="60px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">
@@ -65,16 +80,9 @@
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
                         <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
-                            <div class="div-float map-toolbar" ng-style="{top:'0px',left:'100px'}">
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search');leftDis='30%';rightDis='30%'">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto');leftDis='28%';rightDis='28%'">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch');leftDis='15%';rightDis='15%'">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
-                            </div>
-                            <div ng-include="mapToolbar" class="div-float map-toolbar" ng-style="{top:'0px',left:'290px'}"></div>
-                            <!-- <div ng-include="specialOperationToolbar" class="div-float map-toolbar" style="top:0px;left:580px;"></div> -->
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                         </div>
-                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{top:'80px',left:leftDis,right:rightDis,borderRadius:'5px'}">
+                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" style="top:50px;left:50px;max-width: 800px;">
                             <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
                             <div ng-include="advancedToolPanelTpl"></div>
                         </div>
@@ -108,7 +116,7 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px',display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px','z-index':2,display: {true: 'block', false:'none'}[suspendPanelOpened]}">
                             <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
@@ -133,11 +141,11 @@
                                 <div ng-include="specialWorkPanelTpl"></div>
                             </div>
                         </div>
-                        <div class="fm-foldable fm-row" style="height:90%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                        <!-- <div class="fm-foldable fm-row" style="height:90%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
                             <div class="fm-container fm-row" style="height:100%;">
                                 <div ng-include="rdLaneTopoPanelTpl"></div>
                             </div>
-                        </div>
+                        </div> -->
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
                             <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
@@ -152,6 +160,8 @@
                 </span>
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
+        </div>
+        </div>
         </div>
 
         <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
@@ -175,6 +185,8 @@
         <!-- 统一关系 -->
         <div ng-include="sameRelationShapTplContainer"></div>
 
-        <script type="text/javascript" data-main="editor-require" src="../../../scripts/libs/require/require.js"></script>
+        <script>
+            document.write('<scri' + 'pt data-main="editor-require" src="../../../scripts/libs/require/require.js?' + new Date().getTime() + '" type="text/javascript"></s' + 'cript>');
+        </script>
     </body>
 </html>

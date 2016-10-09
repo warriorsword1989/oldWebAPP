@@ -19,7 +19,7 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": 13, "label": "13 轮渡"}
 	];
 	$scope.laneClassOptions = [
-		{"id": 0, "label": "0: 为赋值"},
+		{"id": 0, "label": "0: 未赋值"},
 		{"id": 1, "label": "1: 一条车道"},
 		{"id": 2, "label": "2: 2或3条"},
 		{"id": 3, "label": "3: 4条及以上"}
@@ -172,7 +172,18 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 					$scope.linkData.laneNum = 0;
 				}
 				$scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-				linkClassCtr($scope.linkData.laneNum);
+                var tempnum = '';
+                if($scope.linkData.direct==1){
+                    if($scope.linkData.laneNum%2){
+                        tempnum = ($scope.linkData.laneNum+1)/2;
+                    }else{
+                        tempnum = ($scope.linkData.laneNum)/2;
+                    }
+                }else{
+                    tempnum = ($scope.linkData.laneNum);
+                }
+
+				linkClassCtr(tempnum);
 				break;
 			case 2:
 				if (parseInt($scope.linkData.laneLeft)) {
@@ -205,12 +216,13 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
     $scope.$watch('linkData.direct',function(newValue){
         if(newValue==2||newValue==3){
             linkClassCtr($scope.linkData.laneNum);
+            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
         }else{
             if($scope.linkData.laneNum%2){
-                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
-                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
-                $scope.linkData.laneNum = 0;
-                linkClassCtr($scope.linkData.laneRight);
+                //$scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
+                //$scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
+                //$scope.linkData.laneNum = 0;
+                linkClassCtr((parseInt($scope.linkData.laneNum)+1)/2);
             }else{
                 if(!$scope.linkData.laneNum){
                     var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
@@ -240,6 +252,18 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
                 $scope.linkData.names[i].code = 1;
             }
         }
+
+		//根据道路种别维护路径采纳字段 ，参考的是bug4修改
+		var kind = $scope.linkData.kind;
+		if(kind == 1){
+			$scope.linkData.routeAdopt = 5;
+		}else if(kind == 2 || kind == 3){
+			$scope.linkData.routeAdopt = 4;
+		}else if(kind == 4 || kind == 6 || kind == 7 ){
+			$scope.linkData.routeAdopt = 2;
+		}else if(kind == 8 || kind == 9 || kind == 10 || kind == 11 || kind == 13){
+			$scope.linkData.routeAdopt = 0;
+		}
     };
 
 	if (objectEditCtrl.data) {
@@ -288,27 +312,20 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 				}
 			}
 		}
+
         //10级路变非10级以及非10级切换为10级时对行人导航面板联动控制;
-        if(oldValue != 10 && newValue == 10 ){
+        if(newValue == 10 ){
             $scope.linkData.walkFlag = 1;
             $scope.linkData.sidewalkFlag = 0;
             $scope.linkData.sidewalks = [];
             $scope.linkData.walkerLimitFlag = true;
-        }else if(oldValue == 10 && newValue != 10 ){
+        }else if(newValue != 10 ){
             $scope.linkData.walkFlag = 0;
             $scope.linkData.sidewalkFlag = 0;
             $scope.linkData.walkerLimitFlag = false;
         }
 
 	});
-	// 修改道路种别
-	$scope.changeKindCode = function () {
-		if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
-			for (var i = 0, len = $scope.linkData.names.length; i < len; i++) {
-				$scope.linkData.names[i].code = 1;
-			}
-		}
-	};
 
 	$scope.showNames = function () {
 		var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。

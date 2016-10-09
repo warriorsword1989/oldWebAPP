@@ -2,8 +2,8 @@
     <!-- username part -->
     <div class="form-group has-feedback" ng-class="{'has-error':myForm.user.$invalid && myForm.user.$dirty && showInputError,'has-success':myForm.user.$valid && myForm.user.$dirty && showInputError}">
         <div class="col-sm-12">
-            <input type="text" ng-model="username" name="user" class="form-control" required ng-pattern='/^[a-zA-z]/' minlength="3" maxlength="50" placeholder="用户名" autofocus />
-            <span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+            <img class="userName" ng-src="../../images/poi/main/userName.png">
+            <input type="text" ng-model="username" name="user" class="form-control" required ng-pattern='/^[a-zA-z]/' minlength="3" maxlength="50" placeholder="用户名" autofocus id="inputDiy"/>
         </div>
         <div class="col-sm-12">
             <div style="color: red;padding: 5px 0" ng-show="myForm.user.$error && (myForm.user.$dirty || validType == 3) && showErrorMsg">
@@ -17,8 +17,8 @@
     <!-- password part -->
     <div class="form-group has-feedback" ng-class="{'has-error':myForm.userpassword.$invalid && myForm.userpassword.$dirty && showInputError,'has-success':myForm.userpassword.$valid && myForm.userpassword.$dirty && showInputError}">
         <div class="col-sm-12">
-            <input type="password" ng-model="pwd" name="userpassword" class="form-control" required minlength="3" maxlength="16" placeholder="密 码" />
-            <span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+            <img class="userName" ng-src="../../images/poi/main/password.png">
+            <input type="password" ng-model="pwd" name="userpassword" class="form-control" required minlength="3" maxlength="16" placeholder="密 码" id="inputDiy1" />
         </div>
         <div class="col-sm-12">
             <div style="color: red;padding: 0px 10px" ng-show="myForm.userpassword.$error && (myForm.userpassword.$dirty || validType == 3) && showErrorMsg">
@@ -29,18 +29,20 @@
         </div>
     </div>
     <!-- loginButton part -->
-    <div class="form-group">
-        <div class="col-sm-12">
-            <button ng-click="handleEvent()" class="btn btn-block" type="submit">登 录</button>
-        </div>
+    <div style="marginTop:24px;height: 16px ">
+        <span style=" float:right; color: #20b3fe; cursor: pointer;"> 记住我 </span>
+        <img class="rememberMe" ng-src="../../images/poi/main/inputCheck.png">
+    </div>
+    <div style="margin-top: 18px">
+        <button ng-click="handleEvent()" class="form-control" type="submit" id="buttonDiy">登 录</button>
     </div>
     <!-- remember me -->
-    <div class="form-group">
-        <div class="col-sm-12">
-            <div class="checkbox">
-                <label><input ng-model="rememberMe" type="checkbox"> 记住我</label>
-            </div>
-        </div>
-    </div>
+    <!--<div class="form-group">-->
+        <!--<div class="col-sm-12">-->
+            <!--<div class="checkbox">-->
+                <!--<label><input ng-model="rememberMe" type="checkbox"> 记住我</label>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </form>
 

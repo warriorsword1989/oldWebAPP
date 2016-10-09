@@ -1,4 +1,4 @@
-angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOutput', 'dsEdit', function($scope, $ocll, dsOutput, dsEdit) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOutput', 'dsEdit','$interval', function($scope, $ocll, dsOutput, dsEdit,$interval) {
     /*翻页事件*/
     $scope.turnPage = function(type) {
             if (type == 'prev') { //上一页
@@ -47,13 +47,23 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
             dsOutput.clear();
         } else { //搜索结果
             $scope.searchResultData = [];
+            $scope.searchResultTotal = 0;
+            $scope.searchPageNow = 1;
+            $scope.searchPageTotal = 1;
         }
     };
     /*刷新检查*/
     $scope.refreshCheckResult = function() {
         initCheckResultData();
-        initCheckDataCount();
+        //initCheckDataCount(); //方法内已经调用因此注销此方法
     };
+    /**
+     * 接收刷新检查结果的事件
+     */
+    $scope.$on("refreshCheckResult",function (event,data){
+        initCheckResultData();
+    });
+
 
     /**
      * 在线检查
@@ -79,6 +89,9 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
     /*查找检查结果*/
     function getCheckResultData(num) {
         dsEdit.getCheckData(num).then(function(data) {
+            if(data == -1){
+                return;
+            }
             $scope.checkResultData = [];
             for (var i = 0, len = data.length; i < len; i++) {
                 $scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));

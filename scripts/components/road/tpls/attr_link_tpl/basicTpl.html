@@ -8,7 +8,7 @@
             <div class="list-line"></div>
         </li>
         <li class="list-group-item">
-            <div><label class="control-label">图幅编号</label></div>
+            <div><label class="control-label">图幅号码</label></div>
             <div class="inline">
                 <input type="text" placeholder="0"
                        ng-model="linkData.meshId" disabled class="chosen-disabled">
@@ -33,14 +33,14 @@
         <li class="list-group-item">
             <div><label class="control-label">车道数</label></div>
             <div class="inline">
-                <label ng-class="{'chosen-disabled':(linkData.direct==1)}" for="LaneNum" style="margin-left: -3px;">总</label>
-                <input ng-class="{'chosen-disabled':(linkData.direct==1)}" class="limit-length" id="LaneNum" type="text" style="width: 30px;" ng-model="linkData.laneNum"
+                <label for="LaneNum" style="margin-left: -3px;">总</label>
+                <input class="limit-length" id="LaneNum" type="text" style="width: 30px;" ng-model="linkData.laneNum"
                        ng-change="numberLengthLimit(1,linkData.laneNum)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="leftLaneNum">左</label>
-                <input ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
+                <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
                        ng-change="numberLengthLimit(2,linkData.laneLeft,linkData.laneRight)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="rightLneNum">右</label>
-                <input ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"
+                <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"
                        ng-change="numberLengthLimit(3,linkData.laneLeft,linkData.laneRight)"/>
             </div>
         </li>
@@ -51,8 +51,6 @@
             <div class="inline">
                 <select  ng-model="linkData.laneClass"
                         ng-options="value.id as value.label for value in laneClassOptions">
-                    <option value="0">--</option>
-
                 </select>
             </div>
         </li>

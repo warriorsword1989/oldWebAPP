@@ -85,7 +85,7 @@
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-show="diverObj.details[0].branchType != 1 && diverObj.details[0].branchType != 3">
+                    <div ng-show="diverObj.details[0].branchType != 1 && diverObj.details[0].branchType != 3 && diverObj.details[0].branchType != 4">
                         <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
                     </div>
                     <!--方面分歧-->
@@ -94,7 +94,11 @@
                     </div>
                     <!--3d-->
                     <div ng-show="diverObj.details[0].branchType == 3">
-                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/> <!---->
+                    </div>
+                    <!--复杂路口-->
+                    <div ng-show="diverObj.details[0].branchType == 4">
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="复杂路口模式图号必须7开头"/>
                     </div>
                 </div>
             </div>
@@ -117,13 +121,13 @@
             <div class="d-group">
                 <div class="d-name">设施类型：</div>
                 <div class="d-value">
-                    <select ng-disabled="diverObj.details[0].estabType==9" class="rounded d-input"  ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                    <select ng-disabled="diverObj.details[0].estabType==9" ng-class="{'rounded d-input':true,'chosen-disabled':diverObj.details[0].estabType==9}" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
                 </div>
             </div>
             <div class="d-group">
                 <div class="d-name">名称种别：</div>
                 <div class="d-value">
-                    <select class="d-input" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                    <select ng-disabled="diverObj.details[0].nameKind==9" ng-class="{'rounded d-input':true,'chosen-disabled':diverObj.details[0].nameKind==9}" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
                     </select>
                 </div>
             </div>
