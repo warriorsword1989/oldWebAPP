@@ -2617,6 +2617,20 @@ input[type="range"]::-webkit-slider-thumb {
     background: url("../../images/main/btn-icon/split.png") no-repeat center center;
 }
 
+.fm-top-btn.loading {
+    margin-top: -26px;
+    margin-left: 0px;
+    opacity: 0.5;
+    background-color: gray;
+    background-image: url("../../images/poi/icon/loading-cycle.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fm-top-btn-group {
+    display: inline-block;
+}
+
 .fm-top-right-btn {
     display: inline-block;
     height: 30px;
@@ -2641,4 +2655,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .fm-top-right-btn.logout {
     background: url("../../images/main/btn-icon/logout.png") no-repeat center center;
+}
+
+.fm-top-btn-loading {
+
 }

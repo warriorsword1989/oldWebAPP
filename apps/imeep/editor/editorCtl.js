@@ -258,18 +258,12 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 
 		var loadToolsPanel = function () {
-			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/editorToolbarCtrl.js').then(function () {
-				$scope.editorToolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/editorToolbarTpl.htm';
-			});
-			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
-				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
+			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/toolbarPanelCtrl.js').then(function () {
+				$scope.editorToolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarPanelTpl.htm';
 			});
 			$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 			});
-//			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
-//				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
-//			});
 		};
 		// 消息推送
 		$scope.msgNotify = function(){
