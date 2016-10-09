@@ -4,7 +4,7 @@
 angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-
+    $scope.srcFlagDisable = true;
     $scope.initFn = function(){
         $scope.nameGroup = [];
         $scope.names = objCtrl.data.names;
@@ -178,7 +178,15 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
         {"code":"UKR","name":"乌克兰语"},
         {"code":"SCR","name":"克罗地亚语"}
     ];
-
+    
+    $scope.langCodeChange = function(event,obj){
+    	if(obj.nameObj.langCode == "ENG"){
+    		$scope.srcFlagDisable = false;
+    	}else{
+    		$scope.srcFlagDisable = true;
+    	}
+    };
+    
     $scope.initFn();
     eventController.off('SHOWNAMEGROUP');
     eventController.on('SHOWNAMEGROUP',$scope.initFn)
