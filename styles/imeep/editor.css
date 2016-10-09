@@ -2103,3 +2103,8 @@ a.batchButton {
   cursor: pointer;
   font-size: 16px !important;
 }
+.featuresContent a:hover{
+  background-color: greenyellow;
+  text-decoration: underline;
+}
+

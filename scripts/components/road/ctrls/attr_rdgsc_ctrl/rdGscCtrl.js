@@ -10,24 +10,30 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     var rdgsc = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    // var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.reGscData = objCtrl.data;
         var links = $scope.reGscData.links,highLightFeatures=[];
         for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
+                // id: links[i]["linkPid"].toString(),
+                // layerid:'rdLink',
+                // type:'rdgsc',
+                // index:links[i].zlevel,
+                // style:{
+                //     size:5
+                // }
+
                 id: links[i]["linkPid"].toString(),
-                layerid:'rdLink',
-                type:'rdgsc',
-                index:links[i].zlevel,
-                style:{
-                    size:5
-                }
+                layerid: 'rdLink',
+                type: 'line',
+                style: {}
+
             })
         }
-        /*highRenderCtrl.highLightFeatures = highLightFeatures;
-        highRenderCtrl.drawHighlight();*/
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.rdGscForm) {

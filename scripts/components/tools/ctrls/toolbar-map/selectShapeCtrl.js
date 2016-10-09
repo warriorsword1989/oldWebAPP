@@ -100,7 +100,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             //     return;
             // }
             if (type === "node") { //选择点
-                $scope.resetOperator("selectNode");
+               /*** $scope.resetOperator("selectNode");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
                 //初始化选择点工具
                 map.currentTool = new fastmap.uikit.SelectNode({
@@ -114,7 +114,26 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                 // map.currentTool.snapHandler.addGuideLayer(rdNode);
                 $scope.toolTipText = '请选择点！';
                 eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+                eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);**/
+
+
+               map.currentTool = new fastmap.uikit.SelectFeature({
+                   map: map,
+                   shapeEditor: shapeCtrl
+               });
+                map.currentTool.enable();
+
+                eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+                eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+                eventController.off(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
+                eventController.on(eventController.eventTypes.GETRELATIONID, $scope.selectObjCallback);
+                eventController.off(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
+                eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
+
+                eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+                eventController.off(eventController.eventTypes.GETFACEID, $scope.selectObjCallback);
+                eventController.on(eventController.eventTypes.GETFACEID, $scope.selectObjCallback);
             } else if (type === "link") { // 选择线
                 $scope.resetOperator("selectLink");
                 layerCtrl.pushLayerFront('edit'); //置顶editLayer
@@ -134,6 +153,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                 // rdLink.options.editable = true;
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
                 eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+
+
+
             } else if (type === "face") {
                 $scope.resetOperator("selectFace");
                 //初始化选择面工具

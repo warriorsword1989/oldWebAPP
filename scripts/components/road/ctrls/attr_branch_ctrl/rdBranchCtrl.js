@@ -336,7 +336,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 type:'line',
                 style:{
                     color: '#21ed25',
-                    strokeWidth:50
+                    strokeWidth:3
                 }
             });
             //高亮退出线;
@@ -368,7 +368,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     id:$scope.diverObj.vias[i].linkPid.toString(),
                     layerid:'rdLink',
                     type:'line',
-                    style:{color:'blue'}
+                    style:{color:'blue',strokeWidth:3}
                 })
             }
             highRenderCtrl.drawHighlight();

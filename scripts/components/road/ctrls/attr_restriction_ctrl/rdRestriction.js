@@ -52,6 +52,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             layerid: 'rdLink',
             type: 'line',
             style: {
+                strokeWidth:3,
                 color: '#3A5FCD'
             }
         });
@@ -61,6 +62,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
                 layerid: 'rdLink',
                 type: 'line',
                 style: {
+                    strokeWidth:3,
                     color: '#CD0000'
                 }
             });

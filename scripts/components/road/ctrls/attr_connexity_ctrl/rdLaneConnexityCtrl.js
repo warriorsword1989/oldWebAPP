@@ -91,14 +91,15 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             layerid:'rdLink',
             type:'line',
             style:{
-                color: '#CD0000'
+                color: '#CD0000',
+                strokeWidth:3
             }
         });
         highLightFeatures.push({
             id:objCtrl.data["nodePid"].toString(),
             layerid:'rdLink',
             type:'node',
-            style:{}
+            style:{strokeWidth:3}
         });
 
         for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
@@ -107,7 +108,8 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 layerid:'rdLink',
                 type:'line',
                 style:{
-                    color: '#3CB371'
+                    color: '#3CB371',
+                    strokeWidth:3
                 }
             });
         }
@@ -116,7 +118,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             id:$scope.lanesData.pid.toString(),
             layerid:'relationData',
             type:'relationData',
-            style:{}
+            style:{strokeWidth:3}
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
