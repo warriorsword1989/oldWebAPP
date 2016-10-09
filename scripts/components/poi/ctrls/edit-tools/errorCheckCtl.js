@@ -46,8 +46,6 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
         if(highRenderCtrl.highLightFeatures!=undefined){
             highRenderCtrl.highLightFeatures.length = 0;
         }
-        map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
-        getFeatDataCallback(data, id, "IXPOI", appPath.poi + "ctrls/attr-base/generalBaseCtl", appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html");
         dsEdit.getByPid(id,type).then(function (data) {
             if(data){
                 switch (type){

@@ -53,7 +53,7 @@ angular.module("app").controller("lcFaceCtrl",["$scope","dsEdit" ,'appPath', fun
         {"id": 0, "label": "不应用"},
         {"id": 1, "label": "只存在于详细区域"},
         {"id": 2, "label": "只存在于广域区域"},
-        {"id": 3, "label": "只存在于详细和广域区域"}
+        {"id": 3, "label": "存在于详细和广域区域"}
     ];
     //初始化
     $scope.initializeData = function(){
