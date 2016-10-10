@@ -301,7 +301,18 @@ fastmap.uikit.HighRenderController = (function () {
               radius: inOutStyle.strokeWidth,
               strokeOpacity: 0.5
             }, feature.properties);
-          } else {
+          }  if (inOutStyle.strokeColor != null) {
+            this.layer._drawLineString(ctx, geom, true, {
+              strokeWidth: inOutStyle.strokeWidth,
+              strokeColor: inOutStyle.strokeColor,
+            }, {
+              color: inOutStyle.color,
+              radius: inOutStyle.strokeWidth,
+              strokeOpacity: 0.5
+            }, feature.properties);
+          }
+          
+          else {
             this.layer._drawLineString(ctx, geom, true, {
               strokeWidth: 3,
               strokeColor: '#00F5FF'
