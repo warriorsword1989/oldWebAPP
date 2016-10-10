@@ -511,50 +511,77 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         }
                         highRenderCtrl.highLightFeatures = highLightFeatures1;
                         highRenderCtrl.drawHighlight();
-                    } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0){//增加link,在末尾加
-                        dsEdit.getByPid($scope.linkMulity[$scope.linkMulity.length - 1], "RDLINK").then(function (linkDetail) {   //查询最后一条link
-                            if (linkDetail) {
-                                var linkNode = [];
-                                linkNode.push(linkDetail.sNodePid);
-                                linkNode.push(linkDetail.eNodePid);
-                                dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
-                                    if (newDetail) {
-                                        if ((linkNode.indexOf(newDetail.eNodePid) > -1 || linkNode.indexOf(newDetail.sNodePid) > -1) && ((newDetail.direct == linkDetail.direct)||(newDetail.direct == 1 || linkDetail.direct == 1))) {
-                                            $scope.linkMulity.push(parseInt(data.id));
-                                            if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
-                                                $scope.linkPids.push(parseInt(data.id));
-                                                $scope.links.push({
-                                                    direct: newDetail.direct,
-                                                    eNodePid: newDetail.eNodePid,
-                                                    geometry: newDetail.geometry,
-                                                    kind: newDetail.kind,
-                                                    pid: newDetail.pid,
-                                                    sNodePid: newDetail.sNodePid
-                                                })
-                                            }
-                                            var linkArr = $scope.checkUpAndDown($scope.linkMulity,$scope.links);
-
-                                            if(linkArr[0][0] == linkArr[linkArr.length -1][0] && linkArr[0][1] == linkArr[linkArr.length -1][1]){
-                                                tooltipsCtrl.setCurrentTooltip('所选线闭合，请调整！');
-                                                tooltipsCtrl.setStyleTooltip("color:red;");
-                                                $scope.linkMulity.pop();
-                                                $scope.links.pop();
-                                                return;
-                                            }
-                                            highRenderCtrl.highLightFeatures.push({
-                                                id: data.id.toString(),
-                                                layerid: 'rdLink',
-                                                type: 'line',
-                                                style: {
-                                                    color: 'green'
-                                                }
-                                            });
-                                            highRenderCtrl.drawHighlight();
-                                        }
-                                    }
-                                })
+                    } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0) {//增加link,在末尾加
+                        var lastNodePid = null;
+                        var linkNode = [];
+                        var linkDetail = null;
+                        var temDetail = null;
+                        if($scope.linkMulity.length == 1){
+                            for (var i = 0; i < $scope.links.length; i++) {
+                                if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 1]) {
+                                    linkDetail = $scope.links[i];
+                                    linkNode.push($scope.links[i].sNodePid);
+                                    linkNode.push($scope.links[i].eNodePid);
+                                }
                             }
-                        });
+                            lastNodePid = $scope.param.data.nodePidDir;
+                        } else if($scope.linkMulity.length > 1){
+                            for (var i = 0; i < $scope.links.length; i++) {
+                                if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 1]) {
+                                    linkDetail = $scope.links[i];
+                                    linkNode.push($scope.links[i].sNodePid);
+                                    linkNode.push($scope.links[i].eNodePid);
+                                }
+                                if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 2]) {
+                                    temDetail = $scope.links[i];
+                                }
+                            }
+                            if(linkDetail.eNodePid == temDetail.eNodePid || linkDetail.eNodePid == temDetail.sNodePid){
+                                lastNodePid = linkDetail.sNodePid;
+                            } else {
+                                lastNodePid = linkDetail.eNodePid;
+                            }
+                        }
+                        dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
+                            if (newDetail) {
+                                if ((newDetail.eNodePid == lastNodePid || newDetail.sNodePid == lastNodePid) && ((newDetail.direct == linkDetail.direct) || (newDetail.direct == 1 || linkDetail.direct == 1))) {
+                                    if(linkNode.indexOf(newDetail.eNodePid) > -1){
+                                        lastNodePid = newDetail.sNodePid;
+                                    } else if(linkNode.indexOf(newDetail.sNodePid) > -1){
+                                        lastNodePid = newDetail.eNodePid;
+                                    }
+                                    $scope.linkMulity.push(parseInt(data.id));
+                                    if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
+                                        $scope.linkPids.push(parseInt(data.id));
+                                        $scope.links.push({
+                                            direct: newDetail.direct,
+                                            eNodePid: newDetail.eNodePid,
+                                            geometry: newDetail.geometry,
+                                            kind: newDetail.kind,
+                                            pid: newDetail.pid,
+                                            sNodePid: newDetail.sNodePid
+                                        })
+                                    }
+                                    var linkArr = $scope.checkUpAndDown($scope.linkMulity, $scope.links);
+
+                                    if (linkArr[0][0] == linkArr[linkArr.length - 1][0] && linkArr[0][1] == linkArr[linkArr.length - 1][1]) {
+                                        tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
+                                        $scope.linkMulity.pop();
+                                        $scope.links.pop();
+                                        return;
+                                    }
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: data.id.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {
+                                            color: 'green'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                }
+                            }
+                        })
                     }
                 });
             } else if (type === fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
@@ -567,8 +594,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 var linkArr = $scope.checkUpAndDown($scope.linkMulity,$scope.links);
 
                 if(linkArr[0][0] == linkArr[linkArr.length -1][0] && linkArr[0][1] == linkArr[linkArr.length -1][1]){
-                    tooltipsCtrl.setCurrentTooltip('所选线闭合，请调整！');
-                    tooltipsCtrl.setStyleTooltip("color:red;");
+                    tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
                     return;
                 }
                 map.scrollWheelZoom.disable();
