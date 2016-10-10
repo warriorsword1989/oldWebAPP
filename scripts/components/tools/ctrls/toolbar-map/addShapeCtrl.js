@@ -398,7 +398,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             var nodePid = $scope.param.data.nodePidDir;
 
             if(nodePid == linksArr[0].sNodePid){//顺方向，直接concat
-                linkArr = linkArr.concat(linksArr[0].geometry.coordinates.reverse());
+                var temp = linksArr[0].geometry.coordinates.slice(0);
+                linkArr = linkArr.concat(temp.reverse());
             } else {//逆方向，先reverse后concat
                 linkArr = linkArr.concat(linksArr[0].geometry.coordinates);
             }
@@ -409,7 +410,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             linkArr = linkArr.concat(linksArr[j].geometry.coordinates);
                             nodePid = linksArr[j].eNodePid;
                         } else {//逆方向，先reverse后concat
-                            linkArr = linkArr.concat(linksArr[j].geometry.coordinates.reverse());
+                            var temp = linksArr[j].geometry.coordinates.slice(0);
+                            linkArr = linkArr.concat(temp.reverse());
                             nodePid = linksArr[j].sNodePid;
                         }
                     }
@@ -466,6 +468,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 })
             } else if (type === "RETRYLINK") {
                 var highLightFeatures1 = [];
+                var lastNodePid = null;
+                var linkDetail = null;
+                var temDetail = null;
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 map.currentTool = new fastmap.uikit.SelectPath({
                     map: map,
@@ -479,6 +484,11 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
                     if ($scope.linkMulity.indexOf(parseInt(data.id)) > 0) {//现有的link中,且不等于进入线
                         $scope.linkMulity = $scope.linkMulity.slice(0, $scope.linkMulity.indexOf(parseInt(data.id)));
+                        // for(var i = 0;i<$scope.links.length;i++){
+                        //     if($scope.links[i].pid == parseInt(data.id)){
+                        //         $scope.links = $scope.links.slice(0,i);
+                        //     }
+                        // }
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
                         for (var i = 0; i < $scope.linkMulity.length; i++) {
@@ -512,9 +522,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         highRenderCtrl.highLightFeatures = highLightFeatures1;
                         highRenderCtrl.drawHighlight();
                     } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0) {//增加link,在末尾加
-                        var lastNodePid = null;
-                        var linkDetail = null;
-                        var temDetail = null;
+
                         if($scope.linkMulity.length == 1){
                             for (var i = 0; i < $scope.links.length; i++) {
                                 if ($scope.links[i].pid == $scope.linkMulity[0]) {
