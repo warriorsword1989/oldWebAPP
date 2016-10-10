@@ -24,7 +24,7 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
             map:this._map,
             shapeEditor:this.shapeEditor,
             selectedSnap:false,
-            snapLine:true
+            snapLine:false
         });
         this.snapHandler.enable();
         this.eventController = fastmap.uikit.EventController();
@@ -69,19 +69,25 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
             //var layerPoint = event.layerPoint;
             this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
-        }
-        else{
+        }else{
+            // this.snapHandler.targetindex=-1;
+            // this.snapHandler.onMouseMove(event);
+            // if(this.snapHandler.snaped){
+            //     this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            //     layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
+            //     this.resetVertex(layerPoint);
+            //
+            //     this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+            //     this.disable();
+            //     this.snapHandler.snaped=false;
+            // }
+
+            //解决移动后不能新增形状点的问题
             this.snapHandler.targetindex=-1;
             this.snapHandler.onMouseMove(event);
-            if(this.snapHandler.snaped){
-                this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
-                layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
-                this.resetVertex(layerPoint);
 
-                this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
-                this.disable();
-                this.snapHandler.snaped=false;
-            }
+            this.targetPoint = L.latLng(event.latlng.lat,event.latlng.lng);
+            this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
         }
     },
 
@@ -97,7 +103,6 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-
     },
     //两点之间的距离
     distance:function(pointA, pointB) {
