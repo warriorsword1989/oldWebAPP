@@ -10,7 +10,6 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
         $scope.batchType=1;
         $scope.pageSize = 10;
 
-
         /**
          * 切换道路和poi批处理tab页;
          * @param type

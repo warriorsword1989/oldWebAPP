@@ -164,6 +164,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     RWLINK:'rwLink',
                     LCLINK:'lcLink'
                 };
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                 highRenderCtrl.highLightFeatures.push({
                     id: $scope.jsonData.linkObjs[i].pid.toString(),
                     // layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
@@ -171,7 +172,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     type: 'line',
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
-                        size: 5
+                        strokeWidth: 5,
+                        strokeColor:COLORTABLE[i]
                     }
                 });
                 highRenderCtrl.drawHighlight();
@@ -684,6 +686,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     /*高亮link*/
                     for (var i = 0, lenI = dealData.length; i < lenI; i++) {
+                        var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                         var tempObj = {
                             RDLINK:'rdLink',
                             RWLINK:'rwLink',
@@ -696,7 +699,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             type: 'line',
                             index: i,
                             style: {
-                                size: 5
+                                strokeWidth: 5,
+                                strokeColor:COLORTABLE[i]
                             }
                         })
                     }
