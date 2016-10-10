@@ -29,7 +29,7 @@ requirejs.config({
         'uiBootstrap':['angular'],
         '3dchartsPlugin':['highcharts','highstock'],
         'TaskSelectionCtl': ['ngLayout', 'manService','layers', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap'],
-        'TaskSelectionNewCtl': ['ngLayout', 'manService', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap'],
+        'TaskSelectionNewCtl': ['ngLayout', 'manService', 'ngCookies','uiBootstrap'],
     }
 });
 // Start the main app logic.

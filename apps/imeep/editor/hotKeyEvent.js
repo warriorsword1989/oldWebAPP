@@ -73,6 +73,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             }
             map.currentTool._enabled = true;
             map.currentTool.disable();
+            map.scrollWheelZoom.enable();
             if (map.currentTool.rwEvent) {
                 map.currentTool.rwEvent.disable();
             }
@@ -302,7 +303,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     laneStr = laneData.join(",");
                 }
                 if (laneStr == undefined) {
-                    swal("提示", '请选择交限！', "warning");
+                    swal("提示", '请选择交限图标！', "warning");
                     return;
                 }
                 if (laneInfo.inLinkPid == undefined) {
