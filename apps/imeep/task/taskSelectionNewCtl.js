@@ -9,24 +9,25 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','ui.bootstrap']).
         $scope.myOption = '0';
         $scope.tab1Url='../../../images/main/task/icon-c1.png';
         $scope.tab2Url='../../../images/main/task/icon-h2.png';
-        $scope.sortCondtion = 'name';
+        $scope.sortCondtion = '+name';
+        $scope.sortOrient = '+';
+        $scope.sortIcon = 'asc';
 
         $scope.showLoading = true;
 
         $scope.condtionChange = function(param){
             switch (param){
-                case '0': $scope.sortCondtion = 'name';break;
-                case '1': $scope.sortCondtion = 'planStartDate';break;
-                case '2': $scope.sortCondtion = 'planEndDate';break;
-                case '3': $scope.sortCondtion = 'percent';break;
+                case '0': $scope.sortCondtion = $scope.sortOrient+'name';break;
+                case '1': $scope.sortCondtion = $scope.sortOrient+'planStartDate';break;
+                case '2': $scope.sortCondtion = $scope.sortOrient+'planEndDate';break;
+                case '3': $scope.sortCondtion = $scope.sortOrient+'percent';break;
             }
         }
 
-        $scope.changeSelectOnFoucs = function(){
-            $scope.selectArrow = true;
-        }
-        $scope.changeSelectOnBlur = function(){
-            $scope.selectArrow = false;
+        $scope.sortTaskList = function(){
+            $scope.sortIcon = $scope.sortIcon=='asc'?'desc':'asc';
+            $scope.sortOrient = $scope.sortOrient=='+'?'-':'+';
+            $scope.sortCondtion = $scope.sortOrient+$scope.sortCondtion.substr(1);
         }
 
         $scope.goEditorPage = function(param){
@@ -121,7 +122,6 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','ui.bootstrap']).
                 requestfn();
             });
         }
-
 
         //子任务查询
         loadSubTaskfn();
