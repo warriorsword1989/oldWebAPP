@@ -513,15 +513,12 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         highRenderCtrl.drawHighlight();
                     } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0) {//增加link,在末尾加
                         var lastNodePid = null;
-                        var linkNode = [];
                         var linkDetail = null;
                         var temDetail = null;
                         if($scope.linkMulity.length == 1){
                             for (var i = 0; i < $scope.links.length; i++) {
-                                if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 1]) {
+                                if ($scope.links[i].pid == $scope.linkMulity[0]) {
                                     linkDetail = $scope.links[i];
-                                    linkNode.push($scope.links[i].sNodePid);
-                                    linkNode.push($scope.links[i].eNodePid);
                                 }
                             }
                             lastNodePid = $scope.param.data.nodePidDir;
@@ -529,8 +526,6 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             for (var i = 0; i < $scope.links.length; i++) {
                                 if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 1]) {
                                     linkDetail = $scope.links[i];
-                                    linkNode.push($scope.links[i].sNodePid);
-                                    linkNode.push($scope.links[i].eNodePid);
                                 }
                                 if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 2]) {
                                     temDetail = $scope.links[i];
@@ -545,11 +540,11 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
                             if (newDetail) {
                                 if ((newDetail.eNodePid == lastNodePid || newDetail.sNodePid == lastNodePid) && ((newDetail.direct == linkDetail.direct) || (newDetail.direct == 1 || linkDetail.direct == 1))) {
-                                    if(linkNode.indexOf(newDetail.eNodePid) > -1){
-                                        lastNodePid = newDetail.sNodePid;
-                                    } else if(linkNode.indexOf(newDetail.sNodePid) > -1){
-                                        lastNodePid = newDetail.eNodePid;
-                                    }
+                                    // if(newDetail.eNodePid == lastNodePid){
+                                    //     lastNodePid = newDetail.sNodePid;
+                                    // } else if(newDetail.sNodePid == lastNodePid){
+                                    //     lastNodePid = newDetail.eNodePid;
+                                    // }
                                     $scope.linkMulity.push(parseInt(data.id));
                                     if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
                                         $scope.linkPids.push(parseInt(data.id));
@@ -565,9 +560,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                     var linkArr = $scope.checkUpAndDown($scope.linkMulity, $scope.links);
 
                                     if (linkArr[0][0] == linkArr[linkArr.length - 1][0] && linkArr[0][1] == linkArr[linkArr.length - 1][1]) {
-                                        tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
                                         $scope.linkMulity.pop();
                                         $scope.links.pop();
+                                        tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
                                         return;
                                     }
                                     highRenderCtrl.highLightFeatures.push({
