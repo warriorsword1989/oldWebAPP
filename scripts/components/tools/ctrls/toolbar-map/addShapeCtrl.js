@@ -562,6 +562,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                     if (linkArr[0][0] == linkArr[linkArr.length - 1][0] && linkArr[0][1] == linkArr[linkArr.length - 1][1]) {
                                         $scope.linkMulity.pop();
                                         $scope.links.pop();
+                                        $scope.linkPids.pop();
                                         tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
                                         return;
                                     }
