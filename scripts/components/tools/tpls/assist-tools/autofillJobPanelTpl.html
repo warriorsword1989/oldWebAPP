@@ -6,8 +6,8 @@
             <!-- <label ng-repeat="item in tipList" class="col-md-4">
                 <input type="checkbox" name="tipList" ng-model="selectedTips[item.id]" ng-value="item.id"> {{item.name}}
             </label> -->
-            <label ng-repeat="(key, value) in tipsObj" class="col-md-4">
-                <input type="checkbox" name="tipList" ng-model="selectedTips[key]" ng-value="key"> {{value.name}}
+            <label ng-repeat="tips in tipsObj" class="col-md-4">
+                <input type="checkbox" name="tipList" ng-model="selectedTips[tips.id]" ng-value="tips.id"> {{tips.name}}
             </label>
         </div>
         <!-- 进度条 -->

@@ -96,7 +96,8 @@ fastmap.uikit.HighRenderController = (function () {
                     var style = this.highLightFeatures[item].style;
                     if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                       this.drawRwLink(id, hightlightfeature, ctx, style);
-                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
+                    } 
+                    else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                       this.drawOfLink(id, hightlightfeature, ctx, style);
                     }
 
@@ -190,11 +191,8 @@ fastmap.uikit.HighRenderController = (function () {
                       this.drawTips(this.highLightFeatures[item].id, fea, ctx);
                     }
                     else if(this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'IXPOI' && action=='mouseover'){
-                      // var fea = this.currentEditLayer.tiles[tile].data[feature];
-                      // this.drawPoint(this.highLightFeatures[item].id, fea, ctx, style);
-
                       var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates;
-                      //this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
+
                       this.layer._drawPoint({
                         boolPixelCrs: true,
                         ctx: ctx,

@@ -248,13 +248,13 @@ fastmap.uikit.LayerController = (function() {
             },
 
           /**
-           * 获取所有tilejson图层
+           * 获取所有可见的tilejson图层
            * @returns {Array}
            */
             getAllTileJsonLayer: function () {
                 var layers = [];
                 for (var item in this.layers) {
-                    if (!FM.Util.isEmptyObject(this.layers[item].tiles)) {
+                    if (!FM.Util.isEmptyObject(this.layers[item].tiles)&&this.layers[item].options.visible==true) {
                         layers.push(this.layers[item]);
                     }
                 }
