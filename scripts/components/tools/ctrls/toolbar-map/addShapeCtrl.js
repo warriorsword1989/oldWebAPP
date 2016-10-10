@@ -491,7 +491,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             if (linkDetail) {
                                 dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
                                     if (newDetail) {
-                                        if ((newDetail.direct == 1 || linkDetail.direct == 1) || ((newDetail.sNodePid == linkDetail.eNodePid || newDetail.eNodePid == linkDetail.sNodePid) && (newDetail.direct == linkDetail.direct))) {
+                                        if ((newDetail.sNodePid == linkDetail.eNodePid || newDetail.eNodePid == linkDetail.sNodePid) && ((newDetail.direct == linkDetail.direct)||(newDetail.direct == 1 || linkDetail.direct == 1))) {
                                             $scope.linkMulity.push(parseInt(data.id));
                                             if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
                                                 $scope.linkPids.push(parseInt(data.id));
