@@ -73,6 +73,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             }
             map.currentTool._enabled = true;
             map.currentTool.disable();
+            map.scrollWheelZoom.enable();
             if (map.currentTool.rwEvent) {
                 map.currentTool.rwEvent.disable();
             }
