@@ -540,11 +540,6 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
                             if (newDetail) {
                                 if ((newDetail.eNodePid == lastNodePid || newDetail.sNodePid == lastNodePid) && ((newDetail.direct == linkDetail.direct) || (newDetail.direct == 1 || linkDetail.direct == 1))) {
-                                    // if(newDetail.eNodePid == lastNodePid){
-                                    //     lastNodePid = newDetail.sNodePid;
-                                    // } else if(newDetail.sNodePid == lastNodePid){
-                                    //     lastNodePid = newDetail.eNodePid;
-                                    // }
                                     $scope.linkMulity.push(parseInt(data.id));
                                     if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
                                         $scope.linkPids.push(parseInt(data.id));
@@ -558,7 +553,6 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                         })
                                     }
                                     var linkArr = $scope.checkUpAndDown($scope.linkMulity, $scope.links);
-
                                     if (linkArr[0][0] == linkArr[linkArr.length - 1][0] && linkArr[0][1] == linkArr[linkArr.length - 1][1]) {
                                         $scope.linkMulity.pop();
                                         $scope.links.pop();
