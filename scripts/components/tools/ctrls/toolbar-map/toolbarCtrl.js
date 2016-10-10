@@ -114,6 +114,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
             }
+            map.scrollWheelZoom.enable();
             // if (event) { //取消点击菜单自动回收功能
             //     event.stopPropagation();
             // }
@@ -247,7 +248,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                         $scope.nodeChecked = true;
                     }
                     $scope.changeSnap("node", nodeType, snapNode);
-                    $scope.changeLayer("node", nodeType);
+                    // $scope.changeLayer("node", nodeType);
                 } else {
                     if ($scope.linkChecked == true) {
                         $scope.linkChecked = false;

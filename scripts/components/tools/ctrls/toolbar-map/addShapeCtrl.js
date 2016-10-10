@@ -398,7 +398,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             var nodePid = $scope.param.data.nodePidDir;
 
             if(nodePid == linksArr[0].sNodePid){//顺方向，直接concat
-                linkArr = linkArr.concat(linksArr[0].geometry.coordinates.reverse());
+                var temp = linksArr[0].geometry.coordinates.slice(0);
+                linkArr = linkArr.concat(temp.reverse());
             } else {//逆方向，先reverse后concat
                 linkArr = linkArr.concat(linksArr[0].geometry.coordinates);
             }
@@ -409,7 +410,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             linkArr = linkArr.concat(linksArr[j].geometry.coordinates);
                             nodePid = linksArr[j].eNodePid;
                         } else {//逆方向，先reverse后concat
-                            linkArr = linkArr.concat(linksArr[j].geometry.coordinates.reverse());
+                            var temp = linksArr[j].geometry.coordinates.slice(0);
+                            linkArr = linkArr.concat(temp.reverse());
                             nodePid = linksArr[j].sNodePid;
                         }
                     }
@@ -466,6 +468,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 })
             } else if (type === "RETRYLINK") {
                 var highLightFeatures1 = [];
+                var lastNodePid = null;
+                var linkDetail = null;
+                var temDetail = null;
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 map.currentTool = new fastmap.uikit.SelectPath({
                     map: map,
@@ -479,6 +484,11 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
                     if ($scope.linkMulity.indexOf(parseInt(data.id)) > 0) {//现有的link中,且不等于进入线
                         $scope.linkMulity = $scope.linkMulity.slice(0, $scope.linkMulity.indexOf(parseInt(data.id)));
+                        // for(var i = 0;i<$scope.links.length;i++){
+                        //     if($scope.links[i].pid == parseInt(data.id)){
+                        //         $scope.links = $scope.links.slice(0,i);
+                        //     }
+                        // }
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
                         for (var i = 0; i < $scope.linkMulity.length; i++) {
@@ -511,50 +521,65 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         }
                         highRenderCtrl.highLightFeatures = highLightFeatures1;
                         highRenderCtrl.drawHighlight();
-                    } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0){//增加link,在末尾加
-                        dsEdit.getByPid($scope.linkMulity[$scope.linkMulity.length - 1], "RDLINK").then(function (linkDetail) {   //查询最后一条link
-                            if (linkDetail) {
-                                var linkNode = [];
-                                linkNode.push(linkDetail.sNodePid);
-                                linkNode.push(linkDetail.eNodePid);
-                                dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
-                                    if (newDetail) {
-                                        if ((linkNode.indexOf(newDetail.eNodePid) > -1 || linkNode.indexOf(newDetail.sNodePid) > -1) && ((newDetail.direct == linkDetail.direct)||(newDetail.direct == 1 || linkDetail.direct == 1))) {
-                                            $scope.linkMulity.push(parseInt(data.id));
-                                            if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
-                                                $scope.linkPids.push(parseInt(data.id));
-                                                $scope.links.push({
-                                                    direct: newDetail.direct,
-                                                    eNodePid: newDetail.eNodePid,
-                                                    geometry: newDetail.geometry,
-                                                    kind: newDetail.kind,
-                                                    pid: newDetail.pid,
-                                                    sNodePid: newDetail.sNodePid
-                                                })
-                                            }
-                                            var linkArr = $scope.checkUpAndDown($scope.linkMulity,$scope.links);
+                    } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0) {//增加link,在末尾加
 
-                                            if(linkArr[0][0] == linkArr[linkArr.length -1][0] && linkArr[0][1] == linkArr[linkArr.length -1][1]){
-                                                tooltipsCtrl.setCurrentTooltip('所选线闭合，请调整！');
-                                                tooltipsCtrl.setStyleTooltip("color:red;");
-                                                $scope.linkMulity.pop();
-                                                $scope.links.pop();
-                                                return;
-                                            }
-                                            highRenderCtrl.highLightFeatures.push({
-                                                id: data.id.toString(),
-                                                layerid: 'rdLink',
-                                                type: 'line',
-                                                style: {
-                                                    color: 'green'
-                                                }
-                                            });
-                                            highRenderCtrl.drawHighlight();
-                                        }
-                                    }
-                                })
+                        if($scope.linkMulity.length == 1){
+                            for (var i = 0; i < $scope.links.length; i++) {
+                                if ($scope.links[i].pid == $scope.linkMulity[0]) {
+                                    linkDetail = $scope.links[i];
+                                }
                             }
-                        });
+                            lastNodePid = $scope.param.data.nodePidDir;
+                        } else if($scope.linkMulity.length > 1){
+                            for (var i = 0; i < $scope.links.length; i++) {
+                                if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 1]) {
+                                    linkDetail = $scope.links[i];
+                                }
+                                if ($scope.links[i].pid == $scope.linkMulity[$scope.linkMulity.length - 2]) {
+                                    temDetail = $scope.links[i];
+                                }
+                            }
+                            if(linkDetail.eNodePid == temDetail.eNodePid || linkDetail.eNodePid == temDetail.sNodePid){
+                                lastNodePid = linkDetail.sNodePid;
+                            } else {
+                                lastNodePid = linkDetail.eNodePid;
+                            }
+                        }
+                        dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
+                            if (newDetail) {
+                                if ((newDetail.eNodePid == lastNodePid || newDetail.sNodePid == lastNodePid) && ((newDetail.direct == linkDetail.direct) || (newDetail.direct == 1 || linkDetail.direct == 1))) {
+                                    $scope.linkMulity.push(parseInt(data.id));
+                                    if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
+                                        $scope.linkPids.push(parseInt(data.id));
+                                        $scope.links.push({
+                                            direct: newDetail.direct,
+                                            eNodePid: newDetail.eNodePid,
+                                            geometry: newDetail.geometry,
+                                            kind: newDetail.kind,
+                                            pid: newDetail.pid,
+                                            sNodePid: newDetail.sNodePid
+                                        })
+                                    }
+                                    var linkArr = $scope.checkUpAndDown($scope.linkMulity, $scope.links);
+                                    if (linkArr[0][0] == linkArr[linkArr.length - 1][0] && linkArr[0][1] == linkArr[linkArr.length - 1][1]) {
+                                        $scope.linkMulity.pop();
+                                        $scope.links.pop();
+                                        $scope.linkPids.pop();
+                                        tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
+                                        return;
+                                    }
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: data.id.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {
+                                            color: 'green'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                }
+                            }
+                        })
                     }
                 });
             } else if (type === fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
@@ -567,8 +592,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 var linkArr = $scope.checkUpAndDown($scope.linkMulity,$scope.links);
 
                 if(linkArr[0][0] == linkArr[linkArr.length -1][0] && linkArr[0][1] == linkArr[linkArr.length -1][1]){
-                    tooltipsCtrl.setCurrentTooltip('所选线闭合，请调整！');
-                    tooltipsCtrl.setStyleTooltip("color:red;");
+                    tooltipsCtrl.setCurrentTooltip('<span style="color: red">所选线闭合，请调整！</span>');
                     return;
                 }
                 map.scrollWheelZoom.disable();

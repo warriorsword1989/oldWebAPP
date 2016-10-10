@@ -10,6 +10,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdCross");
+    var relation = layerCtrl.getLayerById('relationData');
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -339,6 +340,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 rdLink.redraw();
                 rdNode.redraw();
                 rdCross.redraw();
+                relation.redraw();
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
                 if (map.floatMenu) {

@@ -29,6 +29,7 @@
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-road.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>
         <script type="text/javascript" src="../../../scripts/utils/Utils.js"></script>
+        <script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
         <script src="loadMapApi.js"></script>
         <script src="loadUikit.js"></script>
     </head>
@@ -43,7 +44,7 @@
             </div>
             <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;">
                 <button class="fm-top-right-btn profile" title="个人信息"></button>
-                <button class="fm-top-right-btn notice" title="我的消息"></button>
+                <button class="fm-top-right-btn notice" title="我的消息" ng-click="historyMsg();"></button>
                 <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>
             </div>
         </div>
@@ -82,7 +83,7 @@
                         <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                         </div>
-                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" style="top:50px;left:50px;max-width: 800px;">
+                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" style="top:50px;left:20%;right: 20%;max-width: 800px;">
                             <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
                             <div ng-include="advancedToolPanelTpl"></div>
                         </div>

@@ -185,7 +185,8 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
         $scope.changeLayer = function(type, featType) {
             var visible = true;
             if (type == "node") {
-                visible = $scope.nodeChecked;
+                // visible = $scope.nodeChecked;
+                visible = true; //为了解决捕捉点时新增link，rdnode图层不可见情况
             } else if (type == "link") {
                 visible = $scope.linkChecked;
             }
