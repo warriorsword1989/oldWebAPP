@@ -213,7 +213,7 @@ namesOfBranch.controller("SignAsRealOfBranchCtrl",['$scope','$timeout','$ocLazyL
                 type:'line',
                 style:{
                     color: '#21ed25',
-                    strokeWidth:50
+                    strokeWidth:3
                 }
             });
             highRenderCtrl.highLightFeatures.push({

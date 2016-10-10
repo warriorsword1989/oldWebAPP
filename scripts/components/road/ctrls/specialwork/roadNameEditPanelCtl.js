@@ -232,7 +232,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        	 }else if(type == "namegroup"){
        		 if("add" == $scope.roadNameFlag){
        			var param = {
-   	 					nameGroupid : parseInt(row.nameGroupid)
+   	 					nameGroupid : parseInt(row.nameGroupid),
+   	 					dbId : App.Temp.dbId
                 	};
             	dsMeta.rdnameGroup(param).then(function(data) {
             		if(data.data){
@@ -290,7 +291,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         	if(type == "namegroup"){
           		 if("add" == $scope.roadNameFlag){
           			var param = {
-      	 					nameGroupid : parseInt(row.nameGroupid)
+      	 					nameGroupid : parseInt(row.nameGroupid),
+      	 					dbId : App.Temp.dbId
                    	};
                	dsMeta.rdnameGroup(param).then(function(data) {
                		if(data.data){

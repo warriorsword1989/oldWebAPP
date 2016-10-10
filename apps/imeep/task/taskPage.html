@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
     <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css" />
     <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
     <script type="text/javascript" src="../Application.js"></script>
@@ -32,9 +31,13 @@
             -moz-appearance:none; /* Firefox */
             -webkit-appearance:none; /* Safari 和 Chrome */
         }
-        .unactived{background: url(../../../images/main/task/icon-arrowup.png) no-repeat 80px 6px, url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;}
+        .unactived{
+            background: url(../../../images/main/task/icon-arrowup.png) no-repeat 80px 6px,
+            url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
+        }
         .actived{
-            background: url(../../../images/main/task/icon-arrowdown-red.png) no-repeat 80px 6px, url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
+            background: url(../../../images/main/task/icon-arrowdown-red.png) no-repeat 80px 6px,
+            url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
         }
         .fm-taskDataList{
             padding: 0px 25px;
@@ -58,16 +61,36 @@
             height: 220px;
         }
         .fm-taskDataList .taskItem .taskItem-heading{
-            padding: 10px;
+            cursor: default;
+            padding: 8px 10px;
             color: #FFFFFF;
             font-size: 14px;
             font-weight: bold;
         }
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn{
+            color: #FFFFFF;
+            padding: 1px 15px;
+            float: right;
+            background: #6AD0A6;
+            border: 1px solid #128D92;
+        }
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn:focus,
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn:hover,
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn:active{
+            color: #F6FAF8;
+            padding: 1px 15px;
+            float: right;
+            background: #54AC88;
+            border: 1px solid #128D92;
+            outline: none;
+        }
         .finishColor{
             background-color: #16B8BE;
+            border-bottom: 1px solid #128d92;
         }
         .unfinishColor{
             background-color: #5896FF;
+            border-bottom: 1px solid #477ad1;
         }
         .fm-taskDataList .taskItem .taskItem-body{
             padding: 10px;
@@ -85,8 +108,8 @@
         .taskItem:hover,
         .taskItem:focus{
             background-color: #ffffff;
-            box-shadow:0 22px 45px rgba(0, 0, 0, 0.15);
-            -webkit-box-shadow:0 22px 45px rgba(0, 0, 0, 0.15);
+            box-shadow:0 10px 22px rgba(0, 0, 0, 0.18);
+            -webkit-box-shadow:0 10px 22px rgba(0, 0, 0, 0.18);
             /*color:#1A4C87;*/
             /*-webkit-transform:translateY(-4px);*/
             /*transform:translateY(-4px);*/
@@ -96,8 +119,8 @@
         .taskItemTemp:focus{
             cursor: pointer;
             background-color: #ffffff;
-            box-shadow:0 22px 45px rgba(0, 0, 0, 0.15);
-            -webkit-box-shadow:0 22px 45px rgba(0, 0, 0, 0.15);
+            /*box-shadow:0 22px 45px rgba(0, 0, 0, 0.18);*/
+            /*-webkit-box-shadow:0 22px 45px rgba(0, 0, 0, 0.18);*/
             /*color:#1A4C87;*/
             /*-webkit-transform:translateY(-4px);*/
             /*transform:translateY(-4px);*/
@@ -118,26 +141,26 @@
             <div class="fm-top" style="width:260px;right:0px;text-align:right;padding:0px 25px;">
                 <button class="fm-top-right-btn profile" title="个人信息"></button>
                 <button class="fm-top-right-btn notice" title="我的消息"></button>
-                <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>
+                <button class="fm-top-right-btn logout" title="退出系统" ng-click="logout()"></button>
             </div>
         </div>
         <!-- main part -->
-        <div ui-layout-container class="">
+        <div ui-layout-container>
             <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
                 <!--sider bar-->
                 <div ui-layout-container class="fm-banner fadeInLeft fm-no-scroll" style="background-color: #1F355A" size="60px">
-                    <button class="banerTab" ng-class="{1:'active'}[currentTab]" ng-click="tab1Url='../../../images/main/task/icon-c1.png';tab2Url='../../../images/main/task/icon-h2.png'" style="width:100%;background-color: transparent;border: none;padding: 20px 0 0 0;outline: none" title="当前任务">
-                        <img src="{{tab1Url}}" />
+                    <button class="banerTab" ng-click="chnageTab(1);" style="width:100%;background-color: transparent;border: none;padding: 20px 0 0 0;outline: none" title="当前任务">
+                        <img ng-src="{{tab1Url}}" />
                     </button>
-                    <button class="banerTab" ng-class="{2:'active'}[currentTab]" ng-click="tab1Url='../../../images/main/task/icon-c2.png';tab2Url='../../../images/main/task/icon-h1.png'" style="width:100%;background-color: transparent;border: none;padding: 20px 0 0 0;outline: none" title="当前任务">
-                        <img src="{{tab2Url}}" />
+                    <button class="banerTab" ng-click="chnageTab(0);" style="width:100%;background-color: transparent;border: none;padding: 20px 0 0 0;outline: none" title="历史任务">
+                        <img ng-src="{{tab2Url}}" />
                     </button>
                 </div>
                 <!--task data list-->
-                <div ui-layout-container class="">
+                <div ui-layout-container class="scroll-styled">
                     <div class="container-fluid taskDataList">
                         <div class="row fm-taskSorter">
-                            <select ng-model="myOption" ng-change="aaaa()" ng-click="hhh()" class="form-control {{redUp}}">
+                            <select ng-model="myOption" ng-change="condtionChange()" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
                                 <option value="0">默认</option>
                                 <option value="1">任务名称</option>
                                 <option value="2">完成时间</option>
@@ -146,29 +169,29 @@
                         </div>
 
                         <div class="row fm-taskDataList">
-                            <div class="col-md-3 col-xs-6 col-sm-12" ng-repeat="item in currentSubTaskList">
-                                <div class="taskItem" ng-click="go(item.subtaskId)">
+                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList">
+                                <div class="taskItem">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
-                                        <div style="float: left" ng-bind="'任务名称'"></div>
-                                        <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
+                                        <div style="float: left;width: 180px;" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
+                                        <button ng-if="item.percent==100" type="button" class="btn submitBtn">提交</button>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="taskItem-body">
+                                    <div ng-click="goEditorPage(item.subtaskId)" class="taskItem-body">
                                         <ul class="fm-ul ItemInfo">
                                             <li>
                                                 <div class="itemInfo-left"><label>完成进度：</label></div>
                                                 <div class="itemInfo-right">
-                                                    <div class="col-md-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
-                                                    <div class="col-md-3" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
+                                                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
+                                                    <div class="col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label>创建时间：</label></div>
-                                                <div class="itemInfo-right" ng-bind="'2016-10-1'"></div>
+                                                <div class="itemInfo-right" ng-bind="item.planStartDate"></div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label>结束时间：</label></div>
-                                                <div class="itemInfo-right" ng-bind="'2016-10-28'"></div>
+                                                <div class="itemInfo-right" ng-bind="item.planEndDate"></div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="letter-spacing: 1px;">任 务 量：</label></div>
@@ -176,11 +199,11 @@
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label>类　　型：</label></div>
-                                                <div class="itemInfo-right">日一体化任务</div>
+                                                <div class="itemInfo-right" ng-bind="item.stage+' '+item.type"></div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="letter-spacing: 1px;">作 业 季：</label></div>
-                                                <div class="itemInfo-right">2016年秋</div>
+                                                <div class="itemInfo-right text-ellipsis" ng-bind="item.descp"></div>
                                             </li>
                                         </ul>
                                     </div>
@@ -188,14 +211,14 @@
                             </div>
 
                             <!-- -->
-                            <div style="position: relative" class="col-md-3 col-xs-6 col-sm-12" ng-repeat="item in currentSubTaskList">
-                                <div class="taskItem" ng-click="go()">
+                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList">
+                                <div class="taskItem">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left" ng-bind="'任务名称'"></div>
                                         <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="taskItem-body">
+                                    <div ng-click="goEditorPage()" class="taskItem-body">
                                         <ul class="fm-ul ItemInfo">
                                             <li>
                                                 <div class="itemInfo-left"><label>完成进度：</label></div>
@@ -242,12 +265,8 @@
                                         <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交成功</p>
                                     </div>
                                 </div>
-
-                                <!--<div class="taskItemTemp" ng-if="$index==1" style="position: relative;width: 280px;height: 230px;top: -235px;left: 15px;background: #fff;z-index: 1;opacity: 0.9;">-->
-                                    <!--<img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />-->
-                                    <!--<p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>-->
-                                <!--</div>-->
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -255,6 +274,7 @@
         </div>
 
     </div>
+    <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'../editor/svgLoading.html'"></div>
 <script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
 </body>
 </html>

@@ -398,7 +398,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			//eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
 		};
 		$scope.goback = function () {
-			window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
+			window.location.href = appPath.root + "apps/imeep/task/taskPage.html?access_token=" + App.Temp.accessToken;
 		};
 		$scope.advancedTool = null;
 		/*监听弹窗*/
