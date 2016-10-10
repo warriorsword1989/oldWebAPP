@@ -6,9 +6,6 @@ body {
   font-size: 12px;
   font-weight: normal;
 }
-* {
-  outline: none;
-}
 a {
   color: #FFF;
   text-decoration: none;
@@ -2143,6 +2140,12 @@ a.batchButton {
 .fm-top .eng {
   font-size: 10px;
 }
+.fm-top .dropdown-toggle:focus:active {
+  outline: 0;
+}
+.fm-top button {
+  outline: 0;
+}
 .fm-top-btn {
   display: inline-block;
   height: 26px;
@@ -2238,3 +2241,4 @@ a.batchButton {
   margin: 10px 15px;
   background: url("../../images/main/btn-icon/logout.png") no-repeat center center;
 }
+
