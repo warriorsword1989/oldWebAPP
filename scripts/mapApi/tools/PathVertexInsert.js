@@ -120,9 +120,8 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
                 var point2 = L.latLng(segments[i].y2, segments[i].x2);
                 var dis1 = currentPoint.distanceTo(point1);
                 var dis2 = currentPoint.distanceTo(point2);
-                console.info(dis1+"   "+dis2);
                 if(dis1 < 2 || dis2 < 2){
-                    this.tooltipsCtrl.setCurrentTooltip('形状点之间距离至少2米！');
+                    this.tooltipsCtrl.setCurrentTooltip('<span style="color: red">形状点之间距离至少2米！</span>');
                     break;
                 }
 
