@@ -28,6 +28,7 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
         });
         this.snapHandler.enable();
         this.eventController = fastmap.uikit.EventController();
+        this.tooltipsCtrl = fastmap.uikit.ToolTipsController();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
@@ -112,6 +113,19 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
             if(distance < 5){
                 latlng =this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2))));
                 index = i;
+
+                //增加对形状点之间不能小于2米的判断
+                var currentPoint = L.latLng(latlng.lat,latlng.lng);
+                var point1 = L.latLng(segments[i].y1, segments[i].x1);
+                var point2 = L.latLng(segments[i].y2, segments[i].x2);
+                var dis1 = currentPoint.distanceTo(point1);
+                var dis2 = currentPoint.distanceTo(point2);
+                console.info(dis1+"   "+dis2);
+                if(dis1 < 2 || dis2 < 2){
+                    this.tooltipsCtrl.setCurrentTooltip('形状点之间距离至少2米！');
+                    break;
+                }
+
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
 
                 this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
