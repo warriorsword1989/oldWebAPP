@@ -302,7 +302,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     laneStr = laneData.join(",");
                 }
                 if (laneStr == undefined) {
-                    swal("提示", '请选择交限！', "warning");
+                    swal("提示", '请选择交限图标！', "warning");
                     return;
                 }
                 if (laneInfo.inLinkPid == undefined) {
