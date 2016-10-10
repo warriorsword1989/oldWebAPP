@@ -69,6 +69,20 @@
             </div>
         </li>
         <li class="list-group-item">
+            <div><label class="control-label">名称序号</label></div>
+            <div class="inline">
+            	<input type="text" ng-model="oridiData.seqNum"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称类型</label></div>
+            <div class="inline">
+            	<select  ng-model="oridiData.nameType"
+                        ng-options="value.id as value.label for value in nameTypeOptions">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
             <div><label class="control-label">名称来源</label></div>
             <div class="inline">
                 <select  ng-model="oridiData.srcFlag"

@@ -22,6 +22,20 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
         {"id": 5, "label": "5 外环"},
         {"id": 9, "label": "9 未定义"}
     ];
+    $scope.nameTypeOptions = [
+        {"id": 0, "label": "普通"},
+        {"id": 1, "label": "立交桥名(连接路)"},
+        {"id": 2, "label": "立交桥名(主路)"},
+        {"id": 3, "label": "风景路线"},
+        {"id": 4, "label": "桥"},
+        {"id": 5, "label": "隧道"},
+        {"id": 6, "label": "虚拟名称"},
+        {"id": 7, "label": "出口编号"},
+        {"id": 8, "label": "编号名称"},
+        {"id": 9, "label": "虚拟连接名称"},
+        {"id": 14, "label": "点门牌"},
+        {"id": 15, "label": "线门牌"}
+    ];
     var objCtrl = fastmap.uikit.ObjectEditController();
 
     //$scope.names = objCtrl.namesInfo;
@@ -76,7 +90,8 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
         var nameParameter = {
             "name": $scope.inNmae,
             "pageSize": $scope.pagesize,
-            "pageNum":$scope.picNowNum
+            "pageNum":$scope.picNowNum,
+            "dbId":App.Temp.dbId
         };
         dsMeta.getNamesbyName(nameParameter).then(function (data) {
             if(data!= -1){
@@ -92,7 +107,7 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
 
     $scope.selectNameInd=0;
     $scope.searchGroupidByNames=function(){
-        $("#name").css("display", "block");
+        $("#name").css("display", "block").css({"height":'300px'});
         $scope.namesOfFlag = "name";
         $scope.pagesize=5;//$("#pagesize").val();
        // $scope.selectNameInd=ind;

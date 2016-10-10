@@ -37,7 +37,7 @@
                     <div class="d-group">
                         <div class="d-name">语言代码：</div>
                         <div class="d-value">
-                            <select class="d-input"  ng-model="nameObj.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
+                            <select class="d-input"  ng-model="nameObj.langCode" ng-options="value.code as value.name for value in languageCode" ng-change="langCodeChange($event, this)"></select>
                         </div> 
                     </div>
                     <div class="d-group">
@@ -57,7 +57,7 @@
                     <div class="d-group">
                         <div class="d-name">名称来源：</div>
                         <div class="d-value">
-                        	<select class="d-input"  ng-model="nameObj.srcFlag" ng-options="value.code as value.label for value in nameSource" ></select>
+                        	<select class="d-input"  ng-model="nameObj.srcFlag" ng-options="value.code as value.label for value in nameSource" ng-class="{true:'chosen-disabled'}[srcFlagDisable]" ng-disabled="srcFlagDisable"></select>
                         </div> 
                     </div>
                 </div>

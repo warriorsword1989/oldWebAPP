@@ -297,12 +297,10 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     //
     //     });
     // };
-    $scope.getLanesInfo = function (item, e) {
+    $scope.getLanesInfo = function (item) {
         $scope.links = [];
         $scope.vais = {};
         $scope.item = item;
-        $scope.removeImgActive();
-        $(e.target).addClass('active');
         layerCtrl.pushLayerFront('edit');
         map.currentTool.disable();
         map.currentTool = new fastmap.uikit.SelectPath(

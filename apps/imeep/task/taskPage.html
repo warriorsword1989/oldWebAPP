@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../../../images/favicon.ico" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert-upgrade/sweetalert.css" />
+    <link rel="stylesheet" type="text/css" href="../../../styles/imeep/editor.css">
+    <script type="text/javascript" src="../Application.js"></script>
+    <style>
+        .banerTab{
+            color: #8F9AAD;
+        }
+        .banerTab.active{
+            color: #FFFFFF;
+        }
+        .fm-taskSorter{
+            padding: 0px 40px;
+        }
+        .fm-taskSorter select{
+            width: 100px;
+            margin-top: 20px;
+            height: inherit;
+            font-size:12px;
+            padding: 3px 0 3px 6px;
+            appearance:none;
+            -moz-appearance:none; /* Firefox */
+            -webkit-appearance:none; /* Safari 和 Chrome */
+        }
+        .unactived{
+            background: url(../../../images/main/task/icon-arrowup.png) no-repeat 80px 6px,
+            url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
+        }
+        .actived{
+            background: url(../../../images/main/task/icon-arrowdown-red.png) no-repeat 80px 6px,
+            url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
+        }
+        .fm-taskDataList{
+            padding: 0px 25px;
+        }
+        .fm-taskDataList .taskItem{
+            cursor: pointer;
+            margin: 15px;
+            border: 0;
+            background-color: #fff;
+            text-decoration: none;
+            transform: translate3d(0,0,0);
+            -webkit-transform: translate3d(0,0,0);
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            height: 220px;
+        }
+        .fm-taskDataList .taskItem .taskItem-heading{
+            cursor: default;
+            padding: 8px 10px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn{
+            color: #FFFFFF;
+            padding: 1px 15px;
+            float: right;
+            background: #6AD0A6;
+            border: 1px solid #128D92;
+        }
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn:focus,
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn:hover,
+        .fm-taskDataList .taskItem .taskItem-heading .submitBtn:active{
+            color: #F6FAF8;
+            padding: 1px 15px;
+            float: right;
+            background: #54AC88;
+            border: 1px solid #128D92;
+            outline: none;
+        }
+        .finishColor{
+            background-color: #16B8BE;
+            border-bottom: 1px solid #128d92;
+        }
+        .unfinishColor{
+            background-color: #5896FF;
+            border-bottom: 1px solid #477ad1;
+        }
+        .fm-taskDataList .taskItem .taskItem-body{
+            padding: 10px;
+        }
+
+        .fm-taskDataList .taskItem .taskItem-body .ItemInfo li{
+            padding: 5px 0;
+        }
+        div.itemInfo-left{
+            width: 30%;
+        }
+        div.itemInfo-right{
+            width: 70%;
+        }
+        .taskItem:hover,
+        .taskItem:focus{
+            background-color: #ffffff;
+            box-shadow:0 10px 22px rgba(0, 0, 0, 0.18);
+            -webkit-box-shadow:0 10px 22px rgba(0, 0, 0, 0.18);
+            /*color:#1A4C87;*/
+            /*-webkit-transform:translateY(-4px);*/
+            /*transform:translateY(-4px);*/
+            -moz-transform:none;
+        }
+        .taskItemTemp:hover,
+        .taskItemTemp:focus{
+            cursor: pointer;
+            background-color: #ffffff;
+            /*box-shadow:0 22px 45px rgba(0, 0, 0, 0.18);*/
+            /*-webkit-box-shadow:0 22px 45px rgba(0, 0, 0, 0.18);*/
+            /*color:#1A4C87;*/
+            /*-webkit-transform:translateY(-4px);*/
+            /*transform:translateY(-4px);*/
+            -moz-transform:none;
+        }
+
+
+    </style>
+</head>
+<body ng-controller="TaskSelectionCtlNew" style="background: #F3F3F3">
+    <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+        <!-- header part -->
+        <div ui-layout-container size="40px">
+            <div class="fm-top" style="left:0px;width:60px;text-align:center;">
+                <img src="../../../images/main/fm-logo.png">
+            </div>
+            <div class="fm-top" style="left:60px;right:200px;position:fixed;"></div>
+            <div class="fm-top" style="width:260px;right:0px;text-align:right;padding:0px 25px;">
+                <button class="fm-top-right-btn profile" title="个人信息"></button>
+                <button class="fm-top-right-btn notice" title="我的消息"></button>
+                <button class="fm-top-right-btn logout" title="退出系统" ng-click="logout()"></button>
+            </div>
+        </div>
+        <!-- main part -->
+        <div ui-layout-container>
+            <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+                <!--sider bar-->
+                <div ui-layout-container class="fm-banner fadeInLeft fm-no-scroll" style="background-color: #1F355A" size="60px">
+                    <button class="banerTab" ng-click="chnageTab(1);" style="width:100%;background-color: transparent;border: none;padding: 20px 0 0 0;outline: none" title="当前任务">
+                        <img ng-src="{{tab1Url}}" />
+                    </button>
+                    <button class="banerTab" ng-click="chnageTab(0);" style="width:100%;background-color: transparent;border: none;padding: 20px 0 0 0;outline: none" title="历史任务">
+                        <img ng-src="{{tab2Url}}" />
+                    </button>
+                </div>
+                <!--task data list-->
+                <div ui-layout-container class="scroll-styled">
+                    <div class="container-fluid taskDataList">
+                        <div class="row fm-taskSorter">
+                            <select ng-model="myOption" ng-change="condtionChange()" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
+                                <option value="0">默认</option>
+                                <option value="1">任务名称</option>
+                                <option value="2">完成时间</option>
+                                <option value="3">完成进度</option>
+                            </select>
+                        </div>
+
+                        <div class="row fm-taskDataList">
+                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList">
+                                <div class="taskItem">
+                                    <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
+                                        <div style="float: left;width: 180px;" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
+                                        <button ng-if="item.percent==100" type="button" class="btn submitBtn">提交</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div ng-click="goEditorPage(item.subtaskId)" class="taskItem-body">
+                                        <ul class="fm-ul ItemInfo">
+                                            <li>
+                                                <div class="itemInfo-left"><label>完成进度：</label></div>
+                                                <div class="itemInfo-right">
+                                                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
+                                                    <div class="col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label>创建时间：</label></div>
+                                                <div class="itemInfo-right" ng-bind="item.planStartDate"></div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label>结束时间：</label></div>
+                                                <div class="itemInfo-right" ng-bind="item.planEndDate"></div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label style="letter-spacing: 1px;">任 务 量：</label></div>
+                                                <div class="itemInfo-right">200个POI，100条tips</div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label>类　　型：</label></div>
+                                                <div class="itemInfo-right" ng-bind="item.stage+' '+item.type"></div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label style="letter-spacing: 1px;">作 业 季：</label></div>
+                                                <div class="itemInfo-right text-ellipsis" ng-bind="item.descp"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- -->
+                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList">
+                                <div class="taskItem">
+                                    <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
+                                        <div style="float: left" ng-bind="'任务名称'"></div>
+                                        <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div ng-click="goEditorPage()" class="taskItem-body">
+                                        <ul class="fm-ul ItemInfo">
+                                            <li>
+                                                <div class="itemInfo-left"><label>完成进度：</label></div>
+                                                <div class="itemInfo-right">
+                                                    <div class="col-md-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
+                                                    <div class="col-md-3" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label>创建时间：</label></div>
+                                                <div class="itemInfo-right" ng-bind="'2016-10-1'"></div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label>结束时间：</label></div>
+                                                <div class="itemInfo-right" ng-bind="'2016-10-28'"></div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label style="letter-spacing: 1px;">任 务 量：</label></div>
+                                                <div class="itemInfo-right">200个POI，100条tips</div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label>类　　型：</label></div>
+                                                <div class="itemInfo-right">日一体化任务</div>
+                                            </li>
+                                            <li>
+                                                <div class="itemInfo-left"><label style="letter-spacing: 1px;">作 业 季：</label></div>
+                                                <div class="itemInfo-right">2016年秋</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="taskItemTemp" ng-if="$index==0" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
+                                        <div style="padding: 50px;font-size: 20px;color: #e83b68;text-align: center;">
+                                            <p style="font-size: 20px;">存在8条错误数据</p>
+                                            <p style="letter-spacing: 1px">请修改后在提交！</p>
+                                            <p style="font-size: 20px;padding: 20px;">任务提交失败</p>
+                                        </div>
+                                    </div>
+                                    <div class="taskItemTemp" ng-if="$index==1" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
+                                        <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-percent.png" />
+                                        <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交中，预计需要三分钟</p>
+                                    </div>
+                                    <div class="taskItemTemp" ng-if="$index==3" style="position: absolute;width: 100%;height: 100%;background-color:#FFFFFF;opacity: 0.9;top: 0">
+                                        <img style="padding: 40px 0 10px 0;" class="center-block" src="../../../images/main/task/sub-succ.png" />
+                                        <p style="text-align: center; font-size: 15px;font-weight: bold">任务提交成功</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'../editor/svgLoading.html'"></div>
+<script type="text/javascript" data-main="taskSelection-require" src="../../../scripts/libs/require/require.js"></script>
+</body>
+</html>

@@ -21,6 +21,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
           layerid: 'rdLink',
           type: 'node',
           style: {
+            strokeWidth:3,
               color: 'yellow'
           }
       });
@@ -31,6 +32,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
               layerid: 'rdLink',
               type: 'line',
               style: {
+                strokeWidth:3,
                   color: 'rgb(255, 0, 0)'
               }
           });
@@ -40,6 +42,7 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
               layerid: 'rdLink',
               type: 'line',
               style: {
+                strokeWidth:3,
                   color: 'rgb(0, 245, 255)'
               }
           });

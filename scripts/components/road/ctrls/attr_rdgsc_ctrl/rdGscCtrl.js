@@ -17,13 +17,19 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
         var links = $scope.reGscData.links,highLightFeatures=[];
         /*for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
+                // id: links[i]["linkPid"].toString(),
+                // layerid:'rdLink',
+                // type:'rdgsc',
+                // index:links[i].zlevel,
+                // style:{
+                //     size:5
+                // }
+
                 id: links[i]["linkPid"].toString(),
-                layerid:'rdLink',
-                type:'rdgsc',
-                index:links[i].zlevel,
-                style:{
-                    size:5
-                }
+                layerid: 'rdLink',
+                type: 'line',
+                style: {}
+
             })
         }
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -123,9 +129,9 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
         dsEdit.save(param).then(function (data) {
             var info = null;
             if (data) {
-                rdgsc.redraw();
                 $scope.reGscData = null;
                 rdgsc.redraw();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         })
     };

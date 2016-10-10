@@ -5,7 +5,7 @@ fastmap.uikit.canvasFeature.RdLinkSpeedLimitPart = fastmap.uikit.canvasFeature.F
         var resArray = mbd.split(",");
         this.geometry['coordinates'] = mac;
         this.properties['linkPid'] = linkPid;
-
+      this.properties['id'] = linkPid;
         this.geometry['type'] = 'Point';
         this.properties['markerStyle'] = {};
 

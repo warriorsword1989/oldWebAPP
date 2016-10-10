@@ -195,7 +195,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                 type:'line',
                 style:{
                     color: '#21ed25',
-                    strokeWidth:50
+                    strokeWidth:3
                 }
             });
             highRenderCtrl.highLightFeatures.push({
