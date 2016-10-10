@@ -756,19 +756,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             points:[]
                         };
                         //组装一个线
-                        /*for(var i=0;i<dealData.length;i++){
-                            feature.components.push(dealData[i].line.components);
-                            feature.points.push(dealData[i].line.points);
-                        }*/
-                        for(var i=0;i<crossGeos.length;i++){
+                        /*for(var i=0;i<crossGeos.length;i++){
                             feature = crossGeos[i];
                             feature.type = 'Symbol';
                             layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
                             editLayer.drawGeometry = feature;
                             editLayer.draw(feature, editLayer);//在编辑图层中画出需要编辑的几何体
-                        }
-                        // swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
+                        }*/
                         highRenderCtrl._cleanHighLight();
+                        swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else {
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/
