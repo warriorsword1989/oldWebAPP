@@ -26,13 +26,15 @@ angular.module('app').controller("SplitSubModalCtl", ['$scope', '$ocLazyLoad', '
 				}
 				param = {
 						flag : 1,
-						data : $scope.getSelectedData()
+						data : $scope.getSelectedData(),
+						dbId : App.Temp.dbId
 					};
 				
 			}else if(2 == $scope.dataFlag){//拆分子任务下所有的数据
 				param = {
 					flag : -1,
-					subtaskId : parseInt(App.Temp.subTaskId)
+					subtaskId : parseInt(App.Temp.subTaskId),
+					dbId : App.Temp.dbId
 				};
 			};
 			dsMeta.rdnameSplit(param).then(function(data) {

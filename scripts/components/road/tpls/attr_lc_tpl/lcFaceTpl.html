@@ -12,7 +12,7 @@
                             <label>FACE种别</label>
                             <div>
                                 <select ng-model="lcFaceData.kind"
-                                        ng-options="value.id as value.label for value in kind">
+                                        ng-options="value.id as value.label for value in kind" ng-change="kindChange($event, this)">
                                 </select>
                             </div>
                         </li>

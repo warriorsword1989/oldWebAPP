@@ -808,6 +808,24 @@ App.layersConfig = [{
             visible: true
         },
         requestType: "uuuuu" //未用
+    },{
+        url: '',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'mousemovelightlayer',
+            name: '鼠标滑过高亮图层',
+            maxZoom: 20,
+            debug: false,
+            buffer: 8,
+            boolPixelCrs: true,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            tileSize: 256,
+            type: 'highlight',
+            zIndex: 20,
+            restrictZoom: 10,
+            visible: true
+        },
+        requestType: "uuuuu" //未用
     }, {
         url: '',
         clazz: fastmap.mapApi.guideLineLayer,
