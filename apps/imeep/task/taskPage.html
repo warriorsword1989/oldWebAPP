@@ -126,8 +126,6 @@
             /*transform:translateY(-4px);*/
             -moz-transform:none;
         }
-
-
     </style>
 </head>
 <body ng-controller="TaskSelectionCtlNew" style="background: #F3F3F3">
@@ -157,10 +155,10 @@
                     </button>
                 </div>
                 <!--task data list-->
-                <div ui-layout-container class="scroll-styled">
+                <div ng-if="dataExist" ui-layout-container class="scroll-styled">
                     <div class="container-fluid taskDataList">
                         <div class="row fm-taskSorter">
-                            <select ng-model="myOption" ng-change="condtionChange()" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
+                            <select ng-model="myOption" ng-change="condtionChange(myOption)" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
                                 <option value="0">任务名称</option>
                                 <option value="1">开始时间</option>
                                 <option value="2">结束时间</option>
@@ -170,7 +168,7 @@
 
                         <div class="row fm-taskDataList">
                             <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList | orderBy : sortCondtion">
-                                <div class="taskItem">
+                                <div ng-cloak class="taskItem ng-cloak">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left;width: 180px;" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
                                         <button ng-if="item.percent==100" type="button" class="btn submitBtn">提交</button>
@@ -181,7 +179,7 @@
                                             <li>
                                                 <div class="itemInfo-left"><label>完成进度：</label></div>
                                                 <div class="itemInfo-right">
-                                                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
+                                                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar animate="false" style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
                                                     <div class="col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
                                                 </div>
                                             </li>
@@ -211,8 +209,8 @@
                             </div>
 
                             <!-- -->
-                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList | orderBy : 'planEndDate'">
-                                <div class="taskItem">
+                            <div class="col-lg-3 col-md-4 col-sm-6  col-xs-12" ng-repeat="item in currentSubTaskList | orderBy : sortCondtion">
+                                <div ng-cloak class="taskItem ng-cloak">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left" ng-bind="'任务名称'"></div>
                                         <button ng-if="item.percent==100" type="button" style="padding: 1px 15px;float: right;background: #6AD0A6;border: 1px solid #128D92;" class="btn clearfix">提交</button>

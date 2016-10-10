@@ -267,6 +267,20 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 		// 消息推送
 		$scope.msgNotify = function(){
+			// 创建一个Socket实例
+			/*var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer'));
+			sock.onopen = function() {
+				console.log('open');
+			};
+			sock.onmessage = function(e) {
+				console.log('message', e.data);
+			};
+			sock.onclose = function() {
+				console.log('close');
+			};*/
+
+			// sock.send('test');
+			// sock.close();
 			if(App.Config.msgNotify){
 				var timer = $interval(function() {
 					dsEdit.getMsgNotify().then(function(data) {
@@ -424,8 +438,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
 					break;
 				case 'batch':
-					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelCtrl').then(function () {
-						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelNewCtrl').then(function () {
+						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelNewTpl.html';
 					});
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
 					break;

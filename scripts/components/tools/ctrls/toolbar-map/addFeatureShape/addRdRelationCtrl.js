@@ -164,14 +164,16 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     RWLINK:'rwLink',
                     LCLINK:'lcLink'
                 };
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                 highRenderCtrl.highLightFeatures.push({
                     id: $scope.jsonData.linkObjs[i].pid.toString(),
                     // layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
                     layerid: tempObj[$scope.jsonData.linkObjs[i]["type"]],
-                    type: 'RDGSC',
+                    type: 'line',
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
-                        size: 5
+                        strokeWidth: 5,
+                        strokeColor:COLORTABLE[i]
                     }
                 });
                 highRenderCtrl.drawHighlight();
@@ -684,6 +686,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     /*高亮link*/
                     for (var i = 0, lenI = dealData.length; i < lenI; i++) {
+                        var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                         var tempObj = {
                             RDLINK:'rdLink',
                             RWLINK:'rwLink',
@@ -693,10 +696,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             id: dealData[i].data.properties.id.toString(),
                             // layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
                             layerid: tempObj[dealData[i].data.properties.featType],
-                            type: 'RDGSC',
+                            type: 'line',
                             index: i,
                             style: {
-                                size: 5
+                                strokeWidth: 5,
+                                strokeColor:COLORTABLE[i]
                             }
                         })
                     }
@@ -746,9 +750,21 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
-                        swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
+                        var editLayer = layerCtrl.getLayerById('edit');
+                        var feature = {
+                            components:[],
+                            points:[]
+                        };
+                        //组装一个线
+                        /*for(var i=0;i<crossGeos.length;i++){
+                            feature = crossGeos[i];
+                            feature.type = 'Symbol';
+                            layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
+                            editLayer.drawGeometry = feature;
+                            editLayer.draw(feature, editLayer);//在编辑图层中画出需要编辑的几何体
+                        }*/
                         highRenderCtrl._cleanHighLight();
-                        // tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
+                        swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else {
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/

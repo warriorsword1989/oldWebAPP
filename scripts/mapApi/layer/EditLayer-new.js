@@ -120,6 +120,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Point':
                 drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
+            case 'Symbol':
+                drawSymbol(currentGeo, {color: 'red', radius: 3}, false);
+                break;
             case 'SpeedLimit':
                 drawPoint(currentGeo.components[0], {color: 'red', radius: 3}, false);
                 break;
@@ -203,6 +206,26 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         function drawPoint(geom, style, boolPixelCrs) {
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+
+            var g = self._ctx;
+            g.beginPath();
+            g.fillStyle = style.color;
+            g.arc(p.x, p.y, style.radius, 0, Math.PI * 2);
+            g.closePath();
+            g.fill();
+            g.restore();
+        }
+
+        function drawSymbol(geom, style, boolPixelCrs) {
             if (!geom) {
                 return;
             }
