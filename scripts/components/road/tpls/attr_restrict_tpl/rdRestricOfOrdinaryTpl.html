@@ -11,7 +11,7 @@
                         <li>
                             <div ng-repeat="item in rdRestrictData.details" class="inline" style="width: auto;min-width: 20px;">
                                  <span style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"
-                                       class="glyphicon glyphicon-remove-sign" ng-click="deleteDirect(item,$event)"></span>
+                                       class="glyphicon glyphicon-remove-sign" ng-click="deleteDirect(item,$event,$index)"></span>
                                 <img ng-if="item.flag===1"
                                      ng-src="../../../images/road/1302/1302_1_{{item.restricInfo}}.svg"
                                      class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}"
@@ -32,7 +32,7 @@
                         </li>
                         <li>
                             <label class="control-label">退出</label>
-                            <div><input type="text" ng-click="changeOutLink(rdSubRestrictData)"
+                            <div><input type="text"
                                         ng-model="rdSubRestrictData.outLinkPid"  class="chosen-disabled" readonly/></div>
                         </li>
                         <li>
@@ -40,17 +40,17 @@
                             <div class="radio inline" style="text-align: left">
                                 <label>
                                     <input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag"
-                                           ng-click="changeType(rdSubRestrictData)">
+                                           ng-change="changeType(rdSubRestrictData)" >
                                     未验证
                                 </label>
                                 <label>
                                     <input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag"
-                                           ng-click="changeType(rdSubRestrictData)">
+                                           ng-change="changeType(rdSubRestrictData)">
                                     实地
                                 </label>
                                 <label>
                                     <input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag"
-                                           ng-click="changeType(rdSubRestrictData)">
+                                           ng-change="changeType(rdSubRestrictData)">
                                     理论
                                 </label>
                             </div>
