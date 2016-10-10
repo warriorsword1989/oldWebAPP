@@ -393,6 +393,30 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 nodes: nodeArr
             }
         };
+        $scope.checkUpAndDown = function (linkPidArr, linksArr) {
+            var linkArr = [];
+            var nodePid = $scope.param.data.nodePidDir;
+
+            if(nodePid == linksArr[0].sNodePid){//顺方向，直接concat
+                linkArr = linkArr.concat(linksArr[0].geometry.coordinates.reverse());
+            } else {//逆方向，先reverse后concat
+                linkArr = linkArr.concat(linksArr[0].geometry.coordinates);
+            }
+            for (var i = 1; i < linkPidArr.length; i++) {
+                for (var j = 1; j < linksArr.length; j++) {
+                    if (linkPidArr[i] == linksArr[j].pid) {
+                        if(nodePid == linksArr[j].sNodePid){//顺方向，直接concat
+                            linkArr = linkArr.concat(linksArr[j].geometry.coordinates);
+                            nodePid = linksArr[j].eNodePid;
+                        } else {//逆方向，先reverse后concat
+                            linkArr = linkArr.concat(linksArr[j].geometry.coordinates.reverse());
+                            nodePid = linksArr[j].sNodePid;
+                        }
+                    }
+                }
+            }
+            return linkArr;
+        };
         /**
          * 创建上下线分离
          * @param event
@@ -452,7 +476,8 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 map.currentTool.enable();
                 tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                    if ($scope.linkMulity.indexOf(parseInt(data.id)) > -1) {//现有的link中
+                    tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
+                    if ($scope.linkMulity.indexOf(parseInt(data.id)) > 0) {//现有的link中,且不等于进入线
                         $scope.linkMulity = $scope.linkMulity.slice(0, $scope.linkMulity.indexOf(parseInt(data.id)));
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
@@ -486,12 +511,15 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         }
                         highRenderCtrl.highLightFeatures = highLightFeatures1;
                         highRenderCtrl.drawHighlight();
-                    } else {//增加link,在末尾加
+                    } else if ($scope.linkMulity.indexOf(parseInt(data.id)) < 0){//增加link,在末尾加
                         dsEdit.getByPid($scope.linkMulity[$scope.linkMulity.length - 1], "RDLINK").then(function (linkDetail) {   //查询最后一条link
                             if (linkDetail) {
+                                var linkNode = [];
+                                linkNode.push(linkDetail.sNodePid);
+                                linkNode.push(linkDetail.eNodePid);
                                 dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
                                     if (newDetail) {
-                                        if ((newDetail.sNodePid == linkDetail.eNodePid || newDetail.eNodePid == linkDetail.sNodePid) && ((newDetail.direct == linkDetail.direct)||(newDetail.direct == 1 || linkDetail.direct == 1))) {
+                                        if ((linkNode.indexOf(newDetail.eNodePid) > -1 || linkNode.indexOf(newDetail.sNodePid) > -1) && ((newDetail.direct == linkDetail.direct)||(newDetail.direct == 1 || linkDetail.direct == 1))) {
                                             $scope.linkMulity.push(parseInt(data.id));
                                             if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
                                                 $scope.linkPids.push(parseInt(data.id));
@@ -503,6 +531,15 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                                                     pid: newDetail.pid,
                                                     sNodePid: newDetail.sNodePid
                                                 })
+                                            }
+                                            var linkArr = $scope.checkUpAndDown($scope.linkMulity,$scope.links);
+
+                                            if(linkArr[0][0] == linkArr[linkArr.length -1][0] && linkArr[0][1] == linkArr[linkArr.length -1][1]){
+                                                tooltipsCtrl.setCurrentTooltip('所选线闭合，请调整！');
+                                                tooltipsCtrl.setStyleTooltip("color:red;");
+                                                $scope.linkMulity.pop();
+                                                $scope.links.pop();
+                                                return;
                                             }
                                             highRenderCtrl.highLightFeatures.push({
                                                 id: data.id.toString(),
@@ -521,22 +558,21 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     }
                 });
             } else if (type === fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
-                var linkArr = [];
                 if ($scope.linkMulity) {
                     tooltipsCtrl.setCurrentTooltip('上下线分离请用鼠标滚轮调整间距！');
                 } else {
                     tooltipsCtrl.setCurrentTooltip('上下线分离,先选择link！');
                     return;
                 }
+                var linkArr = $scope.checkUpAndDown($scope.linkMulity,$scope.links);
+
+                if(linkArr[0][0] == linkArr[linkArr.length -1][0] && linkArr[0][1] == linkArr[linkArr.length -1][1]){
+                    tooltipsCtrl.setCurrentTooltip('所选线闭合，请调整！');
+                    tooltipsCtrl.setStyleTooltip("color:red;");
+                    return;
+                }
                 map.scrollWheelZoom.disable();
                 map.currentTool.disable();
-                for (var i = 0; i < $scope.linkMulity.length; i++) {
-                    for (var j = 0; j < $scope.links.length; j++) {
-                        if ($scope.linkMulity[i] == $scope.links[j].pid) {
-                            linkArr = linkArr.concat($scope.links[j].geometry.coordinates);
-                        }
-                    }
-                }
                 var points = [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
