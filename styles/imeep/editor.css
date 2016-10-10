@@ -2140,6 +2140,12 @@ a.batchButton {
 .fm-top .eng {
   font-size: 10px;
 }
+.fm-top .dropdown-toggle:focus:active {
+  outline: 0;
+}
+.fm-top button {
+  outline: 0;
+}
 .fm-top-btn {
   display: inline-block;
   height: 26px;
@@ -2174,24 +2180,62 @@ a.batchButton {
 .fm-top-btn.select-node-ft {
   background: url("../../images/main/btn-icon/select-node-ft.png") no-repeat center center;
 }
+.fm-top-btn.select-node-ft:hover {
+  background: url("../../images/main/btn-icon/select-node-ft-hover.png") no-repeat center center;
+}
+.fm-top-btn.select-node-ft.active,
+.fm-top-btn.select-node-ft:focus {
+  background: url("../../images/main/btn-icon/select-node-ft-active.png") no-repeat center center;
+}
 .fm-top-btn.select-node {
   background: url("../../images/main/btn-icon/select-node.png") no-repeat center center;
+}
+.fm-top-btn.select-node:hover {
+  background: url("../../images/main/btn-icon/select-node-hover.png") no-repeat center center;
+}
+.fm-top-btn.select-node.active,
+.fm-top-btn.select-node:focus {
+  background: url("../../images/main/btn-icon/select-node-active.png") no-repeat center center;
 }
 .fm-top-btn.select-path {
   background: url("../../images/main/btn-icon/select-path.png") no-repeat center center;
 }
+.fm-top-btn.select-path:hover {
+  background: url("../../images/main/btn-icon/select-path-hover.png") no-repeat center center;
+}
+.fm-top-btn.select-path.active,
+.fm-top-btn.select-path:focus {
+  background: url("../../images/main/btn-icon/select-path-active.png") no-repeat center center;
+}
 .fm-top-btn.select-face {
   background: url("../../images/main/btn-icon/select-face.png") no-repeat center center;
 }
+.fm-top-btn.select-face:hover {
+  background: url("../../images/main/btn-icon/select-face-hover.png") no-repeat center center;
+}
+.fm-top-btn.select-face.active,
+.fm-top-btn.select-face:focus {
+  background: url("../../images/main/btn-icon/select-face-active.png") no-repeat center center;
+}
+.fm-top-btn.dropdown {
+  background: url("../../images/main/btn-icon/dropdown.png") no-repeat center center;
+}
+.fm-top-btn.dropdown:hover {
+  background: url("../../images/main/btn-icon/dropdown-hover.png") no-repeat center center;
+}
+.fm-top-btn.dropdown.active,
+.fm-top-btn.dropdown:focus {
+  background: url("../../images/main/btn-icon/dropdown-active.png") no-repeat center center;
+}
 .fm-top-btn.more {
-  background: url("../../images/main/btn-icon/more-btn.png") no-repeat center center;
+  background: url("../../images/main/btn-icon/more.png") no-repeat center center;
 }
 .fm-top-btn.more:hover {
-  background: url("../../images/main/btn-icon/more-btn-hover.png") no-repeat center center;
+  background: url("../../images/main/btn-icon/more-hover.png") no-repeat center center;
 }
 .fm-top-btn.more.active,
 .fm-top-btn.more:focus {
-  background: url("../../images/main/btn-icon/more-btn-active.png") no-repeat center center;
+  background: url("../../images/main/btn-icon/more-active.png") no-repeat center center;
 }
 .fm-top-btn.split {
   background: url("../../images/main/btn-icon/split.png") no-repeat center center;

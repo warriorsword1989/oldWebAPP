@@ -397,17 +397,19 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
          * 创建上下线分离
          * @param event
          */
-        $scope.upAndDown = function(event) {
+        $scope.upAndDown = function (event) {
             var type = event.currentTarget.type;
             if (type === 'chooseOver') {
-                dsEdit.getByCondition($scope.param).then(function(data) {
+                dsEdit.getByCondition($scope.param).then(function (upAndDownData) {
                     var highLightFeatures = [];
                     highRenderCtrl.highLightFeatures.length = 0;
                     highRenderCtrl._cleanHighLight();
                     $scope.linkMulity = [];
-                    $scope.links = data.data;
+                    $scope.linkPids = [];
+                    $scope.links = upAndDownData.data;
                     for (var i = 0; i < $scope.links.length; i++) {
                         $scope.linkMulity.push($scope.links[i].pid);
+                        $scope.linkPids.push($scope.links[i].pid);
                         if (i == 0) {
                             highLightFeatures.push({
                                 id: $scope.links[i].pid.toString(),
@@ -439,57 +441,87 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     highRenderCtrl.drawHighlight();
                 })
             } else if (type === "RETRYLINK") {
-                var links = $scope.linkMulity;
                 var highLightFeatures1 = [];
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 map.currentTool = new fastmap.uikit.SelectPath({
                     map: map,
                     currentEditLayer: rdLink,
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
+                map.currentTool.enable();
                 tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
-                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    for (var j = 0; j < links.length; j++) {
-                        if (data.id == links[j]) {
-                            links = links.slice(0, j);
-                            break;
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                    if ($scope.linkMulity.indexOf(parseInt(data.id)) > -1) {//现有的link中
+                        $scope.linkMulity = $scope.linkMulity.slice(0, $scope.linkMulity.indexOf(parseInt(data.id)));
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
+                        for (var i = 0; i < $scope.linkMulity.length; i++) {
+                            if (i == 0) {
+                                highLightFeatures1.push({
+                                    id: $scope.linkMulity[i].toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: 'red'
+                                    }
+                                });
+                            } else if (i == $scope.linkMulity.length - 1) {
+                                highLightFeatures1.push({
+                                    id: $scope.linkMulity[i].toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
+                                        color: 'green'
+                                    }
+                                });
+                            } else {
+                                highLightFeatures1.push({
+                                    id: $scope.linkMulity[i].toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                            }
                         }
+                        highRenderCtrl.highLightFeatures = highLightFeatures1;
+                        highRenderCtrl.drawHighlight();
+                    } else {//增加link,在末尾加
+                        dsEdit.getByPid($scope.linkMulity[$scope.linkMulity.length - 1], "RDLINK").then(function (linkDetail) {   //查询最后一条link
+                            if (linkDetail) {
+                                dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function (newDetail) {
+                                    if (newDetail) {
+                                        if ((newDetail.sNodePid == linkDetail.eNodePid || newDetail.eNodePid == linkDetail.sNodePid) && ((newDetail.direct == linkDetail.direct)||(newDetail.direct == 1 || linkDetail.direct == 1))) {
+                                            $scope.linkMulity.push(parseInt(data.id));
+                                            if ($scope.linkPids.indexOf(newDetail.pid) < 0) {
+                                                $scope.linkPids.push(parseInt(data.id));
+                                                $scope.links.push({
+                                                    direct: newDetail.direct,
+                                                    eNodePid: newDetail.eNodePid,
+                                                    geometry: newDetail.geometry,
+                                                    kind: newDetail.kind,
+                                                    pid: newDetail.pid,
+                                                    sNodePid: newDetail.sNodePid
+                                                })
+                                            }
+                                            highRenderCtrl.highLightFeatures.push({
+                                                id: data.id.toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {
+                                                    color: 'green'
+                                                }
+                                            });
+                                            highRenderCtrl.drawHighlight();
+                                        }
+                                    }
+                                })
+                            }
+                        });
                     }
-                    highRenderCtrl.highLightFeatures.length = 0;
-                    highRenderCtrl._cleanHighLight();
-                    for (var i = 0; i < links.length; i++) {
-                        if (i == 0) {
-                            highLightFeatures1.push({
-                                id: links[i].toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {
-                                    color: 'red'
-                                }
-                            });
-                        } else if (i == links.length - 1) {
-                            highLightFeatures1.push({
-                                id: links[i].toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {
-                                    color: 'green'
-                                }
-                            });
-                        } else {
-                            highLightFeatures1.push({
-                                id: links[i].toString(),
-                                layerid: 'rdLink',
-                                type: 'line',
-                                style: {}
-                            });
-                        }
-                    }
-                    highRenderCtrl.highLightFeatures = highLightFeatures1;
-                    highRenderCtrl.drawHighlight();
-                    $scope.linkMulity = links;
                 });
             } else if (type === fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
+                var linkArr = [];
                 if ($scope.linkMulity) {
                     tooltipsCtrl.setCurrentTooltip('上下线分离请用鼠标滚轮调整间距！');
                 } else {
@@ -498,40 +530,38 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 }
                 map.scrollWheelZoom.disable();
                 map.currentTool.disable();
-                $scope.param1 = {};
-                $scope.param1["dbId"] = App.Temp.dbId;
-                $scope.param1["type"] = "RDLINK";
-                $scope.param1["data"] = {
-                    "linkPids": $scope.linkMulity
-                };
-                dsEdit.getByCondition($scope.param1).then(function(data) {
-                    var linkArr = data.data,
-                        points = [];
-                    for (var i = 0, len = linkArr.length; i < len; i++) {
-                        var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                        points.push(pointOfLine);
+                for (var i = 0; i < $scope.linkMulity.length; i++) {
+                    for (var j = 0; j < $scope.links.length; j++) {
+                        if ($scope.linkMulity[i] == $scope.links[j].pid) {
+                            linkArr = linkArr.concat($scope.links[j].geometry.coordinates);
+                        }
                     }
-                    var line = fastmap.mapApi.lineString(points);
-                    this.transform = new fastmap.mapApi.MecatorTranform();
-                    var scale = this.transform.scale(map);
-                    var linwidth = 6.6 / scale;
-                    selectCtrl.onSelected({
-                        geometry: line,
-                        id: $scope.linkMulity,
-                        linkWidth: linwidth,
-                        type: 'Buffer'
-                    });
-                    feature = selectCtrl.selectedFeatures;
-                    layerCtrl.pushLayerFront('edit');
-                    var sObj = shapeCtrl.shapeEditorResult;
-                    editLayer.drawGeometry = feature;
-                    editLayer.draw(feature, editLayer);
-                    sObj.setOriginalGeometry(feature);
-                    sObj.setFinalGeometry(feature);
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType["PATHBUFFER"]);
-                    shapeCtrl.startEditing();
-                    tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
+                }
+                var points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                    points.push(pointOfLine);
+                }
+                var line = fastmap.mapApi.lineString(points);
+                this.transform = new fastmap.mapApi.MecatorTranform();
+                var scale = this.transform.scale(map);
+                var linwidth = 6.6 / scale;
+                selectCtrl.onSelected({
+                    geometry: line,
+                    id: $scope.linkMulity,
+                    linkWidth: linwidth,
+                    type: 'Buffer'
                 });
+                feature = selectCtrl.selectedFeatures;
+                layerCtrl.pushLayerFront('edit');
+                var sObj = shapeCtrl.shapeEditorResult;
+                editLayer.drawGeometry = feature;
+                editLayer.draw(feature, editLayer);
+                sObj.setOriginalGeometry(feature);
+                sObj.setFinalGeometry(feature);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType["PATHBUFFER"]);
+                shapeCtrl.startEditing();
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             }
         };
         //重新设置选择工具
