@@ -1,7 +1,7 @@
 <style>
     input[type=radio]{
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
     }
 </style>
 <div class="fm-panel" ng-controller="BatchJobPanelCtrl">
@@ -10,17 +10,22 @@
         <div class="box">
             <div style="margin: 15px 20px 15px 20px;background-color: #555555;border-color: #908d8d;" class="panel panel-default">
                 <div class="panel-body">
-                    <label class="radio-inline col-md-4">
-                        <input ng-model="radioModel" type="radio" name="batchItem" id="optionsRadios1" value="BATCH_SLE"> 批处理赋速度限制
-                    </label>
-                    <label class="radio-inline col-md-6">
-                        <input ng-model="radioModel" style="margin-top: 5px" type="radio" name="batchItem" id="optionsRadios2" value="BATCH_SPEED_CLASS"> 批处理速度限制等级
-                        <select ng-if="showSelect" ng-model="myOption" ng-change="changeParam(myOption)" style="display: inline;width: 70px;background-color: #555;height: inherit;color: white;padding: 0;" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </label>
+                    <div class="radio col-md-12">
+                        <label>
+                            <input ng-model="radioModel" type="radio" name="batchItem" id="optionsRadios1" value="BATCH_SLE"> 批处理赋速度限制
+                        </label>
+                    </div>
+                    <div class="radio col-md-12">
+                        <label>
+                            <input ng-model="radioModel" style="margin-top: 5px" type="radio" name="batchItem" id="optionsRadios2" value="BATCH_SPEED_CLASS"> 批处理速度限制等级
+                            <span style="padding: 0 10px">参数: </span>
+                            <select ng-if="showSelect" ng-model="myOption" ng-change="changeParam(myOption)" style="display: inline;width: 125px;font-size:12px;background-color: #555;height: inherit;color: white;padding: 0;" class="form-control">
+                                <option value="1">速度限制来源赋值</option>
+                                <option value="2">速度限制等级值标识</option>
+                                <option value="3">制作所有的等级值</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </div>
             <button type="button" class="btn btn-main center-block" ng-disabled="running" ng-click="doExecute()">执 行</button>
