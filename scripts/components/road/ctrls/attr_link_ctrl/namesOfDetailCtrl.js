@@ -36,6 +36,13 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
         {"id": 14, "label": "点门牌"},
         {"id": 15, "label": "线门牌"}
     ];
+    $scope.roadTypeOptions = {
+    	0 : "未区分",
+    	1 : "高速",
+    	2 : "国道",
+    	3 : "铁路",
+    	4 : "出口编号",
+    };
     var objCtrl = fastmap.uikit.ObjectEditController();
 
     //$scope.names = objCtrl.namesInfo;
@@ -107,10 +114,10 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
 
     $scope.selectNameInd=0;
     $scope.searchGroupidByNames=function(){
+    	
         $("#name").css("display", "block").css({"height":'300px'});
         $scope.namesOfFlag = "name";
         $scope.pagesize=5;//$("#pagesize").val();
-       // $scope.selectNameInd=ind;
         $scope.inNmae=$scope.oridiData.name;
         $timeout(function(){
             $scope.picNowNum = 0;
@@ -120,7 +127,6 @@ namesOfLinkApp.controller("namesOfLinkController",['$scope','$timeout','dsMeta',
             }else{
                 $('.pic-show').show();
             }
-            //$scope.$apply();
         },100);
     };
 
