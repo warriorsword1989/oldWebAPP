@@ -301,7 +301,18 @@ fastmap.uikit.HighRenderController = (function () {
               radius: inOutStyle.strokeWidth,
               strokeOpacity: 0.5
             }, feature.properties);
-          } else {
+          }  if (inOutStyle.strokeColor != null) {
+            this.layer._drawLineString(ctx, geom, true, {
+              strokeWidth: inOutStyle.strokeWidth,
+              strokeColor: inOutStyle.strokeColor,
+            }, {
+              color: inOutStyle.color,
+              radius: inOutStyle.strokeWidth,
+              strokeOpacity: 0.5
+            }, feature.properties);
+          }
+          
+          else {
             this.layer._drawLineString(ctx, geom, true, {
               strokeWidth: 3,
               strokeColor: '#00F5FF'
@@ -713,8 +724,6 @@ fastmap.uikit.HighRenderController = (function () {
         }
       },
       _cleanHighLight: function (action) {
-
-        console.log('mousemove')
         for (var index in this.layer._tiles) {
           this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
         }

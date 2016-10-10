@@ -1756,6 +1756,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         return;
                     }
                 } else if (type === "PATHVERTEXINSERT") {
+                    //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    if(shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove' )){ //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
+                        return ;
+                    }
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('insertDot');
                         tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
@@ -1765,6 +1770,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         return;
                     }
                 } else if (type === "PATHVERTEXREMOVE") {
+                    //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    if(shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove' )){ //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
+                        return ;
+                    }
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('deleteDot');
                         tooltipsCtrl.setCurrentTooltip('删除此形状点！');
@@ -1773,6 +1783,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         return;
                     }
                 }else if (type === "TRANSFORMDIRECT") {
+                    if(shapeCtrl.editType && shapeCtrl.editType != 'transformDirect'){ //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的形状已修改或者已进行了打断操作，请先按空格键保存！</span>');
+                        return ;
+                    }
                     if (selectCtrl.selectedFeatures) {
                         if(selectCtrl.selectedFeatures.type == "Marker"){
                             selectCtrl.selectedFeatures["direct"] = $scope.changeSpeedDirect(selectCtrl.selectedFeatures["direct"]);
@@ -1788,6 +1802,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         return;
                     }
                 } else if (type === "PATHVERTEXMOVE") {
+                    //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    if(shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove' )){ //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
+                        return ;
+                    }
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('moveDot');
                         tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
@@ -1796,6 +1815,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         return;
                     }
                 } else if (type === "PATHBREAK") {
+                    if(shapeCtrl.editType && shapeCtrl.editType != 'pathBreak'){ //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的形状或者方向已变化但未保存，请先按空格键保存！</span>');
+                        return ;
+                    }
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('pathBreak');
                         tooltipsCtrl.setCurrentTooltip('开始打断link！');
@@ -1803,6 +1826,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                         return;
                     }
+
                 } else if (type === "ADDPAIRBOND") {    //配对电子眼
                     eventController.off(eventController.eventTypes.GETRELATIONID);
                     map.currentTool = new fastmap.uikit.SelectRelation({
