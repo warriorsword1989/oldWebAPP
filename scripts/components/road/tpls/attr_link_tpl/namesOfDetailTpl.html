@@ -24,7 +24,7 @@
                     <div class="img-well" ng-repeat="nitem in pictures"
                          ng-click="selectNmaesId(nitem.nameId,nitem.name)">
                         <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp;
-                            {{nitem.name}} &nbsp;&nbsp; {{nitem.province}}
+                            {{nitem.name}} &nbsp;&nbsp; {{roadTypeOptions[nitem.roadType]}} &nbsp;&nbsp; {{nitem.province}}
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
             <div><label class="control-label">名称类型</label></div>
             <div class="inline">
             	<select  ng-model="oridiData.nameType"
-                        ng-options="value.id as value.label for value in nameTypeOptions">
+                        ng-options="value.id as value.label for value in nameTypeOptions" ng-class="chosen-disable" disabled>
                 </select>
             </div>
         </li>

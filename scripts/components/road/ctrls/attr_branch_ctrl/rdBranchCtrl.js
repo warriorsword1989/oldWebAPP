@@ -558,15 +558,35 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if (param.data.details) {
             delete param.data.details[0].linkPid;
             if (param.data.details[0].names) {
-                $.each(param.data.details[0].names, function (i, v) {
-                    delete v.linkPid;
-                    if(param.data.details[0].names[i].objStatus == 'DELETE'){
-                        return;
+                if(param.data.details[0].names.length == objCtrl.data.details[0].names.length){
+                    $.each(param.data.details[0].names, function (i, v) {
+                        delete v.linkPid;
+                        param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
+                        param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
+                        param.data.details[0].names[i].langCode = objCtrl.data.details[0].names[i].langCode;
+                        if(param.data.details[0].names[i].objStatus == 'DELETE'){
+                            return;
+                        } else if (param.data.details[0].names[i].objStatus == 'INSERT' && param.data.details[0].names[i].pid != 0){
+                            param.data.details[0].names[i].objStatus = 'UPDATE';
+                        } else if (param.data.details[0].names[i].objStatus == 'UPDATE' && param.data.details[0].names[i].pid == 0){
+                            param.data.details[0].names[i].objStatus = 'INSERT';
+                        }
+                    });
+                    $scope.delEmptyNames(param.data.details[0].names);
+                }else{
+                    param.data.details[0].names = objCtrl.data.details[0].names;
+                    for(var i=0;i<param.data.details[0].names.length;i++){
+                        delete param.data.details[0].names[i]._initHooksCalled;
+                        delete param.data.details[0].names[i].geoLiveType;
+                        delete param.data.details[0].names[i].$$hashKey;
+                        delete param.data.details[0].names[i].options;
+                        if(param.data.details[0].names[i].pid == 0){
+                            param.data.details[0].names[i].objStatus = 'INSERT';
+                        }else{
+                            param.data.details[0].names[i].objStatus = 'UPDATE';
+                        }
                     }
-                    param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
-                    param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
-                });
-                $scope.delEmptyNames(param.data.details[0].names);
+                }
             }
         }
         if (!param.data) {
