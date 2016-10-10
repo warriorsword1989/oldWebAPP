@@ -22,13 +22,13 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
     this.hightLayer = this.layerCtrl.getLayerById('mousemovelightlayer');
     this.highlightLayer = this.layerCtrl.getLayerById('highlightLayer');
     this.highRenderCtrl = fastmap.uikit.HighRenderController();
-    this.mouseMoveHeight = $.extend({},this.highRenderCtrl);
+    this.mouseMoveHeight = $.extend({}, this.highRenderCtrl);
     //this.mouseMoveHeight = L.extend({},this.highRenderCtrl);
     this.mouseMoveHeight.setLayer(this.hightLayer)
     this._map._container.style.cursor = 'pointer';
     this.transform = new fastmap.mapApi.MecatorTranform();
     this.selectCtrl = new fastmap.uikit.SelectController();
-    this.popup = L.popup({className:'featuresContent'});
+    this.popup = L.popup({className: 'featuresContent'});
   },
 
 
@@ -81,7 +81,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   layer: layers[layer]
                 })
               }
-
             }
             break;
           case 'Marker':
@@ -111,8 +110,8 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   break;
                 case 'RDGSC':
                   lineGeo = tileData[marker].geometry.coordinates;
-                  for(var key in lineGeo){
-                    if (this._TouchesPath(lineGeo[key].g, x, y, 10)){
+                  for (var key in lineGeo) {
+                    if (this._TouchesPath(lineGeo[key].g, x, y, 10)) {
 
                       this.selectData.markers.push({
                         id: tileData[marker].properties.id,
@@ -130,10 +129,8 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                         type: '',
                         style: {}
                       }];
-
                       this.mouseMoveHeight.drawHighlight();
                       break;
-
                     }
                   }
                   break;
@@ -143,7 +140,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                 case 'RDTRAFFICSIGNAL':
                 case 'RDGATE':
                 case 'RDSPEEDLIMIT':
-
                 case 'RDWARNINGINFO':
                 case 'RDELECTRONICEYE':
                 case 'RDSLOPE':
@@ -154,16 +150,11 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                 case 'RDVARIABLESPEED':
                 case 'RDVOICEGUIDE':
                 case 'RDLANE':
-
                 case 'RDINTER':
-
                 case 'RDOBJECT':
-
                 case 'RDSAMENODE':
                 case 'RDLINKSPEEDLIMIT':
                   lineGeo = tileData[marker].geometry.coordinates;
-
-
                   if (this._TouchesPoint(lineGeo, x, y, 15)) {
 
                     this.selectData.markers.push({
@@ -179,8 +170,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                 case 'RDROAD':
                 case 'RDSAMELINK':
                   if (this._TouchesPath(tileData[marker].geometry.coordinates, x, y, 5)) {
-
-
                     this.selectData.markers.push({
                       id: tileData[marker].properties.id,
                       optype: tileData[marker].properties.featType,
@@ -192,10 +181,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   }
                   break;
               }
-
-              //计算鼠标点和线的关系
-
-
             }
             break;
           case 'PointFeature':
@@ -271,7 +256,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
 
   },
 
-
   dispatchEvent: function (data, event) {
     //计算点击获取到的所有的要素数量
     var arrlen = 0;
@@ -322,7 +306,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
           }
         }
 
-        document.getElementById('layerpopup').onmousemove =function (e) {
+        document.getElementById('layerpopup').onmousemove = function (e) {
           if (!e) var e = window.event;
           e.cancelBubble = true;
           if (e.stopPropagation) e.stopPropagation();
@@ -332,7 +316,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             for (var item in totalFeature) {
               if (e.target.id == totalFeature[item].properties.featType + totalFeature[item].id) {
 
-                switch (totalFeature[item].properties.featType){
+                switch (totalFeature[item].properties.featType) {
                   case 'RDLINK':
                   case 'RWLINK':
                   case 'ZONELINK':
@@ -342,36 +326,34 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                       id: totalFeature[item].properties.id,
                       layerid: totalFeature[item].layer.options.id,
                       type: 'line',
-                      style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
+                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
                     }];
 
                     that.mouseMoveHeight.drawHighlight();
                     break;
                   case 'RDNODE':
 
-                  that.mouseMoveHeight.highLightFeatures = [{
-                    id: totalFeature[item].properties.id,
-                    layerid:  'rdLink',
-                    type: 'node',
-                    style: {strokeWidth:5,color :'red', radius:6,strokeColor:'red' }
-                  }];
+                    that.mouseMoveHeight.highLightFeatures = [{
+                      id: totalFeature[item].properties.id,
+                      layerid: 'rdLink',
+                      type: 'node',
+                      style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red'}
+                    }];
 
-                  that.mouseMoveHeight.drawHighlight();
-                  break;
+                    that.mouseMoveHeight.drawHighlight();
+                    break;
                   case 'RWNODE':
                   case 'ZONENODE':
                   case 'LUNODE':
                   case 'LCNODE':
                     that.mouseMoveHeight.highLightFeatures = [{
                       id: totalFeature[item].properties.id,
-                      layerid:  totalFeature[item].layer.options.id,
+                      layerid: totalFeature[item].layer.options.id,
                       type: 'node',
-                      style: {strokeWidth:5,color :'red', radius:6,strokeColor:'red' }
+                      style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red'}
                     }];
-
                     that.mouseMoveHeight.drawHighlight();
                     break;
-
                   case 'RDCROSS':
                   case 'RDLANECONNEXITY':
                   case 'RDRESTRICTION':
@@ -379,7 +361,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   case 'RDTRAFFICSIGNAL':
                   case 'RDGATE':
                   case 'RDSPEEDLIMIT':
-
                   case 'RDWARNINGINFO':
                   case 'RDELECTRONICEYE':
                   case 'RDSLOPE':
@@ -389,142 +370,25 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   case 'RDTOLLGATE':
                   case 'RDVARIABLESPEED':
                   case 'RDVOICEGUIDE':
-
                   case 'RDGSC':
                   case 'RDINTER':
-
                   case 'RDOBJECT':
-
                   case 'RDSAMENODE':
                   case 'RDLINKSPEEDLIMIT':
 
                   case 'RDROAD':
                   case 'RDSAMELINK':
+                  case 'IXPOI':
                     that.mouseMoveHeight.highLightFeatures = [{
-                          id: totalFeature[item].properties.id,
-                          layerid: totalFeature[item].layer.options.id,
-                          type: 'marker',
-                          style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
-                        }];
-
-                    that.mouseMoveHeight.drawHighlight();
-
-
-
-
-                    break;
-                  /***case 'RDGSC':
-                    lineGeo = tileData[marker].geometry.coordinates;
-                    for(var key in lineGeo){
-                      if (this._TouchesPath(lineGeo[key].g, x, y, 10)){
-
-                        this.selectData.markers.push({
-                          id: tileData[marker].properties.id,
-                          optype: tileData[marker].properties.featType,
-                          event: event,
-                          point: point,
-                          properties: tileData[marker].properties,
-                          layer: layers[layer]
-                        })
-
-                        this.mouseMoveHeight.highLightFeatures = [{
-                          id: tileData[marker].properties.id,
-                          layerid: layers[layer].options.id,
-
-                          type: '',
-                          style: {}
-                        }];
-
-                        this.mouseMoveHeight.drawHighlight();
-                        break;
-
-                      }
-                    }
-                    break;
-                  case 'RDLANECONNEXITY':
-                  case 'RDRESTRICTION':
-                  case 'RDBRANCH':
-                  case 'RDTRAFFICSIGNAL':
-                  case 'RDGATE':
-                  case 'RDSPEEDLIMIT':
-
-                  case 'RDWARNINGINFO':
-                  case 'RDELECTRONICEYE':
-                  case 'RDSLOPE':
-                  case 'RDDIRECTROUTE':
-                  case 'RDSPEEDBUMP':
-                  case 'RDSE':
-                  case 'RDTOLLGATE':
-                  case 'RDVARIABLESPEED':
-                  case 'RDVOICEGUIDE':
-
-
-                  case 'RDINTER':
-
-                  case 'RDOBJECT':
-
-                  case 'RDSAMENODE':
-                  case 'RDLINKSPEEDLIMIT':
-                    lineGeo = tileData[marker].geometry.coordinates;
-                    console.log(lineGeo);
-
-                    if (this._TouchesPoint(lineGeo, x, y, 15)) {
-
-                      this.selectData.markers.push({
-                        id: tileData[marker].properties.id,
-                        optype: tileData[marker].properties.featType,
-                        event: event,
-                        point: point,
-                        properties: tileData[marker].properties,
-                        layer: layers[layer]
-                      })
-
-                      this.mouseMoveHeight.highLightFeatures = [{
-                        id: tileData[marker].properties.id,
-                        layerid: layers[layer].options.id,
-
-                        type: '',
-                        style: {}
-                      }];
-
-                      this.mouseMoveHeight.drawHighlight();
-                      break;
-
-                    }
-
-                    break;
-                  case 'RDLANE'://详细车道
-                    break;
-                  case 'RDROAD':
-                  case 'RDSAMELINK':
-                    if (this._TouchesPath(tileData[marker].geometry.coordinates, x, y, 5)) {
-
-
-                      this.selectData.markers.push({
-                        id: tileData[marker].properties.id,
-                        optype: tileData[marker].properties.featType,
-                        event: event,
-                        point: point,
-                        properties: tileData[marker].properties,
-                        layer: layers[layer]
-                      })
-                    }
-                    this.mouseMoveHeight.highLightFeatures = [{
-                      id: tileData[marker].properties.id,
-                      layerid: layers[layer].options.id,
+                      id: totalFeature[item].properties.id,
+                      layerid: totalFeature[item].layer.options.id,
                       type: 'marker',
-                      style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
+                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
                     }];
-
-                    this.mouseMoveHeight.drawHighlight();
-                    break;***/
-
-
+                    that.mouseMoveHeight.drawHighlight('mouseover');
+                    break;
 
                 }
-
-
-
               }
             }
           }
@@ -604,7 +468,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
     for (var layer in layers) {
       if (layers[layer].tiles && layers[layer].tiles[tileCoordinate.join(":")]) {
         var tileData = layers[layer].tiles[tileCoordinate.join(":")].data
-        console.log('--------------------'+layers[layer].type)
         switch (layers[layer].type) {
           case 'LineString':
 
@@ -626,12 +489,11 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   id: tileData[line].properties.id,
                   layerid: layers[layer].options.id,
                   type: 'line',
-                  style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
+                  style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
                 }];
 
                 this.mouseMoveHeight.drawHighlight();
 
-                break;
               }
             }
             break;
@@ -661,7 +523,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                         id: tileData[marker].properties.id,
                         layerid: layers[layer].options.id,
                         type: 'marker',
-                        style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
+                        style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
                       }];
 
                       this.mouseMoveHeight.drawHighlight();
@@ -673,8 +535,8 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   break;
                 case 'RDGSC':
                   lineGeo = tileData[marker].geometry.coordinates;
-                  for(var key in lineGeo){
-                    if (this._TouchesPath(lineGeo[key].g, x, y, 10)){
+                  for (var key in lineGeo) {
+                    if (this._TouchesPath(lineGeo[key].g, x, y, 10)) {
 
                       this.selectData.markers.push({
                         id: tileData[marker].properties.id,
@@ -707,25 +569,19 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                 case 'RDSPEEDLIMIT':
 
                 case 'RDWARNINGINFO':
-                 case 'RDELECTRONICEYE':
-                 case 'RDSLOPE':
-                 case 'RDDIRECTROUTE':
-                 case 'RDSPEEDBUMP':
-                 case 'RDSE':
-                 case 'RDTOLLGATE':
-                 case 'RDVARIABLESPEED':
-                 case 'RDVOICEGUIDE':
-
-
-                 case 'RDINTER':
-
-                 case 'RDOBJECT':
-
-                 case 'RDSAMENODE':
-                 case 'RDLINKSPEEDLIMIT':
+                case 'RDELECTRONICEYE':
+                case 'RDSLOPE':
+                case 'RDDIRECTROUTE':
+                case 'RDSPEEDBUMP':
+                case 'RDSE':
+                case 'RDTOLLGATE':
+                case 'RDVARIABLESPEED':
+                case 'RDVOICEGUIDE':
+                case 'RDINTER':
+                case 'RDOBJECT':
+                case 'RDSAMENODE':
+                case 'RDLINKSPEEDLIMIT':
                   lineGeo = tileData[marker].geometry.coordinates;
-                  console.log(lineGeo);
-
                   if (this._TouchesPoint(lineGeo, x, y, 15)) {
 
                     this.selectData.markers.push({
@@ -747,7 +603,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
 
                     this.mouseMoveHeight.drawHighlight();
                     break;
-
                   }
 
                   break;
@@ -770,7 +625,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                       id: tileData[marker].properties.id,
                       layerid: layers[layer].options.id,
                       type: 'marker',
-                      style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
+                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
                     }];
 
                     this.mouseMoveHeight.drawHighlight();
@@ -802,7 +657,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   id: tileData[pointfeature].properties.id,
                   layerid: layers[layer].options.id,
                   type: 'PointFeature',
-                  style: {strokeWidth:5,color :'red', radius:3,strokeColor:'red' }
+                  style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
                 }];
                 this.mouseMoveHeight.drawHighlight('mouseover');
               }
@@ -824,7 +679,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   id: tileData[p].properties.id,
                   layerid: layers[layer].options.id,
                   type: 'node',
-                  style: {strokeWidth:5,color :'red', radius:6,strokeColor:'red' }
+                  style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red'}
                 }];
 
                 this.mouseMoveHeight.drawHighlight();
@@ -870,8 +725,6 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   layer: layers[layer]
                 })
               }
-
-              //console.log('Polygon' + this.selectData.lineStrings.length);
             }
             break;
         }

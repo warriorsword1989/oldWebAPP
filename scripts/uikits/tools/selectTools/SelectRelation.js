@@ -42,9 +42,9 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('dblclick', this.onDbClick, this);
-        // if (L.Browser.touch) {
-        //     this._map.on('mousedown', this.onMouseDown, this);
-        // }
+        if (L.Browser.touch) {
+            this._map.on('mousedown', this.onMouseDown, this);
+        }
     },
 
 
@@ -68,6 +68,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         setTimeout(function () {
             if(that.clickcount > 1){
                 that.clickcount = 0;
+                that.onDbClick(event);
                 return;
             }else if(that.clickcount == 1){
                 that.clickcount = 0;

@@ -11,7 +11,7 @@
     <button class="fm-top-btn select-node" title="绘制节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('RDNODE')"></button>
     <button class="fm-top-btn select-path" title="绘制线" ng-controller="addLinkFeatureCtrl" ng-click="addLink('RDLINK')"></button>
     <div class="dropdown" style="display:inline-block;vertical-align:top;">
-        <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
+        <button type="button" class="btn fm-top-btn dropdown dropdown-toggle" data-toggle="dropdown"></button>
         <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
             <li>
                 <div class="row" style="margin:0px;padding:0px;">
@@ -96,7 +96,7 @@
     <button class="fm-top-btn blank" title="制作立交" ng-controller="addRdRelationCtrl" ng-click="addShape('RDGSC')">立</button>
     <button class="fm-top-btn blank" title="制作大门" ng-controller="addRdRelationCtrl" ng-click="addShape('RD_GATE')">门</button>
     <div class="dropdown" style="display:inline-block;vertical-align:top;">
-        <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
+        <button type="button" class="btn fm-top-btn dropdown dropdown-toggle" data-toggle="dropdown"></button>
         <ul class="dropdown-menu dropdown-menu-right" style="width:260px;">
             <li>
                 <div class="row" style="margin:0px;padding:0px;">
@@ -200,13 +200,4 @@
             <li><a href="#" ng-click="isLinkTrack=!isLinkTrack">追踪选择 <i class="glyphicon glyphicon-ok pull-right" ng-show="isLinkTrack"></i></a></li>
         </ul>
     </div>
-</div>
-<div class="fm-top-btn split"></div>
-<div class="btn-group" style="vertical-align: top;">
-    <button type="button" class="btn fm-top-btn blank dropdown-toggle" data-toggle="dropdown" title="选 项"><i class="glyphicon glyphicon-cog"></i></button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="#" ng-click="linkChecked=!linkChecked">捕捉线 <i class="glyphicon glyphicon-ok pull-right" ng-if="linkChecked"></i></a></li>
-        <li><a href="#" ng-click="nodeChecked=!nodeChecked">捕捉点 <i class="glyphicon glyphicon-ok pull-right" ng-show="nodeChecked"></i></a></li>
-        <li><a href="#" ng-click="isLinkTrack=!isLinkTrack">追踪选择 <i class="glyphicon glyphicon-ok pull-right" ng-show="isLinkTrack"></i></a></li>
-    </ul>
 </div>

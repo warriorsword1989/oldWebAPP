@@ -168,7 +168,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     id: $scope.jsonData.linkObjs[i].pid.toString(),
                     // layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
                     layerid: tempObj[$scope.jsonData.linkObjs[i]["type"]],
-                    type: 'RDGSC',
+                    type: 'line',
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
                         size: 5
@@ -693,7 +693,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             id: dealData[i].data.properties.id.toString(),
                             // layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
                             layerid: tempObj[dealData[i].data.properties.featType],
-                            type: 'RDGSC',
+                            type: 'line',
                             index: i,
                             style: {
                                 size: 5
