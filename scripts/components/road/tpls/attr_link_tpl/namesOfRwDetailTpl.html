@@ -23,7 +23,7 @@
                         <div class="img-well" ng-repeat="nitem in pictures"
                              ng-click="selectNmaesId(nitem.nameId,nitem.name,$event)">
                             <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp;
-                                {{nitem.name}} &nbsp;&nbsp; {{nitem.province}}
+                                {{nitem.name}} &nbsp;&nbsp; {{roadTypeOptions[nitem.roadType]}} &nbsp;&nbsp; {{nitem.province}}
                             </div>
                         </div>
                     </div>

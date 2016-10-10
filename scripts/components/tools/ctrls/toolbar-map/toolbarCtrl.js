@@ -247,7 +247,7 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
                         $scope.nodeChecked = true;
                     }
                     $scope.changeSnap("node", nodeType, snapNode);
-                    $scope.changeLayer("node", nodeType);
+                    // $scope.changeLayer("node", nodeType);
                 } else {
                     if ($scope.linkChecked == true) {
                         $scope.linkChecked = false;
