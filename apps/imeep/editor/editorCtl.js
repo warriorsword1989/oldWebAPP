@@ -265,10 +265,18 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 			});
 		};
+		//我的消息
+		$scope.historyMsg = function(){
+			dsFcc.getReadMsg().then(function(data){
+				console.log(data)
+			});
+		};
 		// 消息推送
 		$scope.msgNotify = function(){
 			// 创建一个Socket实例
-			/*var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer'));
+			var url = 'http://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU4U3GL166B1FFB9E032B65FA52354E765B0AE90';
+			// var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer'));
+			var sock = new SockJS(url);
 			sock.onopen = function() {
 				console.log('open');
 			};
@@ -277,7 +285,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			};
 			sock.onclose = function() {
 				console.log('close');
-			};*/
+			};
 
 			// sock.send('test');
 			// sock.close();
@@ -335,8 +343,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}
 			$scope.logMsgStyle = {
 				'display':'block'
-			}
-			$scope.msgNotify();
+			};
+			// $scope.msgNotify();
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
