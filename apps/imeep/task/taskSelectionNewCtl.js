@@ -1,18 +1,23 @@
 /**
  * Created by linglong on 2016/6/7.
  */
-angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','ui.bootstrap']).controller('TaskSelectionCtlNew', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
+angular.module('app', ['ui.layout', 'dataService', 'ngCookies','ui.bootstrap']).controller('TaskSelectionCtlNew', ['$scope', 'dsManage', '$q', '$cookies', '$location','$timeout',
     function($scope, dsManage, $q, $cookies, $location,$timeout) {
 
         $scope.currentTab = 1;
         $scope.myOption = '0';
         $scope.tab1Url='../../../images/main/task/icon-c1.png';
         $scope.tab2Url='../../../images/main/task/icon-h2.png';
-
+        $scope.sortCondtion = 'planStartDate';
 
         $scope.showLoading = true;
         $scope.condtionChange = function(){
-//            loadSubTaskfn();
+            switch ($scope.myOption){
+                case '0': $scope.sortCondtion = 'name';break;
+                case '1': $scope.sortCondtion = 'planStartDate';break;
+                case '2': $scope.sortCondtion = 'planEndDate';break;
+                case '3': $scope.sortCondtion = 'percent';break;
+            }
         }
 
         $scope.changeSelectOnFoucs = function(){
@@ -102,7 +107,9 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     if(currentIndex>=$scope.currentSubTaskList.length){return;}
                     dsManage.getSubtaskSummaryById($scope.currentSubTaskList[currentIndex].subtaskId).then(function(data){
                         for(var i in data){
-                            $scope.currentSubTaskList[currentIndex][i] = data[i]
+                            if(i!='subtaskId'){
+                                $scope.currentSubTaskList[currentIndex][i] = data[i]
+                            }
                         }
                         currentIndex++;
                         requestfn()
