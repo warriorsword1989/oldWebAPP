@@ -15,7 +15,6 @@ FM.Util.extend(FM.Util, {
     clone: function(obj) {
         // var ret = obj;
         // if (obj[key] && typeof obj[key] == 'object') {
-        console.log(typeof obj);
             var ret = {};
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
