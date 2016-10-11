@@ -57,11 +57,11 @@
             <div><label class="control-label">关系类型</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="crossingOrLine{$index}" value=0 ng-model="laneData.relationshipType">
+                    <input type="radio" name="crossingOrLine{$index}" value=1 ng-model="laneData.relationshipType">
                     路口
                 </label>
                 <label>
-                    <input type="radio" name="crossingOrLine{$index}" value=1 ng-model="laneData.relationshipType">
+                    <input type="radio" name="crossingOrLine{$index}" value=2 ng-model="laneData.relationshipType">
                     线线
                 </label>
             </div>
@@ -69,12 +69,12 @@
         <li class="list-group-item">
             <div><label class="control-label">经过线</label></div>
             <div class="inline">
-                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+                <label ng-click="changeVias(laneData)" style="cursor: pointer">编辑</label>
             </div>
 
         </li>
         <li style="padding-left: 20px">
-            <div id="fromOfWRoaddiv" style="width:260px;" >
+            <div style="width:260px;" >
                 <div ng-repeat="cItem in laneData.vias track by $index" class="checkboxli">
                     {{cItem.linkPid}}
                 </div>

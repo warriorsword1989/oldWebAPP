@@ -326,7 +326,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                       id: totalFeature[item].properties.id,
                       layerid: totalFeature[item].layer.options.id,
                       type: 'line',
-                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
+                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red',strokeOpacity: 0.5}
                     }];
 
                     that.mouseMoveHeight.drawHighlight();
@@ -337,7 +337,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                       id: totalFeature[item].properties.id,
                       layerid: 'rdLink',
                       type: 'node',
-                      style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red'}
+                      style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red',strokeOpacity: 0.5}
                     }];
 
                     that.mouseMoveHeight.drawHighlight();
@@ -350,7 +350,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                       id: totalFeature[item].properties.id,
                       layerid: totalFeature[item].layer.options.id,
                       type: 'node',
-                      style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red'}
+                      style: {strokeWidth: 5, color: 'red', radius: 6, strokeColor: 'red',strokeOpacity: 0.5}
                     }];
                     that.mouseMoveHeight.drawHighlight();
                     break;
@@ -383,7 +383,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                       id: totalFeature[item].properties.id,
                       layerid: totalFeature[item].layer.options.id,
                       type: 'marker',
-                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
+                      style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red',strokeOpacity: 0.5}
                     }];
                     that.mouseMoveHeight.drawHighlight('mouseover');
                     break;
@@ -489,12 +489,13 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                   id: tileData[line].properties.id,
                   layerid: layers[layer].options.id,
                   type: 'line',
-                  style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
+                  style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red',strokeOpacity: 0.5}
                 }];
 
                 this.mouseMoveHeight.drawHighlight();
 
               }
+
             }
             break;
           case 'Marker':
@@ -523,7 +524,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                         id: tileData[marker].properties.id,
                         layerid: layers[layer].options.id,
                         type: 'marker',
-                        style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red'}
+                        style: {strokeWidth: 5, color: 'red', radius: 3, strokeColor: 'red',strokeOpacity: 0.5}
                       }];
 
                       this.mouseMoveHeight.drawHighlight();
