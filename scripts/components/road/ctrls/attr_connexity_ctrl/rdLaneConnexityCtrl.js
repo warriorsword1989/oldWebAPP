@@ -484,7 +484,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         if(arr.length > 0){
             for (var i = 0 ; i < arr.length ; i ++){
                 flagArr[i] = false;
-                promises.push(dsEdit.getByPid(arr[i].linkpid),function (data){
+                promises.push(dsEdit.getByPid(arr[i].linkPid,"RDLINK"),function (data){
                     if(data){
                         if(data.eNodePid == arr[i].outLinkPid || data.sNodePid == arr[i].outLinkPid ){
                             flagArr[i] = true;
@@ -513,7 +513,12 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         };
         dsEdit.save(param).then(function (data) {
             if (data) {
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                dsEdit.getByPid(objCtrl.data.pid, "RDLANECONNEXITY").then(function(ret) {
+                    if (ret) {
+                        objCtrl.setCurrentObject('RDLANECONNEXITY', ret);
+                        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                    }
+                });
             }
             rdConnexity.redraw();
         })
