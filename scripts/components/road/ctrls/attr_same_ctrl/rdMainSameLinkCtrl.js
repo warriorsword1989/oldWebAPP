@@ -126,23 +126,23 @@ mainSameLinkApp.controller("MainSameLinkController",['$scope','$ocLazyLoad','app
         }
 
         if(Object.keys(types).length < 2){
-            swal("提示", '同一node关系中,至少需要两种要素！', "warning");
+            swal("提示", '同一线关系中,至少需要两种要素！', "warning");
             return ;
         }
         if(rdLink > 1){
-            swal("提示", '同一node关系中,rdLink不能超过3个！', "warning");
+            swal("提示", '同一线关系中,rdLink不能超过3个！', "warning");
             return ;
         }
         if(adLink > 1){
-            swal("提示", '同一node关系中,adLink不能超过1个！', "warning");
+            swal("提示", '同一线关系中,adLink不能超过1个！', "warning");
             return ;
         }
         if(zoneLink > 1){
-            swal("提示", '同一node关系中,zoneLink不能超过10个！', "warning");
+            swal("提示", '同一线关系中,zoneLink不能超过10个！', "warning");
             return ;
         }
         if(luLink > 2){
-            swal("提示", '同一node关系中,luLink不能超过2个！', "warning");
+            swal("提示", '同一线关系中,luLink不能超过2个！', "warning");
             return ;
         };
 

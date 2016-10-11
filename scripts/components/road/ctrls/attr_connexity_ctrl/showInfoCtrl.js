@@ -1,8 +1,9 @@
 /**
  * Created by liwanchong on 2016/3/1.
+ * modified by liuyang
  */
 var infoOfConnexityApp = angular.module("app");
-infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', function ($scope,dsEdit) {
+infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', function ($scope, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -17,11 +18,11 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
     $scope.laneNum = $scope.infoData["laneInfo"].split(",").length;
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('rdLink');
-   //清除高亮
+    //清除高亮
     highRenderCtrl._cleanHighLight();
     highRenderCtrl.highLightFeatures.length = 0;
     //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-    if($scope.infoConnexityForm){
+    if ($scope.infoConnexityForm) {
         $scope.infoConnexityForm.$setPristine();
     }
     $scope.reachDirOptions = [
@@ -78,25 +79,25 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
         arr = data.toString(2).split("");
         return arr;
     };
-    $scope.intToDecial=function(data) {
+    $scope.intToDecial = function (data) {
         var str = "1";
-        for(var i=0;i<15-data;i++) {
+        for (var i = 0; i < 15 - data; i++) {
             str += "0";
         }
-        return parseInt(str,2).toString(10);
+        return parseInt(str, 2).toString(10);
     };
     var highLightFeatures = [];
     highLightFeatures.push({
         id: objCtrl.data["inLinkPid"].toString(),
-        layerid:'rdLink',
-        type:'line',
-        style:{color: 'red'}
+        layerid: 'rdLink',
+        type: 'line',
+        style: {color: 'red'}
     });
     highLightFeatures.push({
-        id:objCtrl.data["nodePid"].toString(),
-        layerid:'rdLink',
-        type:'node',
-        style:{}
+        id: objCtrl.data["nodePid"].toString(),
+        layerid: 'rdLink',
+        type: 'node',
+        style: {}
     });
     $scope.calculateLaneArr = function () {
         for (var i = 0, len = $scope.infoData["topos"].length; i < len; i++) {
@@ -106,12 +107,13 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
                 lenOfInfo = (16 - arrOfDecimal.length);
                 if (lenOfInfo === $scope.infoData["index"]) {
                     highLightFeatures.push({
-                        id:$scope.infoData["topos"][i].outLinkPid.toString(),
-                        layerid:'rdLink',
-                        type:'line',
-                        style:{color:'#FFF4C1'}
+                        id: $scope.infoData["topos"][i].outLinkPid.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {color: '#FFF4C1'}
                     });
-                    var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
+                    var obj = $scope.infoData["topos"][i];
+                    // var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
                     obj["enterLaneNum"] = lenOfInfo + 1;
                     if (obj["busLaneInfo"] !== 0) {
                         obj["enterBusNum"] = lenOfInfo + 1;
@@ -126,12 +128,13 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
                     lenOfInfo = (16 - arrOfDecimal.length + k);
                     if (lenOfInfo === $scope.infoData["index"]) {
                         highLightFeatures.push({
-                            id:$scope.infoData["topos"][i].outLinkPid.toString(),
-                            layerid:'rdLink',
-                            type:'line',
-                            style:{color:'#FFF4C1'}
+                            id: $scope.infoData["topos"][i].outLinkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {color: '#FFF4C1'}
                         })
-                        var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
+                        var obj = $scope.infoData["topos"][i];
+                        // var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
                         obj["enterLaneNum"] = lenOfInfo + 1;
                         if (obj["busLaneInfo"] !== 0) {
                             obj["enterBusNum"] = lenOfInfo + 1;
@@ -163,8 +166,8 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
         }
     };
 
-    $scope.removeTipsActive = function(){
-        $.each($('.lanePic'),function(i,v){
+    $scope.removeTipsActive = function () {
+        $.each($('.lanePic'), function (i, v) {
             $(v).removeClass('active');
         });
     };
@@ -177,17 +180,17 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
     };
     $scope.showVias = function () {
         for (var i = 0, len = $scope.showLaneInfo.length; i < len; i++) {
-            for(var k = 0;k<highRenderCtrl.highLightFeatures.length;k++){
-                if(highRenderCtrl.highLightFeatures[k].id == $scope.showLaneInfo[i].outLinkPid.toString()){
+            for (var k = 0; k < highRenderCtrl.highLightFeatures.length; k++) {
+                if (highRenderCtrl.highLightFeatures[k].id == $scope.showLaneInfo[i].outLinkPid.toString()) {
                     highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
                 }
             }
-            for(var j = 0;j<$scope.showLaneInfo[i].vias.length;j++){
+            for (var j = 0; j < $scope.showLaneInfo[i].vias.length; j++) {
                 highRenderCtrl.highLightFeatures.push({
                     id: $scope.showLaneInfo[i].vias[j].linkPid.toString(),
-                    layerid:'rdLink',
-                    type:'line',
-                    style:{}
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {}
                 });
             }
         }
@@ -205,7 +208,7 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
             }
         }
         $scope.showLaneInfo.length = 0;
-        var outLinkArr=[],outLinkPid, changedObj = {},
+        var outLinkArr = [], outLinkPid, changedObj = {},
             copyTopos = [];
         $scope.changeOutLinkFlag = 0;
         for (var i = 0, len = $scope.outLanesArr.length; i < len; i++) {
@@ -218,19 +221,19 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
         // highRenderCtrl.drawHighlight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         map.currentTool = new fastmap.uikit.SelectPath({
-                map: map,
-                currentEditLayer: rdLink,
-                linksFlag: false,
-                shapeEditor: shapeCtrl
-            });
+            map: map,
+            currentEditLayer: rdLink,
+            linksFlag: false,
+            shapeEditor: shapeCtrl
+        });
         map.currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-            if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0 ) {//在当前的退出线中,但不是现有的退出线
+            if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
                 changedObj["outLinkPid"] = data.id;
                 changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
                 $scope.showLaneInfo.push(changedObj);
-                for(var k = 0;k<highRenderCtrl.highLightFeatures.length;k++){
-                    if(highRenderCtrl.highLightFeatures[k].id == data.id.toString()){
+                for (var k = 0; k < highRenderCtrl.highLightFeatures.length; k++) {
+                    if (highRenderCtrl.highLightFeatures[k].id == data.id.toString()) {
                         highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
                     }
                 }
@@ -242,7 +245,7 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
                     str += inLaneDecArr[j];
                 }
                 $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
-            } else if(outLinkArr.indexOf(parseInt(data.id)) > -1){//在现有的退出线内,排除掉
+            } else if (outLinkArr.indexOf(parseInt(data.id)) > -1) {//在现有的退出线内,排除掉
                 for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                     if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
                         outLinkPid = data.id;
@@ -250,7 +253,7 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
                         $scope.showLaneInfo.splice(k, 1);
                         $scope.$apply();
                         $scope.changeOutLinkFlag++;
-                        outLinkArr.splice(outLinkArr.indexOf(parseInt(data.id)),1);
+                        outLinkArr.splice(outLinkArr.indexOf(parseInt(data.id)), 1);
                         break;
                     }
                 }
@@ -261,33 +264,26 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
                 for (var j = 1; j < inLaneDecArr.length; j++) {
                     str += inLaneDecArr[j];
                 }
-                if(parseInt(parseInt(str, 2).toString(10)) == 0){
-                    for(var i =0;i<$scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias.length;i++){
-                        for (var j = 0;j<highRenderCtrl.highLightFeatures.length;j++){
-                            if(highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias[i].outLinkPid.toString()){
-                                highRenderCtrl.highLightFeatures.splice(j,1);
+                if (parseInt(parseInt(str, 2).toString(10)) == 0) {
+                    for (var i = 0; i < $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias.length; i++) {
+                        for (var j = 0; j < highRenderCtrl.highLightFeatures.length; j++) {
+                            if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias[i].outLinkPid.toString()) {
+                                highRenderCtrl.highLightFeatures.splice(j, 1);
                                 j--;
                             }
                         }
                     }
-                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)),1);
-                }else {
+                    $scope.infoData["topos"].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)), 1);
+                } else {
                     $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
                 }
-                for (var i = 0;i<highRenderCtrl.highLightFeatures.length;i++){
-                    if(highRenderCtrl.highLightFeatures[i].id == data.id.toString()){
-                        highRenderCtrl.highLightFeatures.splice(i,1);
+                for (var i = 0; i < highRenderCtrl.highLightFeatures.length; i++) {
+                    if (highRenderCtrl.highLightFeatures[i].id == data.id.toString()) {
+                        highRenderCtrl.highLightFeatures.splice(i, 1);
                         i--;
                     }
                 }
             } else {//不在退出线内的线
-                // changedObj["outLinkPid"] = parseInt(data.id);
-                // changedObj["reachDir"] = $scope.showLaneInfo[0].reachDir || 0;
-                // changedObj["enterLaneNum"] = $scope.showLaneInfo[0].enterLaneNum || 0;
-                // changedObj["enterBusNum"] = $scope.showLaneInfo[0].enterBusNum || 0;
-                // changedObj["relationshipType"] = 1;
-                // changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
-                // $scope.showLaneInfo.push(changedObj);
                 highRenderCtrl.highLightFeatures.push({
                     id: data.id.toString(),
                     layerid: 'rdLink',
@@ -340,35 +336,117 @@ infoOfConnexityApp.controller("infoOfConnexityController",['$scope','dsEdit', fu
                     }
                 });
             }
-            // for(var x= 0,lenX= Object.keys(outLinkObj).length;x<lenX;x++) {
-            //     highLightFeatures.push({
-            //         id:Object.keys(outLinkObj)[x].toString(),
-            //         layerid:'rdLink',
-            //         type:'line',
-            //         style:{}
-            //     })
-            // }
-            //高亮进入线和退出线
-            // highLightFeatures.push({
-            //     id: objCtrl.data["inLinkPid"].toString(),
-            //     layerid:'rdLink',
-            //     type:'line',
-            //     style:{color: '#CD0000'}
-            // });
-            // highLightFeatures.push({
-            //     id:objCtrl.data["nodePid"].toString(),
-            //     layerid:'rdLink',
-            //     type:'node',
-            //     style:{}
-            // });
-            // highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
-
-            //高亮车信
-
         });
     };
     $scope.changeVias = function (item) {
-
+        var lastNode = objCtrl.data["nodePid"];
+        var viaLink = [];
+        dsEdit.getByPid(item.outLinkPid, "RDLINK").then(function (outLink) {
+            if (outLink) {
+                if (outLink.eNodePid == lastNode || outLink.sNodePid == lastNode) {//退出线和进入点相连，不能做经过线
+                    swal("提示", "此退出线无法制作经过线！", "info");
+                    return;
+                } else {
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    highRenderCtrl.highLightFeatures.push({
+                        id: objCtrl.data["inLinkPid"].toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {color: 'red'}
+                    });
+                    highRenderCtrl.highLightFeatures.push({
+                        id: objCtrl.data["nodePid"].toString(),
+                        layerid: 'rdLink',
+                        type: 'node',
+                        style: {}
+                    });
+                    highRenderCtrl.highLightFeatures.push({
+                        id: item.outLinkPid.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {color: 'green'}
+                    });
+                    for (var i = 0; i < item.vias.length; i++) {
+                        highRenderCtrl.highLightFeatures.push({
+                            id: item.vias[i].linkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {color: '#C1FFE4'}
+                        });
+                    }
+                    highRenderCtrl.drawHighlight();
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                    map.currentTool = new fastmap.uikit.SelectPath({
+                        map: map,
+                        currentEditLayer: rdLink,
+                        linksFlag: false,
+                        shapeEditor: shapeCtrl
+                    });
+                    map.currentTool.enable();
+                    item.vias = [];
+                    eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
+                        if ((parseInt(data.id) != objCtrl.data["inLinkPid"]) && (parseInt(data.id) != item.outLinkPid)) {
+                            if (viaLink.indexOf(parseInt(data.id)) < 0) { //不在现有的经过线中
+                                if (parseInt(data.properties.snode) == lastNode && (parseInt(data.properties.direct) != 3)) {
+                                    viaLink.push(parseInt(data.id));
+                                    lastNode = parseInt(data.properties.enode);
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: data.id.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {}
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    item.vias.push(fastmap.dataApi.rdLaneVIA({
+                                        rowId: "",
+                                        linkPid: parseInt(data.id),
+                                        topologyId: item.topologyId,
+                                        seqNum: item.vias.length + 1
+                                    }));
+                                } else if (parseInt(data.properties.enode) == lastNode && (parseInt(data.properties.direct) != 2)) {
+                                    viaLink.push(parseInt(data.id));
+                                    lastNode = parseInt(data.properties.snode);
+                                    highRenderCtrl.highLightFeatures.push({
+                                        id: data.id.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'line',
+                                        style: {}
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    item.vias.push(fastmap.dataApi.rdLaneVIA({
+                                        rowId: "",
+                                        linkPid: parseInt(data.id),
+                                        topologyId: item.topologyId,
+                                        seqNum: item.vias.length + 1
+                                    }));
+                                }
+                            } else if (viaLink[viaLink.length - 1] == parseInt(data.id)) {//最后一条
+                                if (parseInt(data.properties.enode) == lastNode) {
+                                    lastNode = parseInt(data.properties.snode);
+                                } else if (parseInt(data.properties.snode) == lastNode) {
+                                    lastNode = parseInt(data.properties.enode);
+                                }
+                                viaLink.pop();
+                                for (var i = 0; i < highRenderCtrl.highLightFeatures.length; i++) {
+                                    if (highRenderCtrl.highLightFeatures[i] == data.id) {
+                                        highRenderCtrl.highLightFeatures.splice(i, 1);
+                                        i--;
+                                    }
+                                }
+                                highRenderCtrl.drawHighlight();
+                                for (var j = 0; j < item, vias.length; j++) {
+                                    if (item.vias[j].linkPid == parseInt(data.id)) {
+                                        item.vias.splice(j, 1);
+                                        j--;
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        });
     };
 }]);

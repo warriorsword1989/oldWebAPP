@@ -69,9 +69,11 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         return defer.promise;
     };
     /*查询已读消息*/
-    this.getReadMsg = function() {
+    this.getReadMsg = function(param) {
         var defer = $q.defer();
-        ajax.get("sysmsg/read/get", {}).success(function(data) {
+        ajax.get("sys/sysmsg/read/get", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
@@ -84,9 +86,11 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         return defer.promise;
     };
     /*查询消息详情*/
-    this.getDetailCheck = function() {
+    this.getDetailCheck = function(param) {
         var defer = $q.defer();
-        ajax.get("sysmsg/detail/check", {}).success(function(data) {
+        ajax.get("sys/sysmsg/detail/check", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {

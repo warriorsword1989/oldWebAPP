@@ -154,6 +154,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $scope.listInit();
             $scope.translate($scope.arrEmpty(newArr));
             $scope.dateString = data;
+        }else {
+            $scope.dateList = [];
         }
     });
 
