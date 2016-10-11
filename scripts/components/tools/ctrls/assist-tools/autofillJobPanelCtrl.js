@@ -27,7 +27,7 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
         var tipsObj = fastmap.uikit.FeatureConfig.tip;
         var arr =[];
         for(var item in tipsObj){
-            arr.push({id:item,name:tipsObj[item].name});
+            arr.push({id:item,name:tipsObj[item].name,checked:tipsObj[item].checked});
         }
         function compare(propertyName) {
             return function(object1, object2) {
