@@ -109,16 +109,18 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setCurrentTooltip("已经选择进入点,请选择退出线!");
         } else if (data.index > 1) {
-            $scope.excitLineArr.push(parseInt(data.id));
-            $scope.highFeatures.push({
-                id:  data.id.toString(),
-                layerid: 'rdLink',
-                type: 'line',
-                style: {}
-            });
-            highRenderCtrl .drawHighlight();
-            $scope.laneConnexity.outLinkPids = $scope.excitLineArr;
-            tooltipsCtrl.setCurrentTooltip("已选退出线,请选择方向或者选择退出线!");
+            if(parseInt(data.properties.fc) != 9){
+                $scope.excitLineArr.push(parseInt(data.id));
+                $scope.highFeatures.push({
+                    id:  data.id.toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {}
+                });
+                highRenderCtrl .drawHighlight();
+                $scope.laneConnexity.outLinkPids = $scope.excitLineArr;
+                tooltipsCtrl.setCurrentTooltip("已选退出线,请选择方向或者选择退出线!");
+            }
         }
         $scope.directData["laneConnexity"]=$scope.laneConnexity
     });

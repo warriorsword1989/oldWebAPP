@@ -1795,7 +1795,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
                         }
                         objCtrl.data["direct"] = selectCtrl.selectedFeatures["direct"];
-                        // $scope.$apply();
+                        eventController.fire('directChange',objCtrl.data["direct"]);
                         tooltipsCtrl.setEditEventType('transformDirection');
                         tooltipsCtrl.setCurrentTooltip('修改方向！');
                     } else {
@@ -1994,9 +1994,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
                         var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
+                        if(parseInt(pro.id) != objCtrl.data.linkPid){
+                            swal("操作失败", '拓扑操作不满足条件！', "warning");
+                            tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
+                            return;
+                        }
                         if(actualDistance > 100){
                             swal("操作失败", '移动距离必须小于100米！', "warning");
-                            return;
+                            tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
                         }else{
                             dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
                                 if (data) {
