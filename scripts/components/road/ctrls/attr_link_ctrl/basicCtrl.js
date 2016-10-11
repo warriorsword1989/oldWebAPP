@@ -25,10 +25,10 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": 3, "label": "3: 4条及以上"}
 	];
 	$scope.imiCodeOptions = [
-		{"id": 0, "label": "其他道路"},
-		{"id": 1, "label": "交叉点内部道路"},
-		{"id": 2, "label": "转弯道"},
-		{"id": 3, "label": "无法描述的"}
+		{"id": 0, "label": "0: 其他道路"},
+		{"id": 1, "label": "1: 交叉点内部道路"},
+		{"id": 2, "label": "2: 转弯道"},
+		{"id": 3, "label": "3: 无法描述的"}
 	];
 	$scope.functionClassOptions = [
 		{"id": 1, "label": "1: 等级1"},
