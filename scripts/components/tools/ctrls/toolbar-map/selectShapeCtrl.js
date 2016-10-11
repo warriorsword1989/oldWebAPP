@@ -404,15 +404,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'type': 'PATHBREAK',
                             'class': "feaf",
                             callback: $scope.modifyTools
+                        },
+                        {
+                            'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
+                            'title': "分离节点",
+                            'type': 'PATHDEPARTNODE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
                         }
-                            //,
-                            //{
-                            //'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
-                            //'title': "分离节点",
-                            //'type': 'DEPARTNODE',
-                            //'class': "feaf",
-                            //callback: $scope.modifyTools
-                            //}
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
@@ -1783,6 +1782,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                         return;
                     }
+                } else if (type === "PATHDEPARTNODE") {
+                    ////防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    //if(shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove' )){ //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    //    tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
+                    //    return ;
+                    //}
+                    if (selectCtrl.selectedFeatures) {
+                        tooltipsCtrl.setEditEventType('deleteDot');
+                        tooltipsCtrl.setCurrentTooltip('请选择要分离的节点！');
+                    } else {
+                        tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                        return;
+                    }
                 }else if (type === "TRANSFORMDIRECT") {
                     if(shapeCtrl.editType && shapeCtrl.editType != 'transformDirect'){ //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
                         tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的形状已修改或者已进行了打断操作，请先按空格键保存！</span>');
@@ -2948,7 +2960,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     //添加自动吸附的图层
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     tooltipsCtrl.setEditEventType('rdvariable');
-                    tooltipsCtrl.setCurrentTooltip('开始修改退出线和接续线！');
+                    tooltipsCtrl.setCurrentTooltip('开始修改退出线和接续线!');
                     //获取一条link对象;
                     $scope.getSelectLinkInfos = function(param){
                         var defer = $q.defer();
@@ -3157,37 +3169,29 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
-                }else if(type === "DEPARTNODE"){
-                    editLayer.drawGeometry = feature;
-                    editLayer.draw(feature, editLayer);
+                }
+                else if(type === "PATHDEPARTNODE"){
+                    editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
+                    editLayer.draw(selectCtrl.selectedFeatures, editLayer); //把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
-                    tooltipsCtrl.setChangeInnerHtml("请选择要移动的link节点!");
-                    //选择分歧监听事件;
-                    //初始化选择点工具
+                    var tempLinkPid = $scope.selectedFeature.id;
                     map.currentTool = new fastmap.uikit.SelectNode({
                         map: map,
                         nodesFlag: true,
                         shapeEditor: shapeCtrl
                     });
                     map.currentTool.enable();
-                    //添加自动吸附的图层
-                    map.currentTool.snapHandler.addGuideLayer(rdNode);
-                    eventController.off(eventController.eventTypes.GETNODEID);
-                    eventController.on(eventController.eventTypes.GETNODEID, function(data) {
-                        highRenderCtrl.highLightFeatures.push({
-                            id: data.id.toString(),
-                            layerid: 'rdLink',
-                            type: 'rdnode',
-                            style: {color: 'yellow'}
-                        });
-                        highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltip("已经选择移动点，开始移动!");
-                        shapeCtrl.setEditingType('pathNodeMove'); //设置编辑状态
-                        shapeCtrl.startEditing();
-                    })
-                    return;
-                }else {
+                    eventController.on(eventController.eventTypes.GETNODEID, function(data){
+                        console.log(data)
+                        //shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
+                        //shapeCtrl.startEditing();
+                        //shapeCtrl.editFeatType = $scope.selectedFeature.optype;
+                        //map.currentTool = shapeCtrl.getCurrentTool();
+                        //map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype));
+                    });
+                }
+                else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
                     editLayer.draw(feature, editLayer); //把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);

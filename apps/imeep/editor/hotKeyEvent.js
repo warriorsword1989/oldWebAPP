@@ -454,7 +454,27 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     }
                 }
-            } else if (shapeCtrl.editType === "speedLimit") {
+            }
+            else if (shapeCtrl.editType === "pathDepartNode") { //节点分离
+                param["command"] = "DEPART";
+                param["dbId"] = App.Temp.dbId;
+                param["objId"] = '203000259';//selectCtrl.selectedFeatures.id;
+                param["data"] = {
+                    catchNodePid:0,
+                    linkPid: selectCtrl.selectedFeatures.id,
+                    longitude: selectCtrl.selectedFeatures.latlng.lng,
+                    latitude: selectCtrl.selectedFeatures.latlng.lat
+                };
+                param["type"] = 'RDLINK';
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        rdLink.redraw();
+                        rdnode.redraw();
+                        //treatmentOfChanged(data, "RDSPEEDLIMIT", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
+                    }
+                })
+            }
+            else if (shapeCtrl.editType === "speedLimit") {
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
                 var startPoint = feature.geometry[0],
