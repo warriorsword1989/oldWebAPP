@@ -23,7 +23,7 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
             map:this._map,
             shapeEditor:this.shapeEditor,
             selectedSnap:false,
-            snapLine:true,
+            snapLine:false,
             snapNode:true,
             snapVertex:true
         });

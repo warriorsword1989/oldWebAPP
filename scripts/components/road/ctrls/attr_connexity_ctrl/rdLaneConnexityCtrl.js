@@ -251,6 +251,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             $(v).removeClass('active');
         });
     };
+    $scope.removeTipsActive();
     //REACH_DIR
     $scope.showLanesInfo = function (item, index, event) {
         $scope.removeTipsActive();

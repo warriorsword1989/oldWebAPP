@@ -321,7 +321,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                dsEdit.getByPid(data.pid, "RDLINK").then(function(ret) {
+                dsEdit.getByPid($scope.linkData.pid, "RDLINK").then(function(ret) {
 					if (ret) {
 						objectCtrl.setCurrentObject('RDLINK', ret);
 						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
