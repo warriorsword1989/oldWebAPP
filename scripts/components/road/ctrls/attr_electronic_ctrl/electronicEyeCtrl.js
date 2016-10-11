@@ -226,6 +226,11 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 //                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
 //                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
 //                editLayer.clear();
+				// 清除地图上工具按钮
+				if (map.floatMenu) {
+					map.removeLayer(map.floatMenu);
+					map.floatMenu = null;
+				}
 				$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
 			}
 		})
