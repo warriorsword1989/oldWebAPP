@@ -1,23 +1,6 @@
-<style>
-    #infoOfConnexityDiv {
-        opacity: 1;
-        width: 100%;
-        font-size: 12px;
-    }
-    #infoOfConnexityDiv .lanePic{
-        cursor: pointer;
-        width: 30px;
-        margin-bottom: 10px;
-        /*margin: 15px;*/
-        transition: all 0.5s;
-    }
-    #infoOfConnexityDiv .lanePic.active{
-        box-shadow: 0px 0px 7px 4px #9d9d9d;
-    }
-</style>
 <div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
+    <ul class="fm-ul fm-ul-form">
+        <li style="margin-bottom:3px">
             <div ng-repeat="showItem in directArr track by $index">
 
                 <img class="lanePic"  ng-if="!laneFlag"
@@ -30,7 +13,6 @@
                       class="glyphicon glyphicon-edit" ng-click="getLanesInfo(showItem,$event)" title="点击可修改退出线"></span>
             </div>
         </li>
-
     </ul>
     <form name="infoConnexityForm">
     <ul class="list-group list-group-lg m-b-none" ng-repeat="laneData in showLaneInfo track by $index">

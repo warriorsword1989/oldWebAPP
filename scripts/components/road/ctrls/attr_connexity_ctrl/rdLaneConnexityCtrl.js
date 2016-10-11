@@ -453,6 +453,9 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         }
     });
     $scope.save = function () {
+        for(var i = 0;i<objCtrl.data.topos.length;i++){
+
+        }
         objCtrl.save();
         var param = {
             "command": "UPDATE",
