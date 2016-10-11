@@ -14,7 +14,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     var rdConnexity = layerCtrl.getLayerById("relationData");
 
     var linksObj = {};//存放需要高亮的进入线和退出线的id
-    objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
 
     //附加车道图标获得
     $scope.getAdditionalLane = function (index, data) {
@@ -73,6 +73,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     };
 
     $scope.initializeData = function () {
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.showNormalData = [];
         $scope.showTransitData = [];
         $scope.outLanesArr = [];
@@ -251,7 +252,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             $(v).removeClass('active');
         });
     };
-    $scope.removeTipsActive();
+
     //REACH_DIR
     $scope.showLanesInfo = function (item, index, event) {
         $scope.removeTipsActive();
