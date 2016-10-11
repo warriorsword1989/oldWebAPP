@@ -122,6 +122,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         }
         var node = this.selectCtrl.selectedFeatures;
         this.selectCtrl.selectedFeatures = {
+            workLinkPid:this.selectCtrl.workLinkPid,
             id: node.id,
             latlng: this.targetPoint
         }

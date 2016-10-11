@@ -3183,12 +3183,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     });
                     map.currentTool.enable();
                     eventController.on(eventController.eventTypes.GETNODEID, function(data){
-                        console.log(data)
-                        //shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
-                        //shapeCtrl.startEditing();
-                        //shapeCtrl.editFeatType = $scope.selectedFeature.optype;
-                        //map.currentTool = shapeCtrl.getCurrentTool();
-                        //map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype));
+//                        console.log(data)
+//                        $scope.selectedFeature = data;
+                        selectCtrl.workLinkPid = tempLinkPid;
+                        shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
+                        shapeCtrl.startEditing();
+                        shapeCtrl.editFeatType = $scope.selectedFeature.optype;
+                        map.currentTool = shapeCtrl.getCurrentTool();
+                        map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype));
                     });
                 }
                 else {
