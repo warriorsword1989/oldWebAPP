@@ -199,6 +199,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
             $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
         };
         $scope.selectShape = function(type) {
+            shapeCtrl.editType = "";
             //大于17级才可以选择地图上各种geometry
             if (map.getZoom() < 17) {
                 swal("提示","地图缩放等级必须大于16级才可操作","info");
