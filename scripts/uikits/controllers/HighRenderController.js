@@ -99,6 +99,7 @@ fastmap.uikit.HighRenderController = (function () {
                     } 
                     else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType != 'RWLINK' && this.highLightFeatures[item].type == 'line') {
                       this.drawOfLink(id, hightlightfeature, ctx, style);
+
                     }
 
                     else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDROAD'&&this.highLightFeatures[item].type =='marker') {
@@ -301,10 +302,11 @@ fastmap.uikit.HighRenderController = (function () {
               radius: inOutStyle.strokeWidth,
               strokeOpacity: 0.5
             }, feature.properties);
-          }  if (inOutStyle.strokeColor != null) {
+          }  else if (inOutStyle.strokeColor != null) {
             this.layer._drawLineString(ctx, geom, true, {
               strokeWidth: inOutStyle.strokeWidth,
               strokeColor: inOutStyle.strokeColor,
+              strokeOpacity:inOutStyle.strokeOpacity,
             }, {
               color: inOutStyle.color,
               radius: inOutStyle.strokeWidth,
