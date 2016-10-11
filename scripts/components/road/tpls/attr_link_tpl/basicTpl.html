@@ -27,7 +27,8 @@
         </li>
         <li class="list-group-item">
             <div><label class="control-label">道路方向</label></div>
-            <div class="inline"><input ng-class="'chosen-disabled'" type="text" ng-value="linkData.direct=='0'?'0 未调查':linkData.direct=='1'?'1 双方向':linkData.direct=='2'?'2 顺方向':'3 逆方向'" disabled/>
+            <div class="inline">
+                <input ng-class="'chosen-disabled'" type="text" ng-value="linkData.direct=='1'?'1 双方向':linkData.direct=='2'?'2 顺方向':'3 逆方向'" disabled/>
             </div>
         </li>
         <li class="list-group-item">

@@ -1795,7 +1795,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
                         }
                         objCtrl.data["direct"] = selectCtrl.selectedFeatures["direct"];
-                        // $scope.$apply();
+                        eventController.fire('directChange',objCtrl.data["direct"]);
                         tooltipsCtrl.setEditEventType('transformDirection');
                         tooltipsCtrl.setCurrentTooltip('修改方向！');
                     } else {
