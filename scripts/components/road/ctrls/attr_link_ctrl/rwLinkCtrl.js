@@ -106,6 +106,23 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
             if (data) {
                 rwLink.redraw();
                 rwNode.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                //清空编辑图层和shapeCtrl
+                editLayer.drawGeometry = null;
+                shapeCtrl.stopEditing();
+                editLayer.bringToBack();
+                $(editLayer.options._div).unbind();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                editLayer.clear();
                 $scope.rwLinkData = null;
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
