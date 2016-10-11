@@ -19,7 +19,6 @@ fastmap.uikit.LayerController = (function() {
                 L.setOptions(this, options);
                 this.config = this.options.config;
                 this.layers = [];
-                this.eventController = fastmap.uikit.EventController();
                 this.highLightLayersArr = [];
                 this.zIndexQueue = [];
                 this.maxZIndex = 1;
@@ -89,7 +88,7 @@ fastmap.uikit.LayerController = (function() {
             OnSwitchLayer: function(event) {
                 var layerArr = event.layerArr;
                 for (var i = 0, len = layerArr.length; i < len; i++) {
-                    this.setLayerVisible(layerArr[i].options.id, layerArr[i].options.visible);
+                    this.setLayerVisibleOrNot(layerArr[i].options.id, layerArr[i].options.visible);
                 }
             },
             /**
@@ -115,17 +114,33 @@ fastmap.uikit.LayerController = (function() {
                 }
             },
             /**
-             * 显示的图层
-             * @method setLayerVisible
+             * 显示或隐藏的图层
+             * @method setLayerVisibleOrNot
              * @param {Layer}layer
              * @param flag
              */
-            setLayerVisible: function(id, flag) {
+            setLayerVisibleOrNot: function(id, flag) {
                 var layer = this.getLayerById(id);
                 this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {
                     layer: layer,
                     flag: flag
                 });
+            },
+            /**
+             * 图层显示事件派发；
+             * @method setLayersVisible
+             * @param layerId
+             */
+            setLayersVisible : function(layerId){
+                var tempLayer = [];
+                if(typeof layerId=='object'&&layerId.length){
+                    for(var layer in layerId){
+                        tempLayer.push(this.getLayerById(layerId[layer]));
+                    }
+                }else{
+                    tempLayer.push(this.getLayerById(layerId));
+                }
+                this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {layer: tempLayer});
             },
             /**
              * 可编辑的图层
@@ -164,6 +179,7 @@ fastmap.uikit.LayerController = (function() {
                 }
                 return layers;
             },
+
             /**
              * 根据id获取图层
              * @method getLayerById

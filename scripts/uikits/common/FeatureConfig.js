@@ -19,7 +19,7 @@ fastmap.uikit.FeatureConfig = {
             name: "路口"
         },
         "RDLANECONNEXITY": {
-            name: "车道"
+            name: "车信"
         },
         "RDLINKINTRTIC": {
             name: "互联网RTIC"
@@ -56,137 +56,228 @@ fastmap.uikit.FeatureConfig = {
         }
     },
     tip: {
-        1101: {
-            name: '点限速'
+        1101:{
+            name:'点限速'
         },
-        1102: {
-            name: '红绿灯'
+        1102:{
+            name:'红绿灯'
         },
-        1103: {
-            name: '红绿灯方位'
+        1103:{
+            name:'红绿灯方位'
         },
-        1104: {
-            name: '大门'
+        1104:{
+            name:'大门'
         },
-        1105: {
-            name: '危险信息'
+        1105:{
+            name:'危险信息'
         },
-        1106: {
-            name: '坡度'
+        1106:{
+            name:'坡度'
         },
-        1107: {
-            name: '收费站'
+        1107:{
+            name:'收费站'
         },
-        1109: {
-            name: '电子眼'
+        1109:{
+            name:'电子眼'
         },
-        1110: {
-            name: '卡车限制'
+        1110:{
+            name:'卡车限制'
         },
-        1111: {
-            name: '条件限速'
+        1111:{
+            name:'条件限速'
         },
-        1113: {
-            name: '车道限速'
+        1113:{
+            name:'车道限速'
         },
-        1201: {
-            name: '道路种别'
+        1201:{
+            name:'道路种别'
         },
-        1202: {
-            name: '车道数'
+        1202:{
+            name:'车道数'
         },
-        1203: {
-            name: '道路方向'
+        1203:{
+            name:'道路方向'
         },
-        1205: {
-            name: 'SA(服务区)'
+        1204:{
+            name:'可逆车道'
         },
-        1206: {
-            name: 'PA(停车区)'
+        1205:{
+            name:'SA(服务区)'
         },
-        1207: {
-            name: '匝道'
+        1206:{
+            name:'PA(停车区)'
         },
-        1208: {
-            name: '停车场出入口Link'
+        1207:{
+            name:'匝道'
         },
-        1301: {
-            name: '车信'
+        1208:{
+            name:'停车场出入口Link'
         },
-        1302: {
-            name: '交限'
+        1301:{
+            name:'车信'
         },
-        1304: {
-            name: '禁止穿行'
+        1302:{
+            name:'交限'
         },
-        1305: {
-            name: '禁止驶入'
+        1303:{
+            name:'客车交限'
         },
-        1401: {
-            name: '方向看板'
+        1304:{
+            name:'禁止穿行'
         },
-        1402: {
-            name: 'Real Sign'
+        1305:{
+            name:'禁止驶入'
         },
-        1403: {
-            name: '3D'
+        1306:{
+            name:'路口语音引导'
         },
-        1404: {
-            name: '提左提右'
+        1307:{
+            name:'自然语音引导'
         },
-        1405: {
-            name: '一般道路方面'
+        1401:{
+            name:'方向看板'
         },
-        1406: {
-            name: '实景图'
+        1402:{
+            name:'Real Sign'
         },
-        1407: {
-            name: '高速分歧'
+        1403:{
+            name:'3D'
         },
-        1409: {
-            name: '普通路口模式图'
+        1404:{
+            name:'提左提右'
         },
-        1501: {
-            name: '上下线分离'
+        1405:{
+            name:'一般道路方面'
         },
-        1502: {
-            name: '路面覆盖'
+        1406:{
+            name:'实景图',
+            ctl:'scripts/components/road3/ctrls/attr_branch_ctrl/rdRealImageCtrl',
+            tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/realImageOfBranch.html'
         },
-        1510: {
-            name: '桥'
+        1407:{
+            name:'高速分歧',
+            ctl:'scripts/components/road3/ctrls/attr_branch_ctrl/rdBranchCtrl',
+            tpl:'../../../scripts/components/road3/tpls/attr_branch_Tpl/namesOfBranch.html'
         },
-        1514: {
-            name: '施工'
+        1409:{
+            name:'普通路口模式图'
         },
-        1515: {
-            name: '维修'
+        1501:{
+            name:'上下线分离'
         },
-        1604: {
-            name: '区域内道路'
+        1502:{
+            name:'路面覆盖'
         },
-        1703: {
-            name: '分叉口提示(SE)'
+        1503:{
+            name:'高架路'
         },
-        1704: {
-            name: '交叉路口名称'
+        1504:{
+            name:'OverPass(跨线天桥)'
         },
-        1801: {
-            name: '立交'
+        1505:{
+            name:'UnderPass(跨线地道)'
         },
-        1803: {
-            name: '挂接'
+        1506:{
+            name:'私道'
         },
-        1805: {
-            name: '复合路口'
+        1507:{
+            name:'步行街'
         },
-        1806: {
-            name: '草图'
+        1508:{
+            name:'公交专用道路'
         },
-        1901: {
-            name: '道路名'
+        1509:{
+            name:'跨线立交桥'
         },
-        2001: {
-            name: '测线'
+        1510:{
+            name:'桥'
+        },
+        1511:{
+            name:'隧道'
+        },
+        1512:{
+            name:'辅路'
+        },
+        1513:{
+            name:'窄道'
+        },
+        1514:{
+            name:'施工'
+        },
+        1515:{
+            name:'维修'
+        },
+        1516:{
+            name:'季节性关闭道路'
+        },
+        1517:{
+            name:'Usage Fee Required'
+        },
+        1601:{
+            name:'环岛'
+        },
+        1602:{
+            name:'特殊交通类型'
+        },
+        1603:{
+            name:'未定义交通类型'
+        },
+        1604:{
+            name:'区域内道路'
+        },
+        1605:{
+            name:'POI连接路'
+        },
+        1606:{
+            name:'收费开放道路'
+        },
+        1607:{
+            name:'风景路线'
+        },
+        1701:{
+            name:'障碍物'
+        },
+        1702:{
+            name:'铁路道口'
+        },
+        1703:{
+            name:'分叉口提示(SE)'
+        },
+        1704:{
+            name:'交叉路口名称'
+        },
+        1705:{
+            name:'立交桥名称'
+        },
+        1706:{
+            name:'GPS打点'
+        },
+        1801:{
+            name:'立交'
+        },
+        1803:{
+            name:'挂接'
+        },
+        1804:{
+            name:'顺行'
+        },
+        1805:{
+            name:'复合路口'
+        },
+        1806:{
+            name:'草图'
+        },
+        1901:{
+            name:'道路名'
+        },
+        2001:{
+            name:'测线'
+        },
+        2101:{
+            name:'删除标记'
+        },
+        2102:{
+            name:'万能标记'
         }
     },
     featureName: function(featCode) {

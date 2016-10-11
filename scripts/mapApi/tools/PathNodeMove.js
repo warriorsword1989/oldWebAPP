@@ -73,7 +73,7 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
             this._map.dragging.disable();
         }
         var layerPoint = event.layerPoint;
-
+        this.targetIndexs = [];
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates;
         for (var j = 0, len = points.length; j < len; j++) {
             for(var k= 0,length = points[j].components.length; k<length; k++){

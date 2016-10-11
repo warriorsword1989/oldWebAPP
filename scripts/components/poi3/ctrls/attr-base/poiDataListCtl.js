@@ -18,6 +18,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
+            scope.$parent.$parent.selectPoiInMap = false;//表示poi是列表中选择的
             scope.$emit('closePopoverTips',false);
             scope.$parent.$parent.showLoading = true;
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
@@ -51,10 +52,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
          * 删除、保存POI之后需要把POI从表格中删除
          */
         evtCtrl.off(evtCtrl.eventTypes.CHANGEPOILIST);
-        evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function (poi){
+        evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function (obj){
             if(scope.dataListType == 1){ //表示的是待作业
                 for (var i = 0 ,len = scope.tableParams.data.length;i<len;i++){
-                    if(scope.tableParams.data[i].pid == poi.pid){
+                    if(scope.tableParams.data[i].pid == obj.poi.pid){
                         scope.tableParams.data.splice(i,1);
                         break;
                     }
@@ -65,6 +66,14 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 //     scope.selectData(scope.tableParams.data[i],i);
                 //     //scope.$apply();
                 // });
+            } else if (scope.dataListType == 2){ //已作业
+                for (var i = 0 ,len = scope.tableParams.data.length;i<len;i++){
+                    if(scope.tableParams.data[i].pid == obj.poi.pid){
+                        scope.tableParams.data[i].name = obj.poi.name.name;
+                        scope.tableParams.data[i].kindCode = obj.poi.kindCode;
+                        break;
+                    }
+                }
             }
         });
 

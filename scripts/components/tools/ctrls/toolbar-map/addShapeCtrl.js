@@ -562,8 +562,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
-                map.currentTool.cleanHeight();
+            if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
 
@@ -581,6 +580,11 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
          * @param event
          */
         $scope.addShape = function(type) {
+            //大于17级才可以选择地图上各种geometry
+            if (map.getZoom() < 17) {
+                swal("提示","地图缩放等级必须大于16级才可操作","info");
+                return;
+            }
             //重置选择工具
             $scope.resetToolAndMap();
             // $scope.changeBtnClass(num);
@@ -781,9 +785,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 $scope.resetOperator("addRelation", type);
                 $scope.$emit("SWITCHCONTAINERSTATE", {
                     "attrContainerTpl": true
-                })
+                });
                 var obj = {};
-                obj["showTransitData"] = []
+                obj["showTransitData"] = [];
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
@@ -792,7 +796,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     "loadType": "attrTplContainer",
                     "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
-                }
+                };
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "RDNODE") {
                 $scope.resetOperator("addNode", type);
@@ -992,7 +996,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                 });
             }
             //新增加的分歧(实景分歧);
-            else if (type.split('_').length == 2) {
+            else if (type.split('_')[0] == 'BRANCH') {
                 $scope.resetOperator("addRelation", type);
                 var typeArr = type.split('_');
                 var currentActiveBranch = '';
@@ -1114,6 +1118,10 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
+            } else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
+                tooltipsCtrl.setCurrentTooltip('请选择制作信号灯的路口！');
+                tooltipsCtrl.setChangeInnerHtml("双击最后一个点结束画线!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存信号灯,或者按ESC键取消!");
             }
         }
     }

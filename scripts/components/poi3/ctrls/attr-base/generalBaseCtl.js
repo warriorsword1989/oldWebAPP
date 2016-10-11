@@ -247,6 +247,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             }
         }
     }
+    //将电话区号和长度保存至缓存，不用每次都查询电话的长度
+    $scope.teleCodeToLength = {};
     // 表单验证
     function validateForm() {
         var flag = true;
@@ -262,10 +264,23 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     flag = false;
                     break;
                 }
+                
             }
         }
         if(!flag){
-            swal("保存提示", '电话填写不正确,不能保存！', "info");
+            swal("保存提示", '电话填写不正确,不能保存！', "warning");
+            return flag;
+        }
+        for (var i = 0,len = contacts.length; i<len;i++){
+            if(contacts[i].contactType == 1){ //固话
+                if($scope.teleCodeToLength[contacts[i].code] && contacts[i].contact.length != $scope.teleCodeToLength[contacts[i].code]){
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if(!flag){
+            swal("保存提示", '电话长度不正确,不能保存！', "warning");
         }
         return flag;
     }
@@ -294,8 +309,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "objStatus": "UPDATE"
                     }).then(function(data) {
                         if(data){
-                            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
-                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+                            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                                if (map.floatMenu) {
+                                    map.removeLayer(map.floatMenu);
+                                    map.floatMenu = null;
+                                }
+                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
                             }
                         }
                     });
@@ -303,11 +322,21 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             });
             return;
         }
-        dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {});
+        dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
+            if(data){
+                if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
+                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi});
+                }
+            }
+        });
     }
     // 删除数据
     function del() {
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+        //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             //poiLayer.redraw();
             if (map.floatMenu) { //移除半圈工具条
@@ -318,10 +347,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            if($scope.$parent.$parent.projectType == 1){ //表示的是菜单是POI作业而非道路作业
-                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"pid":$scope.poi.pid});
+            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi.pid});
             }
-            $scope.poi = null;
         });
     }
     /* start 事件监听 ********************************************************/
