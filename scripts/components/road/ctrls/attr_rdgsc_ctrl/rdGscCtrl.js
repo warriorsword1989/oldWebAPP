@@ -60,7 +60,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     $scope.getLevels = function(){
         $scope.zlevel = [];
         for(var i=0;i<$scope.reGscData.links.length;i++){
-            $scope.zlevel.push({id:i,label:i});
+            $scope.zlevel.push({id:$scope.reGscData.links[i].zlevel,label:$scope.reGscData.links[i].zlevel});
         }
     };
     $scope.getLevels();

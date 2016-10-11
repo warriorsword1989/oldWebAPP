@@ -336,7 +336,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         treatmentOfChanged(data, "RDRESTRICTION", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html');
                     }
                 })
-            } else if (shapeCtrl.editType === "pathBreak") {
+            } else if (shapeCtrl.editType === "pathBreak") { //线打断
                 var breakPoint = null,
                     breakPathContent, ctrl, tpl,
                     selectShapeType = shapeCtrl.editFeatType,
@@ -415,7 +415,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 }else{
                     swal("操作失败", "打断link小于2米，请重新操作！", "error");
                 }
-            } else if (shapeCtrl.editType === "transformDirect") {
+            } else if (shapeCtrl.editType === "transformDirect") { //修改道路方向
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
                 var startPoint = feature.geometry[0],
@@ -437,10 +437,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             if (data != null) {
                                 rdLink.redraw();
                                 rdnode.redraw();
-                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK);
+                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
                             }
                         });
-                        return;
+
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);

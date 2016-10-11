@@ -726,8 +726,6 @@ fastmap.uikit.HighRenderController = (function () {
         }
       },
       _cleanHighLight: function (action) {
-
-        console.log('mousemove')
         for (var index in this.layer._tiles) {
           this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
         }

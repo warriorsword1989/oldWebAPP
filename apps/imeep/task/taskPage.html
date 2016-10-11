@@ -22,6 +22,7 @@
             padding: 0px 40px;
         }
         .fm-taskSorter select{
+            display: inline-block;
             width: 100px;
             margin-top: 20px;
             height: inherit;
@@ -30,14 +31,21 @@
             appearance:none;
             -moz-appearance:none; /* Firefox */
             -webkit-appearance:none; /* Safari 和 Chrome */
+             background: url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 10px #fff;
         }
-        .unactived{
-            background: url(../../../images/main/task/icon-arrowup.png) no-repeat 80px 6px,
-            url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
+        .sortBtn{
+            position: relative;
+            border: none;
+            height: 24px;
+            top: 6px;
+            left: 3px;
+            outline: none;
         }
-        .actived{
-            background: url(../../../images/main/task/icon-arrowdown-red.png) no-repeat 80px 6px,
-            url(../../../images/main/task/icon-arrowdown.png) no-repeat 80px 13px #fff;
+        .asc{
+            background: url(../../../images/main/task/sort-asc.png) no-repeat center center;
+        }
+        .desc{
+            background: url(../../../images/main/task/sort-desc.png) no-repeat center center;
         }
         .fm-taskDataList{
             padding: 0px 25px;
@@ -158,12 +166,13 @@
                 <div ng-if="dataExist" ui-layout-container class="scroll-styled">
                     <div class="container-fluid taskDataList">
                         <div class="row fm-taskSorter">
-                            <select ng-model="myOption" ng-change="condtionChange(myOption)" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control" ng-class="{true:'actived',false:'unactived'}[selectArrow]">
+                            <select ng-model="myOption" ng-change="condtionChange(myOption)" ng-blur="changeSelectOnBlur()" ng-focus="changeSelectOnFoucs()" class="form-control">
                                 <option value="0">任务名称</option>
                                 <option value="1">开始时间</option>
                                 <option value="2">结束时间</option>
                                 <option value="3">完成进度</option>
                             </select>
+                            <button ng-click="sortTaskList()" class="sortBtn" ng-class="sortIcon"></button>
                         </div>
 
                         <div class="row fm-taskDataList">

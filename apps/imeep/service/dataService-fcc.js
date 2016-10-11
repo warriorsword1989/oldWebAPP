@@ -68,6 +68,36 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         });
         return defer.promise;
     };
+    /*查询已读消息*/
+    this.getReadMsg = function() {
+        var defer = $q.defer();
+        ajax.get("sysmsg/read/get", {}).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*查询消息详情*/
+    this.getDetailCheck = function() {
+        var defer = $q.defer();
+        ajax.get("sysmsg/detail/check", {}).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /**
      *  保存datatips数据
      * @param param
