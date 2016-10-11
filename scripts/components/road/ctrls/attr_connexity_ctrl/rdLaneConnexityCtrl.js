@@ -453,10 +453,23 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         }
     });
     $scope.save = function () {
-        for(var i = 0;i<objCtrl.data.topos.length;i++){
-
-        }
         objCtrl.save();
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+        if(objCtrl.changedProperty.topos && objCtrl.changedProperty.topos.length >0){
+            for(var i = 0;i<objCtrl.changedProperty.topos.length;i++){
+                if(objCtrl.changedProperty.topos[i].objStatus == "INSERT"){
+                    for(var j = 0;j<objCtrl.changedProperty.topos[i].vias.length;j++){
+                        objCtrl.changedProperty.topos[i].vias[j].objStatus = "INSERT";
+                    }
+                } else if(objCtrl.changedProperty.topos[i].objStatus == "UPDATE"){
+
+                }
+            }
+        }
+
         var param = {
             "command": "UPDATE",
             "type": "RDLANECONNEXITY",
@@ -464,10 +477,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             "data": objCtrl.changedProperty
         };
 
-        if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
-            return;
-        }
+
 
         dsEdit.save(param).then(function (data) {
             if (data) {
