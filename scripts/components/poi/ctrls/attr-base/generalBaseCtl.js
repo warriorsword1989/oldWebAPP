@@ -138,6 +138,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 dsMeta.queryFoodType($scope.poi.kindCode).then(function(ret) {
                     parseFoodType(ret);
+                    initFoodType($scope.poi.kindCode);
+                    
                 });
                 break;
             case 7: //加气站
@@ -267,6 +269,22 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 }
             }
         }
+        
+    }
+    
+    //根据种别给深度信息的的菜品风味赋不同的默认值
+    function initFoodType(kindCode) {
+    	if($scope.poi.kindCode == "110200"){//快餐
+    		$scope.poi.restaurants[0].foodType1["3009"] = true;
+    	}else if($scope.poi.kindCode == "110101"){//中餐馆
+    		$scope.poi.restaurants[0].foodType1["2016"] = true;
+    	}else if($scope.poi.kindCode == "110103"){//地方风味
+    		$scope.poi.restaurants[0].foodType1["2016"] = true;
+    	}else if($scope.poi.kindCode == "110302"){//冷饮店
+    		$scope.poi.restaurants[0].foodType2["3015"] = true;
+    	}else if($scope.poi.kindCode == "110102"){//异国风味
+    		$scope.poi.restaurants[0].foodType1["1001"] = true;
+    	}
     }
     //将电话区号和长度保存至缓存，不用每次都查询电话的长度
     $scope.teleCodeToLength = {};
