@@ -392,19 +392,19 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			];
 			// 创建一个Socket实例
 			// var url = 'ws://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU6824TL9E8CB2FF03679795FE7EFE8F0A25BD35';
-			var url = 'http://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU6824TL9E8CB2FF03679795FE7EFE8F0A25BD35';
+			var url = 'http://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU7NSZDKE8E26ACE57928938C1BBD5048B7E813A';
 			// var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer').substr(5));
 			var sock = new SockJS(url);
 			// var sock = new WebSocket(url);
 			sock.onopen = function() {
 				console.log('已经建立websocket连接...');
-				$timeout(function(){
+				/*$timeout(function(){
 					$scope.systemMsg = msg;
-				},3000)
+				},3000)*/
 			};
 			sock.onmessage = function(e) {
-				console.log('message', e.data);
-				$scope.systemMsg = e.data;
+				console.log('message', JSON.parse(e.data));
+				$scope.systemMsg = JSON.parse(e.data);
 			};
 			sock.onclose = function() {
 				console.log('close');
@@ -465,7 +465,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.logMsgStyle = {
 				'display':'block'
 			};
-			$scope.msgNotify();
+			// $scope.msgNotify();
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
