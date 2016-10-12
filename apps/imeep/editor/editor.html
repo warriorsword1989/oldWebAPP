@@ -44,7 +44,7 @@
             </div>
             <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;">
                 <button class="fm-top-right-btn profile" title="个人信息"></button>
-                <button class="fm-top-right-btn notice" title="我的消息">
+                <button class="fm-top-right-btn notice" title="我的消息" ng-click="historyMsg();">
                     <div ng-class="{'msg-alert animated':true,'wobble':systemMsg.length}" ng-if="systemMsg.length" ng-bind="systemMsg.length"></div>
                 </button>
                 <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>

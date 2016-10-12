@@ -465,7 +465,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.logMsgStyle = {
 				'display':'block'
 			};
-			$scope.msgNotify();
+			// $scope.msgNotify();
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
