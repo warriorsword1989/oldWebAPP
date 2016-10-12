@@ -324,7 +324,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             var selObj = fastmap.dataApi.rdLaneTopology({
                                 "busLaneInfo": 0,
                                 "connexityPid": $scope.infoData["pid"],
-                                "inLaneInfo": parseInt($scope.intToDecial($scope.directArr.length)),
+                                "inLaneInfo": parseInt($scope.intToDecial($scope.infoData["selectNum"])),
                                 "outLinkPid": parseInt(data.id),
                                 "reachDir": $scope.transData[item] ? $scope.transData[item] : 0,
                                 "relationshipType": 1,
