@@ -2287,3 +2287,15 @@ a.batchButton {
   background-color: greenyellow;
   text-decoration: underline;
 }
+.msg-alert {
+  border-radius: 50%;
+  background-color: #F63A3A;
+  color: #fff;
+  width: 15px;
+  height: 15px;
+  line-height: 1.2;
+  top: -10px;
+  right: -10px;
+  position: relative;
+  transition: all .3s;
+}
