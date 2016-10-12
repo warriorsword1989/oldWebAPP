@@ -505,7 +505,6 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     };
 
     $scope.saveFinal = function (){
-        return ;
         var param = {
             "command": "UPDATE",
             "type": "RDLANECONNEXITY",
