@@ -516,7 +516,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 dsEdit.getByPid(objCtrl.data.pid, "RDLANECONNEXITY").then(function(ret) {
                     if (ret) {
                         objCtrl.setCurrentObject('RDLANECONNEXITY', ret);
-                        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                        objCtrl.setOriginalData(ret.getIntegrate());
                     }
                 });
             }
@@ -534,6 +534,17 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdConnexity.redraw();
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                //清空编辑图层和shapeCtrl
+                shapeCtrl.stopEditing();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 $scope.rdCrossData = null;
                 highRenderCtrl._cleanHighLight();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
