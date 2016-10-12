@@ -240,6 +240,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
                         }
                     }
+                    highRenderCtrl.drawHighlight();
                     var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
                     var infoLen = (16 - inLaneDecArr.length);
                     inLaneDecArr[$scope.directArr.length - infoLen] = "1";
@@ -248,6 +249,10 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                         str += inLaneDecArr[j];
                     }
                     $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].enterLaneNum = $scope.showLaneInfo[0].enterLaneNum || 0;
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].enterBusNum = $scope.showLaneInfo[0].enterBusNum || 0;
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].inLinkPid = objCtrl.data["inLinkPid"];
+                    $scope.showLaneInfo.push($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]);
                 } else if (outLinkArr.indexOf(parseInt(data.id)) > -1) {//在现有的退出线内,排除掉
                     for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                         if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
@@ -286,6 +291,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             i--;
                         }
                     }
+                    highRenderCtrl.drawHighlight();
                 } else {//不在退出线内的线
                     highRenderCtrl.highLightFeatures.push({
                         id: data.id.toString(),
