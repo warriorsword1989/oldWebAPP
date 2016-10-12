@@ -458,10 +458,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             else if (shapeCtrl.editType === "pathDepartNode") { //节点分离
                 param["command"] = "DEPART";
                 param["dbId"] = App.Temp.dbId;
-                param["objId"] = '203000259';//selectCtrl.selectedFeatures.id;
+                param["objId"] = selectCtrl.selectedFeatures.id;
                 param["data"] = {
                     catchNodePid:0,
-                    linkPid: selectCtrl.selectedFeatures.id,
+                    linkPid: selectCtrl.selectedFeatures.workLinkPid,
                     longitude: selectCtrl.selectedFeatures.latlng.lng,
                     latitude: selectCtrl.selectedFeatures.latlng.lat
                 };
