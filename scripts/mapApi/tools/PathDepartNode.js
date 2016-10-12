@@ -19,11 +19,12 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this.targetIndexs = [];
         this.eventController = fastmap.uikit.EventController();
         this.selectCtrl = fastmap.uikit.SelectController();
+        //配置要扑捉的图层;
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
             selectedSnap: false,
-            snapLine: true,
+            snapLine: false,
             snapNode: true,
             snapVertex: false
         });
@@ -122,9 +123,10 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         }
         var node = this.selectCtrl.selectedFeatures;
         this.selectCtrl.selectedFeatures = {
+            catchNodePid:this.snapHandler.snaped?this.snapHandler.properties.id:0,
             workLinkPid:this.selectCtrl.workLinkPid,
             id: node.id,
-            latlng: this.targetPoint
+            latlng: this.snapHandler.snaped?this.snapHandler.snapLatlng:this.targetPoint,
         }
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },

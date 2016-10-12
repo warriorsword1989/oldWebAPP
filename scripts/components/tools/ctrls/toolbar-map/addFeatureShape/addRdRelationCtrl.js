@@ -2149,18 +2149,22 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             if(outLinkData.direct==1){
                                 $scope.jointNode = outLinkData.eNodePid==$scope.limitRelation.nodePid?outLinkData.sNodePid:outLinkData.eNodePid;
                             }else if(outLinkData.direct==2||outLinkData.direct==3){
-                                if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2){
-                                    $scope.jointNode = outLinkData.eNodePid;
+                                if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2||outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
+                                    if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2){
+                                        $scope.jointNode = outLinkData.eNodePid;
+                                    }else{
+                                        $scope.jointNode = outLinkData.sNodePid;
+                                    }
                                 }else{
-                                    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
+                                    tooltipsCtrl.setCurrentTooltipText("退出线方向错误!");
                                     return;
                                 }
-                                if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
-                                    $scope.jointNode = outLinkData.sNodePid;
-                                }else{
-                                    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
-                                    return;
-                                }
+                                //if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
+                                //    $scope.jointNode = outLinkData.sNodePid;
+                                //}else{
+                                //    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
+                                //    return;
+                                //}
                             }else{
                                 tooltipsCtrl.setCurrentTooltipText("该道路方向不确定!");
                                 map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);

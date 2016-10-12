@@ -1783,11 +1783,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         return;
                     }
                 } else if (type === "PATHDEPARTNODE") {
-                    ////防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
-                    //if(shapeCtrl.editType && !(shapeCtrl.editType == 'pathVertexReMove' || shapeCtrl.editType == 'pathVertexInsert' || shapeCtrl.editType == 'pathVertexMove' )){ //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
-                    //    tooltipsCtrl.setCurrentTooltip('<span style="color: red;">线的方向已修改或者已进行了打断操作，请先按空格键保存！</span>');
-                    //    return ;
-                    //}
+                    //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    if(shapeCtrl.editType && !(shapeCtrl.editType == 'PATHDEPARTNODE')){ //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">道路线的端点已经修改过或分离，请先按空格键保存！</span>');
+                        return ;
+                    }
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('deleteDot');
                         tooltipsCtrl.setCurrentTooltip('请选择要分离的节点！');
@@ -3176,21 +3176,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     var tempLinkPid = $scope.selectedFeature.id;
+                    //让用户选择移动的点的地图配置;
                     map.currentTool = new fastmap.uikit.SelectNode({
                         map: map,
                         nodesFlag: true,
                         shapeEditor: shapeCtrl
                     });
                     map.currentTool.enable();
+                    //当选择要移动的点以后然后在加载pathDepartNode进行处理;
+                    eventController.off(eventController.eventTypes.GETNODEID);
                     eventController.on(eventController.eventTypes.GETNODEID, function(data){
-//                        console.log(data)
-//                        $scope.selectedFeature = data;
-                        selectCtrl.workLinkPid = tempLinkPid;
+                        tooltipsCtrl.setCurrentTooltipText('开始移动分离节点或移动端点!');
                         shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
                         shapeCtrl.startEditing();
-                        shapeCtrl.editFeatType = $scope.selectedFeature.optype;
+                        shapeCtrl.editFeatType = data.optype;
+                        selectCtrl.workLinkPid = tempLinkPid;
                         map.currentTool = shapeCtrl.getCurrentTool();
-                        map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType($scope.selectedFeature.optype));
+                        map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType(data.optype));
                     });
                 }
                 else {
