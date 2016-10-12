@@ -362,7 +362,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                         index: j
                                     };
                                     indexOfData[data[item][j]["rowId"]] = obj;
-                                } else if (data["pid"]) {
+                                } else if (data[item][j]["pid"]) {
                                     key = "pid";
                                     obj = {
                                         flag: true,
