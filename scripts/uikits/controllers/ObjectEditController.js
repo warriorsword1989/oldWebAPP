@@ -288,9 +288,9 @@ fastmap.uikit.ObjectEditController = (function() {
                                 }
                             }
                             if (objArr.length !== 0) {
-                                if (oriData["linkPid"]) {
-                                    obj["linkPid"] = oriData["pid"];
-                                }
+                                //if (oriData["linkPid"]) {
+                                    //obj["linkPid"] = oriData["pid"];
+                                //}
                                 retObj[item] = objArr;
                             }
                         } else if (oriData[item].length < data[item].length) {
@@ -325,13 +325,12 @@ fastmap.uikit.ObjectEditController = (function() {
                                     obj["objStatus"] = "INSERT";
                                     delete obj["$$hashKey"];
                                     //obj["pid"]=pids;
-                                    // if (obj) {
-                                    //     if (oriData[item][0]["linkPid"]) {
-                                    //         obj["linkPid"] = oriData[item][0]["linkPid"];
-                                    //     }
-                                    //     objArr.push(obj);
-                                    // }
-                                    objArr.push(obj);
+                                    if (obj) {
+                                        //if (oriData[item][0]["linkPid"]) {
+                                            //obj["linkPid"] = oriData[item][0]["linkPid"];
+                                        //}
+                                        objArr.push(obj);
+                                    }
                                     delete obj["geoLiveType"];
                                 }
                             }
@@ -340,11 +339,12 @@ fastmap.uikit.ObjectEditController = (function() {
                                 //var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
                                 var obj = this.compareJson(pids,oriData[item][j], data[item][differLen + j], "UPDATE");
                                 if (obj) {
-                                    if (oriData[item][j]["linkPid"]) {
-                                        obj["linkPid"] = oriData[item][j]["linkPid"];
-                                    }
+                                    //if (oriData[item][j]["linkPid"]) {
+                                        //obj["linkPid"] = oriData[item][j]["linkPid"];
+                                    //}
                                     objArr.push(obj);
                                 }
+                                objArr.push(obj);
                             }
                             if (objArr.length !== 0) {
                                 retObj[item] = objArr;
