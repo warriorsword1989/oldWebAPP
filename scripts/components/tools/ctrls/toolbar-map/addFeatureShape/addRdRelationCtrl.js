@@ -650,7 +650,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 shapeCtrl.toolsSeparateOfEditor("addRdGsc", {
                     map: map,
-                    layer: [rdLink, rwLink],
+                    layer: [rdLink, rwLink,lcLink],
                     type: "rectangle"
                 });
                 map.currentTool = shapeCtrl.getCurrentTool();
