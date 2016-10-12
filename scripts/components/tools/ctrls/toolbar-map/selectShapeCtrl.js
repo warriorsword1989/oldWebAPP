@@ -415,19 +415,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
-                    if (L.Browser.touch) {
-                        toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
-                            'title': "保存",
-                            'type': shapeCtrl.editType,
-                            'class': "feaf",
-                            callback: function() {
-                                var e = $.Event("keydown");
-                                e.keyCode = 32;
-                                $(document).trigger(e);
-                            }
-                        })
-                    }
+                    // if (L.Browser.touch) {
+                    //     toolsObj.items.push({
+                    //         'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                    //         'title': "保存",
+                    //         'type': shapeCtrl.editType,
+                    //         'class': "feaf",
+                    //         callback: function() {
+                    //             var e = $.Event("keydown");
+                    //             e.keyCode = 32;
+                    //             $(document).trigger(e);
+                    //         }
+                    //     })
+                    // }
                     selectCtrl.onSelected({
                         point: data.point
                     });

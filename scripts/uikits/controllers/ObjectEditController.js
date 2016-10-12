@@ -325,12 +325,13 @@ fastmap.uikit.ObjectEditController = (function() {
                                     obj["objStatus"] = "INSERT";
                                     delete obj["$$hashKey"];
                                     //obj["pid"]=pids;
-                                    if (obj) {
-                                        if (oriData[item][0]["linkPid"]) {
-                                            obj["linkPid"] = oriData[item][0]["linkPid"];
-                                        }
-                                        objArr.push(obj);
-                                    }
+                                    // if (obj) {
+                                    //     if (oriData[item][0]["linkPid"]) {
+                                    //         obj["linkPid"] = oriData[item][0]["linkPid"];
+                                    //     }
+                                    //     objArr.push(obj);
+                                    // }
+                                    objArr.push(obj);
                                     delete obj["geoLiveType"];
                                 }
                             }
