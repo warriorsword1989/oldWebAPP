@@ -231,6 +231,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             if (parseInt(data.properties.fc) != 9) {
                 if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
+                    outLinkArr.push(parseInt(data.id));
                     changedObj["outLinkPid"] = data.id;
                     changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
                     $scope.showLaneInfo.push(changedObj);

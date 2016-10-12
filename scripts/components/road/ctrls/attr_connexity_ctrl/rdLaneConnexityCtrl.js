@@ -516,7 +516,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 dsEdit.getByPid(objCtrl.data.pid, "RDLANECONNEXITY").then(function(ret) {
                     if (ret) {
                         objCtrl.setCurrentObject('RDLANECONNEXITY', ret);
-                        objCtrl.setOriginalData(ret.getIntegrate());
+                        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     }
                 });
             }
