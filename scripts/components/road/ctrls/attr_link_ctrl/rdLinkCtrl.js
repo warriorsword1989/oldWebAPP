@@ -230,23 +230,44 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         if(!$scope.linkData){
             return;
         }
+        ////如果为双方向时对车道数进行判断;
+        //if($scope.linkData.direct==1){
+        //    if($scope.linkData.laneLeft==$scope.linkData.laneRight&&$scope.linkData.laneLeft!=0&&$scope.linkData.laneRight!=0){
+        //        $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
+        //        $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+        //    }
+        //    if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
+        //        $scope.linkData.laneNum=0;
+        //        $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
+        //        $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
+        //    }
+        //}
+        ////如果为单方向时,左右车道清零;
+        //if($scope.linkData.direct==2||$scope.linkData.direct==3){
+        //    $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+        //    $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
+        //}
 
-        //如果为双方向时对车道数进行判断;
-        if($scope.linkData.direct==1){
-            if($scope.linkData.laneLeft==$scope.linkData.laneRight&&$scope.linkData.laneLeft!=0&&$scope.linkData.laneRight!=0){
-                $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
-                $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+        //车道幅宽维护;
+        if($scope.linkData.laneNum){
+            if($scope.linkData.laneNum==1){
+                $scope.linkData.width = 30;
+            }else if($scope.linkData.laneNum>=2&&$scope.linkData.laneNum<=3){
+                $scope.linkData.width = 55;
+            }else{
+                $scope.linkData.width = 130;
             }
-            if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
-                $scope.linkData.laneNum=0;
-                $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
-                $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
+        }else if($scope.linkData.laneLeft||$scope.linkData.laneRight){
+            var temp = parseInt($scope.linkData.laneLeft)+parseInt($scope.linkData.laneRight);
+            if(temp==1){
+                $scope.linkData.width = 30;
+            }else if(temp>=2&&temp<=3){
+                $scope.linkData.width = 55;
+            }else{
+                $scope.linkData.width = 130;
             }
-        }
-        //如果为单方向时,左右车道清零;
-        if($scope.linkData.direct==2||$scope.linkData.direct==3){
-            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-            $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
+        }else{
+            $scope.linkData.width = 0;
         }
 
 

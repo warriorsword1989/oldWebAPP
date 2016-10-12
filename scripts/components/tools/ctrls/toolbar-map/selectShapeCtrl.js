@@ -416,19 +416,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
-                    if (L.Browser.touch) {
-                        toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
-                            'title': "保存",
-                            'type': shapeCtrl.editType,
-                            'class': "feaf",
-                            callback: function() {
-                                var e = $.Event("keydown");
-                                e.keyCode = 32;
-                                $(document).trigger(e);
-                            }
-                        })
-                    }
+                    // if (L.Browser.touch) {
+                    //     toolsObj.items.push({
+                    //         'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                    //         'title': "保存",
+                    //         'type': shapeCtrl.editType,
+                    //         'class': "feaf",
+                    //         callback: function() {
+                    //             var e = $.Event("keydown");
+                    //             e.keyCode = 32;
+                    //             $(document).trigger(e);
+                    //         }
+                    //     })
+                    // }
                     selectCtrl.onSelected({
                         point: data.point
                     });
@@ -1795,7 +1795,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
                         }
                         objCtrl.data["direct"] = selectCtrl.selectedFeatures["direct"];
-                        // $scope.$apply();
+                        eventController.fire('directChange',objCtrl.data["direct"]);
                         tooltipsCtrl.setEditEventType('transformDirection');
                         tooltipsCtrl.setCurrentTooltip('修改方向！');
                     } else {
