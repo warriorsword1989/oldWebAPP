@@ -15,8 +15,8 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
                     defer.resolve(data.errmsg);
                 }
             } else {
-                swal("登陆出错", data.errmsg, "error");
-                defer.resolve(null);
+                //swal("登陆出错", data.errmsg, "error");
+                defer.resolve(data.errmsg);
             }
         }).error(function(rejection) {
             ajax.error(defer, rejection);

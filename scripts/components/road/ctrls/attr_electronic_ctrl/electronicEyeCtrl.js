@@ -16,6 +16,13 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.electronicEyeData = objCtrl.data;
 		conversionSystem();
+		if($scope.electronicEyeData.pairs.length){
+			if($scope.electronicEyeData.pairs[0].parts[0].eleceyePid == $scope.electronicEyeData.pid){
+				$scope.elecPartPid = $scope.electronicEyeData.pairs[0].parts[1].eleceyePid;
+			}else{
+				$scope.elecPartPid = $scope.electronicEyeData.pairs[0].parts[0].eleceyePid;
+			}
+		}
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.electronicEyeData.linkPid.toString(),
@@ -219,6 +226,11 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 //                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
 //                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
 //                editLayer.clear();
+				// 清除地图上工具按钮
+				if (map.floatMenu) {
+					map.removeLayer(map.floatMenu);
+					map.floatMenu = null;
+				}
 				$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
 			}
 		})

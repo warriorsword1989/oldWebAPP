@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/23.
  */
 var otherApp = angular.module('app');
-otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$document','appPath','dsEdit', function ($scope, $ocLazyLoad, $document,appPath,dsEdit) {
+otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$document','appPath','dsEdit','$q', function ($scope, $ocLazyLoad, $document,appPath,dsEdit,$q) {
 
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -14,7 +14,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     var rdConnexity = layerCtrl.getLayerById("relationData");
 
     var linksObj = {};//存放需要高亮的进入线和退出线的id
-    objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
 
     //附加车道图标获得
     $scope.getAdditionalLane = function (index, data) {
@@ -73,6 +73,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     };
 
     $scope.initializeData = function () {
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.showNormalData = [];
         $scope.showTransitData = [];
         $scope.outLanesArr = [];
@@ -251,6 +252,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             $(v).removeClass('active');
         });
     };
+
     //REACH_DIR
     $scope.showLanesInfo = function (item, index, event) {
         $scope.removeTipsActive();
@@ -453,21 +455,70 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     });
     $scope.save = function () {
         objCtrl.save();
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+        var arr = [];
+        if(objCtrl.changedProperty.topos && objCtrl.changedProperty.topos.length >0){
+            for(var i = 0;i<objCtrl.changedProperty.topos.length;i++){
+                if(objCtrl.changedProperty.topos[i].objStatus == "INSERT"){
+                    for(var j = 0;j<objCtrl.changedProperty.topos[i].vias.length;j++){
+                        objCtrl.changedProperty.topos[i].vias[j].objStatus = "INSERT";
+                        delete objCtrl.changedProperty.topos[i].vias[j].geoLiveType;
+                    }
+                } else if(objCtrl.changedProperty.topos[i].objStatus == "UPDATE"){
+                    //判断闭合
+                    // if(objCtrl.changedProperty.topos[i].vias && objCtrl.changedProperty.topos[i].vias.length > 0){
+                    //     var toop = objCtrl.changedProperty.topos[i];
+                    //     var lastVia = toop.vias[toop.vias.length -1]; //获取vias数组中的最后一个值
+                    //     var temp ={'outLinkPid':toop.outLinkPid,'linkpid':lastVia.linkPid};
+                    //     arr.push(temp);
+                    // }
+                }
+            }
+        }
+
+        var promises = [];
+        var flagArr = [];
+        if(arr.length > 0){
+            for (var i = 0 ; i < arr.length ; i ++){
+                flagArr[i] = false;
+                promises.push(dsEdit.getByPid(arr[i].linkPid,"RDLINK"),function (data){
+                    if(data){
+                        if(data.eNodePid == arr[i].outLinkPid || data.sNodePid == arr[i].outLinkPid ){
+                            flagArr[i] = true;
+                        }
+                    }
+                });
+            }
+            $q.all(promises).then(function () {
+                if(flagArr.indexOf(false) > -1){
+                    swal('提示','经过线没有闭合！','warning');
+                    return ;
+                }
+                $scope.saveFinal();
+            });
+        }else {
+            $scope.saveFinal();
+        }
+    };
+
+    $scope.saveFinal = function (){
         var param = {
             "command": "UPDATE",
             "type": "RDLANECONNEXITY",
             "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
-
-        if(!objCtrl.changedProperty){
-            swal("操作成功",'属性值没有变化！', "success");
-            return;
-        }
-
         dsEdit.save(param).then(function (data) {
             if (data) {
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                dsEdit.getByPid(objCtrl.data.pid, "RDLANECONNEXITY").then(function(ret) {
+                    if (ret) {
+                        objCtrl.setCurrentObject('RDLANECONNEXITY', ret);
+                        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                    }
+                });
             }
             rdConnexity.redraw();
         })
@@ -483,6 +534,17 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         dsEdit.save(param).then(function (data) {
             if (data) {
                 rdConnexity.redraw();
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                //清空编辑图层和shapeCtrl
+                shapeCtrl.stopEditing();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 $scope.rdCrossData = null;
                 highRenderCtrl._cleanHighLight();
                 $scope.$emit('SWITCHCONTAINERSTATE', {

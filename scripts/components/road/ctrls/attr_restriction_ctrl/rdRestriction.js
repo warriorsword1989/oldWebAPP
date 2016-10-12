@@ -1,12 +1,11 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-var objectEditApp = angular.module("app").controller("normalController", ['$scope', '$timeout', '$ocLazyLoad', 'dsFcc', 'dsEdit', function ($scope, $timeout, $ocLazyLoad, dsFcc, dsEdit) {
+angular.module("app").controller("normalController", ['$scope', '$timeout', '$ocLazyLoad', 'dsFcc', 'dsEdit', function ($scope, $timeout, $ocLazyLoad, dsFcc, dsEdit) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
-    //var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('rdLink');
     var eventController = fastmap.uikit.EventController();
     var rdRestriction = layerCtrl.getLayerById('relationData');
@@ -15,30 +14,32 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
 
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
-        $scope.$on('get-date', function (event, data) {
-            $scope.codeOutput = data;
-            $scope.rdRestrictData.time = data;
-        });
-        $timeout(function () {
+        //$timeout(function () {
             $scope.$broadcast('set-code', str);
-            $scope.codeOutput = str;
-            $scope.rdRestrictData.time = str;
-            $scope.$apply();
-        }, 100);
+        //}, 100);
     };
+    $scope.$on('get-date', function (event, date) {
+        $scope.rdSubRestrictData.conditions[0].timeDomain = date;
+    });
+
     /*改变限制类型判断时间控件*/
     $scope.changeLimitType = function (type) {
         if (type == 2) {
-            $timeout(function () {
+            //$timeout(function () {
                 $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
                     $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-                    /*查询数据库取出时间字符串*/
-                    var tmpStr = $scope.rdRestrictData.time;
-                    $scope.fmdateTimer(tmpStr);
+                    $timeout(function (){
+                        /*查询数据库取出时间字符串*/
+                        if($scope.rdSubRestrictData.conditions && $scope.rdSubRestrictData.conditions[0] && $scope.rdSubRestrictData.conditions[0].timeDomain){
+                            $scope.fmdateTimer($scope.rdSubRestrictData.conditions[0].timeDomain);
+                        }else {
+                            $scope.fmdateTimer("");
+                        }
+                    },100);
                 });
-            });
+            //});
         } else {
-            $scope.dateURL = '';
+            $scope.fmdateTimer("");
         }
     };
     //初始化数据
@@ -76,12 +77,6 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-        $.each(objectEditCtrl.data.details, function (i, v) {
-            if (v)
-                limitPicArr.push(v.timeDomain);
-            else
-                limitPicArr.push('');
-        });
         //初始化交限中的第一个禁止方向的信息
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
         /*如果默认限制类型为时间段禁止，显示时间段控件*/
@@ -97,45 +92,12 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
 
     //objectController初始化 数据初始化
     if (objectEditCtrl.data === null) {
-        $scope.rdSubRestrictData = [];
+        $scope.rdSubRestrictData = {};
     } else {
         $scope.initializeData();
     }
 
-    // $scope.vehicleOptions = [
-    //     {"id": 0, "label": "客车(小汽车)"},
-    //     {"id": 1, "label": "配送卡车"},
-    //     {"id": 2, "label": "运输卡车"},
-    //     {"id": 3, "label": "步行者"},
-    //     {"id": 4, "label": "自行车"},
-    //     {"id": 5, "label": "摩托车"},
-    //     {"id": 6, "label": "机动脚踏两用车"},
-    //     {"id": 7, "label": "急救车"},
-    //     {"id": 8, "label": "出租车"},
-    //     {"id": 9, "label": "公交车"},
-    //     {"id": 10, "label": "工程车"},
-    //     {"id": 11, "label": "本地车辆"},
-    //     {"id": 12, "label": "自用车辆"},
-    //     {"id": 13, "label": "多人乘坐车辆"},
-    //     {"id": 14, "label": "军车"},
-    //     {"id": 15, "label": "有拖车的车"},
-    //     {"id": 16, "label": "私营公共汽车"},
-    //     {"id": 17, "label": "农用车"},
-    //     {"id": 18, "label": "载有易爆品的车辆"},
-    //     {"id": 19, "label": "载有水污染品的车辆"},
-    //     {"id": 20, "label": "载有其它危险品的车辆"},
-    //     {"id": 21, "label": "电车"},
-    //     {"id": 22, "label": "轻轨"},
-    //     {"id": 23, "label": "校车"},
-    //     {"id": 24, "label": "四轮驱动车"},
-    //     {"id": 25, "label": "装有防雪链的车"},
-    //     {"id": 26, "label": "邮政车"},
-    //     {"id": 27, "label": "槽罐车"},
-    //     {"id": 28, "label": "残疾人车"},
-    //     {"id": 29, "label": "预留"},
-    //     {"id": 30, "label": "预留"},
-    //     {"id": 31, "label": "标志位,禁止/允许(0/1)"}
-    // ];
+
     $scope.showAddDirectTepl = function () {
         var addObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
@@ -153,31 +115,6 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         $scope.$emit("transitCtrlAndTpl", addObj);
     };
 
-    // var towbin = dec2bin(6);
-    // //var towbin=dec2bin("2147483655");
-    //
-    // //循环车辆值域，根据数据库数据取出新的数组显示在页面
-    // var originArray = [];
-    // $scope.checkValue = false;
-    // var len = towbin.length - 1;
-    // //长度小于32即是没有选中checkbox，不允许
-    // if (towbin.length < 32) {
-    //     $scope.checkValue = false;
-    // } else {
-    //     len = towbin.length - 2;
-    //     $scope.checkValue = true;
-    // }
-    // for (var i = len; i >= 0; i--) {
-    //     if (towbin.split("").reverse().join("")[i] == 1) {
-    //         originArray.push($scope.vehicleOptions[i]);
-    //     }
-    // }
-    // //初始化数据
-    // initOrig(originArray, $scope.vehicleOptions, "vehicleExpressiondiv");
-    //
-    // $scope.showPopover = function () {
-    //     $('#vehicleExpressiondiv').popover('show');
-    // };
     //调用的方法
     objectEditCtrl.rdrestrictionObject = function () {
         if (objectEditCtrl.data === null) {
@@ -213,17 +150,24 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
         $scope.flag = $scope.getRestrictInfoIndex(item);
         //$scope.flag = index;
-        $timeout(function () {
-            $(".data-empty").trigger('click');
-            $scope.$apply();
-        });
+        // $timeout(function () {
+        //     $(".data-empty").trigger('click');
+        //     //$scope.$apply();
+        // });
         $scope.removeTipsActive();
         $(e.target).addClass('active');
+
         $scope.rdSubRestrictData = item;
 
-        $scope.fmdateTimer(limitPicArr[$(e.target).attr('data-index')]);
-        //高亮选择限制防线的进入线和退出线
+        // if($scope.rdSubRestrictData.conditions && $scope.rdSubRestrictData.conditions[0].timeDomain){
+        //     $scope.fmdateTimer($scope.rdSubRestrictData.conditions[0].timeDomain);
+        // }else {
+        //     $scope.fmdateTimer("");
+        // }
 
+        $scope.changeLimitType($scope.rdSubRestrictData.type);
+
+        //高亮选择限制防线的进入线和退出线
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objectEditCtrl.data["inLinkPid"].toString(),
@@ -240,70 +184,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
 
-        //显示时间
-        $timeout(function () {
-            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
-                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-                $timeout(function () {
-                    if ($scope.rdSubRestrictData["conditions"][0]) {
-                        $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
-                        $scope.$broadcast('set-code', $scope.rdSubRestrictData["conditions"][0].timeDomain);
-                        $scope.$apply();
-                    }
-                });
-            });
-        });
-        // /*时间控件*/
-        // $scope.fmdateTimer = function (str) {
-        //     $scope.$on('get-date', function (event, data) {
-        //         $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
-        //
-        //     });
-        //     $timeout(function () {
-        //         $scope.$broadcast('set-code', str);
-        //         if ($scope.rdSubRestrictData["conditions"].length === 0) {
-        //             var condition = fastmap.dataApi.rdRestrictionCondition({"rowId": "0"});
-        //             $scope.rdSubRestrictData["conditions"].push(condition);
-        //         }
-        //         $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
-        //         $scope.$apply();
-        //     }, 100);
-        // }
     };
-    // //修改退出线
-    // var currentTool = null;
-    // $scope.changeOutLink = function (item) {
-    //     currentTool = new fastmap.uikit.SelectPath({
-    //         map: map,
-    //         currentEditLayer: rdLink,
-    //         linksFlag: false,
-    //         shapeEditor: fastmap.uikit.ShapeEditorController()
-    //     });
-    //     currentTool.enable();
-    //     eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-    //         highRenderCtrl.highLightFeatures.length = 0;
-    //         highRenderCtrl._cleanHighLight();
-    //         $scope.$apply(function () {
-    //             $scope.rdSubRestrictData.outLinkPid = parseInt(data.id);
-    //         });
-    //
-    //         var highLightFeatures = [];
-    //         highLightFeatures.push({
-    //             id: objectEditCtrl.data["inLinkPid"].toString(),
-    //             layerid: 'rdLink',
-    //             type: 'line',
-    //             style: {color:"red"}
-    //         });
-    //         highLightFeatures.push({
-    //             id: data.id.toString(),
-    //             layerid: 'rdLink',
-    //             type: 'line',
-    //             style: {}
-    //         });
-    //         highRenderCtrl.highLightFeatures = highLightFeatures;
-    //         highRenderCtrl.drawHighlight();
-    //     })
-    // };
 
     $scope.deleteDirect = function (item, event,index) {
         var len = $scope.rdRestrictData.details.length;
@@ -311,25 +192,6 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             swal("无法操作", "请点击删除按钮删除该交限！", "info");
             return;
         } else {
-            // for (var i = 0; i < len; i++) {
-            //     if (len === 1) {
-            //         swal("无法操作", "请点击删除按钮删除该交限！", "info");
-            //         break;
-            //     } else {
-            //         if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
-            //             var infoArr = $scope.rdRestrictData.restricInfo.split(",");
-            //             for(var j=0;j<infoArr.length;j++){
-            //                 if(infoArr[j] == item.restricInfo){
-            //                     infoArr.splice(j,1);
-            //                     break;
-            //                 }
-            //             }
-            //             $scope.rdRestrictData.restricInfo = infoArr.join(",");
-            //             $scope.rdRestrictData.details.splice(i, 1);
-            //             len--;
-            //         }
-            //     }
-            // }
             $scope.rdRestrictData.details.splice(index,1);
             var restrictIndex = $scope.getRestrictInfoIndex(item);
             var arr = $scope.rdRestrictData.restricInfo.split(',');
@@ -357,94 +219,32 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
         $scope.rdRestrictData.restricInfo.length = 0;
         $scope.rdRestrictData.restricInfo = restrictInfoArr.join(",");
 
-        // var restrictInfoArr = $scope.rdRestrictData.restricInfo.split(",");
-        // item.flag = parseInt(item.flag);
-        // if (item.flag === 1) {
-        //     if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
-        //         restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
-        //     }
-        // } else {
-        //     if (restrictInfoArr[$scope.flag].indexOf("[") !== -1) {
-        //         restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
-        //     }
-        //     restrictInfoArr[$scope.flag] = "[" + restrictInfoArr[$scope.flag] + "]";
-        // }
-        // $scope.rdRestrictData.restricInfo.length = 0;
-        // $scope.rdRestrictData.restricInfo = restrictInfoArr.join(",");
-    };
-    $timeout(function () {
-        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-            $timeout(function () {
-                if ($scope.rdSubRestrictData["conditions"][0]) {
-                    $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
-                    $scope.$broadcast('set-code', $scope.rdSubRestrictData["conditions"][0].timeDomain);
-                    $scope.$apply();
-                }
-            });
-        });
-    });
-    /*时间控件*/
-    $scope.fmdateTimer = function (str) {
-        $scope.$on('get-date', function (event, data) {
-            $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
-
-        });
-        $timeout(function () {
-            $scope.$broadcast('set-code', str);
-            if ($scope.rdSubRestrictData["conditions"].length === 0) {
-                var condition = fastmap.dataApi.rdRestrictionCondition({"rowId": "0"});
-                $scope.rdSubRestrictData["conditions"].push(condition);
-            }
-            $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
-            $scope.$apply();
-        }, 100);
     };
     //修改属性
     $scope.save = function () {
-        if ($scope.rdSubRestrictData.type == 2) {
-            for (var i = 0; i < $scope.rdRestrictData.details.length; i++) {
-                if ($scope.rdRestrictData.details[i]["conditions"][0]["timeDomain"] == '' || $scope.rdRestrictData.details[i]["conditions"][0]["timeDomain"] == null) {
-                    swal("请填写禁止时间段！", '禁止时间段为空', "info");
-                    return;
+        var details = $scope.rdRestrictData.details;
+        for(var i = 0 ; i < details.length ; i++){
+            if(details[i].type != 2){
+                if(details[i].conditions && details[i].conditions.length != 0){
+                    details[i].conditions[0].timeDomain = '';
                 }
-
             }
         }
-        // //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
-        // var resultStr = "";
-        // if ($scope.checkValue) {
-        //     resultStr = "1";
-        // } else {
-        //     resultStr = "0";
-        // }
-        // var re31sult = ""
-        // for (var j = 0; j < 31; j++) {
-        //     if (inArray(getEndArray(), j)) {
-        //         re31sult += "1";
-        //     } else {
-        //         re31sult += "0";
+        objectEditCtrl.save();
+        // if (objectEditCtrl.changedProperty) {
+        //     if (objectEditCtrl.changedProperty.details) {
+        //         $.each(objectEditCtrl.changedProperty.details, function (i, v) {
+        //             delete v.linkPid;
+        //         })
+        //     }
+        //
+        //     if (objectEditCtrl.changedProperty.details[0].conditions) {
+        //         $.each(objectEditCtrl.changedProperty.details[0].conditions, function (i, v) {
+        //             delete v.pid;
+        //             delete v.geoLiveType;
+        //         })
         //     }
         // }
-        // resultStr += re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
-        // $scope.rdRestrictData.vehicleExpression = bin2dec(resultStr);
-        objectEditCtrl.save();
-        if (objectEditCtrl.changedProperty) {
-            if (objectEditCtrl.changedProperty.details) {
-                $.each(objectEditCtrl.changedProperty.details, function (i, v) {
-                    delete v.linkPid;
-
-                })
-            }
-
-            if (objectEditCtrl.changedProperty.details[0].conditions) {
-                $.each(objectEditCtrl.changedProperty.details[0].conditions, function (i, v) {
-                    delete v.pid;
-                    delete v.geoLiveType;
-                })
-            }
-
-        }
         var param = {
             "command": "UPDATE",
             "type": "RDRESTRICTION",
@@ -457,11 +257,6 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
             swal("操作成功", '属性值没有变化！', "success");
             return;
         }
-
-        // if(currentTool){
-        //     currentTool.disable();
-        //     currentTool = null;
-        // }
 
         dsEdit.save(param).then(function (data) {
             if (data) {
@@ -480,7 +275,6 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
                 "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
-
             };
             dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
                 selectCtrl.rowkey.rowkey = undefined;
@@ -499,8 +293,7 @@ var objectEditApp = angular.module("app").controller("normalController", ['$scop
     //删除交限
     $scope.delete = function () {
         var pid = parseInt($scope.rdRestrictData.pid);
-        var param =
-        {
+        var param = {
             "command": "DELETE",
             "type": "RDRESTRICTION",
             "dbId": App.Temp.dbId,

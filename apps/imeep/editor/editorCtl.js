@@ -267,29 +267,150 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 		//我的消息
 		$scope.historyMsg = function(){
-			dsFcc.getReadMsg().then(function(data){
+			var param = {
+				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+				pageNum:5,
+				pageSize:1
+			};
+			dsFcc.getReadMsg(param).then(function(data){
+				console.log(data)
+			});
+		};
+		//查看详细消息
+		$scope.showDetailMsg = function(){
+			var param = {
+				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+				msgId:116
+			};
+			dsFcc.getDetailCheck(param).then(function(data){
 				console.log(data)
 			});
 		};
 		// 消息推送
 		$scope.msgNotify = function(){
+			var msg = [
+				{
+					createTime:{
+						date:10,
+						day:1,
+						hours:20,
+						minutes:1,
+						month:9,
+						nanos:0,
+						seconds:8,
+						time:147610868000,
+						timezoneOffset:-480,
+						year:116
+					},
+					msgContent:'测试22',
+					msgId:124,
+					msgTitle:'测试22',
+					msgType:1,
+					pushUserId:1,
+					targetUserId:2
+				},
+				{
+					createTime:{
+						date:10,
+						day:1,
+						hours:20,
+						minutes:1,
+						month:9,
+						nanos:0,
+						seconds:8,
+						time:147610868000,
+						timezoneOffset:-480,
+						year:116
+					},
+					msgContent:'测试224',
+					msgId:124,
+					msgTitle:'测试224',
+					msgType:1,
+					pushUserId:1,
+					targetUserId:2
+				},
+				{
+					createTime:{
+						date:10,
+						day:1,
+						hours:20,
+						minutes:1,
+						month:9,
+						nanos:0,
+						seconds:8,
+						time:147610868000,
+						timezoneOffset:-480,
+						year:116
+					},
+					msgContent:'测试226',
+					msgId:124,
+					msgTitle:'测试226',
+					msgType:1,
+					pushUserId:1,
+					targetUserId:2
+				},
+				{
+					createTime:{
+						date:10,
+						day:1,
+						hours:20,
+						minutes:1,
+						month:9,
+						nanos:0,
+						seconds:8,
+						time:147610868000,
+						timezoneOffset:-480,
+						year:116
+					},
+					msgContent:'测试2',
+					msgId:124,
+					msgTitle:'测试2',
+					msgType:1,
+					pushUserId:1,
+					targetUserId:2
+				},
+				{
+					createTime:{
+						date:10,
+						day:1,
+						hours:20,
+						minutes:1,
+						month:9,
+						nanos:0,
+						seconds:8,
+						time:147610868000,
+						timezoneOffset:-480,
+						year:116
+					},
+					msgContent:'测试23',
+					msgId:124,
+					msgTitle:'测试23',
+					msgType:1,
+					pushUserId:1,
+					targetUserId:2
+				}
+			];
 			// 创建一个Socket实例
-			var url = 'http://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU4U3GL166B1FFB9E032B65FA52354E765B0AE90';
-			// var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer'));
+			// var url = 'ws://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU6824TL9E8CB2FF03679795FE7EFE8F0A25BD35';
+			var url = 'http://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU7NSZDKE8E26ACE57928938C1BBD5048B7E813A';
+			// var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer').substr(5));
 			var sock = new SockJS(url);
+			// var sock = new WebSocket(url);
 			sock.onopen = function() {
-				console.log('open');
+				console.log('已经建立websocket连接...');
+				/*$timeout(function(){
+					$scope.systemMsg = msg;
+				},3000)*/
 			};
 			sock.onmessage = function(e) {
-				console.log('message', e.data);
+				console.log('message', JSON.parse(e.data));
+				$scope.systemMsg = JSON.parse(e.data);
 			};
 			sock.onclose = function() {
 				console.log('close');
 			};
-
-			// sock.send('test');
 			// sock.close();
-			if(App.Config.msgNotify){
+			/*if(App.Config.msgNotify){
 				var timer = $interval(function() {
 					dsEdit.getMsgNotify().then(function(data) {
 						if (data.errcode == 0) {
@@ -305,7 +426,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 						}
 					});
 				}, App.Config.msgNotify);
-			}
+			}*/
 		};
 		//页面初始化方法调用
 		var initPage = function () {
@@ -458,6 +579,15 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					break;
 			}
 			$scope.advancedTool = toolType;
+		};
+		$scope.closeSpecialWorkPanelTpl =  function(){
+			$scope.workPanelOpened = false;
+		};
+		$scope.openSpecialWorkPanelTpl = function(){
+			$scope.workPanelOpened = true;
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
+				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
+			});
 		};
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;

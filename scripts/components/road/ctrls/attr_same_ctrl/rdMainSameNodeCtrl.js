@@ -152,24 +152,24 @@ sameRelationshapApp.controller("SameRelationshapController",['$scope','$ocLazyLo
         }
         if(Object.keys(types).length < 2){
             if(!(resultArr[0].type == "LUNODE")){ //有一种特殊情况排除在外，就只当值选择了luNode，并且符合后面代码的规则时，也是可以做同一点的
-                swal("提示", '同一node关系中,至少需要两种要素！', "warning");
+                swal("提示", '同一点关系中,至少需要两种要素！', "warning");
                 return ;
             }
         }
         if(rdNode > 5){
-            swal("提示", '同一node关系中,rdNode不能超过5个！', "warning");
+            swal("提示", '同一点关系中,rdNode不能超过5个！', "warning");
             return ;
         }
         if(adNode > 1){
-            swal("提示", '同一node关系中,adNode不能超过1个！', "warning");
+            swal("提示", '同一点关系中,adNode不能超过1个！', "warning");
             return ;
         }
         if(zoneNode > 10){
-            swal("提示", '同一node关系中,zoneNode不能超过10个！', "warning");
+            swal("提示", '同一点关系中,zoneNode不能超过10个！', "warning");
             return ;
         }
         if(luNode > 2){
-            swal("提示", '同一node关系中,luNode不能超过2个！', "warning");
+            swal("提示", '同一点关系中,luNode不能超过2个！', "warning");
             return ;
         }
 

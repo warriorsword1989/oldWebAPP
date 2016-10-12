@@ -1,23 +1,6 @@
-<style>
-    #infoOfConnexityDiv {
-        opacity: 1;
-        width: 100%;
-        font-size: 12px;
-    }
-    #infoOfConnexityDiv .lanePic{
-        cursor: pointer;
-        width: 30px;
-        margin-bottom: 10px;
-        /*margin: 15px;*/
-        transition: all 0.5s;
-    }
-    #infoOfConnexityDiv .lanePic.active{
-        box-shadow: 0px 0px 7px 4px #9d9d9d;
-    }
-</style>
 <div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
+    <ul class="fm-ul fm-ul-form">
+        <li style="margin-bottom:3px">
             <div ng-repeat="showItem in directArr track by $index">
 
                 <img class="lanePic"  ng-if="!laneFlag"
@@ -30,7 +13,6 @@
                       class="glyphicon glyphicon-edit" ng-click="getLanesInfo(showItem,$event)" title="点击可修改退出线"></span>
             </div>
         </li>
-
     </ul>
     <form name="infoConnexityForm">
     <ul class="list-group list-group-lg m-b-none" ng-repeat="laneData in showLaneInfo track by $index">
@@ -57,11 +39,11 @@
             <div><label class="control-label">关系类型</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="crossingOrLine{$index}" value=0 ng-model="laneData.relationshipType">
+                    <input type="radio" name="crossingOrLine{{$index}}" value=1 ng-model="laneData.relationshipType">
                     路口
                 </label>
                 <label>
-                    <input type="radio" name="crossingOrLine{$index}" value=1 ng-model="laneData.relationshipType">
+                    <input type="radio" name="crossingOrLine{{$index}}" value=2 ng-model="laneData.relationshipType">
                     线线
                 </label>
             </div>
@@ -69,12 +51,12 @@
         <li class="list-group-item">
             <div><label class="control-label">经过线</label></div>
             <div class="inline">
-                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+                <label ng-click="changeVias(laneData)" style="cursor: pointer">编辑</label>
             </div>
 
         </li>
         <li style="padding-left: 20px">
-            <div id="fromOfWRoaddiv" style="width:260px;" >
+            <div style="width:260px;" >
                 <div ng-repeat="cItem in laneData.vias track by $index" class="checkboxli">
                     {{cItem.linkPid}}
                 </div>
