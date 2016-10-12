@@ -344,7 +344,6 @@ fastmap.uikit.ObjectEditController = (function() {
                                     //}
                                     objArr.push(obj);
                                 }
-                                objArr.push(obj);
                             }
                             if (objArr.length !== 0) {
                                 retObj[item] = objArr;
