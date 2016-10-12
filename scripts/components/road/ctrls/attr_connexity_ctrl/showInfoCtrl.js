@@ -330,9 +330,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                                 "relationshipType": 1,
                                 "vias": viaArr
                             });
-                            for(var i = 0;i<selObj.vias.length;i++){
-                                selObj.vias[i].objStatus = "INSERT";//当前的比较方法无法处理新增子表嵌套新增子表的情况，临时加这样的方法
-                            }
                             $scope.infoData["laneNum"] += 1;
                             $scope.infoData["topos"].unshift(selObj);
                             selObj.enterLaneNum = $scope.showLaneInfo[0].enterLaneNum || 0;
@@ -411,7 +408,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                                     item.vias.push(fastmap.dataApi.rdLaneVIA({
                                         rowId: "",
                                         linkPid: parseInt(data.id),
-                                        topologyId: item.topologyId,
+                                        topologyId: item.pid,
                                         seqNum: item.vias.length + 1
                                     }));
                                 } else if (parseInt(data.properties.enode) == lastNode && (parseInt(data.properties.direct) != 2)) {
@@ -427,7 +424,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                                     item.vias.push(fastmap.dataApi.rdLaneVIA({
                                         rowId: "",
                                         linkPid: parseInt(data.id),
-                                        topologyId: item.topologyId,
+                                        topologyId: item.pid,
                                         seqNum: item.vias.length + 1
                                     }));
                                 }
