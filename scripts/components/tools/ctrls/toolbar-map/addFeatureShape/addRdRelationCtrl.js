@@ -1585,7 +1585,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     createBranchFlag: true,
                     currentEditLayer: rdLink,
                     shapeEditor: shapeCtrl,
-                    operationList:['line','point']
+                    operationList:['line','point','line']
                 });
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
@@ -1672,6 +1672,28 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             // featCodeCtrl.setFeatCode($scope.rdSe);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
+                    }else if (data.index === 1){ //进入点
+
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdLink);
+
+                        $scope.rdSe.nodePid = parseInt(data.id);
+
+                        highLightFeatures.push({
+                            id: $scope.rdSe.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'node',
+                            style: {
+                                color: 'yellow'
+                            }
+                        });
+                        highRenderCtrl.drawHighlight();
+                        map.currentTool.selectedFeatures.push($scope.rdSe.nodePid.toString());
+                        featCodeCtrl.setFeatCode($scope.rdSe);
+                        tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                     } else if (data.index >= 2){ //退出线
                         $scope.rdSe.outLinkPid = parseInt(data.id);
 
@@ -1684,7 +1706,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             id: $scope.rdSe.outLinkPid.toString(),
                             layerid: 'rdLink',
                             type: 'line',
-                            style: {}
+                            style: {
+                                color: '#21ed25'
+                            }
                         });
                         highRenderCtrl.drawHighlight();
                         map.currentTool.selectedFeatures.push($scope.rdSe.outLinkPid.toString());
