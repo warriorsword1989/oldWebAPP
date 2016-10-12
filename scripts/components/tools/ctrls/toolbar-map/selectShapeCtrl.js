@@ -94,13 +94,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     'RW_LINK':'rwLink',
                     'LC_LINK':'lcLink'
                 };
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                 highRenderCtrl.highLightFeatures.push({
                     id: objCtrl.data.links[i].linkPid.toString(),
                     layerid: tempObj[objCtrl.data.links[i]["tableName"]],
-                    type: 'RDGSC',
+                    type: 'line',
                     index: objCtrl.data.links[i].zlevel,
                     style: {
-                        size: 5
+                        strokeWidth: 5,
+                        strokeColor:COLORTABLE[i]
                     }
                 });
             }
@@ -3189,13 +3191,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'RW_LINK':'rwLink',
                             'LC_LINK':'lcLink'
                         };
+                        var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                         highRenderCtrl.highLightFeatures.push({
                             id: objCtrl.data.links[i].linkPid.toString(),
                             layerid: tempObj[objCtrl.data.links[i]["tableName"]],
-                            type: 'RDGSC',
-                            index: objCtrl.data.links[i].zlevel,
+                            type: 'line',
+                            index: i,
                             style: {
-                                size: 5
+                                strokeWidth: 5,
+                                strokeColor:COLORTABLE[i]
                             }
                         });
                     }
