@@ -231,6 +231,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             if (parseInt(data.properties.fc) != 9) {
                 if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
+                    outLinkArr.push(parseInt(data.id));
                     changedObj["outLinkPid"] = data.id;
                     changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
                     $scope.showLaneInfo.push(changedObj);
@@ -324,7 +325,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             var selObj = fastmap.dataApi.rdLaneTopology({
                                 "busLaneInfo": 0,
                                 "connexityPid": $scope.infoData["pid"],
-                                "inLaneInfo": parseInt($scope.intToDecial($scope.directArr.length)),
+                                "inLaneInfo": parseInt($scope.intToDecial($scope.infoData["selectNum"])),
                                 "outLinkPid": parseInt(data.id),
                                 "reachDir": $scope.transData[item] ? $scope.transData[item] : 0,
                                 "relationshipType": 1,
