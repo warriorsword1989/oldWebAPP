@@ -230,30 +230,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             if (parseInt(data.properties.fc) != 9) {
-                if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
-                    outLinkArr.push(parseInt(data.id));
-                    changedObj["outLinkPid"] = data.id;
-                    changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
-                    $scope.showLaneInfo.push(changedObj);
-                    for (var k = 0; k < highRenderCtrl.highLightFeatures.length; k++) {
-                        if (highRenderCtrl.highLightFeatures[k].id == data.id.toString()) {
-                            highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
-                        }
-                    }
-                    highRenderCtrl.drawHighlight();
-                    var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
-                    var infoLen = (16 - inLaneDecArr.length);
-                    inLaneDecArr[$scope.directArr.length - infoLen] = "1";
-                    var str = inLaneDecArr[0];
-                    for (var j = 1; j < inLaneDecArr.length; j++) {
-                        str += inLaneDecArr[j];
-                    }
-                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
-                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].enterLaneNum = $scope.showLaneInfo[0].enterLaneNum || 0;
-                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].enterBusNum = $scope.showLaneInfo[0].enterBusNum || 0;
-                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].inLinkPid = objCtrl.data["inLinkPid"];
-                    $scope.showLaneInfo.push($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]);
-                } else if (outLinkArr.indexOf(parseInt(data.id)) > -1) {//在现有的退出线内,排除掉
+                if (outLinkArr.indexOf(parseInt(data.id)) > -1) {//在现有的退出线内,排除掉
                     for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                         if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
                             outLinkPid = data.id;
@@ -292,6 +269,29 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                         }
                     }
                     highRenderCtrl.drawHighlight();
+                }else if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
+                    outLinkArr.push(parseInt(data.id));
+                    changedObj["outLinkPid"] = data.id;
+                    changedObj["inLinkPid"] = objCtrl.data["inLinkPid"];
+                    $scope.showLaneInfo.push(changedObj);
+                    for (var k = 0; k < highRenderCtrl.highLightFeatures.length; k++) {
+                        if (highRenderCtrl.highLightFeatures[k].id == data.id.toString()) {
+                            highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
+                        }
+                    }
+                    highRenderCtrl.drawHighlight();
+                    var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
+                    var infoLen = (16 - inLaneDecArr.length);
+                    inLaneDecArr[$scope.directArr.length - infoLen] = "1";
+                    var str = inLaneDecArr[0];
+                    for (var j = 1; j < inLaneDecArr.length; j++) {
+                        str += inLaneDecArr[j];
+                    }
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].enterLaneNum = $scope.showLaneInfo[0].enterLaneNum || 0;
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].enterBusNum = $scope.showLaneInfo[0].enterBusNum || 0;
+                    $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].inLinkPid = objCtrl.data["inLinkPid"];
+                    $scope.showLaneInfo.push($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]);
                 } else {//不在退出线内的线
                     highRenderCtrl.highLightFeatures.push({
                         id: data.id.toString(),
