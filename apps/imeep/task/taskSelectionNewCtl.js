@@ -14,6 +14,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
     $scope.sortIcon = 'asc';
 
     $scope.showLoading = true;
+    $scope.showTask = true;
 
     var width = document.documentElement.clientWidth;
     var taskNum = parseInt((width - 120) / 360);
@@ -55,9 +56,11 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
       if ($scope.currentTab == 1) {
         $scope.tab1Url = '../../../images/main/task/icon-c1.png';
         $scope.tab2Url = '../../../images/main/task/icon-h2.png';
+        $scope.showTask = true;
       } else {
         $scope.tab1Url = '../../../images/main/task/icon-c2.png';
         $scope.tab2Url = '../../../images/main/task/icon-h1.png';
+        $scope.showTask = false;
       }
       loadSubTaskfn();
     }
