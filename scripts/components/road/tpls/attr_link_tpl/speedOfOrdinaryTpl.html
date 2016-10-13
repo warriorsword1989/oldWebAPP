@@ -22,14 +22,14 @@
             <div><label class="control-label">顺向速度</label></div>
             <div class="inline">
                     <input type="text" id="fromSpeed"
-                           ng-model="oridiData.fromSpeedLimit" ng-disabled="rticDir ==3" ng-blur="hideDirect()" ng-focus="showDirect(2)">
+                           ng-model="oridiData.fromSpeedLimit" ng-change="changeClass(oridiData,2)" ng-disabled="rticDir ==3" ng-blur="hideDirect()" ng-focus="showDirect(2)">
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">逆向速度</label></div>
             <div class="inline">
                 <input type="text" id="toSpeed"
-                       ng-model="oridiData.toSpeedLimit" ng-disabled="rticDir ==2" ng-blur="hideDirect()" ng-focus="showDirect(3)">
+                       ng-model="oridiData.toSpeedLimit" ng-change="changeClass(oridiData,3)" ng-disabled="rticDir ==2" ng-blur="hideDirect()" ng-focus="showDirect(3)">
             </div>
         </li>
         <li class="list-group-item">
@@ -63,6 +63,15 @@
                 </label>
             </div>
         </li>
+            <li class="list-group-item">
+                <div><label class="control-label">限速等级</label></div>
+                <div class="inline">
+                    <select ng-model="oridiData.speedClass"
+                            ng-options="value.id as value.label for value in speedClassOption" ng-change="changeClassWork()">
+                        <!--<option>&#45;&#45;</option>-->
+                    </select>
+                </div>
+            </li>
     </ul>
     </form>
 </div>

@@ -20,6 +20,7 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": 13, "label": "13 轮渡"}
 	];
 	$scope.laneClassOptions = [
+        {"id": 0, "label": "0: 其他道路"},
 		{"id": 1, "label": "1: 一条车道"},
 		{"id": 2, "label": "2: 2或3条"},
 		{"id": 3, "label": "3: 4条及以上"}

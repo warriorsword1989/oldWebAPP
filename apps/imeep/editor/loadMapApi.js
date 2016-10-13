@@ -60,6 +60,7 @@
         "tools/Capture.js",
         "tools/TransformDirection.js",
         "symbol/Point.js",
+        "tools/PathDepartNode.js",
         // symbol
         "symbol/Matrix.js",
         "symbol/Vector.js",
