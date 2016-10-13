@@ -1790,9 +1790,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     }
                     if (selectCtrl.selectedFeatures) {
                         tooltipsCtrl.setEditEventType('deleteDot');
-                        tooltipsCtrl.setCurrentTooltip('请选择要分离的节点！');
+                        tooltipsCtrl.setCurrentTooltip('开始移动分离节点或移动端点！');
                     } else {
-                        tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                        tooltipsCtrl.setCurrentTooltip('正要进行分离节点,请选择要分离的端点进行移动！');
                         return;
                     }
                 }else if (type === "TRANSFORMDIRECT") {
@@ -3183,17 +3183,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         shapeEditor: shapeCtrl
                     });
                     map.currentTool.enable();
-                    //当选择要移动的点以后然后在加载pathDepartNode进行处理;
-                    eventController.off(eventController.eventTypes.GETNODEID);
-                    eventController.on(eventController.eventTypes.GETNODEID, function(data){
-                        tooltipsCtrl.setCurrentTooltipText('开始移动分离节点或移动端点!');
-                        shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
-                        shapeCtrl.startEditing();
-                        shapeCtrl.editFeatType = data.optype;
-                        selectCtrl.workLinkPid = tempLinkPid;
-                        map.currentTool = shapeCtrl.getCurrentTool();
-                        map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType(data.optype));
-                    });
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
+                    shapeCtrl.startEditing();
+                    shapeCtrl.editFeatType = 'RDNODE';
+                    selectCtrl.workLinkPid = $scope.selectedFeature.id;
+                    map.currentTool = shapeCtrl.getCurrentTool();
                 }
                 else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry

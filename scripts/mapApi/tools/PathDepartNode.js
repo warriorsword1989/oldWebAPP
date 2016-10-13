@@ -122,6 +122,11 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             this.resetVertex(this.targetIndexs[i], this.targetPoint);
         }
         var node = this.selectCtrl.selectedFeatures;
+        if(this.snapHandler.snaped){
+            console.log(this.snapHandler.snapLatlng)
+        }else{
+            console.log('no ')
+        }
         this.selectCtrl.selectedFeatures = {
             catchNodePid:this.snapHandler.snaped?this.snapHandler.properties.id:0,
             workLinkPid:this.selectCtrl.workLinkPid,

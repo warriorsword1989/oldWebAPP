@@ -470,7 +470,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (data != null) {
                         rdLink.redraw();
                         rdnode.redraw();
-                        //treatmentOfChanged(data, "RDSPEEDLIMIT", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
+                        //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
                     }
                 })
             }
