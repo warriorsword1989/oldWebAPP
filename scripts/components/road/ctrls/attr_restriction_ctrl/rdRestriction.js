@@ -42,8 +42,38 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             $scope.fmdateTimer("");
         }
     };
+    var sortRestricInfo = function (){
+        var details = objectEditCtrl.data.details;
+        var restricInfo = objectEditCtrl.data.restricInfo;
+        var resArr = restricInfo.split(',');
+        if(restricInfo.split(',').length != details.length){
+            swal("警告",'此条交限数据不正确，请检查数据！','warning');
+            return ;
+        }
+        var resArrSorted = [];
+        for(var i = 0 ,len = resArr.length;i < len; i++){
+            for(var j = 0 ; j < details.length ; j ++){
+                if(resArr[i].indexOf('[') < 0){
+                    if(details[j].flag == 1 && details[j].restricInfo == resArr[i]){
+                        resArrSorted.push(details[j]);
+                        break;
+                    }
+                } else {
+                    var temp = ''+details[j].restricInfo+'';
+                    if((details[j].flag == 0 || details[j].flag == 2) && temp == resArr[i]){
+                        resArrSorted.push(details[j]);
+                        break;
+                    }
+                }
+            }
+        }
+        objectEditCtrl.data.details = resArrSorted;
+    };
     //初始化数据
     $scope.initializeData = function () {
+        //对交限图表进行排序,为了解决属性栏图表顺序和地图上的不一致
+        sortRestricInfo();
+
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         $scope.flag = 0;

@@ -594,17 +594,25 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             adLink.redraw();
                             adNode.redraw();
                             adFace.redraw();
+                            ctrl = 'attr_administratives_ctrl/adNodeCtrl';
+                            tpl = 'attr_adminstratives_tpl/adNodeTpl.html';
                         } else if (param["type"] === "RWNODE") {
                             rwLink.redraw();
                             rwnode.redraw();
+                            ctrl = 'attr_node_ctrl/rwNodeCtrl';
+                            tpl = 'attr_node_tpl/rwNodeTpl.html';
                         } else if (param["type"] === "ZONENODE") {
                             zoneLink.redraw();
                             zoneNode.redraw();
                             zoneFace.redraw();
+                            ctrl = 'attr_zone_ctrl/zoneNodeCtrl';
+                            tpl = 'attr_zone_tpl/zoneNodeTpl.html';
                         } else if (param["type"] === "LUNODE") {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
+                            ctrl = 'attr_lu_ctrl/luNodeCtrl';
+                            tpl = 'attr_lu_tpl/luNodeTpl.html';
                         } else if (param["type"] === "LCNODE") {
                             lcLink.redraw();
                             lcNode.redraw();
@@ -678,7 +686,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                     ctrl = 'attr_lc_ctrl/lcNodeCtrl';
                                     tpl = 'attr_lc_tpl/lcNodeTpl.html';
                                 }
-                                treatmentOfChanged(data, param["type"]);
+                                treatmentOfChanged(data, param["type"], ctrl, tpl);
                             }
                         })
                     }else{
