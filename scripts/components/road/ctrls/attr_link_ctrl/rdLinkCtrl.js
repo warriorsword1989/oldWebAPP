@@ -11,6 +11,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdCross");
     var relation = layerCtrl.getLayerById('relationData');
+    var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -21,7 +22,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     $scope.modelArray = [false, false, false, false, false, false];
     //改变模块的背景
     $scope.initializeLinkData = function() {
-        $scope.changeModule('basicModule',0)
         for (var layer in layerCtrl.layers) {
             if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[layer].options.visible) {
                 for (var i = 0; i < $scope.modelArray.length; i++) {
@@ -121,20 +121,24 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 }
                 $scope.modelArray[i] = true;
             } else if (ind == i && ind == 2) {
-                for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
-                        layerCtrl.layers[layer].options.isUpDirect = false;
-                        layerCtrl.layers[layer].options.visible = true;
-                        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
-                            layerArr: layerCtrl.layers
-                        });
-                        break;
-                    }
-                }
+                // for (var layer in layerCtrl.layers) {
+                //     if (layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
+                //         layerCtrl.layers[layer].options.isUpDirect = false;
+                //         layerCtrl.layers[layer].options.visible = true;
+                //         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                //             layerArr: layerCtrl.layers
+                //         });
+                //         break;
+                //     }
+                // }
+                // $scope.$emit("changeScene", {data:"限速场景"});
+                eventController.fire(eventController.eventTypes.CHANGESCENE, {
+                    data:"限速场景"
+                });
                 $scope.modelArray[i] = true;
             } else if (ind == i) {
                 for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" || layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
+                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                         layerCtrl.layers[layer].options.isUpDirect = true;
                         layerCtrl.layers[layer].options.visible = false;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
@@ -143,6 +147,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                         // break;
                     }
                 }
+                eventController.fire(eventController.eventTypes.CHANGESCENE, {
+                    data:"常规场景"
+                });
                 $scope.modelArray[i] = true;
             } else {
                 $scope.modelArray[i] = false;
@@ -329,6 +336,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         dsEdit.update($scope.linkData.pid, "RDLINK", objectCtrl.changedProperty).then(function(data) {
             if (data) {
                 rdLink.redraw();
+                if(objectCtrl.changedProperty.hasOwnProperty(speedlimits)){
+                    rdLinkSpeedLimit.redraw();
+                }
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();

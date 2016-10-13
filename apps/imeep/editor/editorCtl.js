@@ -753,6 +753,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("clearAttrStyleUp", function (event, data) {
 			$scope.$broadcast("clearAttrStyleDown");
 		});
+		//场景切换
+		// $scope.$on("changeScene", function (event, data) {
+		// 	$scope.$broadcast("changeSceneLayers",data);
+		// });
 		//道路作业面板是否展开
 		$scope.$on("WORKPANELOPENCLOSE", function (event, data) {
 			$scope.workPanelOpened = !$scope.workPanelOpened;

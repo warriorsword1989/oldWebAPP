@@ -937,6 +937,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
                         layerCtrl.getLayerById("poi").redraw();
@@ -1477,6 +1478,20 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             rdLaneData:rdLaneData
                         });
                         scope.$emit("OPENRDLANETOPO");
+                    }
+                });
+            } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
+                var param = {
+                    "command": "BATCH",
+                    "type": "RDCROSS",
+                    "dbId": App.Temp.dbId,
+                    "data": geo
+                };
+                //调用编辑接口;
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        rdCross.redraw();
+                        // treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     }
                 });
             }

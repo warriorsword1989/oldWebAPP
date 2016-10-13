@@ -30,7 +30,7 @@ fastmap.dataApi.RdLinkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
         this.toLimitSrc = data["toLimitSrc"] ||0;
         this.speedDependent = data["speedDependent"] || 0;
         this.timeDomain = data["timeDomain"] || "";
-        this.speedClassWork = data["speedClassWork"] || 1;
+        this.speedClassWork = (data["speedClassWork"] === undefined || data["speedClassWork"] === '') ? 1 :data["speedClassWork"];
     },
 
     /**
