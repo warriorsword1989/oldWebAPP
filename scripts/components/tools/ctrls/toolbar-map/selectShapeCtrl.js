@@ -408,7 +408,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             callback: $scope.modifyTools
                         },
                         {
-                            'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
+                            'text': "<a class='glyphicon glyphicon-random' type=''></a>",
                             'title': "分离节点",
                             'type': 'PATHDEPARTNODE',
                             'class': "feaf",
