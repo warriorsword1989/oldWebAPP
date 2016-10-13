@@ -28,6 +28,9 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
         var arr =[];
         for(var item in tipsObj){
             arr.push({id:item,name:tipsObj[item].name,checked:tipsObj[item].checked});
+            if(tipsObj[item].checked){
+                $scope.selectedTips[item] = tipsObj[item].name;
+            }
         }
         function compare(propertyName) {
             return function(object1, object2) {
