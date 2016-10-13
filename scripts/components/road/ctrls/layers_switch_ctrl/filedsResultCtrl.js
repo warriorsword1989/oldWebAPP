@@ -698,7 +698,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.o_array.length > 0) {
-                                $scope.getFeatDataCallback(data, data.in.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                $scope.getFeatDataCallback(data, data.in.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html",1)
                             }
                         }
                     };
@@ -724,7 +724,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle != 3) { //3表示新增
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",0)
                             }
                         }
                     };
@@ -737,7 +737,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle != 3) { //3表示新增
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",4)
                             }
                         }
                     };
@@ -750,7 +750,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle != 3) { //3表示新增
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html")
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",2)
                             }
                         }
                     };
@@ -1091,7 +1091,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.data ? data.data[0] : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
                             }
                         }
                     };
