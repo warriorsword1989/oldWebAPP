@@ -188,8 +188,8 @@
     <button class="fm-top-btn blank" title="自动录入" ng-click="openAdvancedToolsPanel('auto')">自</button>
     <button class="fm-top-btn blank" title="制作上下线分离" ng-controller="addShapeCtrl" ng-click="addShape('RDMULTIDIGITIZED')">上</button>
     <!--<button class="fm-top-btn blank" title="制作辅路">辅</button> 玉秀让屏蔽掉 -->
-    <div class="dropdown" style="display:inline-block;vertical-align:top;">
-        <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown"></button>
+    <div class="dropdown" ng-controller="selectShapeCtrl" style="display:inline-block;vertical-align:top;">
+        <button type="button" class="btn fm-top-btn more dropdown-toggle" data-toggle="dropdown" ng-click="resetToolAndMap();"></button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li><a href="#" ng-click="openAdvancedToolsPanel('search')">搜 索</a></li>
             <li><a href="#">检 查</a></li>

@@ -295,27 +295,25 @@ fastmap.uikit.HighRenderController = (function () {
         if (feature.properties.id === id) {
           if (inOutStyle.color != null) {
             this.layer._drawLineString(ctx, geom, true, {
-              strokeWidth: inOutStyle.strokeWidth,
+              strokeWidth: inOutStyle.strokeWidth ? inOutStyle.strokeWidth :3,
               strokeColor: inOutStyle.color,
               strokeOpacity: 0.5
             }, {
               color: inOutStyle.color,
-              radius: inOutStyle.strokeWidth,
+              radius: inOutStyle.radius ? inOutStyle.radius : 2,
               strokeOpacity: 0.5
             }, feature.properties);
-          }  else if (inOutStyle.strokeColor != null) {
+          } else if (inOutStyle.strokeColor != null) {
             this.layer._drawLineString(ctx, geom, true, {
-              strokeWidth: inOutStyle.strokeWidth,
+              strokeWidth: inOutStyle.strokeWidth ? inOutStyle.strokeWidth : 3,
               strokeColor: inOutStyle.strokeColor,
               strokeOpacity:inOutStyle.strokeOpacity,
             }, {
               color: inOutStyle.color,
-              radius: inOutStyle.strokeWidth,
+              radius: inOutStyle.radius ? inOutStyle.radius : 2,
               strokeOpacity: 0.5
             }, feature.properties);
-          }
-          
-          else {
+          } else {
             this.layer._drawLineString(ctx, geom, true, {
               strokeWidth: 3,
               strokeColor: '#00F5FF'
