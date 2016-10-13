@@ -1,8 +1,9 @@
 /**
  * Created by linglong on 2016/9/13.
  */
-angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit',
-    function($scope, $interval, dsEdit) {
+angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit','dsOutput',
+    function($scope, $interval, dsEdit, dsOutput) {
+        var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         $scope.searchBoxData = [];
         $scope.searchBoxDataItems = [];
         $scope.currentSearchItems = [];
@@ -13,12 +14,12 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         $scope.batchType = 0;
 
 
-
         /**
         * 切换道路和poi批处理tab页;
         * @param type
         */
         $scope.switchBatchType = function(type){
+            $scope.selectedBatches = [];
             $scope.batchType = type;
             getSeachBox();
         }
@@ -115,6 +116,36 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                 dsEdit.exeOnlineSearch(param).then(function(data){
                     if(data){
                         $scope.closeAdvancedToolsPanel();
+                        var timer = $interval(function() {
+                            dsEdit.getJobById(data).then(function(d) {
+                                if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
+                                    $interval.cancel(timer);
+                                    $scope.progress = 100;
+                                    $scope.$emit("job-batch", {
+                                        status: 'end'
+                                    });
+                                    $scope.running = false;
+                                    if (d.status == 3) {
+                                        dsOutput.push({
+                                            "op": "执行检查执行成功",
+                                            "type": "succ",
+                                            "pid": "0",
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行批处理完成');
+                                    } else {
+                                        dsOutput.push({
+                                            "op": "执行检查执行失败",
+                                            "type": "fail",
+                                            "pid": "0",
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行检查失败');
+                                    }
+                                }
+                            });
+                        }, 5000);
+
                     }
                 })
             }
