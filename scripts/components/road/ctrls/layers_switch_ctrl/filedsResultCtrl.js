@@ -1162,6 +1162,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                 } else if (pItemId === "2001") { //测线
                     map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 17);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                    }
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                     $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                 } else if (pItemId === "2101") { //删除标记
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
