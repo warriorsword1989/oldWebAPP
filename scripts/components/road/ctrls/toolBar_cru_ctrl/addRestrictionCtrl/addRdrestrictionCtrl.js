@@ -103,7 +103,8 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                     layerid: 'rdLink',
                     type: 'rdnode',
                     style: {
-                        color: 'yellow'
+                        color: '#DA70D6',
+                        strokeWidth:4
                     }
                 });
                 highRenderCtrl.drawHighlight();
@@ -124,13 +125,17 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 layerid: 'rdLink',
                 type: 'rdnode',
                 style: {
-                    color: 'yellow'
+                    color: '#DA70D6'
                 }
             });
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
         } else if (data.index > 1) {
+            if(data.id == $scope.limitRelation.inLinkPid){
+                swal('提示','退出线和进入线不能为同一条线！','warning');
+                return ;
+            }
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
                 id:  data.id.toString(),
