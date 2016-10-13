@@ -20,6 +20,7 @@ requirejs.config({
         'TaskSelectionNewCtl': 'apps/imeep/task/taskSelectionNewCtl',
         'layers': "apps/imeep/task/layerConfig",
     },
+    waitSeconds: 0,
     shim: {
         'ngLayout': ['angular'],
         'ngCookies': ['angular'],
