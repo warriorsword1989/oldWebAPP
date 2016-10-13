@@ -12,7 +12,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         $scope.pageSize = 10;
         $scope.page = 1;
         $scope.batchType = 0;
-
+        $scope.dataLoading = true;
 
         /**
         * 切换道路和poi批处理tab页;
@@ -26,15 +26,17 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
 
         //获取所有批处理包;
         function getSeachBox(){
+            $scope.dataLoading = true;
             var params = {
                 pageNumber:$scope.pageSize,
                 currentPage:$scope.page,
-                checkType:$scope.batchType,
+                checkType:$scope.batchType
             }
             dsEdit.seachCheckBox(params).then(function(data){
                 $scope.searchBoxData = data;
                 //获取当前显示的检查项，默认为第一个检查项下的数据;
                 $scope.currentSearchItems = data.length?$scope.searchBoxData[0].rules:[];
+                $scope.dataLoading = false;
             });
         }
 
