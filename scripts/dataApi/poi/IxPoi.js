@@ -69,7 +69,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.uRecord = data['uRecord'] || 0;
         this.uFields = data['uFields'] || 0;
         this.uDate = data['uDate'] || null;
-        this.poi3DIcon = false;
+        if(data['icons'].length){
+            this.poi3DIcon = true;
+        }else{
+            this.poi3DIcon = false;
+        }
         this.poiRmbIcon = false;
         this.poiCarIcon = false;
         this.poiIcon = false;
