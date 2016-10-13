@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
@@ -12,7 +12,7 @@ requirejs.config({
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
         'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
         "chosenJquery": "scripts/libs/angular-chosen/chosen.jquery.min",
-        "angularChosen": "scripts/libs/angular-chosen/angular-chosen.min",
+        "angularChosen": "scripts/libs/angular-chosen/angular-chosen",
         'fileUpload': 'scripts/libs/angular-file-upload/angular-file-upload',
         "angularDrag": "scripts/libs/angular-drag/angular-drag",
         "sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",
@@ -27,18 +27,19 @@ requirejs.config({
         'poi-msg':'scripts/libs/poi-msg/poiMsg',
         // app相关
         'dataService': 'apps/imeep/service/dataService',
-        'poiService': 'apps/imeep/service/dataService-poi',
         'metaService': 'apps/imeep/service/dataService-meta',
         'fccService': 'apps/imeep/service/dataService-fcc',
-        'roadService': 'apps/imeep/service/dataService-road',
         'editService': 'apps/imeep/service/dataService-edit',
         'manService': 'apps/imeep/service/dataService-manage',
         'EditorCtl': 'apps/imeep/editor/editorCtl',
-        //'sceneLayerCtr': 'scripts/components/road3/ctrls/layer_switch_ctr/sceneLayersCtrl',
         'layers': "apps/imeep/editor/layerConfig",
         'keyPressFunctions': 'apps/imeep/editor/hotKeyEvent',
-        'z-tree': 'scripts/libs/z-tree/jquery.ztree.all'
+        'z-tree': 'scripts/libs/z-tree/jquery.ztree.all',
+        'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
+        'fmEditView': 'scripts/components/directives/fmEditView/fmEditView',
     },
+    urlArgs: "bust=" +  (new Date()).getTime(),
+    waitSeconds: 0,
     shim: {
         'angular': {
             exports: 'angular'
@@ -49,26 +50,27 @@ requirejs.config({
         'uiBootstrap': ['angular'],
         'bootstrap': ['jquery'],
         'chosenJquery': ['jquery'],
-        'angularChosen': ['angular'],
+        'angularChosen': ['angular','chosenJquery'],
         'fileUpload': ['angular'],
         'ngTable': ['angular'],
         'e-smart-zoom': ['jquery'],
         'angularDrag': ['angular', 'jquery'],
         'poi-msg':['jquery'],
         'dataService': ['angular', "sweet-alert"],
-        'poiService': ['dataService'],
         'metaService': ['dataService'],
         'fccService': ['dataService'],
-        'roadService': ['dataService'],
         'editService': ['dataService'],
         'manService': ['dataService'],
         'bootstrapDatepicker': ['jquery', 'bootstrap'],
         'bootstrapDatepickerCN': ['bootstrapDatepicker'],
         'timepicki': ['jquery', 'angular'],
         'bootspopover': ['jquery'],
-        'keyPressFunctions': ['jquery', 'dataService', 'poiService', 'metaService', 'roadService'],
+        'keyPressFunctions': ['jquery', 'dataService', 'metaService', 'editService'],
         'z-tree': ['jquery'],
-        'EditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'fccService', 'roadService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg']
+        'fastmapUikit': ['angular'],
+        'fmEditView': ['fastmapUikit'],
+        'fmBindCompiledHtml': ['fastmapUikit'],
+        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView','angularChosen']
     }
 });
 // Start the main app logic.

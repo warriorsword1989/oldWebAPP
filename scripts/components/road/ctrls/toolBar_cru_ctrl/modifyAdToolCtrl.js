@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/12.
  */
-var modifyAdApp = angular.module("mapApp");
+var modifyAdApp = angular.module("app");
 modifyAdApp.controller("modifyAdToolController", function ($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -24,7 +24,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             shapeCtrl.stopEditing();
         }
         var feature = null;
-        $scope.changeBtnClass(num);
+        // $scope.changeBtnClass(num);
         if(!$scope.classArr[num]){
             if(map.currentTool) {
                 map.currentTool.disable();

@@ -120,6 +120,12 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Point':
                 drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
+            case 'Symbol':
+                drawSymbol(currentGeo, {color: 'red', radius: 3}, false);
+                break;
+            case 'SpeedLimit':
+                drawPoint(currentGeo.components[0], {color: 'red', radius: 3}, false);
+                break;
             case'Polygon':
                 drawPolygon(currentGeo, {color: 'red', outline: 3}, false);
                 break;
@@ -219,6 +225,26 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             g.restore();
         }
 
+        function drawSymbol(geom, style, boolPixelCrs) {
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+
+            var g = self._ctx;
+            g.beginPath();
+            g.fillStyle = style.color;
+            g.arc(p.x, p.y, style.radius, 0, Math.PI * 2);
+            g.closePath();
+            g.fill();
+            g.restore();
+        }
+
 
         function drawLineString(geom, direct, style, boolPixelCrs, index, boolnode, boolselectnode, self) {
             if (!geom) {
@@ -242,24 +268,19 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                             }, true);
                         }
                     } else {
-                        if (boolnode) {
-                            if (i == 0 || i == geom.length - 1) {
-                                drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                                    color: 'blue',
-                                    radius: 4
-                                }, true);
-                            }
-                        } else {
-
+                        if (i == 0 || i == geom.length - 1) {
+                            drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                                color: 'red',
+                                radius: 4
+                            }, true);
+                        }
+                        else if(!boolnode) {
                             drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
                                 color: 'blue',
                                 radius: 4
                             }, true);
-
                         }
                     }
-
-
                 }
             }
 

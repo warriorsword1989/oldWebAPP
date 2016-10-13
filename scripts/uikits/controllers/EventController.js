@@ -5,6 +5,7 @@
 
 fastmap.uikit.EventController=(function() {
     var instantiated;
+    var eventsKey = '_leaflet_events';
     function init(options) {
         var eventController = L.Class.extend({
             /**
@@ -127,7 +128,7 @@ fastmap.uikit.EventController=(function() {
                     return this;
                 },
                 clearAllEventListeners: function () {
-                    delete this[eventsKey];
+                    // delete this[eventsKey];
                     this.eventTypesMap={};
                     return this;
                 }

@@ -80,11 +80,11 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
 
             // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
-            // if (this._shape) {
-            //     this._map.removeLayer(this._shape);
-            //     this._map.getPanes().overlayPane.style.zIndex = "1";
-            //     delete this._shape;
-            // }
+            if (this._shape) {
+                this._map.removeLayer(this._shape);
+                // this._map.getPanes().overlayPane.style.zIndex = "1";
+                delete this._shape;
+            }
         }
         this._isDrawing = false;
 
@@ -105,11 +105,6 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
     onMouseUp: function (e) {
         if (this._shape) {
             this._fireCreatedEvent();
-        }
-
-        this.disable();
-        if (this.options.repeatMode) {
-            this.enable();
         }
     },
     onMouseMove: function (e) {
@@ -137,7 +132,10 @@ fastmap.mapApi.SelectParent = L.Handler.extend({
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
         var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
-
+        this.disable();
+        if (this.options.repeatMode) {
+            this.enable();
+        }
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
             {data: dataOfRectangle, layerType: this.type,border:rectangle});
     },

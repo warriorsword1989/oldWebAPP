@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var walkstairApp = angular.module("mapApp");
+var walkstairApp = angular.module("app");
 walkstairApp.controller("walkstairController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.walkstairData = objCtrl.data.walkstairs;

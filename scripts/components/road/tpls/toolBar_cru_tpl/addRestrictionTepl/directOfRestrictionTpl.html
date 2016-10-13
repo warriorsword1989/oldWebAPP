@@ -32,17 +32,17 @@
         background-color: transparent;
     }
 </style>
-<div ng-controller="addDirectOfRestrictionController" id="addDirectOfConnexityDiv"  oncontextmenu=self.event.returnValue=false>
+<div ng-controller="addDirectOfRestrictionController" id="addDirectOfConnexityDiv"  ><!-- oncontextmenu="self.event.returnValue=false" -->
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div><label class="control-label">增加交限</label></div>
         </li>
         <li class="list-group-item">
             <div class="trafficPic ">
-                <img  ng-repeat="addItem in laneConnexityData" ng-if="addItem.flag===false" ng-src="../../images/road/1302/1302_1_{{addItem.id}}.svg"  ng-click="addNormalData1(addItem,$event)">
+                <img  ng-repeat="addItem in laneConnexityData" ng-if="addItem.flag===false" ng-src="../../../images/road/1302/1302_1_{{addItem.id}}.svg"  ng-click="addNormalData1(addItem,$event)">
             </div>
             <div class="trafficPic ">
-                <img  ng-repeat="addItems in laneConnexityData" ng-if="addItems.flag===true" ng-src="../../images/road/1302/1302_2_{{addItems.id}}.svg"  ng-click="addNormalData1(addItems,$event)">
+                <img  ng-repeat="addItems in laneConnexityData" ng-if="addItems.flag===true" ng-src="../../../images/road/1302/1302_2_{{addItems.id}}.svg"  ng-click="addNormalData1(addItems,$event)">
             </div>
         </li>
 

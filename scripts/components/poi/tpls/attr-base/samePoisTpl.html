@@ -1,0 +1,27 @@
+<div ng-controller="samePoisCtrl">
+    <div ng-show="propertyType=='same'">
+        <div class="fm-panel">
+            <div class="title">
+                <div>同一关系POI
+                <a ng-if="poi.samepoiParts.length > 0" class="glyphicon glyphicon-remove-sign"
+                      style="padding-top:3px;float: right;color: darkgray;cursor:pointer;" title="删除同一关系"
+                      ng-click="deleteSamePoi(poi)"></a>
+                </div>
+            </div>
+            <div class="content">
+                <ul class="fm-ul fm-ul-list">
+                    <li ng-if="poi.samepoiParts.length <= 0">
+                        <label>
+                            无
+                        </label>
+                    </li>
+                    <li ng-if="poi.samepoiParts.length > 0" ng-repeat="cItem in poi.samepoiParts">
+                        <label ng-if="cItem.poiPid!=poi.pid">
+                            {{cItem.poiPid}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

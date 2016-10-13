@@ -8,7 +8,7 @@ angular.module('app').controller('EditHistoryCtl', ['$scope', function($scope) {
             hisTemp.name = $scope.poi.editHistoryData.operator.name;
             hisTemp.mergeDate = $scope.poi.editHistoryData.mergeFormateData;
             hisTemp.sourceName = FM.dataApi.Constant.CODE_SOURCE_NAME[$scope.poi.editHistoryData.sourceName];
-            hisTemp.operDesc = getOperDesc(FM.Util.stringToJson($scope.poi.editHistoryData.mergeContents[i].oldValue));
+            hisTemp.operDesc = getOperDesc(Utils.stringToJson($scope.poi.editHistoryData.mergeContents[i].oldValue));
             $scope.editHistory.push(hisTemp);
         }
     }

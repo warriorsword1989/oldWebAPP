@@ -28,7 +28,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         this.eNodePid = data["eNodePid"] || null;
         this.kind = data["kind"] || 7;
         this.direct = data["direct"] || 1;
-        this.appInfo = data["appInfo"] || 1;
+        this.appInfo = (data["appInfo"] === undefined || data["appInfo"] === '') ? 1 :data["appInfo"];
         this.tollInfo = data["tollInfo"] || 2;
         this.routeAdopt = data["routeAdopt"] || 2;
         this.multiDigitized = data["multiDigitized"] || 0;
@@ -38,12 +38,16 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         this.functionClass = data["functionClass"] || 5;
         this.urban = data["urban"] || 0;
         this.paveStatus = data["paveStatus"] || 0;
-        this.laneNum = data["laneNum"] || 2;
+        if(data["laneNum"]!='undefied'){
+            this.laneNum = data["laneNum"];
+        }else{
+            this.laneNum = 2;
+        }
         this.laneLeft = data["laneLeft"] || 0;
         this.laneRight = data["laneRight"] || 0;
         this.laneWidthLeft = data["laneWidthLeft"] || 1;
         this.laneWidthRight = data["laneWidthRight"] || 1;
-        this.laneClass = data["laneClass"] || 2;
+        this.laneClass = data["laneClass"] || 1;
         this.width = data["width"] || 0;
         this.isViaduct = data["isViaduct"] || 0;
         this.leftRegionId = data["leftRegionId"] || 0;
@@ -277,6 +281,12 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
             rtics.push(this.rtics[i].getIntegrate())
         }
         data["rtics"] = rtics;
+
+        var intRtics = [];
+        for (var i = 0, len = this.intRtics.length; i < len; i++) {
+            intRtics.push(this.intRtics[i].getIntegrate())
+        }
+        data["intRtics"] = intRtics;
 
         var sidewalks = [];
         for (var i = 0, len = this.sidewalks.length; i < len; i++) {

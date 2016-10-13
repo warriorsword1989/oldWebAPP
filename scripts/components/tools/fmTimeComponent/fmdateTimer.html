@@ -104,6 +104,7 @@
     .date-head {
         color: #FFF;
         padding: 4px;
+        width: 100%;
     }
 
     .date-head a {
@@ -412,20 +413,20 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="date-body">
-        <div class="date-list"></div>
-        <div class="date-list" ng-repeat="item in dateList">
+    <div class="date-body col-md-12">
+        <div class="date-list" style="margin-bottom: 5px;"></div>
+        <div class="date-list col-md-12" ng-repeat="item in dateList">
             <div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
             </div>
             <div class="col-xs-2 col-md-2 col-lg-1">
                 <span ng-hide="delBtnHide" class="glyphicon glyphicon-minus-sign remove-date-list pull-right"
-                      ng-click="removeList($event)"></span>
+                      ng-click="removeList($event,$index)"></span>
             </div>
             <div class="clearfix"></div>
             <div class="line"></div>
         </div>
     </div>
-    <div class="datetip">
+    <div class="datetip fm-datepick-tip" style="display: none">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">时间段设置</div>
         <div class="pull-right" style="margin-top: -10px;">
             <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)"
@@ -448,7 +449,7 @@
         <!-- begin 固定时间 -->
         <div class="form-group fix-time time-slide-well">
             <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
-                <label class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
+                <label name="weekGroupBtn" class="btn week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
                        check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values"
                        style="font-size: 12px;width: 14.28%;">
                     {{week.value}}
@@ -581,8 +582,8 @@
             </label>
         </div>
         <div class="btn-option btn-group">
-            <button class="btn date-btn" type="button" ng-click="dateSelect($event)">关闭</button>
-            <button class="btn date-btn" ng-click="dateSave($event)" type="button">
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" type="button" ng-click="dateSelect($event)">关闭</button>
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" ng-click="dateSave($event)" type="button">
                 <i class="glyphicon glyphicon-floppy-disk"></i> 保存
             </button>
         </div>

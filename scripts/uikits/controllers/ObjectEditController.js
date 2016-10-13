@@ -96,6 +96,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "IXPOI":
                         this.data = new fastmap.dataApi.IxPoi(obj);
                         break;
+                    case "COMMONDEEP":
+                        this.data = new fastmap.dataApi.IxPoiDetail(obj);
+                        break;
                     case "RWLINK":
                         this.data = fastmap.dataApi.rwLink(obj);
                         break;
@@ -111,20 +114,103 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "ZONEFACE":
                         this.data = fastmap.dataApi.zoneFace(obj);
                         break;
+                    case "RDTRAFFICSIGNAL":
+                        this.data = fastmap.dataApi.rdTrafficSignal(obj);
+                        break;
+                    case "RDWARNINGINFO":
+                        this.data = fastmap.dataApi.rdWarningInfo(obj);  //警示信息
+                        break;
+                    case "RDGATE":
+                        this.data = fastmap.dataApi.rdGate(obj);  //大门
+                        break;
+                    case "RDELECTRONICEYE":
+                        this.data = fastmap.dataApi.rdElectronicEye(obj);
+                        break;
+                    case "RDSLOPE":
+                        this.data = fastmap.dataApi.rdSlope(obj);
+                        break;
+                    case "LUNODE":
+                        this.data = fastmap.dataApi.luNode(obj);
+                        break;
+                    case "LULINK":
+                        this.data = fastmap.dataApi.luLink(obj);
+                        break;
+                    case "LUFACE":
+                        this.data = fastmap.dataApi.luFace(obj);
+                        break;
+                    case "LCNODE":
+                        this.data = fastmap.dataApi.lcNode(obj);
+                        break;
+                    case "LCLINK":
+                        this.data = fastmap.dataApi.lcLink(obj);
+                        break;
+                    case "LCFACE":
+                        this.data = fastmap.dataApi.lcFace(obj);
+                        break;
+                    case "RDDIRECTROUTE":
+                        this.data = fastmap.dataApi.rdDirectRoute(obj);
+                        break;
+                    case "RDSPEEDBUMP":
+                        this.data = fastmap.dataApi.rdSpeedBump(obj);
+                        break;
+                    case "RDINTER":
+                        this.data = fastmap.dataApi.rdInter(obj);
+                        break;
+                    case "RDROAD":
+                        this.data = fastmap.dataApi.rdRoad(obj);
+                        break;
+                    case "RDOBJECT":
+                        this.data = fastmap.dataApi.rdObject(obj);
+                        break;
+                    case "RDSE": //分叉口
+                        this.data = fastmap.dataApi.rdSe(obj);
+                        break;
+                    case "RDTOLLGATE": //收费站
+                        this.data = fastmap.dataApi.rdTollgate(obj);
+                        break;
+                    case "RDTOLLGATE": //收费站
+                        this.data = fastmap.dataApi.rdTollgate(obj);
+                        break;
+                    case "RDSAMENODE": //同一点
+                        this.data = fastmap.dataApi.rdSameNode(obj);
+                        break;
+                    case "RDSAMELINK": //同一线
+                        this.data = fastmap.dataApi.rdSameLink(obj);
+                        break;
+                    case "RDVARIABLESPEED": //可变限速
+                        this.data = fastmap.dataApi.rdVariableSpeed(obj);
+                        break;
+                    case "RDVOICEGUIDE": //语音引导
+                        this.data = fastmap.dataApi.rdVoiceGuide(obj);
+                        break;
+                    case "RDLINKSPEEDLIMIT": //线限速
+                        this.data = fastmap.dataApi.rdLinkSpeedLimit(obj);
+                        break;
+                    case "ROADNAME"://道路名称
+                    	this.data = fastmap.dataApi.roadName(obj);
+                    	break;
+                    case "RDLANE"://详细车道
+                      this.data = fastmap.dataApi.rdLanes(obj);
+                      break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
                 }
                 if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
                     });
                 }
+                // 详细车道
+                // if (!this.originalData || this.originalData.geoLiveType == 'RDLANE') {
+                //     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
+                //         "originalData": this.originalData,
+                //         "currentData": this.data
+                //     });
+                // }
                 //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
                 if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType !=this.data.branchType)) {
-                    // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE);
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
@@ -202,9 +288,9 @@ fastmap.uikit.ObjectEditController = (function() {
                                 }
                             }
                             if (objArr.length !== 0) {
-                                if (oriData["linkPid"]) {
-                                    obj["linkPid"] = oriData["pid"];
-                                }
+                                //if (oriData["linkPid"]) {
+                                    //obj["linkPid"] = oriData["pid"];
+                                //}
                                 retObj[item] = objArr;
                             }
                         } else if (oriData[item].length < data[item].length) {
@@ -240,20 +326,22 @@ fastmap.uikit.ObjectEditController = (function() {
                                     delete obj["$$hashKey"];
                                     //obj["pid"]=pids;
                                     if (obj) {
-                                        if (oriData[item][0]["linkPid"]) {
-                                            obj["linkPid"] = oriData[item][0]["linkPid"];
-                                        }
+                                        //if (oriData[item][0]["linkPid"]) {
+                                            //obj["linkPid"] = oriData[item][0]["linkPid"];
+                                        //}
                                         objArr.push(obj);
                                     }
                                     delete obj["geoLiveType"];
                                 }
                             }
+                            var differLen = data[item].length - oriData[item].length;
                             for (var j = oriData[item].length - 1; j >= 0; j--) {
-                                var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
+                                //var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
+                                var obj = this.compareJson(pids,oriData[item][j], data[item][differLen + j], "UPDATE");
                                 if (obj) {
-                                    if (oriData[item][j]["linkPid"]) {
-                                        obj["linkPid"] = oriData[item][j]["linkPid"];
-                                    }
+                                    //if (oriData[item][j]["linkPid"]) {
+                                        //obj["linkPid"] = oriData[item][j]["linkPid"];
+                                    //}
                                     objArr.push(obj);
                                 }
                             }
@@ -273,7 +361,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                         index: j
                                     };
                                     indexOfData[data[item][j]["rowId"]] = obj;
-                                } else if (data["pid"]) {
+                                } else if (data[item][j]["pid"]) {
                                     key = "pid";
                                     obj = {
                                         flag: true,
@@ -291,10 +379,13 @@ fastmap.uikit.ObjectEditController = (function() {
                             for (var k = 0, lenK = oriData[item].length; k < lenK; k++) {
                                 if (indexOfData[oriData[item][k][key]]) {
                                     var obj = this.compareJson(pids,oriData[item][k], data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
-                                    objArr.push(obj);
+                                    if (obj) {
+                                        objArr.push(obj);
+                                    }
                                 } else {
                                     obj = oriData[item][k];
                                     obj["objStatus"] = "DELETE";
+                                    delete obj["geoLiveType"];
                                     delete obj["$$hashKey"];
                                     if (!obj["pid"]) {
                                         obj["pid"] = pids;
@@ -302,6 +393,21 @@ fastmap.uikit.ObjectEditController = (function() {
                                     if (obj["vias"]) {
                                         obj["vias"] = undefined;
                                     }
+                                    objArr.push(obj);
+                                }
+                            }
+                            for(var n = 0 ,l = data[item].length ; n < l; n ++){//删除后新增的情况
+                                var flag = true;
+                                for(var m = 0 ,len = oriData[item].length ; m < len; m ++){
+                                    if(data[item][n][key] == oriData[item][m][key]){
+                                        flag = false;
+                                        break;
+                                    }
+                                }
+                                if(flag){
+                                    obj = data[item][n];
+                                    obj["objStatus"] = "INSERT";
+                                    delete obj["geoLiveType"];
                                     objArr.push(obj);
                                 }
                             }
@@ -356,6 +462,122 @@ fastmap.uikit.ObjectEditController = (function() {
                         // } else if (oriData["rowId"]) {
                         //     retObj["rowId"] = oriData["rowId"];
                         // }
+                        arrFlag = false;
+                    }
+                    return retObj;
+                } else {
+                    return false;
+                }
+            },
+            compareColumData:function (oriData, data){
+                function getIntegrateData(arrData){
+                    var returnArr = [];
+                    for(var i = 0 ,len = arrData.length ; i < len ; i ++){
+                        returnArr.push(arrData[i].getIntegrate());
+                    }
+                    return returnArr;
+                };
+                var changeData = this.compareJsonColum({"dataList":getIntegrateData(oriData)}, {"dataList":getIntegrateData(data)},"UPDATE");
+                if(!changeData){ //特殊处理，如果数据没有发生变化就会返回false
+                    changeData = {};
+                    changeData["dataList"] = [];
+                }
+                //属性没有发生变化，需要将pid和rowId返回
+                for (var i = 0, len = oriData.length; i < len; i++){
+                    var flag = true;
+                    for(var j = 0 ,le = changeData["dataList"].length; j < le ; j ++ ){
+                        if(oriData[i].rowId == changeData["dataList"][j].rowId){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        var temp = {};
+                        if (oriData[i]["rowId"]) {
+                            temp["rowId"] = oriData[i]["rowId"];
+                        }
+                        if (oriData[i]["pid"]) {
+                            temp["pid"] = oriData[i]["pid"];
+                        }
+                        changeData["dataList"].push(temp);
+                    }
+                }
+
+                return changeData;
+            },
+            compareJsonColum: function(oriData, data, type) {
+                var retObj = {},
+                    arrFlag = this.isContainArr(oriData);
+                for (var item in oriData) {
+                    if (typeof oriData[item] === "string") {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            }
+                            if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+                            retObj["objStatus"] = type;
+                        }
+                    } else if (data[item] && oriData[item] && oriData[item].constructor == Array && data[item].constructor == Array) {
+                        if (oriData[item].length === data[item].length) {
+                            var objArr = [];
+                            for (var i = 0, len = oriData[item].length; i < len; i++) {
+                                var obj = null ;
+                                obj = this.compareJsonColum(oriData[item][i], data[item][i], "UPDATE");
+                                if (obj) {
+                                    objArr.push(obj);
+                                } else {
+                                    // var temp = {};
+                                    // if (oriData["rowId"]) {
+                                    //     temp["rowId"] = oriData["rowId"];
+                                    // }
+                                    // if (oriData["pid"]) {
+                                    //     temp["pid"] = oriData["pid"];
+                                    // }
+                                    // objArr.push(temp);
+                                }
+                            }
+                            if (objArr.length !== 0) {
+                                retObj[item] = objArr;
+                            }
+                        }
+                    } else if (!isNaN(oriData[item])) {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            }
+                            if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+
+                            retObj["objStatus"] = type;
+                        }
+                    } else {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            }
+                            if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+
+                            retObj["objStatus"] = type;
+                        }
+                    }
+                }
+                if (!this.isEmptyObject(retObj)) {
+                    if (arrFlag) {
+                        if (oriData["rowId"]) {
+                            retObj["rowId"] = oriData["rowId"];
+                        }
+                        if (oriData["pid"]) {
+                            retObj["pid"] = oriData["pid"];
+                        }
+
                         arrFlag = false;
                     }
                     return retObj;

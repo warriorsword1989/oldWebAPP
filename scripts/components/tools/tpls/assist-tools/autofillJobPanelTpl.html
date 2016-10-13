@@ -1,0 +1,21 @@
+<div class="fm-panel" ng-controller="AutofillJobPanelCtrl">
+    <div class="title">自动录入</div>
+    <div class="content">
+        <div>执行以下Tips录入:</div>
+        <div class="row scroll-styled dark" style="max-height: 200px;margin:5px;">
+            <!-- <label ng-repeat="item in tipList" class="col-md-4">
+                <input type="checkbox" name="tipList" ng-model="selectedTips[item.id]" ng-value="item.id"> {{item.name}}
+            </label> -->
+            <label ng-repeat="tips in tipsObj" class="col-md-4">
+                <input type="checkbox" name="tipList" ng-model="selectedTips[tips.id]" ng-value="tips.id" ng-checked="tips.checked"> {{tips.name}}
+            </label>
+        </div>
+        <!-- 进度条 -->
+        <div class="progress fm-progress" style="margin:8px;">
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" ng-style="{'width': progress + '%'}"></div>
+        </div>
+        <div style="text-align:center;">
+            <button type="button" ng-disabled="running" class="btn btn-main" ng-click="doExecute()">执  行</button>
+        </div>
+    </div>
+</div>

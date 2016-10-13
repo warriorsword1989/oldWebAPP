@@ -8,7 +8,7 @@
             <div class='list-line'></div>
         </li>
         <li class="list-group-item" ng-repeat="cItem in linkData.names" style="padding-left: 30px">
-            <div ng-click="showNames(cItem)" style="cursor: pointer;">
+            <div ng-click="showNames(cItem,$index)" style="cursor: pointer;">
                 <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}
                     <label ng-if="cItem.nameClass== 1">(官方)</label>
                     <label ng-if="cItem.nameClass== 2">(别名)</label>

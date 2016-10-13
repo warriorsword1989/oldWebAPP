@@ -30,20 +30,24 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         layerCtrl.setLayersVisible(['grid','mesh','rdLink']);
         //layerCtrl.setLayersVisible(['mesh']);
         /***********************************控制器初始化以及事件监听绑定***********************************/
-
+        $scope.deepType=''
+        //是否显示精编任务列表（头部控制）;
+        $scope.showDetailEdit = false;
+        //是否显示深度信息任务列表（内容控制）;
+        $scope.isDeepTask = false;
         //当前高亮的格网数组;
         $scope.currentHighLight = [];
         //编辑开关;
         $scope.startBtnDisabled = true;
         //顶标签初始状态;
-        $scope.dataListType = 1;
+        $scope.dataListType = 4;
         //顶标签的当前字符状态;
         $scope.dataStringType = '';
         //侧标签初始状态;
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
         $scope.requestParams = {
-            classType: 2,
+            classType: 0,
             classStage:1
         };
         //当前选中子任务对象;
@@ -52,8 +56,11 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         $scope.infoPanelOpened = 'none';
         //所有的当前高亮grid数据
         $scope.currentHighligtGrid = [];
+
         //控制页面tab页切换;
         $scope.changeDataList = function(val) {
+            $scope.showDetailEdit = false;
+            $scope.isDeepTask = false;
             $scope.requestParams = {};
             $scope.startBtnDisabled = true;
             $scope.dataListType = val;
@@ -61,23 +68,64 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             //构建过滤请求参数;
             switch ($scope.dataListType) {
                 case 1:
-                    $scope.requestParams.classType = 2;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 0;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 2:
-                    $scope.requestParams.classType = 0;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 1;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 3:
-                    $scope.requestParams.classType = 1;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 2;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;
-                    $scope.requestParams.classStage = 2;
+                    $scope.requestParams.classStage = 1;
                     break;
                 case 5:
                     $scope.requestParams.classType = 3;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 16:
+                    $scope.requestParams.classType = 4;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 17:
+                    $scope.requestParams.classType = 5;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 18:
+                    $scope.requestParams.classType = 6;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 19:
+                    $scope.requestParams.classType = 7;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 20:
+                    $scope.requestParams.classType = 8;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 21:
+                    $scope.requestParams.classType = 9;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 22:
+                    $scope.requestParams.classType = 10;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 6:
+                    $scope.isDeepTask = true;
+                    loadDeepTaskFn();
+                    return;
+                    break;
+                case 7:
+                    //顶标签初始状态;
+                    $scope.taskStatus = 9;
+                    $scope.showDetailEdit = true;
+                    loadPoiDetailTaskFn();
+                    return;
                     break;
             }
             loadSubTaskfn($scope.requestParams)
@@ -87,13 +135,38 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             $scope.taskStatus = val;
             switch ($scope.taskStatus) {
                 case 6:
+                    if($scope.isDeepTask){
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
                     delete $scope.requestParams.currentStatus;
                     break;
                 case 7:
+                    if($scope.isDeepTask){
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
                     $scope.requestParams.currentStatus = 1;
                     break;
                 case 8:
+                    if($scope.isDeepTask){
+                        $scope.currentSubTaskList = [];
+                        return;
+                    }
                     $scope.requestParams.currentStatus = 0;
+                    break;
+                /*poi精编分类部分*/
+                case 9:
+                    return;
+                    break;
+                case 10:
+                    return;
+                    break;
+                case 11:
+                    return;
+                    break;
+                case 12:
+                    return;
                     break;
             }
             loadSubTaskfn($scope.requestParams)
@@ -106,7 +179,15 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 param.push("dbId=" + $scope.currentTaskData.dbId);
                 param.push("type=" + $scope.currentTaskData.type);
                 param.push("stage=" + $scope.currentTaskData.stage);
-                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId;
+                //
+                var tempStr = $scope.isDeepTask?'&specialWork=true':'';
+                var poideepStr = ''
+                poideepStr = $scope.taskStatus==9?'&workItem=chinaName':$scope.taskStatus==10?'&workItem=englishName':$scope.taskStatus==11?'&workItem=chinaAddress':$scope.taskStatus==12?'&workItem=englishAddress':'';
+                if(poideepStr){
+                    window.location.href = "../colEditor/colEditor.html?access_token=" + App.Temp.accessToken+poideepStr;
+                    return;
+                }
+                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + $scope.currentTaskData.subtaskId+tempStr+$scope.deepType+"&t=" + Date.parse( new Date());
             }
         };
         //高亮作业区域方法;
@@ -145,10 +226,57 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                 }
             }
         }
+
+        function getCurrentDataType(param){
+            switch(param){
+                case 1:
+                    return 'POI采集';
+                    break;
+                case 2:
+                    return '道路采集';
+                    break;
+                case 3:
+                    return '一体化采集';
+                    break;
+                case 4:
+                    return 'POI日编';
+                    break;
+                case 5:
+                    return '一体化gGRID粗编';
+                    break;
+                case 16:
+                    return '一体化区域';
+                    break;
+                case 17:
+                    return '多源POI';
+                    break;
+                case 18:
+                    return '代理店';
+                    break;
+                case 19:
+                    return 'POI专项';
+                    break;
+                case 20:
+                    return '道路GRID精编';
+                    break;
+                case 21:
+                    return '道路一体化粗编';
+                    break;
+                case 22:
+                    return '道路区域';
+                    break;
+            }
+        }
+
         // 选中子任务，高亮子任务对应的网格
         $scope.selectSubtask = function(subtask) {
+            /*暂时判断深度信息类型*/
+            if(subtask.typeFlag){
+                $scope.deepType = '&deepType='+subtask.typeFlag;
+            }
+            /*暂时判断深度信息类型*/
             $scope.currentTaskData = subtask;
-            $scope.dataStringType = $scope.currentTaskData.name;
+            $scope.dataStringType = getCurrentDataType($scope.dataListType)//$scope.currentTaskData.name;
             $scope.infoPanelOpened = true;
             // 清除原有高亮;
             if ($scope.currentHighLight) {
@@ -162,100 +290,10 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             var _southWest = $scope.currentHighLight.getBounds()._southWest;
             console.log($scope.currentHighLight.getBounds())
             var centerPonit = {}
-            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.05;
+            centerPonit.x = _northEast.lng-(_northEast.lng-_southWest.lng)/2+0.1;
             centerPonit.y = (_northEast.lat-_southWest.lat)/2+_southWest.lat;
-            map.setView([centerPonit.y,centerPonit.x],13);
+            map.setView([centerPonit.y,centerPonit.x],12);
             map.addLayer($scope.currentHighLight);
-            //if (subtask.gridIds.length > 0) {
-            //    var gridIdArray = []; // 网格ID数组;
-            //    var meshIdArray = []; // 图幅ID数组;
-            //    var meshId, gridNum;
-            //    for (var i = 0; i < subtask.gridIds.length; i++) {
-            //        meshId = subtask.gridIds[i].toString();
-            //        gridNum = meshId.substr(-2);
-            //        meshId = ("000000" + meshId.substr(0, meshId.length - 2)).substr(-6); // 图幅号不够6位左补0
-            //        if (meshIdArray.indexOf(meshId) < 0) {
-            //            meshIdArray.push(meshId);
-            //        }
-            //        gridIdArray.push(meshId + "_" + gridNum); // 网格号变换
-            //    }
-            //    //根据图幅号获取聚焦的范围;
-            //    map.fitBounds(getBounds(meshIdArray));
-            //
-            //    //判断任务网格是否都加载上的定时器;
-            //    var selectedGrids = [];
-            //    var timer = setInterval(function() {
-            //        var allGrids = layerCtrl.getLayerById('grid').gridArr;
-            //        for (var i = 0; i < allGrids.length; i++) {
-            //                for (var j = gridIdArray.length - 1; j >= 0; j--) {
-            //                    if (allGrids[i].options.gridId == gridIdArray[j]) {
-            //                        selectedGrids.push(allGrids[i]);
-            //                        gridIdArray.splice(j, 1);
-            //                        if (gridIdArray.length == 0) {
-            //                            clearInterval(timer);
-            //                            addHighlight(selectedGrids);
-            //                        }
-            //                    }
-            //                }
-            //        }
-            //    }, 100);
-            //}
-            //
-            //// 根据图幅编号获取图幅的外包矩形bounds
-            //function getBounds(meshIds) {
-            //    var mesh;
-            //    var meshLayer = layerCtrl.getLayerById('mesh');
-            //    var maxLat = 0,
-            //        maxLon = 0,
-            //        minLat = 180,
-            //        minLon = 180;
-            //    for (var i = 0; i < meshIds.length; i++) {
-            //        mesh = meshLayer.Calculate25TMeshBorder(meshIds[i]);
-            //        if (mesh.maxLat > maxLat) {
-            //            maxLat = mesh.maxLat;
-            //        }
-            //        if (mesh.maxLon > maxLon) {
-            //            maxLon = mesh.maxLon;
-            //        }
-            //        if (mesh.minLat < minLat) {
-            //            minLat = mesh.minLat;
-            //        }
-            //        if (mesh.minLon < minLon) {
-            //            minLon = mesh.minLon;
-            //        }
-            //    }
-            //    return [
-            //        [minLat, minLon],
-            //        [maxLat, maxLon]
-            //    ];
-            //}
-            //function getTaskCenterPoint(gridArray){
-            //    var _lat = [];
-            //    var _lng = [];
-            //    for(var i=0;i<gridArray.length;i++){
-            //        for(var j=0;j<gridArray[i]._latlngs.length;j++){
-            //            _lat.push(gridArray[i]._latlngs[j].lat);
-            //            _lng.push(gridArray[i]._latlngs[j].lng);
-            //        }
-            //    }
-            //    minlng = Math.min.apply(null,_lng);
-            //    maxlat = Math.max.apply(null,_lat);
-            //    maxlng = Math.max.apply(null,_lng);
-            //    minlat = Math.min.apply(null,_lat);
-            //    return [minlat+(maxlat-minlat)/2,maxlng-(maxlng-minlng)/5];
-            //}
-            //// 高亮网格
-            //function addHighlight(gridArray) {
-            //    $scope.currentHighligtGrid = gridArray;
-            //    for (var i = 0; i < gridArray.length; i++) {
-            //        $scope.currentHighLight.push(L.rectangle(gridArray[i].getBounds(), {
-            //            fillColor: "#FF6699",
-            //            weight: 0,
-            //            fillOpacity: 0.5
-            //        }).addTo(map));
-            //    }
-            //    map.setView(getTaskCenterPoint(gridArray),13)
-            //}
             //去查找当前的substask概要信息;
             getCurrentSubtaskSummary();
         }
@@ -310,15 +348,16 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     type: 'column',
                     width:270,
                     height:230,
-                    spacingLeft: -5,
-                    options3d: {
-                        enabled: true,
-                        alpha: 10,
-                        beta: 25,
-                        depth: 100
-                    },
+                    spacingLeft: 0,
+                    //options3d: {
+                    //    enabled: true,
+                    //    alpha: 10,
+                    //    beta: 25,
+                    //    depth: 100
+                    //},
                     backgroundColor:'transparent',
-                    spacingTop:15
+                    borderColor: "#4572A7",
+                    spacingTop:25
                 },
                 colors:['#8DBF60', '#27B7F3'],
                 tooltip: {
@@ -407,7 +446,28 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
                     }
                 }
                 $scope.currentSubTaskList = data;
+                console.log(data)
             });
+        }
+
+        $scope.showSubList = function(param){
+            $scope.currentDeepClass = param;
+            $scope.isSubTaskListShow = !$scope.isSubTaskListShow;
+        }
+        $scope.isSubTaskListShow = false;
+
+        function loadDeepTaskFn(){
+            var data = [
+                {name:'通用深度信息作业',count:3,data:[{typeFlag:'common','subtaskId':165,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"},{typeFlag:'common','subtaskId':120,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"},{'subtaskId':117,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}]},
+                {name:'汽车租赁信息作业',count:2,data:[{typeFlag:'car','subtaskId':165,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"},{typeFlag:'car','subtaskId':116,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}]},
+                {name:'停车场信息作业',count:1,data:[{typeFlag:'parking','subtaskId':165,'name':'北京中文名子任务','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}]}
+            ]
+            $scope.currentSubTaskList = data;
+        }
+
+
+        function loadPoiDetailTaskFn(){
+            $scope.currentSubTaskList = [{'subtaskId':165,'name':'北京中文名子任务测试超长名称显示样式','girdIds':[60560331,60560332,60560333,60560320,60560330],'descp':'北京中文名子任务','planEndDate':'20151207','planStartDate':'20151207','flag':'1','type':3,'geometry':"POLYGON ((116.375 40.04167, 116.375 40.0625, 116.375 40.08333, 116.40625 40.08333, 116.40625 40.0625, 116.4375 40.0625, 116.4375 40.04167, 116.40625 40.04167, 116.40625 40.02083, 116.40625 40.0, 116.375 40.0, 116.375 40.02083, 116.375 40.04167))"}];
         }
         //子任务查询
         loadSubTaskfn($scope.requestParams);

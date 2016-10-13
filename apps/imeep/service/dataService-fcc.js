@@ -30,6 +30,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         var params = {
             "grids": App.Temp.gridList,
             "stage": stage,
+            "mdFlag":App.Temp.mdFlag,
             "type": type,
             "dbId": App.Temp.dbId
         };
@@ -67,6 +68,40 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         });
         return defer.promise;
     };
+    /*查询已读消息*/
+    this.getReadMsg = function(param) {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/read/get", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*查询消息详情*/
+    this.getDetailCheck = function(param) {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/detail/check", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /**
      *  保存datatips数据
      * @param param
@@ -79,21 +114,47 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         }).success(function(data) {
             if (data.errcode == 0) {
                 dsOutput.push({
-                    "op": "状态修改成功",
+                    "op": "Tips状态修改成功",
                     "type": "succ",
                     "pid": "0",
                     "childPid": ""
                 });
-                swal("状态修改成功", "", "success");
+                swal("Tips状态修改成功", "", "success");
                 defer.resolve(1);
             } else {
                 dsOutput.push({
-                    "op": "操作出错：" + data.errmsg,
+                    "op": "Tips状态修改出错：" + data.errmsg,
                     "type": "fail",
                     "pid": data.errcode,
                     "childPid": ""
                 });
-                swal("状态修改出错：", data.errmsg, "error");
+                swal("Tips状态修改出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*自动录入*/
+    this.runAutomaticInput = function(types) {
+        var defer = $q.defer();
+        var params = {
+            'jobType':'niRobot',
+            'request':{
+                "grids": App.Temp.gridList,
+                "targetDbId":App.Temp.dbId,
+                "types":types
+            },
+            'descp':''
+        };
+        ajax.get("job/create/", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode === 0) {
+                defer.resolve(data);
+            } else {
+                swal("创建Job出错：", data.errmsg, "error");
                 defer.resolve(-1);
             }
         }).error(function(rejection) {

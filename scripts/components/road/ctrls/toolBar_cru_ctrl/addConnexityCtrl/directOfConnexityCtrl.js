@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/9.
  */
-var showDirectApp = angular.module("mapApp");
+var showDirectApp = angular.module("app");
 showDirectApp.controller("showDirectOfConnexity",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.showData = objCtrl.originalData;
@@ -28,8 +28,8 @@ showDirectApp.controller("showDirectOfConnexity",function($scope) {
           normalObj = {
                 "flag": item.flag,
                 "type": 0
-            };;
-        if(  $scope.showData.showAdditionalData.length===0) {
+            };
+        if($scope.showData.showAdditionalData.length===0) {
 
             $scope.showData.showNormalData.push(normalObj);
             $scope.showData.showTransitData.push(transitObj);

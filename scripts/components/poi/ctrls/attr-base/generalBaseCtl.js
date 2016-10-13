@@ -1,270 +1,457 @@
-angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta',function($scope, $timeout,meta) {
+angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
+    var objectCtrl = fastmap.uikit.ObjectEditController();
+    var eventCtrl = fastmap.uikit.EventController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var poiLayer = layerCtrl.getLayerById('poi');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
 
-    var pKindFormat = {}, pKindList,
-        pAllChain = {};
-    var regionCode = "010"
-    var initOptionStyle = function(poiJson) {
-        var editedProperty = new Object();
-        var data = [];
-        if (poiJson.lifecycle == 1) { //删除 
-            if (poiJson.editHistory && poiJson.editHistory.length > 0) {
-                var history = poiJson.editHistory[poiJson.editHistory.length - 1];
-                if (history && history.mergeContents) {
-                    var contents = history.mergeContents;
-                    var temp, tt;
-                    for (var i = 0, len = contents.length; i < len; i++) {
-                        temp = FM.Util.stringToJson(contents[i].oldValue);
-                        for (var kk in temp) {
-                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
-                            if (tt) {
-                                editedProperty[kk] = kk;
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (poiJson.qtLifecycle == 3) { //  新增
-            if (poiJson.editHistory && poiJson.editHistory.length > 0) {
-                var history = poiJson.editHistory[poiJson.editHistory.length - 1];
-                if (history && history.mergeContents) {
-                    var contents = history.mergeContents;
-                    var temp, tt;
-                    for (var i = 0, len = contents.length; i < len; i++) {
-                        temp = FM.Util.stringToJson(contents[i].oldValue);
-                        for (var kk in temp) {
-                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
-                            if (tt) {
-                                editedProperty[kk] = kk;
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (poiJson.lifecycle == 2) { // 修改
-            if (poiJson.editHistory && poiJson.editHistory.length > 0) {
-                var history = poiJson.editHistory[poiJson.editHistory.length - 1];
-                if (history && history.mergeContents) {
-                    var contents = history.mergeContents;
-                    var temp;
-                    for (var i = 0, len = contents.length; i < len; i++) {
-                        temp = FM.Util.stringToJson(contents[i].oldValue);
-                        for (var kk in temp) {
-                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
-                            if (tt) {
-                                editedProperty[kk] = kk;
-                            }
-                        }
-                    }
-                }
-            }
+    function initData() {
+        if($scope.generalPoiForm) {
+            $scope.generalPoiForm.$setPristine();
         }
-        for (var t in editedProperty) {
-            $scope[t + 'StyleFlag'] = true;
-        }
-    }
-
-    var initBaseInfoIcon = function(icon, vipFlag) {
-        $scope.poi3DIcon = icon;
-        if (vipFlag) {
-            var tmp = vipFlag.split("|");
-            for (var i = 0; i < tmp.length; i++) {
-                if (tmp[i] == 1) {
-                    $scope.poiCarIcon = true;
-                } else if (tmp[i] == 2) {
-                    $scope.poiRmbIcon = true;
+        $scope.poi = objectCtrl.data;
+        objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+        _retreatData($scope.poi);
+        /**
+         * 名称组可地址组特殊处理（暂时只做了大陆的控制）
+         * 将名称组中的21CHI的名称放置在name中，如果不存在21CHI的数据，则给name赋值默认数据
+         * 将地址组中CHI的地址放置在address中，如果不存在CHI的数据，则给address赋值默认数据
+         * @param data
+         */
+        function _retreatData(data) {
+            var flag = true;
+            for (var i = 0, len = data.names.length; i < len; i++) {
+                if (data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI") {
+                    flag = false;
+                    data.name = data.names[i];
+                    break;
                 }
+            }
+            if (flag) {
+                var name = new FM.dataApi.IxPoiName({
+                    langCode: "CHI",
+                    nameClass: 1,
+                    nameType: 2,
+                    name: ""
+                });
+                data.name = name;
+            }
+            flag = true;
+            for (var i = 0, len = data.addresses.length; i < len; i++) {
+                if (data.addresses[i].langCode == "CHI") {
+                    flag = false;
+                    data.address = data.addresses[i];
+                    break;
+                }
+            }
+            if (flag) {
+                var address = new FM.dataApi.IxPoiAddress({
+                    langCode: "CHI",
+                    fullname: ""
+                });
+                data.address = address;
             }
         }
     }
-
-    var initKindBrandLevel = function(poi) {
-        $scope.kindFormat = pKindFormat;
-        $scope.levelArr = []; //用于存放等级的数组
-        var kind = pKindFormat[poi.kindCode]
-        $scope.levelArr = kind.level.split("|");
-    }
-
-    $scope.ctrl = {
-        openBase: true,
-        openDeep:true,
-        fieldLabel: {},
-    };
-    $scope.relateParent = {};
-    $scope.switchLifeCycle = function(value) {
-        var label = {
-            1: 'danger',
-            2: 'warning',
-            3: 'success',
-            4: 'default'
-        };
-        if (value != 1 && value != 2 && value != 3) {
-            value = 4;
-        }
-        $scope.ctrl.lifeCycleName =  FM.dataApi.Constant.LIFE_CYCLE[value];
-        $scope.ctrl.lifeCycleLabel = label[value];
-    };
-
-    $scope.switchRawFields = function(value) {
-        var conf = {
-            1: "name",
-            2: "contacts",
-            3: "kindCode",
-            4: "brands",
-            5: "address",
-            6: "postCode",
-            7: "deepInfo"
-        }
-
-        if (value) {
-            var list = App.Util.split(value, "|");
-            for (key in conf) {
-                $scope.ctrl.fieldLabel[conf[key]] = (list.indexOf(key) >= 0);
-            }
+    initData();
+    /*切换tag按钮*/
+    $scope.changeProperty = function(tagName) {
+        $scope.propertyType = tagName;
+        switch (tagName) {
+            case 'base':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/baseInfoCtl').then(function() {
+                    $scope.baseInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/baseInfoTpl.html';
+                });
+                break;
+            case 'deep':
+                var temp = App.Util.getUrlParam("deepType");
+                if(temp=='common'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/commonDeepCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/commonDeepTpl.html";
+                    });
+                }else if(temp=='car'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/carRentalCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/carRentalTpl.html";
+                    });
+                }else if(temp=='parking'){
+                    $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
+                        $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTpl.html";
+                    });
+                }
+                break;
+            case 'relate':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/relationInfoCtl').then(function() {
+                    $scope.relationInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/relationInfoTpl.html';
+                });
+                break;
+            case 'same':
+                $ocll.load(appPath.poi + 'ctrls/attr-base/samePoisCtrl').then(function() {
+                    $scope.sameInfoTpl = appPath.root + appPath.poi + 'tpls/attr-base/samePoisTpl.html';
+                });
+                break;
+            case 'file':
+                $ocll.load(appPath.poi + 'ctrls/edit-tools/fileUploadCtl').then(function() {
+                    $scope.fileUploadTpl = appPath.root + appPath.poi + 'tpls/edit-tools/fileUploadTpl.html';
+                });
+                break;
+            default:
+                $ocll.load(appPath.poi + 'edit-tools/checkResultCtl').then(function() {
+                    $scope.tagContentTpl = appPath.root + appPath.poi + 'tpls/edit-tools/checkResultTpl.html';
+                });
+                break;
         }
     };
-    /*  
-        增加电话控件
-    */
-    $scope.addTelElem = function() {
-        var contact = {
-            type: 1,
-            linkman: null,
-            priority: 1,
-            weChatUrl: null,
-            numRre: regionCode,
-            numSuf: ""
+    //接收分类改变后触发的事件
+    $scope.$on("kindChange", function(event, data) {
+        if(!data){ //为了解决新增POI时种别为空的情况
+            return ;
         }
-        $scope.poi.contacts.push(new FM.dataApi.IxPoiContact(contact));
-        resetBtnHeight();
-    }
-
-    var resetBtnHeight = function() {
-        //计算按钮的高度
-        var len = $scope.poi.contacts.length;
-        var height = 30;
-        if (len > 1) {
-            height = len * 33;
+        switch (data.extend) {
+            case 1: //停车场
+                $ocll.load(appPath.poi + "ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/parkingTplOld.html";
+                });
+                break;
+            case 2: //加油站
+                $ocll.load(appPath.poi + "ctrls/attr-deep/oilStationCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/oilStationTpl.html";
+                });
+                break;
+            case 3: //充电站
+                $ocll.load(appPath.poi + "ctrls/attr-deep/chargingStationCtrl").then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/chargingStationTpl.html";
+                });
+                break;
+            case 4: //宾馆酒店
+                $ocll.load(appPath.poi + "ctrls/attr-deep/hotelCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/hotelTpl.html";
+                });
+                break;
+            case 5: //运动场馆
+                $ocll.load(appPath.poi + "ctrls/attr-deep/sportsVenuesCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/sportsVenuesTpl.html";
+                });
+                break;
+            case 6: //餐馆
+                $ocll.load(appPath.poi + "ctrls/attr-deep/restaurantCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/restaurantTpl.html";
+                });
+                dsMeta.queryFoodType($scope.poi.kindCode).then(function(ret) {
+                    parseFoodType(ret);
+                    initFoodType($scope.poi.kindCode);
+                    
+                });
+                break;
+            case 7: //加气站
+                $ocll.load(appPath.poi + "ctrls/attr-deep/gasStationCtl").then(function() {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/gasStationTpl.html";
+                });
+                break;
+                // case 8: //旅游景点
+                //     $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                //         $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                //     });
+                //     break;
+            case 9: //充电桩
+                $ocll.load(appPath.poi + "ctrls/attr-deep/chargingPlotCtrl").then(function () {
+                    $scope.deepInfoTpl = appPath.root + appPath.poi + "tpls/attr-deep/chargingPlotTpl.html";
+                });
+                break;
+            default:
+                $scope.deepInfoTpl = "";
+                break;
         }
-        $scope.addBtnHeight = height;
-    }
+    });
+    /**
+     * 由于POI模型中对深度信息为空的情况做了赋默认值的处理，所以保存的时候也需要进行清理深度信息的处理
+     */
+    function clearDeepInfo(){
+        var poi = objectCtrl.data;
+        var kindCode = poi.kindCode ;
+        var data = $scope.metaData.kindFormat[kindCode];
+        //分类切换后需要将其它的深度信息的_flag_字段设置为ignore，这样保存的时候就不会将
+        if(data){
+            switch (data.extend) {
+                case 1: //停车场
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 2: //加油站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 4: //宾馆酒店
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 5: //运动场馆 由于运动场馆深度信息没有子表，使用的是poi的label字段，所以需要和default一样的处理方式
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                case 6: //餐馆
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    break;
+                case 7: //加气站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+                default:
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    break;
+            }
+        }
 
-    var initChain = function(kindCode) {
-        var chainArray = pAllChain[kindCode];
-        $scope.chainList = {};
-        if (chainArray) {
-            for (var i = 0, len = chainArray.length; i < len; i++) {
-                var cha = chainArray[i];
-                $scope.chainList[cha.chainCode] = { //转换成chosen-select可以解析的格式
-                    "category": cha.category,
-                    "chainCode": cha.chainCode,
-                    "weight": cha.weight,
-                    "chainName": cha.chainName
-                }
+
+        var originKindCode = objectCtrl.data.originJson.kindCode;
+        var originData = $scope.metaData.kindFormat[originKindCode];
+        //当切换了分类需要将原来的深度信息置为空数组
+        if(kindCode != originKindCode && originKindCode){
+            switch (originData.extend) {
+                case 1: //停车场
+                    poi.parkings = [];
+                    break;
+                case 2: //加油站
+                    poi.gasstations = [];
+                    break;
+                case 4: //宾馆酒店
+                    poi.hotels = [];
+                    break;
+                case 5: //运动场馆
+                    break;
+                case 6: //餐馆
+                    poi.restaurants = [];
+                    break;
+                case 7: //加气站
+                    poi.gasstations = [];
+                    break;
+                default:
+                    break;
             }
         }
     }
-    $scope.removeTelElem = function(index) {
-        if ($scope.poi.contacts.length > 1) {
-            $scope.poi.contacts.splice(index, 1);
-            resetBtnHeight()
-        }
-    }
 
-    $scope.checkTelNo = function(index) {
-        var contact = $scope.poi.contacts[index]
-        if (contact.numSuf && contact.numSuf.length == 11 && /^1/.test(contact.numSuf)) {
-            contact.type = 2;//手机
-        } else {
-            if (contact.numSuf) {
-                var p = contact.numSuf.split("-");
-                if (p.length > 1) {
-                    contact.numRre = p[0];
-                    contact.numSuf = p[1];
+    /*默认显示baseInfo的tab页*/
+    function initShowTag() {
+        if(App.Util.getUrlParam("deepType")){
+            $scope.propertyType = 'deep';
+        }else{
+            $scope.propertyType = "base";
+        }
+        $scope.changeProperty($scope.propertyType);
+    }
+    initShowTag();
+    //清除样式
+    $scope.$on("clearBaseInfo", function() {
+        $scope.nodeForm.$setPristine(); //清除ng-ditry
+        $scope.controlFlag.isTelEmptyArr = []; //清除异常电话样式
+    });
+
+    function parseFoodType(foodType) {
+        if (foodType.length > 0) {
+            $scope.foodType1Obj = {};
+            $scope.foodType2Obj = {};
+            for (var i = 0, n = foodType.length; i < n; i++) {
+                if (foodType[i].foodType == "A" || foodType[i].foodType == "C") {
+                    $scope.foodType1Obj[foodType[i].foodCode] = foodType[i].foodName;
                 } else {
-                    contact.numRre = regionCode;
+                    $scope.foodType2Obj[foodType[i].foodCode] = foodType[i].foodName;
                 }
             }
         }
+        
     }
-
-    $scope.showEvalutePlanning = function() {
-        if ($scope.poi.evaluatePlanning == 1 || $scope.poi.evaluatePlanning == 2) {
-            return true;
-        } else {
-            return false
+    
+    //根据种别给深度信息的的菜品风味赋不同的默认值
+    function initFoodType(kindCode) {
+    	if($scope.poi.kindCode == "110200"){//快餐
+    		$scope.poi.restaurants[0].foodType1["3009"] = true;
+    	}else if($scope.poi.kindCode == "110101"){//中餐馆
+    		$scope.poi.restaurants[0].foodType1["2016"] = true;
+    	}else if($scope.poi.kindCode == "110103"){//地方风味
+    		$scope.poi.restaurants[0].foodType1["2016"] = true;
+    	}else if($scope.poi.kindCode == "110302"){//冷饮店
+    		$scope.poi.restaurants[0].foodType2["3015"] = true;
+    	}else if($scope.poi.kindCode == "110102"){//异国风味
+    		$scope.poi.restaurants[0].foodType1["1001"] = true;
+    	}
+    }
+    //将电话区号和长度保存至缓存，不用每次都查询电话的长度
+    $scope.teleCodeToLength = {};
+    // 表单验证
+    function validateForm() {
+        var flag = true;
+        var name = objectCtrl.data.name.name;
+        if (!(name && name.length <= 35)) {
+            swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
+            return false;
         }
+        var kindCode = objectCtrl.data.kindCode;
+        if (!kindCode || kindCode == '0') {
+            swal("保存提示", '种别为必填项，请检查！', "warning");
+            return false;
+        }
+        var level = objectCtrl.data.level;
+        if (!level) {
+            swal("保存提示", '等级为必填项，请检查！', "warning");
+            return false;
+        }
+        var pc = objectCtrl.data.postCode;
+        if (pc && !/^(\d){6}$/.test(pc)) {
+            swal("保存提示", '邮政编码应为6位数字，请检查！', "warning");
+            return false;
+        }
+
+        var errMsg;
+        var contacts = objectCtrl.data.contacts;
+        for (var i = 0,len = contacts.length; i<len;i++){
+            if(contacts[i].contactType == 2){ //手机
+                if(!Utils.verifyTelphone(contacts[i].contact) ){
+                    flag = false;
+                    errMsg = "电话填写不正确,不能保存！";
+                    break;
+                }
+            } else { //非手机 ,存在区号，区号和电话都是纯数字，电话的长度等于根据区号查出的长度
+                if(!(contacts[i].code && Utils.verifyNumber(contacts[i].code))){
+                    flag = false;
+                    errMsg = "区号填写不正确,不能保存！";
+                    break;
+                } else if(!Utils.verifyNumber(contacts[i].contact)) {
+                    flag = false;
+                    errMsg = "电话填写不正确,不能保存！";
+                    break;
+                } else if(!($scope.teleCodeToLength[contacts[i].code] == contacts[i].contact.length)) {
+                    if($scope.teleCodeToLength[contacts[i].code]){
+                        flag = false;
+                        errMsg = "电话填写不正确,不算区号长度应该是"+$scope.teleCodeToLength[contacts[i].code]+"位！";
+                        break;
+                    } else if($scope.teleCodeToLength[contacts[i].code] == 0){
+                        flag = false;
+                        errMsg = "区号填写不正确,不能保存！";
+                        break;
+                    }
+                }
+            }
+        }
+        if(!flag){
+            swal("保存提示", errMsg, "warning");
+            return flag;
+        }
+        return flag;
     }
 
-    $scope.kindChange = function(evt, obj) {
-        $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
-        $scope.poi.brands[0].code = "";
-        $scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
+    /**
+     * 部分属性转全角
+     */
+    var attrToDBC = function (){
+        if(objectCtrl.data.name.name){
+            objectCtrl.data.name.name = Utils.ToDBC(objectCtrl.data.name.name);
+        }
+        if(objectCtrl.data.address.fullname){
+            objectCtrl.data.address.fullname = Utils.ToDBC(objectCtrl.data.address.fullname);
+        }
     };
-    $scope.brandChange = function (evt, sco) {
-        $scope.poi.brands[0].code = sco.selectedChain;
-        meta.getChainLevel($scope.poi.kindCode,sco.selectedChain).then(function (dataLevel){
-            if (dataLevel) {
+    // 保存数据
+    function save() {
+        if(!validateForm()){
+            return ;
+        }
+        if (objectCtrl.data.status == 3){
+            swal("提示", '此数据为已提交数据，不能做修改属性！', "info");
+            return;
+        }
+        clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
 
-                checkLevel(dataLevel);
+        attrToDBC(); //部分属性转全角
+
+        objectCtrl.save();
+        var chaged =  objectCtrl.changedProperty;
+        if(!chaged){
+            swal({
+                title: "属性值没有变化，是否保存？",
+                type: "warning",
+                animation: 'slide-from-top',
+                showCancelButton: true,
+                closeOnConfirm: true,
+                confirmButtonText: "是的，我要保存",
+                cancelButtonText: "取消"
+            }, function(f) {
+                if(f){
+                    dsEdit.update($scope.poi.pid, "IXPOI", {
+                        "rowId": objectCtrl.data.rowId,
+                        "pid": objectCtrl.data.pid,
+                        "objStatus": "UPDATE"
+                    }).then(function(data) {
+                        if(data){
+                            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                                if (map.floatMenu) {
+                                    map.removeLayer(map.floatMenu);
+                                    map.floatMenu = null;
+                                }
+                                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
+                            } else {
+                                $scope.$emit("reQueryByPid",{"pid":objectCtrl.data.pid,"type":"IXPOI"});
+                            }
+                        }
+                    });
+                }
+            });
+            return;
+        }
+        dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
+            if(data){
+                if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                    if(chaged.hasOwnProperty("kindCode") || chaged.hasOwnProperty("indoor")){
+                        poiLayer.redraw();
+                    }
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
+                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
+                } else {
+                    $scope.$emit("reQueryByPid",{"pid":objectCtrl.data.pid,"type":"IXPOI"});
+                }
             }
         });
-    };
-
-    $scope.showChildrenPoisInMap = function() {
-        $scope.$emit('emitChildren', {});
-    };
-    $scope.showParentPoiInMap = function() {
-        $scope.$emit('emitParent', {});
-    };
-
-    //初始化时监听selectedKind,后续都是通过$scope.kindChange方法监听的
-    $scope.$watch("selectedKind", function() {
-        if ($scope.selectedKind && pKindFormat[$scope.selectedKind]) {
-            $scope.$emit("kindChange", pKindFormat[$scope.selectedKind]);
-        }
-    });
-
-    //初始化时让分类、品牌默认选中
-    $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
-        $scope.selectedKind = newVlaue;
-        for (var i = 0; i < pKindList.length; i++) {
-            if (pKindList[i].value == newVlaue) {
-                initChain(newVlaue);
-                if ($scope.poi.brands.length > 0) { //如果存在品牌则显示品牌
-                    $scope.selectedChain = $scope.poi.brands[0].code;
-                } else {
-                    $scope.selectedChain = ""
-                }
-                var level = pKindFormat[newVlaue].level;
-                checkLevel(level);
-                break;
-            }
-        }
-    });
-
-    var checkLevel = function (level){
-        $scope.poi.level = "";//清空等级
-        $scope.levelArr = [];
-        if (level) {
-            $scope.levelArr = level.split("|");
-            if($scope.levelArr.length == 1){ //如果只有一个等级，默认选中
-                $scope.poi.level = level;
-            }
-        }
     }
-
-    $scope.poi = $scope.$parent.poi;
-    pKindList = $scope.$parent.metaData.kindList;
-    pKindFormat = $scope.$parent.metaData.kindFormat;
-    pAllChain = $scope.$parent.metaData.allChain;
-    $scope.switchLifeCycle($scope.poi.lifecycle);
-    $scope.switchRawFields($scope.poi.rawFields);
-    initBaseInfoIcon($scope.$parent.poiIcon, $scope.poi.vipFlag);
-    initOptionStyle($scope.poi);
-    initKindBrandLevel($scope.poi);
-    //initRemark($scope.poi);
-    resetBtnHeight();
-
-
-
+    // 删除数据
+    function del() {
+        if (objectCtrl.data.status == 3){
+            setTimeout(function () {//为了使这个提示能弹出来，要加个延时
+                swal("提示", '此数据为已提交数据，不能做删除！', "info");
+            },100);
+            return;
+        }
+        //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+        dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
+            poiLayer.redraw();
+            if (map.floatMenu) { //移除半圈工具条
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            var editorLayer = layerCtrl.getLayerById("edit");
+            editorLayer.clear();
+            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'del'});
+            }
+        });
+    }
+    /* start 事件监听 ********************************************************/
+    eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
+    eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, del); // 删除
+    eventCtrl.on(eventCtrl.eventTypes.CANCELEVENT, $scope.cancel); // 取消
+    eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, initData); // 数据切换
 }]);

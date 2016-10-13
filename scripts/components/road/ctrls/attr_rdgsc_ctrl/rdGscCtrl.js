@@ -2,31 +2,37 @@
  * Created by zhaohang on 2016/4/7.
  */
 
-var rdGscApp = angular.module("mapApp");
-rdGscApp.controller("rdGscController",function($scope) {
+var rdGscApp = angular.module("app");
+rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope,dsEdit,dsFcc) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdgsc = layerCtrl.getLayerById('relationdata');
+    var rdgsc = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    // var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.reGscData = objCtrl.data;
         var links = $scope.reGscData.links,highLightFeatures=[];
-        for(var i= 0,len=links.length;i<len;i++) {
+        /*for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
+                // id: links[i]["linkPid"].toString(),
+                // layerid:'rdLink',
+                // type:'rdgsc',
+                // index:links[i].zlevel,
+                // style:{
+                //     size:5
+                // }
+
                 id: links[i]["linkPid"].toString(),
-                layerid:'referenceLine',
-                type:'rdgsc',
-                index:links[i].zlevel,
-                style:{
-                    size:5
-                }
+                layerid: 'rdLink',
+                type: 'line',
+                style: {}
+
             })
         }
-        /*highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();*/
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
@@ -36,10 +42,12 @@ rdGscApp.controller("rdGscController",function($scope) {
     };
     $scope.initializeData();
     $scope.refreshData = function () {
-        Application.functions.getRdObjectById(parseInt($scope.reGscData.pid), "RDGSC", function (data) {
-            objCtrl.setCurrentObject("RDGSC", data.data);
-            $scope.initializeData();
-        })
+        dsEdit.getByPid(parseInt($scope.reGscData.pid), "RDGSC").then(function(data){
+        	if (data) {
+                objCtrl.setCurrentObject("RDGSC", data);
+                $scope.initializeData();
+            }
+        });
     };
     /*处理标识*/
     $scope.processFlag = [
@@ -52,9 +60,9 @@ rdGscApp.controller("rdGscController",function($scope) {
     $scope.getLevels = function(){
         $scope.zlevel = [];
         for(var i=0;i<$scope.reGscData.links.length;i++){
-            $scope.zlevel.push({id:i,label:i});
+            $scope.zlevel.push({id:$scope.reGscData.links[i].zlevel,label:$scope.reGscData.links[i].zlevel});
         }
-    }
+    };
     $scope.getLevels();
 
     $scope.tableName = [
@@ -66,6 +74,11 @@ rdGscApp.controller("rdGscController",function($scope) {
     ];
 
     $scope.save = function(){
+        if(objCtrl.data.links){
+            for(var i=0,len=objCtrl.data.links.length;i<len;i++){
+                delete objCtrl.data.links[i].id;
+            }
+        }
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
@@ -74,65 +87,32 @@ rdGscApp.controller("rdGscController",function($scope) {
         var param = {
             "command": "UPDATE",
             "type": "RDGSC",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
+        for(var i=0;i<objCtrl.data.links.length;i++){
+            for(var j=0;j<objCtrl.originalData.links.length;j++){
+                if(objCtrl.data.links[i].linkPid == objCtrl.originalData.links[j].linkPid && objCtrl.data.links[i].zlevel != objCtrl.originalData.links[j].zlevel){
+                    objCtrl.changedProperty.links[i].zlevel = objCtrl.data.links[i].zlevel;
+                    objCtrl.changedProperty.links[i].linkPid = objCtrl.data.links[i].linkPid;
+                }
+            }
+        }
+        dsEdit.save(param).then(function (data) {
+            if (data) {
                 if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,
                         "handler": 0
-
-                    }
-                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info = null;
-                        if (data.errcode==0) {
-                            var sinfo={
-                                "op":"修改RDGSC状态成功",
-                                "type":"",
-                                "pid": ""
-                            };
-                            data.data.log.push(sinfo);
-                            info=data.data.log;
-                        }else{
-                            info=[{
-                                "op":data.errcode,
-                                "type":data.errmsg,
-                                "pid": data.errid
-                            }];
-                        }
-                        outPutCtrl.pushOutput(info);
-                        if (outPutCtrl.updateOutPuts !== "") {
-                            outPutCtrl.updateOutPuts();
-                        }
+                    };
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data){
                         selectCtrl.rowkey.rowkey = undefined;
-                    })
+                    });
                 }
-                var sinfo={
-                    "op":"修改RDGSC成功",
-                    "type":"",
-                    "pid": ""
-                };
-
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                data.data.log.push(sinfo);
-                info=data.data.log;
                 rdgsc.redraw();
                 swal("操作成功", "修改立交成功！", "success");
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("操作失败", "问题原因：" + data.errmsg, "error");
-            }
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
             }
             $scope.refreshData();
         })
@@ -143,35 +123,15 @@ rdGscApp.controller("rdGscController",function($scope) {
         var param = {
             "command": "DELETE",
             "type": "RDGSC",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "objId": objId
-        }
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+        };
+        dsEdit.save(param).then(function (data) {
             var info = null;
-            if (data.errcode==0) {
-                rdgsc.redraw();
+            if (data) {
                 $scope.reGscData = null;
-                var sinfo={
-                    "op":"删除RDGSC成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info=data.data.log;
                 rdgsc.redraw();
-                swal("删除成功", "删除RDGSC成功！", "success");
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-                swal("删除失败", "问题原因：" + data.errmsg, "error");
-            }
-
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         })
     };
@@ -181,4 +141,4 @@ rdGscApp.controller("rdGscController",function($scope) {
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
-})
+}]);

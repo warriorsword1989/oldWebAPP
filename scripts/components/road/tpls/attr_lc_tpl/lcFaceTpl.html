@@ -1,0 +1,81 @@
+<div class="fm-component" ng-controller="lcFaceCtrl">
+    <div class="title">
+        土地覆盖面
+        <span class="label label-info">{{lcFaceData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="lcFaceForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>FACE种别</label>
+                            <div>
+                                <select ng-model="lcFaceData.kind"
+                                        ng-options="value.id as value.label for value in kind" ng-change="kindChange($event, this)">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>FACE形态</label>
+                            <div>
+                                <select ng-model="lcFaceData.form"
+                                        ng-options="value.id as value.label for value in form">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>显示等级</label>
+                            <div>
+                                <select ng-model="lcFaceData.displayClass"
+                                        ng-options="value.id as value.label for value in displayClass">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>比例尺</label>
+                            <div>
+                                <select ng-model="lcFaceData.scale"
+                                        ng-options="value.id as value.label for value in scale">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>区域标识</label>
+                            <div>
+                                <select ng-model="lcFaceData.detailFlag"
+                                        ng-options="value.id as value.label for value in detailFlag">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>FACE面积</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.perimeter" disabled>
+                            </div>
+                        </li>
+                        <li>
+                            <label>FACE周长</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.area" disabled>
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.meshId" disabled>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <!--begin 名称组-->
+	    <div class="module-box show-detail-title" ng-click="showDetail();">
+	        <div class="box-head font-bold">
+	            名称信息（共<span ng-bind="lcFaceData.names.length"></span> 条）
+	        </div>
+	    </div>
+    	<!--end 名称组-->
+    </div>
+</div>

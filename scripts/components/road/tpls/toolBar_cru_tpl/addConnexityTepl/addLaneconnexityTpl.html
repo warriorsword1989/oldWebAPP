@@ -47,14 +47,14 @@
 
     .show-img-normal {
         cursor: pointer;
-        width: 25px;
+        width: auto;
         margin-bottom: 10px;
         transition: all 0.5s;
     }
 
     .show-img-transit {
         cursor: pointer;
-        width: 25px;
+        width: auto;
         margin-bottom: 10px;
         transition: all 0.5s;
     }
@@ -68,34 +68,36 @@
 </style>
 
 <div ng-controller="addLaneConnexityController" class="panel panel-default" id="laneConneexityDiv"
-     oncontextmenu=self.event.returnValue=false>
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">创建车信</label></div>
+     oncontextmenu="self.event.returnValue=false">
+    <ul class="fm-ul fm-ul-form">
+        <li >
+            <label class="control-label" style="font-size: 12px;width: 100%">创建车信</label>
         </li>
-        <li class="list-group-item">
-            <div class="inline" ng-repeat="item in directData.showNormalData">
+        <li >
+            <label class="control-label" style="font-size: 10px;width: 100%">提示：点击车道可增加公交车道</label>
+        </li>
+        <li>
+            <div style="width: auto;min-width: 0px;margin-top: 15px;" ng-repeat="item in directData.showNormalData">
                 <div>
-                    <span style="float: right;font-size: 12px;top: 0px;margin-top: -10px;
-                                 margin-left:-5px;color: #fff;cursor: pointer;"
+                    <span style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"
                           class="glyphicon glyphicon-remove-sign"
                           ng-click="minusNormalData(item,$index,$event)"></span>
-                    <img class="show-img-normal"
+                    <img class="lanePic"
                          ng-if="item.type===0"
-                         ng-src="../../images/road/1301/1301_0_{{item.flag}}.svg"
+                         ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
                          ng-click="addTransitData(item,$index)"
                          title="{{item.flag}}">
-                    <img class="show-img-normal" ng-if="item.type===2"
+                    <img class="lanePic" ng-if="item.type===2"
                          ng-click="addTransitData(item,$index)"
-                         ng-src="../../images/road/1301/1301_2_{{item.flag}}.svg"
+                         ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
                          title="{{item.flag}}">
                 </div>
 
             </div>
 
         </li>
-        <li class="list-group-item">
-            <div class="inline" style="padding-top: 15px"
+        <li >
+            <div style="padding-top: 15px;width: auto;min-width: 0px"
                  ng-repeat="busItem in directData.showTransitData track by $index">
                 <div>
                        <span ng-if="busItem.flag!=='test'"
@@ -109,13 +111,13 @@
 
                  </span>
                     <img
-                            class="show-img-transit"
+                            class="lanePic"
                             ng-if="items.flag!=='test'"
-                            ng-src="../../images/road/1301/1301_1_{{busItem.flag}}.svg"
+                            ng-src="../../../images/road/1301/1301_1_{{busItem.flag}}.svg"
                             title="{{items}}">
-                    <img
+                    <img    class="lanePic"
                             ng-if="items.flag==='test'"
-                            ng-src="../../images/road/1301/1301_1_test.svg">
+                            ng-src="../../../images/road/1301/1301_1_test.svg">
                 </div>
 
             </div>

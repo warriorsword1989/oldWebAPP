@@ -1,0 +1,48 @@
+<div class="fm-component" ng-controller="lcLinkController">
+    <div class="title">
+        LC线PID
+        <span class="label label-info">{{lcLinkData.pid}}</span>
+    </div>
+    <div class="content scroll-styled dark" style="height:90%;">
+        <form name="lcLinkForm">
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="fm-ul fm-ul-form">
+                        <li>
+                            <label>Link种别</label>
+                            <div>
+                                <a ng-click="showPopover()" style="cursor: pointer;">编辑</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="width: 260px;">
+                                <div ng-repeat="t in lcLinkData.kinds track by $index" class="checkboxli">
+                                    {{kindsLabel[t.kind]}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <label>Link形态</label>
+                            <div>
+                                <select ng-model="formModel" ng-options="value.id as value.label for value in form">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>Link长度</label>
+                            <div>
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.length" disabled> 米
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号码</label>
+                            <div>
+                                <input type="text" class="chosen-disabled" ng-model="lcLinkData.meshId" disabled>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

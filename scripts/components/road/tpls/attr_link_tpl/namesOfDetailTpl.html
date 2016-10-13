@@ -1,6 +1,6 @@
 
 <div ng-controller="namesOfLinkController" id="namesOfLinkDiv">
-    <form name="nameDetailForm">
+    <form class="fm-panel" name="nameDetailForm">
     <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
         <li class="list-group-item">
             <div><label class="control-label">名称组号</label></div>
@@ -9,13 +9,13 @@
         <li class="list-group-item">
             <div><label class="control-label">道路名称</label></div>
             <div class="inline">
-                <input type="text" ng-model="oridiData.name" style="width: 150px"/>
-                <span  class="glyphicon glyphicon-search"
+                <input type="text" ng-model="oridiData.name" />
+                <span  class="glyphicon glyphicon-search" style="margin-left:-20px"
                         ng-click="searchGroupidByNames($index)">
                 </span>
             </div>
         </li>
-        <li class="list-group-item" id="name" style="display: none">
+        <li class="list-group-item" id="name" style="display: none;width: 95%;">
             <div class="pic-show">
                 <div class="option-hide">
                         <span aria-hidden="true" class="glyphicon glyphicon-remove-sign" ng-click="hidePicSelect($event)"></span>
@@ -24,7 +24,7 @@
                     <div class="img-well" ng-repeat="nitem in pictures"
                          ng-click="selectNmaesId(nitem.nameId,nitem.name)">
                         <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp;
-                            {{nitem.name}} &nbsp;&nbsp; {{nitem.province}}
+                            {{nitem.name}} &nbsp;&nbsp; {{roadTypeOptions[nitem.roadType]}} &nbsp;&nbsp; {{nitem.province}}
                         </div>
                     </div>
                 </div>
@@ -40,10 +40,12 @@
                 <div class="pic-show-btn pull-right">
                     <div class="pull-right btn-group">
                         <a  style="color: #fff;" class="btn  btn-xs pic-pre"
-                                ng-click="picPre()" disabled><<
+                                ng-click="picPre()" disabled>
+                            <i class="glyphicon glyphicon-menu-left"></i>
                         </a>
                         <a style="color: #fff;" class="btn btn-xs pic-next"
-                                ng-click="picNext()">>>
+                                ng-click="picNext()">
+                            <i class="glyphicon glyphicon-menu-right"></i>
                         </a>
                     </div>
                 </div>
@@ -64,6 +66,20 @@
                     <input type="radio" name="originOfName" value=3 ng-model="oridiData.nameClass">
                     曾用
                 </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称序号</label></div>
+            <div class="inline">
+            	<input type="text" ng-model="oridiData.seqNum"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称类型</label></div>
+            <div class="inline">
+            	<select  ng-model="oridiData.nameType"
+                        ng-options="value.id as value.label for value in nameTypeOptions" ng-class="chosen-disable" disabled>
+                </select>
             </div>
         </li>
         <li class="list-group-item">

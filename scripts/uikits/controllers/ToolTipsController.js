@@ -64,11 +64,11 @@ fastmap.uikit.ToolTipsController=(function() {
                 this.toolsdiv.style.marginLeft = event.originalEvent.clientX+10+ 'px';
                 this.toolsdiv.style.marginTop = event.originalEvent.clientY -10+ 'px';
                 this.toolsdiv.style.position = "fixed";
-                this._map.on('click', this.onClickTooltip,this);
+                this._map.on('mousedown', this.onClickTooltip,this);
                 this._map.on('mouseout', this.onMoveOutTooltip,this);
             },
             onClickTooltip:function(event){
-                if(this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPATH){
+                if(this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPATH||this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPOLYGON||this.eventType==fastmap.mapApi.ShapeOptionType.POINTVERTEXADD){
                     this.toolsdiv.innerHTML=this.innervalue;
                     this.toolsdiv.style.cssText+=this.tooltipstyle;
                     this._map.on('dblclick', this.onDbClickTooltip,this);
@@ -84,7 +84,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this.eventType="";
                 this.toolsdiv.innerHTML = "";
                 this.toolsdiv.style.display = 'none';
-                this._map.off('click', this.onClickTooltip,this);
+                this._map.off('mousedown', this.onClickTooltip,this);
                 this._map.off('mousemove', this.onMoveTooltip,this);
                 this._map.off('dblclick', this.onDbClickTooltip,this);
             },
@@ -103,6 +103,9 @@ fastmap.uikit.ToolTipsController=(function() {
                 tools.innerHTML=tooltip;
                 this.toolsdiv=tools;
                 this.orginStyle=tools.style.cssText;
+            },
+            setCurrentTooltipText: function(tooltiptext){
+                this.toolsdiv.innerHTML = tooltiptext;
             },
             getCurrentTooltip:function(){
                 return this.toolsdiv.innerHTML;

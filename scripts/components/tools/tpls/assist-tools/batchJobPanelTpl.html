@@ -1,0 +1,160 @@
+<style>
+    .fm-tabs a.tab{
+        padding: 6px 10px;
+        background-color: #555555;
+    }
+    .fm-tabs a.tab.active{
+        color: #fff;
+        border-bottom: 1px solid rgba(255, 255, 255, .8);
+        background-color: #313131;
+        transition: all .3s;
+    }
+    .tableOdd{
+        background-color: #313131;
+    }
+</style>
+<div class="fm-panel" ng-controller="BatchJobPanelCtrl">
+    <div class="title">批处理</div>
+    <div class="content">
+        <div class="fm-tabs" style="padding: 0 10px;">
+            <a href="#" class="tab" ng-class="{1:'active'}[batchType]" ng-click="switchBatchType(1)">POI批处理</a>
+            <a href="#" class="tab" ng-class="{2:'active'}[batchType]" ng-click="switchBatchType(2)">道路批处理</a>
+        </div>
+        <div class="container-fluid" ng-switch="batchType">
+            <div ng-switch-when="1" class="row dark">
+                <div class="scroll-styled" style="width: 40%;float: left;min-height: 200px;max-height: 300px;padding: 0 10px;">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                            <colgroup>
+                                <col width="20%">
+                                <col width="40%">
+                                <col width="40%">
+                            </colgroup>
+                            <tr>
+                                <th>选择</th>
+                                <th>批处理类型</th>
+                                <th>批处理范围</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!batchBoxData || batchBoxData.length == 0">
+                                <td colspan="3" class="text-center">无数据!!!</td>
+                            </tr>
+                            <tr ng-class-odd="'tableOdd'" ng-repeat="item in batchBoxData">
+                                <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
+                                <td ng-click="getBatchItem(item)">{{item.suiteName}}</td>
+                                <td ng-click="getBatchItem(item)">{{item.suiteRange}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 57%;float: left;margin-left: 10px">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                            <colgroup>
+                                <col width="10%">
+                                <col width="30%">
+                                <col width="30%">
+                                <col width="15%">
+                                <col width="15%">
+                            </colgroup>
+                            <tr>
+                                <th>选择</th>
+                                <th>批处理项</th>
+                                <th>批处理描述</th>
+                                <th>优先级</th>
+                                <th>前置依赖</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!currentBatchItems || currentBatchItems.length == 0">
+                                <td colspan="5" class="text-center">无数据!!!</td>
+                            </tr>
+                            <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentBatchItems">
+                                <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
+                                <td title="item.ruleName">{{item.ruleName|limitTo:6}}</td>
+                                <td title="item.ruleDesc">{{item.ruleDesc|limitTo:6}}</td>
+                                <td title="item.severity">{{item.severity}}</td>
+                                <td title="item.suiteId">{{item.suiteId}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix"></div>
+                <!--pagation part-->
+                <div ng-if="totalNum" style="padding:10px;">
+                    <ul uib-pagination items-per-page="pageSize"  max-size="5" ng-model="currentPaging" total-items="totalNum" ng-change="pageChanged()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                </div>
+            </div>
+
+            <div ng-switch-when="2" class="row dark">
+                <div class="scroll-styled" style="width: 40%;float: left;min-height: 200px;max-height: 300px;padding: 0 10px;">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="40%">
+                            <col width="40%">
+                        </colgroup>
+                        <tr>
+                            <th>选择</th>
+                            <th>批处理类型</th>
+                            <th>批处理范围</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="!batchBoxData || batchBoxData.length == 0">
+                            <td colspan="3" class="text-center">无数据!!!</td>
+                        </tr>
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in batchBoxData">
+                            <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
+                            <td ng-click="getBatchItem(item)">{{item.suiteName}}</td>
+                            <td ng-click="getBatchItem(item)">{{item.suiteRange}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 57%;float: left;margin-left: 10px">
+                    <table style="margin-bottom: 0" class="table table-bordered table-condensed fm-console-table">
+                        <thead>
+                        <colgroup>
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="30%">
+                            <col width="15%">
+                            <col width="15%">
+                        </colgroup>
+                        <tr>
+                            <th>选择</th>
+                            <th>批处理项</th>
+                            <th>批处理描述</th>
+                            <th>优先级</th>
+                            <th>前置依赖</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="!currentBatchItems || currentBatchItems.length == 0">
+                            <td colspan="5" class="text-center">无数据!!!</td>
+                        </tr>
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentBatchItems">
+                            <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
+                            <td title="item.ruleName">{{item.ruleName|limitTo:6}}</td>
+                            <td title="item.ruleDesc">{{item.ruleDesc|limitTo:6}}</td>
+                            <td title="item.severity">{{item.severity}}</td>
+                            <td title="item.suiteId">{{item.depends}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix"></div>
+                <!--pagation part-->
+                <div ng-if="totalNum" style="padding:10px;">
+                    <ul uib-pagination items-per-page="pageSize"  max-size="5" ng-model="currentPaging" total-items="totalNum" ng-change="pageChanged()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行</button>
+        </div>
+    </div>
+</div>

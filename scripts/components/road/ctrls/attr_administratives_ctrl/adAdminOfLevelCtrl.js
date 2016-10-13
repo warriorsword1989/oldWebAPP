@@ -1,24 +1,34 @@
 /**
  * Created by liuzhaoxia on 2016/4/21.
  */
-var adAdminZone = angular.module("mapApp");
-adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$document) {
+var adAdminZone = angular.module("app");
+adAdminZone.controller("adAdminLevelController",['$scope','dsEdit',function($scope,dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     //获取层级划分方法
     var param = {
         "type":"ADADMINGROUP",
-        "projectId": Application.projectid,
+        "dbId": App.Temp.dbId,
         "data": {
-            "projectId": Application.projectid
+            "dbId":  App.Temp.dbId
         }
     };
     var newZNodes={};
-    Application.functions.getByCondition(JSON.stringify(param), function (data) {
-        //zNodes=data.data;
-        $scope.initF(data.data);//绘制层级
-    });
-
+    
+//    Application.functions.getByCondition(JSON.stringify(param), function (data) {
+//        //zNodes=data.data;
+//        $scope.initF(data.data);//绘制层级
+//    });
+    dsEdit.getByCondition({"type":"ADADMINGROUP",
+        "dbId": App.Temp.dbId,
+        "data": {
+            "subTaskId":  162
+        }}).then(function(data){
+        	if (data == -1) {
+                return;
+            }
+        	 $scope.initF(data.data);//绘制层级
+        });
     //var zNodes=[{
     //    "regionId": 1,
     //    "name": "北京市",
@@ -446,39 +456,18 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
         var param = {
             "command": "UPDATE",
             "type":"ADADMINGROUP",
-            "projectId": Application.projectid,
+            "dbId": App.Temp.dbId,
             "data": {
                 "groupTree":newZNodes[0]
             }
         }
         // var zNodes=[];
         //保存调用方法
-        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"修改行政区划代表点层级成功",
-                    "type":"",
-                    "pid": ""
-                };
-                data.data.log.push(sinfo);
-                info=data.data.log;
+        dsEdit.save(param, function (data) {
 
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
-                }];
-            }
             //数据解析后有值的输出到output输出窗口
-            if(info!=null){
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
-            }
+
         });
     }
 
-})
+}])
