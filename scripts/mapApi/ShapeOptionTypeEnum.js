@@ -160,5 +160,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      路口修改
      */
-    'MODIFYRDCROSS':'modifyRdcross'
+    'MODIFYRDCROSS':'modifyRdcross',
+    /*
+     分离节点
+     */
+    'PATHDEPARTNODE':'pathDepartNode'
 }

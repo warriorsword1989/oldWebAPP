@@ -9,6 +9,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('rdLink');
+    var rdnode = layerCtrl.getLayerById('rdNode');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
@@ -64,6 +65,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
         shapeEditor: shapeCtrl,
         operationList:['line','point','line']
     });
+    map.currentTool.snapHandler.addGuideLayer(rdLink);
     map.currentTool.enable();
     $scope.excitLineArr = [];
     eventController.on(eventController.eventTypes.GETLINKID, function (data) {
@@ -80,19 +82,20 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
             highRenderCtrl.highLightFeatures = $scope.highFeatures;
             highRenderCtrl.drawHighlight();
 
-            // //清除鼠标十字
-            // map.currentTool.snapHandler.snaped = false;
-            // map.currentTool.clearCross();
-            // map.currentTool.snapHandler._guides = [];
-            // map.currentTool.snapHandler.addGuideLayer(rdnode);
+            //清除鼠标十字
+            map.currentTool.snapHandler.snaped = false;
+            map.currentTool.clearCross();
+            map.currentTool.snapHandler._guides = [];
+            map.currentTool.snapHandler.addGuideLayer(rdnode);
 
             //tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
             var linkDirect = data["properties"]["direct"];
             if (linkDirect == 2 || linkDirect == 3) { //单方向
-                // map.currentTool.snapHandler.snaped = false;
-                // map.currentTool.clearCross();
-                // map.currentTool.snapHandler._guides = [];
+                map.currentTool.snapHandler.snaped = false;
+                map.currentTool.clearCross();
+                map.currentTool.snapHandler._guides = [];
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
 
                 $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
                 $scope.highFeatures.push({
@@ -100,7 +103,8 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                     layerid: 'rdLink',
                     type: 'rdnode',
                     style: {
-                        color: 'yellow'
+                        color: '#DA70D6',
+                        strokeWidth:4
                     }
                 });
                 highRenderCtrl.drawHighlight();
@@ -110,19 +114,28 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
             }
         } else if (data.index === 1) {
+            map.currentTool.snapHandler.snaped = false;
+            map.currentTool.clearCross();
+            map.currentTool.snapHandler._guides = [];
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
+
             $scope.limitRelation.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
                 id:  $scope.limitRelation.nodePid.toString(),
                 layerid: 'rdLink',
                 type: 'rdnode',
                 style: {
-                    color: 'yellow'
+                    color: '#DA70D6'
                 }
             });
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
         } else if (data.index > 1) {
+            if(data.id == $scope.limitRelation.inLinkPid){
+                swal('提示','退出线和进入线不能为同一条线！','warning');
+                return ;
+            }
             $scope.excitLineArr.push(parseInt(data.id));
             $scope.highFeatures.push({
                 id:  data.id.toString(),

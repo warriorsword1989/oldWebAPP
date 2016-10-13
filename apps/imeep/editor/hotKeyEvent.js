@@ -454,7 +454,34 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     }
                 }
-            } else if (shapeCtrl.editType === "speedLimit") {
+            }
+            else if (shapeCtrl.editType === "pathDepartNode") { //节点分离
+                param["command"] = "DEPART";
+                param["dbId"] = App.Temp.dbId;
+                param["objId"] = selectCtrl.selectedFeatures.id;
+                if(selectCtrl.selectedFeatures.latlng){
+                    param["data"] = {
+                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
+                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        longitude: selectCtrl.selectedFeatures.latlng.lng,
+                        latitude: selectCtrl.selectedFeatures.latlng.lat
+                    };
+                }else{
+                    param["data"] = {
+                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
+                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                    };
+                }
+                param["type"] = 'RDLINK';
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        rdLink.redraw();
+                        rdnode.redraw();
+                        //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                    }
+                })
+            }
+            else if (shapeCtrl.editType === "speedLimit") {
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
                 var startPoint = feature.geometry[0],
@@ -567,17 +594,25 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             adLink.redraw();
                             adNode.redraw();
                             adFace.redraw();
+                            ctrl = 'attr_administratives_ctrl/adNodeCtrl';
+                            tpl = 'attr_adminstratives_tpl/adNodeTpl.html';
                         } else if (param["type"] === "RWNODE") {
                             rwLink.redraw();
                             rwnode.redraw();
+                            ctrl = 'attr_node_ctrl/rwNodeCtrl';
+                            tpl = 'attr_node_tpl/rwNodeTpl.html';
                         } else if (param["type"] === "ZONENODE") {
                             zoneLink.redraw();
                             zoneNode.redraw();
                             zoneFace.redraw();
+                            ctrl = 'attr_zone_ctrl/zoneNodeCtrl';
+                            tpl = 'attr_zone_tpl/zoneNodeTpl.html';
                         } else if (param["type"] === "LUNODE") {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
+                            ctrl = 'attr_lu_ctrl/luNodeCtrl';
+                            tpl = 'attr_lu_tpl/luNodeTpl.html';
                         } else if (param["type"] === "LCNODE") {
                             lcLink.redraw();
                             lcNode.redraw();
@@ -651,7 +686,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                     ctrl = 'attr_lc_ctrl/lcNodeCtrl';
                                     tpl = 'attr_lc_tpl/lcNodeTpl.html';
                                 }
-                                treatmentOfChanged(data, param["type"]);
+                                treatmentOfChanged(data, param["type"], ctrl, tpl);
                             }
                         })
                     }else{
