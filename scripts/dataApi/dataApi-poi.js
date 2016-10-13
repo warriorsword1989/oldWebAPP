@@ -31,7 +31,7 @@
                 "dataApi/poi/IxSamePoiPart.js",
                 "dataApi/poi/IxPoiParking.js",
                 "dataApi/poi/IxPoiChargingplot.js",
-                "dataApi/poi/IxPoiChargingStation.js",
+                "dataApi/poi/IxPoiChargingstation.js",
                 "dataApi/poi/IxPoiCarRental.js"
 
             ]; // etc.
