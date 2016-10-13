@@ -180,7 +180,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.codeTypeDisable = false;//国家编号
     			$scope.adminIdEditable = true;//行政区划
     			$scope.roadTypeDisable = false;//道路类型
-    			$scope.nameDisable = true;//道路名称
+    			$scope.nameDisable = false;//道路名称
     		}
     	};
     	$scope.initializeData();

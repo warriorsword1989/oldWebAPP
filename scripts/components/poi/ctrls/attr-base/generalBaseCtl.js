@@ -411,6 +411,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
             if(data){
                 if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                    if(chaged.hasOwnProperty("kindCode") || chaged.hasOwnProperty("indoor")){
+                        poiLayer.redraw();
+                    }
                     if (map.floatMenu) {
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;

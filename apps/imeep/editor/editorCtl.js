@@ -580,6 +580,15 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}
 			$scope.advancedTool = toolType;
 		};
+		$scope.closeSpecialWorkPanelTpl =  function(){
+			$scope.workPanelOpened = false;
+		};
+		$scope.openSpecialWorkPanelTpl = function(){
+			$scope.workPanelOpened = true;
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
+				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
+			});
+		};
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;
 		};
