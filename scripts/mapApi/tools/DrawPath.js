@@ -73,6 +73,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             fastmap.uikit.ShapeEditorController().stopEditing();
         } else {
             var mousePoint = event.latlng;
+            var snapedNodePid = 0;
             if (this.snapHandler.snaped) {
                 mousePoint = this.targetPoint;
                 if (this.snapHandler.snapIndex == 0) {
@@ -81,11 +82,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                         lon: mousePoint.lng,
                         lat: mousePoint.lat
                     });
-                    if (!this.lastClickEvent) {
-                        this.snodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
-                    } else {
-                        this.enodePid = parseInt(this.snapHandler.properties.enode ? this.snapHandler.properties.enode : this.snapHandler.properties['id']);
-                    }
+                    snapedNodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
                 } else if (this.snapHandler.snapIndex == -1) {
                     this.catches.push({
                         linkPid: parseInt(this.snapHandler.properties.id),
@@ -98,30 +95,24 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                         lon: mousePoint.lng,
                         lat: mousePoint.lat
                     });
-                    if (!this.lastClickEvent) {
-                        this.snodePid = parseInt(this.snapHandler.properties.id);
-                    } else {
-                        this.enodePid = parseInt(this.snapHandler.properties.id);
-                    }
+                    snapedNodePid = parseInt(this.snapHandler.properties.id);
                 } else {
                     this.catches.push({
                         nodePid: parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']),
                         lon: mousePoint.lng,
                         lat: mousePoint.lat
                     });
-                    if (!this.lastClickEvent) {
-                        this.snodePid = parseInt(!this.snapHandler.properties.enode ? this.snapHandler.properties['id'] : this.snapHandler.properties.enode);
-                    } else {
-                        this.enodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
-                    }
+                    snapedNodePid = parseInt(!this.snapHandler.properties.enode ? this.snapHandler.properties['id'] : this.snapHandler.properties.enode);
                 }
             }
             if (!this.lastClickEvent) {
+                this.snodePid = snapedNodePid;
                 // 第一个形状点，要替换掉默认点
                 comp.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             } else {
-                // 相邻两个形状点的验证
-                if (this._validAdjacentPoint(comp[comp.length - 1], comp[comp.length - 2])) {
+                this.enodePid = snapedNodePid;
+                // 如果未捕捉到node或link上的点，则验证相邻两个形状点距离
+                if (this.snapHandler.snaped || this._validAdjacentPoint(comp[comp.length - 1], comp[comp.length - 2])) {
                     comp.push(fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
                 }
             }
