@@ -459,12 +459,19 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 param["command"] = "DEPART";
                 param["dbId"] = App.Temp.dbId;
                 param["objId"] = selectCtrl.selectedFeatures.id;
-                param["data"] = {
-                    catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
-                    linkPid: selectCtrl.selectedFeatures.workLinkPid,
-                    longitude: selectCtrl.selectedFeatures.latlng.lng||selectCtrl.selectedFeatures.latlng[0],
-                    latitude: selectCtrl.selectedFeatures.latlng.lat||selectCtrl.selectedFeatures.latlng[1]
-                };
+                if(selectCtrl.selectedFeatures.latlng){
+                    param["data"] = {
+                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
+                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        longitude: selectCtrl.selectedFeatures.latlng.lng,
+                        latitude: selectCtrl.selectedFeatures.latlng.lat
+                    };
+                }else{
+                    param["data"] = {
+                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
+                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                    };
+                }
                 param["type"] = 'RDLINK';
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {

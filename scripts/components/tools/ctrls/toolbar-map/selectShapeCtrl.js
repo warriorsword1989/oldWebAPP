@@ -3188,6 +3188,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     shapeCtrl.editFeatType = 'RDNODE';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType('RDNODE')); //捕捉图层
                 }
                 else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
