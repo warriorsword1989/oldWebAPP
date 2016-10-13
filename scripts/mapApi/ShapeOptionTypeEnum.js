@@ -156,5 +156,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      车道连通
      */
-    'RDLANETOPODETAIL':'rdLaneTopoDetail'
+    'RDLANETOPODETAIL':'rdLaneTopoDetail',
+    /*
+     分离节点
+     */
+    'PATHDEPARTNODE':'pathDepartNode'
 }

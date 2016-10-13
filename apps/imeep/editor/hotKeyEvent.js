@@ -454,7 +454,34 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     }
                 }
-            } else if (shapeCtrl.editType === "speedLimit") {
+            }
+            else if (shapeCtrl.editType === "pathDepartNode") { //节点分离
+                param["command"] = "DEPART";
+                param["dbId"] = App.Temp.dbId;
+                param["objId"] = selectCtrl.selectedFeatures.id;
+                if(selectCtrl.selectedFeatures.latlng){
+                    param["data"] = {
+                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
+                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        longitude: selectCtrl.selectedFeatures.latlng.lng,
+                        latitude: selectCtrl.selectedFeatures.latlng.lat
+                    };
+                }else{
+                    param["data"] = {
+                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
+                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                    };
+                }
+                param["type"] = 'RDLINK';
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        rdLink.redraw();
+                        rdnode.redraw();
+                        //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                    }
+                })
+            }
+            else if (shapeCtrl.editType === "speedLimit") {
                 var disFromStart, disFromEnd, direct, pointOfArrow,
                     feature = selectCtrl.selectedFeatures;
                 var startPoint = feature.geometry[0],

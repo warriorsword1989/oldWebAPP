@@ -391,26 +391,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     };
     $scope.changeLink = function(ind, linkId) {
         $scope.brigeIndex = ind;
-        //        Application.functions.getRdObjectById(linkId, "RDLINK", function (data) {
-        //            if (data.errcode === -1) {
-        //                return;
-        //            }
-        //            var linkArr = data.data.geometry.coordinates,points = [];
-        //            for (var i = 0, len = linkArr.length; i < len; i++) {
-        //                var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-        //                points.push(point);
-        //            }
-        //            map.panTo({lat: points[0].y, lon: points[0].x});
-        //            var line = fastmap.mapApi.lineString(points);
-        //            selectCtrl.onSelected({geometry: line, id: data.data.pid});
-        //            objectCtrl.setCurrentObject("RDLINK",data.data);
-        //            var linkObj = {
-        //                "loadType":"attrTplContainer",
-        //                "propertyCtrl":"scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-        //                "propertyHtml":"../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-        //            };
-        //            $scope.$emit("transitCtrlAndTpl", linkObj);
-        //        });
         dsEdit.getByPid(linkId, "RDLINK").then(function(data) {
             if (data) {
                 var linkArr = data.geometry.coordinates,

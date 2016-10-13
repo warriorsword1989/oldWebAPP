@@ -64,6 +64,15 @@
         <li class="list-group-item">
             <div ng-include="dateURL" class="muti-date" date-str='{{oridiData.timeDomain}}' style="width:100%;padding: 5px;"></div>
         </li>
+        <li class="list-group-item">
+            <div><label class="control-label">限速等级</label></div>
+            <div class="inline">
+                <select ng-model="item.speedClass"
+                        ng-options="value.id as value.label for value in speedClassOption">
+                    <!--<option>&#45;&#45;</option>-->
+                </select>
+            </div>
+        </li>
     </ul>
     </form>
 </div>
