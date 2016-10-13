@@ -50,6 +50,17 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         {"id": 3, "label": "雾天"},
         {"id": 9, "label": "不应用"}
     ];
+    $scope.speedClassOption=[
+        {"id":0,"label":"未赋值"},
+        {"id":1,"label":">130"},
+        {"id":2,"label":"[100.1~130]"},
+        {"id":3,"label":"[90.1~100]"},
+        {"id":4,"label":"[70.1~90]"},
+        {"id":5,"label":"[50.1~70]"},
+        {"id":6,"label":"[30.1~50]"},
+        {"id":7,"label":"[11~30]"},
+        {"id":8,"label":"<11"}
+    ];
     $scope.speedAndDirect=function(data,index) {
             if(data.orientation==="2") {
                 var fromSpeed = document.getElementById("fromSpeed");
@@ -58,8 +69,46 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
                 var toSpeed = document.getElementById("toSpeed");
                 toSpeed.focus()
             }
+    };
 
+    $scope.changeClass = function (item,dir) {
+        var value = 0;
+        if (dir == 2) {
+            value = parseFloat(item.fromSpeedLimit);
+            if (item.toSpeedLimit && item.toSpeedLimit < item.fromSpeedLimit) {
+                value = parseFloat(item.toSpeedLimit);
+            }
+        } else if (dir == 3) {
+            value = parseFloat(item.toSpeedLimit);
+            if (item.fromSpeedLimit && item.fromSpeedLimit < item.toSpeedLimit) {
+                value = parseFloat(item.fromSpeedLimit);
+            }
+        }
 
+        if(value < 11 && value >= 0){
+            item.speedClass = 8;
+        }else if(value <= 30 && value >= 11){
+            item.speedClass = 7;
+        }else if(value <= 50 && value >= 30.1){
+            item.speedClass = 6;
+        }else if(value <= 70 && value >= 50.1){
+            item.speedClass = 5;
+        }else if(value <= 90 && value >= 70.1){
+            item.speedClass = 4;
+        }else if(value <= 100 && value >= 90.1){
+            item.speedClass = 3;
+        }else if(value <= 130 && value >= 100.1){
+            item.speedClass = 2;
+        }else if(value > 130){
+            item.speedClass = 1;
+        }else {
+            item.speedClass = 0;
+        }
+        item.speedClassWork = 1;
+    };
+
+    $scope.changeClassWork = function () {
+        item.speedClassWork = 0;
     };
 
     $scope.angleOfLink=function(pointA,pointB) {
