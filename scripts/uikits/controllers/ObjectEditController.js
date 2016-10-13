@@ -385,6 +385,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                 } else {
                                     obj = oriData[item][k];
                                     obj["objStatus"] = "DELETE";
+                                    delete obj["geoLiveType"];
                                     delete obj["$$hashKey"];
                                     if (!obj["pid"]) {
                                         obj["pid"] = pids;
@@ -392,6 +393,21 @@ fastmap.uikit.ObjectEditController = (function() {
                                     if (obj["vias"]) {
                                         obj["vias"] = undefined;
                                     }
+                                    objArr.push(obj);
+                                }
+                            }
+                            for(var n = 0 ,l = data[item].length ; n < l; n ++){//删除后新增的情况
+                                var flag = true;
+                                for(var m = 0 ,len = oriData[item].length ; m < len; m ++){
+                                    if(data[item][n][key] == oriData[item][m][key]){
+                                        flag = false;
+                                        break;
+                                    }
+                                }
+                                if(flag){
+                                    obj = data[item][n];
+                                    obj["objStatus"] = "INSERT";
+                                    delete obj["geoLiveType"];
                                     objArr.push(obj);
                                 }
                             }
