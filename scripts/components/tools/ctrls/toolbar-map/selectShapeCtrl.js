@@ -94,13 +94,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     'RW_LINK':'rwLink',
                     'LC_LINK':'lcLink'
                 };
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                 highRenderCtrl.highLightFeatures.push({
                     id: objCtrl.data.links[i].linkPid.toString(),
                     layerid: tempObj[objCtrl.data.links[i]["tableName"]],
-                    type: 'RDGSC',
+                    type: 'line',
                     index: objCtrl.data.links[i].zlevel,
                     style: {
-                        size: 5
+                        strokeWidth: 5,
+                        strokeColor:COLORTABLE[i]
                     }
                 });
             }
@@ -1960,7 +1962,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
                         if(actualDistance > 15){
                             swal("操作失败", '移动距离必须小于15米！', "warning");
-                            return;
                         }else {
                             dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
                                 if (data) {
@@ -2006,12 +2007,79 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
                         var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat,$scope.selectedFeature.event.latlng.lng,shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x);
-                        if(parseInt(pro.id) != objCtrl.data.linkPid){
+                        /*if(parseInt(pro.id) != objCtrl.data.linkPid){
                             swal("操作失败", '拓扑操作不满足条件！', "warning");
                             tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
                             return;
+                        }*/
+                        function setFeatcode(){
+                            dsEdit.getByPid(pro.id, "RDLINK").then(function(linkData) {
+                                if (linkData) {
+                                    featCodeCtrl.setFeatCode({
+                                        "linkPid": linkData.pid.toString(),
+                                        "pid": objCtrl.data.pid.toString(),
+                                        "longitude": shapeCtrl.shapeEditorResult.getFinalGeometry().x,
+                                        "latitude": shapeCtrl.shapeEditorResult.getFinalGeometry().y
+                                    });
+                                    selectCtrl.onSelected({
+                                        geometry: linkData.geometry.coordinates,
+                                        id: linkData.pid,
+                                        direct: pro.direct,
+                                        point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                                    });
+                                    shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                    tooltipsCtrl.setCurrentTooltip('请点击空格,移动电子眼点位!');
+                                    shapeCtrl.setEditingType('updateElecNode');
+                                }
+                            })
                         }
                         if(actualDistance > 100){
+                            swal("操作失败", '移动距离必须小于100米！', "warning");
+                            tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
+                        }else{
+                            dsEdit.getByPid(objCtrl.data.linkPid,'RDLINK').then(function(data){
+                                if (data){
+                                    //同一条link
+                                    if(parseInt(pro.id) == objCtrl.data.linkPid){
+                                        setFeatcode();
+                                        return;
+                                    }
+                                    if(data.sNodePid != parseInt(pro.enode) && data.eNodePid != parseInt(pro.snode)){
+                                        swal("操作失败", '拓扑操作不满足条件！', "warning");
+                                        tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
+                                        return;
+                                    }
+                                    if(data.sNodePid == parseInt(pro.enode) || data.eNodePid == parseInt(pro.snode)){ //联通link
+                                        var commonPoint = null;
+                                        if(data.sNodePid == parseInt(pro.enode)){
+                                            commonPoint = data.sNodePid;
+                                        }
+                                        if(data.eNodePid == parseInt(pro.snode)){
+                                            commonPoint = data.eNodePid;
+                                        }
+                                        var param = {
+                                            "type": "RDLINK",
+                                            "dbId": App.Temp.dbId,
+                                            "data": {
+                                                nodePid:commonPoint
+                                            }
+                                        };
+                                        dsEdit.getByCondition(param).then(function(nodeData) {
+                                            if(nodeData.errcode == 0){
+                                                if(nodeData.data.length > 2){
+                                                    swal("操作失败", '拓扑操作不满足条件！', "warning");
+                                                    tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
+                                                }else{
+                                                    setFeatcode();
+                                                }
+                                            }
+                                            tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        /*if(actualDistance > 100){
                             swal("操作失败", '移动距离必须小于100米！', "warning");
                             tooltipsCtrl.setCurrentTooltip('请重新移动电子眼点位!');
                         }else{
@@ -2034,7 +2102,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                                     shapeCtrl.setEditingType('updateElecNode');
                                 }
                             })
-                        }
+                        }*/
                     });
                     return;
                 } else if (type === "MODIFYOUTLINE") {
@@ -3135,13 +3203,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                             'RW_LINK':'rwLink',
                             'LC_LINK':'lcLink'
                         };
+                        var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                         highRenderCtrl.highLightFeatures.push({
                             id: objCtrl.data.links[i].linkPid.toString(),
                             layerid: tempObj[objCtrl.data.links[i]["tableName"]],
-                            type: 'RDGSC',
-                            index: objCtrl.data.links[i].zlevel,
+                            type: 'line',
+                            index: i,
                             style: {
-                                size: 5
+                                strokeWidth: 5,
+                                strokeColor:COLORTABLE[i]
                             }
                         });
                     }

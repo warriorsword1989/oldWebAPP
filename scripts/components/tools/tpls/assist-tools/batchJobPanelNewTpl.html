@@ -11,13 +11,13 @@
             <div style="margin: 15px 20px 15px 20px;background-color: #555555;border-color: #908d8d;" class="panel panel-default">
                 <div class="panel-body">
                     <div class="radio col-md-12">
-                        <label>
-                            <input ng-model="radioModel" type="radio" name="batchItem" id="optionsRadios1" value="BATCH_SLE"> 批处理赋速度限制
+                        <label style="line-height: 20px">
+                            <input ng-model="radioModel" style="margin-top: 4px" type="radio" name="batchItem" id="optionsRadios1" value="BATCH_SLE"> 批处理赋速度限制
                         </label>
                     </div>
                     <div class="radio col-md-12">
-                        <label>
-                            <input ng-model="radioModel" style="margin-top: 5px" type="radio" name="batchItem" id="optionsRadios2" value="BATCH_SPEED_CLASS"> 批处理速度限制等级
+                        <label style="line-height: 20px">
+                            <input ng-model="radioModel" style="margin-top: 4px" type="radio" name="batchItem" id="optionsRadios2" value="BATCH_SPEED_CLASS"> 批处理速度限制等级
                             <span ng-if="showSelect" style="padding: 0 10px">参数: </span>
                             <select ng-if="showSelect" ng-model="myOption" ng-change="changeParam(myOption)" style="display: inline;width: 125px;font-size:12px;background-color: #555;height: inherit;color: white;padding: 0;" class="form-control">
                                 <option value="1">速度限制来源赋值</option>

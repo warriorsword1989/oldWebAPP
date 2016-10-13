@@ -113,6 +113,17 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         {"id":8,"label":"缓速行驶"},
         {"id":9,"label":"未调查"}
     ];
+    $scope.speedClassOption=[
+        {"id":0,"label":"未赋值"},
+        {"id":1,"label":">130"},
+        {"id":2,"label":"[100.1~130]"},
+        {"id":3,"label":"[90.1~100]"},
+        {"id":4,"label":"[70.1~90]"},
+        {"id":5,"label":"[50.1~70]"},
+        {"id":6,"label":"[30.1~50]"},
+        {"id":7,"label":"[11~30]"},
+        {"id":8,"label":"<11"}
+    ];
     $scope.addSpeedLimit = function () {
         var newLimits = new fastmap.dataApi.linkspeedlimit({"linkPid":objCtrl.data.pid,"speedType":3});
         $scope.speedLimitsData.unshift(newLimits);

@@ -288,9 +288,9 @@ fastmap.uikit.ObjectEditController = (function() {
                                 }
                             }
                             if (objArr.length !== 0) {
-                                if (oriData["linkPid"]) {
-                                    obj["linkPid"] = oriData["pid"];
-                                }
+                                //if (oriData["linkPid"]) {
+                                    //obj["linkPid"] = oriData["pid"];
+                                //}
                                 retObj[item] = objArr;
                             }
                         } else if (oriData[item].length < data[item].length) {
@@ -325,13 +325,12 @@ fastmap.uikit.ObjectEditController = (function() {
                                     obj["objStatus"] = "INSERT";
                                     delete obj["$$hashKey"];
                                     //obj["pid"]=pids;
-                                    // if (obj) {
-                                    //     if (oriData[item][0]["linkPid"]) {
-                                    //         obj["linkPid"] = oriData[item][0]["linkPid"];
-                                    //     }
-                                    //     objArr.push(obj);
-                                    // }
-                                    objArr.push(obj);
+                                    if (obj) {
+                                        //if (oriData[item][0]["linkPid"]) {
+                                            //obj["linkPid"] = oriData[item][0]["linkPid"];
+                                        //}
+                                        objArr.push(obj);
+                                    }
                                     delete obj["geoLiveType"];
                                 }
                             }
@@ -340,9 +339,9 @@ fastmap.uikit.ObjectEditController = (function() {
                                 //var obj = this.compareJson(pids,oriData[item][j], data[item][j + 1], "UPDATE");
                                 var obj = this.compareJson(pids,oriData[item][j], data[item][differLen + j], "UPDATE");
                                 if (obj) {
-                                    if (oriData[item][j]["linkPid"]) {
-                                        obj["linkPid"] = oriData[item][j]["linkPid"];
-                                    }
+                                    //if (oriData[item][j]["linkPid"]) {
+                                        //obj["linkPid"] = oriData[item][j]["linkPid"];
+                                    //}
                                     objArr.push(obj);
                                 }
                             }
@@ -362,7 +361,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                         index: j
                                     };
                                     indexOfData[data[item][j]["rowId"]] = obj;
-                                } else if (data["pid"]) {
+                                } else if (data[item][j]["pid"]) {
                                     key = "pid";
                                     obj = {
                                         flag: true,
@@ -386,6 +385,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                 } else {
                                     obj = oriData[item][k];
                                     obj["objStatus"] = "DELETE";
+                                    delete obj["geoLiveType"];
                                     delete obj["$$hashKey"];
                                     if (!obj["pid"]) {
                                         obj["pid"] = pids;
@@ -393,6 +393,21 @@ fastmap.uikit.ObjectEditController = (function() {
                                     if (obj["vias"]) {
                                         obj["vias"] = undefined;
                                     }
+                                    objArr.push(obj);
+                                }
+                            }
+                            for(var n = 0 ,l = data[item].length ; n < l; n ++){//删除后新增的情况
+                                var flag = true;
+                                for(var m = 0 ,len = oriData[item].length ; m < len; m ++){
+                                    if(data[item][n][key] == oriData[item][m][key]){
+                                        flag = false;
+                                        break;
+                                    }
+                                }
+                                if(flag){
+                                    obj = data[item][n];
+                                    obj["objStatus"] = "INSERT";
+                                    delete obj["geoLiveType"];
                                     objArr.push(obj);
                                 }
                             }
