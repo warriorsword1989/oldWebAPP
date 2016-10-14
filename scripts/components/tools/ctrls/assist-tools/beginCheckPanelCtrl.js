@@ -5,7 +5,6 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
     function($scope, $interval, dsEdit, dsOutput) {
         var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         $scope.searchBoxData = [];
-        $scope.searchBoxDataItems = [];
         $scope.currentSearchItems = [];
 
         $scope.selectedBatches = [];
