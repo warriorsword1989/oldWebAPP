@@ -17,8 +17,6 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndexs = [];
-        this.nodePid = null;
-        this.selectedIndex = null;
         this.eventController = fastmap.uikit.EventController();
         this.selectCtrl = fastmap.uikit.SelectController();
         //配置要扑捉的图层;
@@ -92,7 +90,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
                 this.targetIndex = j+1;
             }
         }
-        if( this.selectedIndex && this.targetIndex -1 != this.selectedIndex){//只能移动第一次捕捉的端点
+        if( this.selectCtrl.selectedFeatures.selectedIndex!=undefined && this.targetIndex -1 != this.selectCtrl.selectedFeatures.selectedIndex){//只能移动第一次捕捉的端点
             this.targetIndex = 0;
             return;
         }
@@ -108,12 +106,9 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         if (this.targetIndex == 0 || this.targetIndex == undefined) {
             return;
         }
-        // this.targetIndex = this.targetIndexs.length;
 
         if(this.snapHandler.snaped == true){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
-            // this.snapHandler.targetIndex = this.targetIndex;
-            // this.selectCtrl.setSnapObj(this.snapHandler);
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
 
         }else{
@@ -122,20 +117,18 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         }
 
         this.resetVertex(this.targetIndex-1, this.targetPoint);
+        var nodePid = null;
         if(this.targetIndex-1 == 0){
-            this.selectedIndex = 0;
-            this.nodePid = this.selectCtrl.selectedFeatures.snode;
+            this.selectCtrl.selectedFeatures.selectedIndex = 0;
+            nodePid = this.selectCtrl.selectedFeatures.snode;
         } else {
-            this.selectedIndex = 1;
-            this.nodePid = this.selectCtrl.selectedFeatures.enode;
+            this.selectCtrl.selectedFeatures.selectedIndex = 1;
+            nodePid = this.selectCtrl.selectedFeatures.enode;
         }
-        // for (var i in this.targetIndexs) {
-        //     this.resetVertex(i, this.targetPoint);
-        // }
-        // var node = this.selectCtrl.selectedFeatures;
+
         this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id : 0;
         this.selectCtrl.selectedFeatures.workLinkPid = this.selectCtrl.workLinkPid;
-        this.selectCtrl.selectedFeatures.id = this.nodePid;
+        this.selectCtrl.selectedFeatures.id = nodePid;
         this.selectCtrl.selectedFeatures.latlng = this.snapHandler.snaped ? null : this.targetPoint;
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },

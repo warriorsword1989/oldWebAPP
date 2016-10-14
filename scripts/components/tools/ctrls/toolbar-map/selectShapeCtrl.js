@@ -3261,19 +3261,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     shapeCtrl.startEditing();
                     shapeCtrl.editFeatType = 'RDNODE';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
-                    // var tempLinkPid = $scope.selectedFeature.id;
-                    //让用户选择移动的点的地图配置;
-                    // map.currentTool = new fastmap.uikit.SelectNode({
-                    //     map: map,
-                    //     nodesFlag: true,
-                    //     shapeEditor: shapeCtrl
-                    // });
-                    // map.currentTool.enable();
-                    // eventController.off(eventController.eventTypes.GETNODEID);
-                    // eventController.on(eventController.eventTypes.GETNODEID, function(data) {
-                    //     selectCtrl.workNode = data;
-                    //     map.currentTool.disable();
-                    // });
                 }
                 else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
