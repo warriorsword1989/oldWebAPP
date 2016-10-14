@@ -25,9 +25,31 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         } else {
             arr = data.split("");
             if (index === 0) {
-                $scope.showNormalData.unshift({"flag":arr[1].toString(),"type":2});
+                if(arr[1] == "["){
+                    if("a" < arr[2] && arr[2] < "z"){
+                        $scope.showNormalData.unshift({"flag":arr[2].toString(),"type":2});
+
+                    }
+                } else {
+                    if("a" < arr[1] && arr[1] < "z"){
+                        $scope.showNormalData.unshift({"flag":arr[1].toString(),"type":2});
+
+                    }
+                }
+
                 if(arr[3]) {
-                    $scope.showTransitData.unshift({"flag":arr[3].toString(),"type":1});
+                    if(arr[3]!="<"){
+                        if("a" < arr[3] && arr[3] < "z"){
+                            $scope.showTransitData.unshift({"flag":arr[3].toString(),"type":1});
+                        }
+                    }else {
+                        if(arr[4]){
+                            if("a" < arr[4] && arr[4] < "z"){
+                                $scope.showTransitData.unshift({"flag":arr[4].toString(),"type":1});
+                            }
+                        }
+                    }
+
                 }else{
                     $scope.showTransitData.unshift({"flag":"test","type":1});
                 }
@@ -294,12 +316,27 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $scope.addFlag = true;
         $scope.changeFlag = false;
         $scope.showInfoFlag = false;
-        var addDirectObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/addDirectCtrl',
-            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
+        // var addDirectObj = {
+        //     "loadType":"subAttrTplContainer",
+        //     "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/addDirectCtrl',
+        //     "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
+        // };
+        // $scope.$emit("transitCtrlAndTpl", addDirectObj);
+
+        var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var addDirectObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/addDirectCtrl',
+                    "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", addDirectObj);
+            }
         };
-        $scope.$emit("transitCtrlAndTpl", addDirectObj);
+        $scope.$emit("transitCtrlAndTpl", rdlaneInfoObj);
         // layerCtrl.pushLayerFront('edit');
         // map.currentTool.disable();
         // map.currentTool = new fastmap.uikit.SelectPath(

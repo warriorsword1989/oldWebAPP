@@ -349,16 +349,17 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.sysMsgType = type;
 		};
 		//历史消息翻页
-		$scope.pageChanged = function() {
+		$scope.pageChanged = function(pageNow) {
 			var param = {
 				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-				pageNum:$scope.currentPage,
+				pageNum:pageNow,
 				pageSize:5
 			};
 			dsFcc.getReadMsg(param).then(function(data){
 				if(data){
 					$scope.sysMsgItem = data.result;
 					$scope.totalItems = data.totalCount;
+					$scope.currentPage = pageNow;
 				}
 			});
 		};
