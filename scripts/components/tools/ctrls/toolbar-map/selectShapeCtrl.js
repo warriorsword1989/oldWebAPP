@@ -2140,15 +2140,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     return;
                 } else if (type === "MODIFYRDCROSS") {
                     var rdCrossData = objCtrl.data;
-                    var crossNodePids = [];
-                    var oriPids = [];
                     var modifyCross = {
                         pid :rdCrossData.pid,
                         nodePids:[]
                     };
                     for (var i = 0, len = rdCrossData.nodes.length; i < len; i++) {
-                        crossNodePids.push(rdCrossData.nodes[i].nodePid);
-                        oriPids.push(rdCrossData.nodes[i].nodePid);
                         modifyCross.nodePids.push(rdCrossData.nodes[i].nodePid);
                     }
 
@@ -2163,12 +2159,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     map.currentTool.snapHandler.addGuideLayer(rdNode);
                     eventController.off(eventController.eventTypes.GETNODEID);
                     eventController.on(eventController.eventTypes.GETNODEID, function(data) {
+                        if(editLayer.drawGeometry){
+                            editLayer.drawGeometry = null;
+                            editLayer.bringToBack();
+                            editLayer.clear();
+                        }
                         if(modifyCross.nodePids.indexOf(parseInt(data.id)) < 0){//不存在于现有的node中
-                            modifyCross.nodePids.push(parseInt(data.id))
+                            modifyCross.nodePids.push(parseInt(data.id));
                         } else {
                             modifyCross.nodePids.splice(modifyCross.nodePids.indexOf(parseInt(data.id)),1);
                         }
                         highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
                         for (var i = 0, len = modifyCross.nodePids.length; i < len; i++) {
                             highRenderCtrl.highLightFeatures.push({
                                 id: modifyCross.nodePids[i].toString(),
