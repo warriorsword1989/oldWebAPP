@@ -265,7 +265,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 			});
 		};
-		//我的消息
+		/*//我的消息
 		$scope.historyMsg = function(){
 			var param = {
 				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
@@ -285,119 +285,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			dsFcc.getDetailCheck(param).then(function(data){
 				console.log(data)
 			});
-		};
+		};*/
 		// 消息推送
 		$scope.msgNotify = function(){
-			var msg = [
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试22',
-					msgId:124,
-					msgTitle:'测试22',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试224',
-					msgId:124,
-					msgTitle:'测试224',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试226',
-					msgId:124,
-					msgTitle:'测试226',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试2',
-					msgId:124,
-					msgTitle:'测试2',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试23',
-					msgId:124,
-					msgTitle:'测试23',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				}
-			];
-			// $scope.sysMsgItem = msg;
 			// 创建一个Socket实例
 			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5));
 			sock.onopen = function() {
 				console.log('已经建立websocket连接...');
-				/*$timeout(function(){
-					$scope.systemMsg = msg;
-				},3000)*/
 			};
 			sock.onmessage = function(e) {
 				console.log('message', JSON.parse(e.data));
@@ -412,6 +306,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			sock.onclose = function() {
 				console.log('关闭websocket连接...');
 			};
+			window.onbeforeunload=function (){
+				sock.close();
+			}
 			// sock.close();
 			/*if(App.Config.msgNotify){
 				var timer = $interval(function() {
@@ -439,14 +336,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}else{
 				var param = {
 					userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-					pageNum:5,
-					pageSize:$scope.currentPage
+					pageNum:$scope.currentPage,
+					pageSize:5
 				};
 				dsFcc.getReadMsg(param).then(function(data){
 					if(data){
+						console.log($scope.currentPage)
 						$scope.sysMsgItem = data.result;
 						$scope.totalItems = data.totalCount;
-						$scope.currentPage = data.pageSize;
 					}
 				});
 			}
@@ -456,14 +353,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.pageChanged = function() {
 			var param = {
 				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-				pageNum:5,
-				pageSize:$scope.currentPage
+				pageNum:$scope.currentPage,
+				pageSize:5
 			};
 			dsFcc.getReadMsg(param).then(function(data){
 				if(data){
 					$scope.sysMsgItem = data.result;
 					$scope.totalItems = data.totalCount;
-					$scope.currentPage = data.pageSize;
+					// $scope.currentPage = data.pageNum;
 				}
 			});
 		};
@@ -473,14 +370,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.showMsgDetail = false;
 			}else{
 				var param = {
-					userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+					// userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
 					msgId:id
 				};
 				dsFcc.getDetailCheck(param).then(function(data){
 					console.log(data)
+					$scope.sysMsgObj = data[0];
 					for(var i=0;i<$scope.systemMsg.length;i++){
 						if($scope.systemMsg[i].msgId == id){
-							$scope.sysMsgObj = $scope.systemMsg[i];
 							$scope.systemMsg.splice(i,1);
 							return;
 						}
@@ -809,6 +706,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*批处理*/
 		$scope.$on('job-batch', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.batchRunning = true;
@@ -817,6 +715,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*执行检查*/
+        $scope.$on('job-check', function (event, data) {
+            if (data.status == 'begin') {
+                $scope.checkRunning = true;
+            } else if (data.status == 'end') {
+                $scope.checkRunning = false;
+            }
+        });
 		$scope.$on('job-search', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.searching = true;

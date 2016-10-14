@@ -1,8 +1,9 @@
 /**
  * Created by linglong on 2016/9/13.
  */
-angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit',
-    function($scope, $interval, dsEdit) {
+angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit','dsOutput',
+    function($scope, $interval, dsEdit, dsOutput) {
+        var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         $scope.searchBoxData = [];
         $scope.searchBoxDataItems = [];
         $scope.currentSearchItems = [];
@@ -11,29 +12,35 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         $scope.pageSize = 10;
         $scope.page = 1;
         $scope.batchType = 0;
-
-
+        $scope.dataLoading = true;
 
         /**
         * 切换道路和poi批处理tab页;
         * @param type
         */
         $scope.switchBatchType = function(type){
+            $scope.selectedBatches = [];
             $scope.batchType = type;
             getSeachBox();
         }
 
+        $scope.getBatchItem = function(param){
+            $scope.currentSearchItems = param.rules;
+        }
+
         //获取所有批处理包;
         function getSeachBox(){
+            $scope.dataLoading = true;
             var params = {
                 pageNumber:$scope.pageSize,
                 currentPage:$scope.page,
-                checkType:$scope.batchType,
+                checkType:$scope.batchType
             }
             dsEdit.seachCheckBox(params).then(function(data){
                 $scope.searchBoxData = data;
                 //获取当前显示的检查项，默认为第一个检查项下的数据;
                 $scope.currentSearchItems = data.length?$scope.searchBoxData[0].rules:[];
+                $scope.dataLoading = false;
             });
         }
 
@@ -109,12 +116,42 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                     type:$scope.batchType
                 }
                 $scope.running = true;
-                //$scope.$emit("job-search", {
-                //    status: 'begin'
-                //});
+                $scope.$emit("job-check", {
+                    status: 'begin'
+                });
                 dsEdit.exeOnlineSearch(param).then(function(data){
                     if(data){
                         $scope.closeAdvancedToolsPanel();
+                        var timer = $interval(function() {
+                            dsEdit.getJobById(data).then(function(d) {
+                                if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
+                                    $interval.cancel(timer);
+                                    $scope.progress = 100;
+                                    $scope.$emit("job-check", {
+                                        status: 'end'
+                                    });
+                                    $scope.running = false;
+                                    if (d.status == 3) {
+                                        dsOutput.push({
+                                            "op": "执行检查执行成功",
+                                            "type": "succ",
+                                            "pid": "0",
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行检查完成');
+                                    } else {
+                                        dsOutput.push({
+                                            "op": "执行检查执行失败",
+                                            "type": "fail",
+                                            "pid": "0",
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行检查失败');
+                                    }
+                                }
+                            });
+                        }, 5000);
+
                     }
                 })
             }

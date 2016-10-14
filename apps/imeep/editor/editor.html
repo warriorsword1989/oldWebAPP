@@ -70,7 +70,8 @@
                                         <div ng-class="{'status available':true,'inactive':sysMsgType=='his'}"></div>
                                     </div>
                                     <div class="msg-pagination" ng-if="sysMsgType=='his'">
-                                        <ul uib-pagination boundary-links="true" total-items="totalItems" ng-change="pageChanged()" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                                        <!--<ul uib-pagination items-per-page="5" boundary-links="true" total-items="totalItems" ng-change="pageChanged()" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>-->
+                                        <ul uib-pagination items-per-page="5" max-size="5" total-items="totalItems" ng-model="currentPage" class="pagination" boundary-links="true" force-ellipses="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                                     </div>
                                 </div>
                             </div>
@@ -122,8 +123,8 @@
                         <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                         </div>
-                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" style="top:50px;left:30%;right: 30%;max-width: 800px;">
-                            <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
+                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{left:advancedTool=='check'?'12%':'25%',right:advancedTool=='check'?'12%':'25%'}" style="top:50px;left:30%;right: 30%;">
+                            <button ng-show="advancedTool!=null" type="button" class="close ng-cloak" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
                             <div ng-include="advancedToolPanelTpl"></div>
                         </div>
                         <!--右侧属性编辑面板-->

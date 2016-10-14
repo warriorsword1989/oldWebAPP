@@ -475,6 +475,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 param["type"] = 'RDLINK';
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
                         //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
@@ -1506,8 +1507,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();
-                        // highRenderCtrl._cleanHighLight();
-                        // highRenderCtrl.highLightFeatures.length = 0;
                         featCodeCtrl.setFeatCode({
                             laneTopo:data.data,
                             rdLaneData:rdLaneData
@@ -1516,16 +1515,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
-                var nodes = [];
-                var curNodes = geo.nodePids;
-                var flag = 0;
-                for(var i = 0;i<objEditCtrl.data.nodes.length;i++){
-                    if(curNodes.indexOf(objEditCtrl.data.nodes[i].nodePid) > -1){
-                        flag = 1;
-                        break;
-                    }
-                }
-                if(flag){
+                if(geo.nodePids && geo.nodePids.length > 0){
                     var param = {
                         "command": "BATCH",
                         "type": "RDCROSS",
@@ -1540,33 +1530,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     });
                 } else {
-                    swal({
-                        title: "警告！",
-                        text: "将会删除原来的路口，是否继续？",
-                        html: true,
-                        showCancelButton: true,
-                        allowEscapeKey: false,
-                        confirmButtonText: "是的，我要删除",
-                        confirmButtonColor: "#ec6c62"
-                    }, function(f) {
-                        if (f) { // 执行删除操作
-                            var param = {
-                                "command": "BATCH",
-                                "type": "RDCROSS",
-                                "dbId": App.Temp.dbId,
-                                "data": geo
-                            };
-                            //调用编辑接口;
-                            dsEdit.save(param).then(function (data) {
-                                if (data != null) {
-                                    rdCross.redraw();
-                                    treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
-                                }
+                    dsEdit.delete(geo.pid, 'RDCROSS', 1).then(function(data) {
+                        if (data) {
+                            rdCross.redraw();
+                            highRenderCtrl._cleanHighLight();
+                            scope.$emit('SWITCHCONTAINERSTATE', {
+                                'subAttrContainerTpl': false,
+                                'attrContainerTpl': false
                             });
-                        } else { // 取消删除
-                            return;
                         }
-                    });
+                    })
                 }
 
             }

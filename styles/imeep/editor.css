@@ -1313,9 +1313,9 @@ a.fm-panel-controlArrowRight > span {
   padding: 1px 4px;
   margin-left: -1px;
   line-height: 1.42857143;
-  color: #E9ECEF;
+  color: #949799;
   text-decoration: none;
-  background-color: #383636;
+  background-color: #FFFFFF;
   border: 1px solid #ddd;
 }
 .pagination > .disabled > a {
@@ -1643,7 +1643,7 @@ a.fm-panel-controlArrowRight > span {
   top: auto;
   right: auto;
   bottom: 0;
-  left: 40px;
+  left: 60px;
   position: absolute;
   width: 250px;
   z-index: 99;
@@ -1651,7 +1651,7 @@ a.fm-panel-controlArrowRight > span {
 }
 .log-message-container .log-message {
   color: #fff;
-  background-color: #49A7DA;
+  background-color: rgba(165, 165, 165, 0.42);
   padding: 13px;
   height: 40px;
   margin-top: 3px;
@@ -2308,7 +2308,7 @@ a.batchButton {
   width: 290px;
   background: #fff;
   border-radius: 6px;
-  height: 470px;
+  height: 350px;
   position: relative;
 }
 .msg-container .msgContainerlist {
@@ -2316,10 +2316,10 @@ a.batchButton {
   top: 0;
   left: 0;
   width: 290px;
-  height: 470px;
+  height: 350px;
 }
 .null-msg {
-  line-height: 5 !important;
+  line-height: 3 !important;
   text-align: center;
 }
 .topmenu {
@@ -2365,7 +2365,7 @@ a.batchButton {
   cursor:pointer;
 }*/
 .message-item {
-  height: 70px;
+  height: 50px;
   border-bottom: 1px solid #e7ebee;
   position: relative;
 }
@@ -2378,25 +2378,26 @@ a.batchButton {
 .message-item p {
   padding: 5px 0 0 10px;
   float: left;
-  line-height: 2;
+  line-height: 1.5;
   width: 250px;
-  height: 60px;
+  height: 50px;
   overflow-y: hidden;
+  margin: 0 !important;
 }
 .message-item p strong {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 12px;
   color: #597a96;
   display: block;
 }
 .message-item p strong.history {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 12px;
   color: #949799;
   display: block;
 }
 .message-item p span {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   color: #aab8c2;
 }
@@ -2406,7 +2407,7 @@ a.batchButton {
   width: 9px;
   height: 9px;
   position: absolute;
-  top: 31px;
+  top: 21px;
   right: 17px;
 }
 .message-item .status.away {
@@ -2417,7 +2418,7 @@ a.batchButton {
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 350px;
+  height: 250px;
 }
 .message-item:hover {
   background: #f1f4f6;
@@ -2435,16 +2436,16 @@ a.batchButton {
   background: #eaeef0;
 }
 .msg-pagination {
-  height: 60px;
+  height: 40px;
   width: 290px;
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 10px;
+  right: 10px;
   text-align: right;
 }
 .detailview {
   width: 290px;
-  height: 484px;
+  height: 350px;
   position: absolute;
   top: 0;
   left: 0;
@@ -2493,7 +2494,7 @@ a.batchButton {
 .detail-messages {
   opacity: 1;
   width: 290px;
-  height: 330px;
+  height: 197px;
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 13px;

@@ -1305,9 +1305,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   padding: 1px 4px;
   margin-left: -1px;
   line-height: 1.42857143;
-  color: #E9ECEF;
+  color: #949799;
   text-decoration: none;
-  background-color: #383636;
+  background-color: #FFFFFF;
   border: 1px solid #ddd;
 }
 .pagination > .disabled > a {
@@ -1648,13 +1648,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .log-message-container {
-  .absolute-position(auto,auto,0,40px);
+  .absolute-position(auto,auto,0,60px);
   width: 250px;
   z-index: 99;
   display: none;
   .log-message {
     color: #fff;
-    background-color: #49A7DA;
+    background-color: rgba(165, 165, 165, 0.42);
     padding: 13px;
     height: 40px;
     margin-top: 3px;
@@ -2334,18 +2334,18 @@ input[type="range"]::-webkit-slider-thumb {
   background:#fff;
   border-radius:6px;
   //overflow:hidden;
-  height:470px;
+  height:350px;
   position:relative;
   .msgContainerlist{
     position:absolute;
     top:0;
     left:0;
     width:290px;
-    height:470px;
+    height:350px;
   }
 }
 .null-msg{
-  line-height: 5 !important;
+  line-height: 3 !important;
   text-align: center;
 }
 .topmenu{
@@ -2393,7 +2393,7 @@ input[type="range"]::-webkit-slider-thumb {
   cursor:pointer;
 }*/
 .message-item{
-  height:70px;
+  height:50px;
   border-bottom:1px solid #e7ebee;
   position:relative;
   img{
@@ -2405,24 +2405,25 @@ input[type="range"]::-webkit-slider-thumb {
   p{
     padding: 5px 0 0 10px;
     float: left;
-    line-height: 2;
+    line-height: 1.5;
     width: 250px;
-    height: 60px;
+    height: 50px;
     overflow-y: hidden;
+    margin:0 !important;
     strong{
       font-weight:600;
-      font-size:15px;
+      font-size:12px;
       color:#597a96;
       display: block;
     }
     strong.history{
       font-weight:600;
-      font-size:15px;
+      font-size:12px;
       color:#949799;
       display: block;
     }
     span{
-      font-size:13px;
+      font-size:12px;
       font-weight:400;
       color:#aab8c2;
     }
@@ -2433,7 +2434,7 @@ input[type="range"]::-webkit-slider-thumb {
     width:9px;
     height:9px;
     position:absolute;
-    top:31px;
+    top:21px;
     right:17px;
     &.away{
       background:#ffce54;
@@ -2446,7 +2447,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 350px;
+  height: 250px;
 }
 .message-item:hover{
   background:#f1f4f6;
@@ -2464,16 +2465,16 @@ input[type="range"]::-webkit-slider-thumb {
   background:#eaeef0;
 }
 .msg-pagination{
-  height:60px;
-  width:290px;
-  position:absolute;
-  bottom:0;
-  left:0;
+  height: 40px;
+  width: 290px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   text-align: right;
 }
 .detailview{
   width:290px;
-  height:484px;
+  height:350px;
   position:absolute;
   top:0;
   left:0;
@@ -2522,7 +2523,7 @@ input[type="range"]::-webkit-slider-thumb {
 .detail-messages{
   opacity:1;
   width:290px;
-  height:330px;
+  height:197px;
   overflow-y:auto;
   overflow-x:hidden;
   font-size: 13px;
