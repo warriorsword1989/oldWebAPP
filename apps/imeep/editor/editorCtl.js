@@ -308,7 +308,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			};
 			window.onbeforeunload=function (){
 				sock.close();
-			}
+			};
 			// sock.close();
 			/*if(App.Config.msgNotify){
 				var timer = $interval(function() {
@@ -341,7 +341,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				};
 				dsFcc.getReadMsg(param).then(function(data){
 					if(data){
-						console.log($scope.currentPage)
 						$scope.sysMsgItem = data.result;
 						$scope.totalItems = data.totalCount;
 					}
@@ -360,7 +359,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				if(data){
 					$scope.sysMsgItem = data.result;
 					$scope.totalItems = data.totalCount;
-					// $scope.currentPage = data.pageNum;
 				}
 			});
 		};
@@ -373,17 +371,22 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					// userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
 					msgId:id
 				};
-				dsFcc.getDetailCheck(param).then(function(data){
-					console.log(data)
-					$scope.sysMsgObj = data[0];
-					for(var i=0;i<$scope.systemMsg.length;i++){
-						if($scope.systemMsg[i].msgId == id){
-							$scope.systemMsg.splice(i,1);
-							return;
+				if($scope.sysMsgType == 'new'){
+					dsFcc.getReadCheck(param).then(function(data){
+						console.log(data)
+						$scope.sysMsgObj = data[0];
+						for(var i=0;i<$scope.systemMsg.length;i++){
+							if($scope.systemMsg[i].msgId == id){
+								$scope.systemMsg.splice(i,1);
+								return;
+							}
 						}
-					}
-					// $scope.showMsgDetail = true;
-				});
+					});
+				}else{
+					dsFcc.getDetailCheck(param).then(function(data){
+						$scope.sysMsgObj = data[0];
+					});
+				}
 				$scope.showMsgDetail = true;
 			}
 
