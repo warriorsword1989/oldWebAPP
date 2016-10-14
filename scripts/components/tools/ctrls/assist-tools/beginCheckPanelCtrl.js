@@ -24,6 +24,10 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             getSeachBox();
         }
 
+        $scope.getBatchItem = function(param){
+            $scope.currentSearchItems = param.rules;
+        }
+
         //获取所有批处理包;
         function getSeachBox(){
             $scope.dataLoading = true;
