@@ -475,6 +475,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 param["type"] = 'RDLINK';
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
                         //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
