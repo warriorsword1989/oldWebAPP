@@ -44,9 +44,9 @@
                             <td colspan="3" class="text-center">暂时无数据!!!</td>
                         </tr>
                         <tr ng-class-odd="'tableOdd'" ng-repeat="item in searchBoxData">
-                            <td><input ng-click="batchSelect(item)" ng-model="item.checked" type="checkbox" /></td>
-                            <td style="cursor: pointer" ng-click="getCheckItem(item)" ng-bind="batchType==0?'路演POI检查包'+($index+1):'路演道路检查包'+($index+1)"></td>
-                            <td ng-click="getCheckItem(item)" ng-bind="item.suiteRange"></td>
+                            <td><input ng-click="batchSelect($index)" ng-model="item.checked" type="checkbox" /></td>
+                            <td style="cursor: pointer" ng-click="getCheckItem($index)" ng-bind="batchType==0?'路演POI检查包'+($index+1):'路演道路检查包'+($index+1)"></td>
+                            <td ng-click="getCheckItem($index)" ng-bind="item.suiteRange"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -63,11 +63,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-if="!currentSearchItems || currentSearchItems.length == 0">
+                        <tr ng-if="!searchBoxData[currentBoxIndex].rules || searchBoxData[currentBoxIndex].rules.length == 0">
                             <td colspan="5" class="text-center">无数据!!!</td>
                         </tr>
-                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentSearchItems">
-                            <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
+                        <tr ng-class-odd="'tableOdd'" ng-repeat="item in searchBoxData[currentBoxIndex].rules">
+                            <td><input ng-model="item.checked" ng-change="aa()" type="checkbox" /></td>
                             <td title="{{item.ruleName}}" class="itemName">{{item.ruleName.length>12?item.ruleName.substr(0,12)+'...':item.ruleName}}</td>
                             <td title="{{item.ruleDesc}}">{{item.ruleDesc.length>42?item.ruleDesc.substr(0,42)+'...':item.ruleDesc}}</td>
                             <td>{{item.ruleLevel}}</td>
