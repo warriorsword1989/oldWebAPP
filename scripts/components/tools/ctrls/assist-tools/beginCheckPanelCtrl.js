@@ -134,7 +134,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                                             "pid": "0",
                                             "childPid": ""
                                         });
-                                        logMsgCtrl.pushMsg($scope,'执行批处理完成');
+                                        logMsgCtrl.pushMsg($scope,'执行检查完成');
                                     } else {
                                         dsOutput.push({
                                             "op": "执行检查执行失败",
