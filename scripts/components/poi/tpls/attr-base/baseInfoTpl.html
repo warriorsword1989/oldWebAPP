@@ -108,7 +108,7 @@
                 <span style="float:right;">共 <span ng-bind="poi.contacts.length"></span> 条</span>
             </div>
             <div class="content" style="max-height: 300px;">
-                <ul class="fm-ul fm-ul-list" fm-auto-focus contacts-data="poi.contacts">
+                <ul class="fm-ul fm-ul-list" contacts-data="poi.contacts">
                     <li ng-repeat="item in poi.contacts">
                         <div>
                             <input type='text' class="fm-control tel-code" ng-class="{'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="5" ng-model="item.code" ng-show="item.contactType==1" ng-blur="checkTelAreaCode($index,$event)" ng-disabled="isSpecialOperation">
