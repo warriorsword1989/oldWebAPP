@@ -36,6 +36,23 @@
                             <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" title="增加车道"
                                   class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
                         </div>
+
+                    </div>
+                    <div style="display: block; overflow: auto;">
+                        <div style="display:inline-block;margin:5px 10px;" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
+                             <span ng-if="items.flag!=='test'"
+                                   style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"
+                                   class="glyphicon glyphicon-remove-sign" ng-click="minusTransitData(items,$index)"></span>
+                            <img class="lanePic" ng-if="items.flag!=='test'"
+                                 ng-click="changeTransit(items,$index)"
+                                 ng-src="../../../images/road/1301/1301_1_{{items.flag}}.svg"
+                                 title="{{items}}">
+                            <span ng-if="items==='test'"
+                                  style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"></span>
+                            <img class="lanePic" ng-if="items.flag==='test'"
+                                 ng-click="changeTransit(items,$index)"
+                                 ng-src="../../../images/road/1301/1301_1_test.svg">
+                        </div>
                     </div>
                     <ul class="fm-ul fm-ul-form">
                         <li>
