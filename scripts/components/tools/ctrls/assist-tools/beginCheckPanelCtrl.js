@@ -18,7 +18,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         * @param type
         */
         $scope.switchBatchType = function(type){
-            $scope.selectedBatches = [];
+            //$scope.selectedBatches = [];
             $scope.batchType = type;
             getSeachBox();
         }
@@ -38,6 +38,11 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             }
             dsEdit.seachCheckBox(params).then(function(data){
                 $scope.searchBoxData = data;
+                for(var i=0;i<$scope.searchBoxData.length;i++){
+                    for(var j=0;j<$scope.searchBoxData[i].rules.length;j++){
+                        $scope.searchBoxData[i].rules[j].checked = false;
+                    }
+                }
                 $scope.dataLoading = false;
             });
         }
@@ -56,42 +61,19 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             }
         }
 
-        //组装选中批处理规则;
-        //function getAllBatchRules(param){
-        //    if(param.rules){//全选或反选
-        //        if(param.checked){
-        //            for(var i=0;i<param.rules.length;i++){
-        //                if($scope.selectedBatches.indexOf(param.rules[i].ruleCode)==-1){
-        //                    $scope.selectedBatches.push(param.rules[i].ruleCode)
-        //                }
-        //            }
-        //        }else{
-        //            for(var i=0;i<param.rules.length;i++){
-        //                if($scope.selectedBatches.indexOf(param.rules[i].ruleCode)!=-1){
-        //                    $scope.selectedBatches.splice($scope.selectedBatches.indexOf(param.rules[i].ruleCode),1);
-        //                }
-        //            }
-        //        }
-        //        console.log($scope.selectedBatches);
-        //    }else{//单选
-        //        if(param.checked){
-        //            if($scope.selectedBatches.indexOf(param.ruleCode)==-1){
-        //                $scope.selectedBatches.push(param.ruleCode)
-        //            }
-        //        }else{
-        //            if($scope.selectedBatches.indexOf(param.ruleCode)!=-1){
-        //                $scope.selectedBatches.splice($scope.selectedBatches.indexOf(param.ruleCode),1);
-        //            }
-        //        }
-        //        console.log($scope.selectedBatches);
-        //    }
-        //}
-
         $scope.running = false;
         $scope.progress = 0;
         $scope.doExecute = function() {
+            $scope.selectedBatches = [];
+            for(var i=0;i<$scope.searchBoxData.length;i++){
+                for(var j=0;j<$scope.searchBoxData[i].rules.length;j++){
+                    if($scope.searchBoxData[i].rules[j].checked){
+                        $scope.selectedBatches.push($scope.searchBoxData[i].rules[j].ruleCode)
+                    }
+                }
+            }
+            $scope.selectedBatches = Utils.distinctArr($scope.selectedBatches);
 
-            return;
             if ($scope.selectedBatches.length == 0) {
                 swal("请选择要执行的检查项", "", "info");
                 return;
