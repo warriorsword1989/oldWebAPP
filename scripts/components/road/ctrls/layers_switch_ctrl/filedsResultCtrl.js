@@ -789,7 +789,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         callback: function() {
                             if (data.f_array.length != 0) {
                                 $scope.brigeLinkArray = data.f_array;
-                                $scope.getFeatDataCallback(data, data.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                if(data.f_array[0].type == 1 ){ //type ==1 表示的是道路link ，type==2表示测线（测线不需要打开面板）
+                                    $scope.getFeatDataCallback(data, data.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
                             }
                         }
                     }
