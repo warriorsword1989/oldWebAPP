@@ -3257,20 +3257,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     editLayer.draw(selectCtrl.selectedFeatures, editLayer); //把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
-                    var tempLinkPid = $scope.selectedFeature.id;
-                    //让用户选择移动的点的地图配置;
-                    map.currentTool = new fastmap.uikit.SelectNode({
-                        map: map,
-                        nodesFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.enable();
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
                     shapeCtrl.startEditing();
                     shapeCtrl.editFeatType = 'RDNODE';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
-                    map.currentTool = shapeCtrl.getCurrentTool();
-                    map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType('RDNODE')); //捕捉图层
+                    // var tempLinkPid = $scope.selectedFeature.id;
+                    //让用户选择移动的点的地图配置;
+                    // map.currentTool = new fastmap.uikit.SelectNode({
+                    //     map: map,
+                    //     nodesFlag: true,
+                    //     shapeEditor: shapeCtrl
+                    // });
+                    // map.currentTool.enable();
+                    // eventController.off(eventController.eventTypes.GETNODEID);
+                    // eventController.on(eventController.eventTypes.GETNODEID, function(data) {
+                    //     selectCtrl.workNode = data;
+                    //     map.currentTool.disable();
+                    // });
                 }
                 else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
