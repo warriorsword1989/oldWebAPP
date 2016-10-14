@@ -76,7 +76,7 @@
             </div>
         </div>
         <button ng-show="tagSelect == 'errorCheck'" class="btn btn-xs fm-output-btn pull-right" ng-click="startCheckEvent();" style="margin-right: 10px;">
-            <i class="glyphicon glyphicon-hourglass"></i>
+            <i class="fa fa-cog {{checkRunning?'fa-spin':''}}"></i>
             执行检查
         </button>
     </div>

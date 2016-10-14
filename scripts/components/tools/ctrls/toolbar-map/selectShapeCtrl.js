@@ -2138,40 +2138,52 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                         });
                     });
                     return;
-                } else if (type === "MODIFRDCROSS") {
-                    // swal("无法操作", "等下一个迭代开发好了再做吧！", "info");
-                    // return;
-                    // map.currentTool = new fastmap.uikit.SelectNodeAndPath({
-                    //     map: map,
-                    //     shapeEditor: shapeCtrl,
-                    //     selectLayers: [rdNode],
-                    //     snapLayers: [rdNode]//将rdnode放前面，优先捕捉
-                    // });
-                    // map.currentTool.enable();
-                    // tooltipsCtrl.setCurrentTooltip('请选择需要增加或者删除的Node！');
-                    // eventController.on(eventController.eventTypes.GETFEATURE, function(data) {
-                    //     highRenderCtrl._cleanHighLight();
-                    //     highRenderCtrl.highLightFeatures = [];
-                    //     //退出线;
-                    //     highRenderCtrl.highLightFeatures.push({
-                    //         id: data.id,
-                    //         layerid: 'rdLink',
-                    //         type: 'line',
-                    //         style: {}
-                    //     });
-                    //     //绘制当前的退出线
-                    //     highRenderCtrl.drawHighlight();
-                    //     //设置热键修改时的监听类型;
-                    //     shapeCtrl.setEditingType("UPDATEELECTRONICEYE");
-                    //     //退出线选完后的鼠标提示;
-                    //     tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
-                    //     //设置修改确认的数据;
-                    //     featCodeCtrl.setFeatCode({
-                    //         "linkPid": data.id.toString(),
-                    //         "pid": objCtrl.data.pid.toString(),
-                    //         "objStatus": "UPDATE"
-                    //     });
-                    // });
+                } else if (type === "MODIFYRDCROSS") {
+                    var rdCrossData = objCtrl.data;
+                    var modifyCross = {
+                        pid :rdCrossData.pid,
+                        nodePids:[]
+                    };
+                    for (var i = 0, len = rdCrossData.nodes.length; i < len; i++) {
+                        modifyCross.nodePids.push(rdCrossData.nodes[i].nodePid);
+                    }
+
+                    map.currentTool.disable();
+                    map.currentTool = new fastmap.uikit.SelectNode({
+                        map: map,
+                        nodesFlag: true,
+                        shapeEditor: shapeCtrl
+                    });
+                    map.currentTool.enable();
+                    //添加自动吸附的图层
+                    map.currentTool.snapHandler.addGuideLayer(rdNode);
+                    eventController.off(eventController.eventTypes.GETNODEID);
+                    eventController.on(eventController.eventTypes.GETNODEID, function(data) {
+                        if(editLayer.drawGeometry){
+                            editLayer.drawGeometry = null;
+                            editLayer.bringToBack();
+                            editLayer.clear();
+                        }
+                        if(modifyCross.nodePids.indexOf(parseInt(data.id)) < 0){//不存在于现有的node中
+                            modifyCross.nodePids.push(parseInt(data.id));
+                        } else {
+                            modifyCross.nodePids.splice(modifyCross.nodePids.indexOf(parseInt(data.id)),1);
+                        }
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures = [];
+                        for (var i = 0, len = modifyCross.nodePids.length; i < len; i++) {
+                            highRenderCtrl.highLightFeatures.push({
+                                id: modifyCross.nodePids[i].toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {color: 'yellow'}
+                            });
+                        }
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("继续选择NODE或者按空格保存!");
+                        shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.MODIFYRDCROSS);
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(modifyCross);
+                    });
                     return;
                 } else if (type === "MODIFYLINKPID") {
                     map.currentTool = new fastmap.uikit.SelectPath({
@@ -3245,20 +3257,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     editLayer.draw(selectCtrl.selectedFeatures, editLayer); //把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
-                    var tempLinkPid = $scope.selectedFeature.id;
-                    //让用户选择移动的点的地图配置;
-                    map.currentTool = new fastmap.uikit.SelectNode({
-                        map: map,
-                        nodesFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.enable();
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
                     shapeCtrl.startEditing();
                     shapeCtrl.editFeatType = 'RDNODE';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
-                    map.currentTool = shapeCtrl.getCurrentTool();
-                    map.currentTool.snapHandler.addGuideLayer(layerCtrl.getLayerByFeatureType('RDNODE')); //捕捉图层
                 }
                 else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
@@ -3593,7 +3595,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope",'$q', '$ocLazyLoad
                     var newData = []; //去重后的数据
                     var repeatIdArr = [];
                     for(var i = 0 , len = data.length; i<len; i++){
-                        if(repeatIdArr.indexOf(data[i].properties.id) < 0 ){
+                        if(repeatIdArr.indexOf(data[i].properties.id) < 0 && (parseInt(data[i].properties.id)!=objCtrl.data.pid)){
                             repeatIdArr.push(data[i].properties.id);
                             newData.push(data[i]);
                         }

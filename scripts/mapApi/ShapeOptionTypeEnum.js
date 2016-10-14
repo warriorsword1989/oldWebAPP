@@ -158,6 +158,10 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'RDLANETOPODETAIL':'rdLaneTopoDetail',
     /*
+     路口修改
+     */
+    'MODIFYRDCROSS':'modifyRdcross',
+    /*
      分离节点
      */
     'PATHDEPARTNODE':'pathDepartNode'

@@ -885,6 +885,19 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             "2": "顺方向",
             "3": "逆方向"
         };
+        var sourceCodeObj = {
+            1:'情报',
+            2:'外业现场',
+            3:'代理店',
+            4:'监察',
+            5:'常规',
+            6:'人行过道',
+            7:'多源',
+            8:'众包',
+            11:'成果数据mark',
+            13:'数据挖掘'
+        };
+        $scope.sourceCode = sourceCodeObj[$scope.dataTipsData.s_sourceCode];
         $scope.rdDir = dir[$scope.dataTipsData.rdDir];
         //高亮
         highRenderCtrl.highLightFeatures = highLightFeatures;

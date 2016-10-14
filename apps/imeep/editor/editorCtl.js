@@ -265,7 +265,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 			});
 		};
-		//我的消息
+		/*//我的消息
 		$scope.historyMsg = function(){
 			var param = {
 				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
@@ -285,129 +285,29 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			dsFcc.getDetailCheck(param).then(function(data){
 				console.log(data)
 			});
-		};
+		};*/
 		// 消息推送
 		$scope.msgNotify = function(){
-			var msg = [
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试22',
-					msgId:124,
-					msgTitle:'测试22',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试224',
-					msgId:124,
-					msgTitle:'测试224',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试226',
-					msgId:124,
-					msgTitle:'测试226',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试2',
-					msgId:124,
-					msgTitle:'测试2',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				},
-				{
-					createTime:{
-						date:10,
-						day:1,
-						hours:20,
-						minutes:1,
-						month:9,
-						nanos:0,
-						seconds:8,
-						time:147610868000,
-						timezoneOffset:-480,
-						year:116
-					},
-					msgContent:'测试23',
-					msgId:124,
-					msgTitle:'测试23',
-					msgType:1,
-					pushUserId:1,
-					targetUserId:2
-				}
-			];
 			// 创建一个Socket实例
-			// var url = 'ws://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU6824TL9E8CB2FF03679795FE7EFE8F0A25BD35';
-			var url = 'http://192.168.4.188:8094/sys/sysMsg/sockjs/webSocketServer?access_token=00000002IU7NSZDKE8E26ACE57928938C1BBD5048B7E813A';
-			// var sock = new SockJS(App.Util.getFullUrl('sys/sysMsg/sockjs/webSocketServer').substr(5));
-			var sock = new SockJS(url);
-			// var sock = new WebSocket(url);
+			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5));
 			sock.onopen = function() {
 				console.log('已经建立websocket连接...');
-				/*$timeout(function(){
-					$scope.systemMsg = msg;
-				},3000)*/
 			};
 			sock.onmessage = function(e) {
 				console.log('message', JSON.parse(e.data));
-				$scope.systemMsg = JSON.parse(e.data);
+				if(JSON.parse(e.data).length == 1){
+					$scope.systemMsg.push(JSON.parse(e.data)[0]);
+				}else if(JSON.parse(e.data).length > 1){
+					$scope.systemMsg = JSON.parse(e.data);
+				}
+				$scope.sysMsgItem = $scope.systemMsg;
+				$scope.$apply();
 			};
 			sock.onclose = function() {
-				console.log('close');
+				console.log('关闭websocket连接...');
+			};
+			window.onbeforeunload=function (){
+				sock.close();
 			};
 			// sock.close();
 			/*if(App.Config.msgNotify){
@@ -427,6 +327,69 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					});
 				}, App.Config.msgNotify);
 			}*/
+		};
+		//消息类型切换
+		$scope.switchMsgType = function(type){
+			$scope.sysMsgItem = [];
+			if(type == 'new'){
+				$scope.sysMsgItem = $scope.systemMsg;
+			}else{
+				var param = {
+					userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+					pageNum:$scope.currentPage,
+					pageSize:5
+				};
+				dsFcc.getReadMsg(param).then(function(data){
+					if(data){
+						$scope.sysMsgItem = data.result;
+						$scope.totalItems = data.totalCount;
+					}
+				});
+			}
+			$scope.sysMsgType = type;
+		};
+		//历史消息翻页
+		$scope.pageChanged = function() {
+			var param = {
+				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+				pageNum:$scope.currentPage,
+				pageSize:5
+			};
+			dsFcc.getReadMsg(param).then(function(data){
+				if(data){
+					$scope.sysMsgItem = data.result;
+					$scope.totalItems = data.totalCount;
+				}
+			});
+		};
+		//查看详细信息
+		$scope.showDetailMsg = function(id){
+			if(id == -1){
+				$scope.showMsgDetail = false;
+			}else{
+				var param = {
+					// userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+					msgId:id
+				};
+				if($scope.sysMsgType == 'new'){
+					dsFcc.getReadCheck(param).then(function(data){
+						console.log(data)
+						$scope.sysMsgObj = data[0];
+						for(var i=0;i<$scope.systemMsg.length;i++){
+							if($scope.systemMsg[i].msgId == id){
+								$scope.systemMsg.splice(i,1);
+								return;
+							}
+						}
+					});
+				}else{
+					dsFcc.getDetailCheck(param).then(function(data){
+						$scope.sysMsgObj = data[0];
+					});
+				}
+				$scope.showMsgDetail = true;
+			}
+
 		};
 		//页面初始化方法调用
 		var initPage = function () {
@@ -465,7 +428,20 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.logMsgStyle = {
 				'display':'block'
 			};
-			// $scope.msgNotify();
+			$scope.msgNotify();
+			//默认显示新消息
+			$scope.sysMsgType = 'new';
+			//未读消息
+			$scope.systemMsg = [];
+			//系统消息详细信息
+			$scope.sysMsgObj = {
+				msgContent:'',
+				msgId:0,
+				msgTitle:''
+			};
+			$scope.showMsgDetail = false;
+			//历史消息当前页1
+			$scope.currentPage = 1;
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
@@ -733,6 +709,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*批处理*/
 		$scope.$on('job-batch', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.batchRunning = true;
@@ -741,6 +718,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*执行检查*/
+        $scope.$on('job-check', function (event, data) {
+            if (data.status == 'begin') {
+                $scope.checkRunning = true;
+            } else if (data.status == 'end') {
+                $scope.checkRunning = false;
+            }
+        });
 		$scope.$on('job-search', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.searching = true;
@@ -753,6 +738,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("clearAttrStyleUp", function (event, data) {
 			$scope.$broadcast("clearAttrStyleDown");
 		});
+		//场景切换
+		// $scope.$on("changeScene", function (event, data) {
+		// 	$scope.$broadcast("changeSceneLayers",data);
+		// });
 		//道路作业面板是否展开
 		$scope.$on("WORKPANELOPENCLOSE", function (event, data) {
 			$scope.workPanelOpened = !$scope.workPanelOpened;

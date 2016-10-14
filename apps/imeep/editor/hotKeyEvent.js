@@ -491,6 +491,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 param["type"] = 'RDLINK';
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
                         //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
@@ -988,6 +989,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
                         layerCtrl.getLayerById("poi").redraw();
@@ -1554,8 +1556,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();
-                        // highRenderCtrl._cleanHighLight();
-                        // highRenderCtrl.highLightFeatures.length = 0;
                         featCodeCtrl.setFeatCode({
                             laneTopo:data.data,
                             rdLaneData:rdLaneData
@@ -1563,6 +1563,34 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         scope.$emit("OPENRDLANETOPO");
                     }
                 });
+            } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
+                if(geo.nodePids && geo.nodePids.length > 0){
+                    var param = {
+                        "command": "BATCH",
+                        "type": "RDCROSS",
+                        "dbId": App.Temp.dbId,
+                        "data": geo
+                    };
+                    //调用编辑接口;
+                    dsEdit.save(param).then(function (data) {
+                        if (data != null) {
+                            rdCross.redraw();
+                            treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
+                        }
+                    });
+                } else {
+                    dsEdit.delete(geo.pid, 'RDCROSS', 1).then(function(data) {
+                        if (data) {
+                            rdCross.redraw();
+                            highRenderCtrl._cleanHighLight();
+                            scope.$emit('SWITCHCONTAINERSTATE', {
+                                'subAttrContainerTpl': false,
+                                'attrContainerTpl': false
+                            });
+                        }
+                    })
+                }
+
             }
             resetPage();
         }

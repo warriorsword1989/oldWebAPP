@@ -206,7 +206,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.details[0].patternCode;
         $scope.firstLetter = $scope.diverObj.details[0].patternCode.substring(0,1);
-        $scope.leftLetter = $scope.diverObj.details[0].patternCode.substring(1)
+        $scope.rightLetter = $scope.diverObj.details[0].patternCode.substring(1)
         changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/
@@ -248,9 +248,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             }
         }else if($scope.diverObj.details[0].branchType == 3){
             if($scope.diverObj.details[0].patternCode.charAt(0)==5 || $scope.diverObj.details[0].patternCode.charAt(0)==8){
-                $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(0);
+                $scope.diverObj.details[0].patternCode = $scope.diverObj.details[0].patternCode.substring(0,1)+$scope.rightLetter;
             }else{
-                $scope.diverObj.details[0].patternCode = $scope.firstLetter+$scope.leftLetter
+                $scope.diverObj.details[0].patternCode = $scope.firstLetter+$scope.rightLetter;
             }
         }else if($scope.diverObj.details[0].branchType == 4){
             if($scope.diverObj.details[0].patternCode.charAt(0)==7){
