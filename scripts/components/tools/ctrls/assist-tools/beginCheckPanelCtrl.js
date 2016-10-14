@@ -5,7 +5,6 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
     function($scope, $interval, dsEdit, dsOutput) {
         var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         $scope.searchBoxData = [];
-        $scope.searchBoxDataItems = [];
         $scope.currentSearchItems = [];
 
         $scope.selectedBatches = [];
@@ -24,7 +23,8 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             getSeachBox();
         }
 
-        $scope.getBatchItem = function(param){
+        //点击table行查询当前批处理包下的批处理规则;
+        $scope.getCheckItem = function(param){
             $scope.currentSearchItems = param.rules;
         }
 
@@ -44,21 +44,27 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             });
         }
 
-        //点击table行查询当前批处理包下的批处理规则;
-        $scope.getCheckItem = function(param){
-            $scope.currentSearchItems = param.rules;
-        }
-
-
         //全选或反选处理;
+        //$scope.batchSelect = function(param){
+        //    if(param.checked){
+        //        for(var i=0;i<$scope.currentSearchItems.length;i++){
+        //            $scope.currentSearchItems[i].checked = true
+        //        }
+        //    }else{
+        //        for(var i=0;i<$scope.currentSearchItems.length;i++){
+        //            $scope.currentSearchItems[i].checked = false
+        //        }
+        //    }
+        //    getAllBatchRules(param);
+        //}
         $scope.batchSelect = function(param){
             if(param.checked){
-                for(var i=0;i<$scope.currentSearchItems.length;i++){
-                    $scope.currentSearchItems[i].checked = true
+                for(var i=0;i<param.rules.length;i++){
+                    param.rules[i].checked = true;
                 }
             }else{
-                for(var i=0;i<$scope.currentSearchItems.length;i++){
-                    $scope.currentSearchItems[i].checked = false
+                for(var i=0;i<param.rules.length;i++){
+                    param.rules[i].checked = false;
                 }
             }
             getAllBatchRules(param);

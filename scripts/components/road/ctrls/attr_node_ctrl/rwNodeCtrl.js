@@ -129,9 +129,19 @@ angular.module("app").controller("rwNodeController",['$scope','dsEdit',function(
             if (data) {
             	rwLink.redraw();
                 rwNode.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.rwNodeData = null;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
                 var editorLayer = layerCtrl.getLayerById("edit");
                 editorLayer.clear();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
             }
         });
     };
