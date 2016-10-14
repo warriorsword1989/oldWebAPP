@@ -998,7 +998,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
             	var html = '<div style="height:120px">'+
-                        '<input id="name" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text" ng-model="poi.name.name" ng-blur="validataName($event);"/>'+
+                        '<input id="name" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text"/>'+
                         '<select class="form-control" style="width:230px;margin-left:105px;" id="kind"></select>'+
                       '<div>';
 	            	swal({
@@ -1045,6 +1045,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                          }
 	                      };
 	                      dsEdit.save(param).then(function (data) {
+	                    	  swal.close();
 	                          if (data != null) {
 	                        	  swal.close();
 	                              layerCtrl.getLayerById("poi").redraw();

@@ -1,11 +1,13 @@
 <div ng-controller="addDirectOfNodeController" style="color:#FFF;">
-    <div style="padding: 5px;color:#FFF;"><label class="control-label">node形态添加</label></div>
+    <div style="padding: 5px;color:#FFF;">
+        <label class="control-label">
+            node形态编辑
+        </label>
+    </div>
     <div ng-repeat="addItem in fromOfWayOption">
-                <span ng-if="addItem.isCheck==true" style="padding: 5px;color:#FFF;">
-                    <input type="checkbox" checked="checked" ng-click="remove(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
-                </span>
-                <span ng-if="addItem.isCheck==false" style="padding: 5px;color:#FFF;">
-                    <input type="checkbox" ng-click="getCheck(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
-                </span>
+        <span style="padding: 5px;color:#FFF;">
+            <input type="checkbox" ng-click="toggle(addItem)" ng-model="addItem.isCheck"/>
+            {{ addItem.label }}
+        </span>
     </div>
 </div>
