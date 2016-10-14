@@ -15,52 +15,29 @@
                     <!--style="float:left;font-size: 14px;color: #FFF;" class="glyphicon glyphicon-plus"-->
                     <!--ng-click="addLane()" title="增加车道"></span></div>-->
             <div class="fm-panel">
-
                 <div class="content">
+                    <div style="display: block; overflow: auto;">
+                        <div style="display:inline-block;margin:5px 10px;" ng-repeat="item in showNormalData track by $index"
+                             ng-if="showNormalData.length!==0">
+                            <span style=" float:right;font-size:12px;margin-top:-5px;color:#fff;cursor:pointer;"
+                                  class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                            <img class="lanePic" ng-if="item.type===0"
+                                 ng-click="showLanesInfo(item,$index,$event)"
+                                 ng-mousedown="changeDirect(item,$event,$index)"
+                                 ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
+                                 title="{{item}}">
+                            <img class="lanePic" ng-if="item.type===2"
+                                 ng-click="showLanesInfo(item,$index,$event)"
+                                 ng-mousedown="changeDirect(item,$event,$index)"
+                                 ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
+                                 title="{{item}}">
+                        </div>
+                        <div class="inline">
+                            <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" title="增加车道"
+                                  class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
+                        </div>
+                    </div>
                     <ul class="fm-ul fm-ul-form">
-                        <li>
-                            <div style="" ng-repeat="item in showNormalData track by $index"
-                                 ng-if="showNormalData.length!==0">
-                                <div style="min-width: 0px;">
-                                    <span style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"
-                                          class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
-                                    <img class="lanePic" ng-if="item.type===0"
-                                         ng-click="showLanesInfo(item,$index,$event)"
-                                         ng-mousedown="changeDirect(item,$event,$index)"
-                                         ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
-                                         title="{{item}}">
-                                    <img class="lanePic" ng-if="item.type===2"
-                                         ng-click="showLanesInfo(item,$index,$event)"
-                                         ng-mousedown="changeDirect(item,$event,$index)"
-                                         ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
-                                         title="{{item}}">
-                                </div>
-                            </div>
-                            <div class="inline">
-                                <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" title="增加车道"
-                                      class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
-                            </div>
-                        </li>
-                        <li>
-                            <!--<div style="display: none;"></div>-->
-                            <div ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
-                                <div style="min-width: 0px;">
-                                 <span ng-if="items.flag!=='test'"
-                                    style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
-                                    class="glyphicon glyphicon-remove-sign" ng-click="minusTransitData(items,$index)"></span>
-                                    <img class="lanePic" ng-if="items.flag!=='test'"
-                                         ng-click="changeTransit(items,$index)"
-                                         ng-src="../../../images/road/1301/1301_1_{{items.flag}}.svg"
-                                         title="{{items}}">
-                                    <span ng-if="items==='test'"
-                                          style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"></span>
-                                    <img class="lanePic" ng-if="items.flag==='test'"
-                                         ng-click="changeTransit(items,$index)"
-                                         ng-src="../../../images/road/1301/1301_1_test.svg">
-                                </div>
-                            </div>
-
-                        </li>
                         <li>
                             <label class="control-label">进入线</label>
                             <div><input type="text" class="chosen-disabled" readonly ng-model="lanesData.inLinkPid"
