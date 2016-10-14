@@ -307,13 +307,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				console.log('关闭websocket连接...');
 			};
 			window.onbeforeunload=function (){
-				if(event.clientX>document.body.clientWidth && event.clientY < 0 || event.altKey){
-					alert()
-					sock.close();
-				}else{
-					alert()
-					sock.close();
-				}
+				sock.close();
 			}
 			// sock.close();
 			/*if(App.Config.msgNotify){
