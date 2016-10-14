@@ -234,16 +234,16 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     ret = new fastmap.uikit.canvasTips.TipsRoadCrossProm(item);
                     break;
                 case 1704://交叉路口
-                    ret = fastmap.uikit.canvasTips.TipsRoadCross(item);
+                    ret = new fastmap.uikit.canvasTips.TipsRoadCross(item);
                     break;
                 case 1705://立交桥名称
-                    ret = fastmap.uikit.canvasTips.TipsOverpassName(item);
+                    ret = new fastmap.uikit.canvasTips.TipsOverpassName(item);
                     break;
                 case 1706://GPS打点
-                    ret = fastmap.uikit.canvasTips.TipsGPSDot(item);
+                    ret = new fastmap.uikit.canvasTips.TipsGPSDot(item);
                     break;
                 case 1707://里程桩
-                    ret = fastmap.uikit.canvasTips.TipsMileagePeg(item);
+                    ret = new fastmap.uikit.canvasTips.TipsMileagePeg(item);
                     break;
                 case 1801://立交
                     ret = new fastmap.uikit.canvasTips.TipsGSC(item);

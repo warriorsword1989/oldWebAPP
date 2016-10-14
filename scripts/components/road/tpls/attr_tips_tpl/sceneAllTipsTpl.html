@@ -231,8 +231,8 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('linkRoad') || dataTipsData.isTrafficLightsDir || dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')"></span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 3px">
+                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && dataTipsData.isSlope">
