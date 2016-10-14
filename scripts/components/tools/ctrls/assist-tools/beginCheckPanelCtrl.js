@@ -112,9 +112,9 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                     type:$scope.batchType
                 }
                 $scope.running = true;
-                //$scope.$emit("job-search", {
-                //    status: 'begin'
-                //});
+                $scope.$emit("job-check", {
+                    status: 'begin'
+                });
                 dsEdit.exeOnlineSearch(param).then(function(data){
                     if(data){
                         $scope.closeAdvancedToolsPanel();
@@ -123,7 +123,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                                 if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
                                     $interval.cancel(timer);
                                     $scope.progress = 100;
-                                    $scope.$emit("job-batch", {
+                                    $scope.$emit("job-check", {
                                         status: 'end'
                                     });
                                     $scope.running = false;

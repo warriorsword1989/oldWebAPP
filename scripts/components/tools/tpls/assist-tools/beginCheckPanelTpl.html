@@ -28,7 +28,7 @@
             <a href="#" class="tab" ng-class="{1:'active'}[batchType]" ng-click="switchBatchType(1)">道路检查</a>
         </div>
         <div style="postion:relative;min-height: 200px;" class="container-fluid">
-            <div style="height: 100%;width: 100%;position: absolute;" ng-show="dataLoading" class="row dataLoading">数据加载中...</div>
+            <div style="width: 100%;position: absolute; text-align: center;font-size: 16px;font-weight: bold" ng-show="dataLoading" class="row dataLoading">数据加载中...</div>
             <div ng-show="!dataLoading" class="row">
                 <div class="scroll-styled" style="width: 40%;float: left">
                     <table class="table table-bordered table-condensed fm-console-table">
@@ -51,7 +51,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="scroll-styled" style="width: 58%;float: right;min-height: 200px;max-height: 320px;padding: 0 10px; 0 0">
+                <div class="scroll-styled" style="width: 58%;float: right;min-height: 200px;max-height: 320px;padding: 0 10px 0 0">
                     <table class="table table-bordered" style="min-width:800px">
                         <thead>
                         <tr>
@@ -68,16 +68,16 @@
                         </tr>
                         <tr ng-class-odd="'tableOdd'" ng-repeat="item in currentSearchItems">
                             <td><input ng-model="item.checked" ng-change="clickBatchSelect(item)" type="checkbox" /></td>
-                            <td class="itemName">{{item.ruleName}}</td>
-                            <td>{{item.ruleDesc}}</td>
+                            <td title="{{item.ruleName}}" class="itemName">{{item.ruleName.length>12?item.ruleName.substr(0,12)+'...':item.ruleName}}</td>
+                            <td title="{{item.ruleDesc}}">{{item.ruleDesc.length>42?item.ruleDesc.substr(0,42)+'...':item.ruleDesc}}</td>
                             <td>{{item.ruleLevel}}</td>
-                            <td>{{item.depends}}</td>
+                            <td>{{item.depends?item.depends:'(无)'}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div ng-show="!dataLoading" class="row" style="text-align:center;">
+            <div ng-show="!dataLoading" class="row" style="text-align:center;padding: 10px 0 15px 0;">
                 <button type="button" class="btn btn-main" ng-disabled="running" ng-click="doExecute()">执 行 检 查</button>
             </div>
         </div>
