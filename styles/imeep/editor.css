@@ -1647,7 +1647,7 @@ a.fm-panel-controlArrowRight > span {
   position: absolute;
   width: 250px;
   z-index: 99;
-  display: block;
+  display: none;
 }
 .log-message-container .log-message {
   color: #fff;
