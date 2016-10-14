@@ -86,20 +86,44 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     $scope.excitLineArr = [];
     eventController.on(eventController.eventTypes.GETLINKID, function (data) {
         if (data.index === 0) {
-            $scope.laneConnexity.inLinkPid = parseInt(data.id);
-            $scope.highFeatures.push({
-                id:   $scope.laneConnexity.inLinkPid.toString(),
-                layerid: 'rdLink',
-                type: 'line',
-                style: {}
-            });
-            highRenderCtrl.highLightFeatures = $scope.highFeatures;
-            highRenderCtrl.drawHighlight();
-            tooltipsCtrl.setStyleTooltip("color:black;");
-            tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+            if(parseInt(data.properties.direct) == 1){
+                $scope.laneConnexity.inLinkPid = parseInt(data.id);
+                highRenderCtrl.highLightFeatures.push({
+                    id:   $scope.laneConnexity.inLinkPid.toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {}
+                });
+                highRenderCtrl.drawHighlight();
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+            } else if(parseInt(data.properties.direct) == 2 || parseInt(data.properties.direct) == 3){
+                $scope.laneConnexity.inLinkPid = parseInt(data.id);
+                if(parseInt(data.properties.direct) == 2){
+                    $scope.laneConnexity.nodePid = parseInt(data.properties.enode);
+                } else if(parseInt(data.properties.direct) == 3){
+                    $scope.laneConnexity.nodePid = parseInt(data.properties.snode);
+                }
+                highRenderCtrl.highLightFeatures.push({
+                    id:   $scope.laneConnexity.inLinkPid.toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {}
+                });
+                highRenderCtrl.highLightFeatures.push({
+                    id:   $scope.laneConnexity.nodePid.toString(),
+                    layerid: 'rdLink',
+                    type: 'rdnode',
+                    style: {}
+                });
+                highRenderCtrl.drawHighlight();
+                tooltipsCtrl.setStyleTooltip("color:red;");
+                tooltipsCtrl.setCurrentTooltip("已经选择进入点,请选择退出线!");
+                map.currentTool.selectedFeatures.push($scope.laneConnexity.nodePid);
+            }
         } else if (data.index === 1) {
             $scope.laneConnexity.nodePid = parseInt(data.id);
-            $scope.highFeatures.push({
+            highRenderCtrl.highLightFeatures.push({
                 id:   $scope.laneConnexity.nodePid.toString(),
                 layerid: 'rdLink',
                 type: 'rdnode',
@@ -111,7 +135,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         } else if (data.index > 1) {
             if(parseInt(data.properties.fc) != 9){
                 $scope.excitLineArr.push(parseInt(data.id));
-                $scope.highFeatures.push({
+                highRenderCtrl.highLightFeatures.push({
                     id:  data.id.toString(),
                     layerid: 'rdLink',
                     type: 'line',
