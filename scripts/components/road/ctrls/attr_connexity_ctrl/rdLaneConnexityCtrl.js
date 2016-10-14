@@ -71,9 +71,11 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         }
         return parseInt(str, 2).toString(10);
     };
-
-    $scope.initializeData = function () {
+    $scope.initialize = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $scope.initializeData();
+    };
+    $scope.initializeData = function () {
         $scope.showNormalData = [];
         $scope.showTransitData = [];
         $scope.outLanesArr = [];
@@ -158,7 +160,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         }
     }
     if (objCtrl.data) {
-        $scope.initializeData();
+        $scope.initialize();
     }
 
     $scope.addLeftAdditionalLane = function (event) {
@@ -560,5 +562,5 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initialize);
 }]);
