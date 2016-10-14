@@ -354,26 +354,26 @@ fastmap.uikit.ObjectEditController = (function() {
                                 key = "linkPid";
                             for (var j = 0, lenJ = data[item].length; j < lenJ; j++) {
                                 var obj = {};
-                                if (data[item][j]["rowId"]) {
+                                if (oriData[item][j]["rowId"]) {
                                     key = "rowId";
                                     obj = {
                                         flag: true,
                                         index: j
                                     };
-                                    indexOfData[data[item][j]["rowId"]] = obj;
-                                } else if (data[item][j]["pid"]) {
+                                    indexOfData[oriData[item][j]["rowId"]] = obj;
+                                } else if (oriData[item][j]["pid"]) {
                                     key = "pid";
                                     obj = {
                                         flag: true,
                                         index: j
                                     };
-                                    indexOfData[data[item][j]["pid"]] = obj;
-                                } else if (data[item][j]["linkPid"]) {
+                                    indexOfData[oriData[item][j]["pid"]] = obj;
+                                } else if (oriData[item][j]["linkPid"]) {
                                     obj = {
                                         flag: true,
                                         index: j
                                     };
-                                    indexOfData[data[item][j]["linkPid"]] = obj;
+                                    indexOfData[oriData[item][j]["linkPid"]] = obj;
                                 }
                             }
                             for (var k = 0, lenK = oriData[item].length; k < lenK; k++) {
@@ -396,21 +396,21 @@ fastmap.uikit.ObjectEditController = (function() {
                                     objArr.push(obj);
                                 }
                             }
-                            for(var n = 0 ,l = data[item].length ; n < l; n ++){//删除后新增的情况
-                                var flag = true;
-                                for(var m = 0 ,len = oriData[item].length ; m < len; m ++){
-                                    if(data[item][n][key] == oriData[item][m][key]){
-                                        flag = false;
-                                        break;
-                                    }
-                                }
-                                if(flag){
-                                    obj = data[item][n];
-                                    obj["objStatus"] = "INSERT";
-                                    delete obj["geoLiveType"];
-                                    objArr.push(obj);
-                                }
-                            }
+                            // for(var n = 0 ,l = data[item].length ; n < l; n ++){//删除后新增的情况
+                            //     var flag = true;
+                            //     for(var m = 0 ,len = oriData[item].length ; m < len; m ++){
+                            //         if(data[item][n][key] == oriData[item][m][key]){
+                            //             flag = false;
+                            //             break;
+                            //         }
+                            //     }
+                            //     if(flag){
+                            //         obj = data[item][n];
+                            //         obj["objStatus"] = "INSERT";
+                            //         delete obj["geoLiveType"];
+                            //         objArr.push(obj);
+                            //     }
+                            // }
                             if (objArr.length !== 0) {
                                 retObj[item] = objArr;
                             }
