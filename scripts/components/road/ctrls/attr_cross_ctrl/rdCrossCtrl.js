@@ -78,7 +78,9 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                         tempArr.push($scope.rdCrossData.names[j]);
                     }
                 }
-                $scope.nameGroup.push(tempArr);
+                if(tempArr.length !=0){
+                	$scope.nameGroup.push(tempArr);
+                }
             }
             $scope.refreshNames();
         }

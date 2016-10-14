@@ -27,7 +27,7 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
         $scope.selectBtnOpened = false;
         $scope.addBtnOpened = false;
         $scope.advanceBtnOpened = false;
-        $scope.nodeChecked = false;
+        $scope.nodeChecked = true;
         $scope.linkChecked = true;
         // 编辑操作符
         $scope.shapeOperator = "navigate"; // 形狀操作符selectNode,addLink等

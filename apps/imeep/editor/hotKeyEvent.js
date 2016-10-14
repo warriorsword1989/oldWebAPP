@@ -594,17 +594,25 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             adLink.redraw();
                             adNode.redraw();
                             adFace.redraw();
+                            ctrl = 'attr_administratives_ctrl/adNodeCtrl';
+                            tpl = 'attr_adminstratives_tpl/adNodeTpl.html';
                         } else if (param["type"] === "RWNODE") {
                             rwLink.redraw();
                             rwnode.redraw();
+                            ctrl = 'attr_node_ctrl/rwNodeCtrl';
+                            tpl = 'attr_node_tpl/rwNodeTpl.html';
                         } else if (param["type"] === "ZONENODE") {
                             zoneLink.redraw();
                             zoneNode.redraw();
                             zoneFace.redraw();
+                            ctrl = 'attr_zone_ctrl/zoneNodeCtrl';
+                            tpl = 'attr_zone_tpl/zoneNodeTpl.html';
                         } else if (param["type"] === "LUNODE") {
                             luLink.redraw();
                             luNode.redraw();
                             luFace.redraw();
+                            ctrl = 'attr_lu_ctrl/luNodeCtrl';
+                            tpl = 'attr_lu_tpl/luNodeTpl.html';
                         } else if (param["type"] === "LCNODE") {
                             lcLink.redraw();
                             lcNode.redraw();
@@ -678,7 +686,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                     ctrl = 'attr_lc_ctrl/lcNodeCtrl';
                                     tpl = 'attr_lc_tpl/lcNodeTpl.html';
                                 }
-                                treatmentOfChanged(data, param["type"]);
+                                treatmentOfChanged(data, param["type"], ctrl, tpl);
                             }
                         })
                     }else{
@@ -964,6 +972,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
                         layerCtrl.getLayerById("poi").redraw();
@@ -1497,8 +1506,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();
-                        // highRenderCtrl._cleanHighLight();
-                        // highRenderCtrl.highLightFeatures.length = 0;
                         featCodeCtrl.setFeatCode({
                             laneTopo:data.data,
                             rdLaneData:rdLaneData
@@ -1506,6 +1513,34 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         scope.$emit("OPENRDLANETOPO");
                     }
                 });
+            } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
+                if(geo.nodePids && geo.nodePids.length > 0){
+                    var param = {
+                        "command": "BATCH",
+                        "type": "RDCROSS",
+                        "dbId": App.Temp.dbId,
+                        "data": geo
+                    };
+                    //调用编辑接口;
+                    dsEdit.save(param).then(function (data) {
+                        if (data != null) {
+                            rdCross.redraw();
+                            treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
+                        }
+                    });
+                } else {
+                    dsEdit.delete(geo.pid, 'RDCROSS', 1).then(function(data) {
+                        if (data) {
+                            rdCross.redraw();
+                            highRenderCtrl._cleanHighLight();
+                            scope.$emit('SWITCHCONTAINERSTATE', {
+                                'subAttrContainerTpl': false,
+                                'attrContainerTpl': false
+                            });
+                        }
+                    })
+                }
+
             }
             resetPage();
         }

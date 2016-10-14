@@ -236,6 +236,32 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             layerArr: layerCtrl.layers
         });
     };
+    $scope.changeScence = function(item, event) {
+        if (item.id == $scope.selectedScenceId) {
+            return;
+        }
+        $scope.selectedScenceId = item.id;
+
+        var layers = item.dataLayers || [];
+        resetDataLayers(layers);
+        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+            layerArr: layerCtrl.layers
+        });
+    };
+    // $scope.$on("changeSceneLayers", function (event,data) {
+    //     for(var i = 0;i<$scope.scenceArray.length;i++){
+    //         if($scope.scenceArray[i].label == data.data){
+    //             $scope.changeScence($scope.scenceArray[i]);
+    //         }
+    //     }
+    // });
+    eventController.on(eventController.eventTypes.CHANGESCENE, function (data) {
+        for(var i = 0;i<$scope.scenceArray.length;i++){
+            if($scope.scenceArray[i].label == data.data){
+                $scope.changeScence($scope.scenceArray[i]);
+            }
+        }
+    });
     $scope.toggleDataLayer = function(item, event) {
         //单击checkbox的处理
         item.selected = !item.selected;
