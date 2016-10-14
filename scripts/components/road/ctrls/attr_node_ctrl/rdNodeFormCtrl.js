@@ -139,7 +139,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
     if(objectEditCtrl.data) {
         $scope.initializeNodeData();
     }
-    objectEditCtrl.nodeObjRefresh=function(flag) {
+    objectEditCtrl.nodeObjRefresh=function() {
         $scope.initialForms();
     };
     $scope.loadJsAndCtrl=function(obj) {
