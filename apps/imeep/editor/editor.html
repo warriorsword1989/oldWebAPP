@@ -43,12 +43,12 @@
             <div class="fm-top" style="left:60px;right:200px;position:fixed;min-width:1100px;">
                 <div ng-include="editorToolbarTpl"></div>
             </div>
-            <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;position: fixed;" uib-dropdown is-open="status.isopen" auto-close="outsideClick " appendToOpenClass="fadeInDown">
+            <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;position: fixed;" uib-dropdown auto-close="outsideClick " appendToOpenClass="fadeInDown">
                 <button class="fm-top-right-btn profile" title="个人信息"></button>
                 <button class="fm-top-right-btn notice dropdown dropdown-toggle" uib-dropdown-toggle title="我的消息" ng-click="historyMsg();">
                     <div ng-class="{'msg-alert animated':true,'wobble':systemMsg.length}" ng-if="systemMsg.length" ng-bind="systemMsg.length"></div>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right animated-fast msg-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <ul class="dropdown-menu dropdown-menu-right animated-fast msg-dropdown-menu" uib-dropdown-menu aria-labelledby="system-message">
                     <li>
                         <div class="msg-container">
                             <div class="msgContainerlist" ng-show="!showMsgDetail">
