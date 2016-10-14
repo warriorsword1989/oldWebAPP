@@ -972,6 +972,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
                         layerCtrl.getLayerById("poi").redraw();
@@ -1514,6 +1515,60 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         scope.$emit("OPENRDLANETOPO");
                     }
                 });
+            } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
+                var nodes = [];
+                var curNodes = geo.nodePids;
+                var flag = 0;
+                for(var i = 0;i<objEditCtrl.data.nodes.length;i++){
+                    if(curNodes.indexOf(objEditCtrl.data.nodes[i].nodePid) > -1){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(flag){
+                    var param = {
+                        "command": "BATCH",
+                        "type": "RDCROSS",
+                        "dbId": App.Temp.dbId,
+                        "data": geo
+                    };
+                    //调用编辑接口;
+                    dsEdit.save(param).then(function (data) {
+                        if (data != null) {
+                            rdCross.redraw();
+                            treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
+                        }
+                    });
+                } else {
+                    swal({
+                        title: "警告！",
+                        text: "将会删除原来的路口，是否继续？",
+                        html: true,
+                        showCancelButton: true,
+                        allowEscapeKey: false,
+                        confirmButtonText: "是的，我要删除",
+                        confirmButtonColor: "#ec6c62"
+                    }, function(f) {
+                        if (f) { // 执行删除操作
+                            var param = {
+                                "command": "BATCH",
+                                "type": "RDCROSS",
+                                "dbId": App.Temp.dbId,
+                                "data": geo
+                            };
+                            //调用编辑接口;
+                            dsEdit.save(param).then(function (data) {
+                                if (data != null) {
+                                    rdCross.redraw();
+                                    treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
+                                }
+                            });
+                        } else { // 取消删除
+                            return;
+                        }
+                    });
+                }
+
             }
             resetPage();
         }
