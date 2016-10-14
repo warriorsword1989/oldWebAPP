@@ -88,7 +88,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
     /*查询消息详情*/
     this.getDetailCheck = function(param) {
         var defer = $q.defer();
-        ajax.get("sys/sysmsg/detail/check", {
+        ajax.get("sys/sysmsg/readDetail/check", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {

@@ -269,15 +269,6 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		}
     };
 
-	if (objectEditCtrl.data) {
-		$scope.initOtherData();
-	}
-	objectEditCtrl.updateObject = function () {
-		$scope.initOtherData();
-	}
-	$scope.emptyGroupId = function () {
-		$("#difGroupIdText").val("");
-	}
 	$scope.$watch('linkData.kind',function(newValue,oldValue,$scope){
 		if((newValue == 9 || newValue ==10) && (oldValue != 9 && oldValue != 10)){
 			if ($scope.linkData.limits.length == 0) {
