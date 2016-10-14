@@ -40,5 +40,6 @@ L.Mixin.EventTypes = {
     CHANGEPOILIST: "changePoiList", //更换poiList列表
     GETRECTDATA:"getRectData",
     GETFEATURE:"getFeature",
-    SELECTEDVEHICLECHANGE:"selectedVehicleChage" //更改车辆类型时触发
+    SELECTEDVEHICLECHANGE:"selectedVehicleChage", //更改车辆类型时触发,
+    CHANGESCENE:"changeScene" //更改场景
 }

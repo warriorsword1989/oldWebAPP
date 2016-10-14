@@ -712,6 +712,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*批处理*/
 		$scope.$on('job-batch', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.batchRunning = true;
@@ -720,6 +721,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*执行检查*/
+        $scope.$on('job-check', function (event, data) {
+            if (data.status == 'begin') {
+                $scope.checkRunning = true;
+            } else if (data.status == 'end') {
+                $scope.checkRunning = false;
+            }
+        });
 		$scope.$on('job-search', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.searching = true;
@@ -732,6 +741,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("clearAttrStyleUp", function (event, data) {
 			$scope.$broadcast("clearAttrStyleDown");
 		});
+		//场景切换
+		// $scope.$on("changeScene", function (event, data) {
+		// 	$scope.$broadcast("changeSceneLayers",data);
+		// });
 		//道路作业面板是否展开
 		$scope.$on("WORKPANELOPENCLOSE", function (event, data) {
 			$scope.workPanelOpened = !$scope.workPanelOpened;
