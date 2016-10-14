@@ -23,7 +23,7 @@
                       <div><input fm-edit-view type="text" class="fm-control" ng-model="poi.postCode"/></div>
                   </li>
                   <li>
-                      <label>分 类</label>
+                      <label>种 别</label>
                       <div class="select2-option">
                           <select fm-edit-view class="fm-control" ng-model="poi.kindCode"
                                   no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'" search_contains=true
@@ -108,12 +108,12 @@
                 <span style="float:right;">共 <span ng-bind="poi.contacts.length"></span> 条</span>
             </div>
             <div class="content" style="max-height: 300px;">
-                <ul class="fm-ul fm-ul-list">
+                <ul class="fm-ul fm-ul-list" fm-auto-focus contacts-data="poi.contacts">
                     <li ng-repeat="item in poi.contacts">
                         <div>
                             <input type='text' class="fm-control tel-code" ng-class="{'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="5" ng-model="item.code" ng-show="item.contactType==1" ng-blur="checkTelAreaCode($index,$event)" ng-disabled="isSpecialOperation">
                             <span ng-show="item.contactType==1"> - </span>
-                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2,'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="11" ng-blur="checkTelNo($index,$event)" ng-model="item.contact" ng-disabled="isSpecialOperation">
+                            <input type='text' fmFocus ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2,'tel-empty':controlFlag.isTelEmptyArr[$index] ,'chosen-disabled':isSpecialOperation}" maxlength="11" ng-blur="checkTelNo($index,$event)" ng-model="item.contact" ng-disabled="isSpecialOperation">
                         </div>
                         <div>
                             <a href="javascript:void(0);" ng-click="deleteContact($index);" ng-if="!isSpecialOperation"><i class="glyphicon glyphicon-remove-sign"></i></a>
