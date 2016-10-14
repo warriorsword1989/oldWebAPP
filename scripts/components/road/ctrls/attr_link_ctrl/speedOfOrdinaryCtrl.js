@@ -31,7 +31,7 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         {"id":3,"label":"特定条件"}
     ];
     $scope.fromLimitSrcOption=[
-        {"id":0,"label":"未赋值"},
+        {"id":0,"label":"无"},
         {"id":1,"label":"现场标牌"},
         {"id":2,"label":"城区标识"},
         {"id":3,"label":"高速标识"},
@@ -75,12 +75,12 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         var value = 0;
         if (dir == 2) {
             value = parseFloat(item.fromSpeedLimit);
-            if (item.toSpeedLimit && item.toSpeedLimit < item.fromSpeedLimit) {
+            if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
                 value = parseFloat(item.toSpeedLimit);
             }
         } else if (dir == 3) {
             value = parseFloat(item.toSpeedLimit);
-            if (item.fromSpeedLimit && item.fromSpeedLimit < item.toSpeedLimit) {
+            if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
                 value = parseFloat(item.fromSpeedLimit);
             }
         }
@@ -107,7 +107,7 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         item.speedClassWork = 1;
     };
 
-    $scope.changeClassWork = function () {
+    $scope.changeClassWork = function (item) {
         item.speedClassWork = 0;
     };
 
