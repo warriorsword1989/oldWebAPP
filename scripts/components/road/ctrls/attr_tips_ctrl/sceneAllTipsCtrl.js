@@ -208,15 +208,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1102": //红绿灯
                 var trafficLightArr = $scope.dataTipsData.f_array;
                 $scope.inCt = $scope.dataTipsData.inCt;
-                $scope.enableCtl = [];
-                $scope.disableCtl = [];
-                for (var i = 0, len = trafficLightArr.length; i < len; i++) {
-                    if (trafficLightArr[i].ctrl == 1) {
-                        $scope.enableCtl.push(trafficLightArr[i]);
-                    } else {
-                        $scope.disableCtl.push(trafficLightArr[i]);
+                $scope.dataTipsData.enableCtl = [];
+                $scope.dataTipsData.disableCtl = [];
+                // if(trafficLightArr){
+                try {
+                    for (var i = 0, len = trafficLightArr.length; i < len; i++) {
+                        if (trafficLightArr[i].ctrl == 1) {
+                            $scope.dataTipsData.enableCtl.push(trafficLightArr[i]);
+                        } else {
+                            $scope.dataTipsData.disableCtl.push(trafficLightArr[i]);
+                        }
                     }
+                } catch (e) {
+                    console.log(e.toLocaleString());
                 }
+                // }
                 $scope.dataTipsData.isTrafficLights = true;
                 break;
             case "1103": //红绿灯方向
@@ -441,6 +447,16 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 $scope.dataTipsData.isConditionLimit = true;
+                break;
+            case "1112":
+                var limitDirObj = {
+                    0: '未调查',
+                    1: '左',
+                    2: '右',
+                    3: '上'
+                };
+                $scope.dataTipsData.limitDir = limitDirObj[$scope.dataTipsData.loc];
+                $scope.dataTipsData.isVariableSpeedLimit = true;
                 break;
             case "1113":
                 var limitValue = $scope.dataTipsData.value;
@@ -792,47 +808,46 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1901": //道路名
                 $scope.nArrayData = $scope.dataTipsData.n_array;
                 /*       highLightFeatures.push({
-                           id:$scope.dataTipsData.rowkey.toString(),
-                           layerid:'gpsLine',
-                           type:'gpsLine',
-                           style:{}
-
-                       });*/
+                 id:$scope.dataTipsData.rowkey.toString(),
+                 layerid:'gpsLine',
+                 type:'gpsLine',
+                 style:{}
+                 });*/
                 break;
             case "2001": //测线
                 $scope.returnLineType = function(code) {
-                        switch (code) {
-                            case 0:
-                                return '作业中';
-                            case 1:
-                                return "高速道路";
-                            case 2:
-                                return "城市高速";
-                            case 3:
-                                return "国道";
-                            case 4:
-                                return "省道";
-                            case 5:
-                                return "预留";
-                            case 6:
-                                return "县道";
-                            case 7:
-                                return "乡镇村道路";
-                            case 8:
-                                return "其他道路";
-                            case 9:
-                                return "非引导道路";
-                            case 10:
-                                return "步行道路";
-                            case 11:
-                                return "人渡";
-                            case 13:
-                                return "轮渡";
-                            case 15:
-                                return "10级路（障碍物）";
-                        }
+                    switch (code) {
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return "高速道路";
+                        case 2:
+                            return "城市高速";
+                        case 3:
+                            return "国道";
+                        case 4:
+                            return "省道";
+                        case 5:
+                            return "预留";
+                        case 6:
+                            return "县道";
+                        case 7:
+                            return "乡镇村道路";
+                        case 8:
+                            return "其他道路";
+                        case 9:
+                            return "非引导道路";
+                        case 10:
+                            return "步行道路";
+                        case 11:
+                            return "人渡";
+                        case 13:
+                            return "轮渡";
+                        case 15:
+                            return "10级路（障碍物）";
                     }
-                    /*测线来源*/
+                }
+                /*测线来源*/
                 $scope.returnLineSrc = function(code) {
                     switch (code) {
                         case 0:
@@ -869,6 +884,19 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             "2": "顺方向",
             "3": "逆方向"
         };
+        var sourceCodeObj = {
+            1:'情报',
+            2:'外业现场',
+            3:'代理店',
+            4:'监察',
+            5:'常规',
+            6:'人行过道',
+            7:'多源',
+            8:'众包',
+            11:'成果数据mark',
+            13:'数据挖掘'
+        };
+        $scope.sourceCode = sourceCodeObj[$scope.dataTipsData.s_sourceCode];
         $scope.rdDir = dir[$scope.dataTipsData.rdDir];
         //高亮
         highRenderCtrl.highLightFeatures = highLightFeatures;
