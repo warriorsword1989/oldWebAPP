@@ -6,6 +6,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdcross = layerCtrl.getLayerById('rdCross');
+    var relation = layerCtrl.getLayerById('relationData');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -34,7 +35,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
             type: 'rdCross',
             style: {
                 fillColor: '#ff00ff',
-                radius: 7
+                radius: 3
             }
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
@@ -77,7 +78,9 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                         tempArr.push($scope.rdCrossData.names[j]);
                     }
                 }
-                $scope.nameGroup.push(tempArr);
+                if(tempArr.length !=0){
+                	$scope.nameGroup.push(tempArr);
+                }
             }
             $scope.refreshNames();
         }
@@ -202,6 +205,7 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         dsEdit.delete(objId, 'RDCROSS', 1).then(function(data) {
             if (data) {
                 rdcross.redraw();
+                relation.redraw();
                 highRenderCtrl._cleanHighLight();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,

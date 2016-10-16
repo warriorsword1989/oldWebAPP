@@ -10,6 +10,8 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var rdNode = layerCtrl.getLayerById("rdNode");
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdCross");
+    var relation = layerCtrl.getLayerById('relationData');
+    var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -20,7 +22,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     $scope.modelArray = [false, false, false, false, false, false];
     //改变模块的背景
     $scope.initializeLinkData = function() {
-        $scope.changeModule('basicModule',0)
         for (var layer in layerCtrl.layers) {
             if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[layer].options.visible) {
                 for (var i = 0; i < $scope.modelArray.length; i++) {
@@ -120,20 +121,24 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 }
                 $scope.modelArray[i] = true;
             } else if (ind == i && ind == 2) {
-                for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
-                        layerCtrl.layers[layer].options.isUpDirect = false;
-                        layerCtrl.layers[layer].options.visible = true;
-                        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
-                            layerArr: layerCtrl.layers
-                        });
-                        break;
-                    }
-                }
+                // for (var layer in layerCtrl.layers) {
+                //     if (layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
+                //         layerCtrl.layers[layer].options.isUpDirect = false;
+                //         layerCtrl.layers[layer].options.visible = true;
+                //         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                //             layerArr: layerCtrl.layers
+                //         });
+                //         break;
+                //     }
+                // }
+                // $scope.$emit("changeScene", {data:"限速场景"});
+                eventController.fire(eventController.eventTypes.CHANGESCENE, {
+                    data:"限速场景"
+                });
                 $scope.modelArray[i] = true;
             } else if (ind == i) {
                 for (var layer in layerCtrl.layers) {
-                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC" || layerCtrl.layers[layer].options.requestType === "RDLINKSPEEDLIMIT") {
+                    if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                         layerCtrl.layers[layer].options.isUpDirect = true;
                         layerCtrl.layers[layer].options.visible = false;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
@@ -142,6 +147,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                         // break;
                     }
                 }
+                eventController.fire(eventController.eventTypes.CHANGESCENE, {
+                    data:"常规场景"
+                });
                 $scope.modelArray[i] = true;
             } else {
                 $scope.modelArray[i] = false;
@@ -229,26 +237,45 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         if(!$scope.linkData){
             return;
         }
+        ////如果为双方向时对车道数进行判断;
+        //if($scope.linkData.direct==1){
+        //    if($scope.linkData.laneLeft==$scope.linkData.laneRight&&$scope.linkData.laneLeft!=0&&$scope.linkData.laneRight!=0){
+        //        $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
+        //        $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+        //    }
+        //    if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
+        //        $scope.linkData.laneNum=0;
+        //        $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
+        //        $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
+        //    }
+        //}
+        ////如果为单方向时,左右车道清零;
+        //if($scope.linkData.direct==2||$scope.linkData.direct==3){
+        //    $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+        //    $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
+        //}
 
-        //如果为双方向时对车道数进行判断;
-        if($scope.linkData.direct==1){
-            if($scope.linkData.laneLeft==$scope.linkData.laneRight){
-                $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
-                $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+        //车道幅宽维护;
+        if($scope.linkData.laneNum){
+            if($scope.linkData.laneNum==1){
+                $scope.linkData.width = 30;
+            }else if($scope.linkData.laneNum>=2&&$scope.linkData.laneNum<=3){
+                $scope.linkData.width = 55;
+            }else{
+                $scope.linkData.width = 130;
             }
-            if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
-                $scope.linkData.laneNum=0;
-                $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
-                $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
+        }else if($scope.linkData.laneLeft||$scope.linkData.laneRight){
+            var temp = parseInt($scope.linkData.laneLeft)+parseInt($scope.linkData.laneRight);
+            if(temp==1){
+                $scope.linkData.width = 30;
+            }else if(temp>=2&&temp<=3){
+                $scope.linkData.width = 55;
+            }else{
+                $scope.linkData.width = 130;
             }
+        }else{
+            $scope.linkData.width = 0;
         }
-        //如果为单方向时,左右车道清零;
-        if($scope.linkData.direct==2||$scope.linkData.direct==3){
-            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-            $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
-        }
-
-
 
 
         if ($scope.linkData.forms.length == 0) {
@@ -309,6 +336,9 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         dsEdit.update($scope.linkData.pid, "RDLINK", objectCtrl.changedProperty).then(function(data) {
             if (data) {
                 rdLink.redraw();
+                if(objectCtrl.changedProperty.hasOwnProperty("speedlimits")){
+                    rdLinkSpeedLimit.redraw();
+                }
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
@@ -322,7 +352,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                dsEdit.getByPid(data.pid, "RDLINK").then(function(ret) {
+                dsEdit.getByPid($scope.linkData.pid, "RDLINK").then(function(ret) {
 					if (ret) {
 						objectCtrl.setCurrentObject('RDLINK', ret);
 						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
@@ -341,6 +371,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
                 rdLink.redraw();
                 rdNode.redraw();
                 rdCross.redraw();
+                relation.redraw();
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures.length = 0;
                 if (map.floatMenu) {
@@ -370,26 +401,6 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     };
     $scope.changeLink = function(ind, linkId) {
         $scope.brigeIndex = ind;
-        //        Application.functions.getRdObjectById(linkId, "RDLINK", function (data) {
-        //            if (data.errcode === -1) {
-        //                return;
-        //            }
-        //            var linkArr = data.data.geometry.coordinates,points = [];
-        //            for (var i = 0, len = linkArr.length; i < len; i++) {
-        //                var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-        //                points.push(point);
-        //            }
-        //            map.panTo({lat: points[0].y, lon: points[0].x});
-        //            var line = fastmap.mapApi.lineString(points);
-        //            selectCtrl.onSelected({geometry: line, id: data.data.pid});
-        //            objectCtrl.setCurrentObject("RDLINK",data.data);
-        //            var linkObj = {
-        //                "loadType":"attrTplContainer",
-        //                "propertyCtrl":"scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-        //                "propertyHtml":"../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-        //            };
-        //            $scope.$emit("transitCtrlAndTpl", linkObj);
-        //        });
         dsEdit.getByPid(linkId, "RDLINK").then(function(data) {
             if (data) {
                 var linkArr = data.geometry.coordinates,

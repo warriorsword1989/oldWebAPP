@@ -26,6 +26,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
         {"id":3,"label":"特定条件"}
     ];
 
+
     //普通限速
     $scope.minusoridinarySpeed = function (id) {
         //$scope.rticData.speedlimits.splice(id, 1);

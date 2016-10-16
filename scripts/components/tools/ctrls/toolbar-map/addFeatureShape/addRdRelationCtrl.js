@@ -11,6 +11,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('rdLink');
         var rwLink = layerCtrl.getLayerById('rwLink');
+        var lcLink = layerCtrl.getLayerById('lcLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -72,8 +73,18 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          */
         $scope.containsRwLink = function(data) {
             return data.filter(function(item) {
-                return item["type"] === "RWLINK";
-            }).length !== 0;
+                    return item["type"] === "RWLINK";
+                }).length !== 0;
+        };
+        /**
+         * 数据中是否有lcLink
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.containsLcLink = function(data) {
+            return data.filter(function(item) {
+                    return item["type"] === "LCLINK";
+                }).length !== 0;
         };
         /**
          * 运算两条线的交点坐标
@@ -148,13 +159,21 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
             }
             /*重绘link颜f色*/
             for (var i = 0; i < $scope.jsonData.linkObjs.length; i++) {
+                var tempObj = {
+                    RDLINK:'rdLink',
+                    RWLINK:'rwLink',
+                    LCLINK:'lcLink'
+                };
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
                 highRenderCtrl.highLightFeatures.push({
                     id: $scope.jsonData.linkObjs[i].pid.toString(),
-                    layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
-                    type: 'RDGSC',
+                    // layerid: $scope.jsonData.linkObjs[i]["type"] === "RDLINK" ? 'rdLink' : 'rwLink',
+                    layerid: tempObj[$scope.jsonData.linkObjs[i]["type"]],
+                    type: 'line',
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
-                        size: 5
+                        strokeWidth: 5,
+                        strokeColor:COLORTABLE[i]
                     }
                 });
                 highRenderCtrl.drawHighlight();
@@ -186,15 +205,24 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     });
                     map.currentTool.enable();
                 }
-                if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
-                    map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
-                        map: map,
-                        currentEditLayer: rwLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.rwEvent.enable();
-                }
+            if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rwLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
+            if ($scope.containsLcLink($scope.jsonData.linkObjs)) {
+                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: lcLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+                map.currentTool.rwEvent.enable();
+            }
                 rdLink.options.selectType = 'link';
                 rdLink.options.editable = true;
                 eventController.off(eventController.eventTypes.GETLINKID, $scope.changeIndexCallback)
@@ -622,12 +650,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 shapeCtrl.toolsSeparateOfEditor("addRdGsc", {
                     map: map,
-                    layer: [rdLink, rwLink],
+                    layer: [rdLink, rwLink,lcLink],
                     type: "rectangle"
                 });
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     $scope.jsonData = null;
+                    highRenderCtrl._cleanHighLight();
                     var data = event.data,
                         highlightFeatures = [],
                         containObj = {},
@@ -657,13 +686,21 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     /*高亮link*/
                     for (var i = 0, lenI = dealData.length; i < lenI; i++) {
+                        var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
+                        var tempObj = {
+                            RDLINK:'rdLink',
+                            RWLINK:'rwLink',
+                            LCLINK:'lcLink'
+                        };
                         highlightFeatures.push({
                             id: dealData[i].data.properties.id.toString(),
-                            layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
-                            type: 'RDGSC',
+                            // layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
+                            layerid: tempObj[dealData[i].data.properties.featType],
+                            type: 'line',
                             index: i,
                             style: {
-                                size: 5
+                                strokeWidth: 5,
+                                strokeColor:COLORTABLE[i]
                             }
                         })
                     }
@@ -681,21 +718,53 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             for (var j = i + 1; j < dealData.length; j++) {
                                 if (i != j) {
                                     var lineGeoArr = function(mark) {
-                                        return [dealData[mark].line.points[0], dealData[mark].line.points[1]];
+                                        return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length-1]];
+                                    };
+                                    if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
+                                        crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                     }
-                                    crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
                                 }
                             }
                         }
                         crossGeos = $scope.ArrUnique(crossGeos);
+                    } else if (dealData.length == 1) {
+                        if(dealData[0].line.points.length > 3){
+                            var shapePoints = dealData[0].line.points; //形状点
+                            for(var i=0;i<shapePoints.length-1;i++){
+                                for(var j=1;j<shapePoints.length;j++){
+                                    if(i<j-1 && (shapePoints[j].x!=shapePoints[i].y) && shapePoints[j+1]){
+                                        if($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]])){
+                                            crossGeos.push($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]]));
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            swal("错误信息", "所选Link无自相交点，请重新选择立交点位！", "error");
+                            highRenderCtrl._cleanHighLight();
+                        }
                     }
                     //判断相交点数
                     if (crossGeos.length == 0) {
-                        swal("错误信息", "所选区域无相交点，请重新选择立交点位！", "error");
+                        swal("错误信息", "所选区域无相交点，如果是自相交只能选择一条link，请重新选择立交点位！", "error");
+                        highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
+                        var editLayer = layerCtrl.getLayerById('edit');
+                        var feature = {
+                            components:[],
+                            points:[]
+                        };
+                        //组装一个线
+                        /*for(var i=0;i<crossGeos.length;i++){
+                            feature = crossGeos[i];
+                            feature.type = 'Symbol';
+                            layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
+                            editLayer.drawGeometry = feature;
+                            editLayer.draw(feature, editLayer);//在编辑图层中画出需要编辑的几何体
+                        }*/
+                        highRenderCtrl._cleanHighLight();
                         swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
-                        // tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
                     } else {
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/
@@ -707,9 +776,19 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             };
                             $scope.jsonData.linkObjs.push(tempObj);
                         }
+                        //如果自相交传两条一样的link
+                        if(dealData.length == 1) {
+                            var sameObj = {
+                                'pid': $scope.jsonData.linkObjs[0].pid,
+                                'type': $scope.jsonData.linkObjs[0].type,
+                                'zlevel': 1
+                            };
+                            $scope.jsonData.linkObjs.push(sameObj);
+                        }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
-                        selectCtrl.onSelected($scope.jsonData);
+                        shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
+                        // selectCtrl.onSelected($scope.jsonData);
                     }
                 });
             }  else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
@@ -1506,7 +1585,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     createBranchFlag: true,
                     currentEditLayer: rdLink,
                     shapeEditor: shapeCtrl,
-                    operationList:['line','point']
+                    operationList:['line','point','line']
                 });
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
@@ -1533,7 +1612,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 if(continueLinks.data[i].pid != $scope.rdSe.inLinkPid){
                                     $scope.rdSe.outLinkPid = continueLinks.data[i].pid ;
 
-                                    highLightFeatures.push({
+                                    highRenderCtrl.highLightFeatures.push({
                                         id: $scope.rdSe.outLinkPid.toString(),
                                         layerid: 'rdLink',
                                         type: 'line',
@@ -1593,6 +1672,28 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             // featCodeCtrl.setFeatCode($scope.rdSe);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
+                    }else if (data.index === 1){ //进入点
+
+                        map.currentTool.snapHandler.snaped = false;
+                        map.currentTool.clearCross();
+                        map.currentTool.snapHandler._guides = [];
+
+                        map.currentTool.snapHandler.addGuideLayer(rdLink);
+
+                        $scope.rdSe.nodePid = parseInt(data.id);
+
+                        highLightFeatures.push({
+                            id: $scope.rdSe.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'node',
+                            style: {
+                                color: 'yellow'
+                            }
+                        });
+                        highRenderCtrl.drawHighlight();
+                        map.currentTool.selectedFeatures.push($scope.rdSe.nodePid.toString());
+                        featCodeCtrl.setFeatCode($scope.rdSe);
+                        tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                     } else if (data.index >= 2){ //退出线
                         $scope.rdSe.outLinkPid = parseInt(data.id);
 
@@ -1605,7 +1706,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             id: $scope.rdSe.outLinkPid.toString(),
                             layerid: 'rdLink',
                             type: 'line',
-                            style: {}
+                            style: {
+                                color: '#21ed25'
+                            }
                         });
                         highRenderCtrl.drawHighlight();
                         map.currentTool.selectedFeatures.push($scope.rdSe.outLinkPid.toString());
@@ -2070,18 +2173,22 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             if(outLinkData.direct==1){
                                 $scope.jointNode = outLinkData.eNodePid==$scope.limitRelation.nodePid?outLinkData.sNodePid:outLinkData.eNodePid;
                             }else if(outLinkData.direct==2||outLinkData.direct==3){
-                                if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2){
-                                    $scope.jointNode = outLinkData.eNodePid;
+                                if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2||outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
+                                    if(outLinkData.sNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==2){
+                                        $scope.jointNode = outLinkData.eNodePid;
+                                    }else{
+                                        $scope.jointNode = outLinkData.sNodePid;
+                                    }
                                 }else{
-                                    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
+                                    tooltipsCtrl.setCurrentTooltipText("退出线方向错误!");
                                     return;
                                 }
-                                if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
-                                    $scope.jointNode = outLinkData.sNodePid;
-                                }else{
-                                    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
-                                    return;
-                                }
+                                //if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
+                                //    $scope.jointNode = outLinkData.sNodePid;
+                                //}else{
+                                //    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
+                                //    return;
+                                //}
                             }else{
                                 tooltipsCtrl.setCurrentTooltipText("该道路方向不确定!");
                                 map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);

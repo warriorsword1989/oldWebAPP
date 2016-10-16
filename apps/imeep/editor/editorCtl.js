@@ -257,23 +257,60 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}
 		};
 
-		var loadToolsPanel = function (callback) {
-			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/toolbarCtrl.js').then(function () {
-				$scope.mapToolbar = appPath.root + 'scripts/components/tools/tpls/toolbar-map/toolbarTpl.htm';
-				if (callback) {
-					callback();
-				}
+		var loadToolsPanel = function () {
+			$ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/toolbarPanelCtrl.js').then(function () {
+				$scope.editorToolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarPanelTpl.htm';
 			});
 			$ocLazyLoad.load(appPath.poi + 'ctrls/edit-tools/optionBarCtl').then(function () {
 				$scope.consoleDeskTpl = appPath.root + appPath.poi + 'tpls/edit-tools/optionBarTpl.html';
 			});
-//			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
-//				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
-//			});
 		};
+		/*//我的消息
+		$scope.historyMsg = function(){
+			var param = {
+				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+				pageNum:5,
+				pageSize:1
+			};
+			dsFcc.getReadMsg(param).then(function(data){
+				console.log(data)
+			});
+		};
+		//查看详细消息
+		$scope.showDetailMsg = function(){
+			var param = {
+				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+				msgId:116
+			};
+			dsFcc.getDetailCheck(param).then(function(data){
+				console.log(data)
+			});
+		};*/
 		// 消息推送
 		$scope.msgNotify = function(){
-			if(App.Config.msgNotify){
+			// 创建一个Socket实例
+			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5));
+			sock.onopen = function() {
+				console.log('已经建立websocket连接...');
+			};
+			sock.onmessage = function(e) {
+				console.log('message', JSON.parse(e.data));
+				if(JSON.parse(e.data).length == 1){
+					$scope.systemMsg.push(JSON.parse(e.data)[0]);
+				}else if(JSON.parse(e.data).length > 1){
+					$scope.systemMsg = JSON.parse(e.data);
+				}
+				$scope.sysMsgItem = $scope.systemMsg;
+				$scope.$apply();
+			};
+			sock.onclose = function() {
+				console.log('关闭websocket连接...');
+			};
+			window.onbeforeunload=function (){
+				sock.close();
+			};
+			// sock.close();
+			/*if(App.Config.msgNotify){
 				var timer = $interval(function() {
 					dsEdit.getMsgNotify().then(function(data) {
 						if (data.errcode == 0) {
@@ -289,7 +326,71 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 						}
 					});
 				}, App.Config.msgNotify);
+			}*/
+		};
+		//消息类型切换
+		$scope.switchMsgType = function(type){
+			$scope.sysMsgItem = [];
+			if(type == 'new'){
+				$scope.sysMsgItem = $scope.systemMsg;
+			}else{
+				var param = {
+					userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+					pageNum:$scope.currentPage,
+					pageSize:5
+				};
+				dsFcc.getReadMsg(param).then(function(data){
+					if(data){
+						$scope.sysMsgItem = data.result;
+						$scope.totalItems = data.totalCount;
+					}
+				});
 			}
+			$scope.sysMsgType = type;
+		};
+		//历史消息翻页
+		$scope.pageChanged = function(pageNow) {
+			var param = {
+				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+				pageNum:pageNow,
+				pageSize:5
+			};
+			dsFcc.getReadMsg(param).then(function(data){
+				if(data){
+					$scope.sysMsgItem = data.result;
+					$scope.totalItems = data.totalCount;
+					$scope.currentPage = pageNow;
+				}
+			});
+		};
+		//查看详细信息
+		$scope.showDetailMsg = function(id){
+			if(id == -1){
+				$scope.showMsgDetail = false;
+			}else{
+				var param = {
+					// userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+					msgId:id
+				};
+				if($scope.sysMsgType == 'new'){
+					dsFcc.getReadCheck(param).then(function(data){
+						console.log(data)
+						$scope.sysMsgObj = data[0];
+						for(var i=0;i<$scope.systemMsg.length;i++){
+							if($scope.systemMsg[i].msgId == id){
+								$scope.systemMsg.splice(i,1);
+								return;
+							}
+						}
+					});
+				}else{
+					dsFcc.getDetailCheck(param).then(function(data){
+						$scope.sysMsgObj = data[0];
+					});
+				}
+				$scope.showMsgDetail = true;
+			}
+
 		};
 		//页面初始化方法调用
 		var initPage = function () {
@@ -311,14 +412,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					loadMap(data);
 					var promises = loadMetaData();
 					$q.all(promises).then(function () {
-						loadToolsPanel(function () {
-							if (data.type == 0) { // POI任务
-								$scope.changeProject(1);
-							} else { // 一体化、道路、专项任务
-								$scope.changeProject(2);
-							}
-							bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
-						});
+						loadToolsPanel();
+						if (data.type == 0) { // POI任务
+							$scope.changeProject(1);
+						} else { // 一体化、道路、专项任务
+							$scope.changeProject(2);
+						}
+						bindHotKeys($ocLazyLoad, $scope, dsEdit, appPath); //注册快捷键
 					});
 				}
 			});
@@ -328,8 +428,21 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			}
 			$scope.logMsgStyle = {
 				'display':'block'
-			}
+			};
 			$scope.msgNotify();
+			//默认显示新消息
+			$scope.sysMsgType = 'new';
+			//未读消息
+			$scope.systemMsg = [];
+			//系统消息详细信息
+			$scope.sysMsgObj = {
+				msgContent:'',
+				msgId:0,
+				msgTitle:''
+			};
+			$scope.showMsgDetail = false;
+			//历史消息当前页1
+			$scope.currentPage = 1;
 		};
 		//高亮作业区域方法;
 		function hightLightWorkArea(substaskGeomotry) {
@@ -405,7 +518,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			//eventCtrl.fire(eventCtrl.eventTypes.CANCELEVENT)
 		};
 		$scope.goback = function () {
-			window.location.href = appPath.root + "apps/imeep/task/taskSelection.html?access_token=" + App.Temp.accessToken;
+			window.location.href = appPath.root + "apps/imeep/task/taskPage.html?access_token=" + App.Temp.accessToken;
 		};
 		$scope.advancedTool = null;
 		/*监听弹窗*/
@@ -431,8 +544,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/autofillJobPanelTpl.html';
 					break;
 				case 'batch':
-					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelCtrl').then(function () {
-						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
+					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/batchJobPanelNewCtrl').then(function () {
+						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelNewTpl.html';
 					});
 					// $scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/batchJobPanelTpl.html';
 					break;
@@ -443,6 +556,15 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					break;
 			}
 			$scope.advancedTool = toolType;
+		};
+		$scope.closeSpecialWorkPanelTpl =  function(){
+			$scope.workPanelOpened = false;
+		};
+		$scope.openSpecialWorkPanelTpl = function(){
+			$scope.workPanelOpened = true;
+			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
+				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
+			});
 		};
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;
@@ -588,6 +710,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*批处理*/
 		$scope.$on('job-batch', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.batchRunning = true;
@@ -596,6 +719,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				// $scope.closeAdvancedToolsPanel();
 			}
 		});
+        /*执行检查*/
+        $scope.$on('job-check', function (event, data) {
+            if (data.status == 'begin') {
+                $scope.checkRunning = true;
+            } else if (data.status == 'end') {
+                $scope.checkRunning = false;
+            }
+        });
 		$scope.$on('job-search', function (event, data) {
 			if (data.status == 'begin') {
 				$scope.searching = true;
@@ -608,6 +739,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("clearAttrStyleUp", function (event, data) {
 			$scope.$broadcast("clearAttrStyleDown");
 		});
+		//场景切换
+		// $scope.$on("changeScene", function (event, data) {
+		// 	$scope.$broadcast("changeSceneLayers",data);
+		// });
 		//道路作业面板是否展开
 		$scope.$on("WORKPANELOPENCLOSE", function (event, data) {
 			$scope.workPanelOpened = !$scope.workPanelOpened;
@@ -673,6 +808,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("showSamePoi", function (event, data) {
 			$scope.$broadcast("showSamePoishap");
 		});
+		/**
+		 * 接收刷新检查结果事件
+		 */
+		$scope.$on("refreshCheckResultToMainPage",function (event,data){
+			$scope.$broadcast("refreshCheckResult");
+		});
+
 		/*修改收费站通道信息，刷新ETC code*/
 		$scope.$on("tollGateCardType", function (event, data) {
 			$scope.$broadcast('refreshEtcCode',true);

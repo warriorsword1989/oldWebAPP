@@ -138,6 +138,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 dsMeta.queryFoodType($scope.poi.kindCode).then(function(ret) {
                     parseFoodType(ret);
+                    initFoodType($scope.poi.kindCode);
+                    
                 });
                 break;
             case 7: //加气站
@@ -237,6 +239,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     break;
             }
         }
+
+
+        //品牌字段特殊处理
+        var chain = objectCtrl.data.chain;
+        if(chain == 0){
+            objectCtrl.data.chain = "";
+        }
     }
 
     /*默认显示baseInfo的tab页*/
@@ -267,6 +276,22 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 }
             }
         }
+        
+    }
+    
+    //根据种别给深度信息的的菜品风味赋不同的默认值
+    function initFoodType(kindCode) {
+    	if($scope.poi.kindCode == "110200"){//快餐
+    		$scope.poi.restaurants[0].foodType1["3009"] = true;
+    	}else if($scope.poi.kindCode == "110101"){//中餐馆
+    		$scope.poi.restaurants[0].foodType1["2016"] = true;
+    	}else if($scope.poi.kindCode == "110103"){//地方风味
+    		$scope.poi.restaurants[0].foodType1["2016"] = true;
+    	}else if($scope.poi.kindCode == "110302"){//冷饮店
+    		$scope.poi.restaurants[0].foodType2["3015"] = true;
+    	}else if($scope.poi.kindCode == "110102"){//异国风味
+    		$scope.poi.restaurants[0].foodType1["1001"] = true;
+    	}
     }
     //将电话区号和长度保存至缓存，不用每次都查询电话的长度
     $scope.teleCodeToLength = {};
@@ -352,7 +377,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             swal("提示", '此数据为已提交数据，不能做修改属性！', "info");
             return;
         }
-        clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
+        clearDeepInfo();//清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
 
         attrToDBC(); //部分属性转全角
 
@@ -393,6 +418,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
             if(data){
                 if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                    if(chaged.hasOwnProperty("kindCode") || chaged.hasOwnProperty("indoor")){
+                        poiLayer.redraw();
+                    }
                     if (map.floatMenu) {
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;

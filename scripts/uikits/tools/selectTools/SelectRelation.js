@@ -31,7 +31,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         for (var item in this.editLayerIds) {
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
-        this.popup = L.popup();
+        this.popup = L.popup({className:'featuresContent'});
         this.clickcount = 0;
 
     },
@@ -68,6 +68,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         setTimeout(function () {
             if(that.clickcount > 1){
                 that.clickcount = 0;
+                that.onDbClick(event);
                 return;
             }else if(that.clickcount == 1){
                 that.clickcount = 0;

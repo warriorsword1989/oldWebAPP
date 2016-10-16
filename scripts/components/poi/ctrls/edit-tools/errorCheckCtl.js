@@ -46,7 +46,6 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
         if(highRenderCtrl.highLightFeatures!=undefined){
             highRenderCtrl.highLightFeatures.length = 0;
         }
-        var highlightFeatures = [];
         dsEdit.getByPid(id,type).then(function (data) {
             if(data){
                 switch (type){
@@ -71,7 +70,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
                         });
                         getFeatDataCallback(data, id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                         break;
-                    case "IX_POI":
+                    case "IXPOI":
                         highRenderCtrl.highLightFeatures.push({
                             id:id.toString(),
                             layerid:'poi',

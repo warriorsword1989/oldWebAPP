@@ -19,7 +19,7 @@
     <div id="loadPropertyDiv" class="panel-collapse col-sm-12">
         <div class="info-well" id="nameInfo{{item[0].nameGroupid}}" ng-repeat="item in nameGroup | orderBy: 'nameGroupid'">
             <div class="info-head-well">
-                名称组
+                名称组号
                 <span ng-bind="item[0].nameGroupid" style="line-height: 2.5;"></span>
                 <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
                 <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=details[0].names.length-1"></span>
@@ -29,9 +29,9 @@
                 <span class="info-option-item info-remove-ico pull-right" ng-click="removeNameItem(nameObj)"> × </span>
                 <div class="line line-dashed b-b line-lg">
                     <div class="d-group">
-                        <div class="d-name">名称组号：</div>
+                        <div class="d-name">名称号码：</div>
                         <div class="d-value">
-                            <input type="text" class="d-input" ng-model="nameObj.nameGroupid" readonly>
+                            <input type="text" class="d-input chosen-disabled" ng-model="nameObj.pid" disabled>
                         </div> 
                     </div>
                     <div class="d-group">

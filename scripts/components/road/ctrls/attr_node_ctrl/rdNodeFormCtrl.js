@@ -126,10 +126,6 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
     };
 
     $scope.initialForms = function(){
-        if($scope.rdNodeData.forms.length>0){
-            $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
-            $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
-        }
         $scope.newFromOfWRoadDate=[];
         for(var p in $scope.rdNodeData.forms){
             for(var s in $scope.fromOfWayOption){
@@ -143,7 +139,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
     if(objectEditCtrl.data) {
         $scope.initializeNodeData();
     }
-    objectEditCtrl.nodeObjRefresh=function(flag) {
+    objectEditCtrl.nodeObjRefresh=function() {
         $scope.initialForms();
     };
     $scope.loadJsAndCtrl=function(obj) {
@@ -205,7 +201,13 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+                dsEdit.getByPid($scope.rdNodeData.pid, "RDNODE").then(function(ret) {
+                    if (ret) {
+                        objectEditCtrl.setCurrentObject('RDNODE', ret);
+                        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+                    }
+                });
+                // objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             }
             $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         });

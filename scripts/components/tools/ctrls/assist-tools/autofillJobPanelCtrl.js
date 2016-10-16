@@ -24,7 +24,29 @@ angular.module('app').controller("AutofillJobPanelCtrl", ['$scope', '$interval',
         //         }
         //     }
         // });
-        $scope.tipsObj = fastmap.uikit.FeatureConfig.tip;
+        var tipsObj = fastmap.uikit.FeatureConfig.tip;
+        var arr =[];
+        for(var item in tipsObj){
+            arr.push({id:item,name:tipsObj[item].name,checked:tipsObj[item].checked});
+            if(tipsObj[item].checked){
+                $scope.selectedTips[item] = tipsObj[item].name;
+            }
+        }
+        function compare(propertyName) {
+            return function(object1, object2) {
+                var value1 = object1[propertyName].length;
+                var value2 = object2[propertyName].length;
+                if (value2 < value1) {
+                    return 1;
+                } else if (value2 > value1) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        arr.sort(compare("name"));
+        $scope.tipsObj = arr;
         $scope.running = false;
         $scope.progress = 0;
         $scope.doExecute = function() {

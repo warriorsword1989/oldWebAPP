@@ -5,6 +5,7 @@ var basicApp = angular.module("app");
 basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 	var selectCtrl = fastmap.uikit.SelectController();
 	var objectEditCtrl = fastmap.uikit.ObjectEditController();
+    var eventController = fastmap.uikit.EventController();
 	$scope.kindOptions = [
 		{"id": 1, "label": "1 高速道路"},
 		{"id": 2, "label": "2 城市高速"},
@@ -19,16 +20,16 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": 13, "label": "13 轮渡"}
 	];
 	$scope.laneClassOptions = [
-		{"id": 0, "label": "0: 未赋值"},
+        {"id": 0, "label": "0: 其他道路"},
 		{"id": 1, "label": "1: 一条车道"},
 		{"id": 2, "label": "2: 2或3条"},
 		{"id": 3, "label": "3: 4条及以上"}
 	];
 	$scope.imiCodeOptions = [
-		{"id": 0, "label": "其他道路"},
-		{"id": 1, "label": "交叉点内部道路"},
-		{"id": 2, "label": "转弯道"},
-		{"id": 3, "label": "无法描述的"}
+		{"id": 0, "label": "0: 其他道路"},
+		{"id": 1, "label": "1: 交叉点内部道路"},
+		{"id": 2, "label": "2: 转弯道"},
+		{"id": 3, "label": "3: 无法描述的"}
 	];
 	$scope.functionClassOptions = [
 		{"id": 1, "label": "1: 等级1"},
@@ -136,6 +137,8 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
         if($scope.basicFrom) {
             $scope.basicFrom.$setPristine();
         }
+
+
     }
 
 	//车道等级的联动控制;
@@ -172,7 +175,18 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 					$scope.linkData.laneNum = 0;
 				}
 				$scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-				linkClassCtr($scope.linkData.laneNum);
+                var tempnum = '';
+                if($scope.linkData.direct==1){
+                    if($scope.linkData.laneNum%2){
+                        tempnum = ($scope.linkData.laneNum+1)/2;
+                    }else{
+                        tempnum = ($scope.linkData.laneNum)/2;
+                    }
+                }else{
+                    tempnum = ($scope.linkData.laneNum);
+                }
+
+				linkClassCtr(tempnum);
 				break;
 			case 2:
 				if (parseInt($scope.linkData.laneLeft)) {
@@ -201,16 +215,15 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		}
 	}
 
-    //道路link但双方向切换对车道数和车道等级的维护;
-    $scope.$watch('linkData.direct',function(newValue){
-        if(newValue==2||newValue==3){
+    eventController.off('directChange');
+    eventController.on('directChange',function(){
+        console.log($scope.linkData.direct)
+        if($scope.linkData.direct==2||$scope.linkData.direct==3){
             linkClassCtr($scope.linkData.laneNum);
+            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
         }else{
             if($scope.linkData.laneNum%2){
-                $scope.linkData.laneLeft = (parseInt($scope.linkData.laneNum)-1)/2;
-                $scope.linkData.laneRight = (parseInt($scope.linkData.laneNum)+1)/2;
-                $scope.linkData.laneNum = 0;
-                linkClassCtr($scope.linkData.laneRight);
+                linkClassCtr((parseInt($scope.linkData.laneNum)+1)/2);
             }else{
                 if(!$scope.linkData.laneNum){
                     var temp = $scope.linkData.laneRight>$scope.linkData.laneLeft?$scope.linkData.laneRight:$scope.linkData.laneLeft;
@@ -220,8 +233,10 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
                 }
             }
         }
+        $scope.$apply();
     });
-    //
+
+
 
     if(objectEditCtrl.data) {
         $scope.initOtherData();
@@ -254,15 +269,6 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		}
     };
 
-	if (objectEditCtrl.data) {
-		$scope.initOtherData();
-	}
-	objectEditCtrl.updateObject = function () {
-		$scope.initOtherData();
-	}
-	$scope.emptyGroupId = function () {
-		$("#difGroupIdText").val("");
-	}
 	$scope.$watch('linkData.kind',function(newValue,oldValue,$scope){
 		if((newValue == 9 || newValue ==10) && (oldValue != 9 && oldValue != 10)){
 			if ($scope.linkData.limits.length == 0) {

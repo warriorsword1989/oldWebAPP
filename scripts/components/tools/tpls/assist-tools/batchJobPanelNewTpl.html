@@ -1,0 +1,34 @@
+<style>
+    input[type=radio]{
+        width: 14px;
+        height: 14px;
+    }
+</style>
+<div class="fm-panel" ng-controller="BatchJobPanelCtrl">
+    <div class="title">批处理</div>
+    <div class="content">
+        <div class="box">
+            <div style="margin: 15px 20px 15px 20px;background-color: #555555;border-color: #908d8d;" class="panel panel-default">
+                <div class="panel-body">
+                    <div class="radio col-md-12">
+                        <label style="line-height: 20px">
+                            <input ng-model="radioModel" style="margin-top: 4px" type="radio" name="batchItem" id="optionsRadios1" value="BATCH_SLE"> 批处理赋速度限制
+                        </label>
+                    </div>
+                    <div class="radio col-md-12">
+                        <label style="line-height: 20px">
+                            <input ng-model="radioModel" style="margin-top: 4px" type="radio" name="batchItem" id="optionsRadios2" value="BATCH_SPEED_CLASS"> 批处理速度限制等级
+                            <span ng-if="showSelect" style="padding: 0 10px">参数: </span>
+                            <select ng-if="showSelect" ng-model="myOption" ng-change="changeParam(myOption)" style="display: inline;width: 125px;font-size:12px;background-color: #555;height: inherit;color: white;padding: 0;" class="form-control">
+                                <option value="1">速度限制来源赋值</option>
+                                <option value="2">速度限制等级值标识</option>
+                                <option value="3">制作所有的等级值</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-main center-block" ng-disabled="running" ng-click="doExecute()">执 行</button>
+        </div>
+    </div>
+</div>

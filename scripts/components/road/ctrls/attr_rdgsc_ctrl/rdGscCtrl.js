@@ -10,23 +10,29 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     var rdgsc = layerCtrl.getLayerById('relationData');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    // var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.reGscData = objCtrl.data;
         var links = $scope.reGscData.links,highLightFeatures=[];
-        for(var i= 0,len=links.length;i<len;i++) {
+        /*for(var i= 0,len=links.length;i<len;i++) {
             highLightFeatures.push({
+                // id: links[i]["linkPid"].toString(),
+                // layerid:'rdLink',
+                // type:'rdgsc',
+                // index:links[i].zlevel,
+                // style:{
+                //     size:5
+                // }
+
                 id: links[i]["linkPid"].toString(),
-                layerid:'rdLink',
-                type:'rdgsc',
-                index:links[i].zlevel,
-                style:{
-                    size:5
-                }
+                layerid: 'rdLink',
+                type: 'line',
+                style: {}
+
             })
         }
-        /*highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();*/
 
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
@@ -38,7 +44,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     $scope.refreshData = function () {
         dsEdit.getByPid(parseInt($scope.reGscData.pid), "RDGSC").then(function(data){
         	if (data) {
-                objCtrl.setCurrentObject("RDGSC", data.data);
+                objCtrl.setCurrentObject("RDGSC", data);
                 $scope.initializeData();
             }
         });
@@ -54,7 +60,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     $scope.getLevels = function(){
         $scope.zlevel = [];
         for(var i=0;i<$scope.reGscData.links.length;i++){
-            $scope.zlevel.push({id:i,label:i});
+            $scope.zlevel.push({id:$scope.reGscData.links[i].zlevel,label:$scope.reGscData.links[i].zlevel});
         }
     };
     $scope.getLevels();
@@ -68,6 +74,11 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     ];
 
     $scope.save = function(){
+        if(objCtrl.data.links){
+            for(var i=0,len=objCtrl.data.links.length;i<len;i++){
+                delete objCtrl.data.links[i].id;
+            }
+        }
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
@@ -79,6 +90,14 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
             "dbId": App.Temp.dbId,
             "data": objCtrl.changedProperty
         };
+        for(var i=0;i<objCtrl.data.links.length;i++){
+            for(var j=0;j<objCtrl.originalData.links.length;j++){
+                if(objCtrl.data.links[i].linkPid == objCtrl.originalData.links[j].linkPid && objCtrl.data.links[i].zlevel != objCtrl.originalData.links[j].zlevel){
+                    objCtrl.changedProperty.links[i].zlevel = objCtrl.data.links[i].zlevel;
+                    objCtrl.changedProperty.links[i].linkPid = objCtrl.data.links[i].linkPid;
+                }
+            }
+        }
         dsEdit.save(param).then(function (data) {
             if (data) {
                 if (selectCtrl.rowkey) {
@@ -110,9 +129,9 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
         dsEdit.save(param).then(function (data) {
             var info = null;
             if (data) {
-                rdgsc.redraw();
                 $scope.reGscData = null;
                 rdgsc.redraw();
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         })
     };

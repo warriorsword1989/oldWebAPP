@@ -1,7 +1,9 @@
 @company-logo-url:'../../images/poi/main/navi_logo.png';
 
-@login-bg-url:'../../images/poi/main/login_bg.png';
-
+@login-bg-url:'../../images/poi/main/loginBackgroundColor.png';
+@userName-url:'../../images/poi/main/userName.png';
+@password-url:'../../images/poi/main/password.png';
+@login-logo-url:'../../images/poi/main/login_logo.png';
 html, body {
     width: 100%;
     height: 100%;
@@ -30,10 +32,8 @@ html, body {
 }
 /*******************************************登陆框*****************************************************/
 .wrapper{
-    width: 100%;
-    height: 84%;
     background: url(@login-bg-url) no-repeat 99% center;
-    background-size:60% 110%
+    background-size:100% 100%;
 }
 .left_part,
 .right_part{
@@ -83,4 +83,31 @@ footer.bs-docs-footer {
     color: white;
     height: 6%
 }
-
+/*****************************************新login样式**************************************************/
+#inputDiy:focus {
+    box-shadow: 0 0 4px #90d9ff;
+}
+#inputDiy1:focus {
+    box-shadow: 0 0 4px #90d9ff;
+}
+#loginButton {
+    background-color: #20b3fe
+}
+#loginButton:hover{
+    background-color: #009eff;
+}
+#loginButton:active{
+    background-color: #1A82C3;
+    border-color: #1A82C3;
+    color: #FFFFFF;
+}
+.userName {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: 14px;
+}
+.backgroundImageDiv {
+    background: url(@login-logo-url) no-repeat;
+}

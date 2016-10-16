@@ -7,8 +7,7 @@ App.Config = {
     serviceUrl: 'http://192.168.4.188:8000/service',
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
-    specialUrl: "http://192.168.4.189/fos",
-    msgNotify: 10000
+    specialUrl: "http://192.168.4.189/fos"
 };
 App.Temp = {
     accessToken: null,
@@ -40,7 +39,27 @@ App.Temp = {
         RDVOICEGUIDE:'语音引导',
         RDSAMENODE:'同一点',
         RDSAMELINK:'同一线',
-        RDLANE:'详细车道'
+        RDLANE:'详细车道',
+        RDLINK:'道路线',
+        ADADMIN:'行政区划代表点',
+        ADNODE:'行政区划组成点',
+        ADLINK:'行政区划组成线',
+        ADFACE:'行政区划组成面',
+        RWNODE:'铁路点',
+        RWLINK:'铁路线',
+        ZONENODE:'ZONE组成点',
+        ZONELINK:'ZONE组成线',
+        ZONEFACE:'ZONE组成面',
+        LUNODE:'LU点',
+        LULINK:'LU线',
+        LUFACE:'LU面',
+        LCNODE:'LC(土地覆盖)-点',
+        LCLINK:'LC(土地覆盖)-线',
+        LCFACE:'LC(土地覆盖)-面',
+        IXPOI:'兴趣点（POI）',
+        RDNODE:'道路点',
+        RDLINKSPEEDLIMIT:'线限速'
+
     }
 };
 // web app的公用函数命名空间

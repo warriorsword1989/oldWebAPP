@@ -40,14 +40,14 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         //编辑开关;
         $scope.startBtnDisabled = true;
         //顶标签初始状态;
-        $scope.dataListType = 1;
+        $scope.dataListType = 4;
         //顶标签的当前字符状态;
         $scope.dataStringType = '';
         //侧标签初始状态;
         $scope.taskStatus = 6;
         //初始默认状态下的请求参数;
         $scope.requestParams = {
-            classType: 2,
+            classType: 0,
             classStage:1
         };
         //当前选中子任务对象;
@@ -68,23 +68,52 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
             //构建过滤请求参数;
             switch ($scope.dataListType) {
                 case 1:
-                    $scope.requestParams.classType = 2;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 0;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 2:
-                    $scope.requestParams.classType = 0;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 1;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 3:
-                    $scope.requestParams.classType = 1;
-                    $scope.requestParams.classStage = 1;
+                    $scope.requestParams.classType = 2;
+                    $scope.requestParams.classStage = 0;
                     break;
                 case 4:
                     $scope.requestParams.classType = 0;
-                    $scope.requestParams.classStage = 2;
+                    $scope.requestParams.classStage = 1;
                     break;
                 case 5:
                     $scope.requestParams.classType = 3;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 16:
+                    $scope.requestParams.classType = 4;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 17:
+                    $scope.requestParams.classType = 5;
+                    $scope.requestParams.classStage = 1;
+                    break;
+                case 18:
+                    $scope.requestParams.classType = 6;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 19:
+                    $scope.requestParams.classType = 7;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 20:
+                    $scope.requestParams.classType = 8;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 21:
+                    $scope.requestParams.classType = 9;
+                    $scope.requestParams.classStage = 2;
+                    break;
+                case 22:
+                    $scope.requestParams.classType = 10;
+                    $scope.requestParams.classStage = 2;
                     break;
                 case 6:
                     $scope.isDeepTask = true;
@@ -201,25 +230,40 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies','highcharts-ng','
         function getCurrentDataType(param){
             switch(param){
                 case 1:
-                    return '日一体化任务';
+                    return 'POI采集';
                     break;
                 case 2:
-                    return '日POI任务';
+                    return '道路采集';
                     break;
                 case 3:
-                    return '月道路任务';
+                    return '一体化采集';
                     break;
                 case 4:
-                    return '月POI任务';
+                    return 'POI日编';
                     break;
                 case 5:
-                    return '专项任务';
+                    return '一体化gGRID粗编';
                     break;
-                case 6:
-                    return '深度信息专项作业';
+                case 16:
+                    return '一体化区域';
                     break;
-                case 7:
-                    return 'POI精编任务';
+                case 17:
+                    return '多源POI';
+                    break;
+                case 18:
+                    return '代理店';
+                    break;
+                case 19:
+                    return 'POI专项';
+                    break;
+                case 20:
+                    return '道路GRID精编';
+                    break;
+                case 21:
+                    return '道路一体化粗编';
+                    break;
+                case 22:
+                    return '道路区域';
                     break;
             }
         }

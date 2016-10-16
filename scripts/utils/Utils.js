@@ -94,5 +94,30 @@ Utils = {
      */
     verifyTelphone:function (str){
         return /^[1][3-8]+\d{9}$/.test(str)
-    }
+    },
+    clone: function(obj) {
+        var ret = {};
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (obj[key] && typeof obj[key] == 'object') {
+                    if (this.isArray(obj[key])) {
+                        ret[key] = [];
+                        for (var i = 0, n = obj[key].length; i < n; i++) {
+                            if (obj[key][i] && typeof obj[key][i] == "object") {
+                                ret[key].push(this.clone(obj[key][i]));
+                            } else {
+                                ret[key].push(obj[key][i]);
+                            }
+                        }
+                    } else {
+                        ret[key] = this.clone(obj[key]);
+                    }
+                } else {
+                    ret[key] = obj[key];
+                }
+            }
+        }
+        // }
+        return ret;
+    },
 };

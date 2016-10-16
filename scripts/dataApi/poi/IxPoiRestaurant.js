@@ -18,7 +18,7 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
             this.foodType2[foodTypeArr[0]] = true;
             this.foodType1[foodTypeArr[1]] = true;
         }else if(foodTypeArr.length == 1){
-        	if(foodTypeArr[0].charAt(0) == 3){
+        	if(foodTypeArr[0].charAt(0) == 2){
         		this.foodType2[foodTypeArr[0]] = true;
         	}else{
         		this.foodType1[foodTypeArr[0]] = true;

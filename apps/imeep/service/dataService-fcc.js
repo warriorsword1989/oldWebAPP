@@ -68,6 +68,57 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
         });
         return defer.promise;
     };
+    /*查询已读消息*/
+    this.getReadMsg = function(param) {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/read/get", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*查询未读消息详情*/
+    this.getDetailCheck = function(param) {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/readDetail/check", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /*查询已读消息详情*/
+    this.getReadCheck = function(param) {
+        var defer = $q.defer();
+        ajax.get("sys/sysmsg/detail/check", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                swal("查询数据出错：", data.errmsg, "error");
+                defer.resolve(-1);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     /**
      *  保存datatips数据
      * @param param
@@ -110,7 +161,7 @@ angular.module("dataService").service("dsFcc", ["$http", "$q", "ajax","dsOutput"
             'request':{
                 "grids": App.Temp.gridList,
                 "targetDbId":App.Temp.dbId,
-                "type":types
+                "types":types
             },
             'descp':''
         };

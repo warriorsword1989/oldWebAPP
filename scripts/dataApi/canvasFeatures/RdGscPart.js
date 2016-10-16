@@ -9,20 +9,23 @@ fastmap.uikit.canvasFeature.RdGscPart = fastmap.uikit.canvasFeature.Feature.exte
         if (data.g[idx].z === 0) {
             this.properties['style'] = {
                 'strokeColor': '#14B7FC',
-                'strokeWidth': 5,
-                'strokeOpacity': 0.8
+                'strokeWidth': 8,
+                'strokeOpacity': 1,
+                'lineCap': 'round' //增加圆形线帽
             };
         } else if (data.g[idx].z === 1) {
             this.properties['style'] = {
                 'strokeColor': '#4FFFB6',
-                'strokeWidth': 5,
-                'strokeOpacity': 0.8
+                'strokeWidth': 8,
+                'strokeOpacity': 1,
+                'lineCap': 'round' //增加圆形线帽
             };
         } else {
             this.properties['style'] = {
                 'strokeColor': '#F8B19C',
-                'strokeWidth': 5,
-                'strokeOpacity': 0.8
+                'strokeWidth': 8,
+                'strokeOpacity': 1,
+                'lineCap': 'round' //增加圆形线帽
             };
         }
     },

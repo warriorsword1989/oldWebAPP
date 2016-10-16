@@ -180,7 +180,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.codeTypeDisable = false;//国家编号
     			$scope.adminIdEditable = true;//行政区划
     			$scope.roadTypeDisable = false;//道路类型
-    			$scope.nameDisable = true;//道路名称
+    			$scope.nameDisable = false;//道路名称
     		}
     	};
     	$scope.initializeData();
@@ -232,7 +232,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
        	 }else if(type == "namegroup"){
        		 if("add" == $scope.roadNameFlag){
        			var param = {
-   	 					nameGroupid : parseInt(row.nameGroupid)
+   	 					nameGroupid : parseInt(row.nameGroupid),
+   	 					dbId : App.Temp.dbId
                 	};
             	dsMeta.rdnameGroup(param).then(function(data) {
             		if(data.data){
@@ -290,7 +291,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         	if(type == "namegroup"){
           		 if("add" == $scope.roadNameFlag){
           			var param = {
-      	 					nameGroupid : parseInt(row.nameGroupid)
+      	 					nameGroupid : parseInt(row.nameGroupid),
+      	 					dbId : App.Temp.dbId
                    	};
                	dsMeta.rdnameGroup(param).then(function(data) {
                		if(data.data){
@@ -327,7 +329,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 	}
             	}else{
             		var param = {
-                			data : $scope.roadNameData
+                			data : $scope.roadNameData,
+                			dbId : App.Temp.dbId
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
                 		$scope.$emit("REFRESHROADNAMELIST");
@@ -345,7 +348,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 	changed.nameId = $scope.roadNameData.nameId;
                 	changed.nameGroupid = $scope.roadNameData.nameGroupid;
                 	var param = {
-                			data : $scope.roadNameData
+                			data : $scope.roadNameData,
+                			dbId : App.Temp.dbId
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
                 		swal({

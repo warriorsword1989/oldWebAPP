@@ -1,4 +1,4 @@
-<div class="fm-panel" ng-controller="AutofillJobPanelCtrl" style="margin:0px;">
+<div class="fm-panel" ng-controller="AutofillJobPanelCtrl">
     <div class="title">自动录入</div>
     <div class="content">
         <div>执行以下Tips录入:</div>
@@ -6,8 +6,8 @@
             <!-- <label ng-repeat="item in tipList" class="col-md-4">
                 <input type="checkbox" name="tipList" ng-model="selectedTips[item.id]" ng-value="item.id"> {{item.name}}
             </label> -->
-            <label ng-repeat="(key, value) in tipsObj" class="col-md-4">
-                <input type="checkbox" name="tipList" ng-model="selectedTips[key]" ng-value="key"> {{value.name}}
+            <label ng-repeat="tips in tipsObj" class="col-md-4">
+                <input type="checkbox" name="tipList" ng-model="selectedTips[tips.id]" ng-value="tips.id" ng-checked="tips.checked"> {{tips.name}}
             </label>
         </div>
         <!-- 进度条 -->

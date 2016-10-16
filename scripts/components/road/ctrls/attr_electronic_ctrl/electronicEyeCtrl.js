@@ -8,12 +8,21 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	var eventController = fastmap.uikit.EventController();
 	var relationData = layerCtrl.getLayerById('relationData');
+	var editLayer = layerCtrl.getLayerById('edit');
+	var shapeCtrl = fastmap.uikit.ShapeEditorController();
 	var selectCtrl = fastmap.uikit.SelectController();
 	var highRenderCtrl = fastmap.uikit.HighRenderController();
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.electronicEyeData = objCtrl.data;
 		conversionSystem();
+		if($scope.electronicEyeData.pairs.length){
+			if($scope.electronicEyeData.pairs[0].parts[0].eleceyePid == $scope.electronicEyeData.pid){
+				$scope.elecPartPid = $scope.electronicEyeData.pairs[0].parts[1].eleceyePid;
+			}else{
+				$scope.elecPartPid = $scope.electronicEyeData.pairs[0].parts[0].eleceyePid;
+			}
+		}
 		var highLightFeatures = [];
 		highLightFeatures.push({
 			id: $scope.electronicEyeData.linkPid.toString(),
@@ -200,6 +209,29 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 			if (data) {
 				$scope.electronicEyeData = null;
 				relationData.redraw();
+				highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+				 //清空编辑图层和shapeCtrl
+//                editLayer.drawGeometry = null;
+//                shapeCtrl.stopEditing();
+//                editLayer.bringToBack();
+//                $(editLayer.options._div).unbind();
+//                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+//                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+//                editLayer.clear();
+				// 清除地图上工具按钮
+				if (map.floatMenu) {
+					map.removeLayer(map.floatMenu);
+					map.floatMenu = null;
+				}
+				$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
 			}
 		})
 	};

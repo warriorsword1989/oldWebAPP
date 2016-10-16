@@ -12,7 +12,7 @@
                             <label>FACE种别</label>
                             <div>
                                 <select ng-model="lcFaceData.kind"
-                                        ng-options="value.id as value.label for value in kind">
+                                        ng-options="value.id as value.label for value in kind" ng-change="kindChange($event, this)">
                                 </select>
                             </div>
                         </li>
@@ -51,13 +51,19 @@
                         <li>
                             <label>FACE面积</label>
                             <div>
-                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.meshId">
+                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.perimeter" disabled>
                             </div>
                         </li>
                         <li>
                             <label>FACE周长</label>
                             <div>
-                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.area">
+                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.area" disabled>
+                            </div>
+                        </li>
+                        <li>
+                            <label>图幅号</label>
+                            <div>
+                                <input type="text" class="fm-control chosen-disabled" ng-model="lcFaceData.meshId" disabled>
                             </div>
                         </li>
                     </ul>

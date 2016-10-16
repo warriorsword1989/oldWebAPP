@@ -190,6 +190,12 @@
                 <div class="panel-body">
                     <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">来源代码:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind="sourceCode"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label" ng-bind="showContent"></span>
@@ -217,16 +223,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('in') && !dataTipsData.hasOwnProperty('linkRoad') && !dataTipsData.isTrafficLightsDir">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('in') && !dataTipsData.hasOwnProperty('linkRoad') && !dataTipsData.isTrafficLightsDir && !dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('linkRoad') || dataTipsData.isTrafficLightsDir">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('linkRoad') || dataTipsData.isTrafficLightsDir || dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')"></span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 3px">
+                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && dataTipsData.isSlope">
@@ -235,7 +241,7 @@
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && !dataTipsData.isSlope && !dataTipsData.isLimitTruck">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && !dataTipsData.isSlope && !dataTipsData.isLimitTruck && !dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
@@ -682,6 +688,14 @@
                             </div>
                         </div>
                         <!--end 匝道-->
+                        <!--begin 可变限速-->
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('loc') && dataTipsData.isVariableSpeedLimit">
+                            <label class="col-sm-5 control-label" style="padding: 4px">方&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位:</label>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <span class="label" ng-bind='dataTipsData.limitDir'></span>
+                            </div>
+                        </div>
+                        <!--end 可变限速-->
                         <!--begin 测线-->
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isMeasuringLine">
                             <label class="col-sm-5 control-label" style="padding: 4px">种&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>

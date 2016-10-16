@@ -7,7 +7,13 @@ namesOfLinkApp.controller("namesOfRwLinkController",["$scope","$timeout","dsMeta
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
 
-
+    $scope.roadTypeOptions = {
+    	0 : "未区分",
+    	1 : "高速",
+    	2 : "国道",
+    	3 : "铁路",
+    	4 : "出口编号",
+    };
     /*点击翻页*/
     $scope.goPaging = function(){
         if($scope.picNowNum == 0){
@@ -33,7 +39,8 @@ namesOfLinkApp.controller("namesOfRwLinkController",["$scope","$timeout","dsMeta
         var nameParameter = {
             "name": $scope.rwName.name,
             "pageSize": $scope.pagesize,
-            "pageNum":$scope.picNowNum
+            "pageNum":$scope.picNowNum,
+            "dbId":App.Temp.dbId
         }
         dsMeta.getNamesbyName(nameParameter).then(function (data){
             if(data.errcode == 0){

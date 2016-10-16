@@ -102,7 +102,7 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         {"id": 18, "label": "交通枢纽"}
     ];
     $scope.fromLimitSrcOption=[
-        {"id":0,"label":"未赋值"},
+        {"id":0,"label":"无"},
         {"id":1,"label":"现场标牌"},
         {"id":2,"label":"城区标识"},
         {"id":3,"label":"高速标识"},
@@ -113,6 +113,56 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         {"id":8,"label":"缓速行驶"},
         {"id":9,"label":"未调查"}
     ];
+    $scope.speedClassOption=[
+        {"id":0,"label":"未赋值"},
+        {"id":1,"label":">130"},
+        {"id":2,"label":"[100.1~130]"},
+        {"id":3,"label":"[90.1~100]"},
+        {"id":4,"label":"[70.1~90]"},
+        {"id":5,"label":"[50.1~70]"},
+        {"id":6,"label":"[30.1~50]"},
+        {"id":7,"label":"[11~30]"},
+        {"id":8,"label":"<11"}
+    ];
+    $scope.changeClass = function (item,dir) {
+        var value = 0;
+        if (dir == 2) {
+            value = parseFloat(item.fromSpeedLimit);
+            if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
+                value = parseFloat(item.toSpeedLimit);
+            }
+        } else if (dir == 3) {
+            value = parseFloat(item.toSpeedLimit);
+            if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
+                value = parseFloat(item.fromSpeedLimit);
+            }
+        }
+
+        if(value < 11 && value >= 0){
+            item.speedClass = 8;
+        }else if(value <= 30 && value >= 11){
+            item.speedClass = 7;
+        }else if(value <= 50 && value >= 30.1){
+            item.speedClass = 6;
+        }else if(value <= 70 && value >= 50.1){
+            item.speedClass = 5;
+        }else if(value <= 90 && value >= 70.1){
+            item.speedClass = 4;
+        }else if(value <= 100 && value >= 90.1){
+            item.speedClass = 3;
+        }else if(value <= 130 && value >= 100.1){
+            item.speedClass = 2;
+        }else if(value > 130){
+            item.speedClass = 1;
+        }else {
+            item.speedClass = 0;
+        }
+        // item.speedClassWork = 1;
+    };
+
+    $scope.changeClassWork = function (item) {
+        // item.speedClassWork = 0;
+    };
     $scope.addSpeedLimit = function () {
         var newLimits = new fastmap.dataApi.linkspeedlimit({"linkPid":objCtrl.data.pid,"speedType":3});
         $scope.speedLimitsData.unshift(newLimits);

@@ -44,6 +44,10 @@ fastmap.mapApi.ShapeEditorResult = L.Class.extend({
 
     getFinalGeometry: function () {
         return this.final;
-    }
+    },
 
-})
+    resetFinalGeometry: function (){
+       this.final = Utils.clone(this.original);
+    },
+
+});

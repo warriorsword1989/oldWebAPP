@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-datepicker/css/datepicker3.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/srs/srs.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/select2/css/select2.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.js"></script>
@@ -29,12 +30,71 @@
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-road.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>
         <script type="text/javascript" src="../../../scripts/utils/Utils.js"></script>
+        <script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
         <script src="loadMapApi.js"></script>
         <script src="loadUikit.js"></script>
     </head>
     <body ng-controller="EditorCtl">
+        <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+        <div ui-layout-container size="40px">
+            <div class="fm-top" style="left:0px;width:60px;text-align:center;">
+                <img src="../../../images/main/fm-logo.png">
+            </div>
+            <div class="fm-top" style="left:60px;right:200px;position:fixed;min-width:1100px;">
+                <div ng-include="editorToolbarTpl"></div>
+            </div>
+            <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;position: fixed;" uib-dropdown auto-close="outsideClick " appendToOpenClass="fadeInDown">
+                <button class="fm-top-right-btn profile" title="个人信息"></button>
+                <button class="fm-top-right-btn notice dropdown dropdown-toggle" uib-dropdown-toggle title="我的消息" ng-click="historyMsg();">
+                    <div ng-class="{'msg-alert animated':true,'wobble':systemMsg.length}" ng-if="systemMsg.length" ng-bind="systemMsg.length"></div>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right animated-fast msg-dropdown-menu" uib-dropdown-menu aria-labelledby="system-message">
+                    <li>
+                        <div class="msg-container">
+                            <div class="msgContainerlist" ng-show="!showMsgDetail">
+                                <div class="topmenu">
+                                    <span ng-class="{'newMessage':true,'active':sysMsgType=='new'}" title="未读消息" ng-click="switchMsgType('new');"></span>
+                                    <span ng-class="{'history':true,'active':sysMsgType=='his'}" title="已读消息" ng-click="switchMsgType('his');"></span>
+                                </div>
+
+                                <div class="msg-list">
+                                    <div class="message-item" ng-if="!sysMsgItem.length">
+                                        <p class="null-msg">
+                                            当前无消息
+                                        </p>
+                                    </div>
+                                    <div class="message-item" ng-repeat="item in sysMsgItem" ng-click="showDetailMsg(item.msgId);" title="{{item.msgContent}}">
+                                        <p>
+                                            <strong ng-bind="item.msgTitle" ng-class="{true:'history'}[sysMsgType=='his']"></strong>
+                                            <span ng-bind="item.msgContent"></span>
+                                        </p>
+                                        <div ng-class="{'status available':true,'inactive':sysMsgType=='his'}"></div>
+                                    </div>
+                                    <div class="msg-pagination" ng-if="sysMsgType=='his'">
+                                        <ul uib-pagination items-per-page="5" max-size="5" total-items="totalItems" ng-model="currentPage" class="pagination" boundary-links="true" force-ellipses="true" ng-change="pageChanged(currentPage)" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-class="{'detailview p1 animated-fast':true,'fadeIn':showMsgDetail,'fadeOutUp':!showMsgDetail}" ng-show="showMsgDetail">
+                                <div class="profile-title animated-fast">
+                                    <div id="close" ng-click="showDetailMsg(-1);" title="点击返回">
+                                        <div ng-class="{'cy':true,'cy s1 s2 s3':showMsgDetail}"></div>
+                                        <div ng-class="{'cy':true,'cx s1 s2 s3':showMsgDetail}"></div>
+                                    </div>
+                                    <p class="animated-fast fadeInUp" ng-bind="sysMsgObj.msgTitle"></p>
+                                </div>
+                                <div class="detail-messages" ng-bind="sysMsgObj.msgContent"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="fm-top-right-btn logout" title="返回任务列表" ng-click="goback()"></button>
+            </div>
+        </div>
+        <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="40px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft fm-no-scroll" size="60px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">
@@ -45,10 +105,6 @@
                         <a tooltip-class="subTooltip" uib-tooltip="场　景" tooltip-trigger="mouseenter" tooltip-placement="right" tooltip-append-to-body=true><i title="场景" class="glyphicon glyphicon-facetime-video"></i></a>
                         <div ng-if="selectedTool == 2" class="fill-azure pin-left"></div>
                     </div>
-                </div>
-                <div class="banner-bottom">
-                    <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
-                    <div><a href="javascript:void(0);" ng-click="goback()"><i title="返回" class="glyphicon glyphicon-log-out"></i></a></div>
                 </div>
             </div>
             <div ui-layout-container>
@@ -65,17 +121,10 @@
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
                         <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
-                            <div class="div-float map-toolbar" ng-style="{top:'0px',left:'100px'}">
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'search':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('search');leftDis='30%';rightDis='30%'">搜 索 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="searching"></button>
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'auto':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('auto');leftDis='28%';rightDis='28%'">自动录入 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="autofillRunning"></button>
-                                <button type="button" class="btn btn-xs btn-shape" ng-class="{'batch':'active'}[advancedTool]" ng-click="openAdvancedToolsPanel('batch');leftDis='15%';rightDis='15%'">批处理 <img ng-src="{{appPath.root}}images/poi/icon/loading-cycle.gif" ng-if="batchRunning"></button>
-                            </div>
-                            <div ng-include="mapToolbar" class="div-float map-toolbar" ng-style="{top:'0px',left:'290px'}"></div>
-                            <!-- <div ng-include="specialOperationToolbar" class="div-float map-toolbar" style="top:0px;left:580px;"></div> -->
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                         </div>
-                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{top:'80px',left:leftDis,right:rightDis,borderRadius:'5px'}">
-                            <button type="button" class="close" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
+                        <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{left:advancedTool=='check'?'12%':'25%',right:advancedTool=='check'?'12%':'25%'}" style="top:50px;left:30%;right: 30%;">
+                            <button ng-show="advancedTool!=null" type="button" class="close ng-cloak" ng-click="closeAdvancedToolsPanel()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
                             <div ng-include="advancedToolPanelTpl"></div>
                         </div>
                         <!--右侧属性编辑面板-->
@@ -128,16 +177,17 @@
                             </div>
                         </div>
                         <!--上方输出信息面板-->
-                        <div class="fm-foldable fm-row" style="height:100%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                        <div class="fm-foldable fm-row" style="height:100%;left:2px;width:auto;" ng-style="{'top':{true: '5px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
                             <div class="fm-container fm-row" style="height:100%;">
+                            	<button type="button" class="close" ng-click="closeSpecialWorkPanelTpl()"><span style="position: relative;right: 10px;top: 5px;">&times;</span></button>
                                 <div ng-include="specialWorkPanelTpl"></div>
                             </div>
                         </div>
-                        <div class="fm-foldable fm-row" style="height:90%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
+                        <!-- <div class="fm-foldable fm-row" style="height:90%;left:2px;width:auto;" ng-style="{'top':{true: '29px', false: '-1100px'}[workPanelOpened], right: {true: '302px', false: '2px', 'none': '2px'}[editorPanelOpened]}">
                             <div class="fm-container fm-row" style="height:100%;">
                                 <div ng-include="rdLaneTopoPanelTpl"></div>
                             </div>
-                        </div>
+                        </div> -->
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
                             <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
@@ -152,6 +202,8 @@
                 </span>
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
+        </div>
+        </div>
         </div>
 
         <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>

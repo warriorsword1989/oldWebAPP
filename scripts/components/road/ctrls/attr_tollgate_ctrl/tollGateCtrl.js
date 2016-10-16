@@ -80,7 +80,9 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 						tempArr.push($scope.tollGateData.names[j]);
 					}
 				}
-				$scope.nameGroup.push(tempArr);
+				if(tempArr.length !=0){
+					$scope.nameGroup.push(tempArr);
+				}
 			}
 			$scope.refreshNames();
 		}

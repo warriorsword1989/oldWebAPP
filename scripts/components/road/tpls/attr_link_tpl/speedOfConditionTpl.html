@@ -31,7 +31,7 @@
             <div><label class="control-label">顺向速度</label></div>
             <div class="inline">
                 <input type="text"
-                       placeholder="0530" id="{{oridiData.rowid}}fromSpeedLimit"
+                       placeholder="0530" id="{{oridiData.rowid}}fromSpeedLimit" ng-change="changeClass(oridiData,2)"
                        ng-model="oridiData.fromSpeedLimit" ng-disabled="rticDir ==3">
             </div>
         </li>
@@ -39,7 +39,7 @@
             <div><label class="control-label">逆向速度</label></div>
             <div class="inline">
                 <input type="text"
-                       placeholder="0530" id="{{item.rowid}}toSpeedLimit"
+                       placeholder="0530" id="{{item.rowid}}toSpeedLimit" ng-change="changeClass(oridiData,3)"
                        ng-model="oridiData.toSpeedLimit" ng-disabled="rticDir ==2">
             </div>
         </li>
@@ -63,6 +63,15 @@
         </li>
         <li class="list-group-item">
             <div ng-include="dateURL" class="muti-date" date-str='{{oridiData.timeDomain}}' style="width:100%;padding: 5px;"></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">限速等级</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.speedClass" ng-change="changeClassWork(oridiData)"
+                        ng-options="value.id as value.label for value in speedClassOption">
+                    <!--<option>&#45;&#45;</option>-->
+                </select>
+            </div>
         </li>
     </ul>
     </form>

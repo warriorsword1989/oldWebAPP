@@ -238,7 +238,6 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
 
                 $timeout(function() {
                     $scope.$on('get-date', function(event, data) {
-                        console.info(data);
                         $scope.rdWarningInfoObj.timeDomain = data;
                     });
                     $scope.$broadcast('set-code', $scope.rdWarningInfoObj.timeDomain);

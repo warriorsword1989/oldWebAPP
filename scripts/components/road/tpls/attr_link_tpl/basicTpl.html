@@ -8,7 +8,7 @@
             <div class="list-line"></div>
         </li>
         <li class="list-group-item">
-            <div><label class="control-label">图幅编号</label></div>
+            <div><label class="control-label">图幅号码</label></div>
             <div class="inline">
                 <input type="text" placeholder="0"
                        ng-model="linkData.meshId" disabled class="chosen-disabled">
@@ -27,14 +27,15 @@
         </li>
         <li class="list-group-item">
             <div><label class="control-label">道路方向</label></div>
-            <div class="inline"><input ng-class="'chosen-disabled'" type="text" ng-value="linkData.direct=='0'?'0 未调查':linkData.direct=='1'?'1 双方向':linkData.direct=='2'?'2 顺方向':'3 逆方向'" disabled/>
+            <div class="inline">
+                <input ng-class="'chosen-disabled'" type="text" ng-value="linkData.direct=='1'?'1 双方向':linkData.direct=='2'?'2 顺方向':'3 逆方向'" disabled/>
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">车道数</label></div>
             <div class="inline">
-                <label ng-class="{'chosen-disabled':(linkData.direct==1)}" for="LaneNum" style="margin-left: -3px;">总</label>
-                <input ng-class="{'chosen-disabled':(linkData.direct==1)}" class="limit-length" id="LaneNum" type="text" style="width: 30px;" ng-model="linkData.laneNum"
+                <label for="LaneNum" style="margin-left: -3px;">总</label>
+                <input class="limit-length" id="LaneNum" type="text" style="width: 30px;" ng-model="linkData.laneNum"
                        ng-change="numberLengthLimit(1,linkData.laneNum)"/>
                 <label ng-class="{'chosen-disabled':!(linkData.direct==1)}" for="leftLaneNum">左</label>
                 <input ng-disabled="linkData.direct!=1" ng-class="{'chosen-disabled':!(linkData.direct==1)}" id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"

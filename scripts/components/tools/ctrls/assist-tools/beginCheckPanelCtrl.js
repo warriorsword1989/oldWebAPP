@@ -1,78 +1,132 @@
 /**
  * Created by linglong on 2016/9/13.
  */
-angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit',
-    function($scope, $interval, dsEdit) {
-        $scope.batchBoxData = [];
-        $scope.currentBatchItems = [];
-        $scope.currentBatchBag = null;
-        $scope.selectedBatches = {};
+angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 'dsEdit','dsOutput',
+    function($scope, $interval, dsEdit, dsOutput) {
+        var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
+        $scope.searchBoxData = [];
+
+        $scope.selectedBatches = [];
+        $scope.pageSize = 10;
+        $scope.page = 1;
+        $scope.batchType = 0;
+        $scope.dataLoading = true;
+        $scope.currentBoxIndex = 0;
+
+        /**
+        * 切换道路和poi批处理tab页;
+        * @param type
+        */
+        $scope.switchBatchType = function(type){
+            //$scope.selectedBatches = [];
+            $scope.batchType = type;
+            getSeachBox();
+        }
+
+        //点击table行查询当前批处理包下的批处理规则;
+        $scope.getCheckItem = function(param){
+            $scope.currentBoxIndex = param;
+        }
 
         //获取所有批处理包;
-        function getBatchBox(){
-            dsEdit.batchBox("batchbag.json").then(function(data){
-                $scope.batchBoxData = data;
+        function getSeachBox(){
+            $scope.dataLoading = true;
+            var params = {
+                pageNumber:$scope.pageSize,
+                currentPage:$scope.page,
+                checkType:$scope.batchType
+            }
+            dsEdit.seachCheckBox(params).then(function(data){
+                $scope.searchBoxData = data;
+                for(var i=0;i<$scope.searchBoxData.length;i++){
+                    for(var j=0;j<$scope.searchBoxData[i].rules.length;j++){
+                        $scope.searchBoxData[i].rules[j].checked = false;
+                    }
+                }
+                $scope.dataLoading = false;
             });
         }
-        //点击table行查询当前批处理包下的批处理规则;
-        $scope.getBatchItem = function(param){
-            $scope.currentBatchBag = param;
-            dsEdit.batchBox('batchItem.json').then(function(res){
-                $scope.currentBatchItems = res[parseInt(param.id)-1].data;
-                $scope.batchSelect(param);
-            })
-        }
+
         //全选或反选处理;
-        $scope.batchSelect = function(param){
-            if(param.checked){
-                for(var i=0;i<$scope.currentBatchItems.length;i++){
-                    $scope.currentBatchItems[i].checked = true
+        $scope.batchSelect = function(index){
+            //$scope.currentBoxIndex = index;
+            if($scope.searchBoxData[index].checked){
+                for(var i=0;i<$scope.searchBoxData[index].rules.length;i++){
+                    $scope.searchBoxData[index].rules[i].checked = true;
                 }
             }else{
-                for(var i=0;i<$scope.currentBatchItems.length;i++){
-                    $scope.currentBatchItems[i].checked = false
+                for(var i=0;i<$scope.searchBoxData[index].rules.length;i++){
+                    $scope.searchBoxData[index].rules[i].checked = false
                 }
             }
         }
-
-        $scope.selectedBatches = [1];
 
         $scope.running = false;
         $scope.progress = 0;
         $scope.doExecute = function() {
-            var batches = [];
-            for (var key in $scope.selectedBatches) {
-                if ($scope.selectedBatches[key]) {
-                    batches.push(key);
+            $scope.selectedBatches = [];
+            for(var i=0;i<$scope.searchBoxData.length;i++){
+                for(var j=0;j<$scope.searchBoxData[i].rules.length;j++){
+                    if($scope.searchBoxData[i].rules[j].checked){
+                        $scope.selectedBatches.push($scope.searchBoxData[i].rules[j].ruleCode)
+                    }
                 }
             }
-            if (batches.length == 0) {
-                swal("请选择要执行的批处理", "", "info");
+            $scope.selectedBatches = Utils.distinctArr($scope.selectedBatches);
+
+            if ($scope.selectedBatches.length == 0) {
+                swal("请选择要执行的检查项", "", "info");
                 return;
             } else {
+                var param = {
+                    taskId:App.Temp.subTaskId,
+                    ruleCode:$scope.selectedBatches,
+                    type:$scope.batchType
+                }
                 $scope.running = true;
-                $scope.$emit("job-batch", {
+                $scope.$emit("job-check", {
                     status: 'begin'
                 });
-                swal("自动录入服务启动成功（模拟运行，服务正在调试中）！", "", "success");
-                $scope.progress = 0;
-                var loop = $interval(function() {
-                    $scope.progress += 20;
-                    if ($scope.progress == 100) {
-                        clearInterval(loop);
-                        $scope.running = false;
-                        $scope.$emit("job-batch", {
-                            status: 'end'
-                        });
-                        // swal("自动录入服务模拟运行完成！", "", "success");
+                dsEdit.exeOnlineSearch(param).then(function(data){
+                    if(data){
+                        $scope.closeAdvancedToolsPanel();
+                        var timer = $interval(function() {
+                            dsEdit.getJobById(data).then(function(d) {
+                                if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
+                                    $interval.cancel(timer);
+                                    $scope.progress = 100;
+                                    $scope.$emit("job-check", {
+                                        status: 'end'
+                                    });
+                                    $scope.running = false;
+                                    if (d.status == 3) {
+                                        dsOutput.push({
+                                            "op": "执行检查执行成功",
+                                            "type": "succ",
+                                            "pid": "0",
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行检查完成');
+                                    } else {
+                                        dsOutput.push({
+                                            "op": "执行检查执行失败",
+                                            "type": "fail",
+                                            "pid": "0",
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行检查失败');
+                                    }
+                                }
+                            });
+                        }, 5000);
+
                     }
-                }, 1000)
-                return;
+                })
             }
         };
 
 
-        getBatchBox()
+        getSeachBox()
 
     }
 ]);

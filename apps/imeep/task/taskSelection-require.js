@@ -17,8 +17,10 @@ requirejs.config({
         'dataService': 'apps/imeep/service/dataService',
         'manService': 'apps/imeep/service/dataService-manage',
         'TaskSelectionCtl': 'apps/imeep/task/taskSelectionCtl',
+        'TaskSelectionNewCtl': 'apps/imeep/task/taskSelectionNewCtl',
         'layers': "apps/imeep/task/layerConfig",
     },
+    waitSeconds: 0,
     shim: {
         'ngLayout': ['angular'],
         'ngCookies': ['angular'],
@@ -27,10 +29,12 @@ requirejs.config({
         'highcharts': ['angular'],
         'uiBootstrap':['angular'],
         '3dchartsPlugin':['highcharts','highstock'],
-        'TaskSelectionCtl': ['ngLayout', 'manService', 'layers', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap']
+        'TaskSelectionCtl': ['ngLayout', 'manService','layers', 'ngCookies','highcharts','3dchartsPlugin','highstock','uiBootstrap'],
+        'TaskSelectionNewCtl': ['ngLayout', 'manService', 'ngCookies','uiBootstrap'],
     }
 });
 // Start the main app logic.
-requirejs(['TaskSelectionCtl'], function() {
+var temp = location.href.split('?')[0].substr(location.href.split('?')[0].lastIndexOf('/')+1)=='taskPage.html'?'TaskSelectionNewCtl':'TaskSelectionCtl'
+requirejs([temp], function() {
     angular.bootstrap(document.body, ['app']);
 });
