@@ -296,7 +296,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			sock.onmessage = function(e) {
 				console.log('message', JSON.parse(e.data));
 				if(JSON.parse(e.data).length == 1){
-					$scope.systemMsg.push(JSON.parse(e.data)[0]);
+					$scope.systemMsg.unshift(JSON.parse(e.data)[0]);
 				}else if(JSON.parse(e.data).length > 1){
 					$scope.systemMsg = JSON.parse(e.data);
 				}
@@ -374,7 +374,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				};
 				if($scope.sysMsgType == 'new'){
 					dsFcc.getReadCheck(param).then(function(data){
-						console.log(data)
 						$scope.sysMsgObj = data[0];
 						for(var i=0;i<$scope.systemMsg.length;i++){
 							if($scope.systemMsg[i].msgId == id){

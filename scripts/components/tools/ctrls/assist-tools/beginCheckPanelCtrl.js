@@ -49,7 +49,6 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
 
         //全选或反选处理;
         $scope.batchSelect = function(index){
-            //$scope.currentBoxIndex = index;
             if($scope.searchBoxData[index].checked){
                 for(var i=0;i<$scope.searchBoxData[index].rules.length;i++){
                     $scope.searchBoxData[index].rules[i].checked = true;
@@ -61,9 +60,12 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             }
         }
 
+
         $scope.running = false;
         $scope.progress = 0;
         $scope.doExecute = function() {
+            //起始时间
+            var start = new Date().getTime();
             $scope.selectedBatches = [];
             for(var i=0;i<$scope.searchBoxData.length;i++){
                 for(var j=0;j<$scope.searchBoxData[i].rules.length;j++){
@@ -73,14 +75,13 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                 }
             }
             $scope.selectedBatches = Utils.distinctArr($scope.selectedBatches);
-
             if ($scope.selectedBatches.length == 0) {
                 swal("请选择要执行的检查项", "", "info");
                 return;
             } else {
                 var param = {
                     taskId:App.Temp.subTaskId,
-                    ruleCode:$scope.selectedBatches,
+                    ruleCode:$scope.selectedBatches.join(','),
                     type:$scope.batchType
                 }
                 $scope.running = true;
@@ -93,6 +94,8 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                         var timer = $interval(function() {
                             dsEdit.getJobById(data).then(function(d) {
                                 if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
+                                    //返回函数执行需要时间
+                                    var timeLog = parseInt((new Date().getTime() - start)/1000)+"秒";
                                     $interval.cancel(timer);
                                     $scope.progress = 100;
                                     $scope.$emit("job-check", {
@@ -106,7 +109,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                                             "pid": "0",
                                             "childPid": ""
                                         });
-                                        logMsgCtrl.pushMsg($scope,'执行检查完成');
+                                        logMsgCtrl.pushMsg($scope,'执行检查任务'+data+'完成,共耗时'+timeLog);
                                     } else {
                                         dsOutput.push({
                                             "op": "执行检查执行失败",
@@ -114,7 +117,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                                             "pid": "0",
                                             "childPid": ""
                                         });
-                                        logMsgCtrl.pushMsg($scope,'执行检查失败');
+                                        logMsgCtrl.pushMsg($scope,'执行检查任务'+data+'失败,共耗时'+timeLog);
                                     }
                                 }
                             });
