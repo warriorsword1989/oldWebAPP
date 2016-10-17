@@ -1191,7 +1191,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                    $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                    //测线不需要打开属性面板
+                    //$scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                 } else if (pItemId === "2101") { //删除标记
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                     var ctrlAndTpl = {
