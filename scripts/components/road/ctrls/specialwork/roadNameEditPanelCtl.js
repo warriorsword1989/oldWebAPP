@@ -386,7 +386,6 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 	
                 }else{
                 	swal("属性值没有变化", "", "info");
-                	$scope.closeEditPanel();
     				return;
                 }
             }
