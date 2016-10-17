@@ -1187,6 +1187,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "rdSlope") {
+                if(!geo.linkPid){
+                    swal('提示',"请选择退出线！","warning");
+                    return ;
+                }
                 dsEdit.create('RDSLOPE', geo).then(function (data) {
                     if (data != null) {
                         relationData.redraw();
