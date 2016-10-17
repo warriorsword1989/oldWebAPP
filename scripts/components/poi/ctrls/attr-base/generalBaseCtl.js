@@ -239,6 +239,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     break;
             }
         }
+
+
+        //品牌字段特殊处理
+        var chain = objectCtrl.data.chain;
+        if(chain == 0){
+            objectCtrl.data.chain = "";
+        }
     }
 
     /*默认显示baseInfo的tab页*/
@@ -370,7 +377,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             swal("提示", '此数据为已提交数据，不能做修改属性！', "info");
             return;
         }
-        clearDeepInfo();//清除不使用的深度信息,必须要写在objectCtrl.save()之前
+        clearDeepInfo();//清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
 
         attrToDBC(); //部分属性转全角
 

@@ -39,7 +39,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         }
         selectCtrl.onSelected({//记录选中点信息
             geometry: objCtrl.data,
-            id: objCtrl.data.pid,
+            id: objCtrl.data.pid
         });
 
     }

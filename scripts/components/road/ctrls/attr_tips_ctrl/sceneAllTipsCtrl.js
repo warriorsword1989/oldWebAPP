@@ -808,47 +808,46 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             case "1901": //道路名
                 $scope.nArrayData = $scope.dataTipsData.n_array;
                 /*       highLightFeatures.push({
-                           id:$scope.dataTipsData.rowkey.toString(),
-                           layerid:'gpsLine',
-                           type:'gpsLine',
-                           style:{}
-
-                       });*/
+                 id:$scope.dataTipsData.rowkey.toString(),
+                 layerid:'gpsLine',
+                 type:'gpsLine',
+                 style:{}
+                 });*/
                 break;
             case "2001": //测线
                 $scope.returnLineType = function(code) {
-                        switch (code) {
-                            case 0:
-                                return '作业中';
-                            case 1:
-                                return "高速道路";
-                            case 2:
-                                return "城市高速";
-                            case 3:
-                                return "国道";
-                            case 4:
-                                return "省道";
-                            case 5:
-                                return "预留";
-                            case 6:
-                                return "县道";
-                            case 7:
-                                return "乡镇村道路";
-                            case 8:
-                                return "其他道路";
-                            case 9:
-                                return "非引导道路";
-                            case 10:
-                                return "步行道路";
-                            case 11:
-                                return "人渡";
-                            case 13:
-                                return "轮渡";
-                            case 15:
-                                return "10级路（障碍物）";
-                        }
+                    switch (code) {
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return "高速道路";
+                        case 2:
+                            return "城市高速";
+                        case 3:
+                            return "国道";
+                        case 4:
+                            return "省道";
+                        case 5:
+                            return "预留";
+                        case 6:
+                            return "县道";
+                        case 7:
+                            return "乡镇村道路";
+                        case 8:
+                            return "其他道路";
+                        case 9:
+                            return "非引导道路";
+                        case 10:
+                            return "步行道路";
+                        case 11:
+                            return "人渡";
+                        case 13:
+                            return "轮渡";
+                        case 15:
+                            return "10级路（障碍物）";
                     }
-                    /*测线来源*/
+                }
+                /*测线来源*/
                 $scope.returnLineSrc = function(code) {
                     switch (code) {
                         case 0:

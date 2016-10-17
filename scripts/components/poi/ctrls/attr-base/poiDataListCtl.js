@@ -24,6 +24,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
+            if(!(data && data.pid)){
+                return ;
+            }
             scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;

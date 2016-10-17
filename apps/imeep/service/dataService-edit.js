@@ -457,7 +457,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }
         var defer = $q.defer();
         var url = "edit/run/";
-        if (param.type == "IXPOI") {
+        if (param.type == "IXPOI" || param.type == "IXPOIPARENT" || param.type == "IXSAMEPOI") {
             url = "editrow/run/";
         }
         param = JSON.stringify(param);
