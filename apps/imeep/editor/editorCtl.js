@@ -289,7 +289,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// 消息推送
 		$scope.msgNotify = function(){
 			// 创建一个Socket实例
-			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5));
+			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5)),
+				msgCount = 0;
 			sock.onopen = function() {
 				console.log('已经建立websocket连接...');
 			};
@@ -301,6 +302,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					$scope.systemMsg = JSON.parse(e.data);
 				}
 				$scope.sysMsgItem = $scope.systemMsg;
+				if(msgCount > 0){
+					logMsgCtrl.pushMsg($scope,$scope.sysMsgItem[0].msgContent);
+				}
+				msgCount++;
 				$scope.$apply();
 			};
 			sock.onclose = function() {

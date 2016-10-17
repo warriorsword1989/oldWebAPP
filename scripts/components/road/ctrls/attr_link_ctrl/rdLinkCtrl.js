@@ -358,7 +358,8 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
 						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
 					}
 				});
-//                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                // objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
             }
         })
     };
