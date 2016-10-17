@@ -193,4 +193,4 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
     if (objCtrl.data) {
         $scope.initializeData();
     }
-}]);
+}])
