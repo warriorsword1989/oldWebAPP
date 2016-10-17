@@ -444,7 +444,8 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             "CREATEPARENT": "POI增加父",
             "UPDATEPARENT": "POI更新父",
             "DELETEPARENT": "POI解除父",
-            "UPDATETOPO": "更新" + [param.type] + "拓扑"
+            "UPDATETOPO": "更新" + [param.type] + "拓扑",
+            "DEPART": "分离节点",
         }[param.command];
         if (param.type == "IXPOI" && param.data) { //poi属性不修改也可进行保存，所以需要进行特殊处理
             var keys = Object.keys(param.data);

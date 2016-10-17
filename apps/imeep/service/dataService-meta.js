@@ -287,7 +287,7 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
                 defer.resolve(data.data);
             } else {
                 swal("道路名称保存出错：", data.errmsg, "error");
-                defer.resolve([]);
+                defer.resolve(null);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
