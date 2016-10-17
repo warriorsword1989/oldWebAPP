@@ -2495,6 +2495,7 @@ a.batchButton {
   height: 197px;
   overflow-y: auto;
   overflow-x: hidden;
+  word-wrap: break-word;
   font-size: 13px;
   font-weight: 600;
   line-height: 2;
