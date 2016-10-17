@@ -316,12 +316,6 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $scope.addFlag = true;
         $scope.changeFlag = false;
         $scope.showInfoFlag = false;
-        // var addDirectObj = {
-        //     "loadType":"subAttrTplContainer",
-        //     "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/addDirectCtrl',
-        //     "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
-        // };
-        // $scope.$emit("transitCtrlAndTpl", addDirectObj);
 
         var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
