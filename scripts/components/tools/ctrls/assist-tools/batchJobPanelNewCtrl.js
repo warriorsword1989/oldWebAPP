@@ -22,6 +22,8 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
         }
 
         $scope.doExecute = function() {
+            //起始时间
+            var start = new Date().getTime();
             if($scope.radioModel=='BATCH_SLE'){
                 $scope.selectedBatches = 'BATCH_SLE';
             }else{
@@ -46,6 +48,8 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                         var timer = $interval(function() {
                             dsEdit.getJobById(data).then(function(d) {
                                 if (d.status == 3 || d.status == 4) { //1-创建，2-执行中 3-成功 4-失败
+                                    //返回函数执行需要时间
+                                    var timeLog = parseInt((new Date().getTime() - start)/1000)+"秒";
                                     $interval.cancel(timer);
                                     $scope.progress = 100;
                                     $scope.$emit("job-batch", {
@@ -59,7 +63,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                                             "pid": "0",
                                             "childPid": ""
                                         });
-                                        logMsgCtrl.pushMsg($scope,'执行批处理完成');
+                                        logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'完成,共耗时'+timeLog);
                                     } else {
                                         dsOutput.push({
                                             "op": "执行批处理执行失败",
@@ -67,7 +71,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                                             "pid": "0",
                                             "childPid": ""
                                         });
-                                        logMsgCtrl.pushMsg($scope,'执行批处理失败');
+                                        logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'失败,共耗时'+timeLog);
                                     }
                                 }
                             });
