@@ -333,7 +333,22 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 			dbId : App.Temp.dbId
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
-                		$scope.$emit("REFRESHROADNAMELIST");
+                		if(data){
+                			$scope.closeSubModal();
+//                    		$scope.$emit("REFRESHROADNAMELIST");
+                    		swal({
+        						title: "保存成功",
+        						type: "info",
+        						showCancelButton: false,
+        						closeOnConfirm: true,
+        						confirmButtonText: "确定",
+        					}, function (f) {
+        						if(f){
+        							$scope.$emit("REFRESHROADNAMELIST");
+//        							$scope.$apply();
+        						}
+        					});
+                		}
                     });
             	}
             }else if("edit" == $scope.roadNameFlag){
@@ -352,26 +367,29 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
                 			dbId : App.Temp.dbId
                 	};
                 	dsMeta.roadNameSave(param).then(function(data) {
-                		swal({
-    						title: "保存成功",
-    						type: "info",
-    						showCancelButton: false,
-    						closeOnConfirm: true,
-    						confirmButtonText: "确定",
-    					}, function (f) {
-    						if(f){
-    							$scope.$emit("REFRESHROADNAMELIST");
-//    							$scope.$apply();
-    						}
-    					});
+                		if(data){
+                			$scope.closeEditPanel();
+                			swal({
+        						title: "保存成功",
+        						type: "info",
+        						showCancelButton: false,
+        						closeOnConfirm: true,
+        						confirmButtonText: "确定",
+        					}, function (f) {
+        						if(f){
+        							$scope.$emit("REFRESHROADNAMELIST");
+//        							$scope.$apply();
+        						}
+        					});
+                		}
                     });
                 	
                 }else{
                 	swal("属性值没有变化", "", "info");
+                	$scope.closeEditPanel();
     				return;
                 }
             }
-            $scope.closeEditPanel();
             
         };
         /***
