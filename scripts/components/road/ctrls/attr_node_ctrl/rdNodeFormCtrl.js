@@ -208,8 +208,8 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
                     }
                 });
                 // objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+                $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
             }
-            $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         });
 
         // $scope.nodeForm.$setPristine();

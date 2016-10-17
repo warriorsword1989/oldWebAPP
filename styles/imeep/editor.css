@@ -1651,7 +1651,7 @@ a.fm-panel-controlArrowRight > span {
 }
 .log-message-container .log-message {
   color: #fff;
-  background-color: rgba(165, 165, 165, 0.42);
+  background-color: #949090;
   padding: 13px;
   height: 40px;
   margin-top: 3px;
@@ -1661,8 +1661,6 @@ a.fm-panel-controlArrowRight > span {
   width: 20px;
   position: absolute;
   right: 0;
-  color: #fff;
-  opacity: .5;
   top: 0;
   cursor: pointer;
   padding: 4px;
@@ -2378,7 +2376,7 @@ a.batchButton {
 .message-item p {
   padding: 5px 0 0 10px;
   float: left;
-  line-height: 1.5;
+  line-height: 1.7;
   width: 250px;
   height: 50px;
   overflow-y: hidden;
