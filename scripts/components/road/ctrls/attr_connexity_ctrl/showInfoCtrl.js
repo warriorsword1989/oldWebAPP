@@ -252,13 +252,13 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                     if (parseInt(parseInt(str, 2).toString(10)) == 0) {
                         for (var i = 0; i < $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias.length; i++) {
                             for (var j = 0; j < highRenderCtrl.highLightFeatures.length; j++) {
-                                if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias[i].outLinkPid.toString()) {
+                                if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias[i].linkPid.toString()) {
                                     highRenderCtrl.highLightFeatures.splice(j, 1);
                                     j--;
                                 }
                             }
                         }
-                        // $scope.infoData["topos"].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)), 1);
+                        $scope.infoData["topos"].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)), 1);
                     } else {
                         $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
                     }
@@ -268,6 +268,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             i--;
                         }
                     }
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.drawHighlight();
                 }else if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
                     outLinkArr.push(parseInt(data.id));
@@ -279,6 +280,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
                         }
                     }
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.drawHighlight();
                     var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
                     var infoLen = (16 - inLaneDecArr.length);
@@ -335,15 +337,15 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             });
                             $scope.infoData["laneNum"] += 1;
                             $scope.infoData["topos"].unshift(selObj);
-                            selObj.enterLaneNum = $scope.showLaneInfo[0].enterLaneNum || 0;
-                            selObj.enterBusNum = $scope.showLaneInfo[0].enterBusNum || 0;
+                            selObj.enterLaneNum = $scope.infoData["selectNum"];
+                            selObj.enterBusNum = 0;
                             selObj.inLinkPid = objCtrl.data["inLinkPid"];
                             $scope.showLaneInfo.push(selObj);
                             outLinkArr.push(parseInt(data.id));
                         }
                     });
                 }
-                highRenderCtrl.drawHighlight();
+                // highRenderCtrl.drawHighlight();
             }
         });
     };
