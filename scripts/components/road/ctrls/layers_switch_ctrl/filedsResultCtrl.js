@@ -402,7 +402,17 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1201") { //道路种别
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
-                    $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                        callback: function() {
+                            if (data.t_lifecycle == 3 && data.f.type == 1) {
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                            }
+                        }
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1202") {    //车道数
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                     var ctrlAndTpl = {
@@ -779,7 +789,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         callback: function() {
                             if (data.f_array.length != 0) {
                                 $scope.brigeLinkArray = data.f_array;
-                                $scope.getFeatDataCallback(data, data.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                if(data.f_array[0].type == 1 ){ //type ==1 表示的是道路link ，type==2表示测线（测线不需要打开面板）
+                                    $scope.getFeatDataCallback(data, data.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
                             }
                         }
                     }

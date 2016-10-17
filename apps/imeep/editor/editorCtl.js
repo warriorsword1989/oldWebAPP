@@ -296,7 +296,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			sock.onmessage = function(e) {
 				console.log('message', JSON.parse(e.data));
 				if(JSON.parse(e.data).length == 1){
-					$scope.systemMsg.push(JSON.parse(e.data)[0]);
+					$scope.systemMsg.unshift(JSON.parse(e.data)[0]);
 				}else if(JSON.parse(e.data).length > 1){
 					$scope.systemMsg = JSON.parse(e.data);
 				}
@@ -349,16 +349,17 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.sysMsgType = type;
 		};
 		//历史消息翻页
-		$scope.pageChanged = function() {
+		$scope.pageChanged = function(pageNow) {
 			var param = {
 				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-				pageNum:$scope.currentPage,
+				pageNum:pageNow,
 				pageSize:5
 			};
 			dsFcc.getReadMsg(param).then(function(data){
 				if(data){
 					$scope.sysMsgItem = data.result;
 					$scope.totalItems = data.totalCount;
+					$scope.currentPage = pageNow;
 				}
 			});
 		};
@@ -373,7 +374,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				};
 				if($scope.sysMsgType == 'new'){
 					dsFcc.getReadCheck(param).then(function(data){
-						console.log(data)
 						$scope.sysMsgObj = data[0];
 						for(var i=0;i<$scope.systemMsg.length;i++){
 							if($scope.systemMsg[i].msgId == id){
