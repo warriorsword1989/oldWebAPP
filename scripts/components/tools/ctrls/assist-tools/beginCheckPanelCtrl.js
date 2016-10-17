@@ -80,7 +80,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             } else {
                 var param = {
                     taskId:App.Temp.subTaskId,
-                    ruleCode:$scope.selectedBatches,
+                    ruleCode:$scope.selectedBatches.join(','),
                     type:$scope.batchType
                 }
                 $scope.running = true;
