@@ -54,9 +54,29 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                     $scope.showTransitData.unshift({"flag":"test","type":1});
                 }
             } else {
-                $scope.showNormalData.push({"flag":arr[1].toString(),"type":2});
+                if(arr[1] == "["){
+                    if("a" < arr[2] && arr[2] < "z"){
+                        $scope.showNormalData.push({"flag":arr[2].toString(),"type":2});
+
+                    }
+                } else {
+                    if("a" < arr[1] && arr[1] < "z"){
+                        $scope.showNormalData.push({"flag":arr[1].toString(),"type":2});
+
+                    }
+                }
                 if(arr[3]) {
-                    $scope.showTransitData.push({"flag":arr[3].toString(),"type":1});
+                    if(arr[3]!="<"){
+                        if("a" < arr[3] && arr[3] < "z"){
+                            $scope.showTransitData.push({"flag":arr[3].toString(),"type":1});
+                        }
+                    }else {
+                        if(arr[4]){
+                            if("a" < arr[4] && arr[4] < "z"){
+                                $scope.showTransitData.push({"flag":arr[4].toString(),"type":1});
+                            }
+                        }
+                    }
                 }else{
                     $scope.showTransitData.push({"flag":"test","type":1});
                 }
@@ -74,9 +94,13 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             arr = data.split("<");
             if(arr[0]) {
                 //把第一个放进去 {"flag":arr[1].substr(0, 1).toString(),"type":1}
-                $scope.showNormalData.push({"flag":arr[0],"type":0});
+                if("a" < arr[0] && arr[0] < "z") {
+                    $scope.showNormalData.push({"flag": arr[0], "type": 0});
+                }
                 //第二个
-                $scope.showTransitData.push({"flag":arr[1].substr(0, 1).toString(),"type":1});
+                if("a" < arr[1] && arr[1] < "z") {
+                    $scope.showTransitData.push({"flag": arr[1].substr(0, 1).toString(), "type": 1});
+                }
             }
 
         }
@@ -316,12 +340,6 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $scope.addFlag = true;
         $scope.changeFlag = false;
         $scope.showInfoFlag = false;
-        // var addDirectObj = {
-        //     "loadType":"subAttrTplContainer",
-        //     "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/addDirectCtrl',
-        //     "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/addDirectTpl.html'
-        // };
-        // $scope.$emit("transitCtrlAndTpl", addDirectObj);
 
         var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",
