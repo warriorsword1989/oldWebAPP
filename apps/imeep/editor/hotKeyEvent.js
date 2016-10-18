@@ -1044,6 +1044,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                              "kindCode":kindCode
 	                          }
 	                      };
+                          scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
 	                          if (data != null) {
@@ -1596,6 +1597,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     })
                 }
 
+            } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
+                return;
             }
             resetPage();
         }

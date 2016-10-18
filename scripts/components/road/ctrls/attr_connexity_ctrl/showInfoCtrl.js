@@ -162,6 +162,12 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                 } else {
                     $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 2)].split("");
                 }
+            } else {
+                if (direct.indexOf(">") !== -1) {
+                    $scope.directArr = $scope.changeDirects[direct.charAt(0)].split("");
+                } else {
+                    $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 1)].split("");
+                }
             }
         }
     };
