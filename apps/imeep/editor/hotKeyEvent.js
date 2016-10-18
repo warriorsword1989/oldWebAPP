@@ -1047,7 +1047,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
 	                          if (data != null) {
-	                        	  swal.close();
 	                              layerCtrl.getLayerById("poi").redraw();
 	                              highRenderCtrl._cleanHighLight();
 	                              highRenderCtrl.highLightFeatures = [];
