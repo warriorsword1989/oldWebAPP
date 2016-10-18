@@ -94,6 +94,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         } else {
             arr = data.split("<");
             $scope.showNormalData.push({"flag": arr[0], "type": 0});
+            $scope.showTransitData.push({"flag": arr[1].substr(0, 1).toString(), "type": 1});
             // if(arr[0]) {
             //     //把第一个放进去 {"flag":arr[1].substr(0, 1).toString(),"type":1}
             //     if("a" < arr[0] && arr[0] < "z") {
@@ -251,12 +252,21 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             $scope.lanesData["selectNum"] = index;
             $scope.selectNum = index;
             $scope.changeItem = item;
-            var changedDirectObj = {
-                "loadType":"subAttrTplContainer",
-                "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/changeDirectCtrl',
-                "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/changeDirectTpl.html'
+
+            var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+                "loadType": "subAttrTplContainer",
+                "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+                "callback": function () {
+                    var changedDirectObj = {
+                        "loadType": "subAttrTplContainer",
+                        "propertyCtrl":appPath.road + 'ctrls/attr_connexity_ctrl/changeDirectCtrl',
+                        "propertyHtml":appPath.root + appPath.road + 'tpls/attr_connexity_tpl/changeDirectTpl.html'
+                    };
+                    $scope.$emit("transitCtrlAndTpl", changedDirectObj);
+                }
             };
-            $scope.$emit("transitCtrlAndTpl", changedDirectObj);
+            $scope.$emit("transitCtrlAndTpl", rdlaneInfoObj);
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
