@@ -210,7 +210,7 @@ fastmap.uikit.ObjectEditController = (function() {
                 //     });
                 // }
                 //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
-                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType !=this.data.branchType)) {
+                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.pid != this.data.pid)) {
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
