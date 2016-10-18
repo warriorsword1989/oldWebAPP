@@ -27,7 +27,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             if(!(data && data.pid)){
                 return ;
             }
-            scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
+            //scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
+            scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
