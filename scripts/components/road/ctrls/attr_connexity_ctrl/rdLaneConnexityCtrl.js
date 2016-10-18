@@ -95,17 +95,6 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             arr = data.split("<");
             $scope.showNormalData.push({"flag": arr[0], "type": 0});
             $scope.showTransitData.push({"flag": arr[1].substr(0, 1).toString(), "type": 1});
-            // if(arr[0]) {
-            //     //把第一个放进去 {"flag":arr[1].substr(0, 1).toString(),"type":1}
-            //     if("a" < arr[0] && arr[0] < "z") {
-            //         $scope.showNormalData.push({"flag": arr[0], "type": 0});
-            //     }
-            //     //第二个
-            //     if("a" < arr[1] && arr[1] < "z") {
-            //         $scope.showTransitData.push({"flag": arr[1].substr(0, 1).toString(), "type": 1});
-            //     }
-            // }
-
         }
     };
     $scope.decimalToArr = function (data) {
@@ -267,6 +256,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 }
             };
             $scope.$emit("transitCtrlAndTpl", rdlaneInfoObj);
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
@@ -276,6 +266,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 });
             map.currentTool.enable();
             if ($scope.changeFlag) {
+                eventController.off(eventController.eventTypes.GETOUTLINKSPID);
                 eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
 
                     var highLightFeatures = [];
