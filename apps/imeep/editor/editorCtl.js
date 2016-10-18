@@ -25,6 +25,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.projectType = 1; //1--POI作业，其他为道路作业
 		$scope.outputType = 1;
 		$scope.rootCommonTemp = {}; //用于保存需要全局控制的变量
+		$scope.thematicMapShow = false;
 		//面板显示控制开关
 		$scope.editorPanelOpened = 'none';
 		$scope.suspendPanelOpened = false;
@@ -569,6 +570,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 			});
+		};
+		$scope.thematicMapChange = function(){
+			var layerCtrl = fastmap.uikit.LayerController();
+			var rdLink = layerCtrl.getLayerById('rdLink');
+			App.Temp.thematicMapFlag = !$scope.thematicMapShow;
+			$scope.thematicMapShow = !$scope.thematicMapShow;
+			rdLink.redraw();
 		};
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;
