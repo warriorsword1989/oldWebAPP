@@ -73,17 +73,33 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				}
 			}
 			$scope.tollGateData.names.sort(compare('nameGroupid'));
-			for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
+			//获取所有的nameGroupid
+            var nameGroupidArr = [];
+            for(var i = 0;i< $scope.tollGateData.names.length;i++){
+            	nameGroupidArr.push($scope.tollGateData.names[i].nameGroupid);
+            }
+            //去重
+            nameGroupidArr = Utils.distinctArr(nameGroupidArr);
+			for(var i=0,len=nameGroupidArr.length;i<len;i++){
 				var tempArr = [];
 				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
-					if($scope.tollGateData.names[j].nameGroupid == i+1){
+					if($scope.tollGateData.names[j].nameGroupid == nameGroupidArr[i]){
 						tempArr.push($scope.tollGateData.names[j]);
 					}
 				}
-				if(tempArr.length !=0){
-					$scope.nameGroup.push(tempArr);
-				}
+				$scope.nameGroup.push(tempArr);
 			}
+//			for(var i=0,len=$scope.tollGateData.names[0].nameGroupid;i<len;i++){
+//				var tempArr = [];
+//				for(var j=0,le=$scope.tollGateData.names.length;j<le;j++){
+//					if($scope.tollGateData.names[j].nameGroupid == i+1){
+//						tempArr.push($scope.tollGateData.names[j]);
+//					}
+//				}
+//				if(tempArr.length !=0){
+//					$scope.nameGroup.push(tempArr);
+//				}
+//			}
 			$scope.refreshNames();
 		}
 	}
@@ -129,15 +145,29 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.showDetail = function (type, index ,nameInfo,nameGroupid) {
 		var tempCtr = '', tempTepl = '', detailInfo = {};
 		if (type == 'name') {
-			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateNameCtrl';
-			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateNameTpl.html';
-			detailInfo = {
+//			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGateNameCtrl';
+//			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGateNameTpl.html';
+//			detailInfo = {
+//				"loadType": "subAttrTplContainer",
+//				"propertyCtrl": tempCtr,
+//				"propertyHtml": tempTepl,
+//				"data": $scope.nameGroup[nameGroupid-1]
+//			};
+			var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
 				"loadType": "subAttrTplContainer",
-				"propertyCtrl": tempCtr,
-				"propertyHtml": tempTepl,
-				"data": $scope.nameGroup[nameGroupid-1]
+				"propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+				"propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+				"callback": function () {
+					var showNameObj = {
+						"loadType": "subAttrTplContainer",
+						"propertyCtrl": 'scripts/components/road/ctrls/attr_tollgate_ctrl/tollGateNameCtrl',
+						"propertyHtml": '../../../scripts/components/road/tpls/attr_tollgate_tpl/tollGateNameTpl.html'
+					};
+					$scope.$emit("transitCtrlAndTpl", showNameObj);
+				}
 			};
 			objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
+			$scope.$emit("transitCtrlAndTpl", showNameInfoObj);
 		} else {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
 			tempTepl = appPath.root + appPath.road + 'tpls/attr_tollgate_tpl/tollGatePassageTpl.html';
@@ -148,10 +178,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
                 "data": $scope.tollGateData.passages[index]
             };
 			objCtrl.passageInfo = $scope.tollGateData.passages[index];
+			$scope.$emit("transitCtrlAndTpl", detailInfo);
 		}
-		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.tollGateNameData = detailInfo;
-		$scope.$emit("transitCtrlAndTpl", detailInfo);
+		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 	};
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
@@ -229,7 +259,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.addItem = function (type) {
 		if (type == 'name') {
 			$scope.refreshNames();
-			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.nameGroup.length+1}));
+			var maxNameGroupId = Utils.getArrMax($scope.tollGateData.names,'nameGroupid');
+			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({nameGroupid:maxNameGroupId+1}));
 			initNameInfo();
 		} else {
 			if (objCtrl.data.passages.length < 32) {

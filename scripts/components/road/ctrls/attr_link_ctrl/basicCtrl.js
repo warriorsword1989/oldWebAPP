@@ -20,7 +20,6 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": 13, "label": "13 轮渡"}
 	];
 	$scope.laneClassOptions = [
-        {"id": 0, "label": "0: 其他道路"},
 		{"id": 1, "label": "1: 一条车道"},
 		{"id": 2, "label": "2: 2或3条"},
 		{"id": 3, "label": "3: 4条及以上"}
@@ -67,8 +66,8 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": "13", "label": "PA"},
 		{"id": "14", "label": "全封闭道路"},
 		{"id": "15", "label": "匝道"},
-		{"id": "16", "label": "跨线天桥"},
-		{"id": "17", "label": "跨线地道"},
+		{"id": "16", "label": "跨线天桥(Overpass)"},
+		{"id": "17", "label": "跨线地道(Underpass)"},
 		{"id": "18", "label": "私道"},
 		{"id": "20", "label": "步行街"},
 		{"id": "21", "label": "过街天桥"},
@@ -80,23 +79,23 @@ basicApp.controller("basicController", function ($scope, $ocLazyLoad) {
 		{"id": "32", "label": "立交桥"},
 		{"id": "33", "label": "环岛"},
 		{"id": "34", "label": "辅路"},
-		{"id": "35", "label": "掉头口"},
+		{"id": "35", "label": "调头口(U-Turn)"},
 		{"id": "36", "label": "POI连接路"},
 		{"id": "37", "label": "提右"},
 		{"id": "38", "label": "提左"},
-		{"id": "39", "label": "主辅路入口"},
+		{"id": "39", "label": "主辅路出入口"},
 		{"id": "43", "label": "窄道路"},
 		{"id": "48", "label": "主路"},
 		{"id": "49", "label": "侧道"},
 		{"id": "50", "label": "交叉点内道路"},
-		{"id": "51", "label": "未定义交通区域"},
+		{"id": "51", "label": "未定义交通区域(UTA)"},
 		{"id": "52", "label": "区域内道路"},
 		{"id": "53", "label": "停车场出入口连接路"},
 		{"id": "54", "label": "停车场出入口虚拟连接路"},
 		{"id": "57", "label": "Highway对象外JCT"},
 		{"id": "60", "label": "风景路线"},
-		{"id": "80", "label": "停车位引导道路"},
-		{"id": "81", "label": "停车位引导道路"},
+		{"id": "80", "label": "停车位引导道路(Parking Lane)"},
+		{"id": "81", "label": "虚拟调头口"},
 		{"id": "82", "label": "虚拟提左提右"}
 	];
 	$scope.auxiFlagoption = [

@@ -127,6 +127,12 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		{"id": 23, "label": "限行限号摄像头"},
 		{"id": 98, "label": "其他"}
 	];
+	$scope.srcFlagOption = [
+	    {"id": "0", "label": "其他外包数据"},
+	    {"id": "1", "label": "外业验证数据"},
+	    {"id": "2", "label": "善领"},
+	    {"id": "3", "label": "图吧"}
+	];
 
 	/*作用方向*/
 	$scope.directArray = [

@@ -16,7 +16,7 @@
                         <label>代码语言</label>
                         <div>
                             <select ng-model="info.langCode" class="fm-control"
-                                    ng-options="value.id as value.label for value in langCodeOptions">
+                                    ng-options="value.id as value.label for value in langCodeOptions | langCodeFilter: selectedLangcodeArr: info.langCode" ng-change="langCodeChange($event, this)">
                             </select>
                         </div>
                     </li>

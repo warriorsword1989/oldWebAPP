@@ -31,10 +31,10 @@ angular.module('app').controller("adminTableCtl", ['$scope', '$ocLazyLoad', 'NgT
 		 ];
 		//表格配置搜索;
         $scope.filters = {
-    			whole : ""
+    			name : ""
     	 };
 		$scope.$on("CHANGEADMINTABLEFITERPARAM",function(event,data){
-				$scope.filters.whole = data.whole;	
+				$scope.filters.name = data.whole;	
 		});
 		//初始化ng-table表格
 		function initAdminTable() {
@@ -50,7 +50,7 @@ angular.module('app').controller("adminTableCtl", ['$scope', '$ocLazyLoad', 'NgT
                         pageSize: params.count(),
                         sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
 //                        params:{"whole":params.filter().whole}
-                        whole: params.filter().whole
+                        name: params.filter().whole
                     };
                     dsMeta.adminareaList(parameter).then(function(data) {
                         $scope.loadTableDataMsg = '列表无数据';
