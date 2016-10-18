@@ -1596,6 +1596,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     })
                 }
 
+            } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
+                return;
             }
             resetPage();
         }

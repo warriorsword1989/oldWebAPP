@@ -92,16 +92,17 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             $scope.showTransitData.push({"flag":"test","type":1});
         } else {
             arr = data.split("<");
-            if(arr[0]) {
-                //把第一个放进去 {"flag":arr[1].substr(0, 1).toString(),"type":1}
-                if("a" < arr[0] && arr[0] < "z") {
-                    $scope.showNormalData.push({"flag": arr[0], "type": 0});
-                }
-                //第二个
-                if("a" < arr[1] && arr[1] < "z") {
-                    $scope.showTransitData.push({"flag": arr[1].substr(0, 1).toString(), "type": 1});
-                }
-            }
+            $scope.showNormalData.push({"flag": arr[0], "type": 0});
+            // if(arr[0]) {
+            //     //把第一个放进去 {"flag":arr[1].substr(0, 1).toString(),"type":1}
+            //     if("a" < arr[0] && arr[0] < "z") {
+            //         $scope.showNormalData.push({"flag": arr[0], "type": 0});
+            //     }
+            //     //第二个
+            //     if("a" < arr[1] && arr[1] < "z") {
+            //         $scope.showTransitData.push({"flag": arr[1].substr(0, 1).toString(), "type": 1});
+            //     }
+            // }
 
         }
     };
