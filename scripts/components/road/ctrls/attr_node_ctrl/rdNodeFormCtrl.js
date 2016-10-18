@@ -74,7 +74,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         //初始化
-        eventController.fire('SHOWSUBTABLEDATA')
+        //eventController.fire('SHOWSUBTABLEDATA')
         var highlightFeatures = [];
 
         dsEdit.getByCondition({
@@ -139,19 +139,27 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
     if(objectEditCtrl.data) {
         $scope.initializeNodeData();
     }
-    objectEditCtrl.nodeObjRefresh=function() {
-        $scope.initialForms();
-    };
-    $scope.loadJsAndCtrl=function(obj) {
-        $scope.$emit('transitCtrlAndTpl', obj);
-    };
+    // objectEditCtrl.nodeObjRefresh=function() {
+    //     $scope.initialForms();
+    // };
+    // $scope.loadJsAndCtrl=function(obj) {
+    //     $scope.$emit('transitCtrlAndTpl', obj);
+    // };
     $scope.showPopover=function(){
-        var showPopoverObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":appPath.road +'ctrls/attr_node_ctrl/addDirectCtrl',
-            "propertyHtml":appPath.root + appPath.road + 'tpls/attr_node_tpl/addDitrectTpl.html'
+        var blackObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载当前的ctrl。
+            "loadType": "subAttrTplContainer",
+            "propertyCtrl": appPath.road + 'ctrls/blank_ctrl/blankCtrl',
+            "propertyHtml": appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html',
+            "callback": function () {
+                var goalObj = {
+                    "loadType": "subAttrTplContainer",
+                    "propertyCtrl": appPath.road + 'ctrls/attr_node_ctrl/addDirectCtrl',
+                    "propertyHtml": appPath.root + appPath.road + 'tpls/attr_node_tpl/addDitrectTpl.html'
+                };
+                $scope.$emit("transitCtrlAndTpl", goalObj);
+            }
         };
-        $scope.loadJsAndCtrl(showPopoverObj);
+        $scope.$emit("transitCtrlAndTpl", blackObj);
     }
 
     $scope.delFrom=function(item){
