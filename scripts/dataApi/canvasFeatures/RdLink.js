@@ -2,11 +2,21 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
     geometry: {},
     properties: {},
     setAttribute: function(data) {
-        var RD_LINK_Colors = [
-            '#646464', '#FFAAFF', '#E5C8FF', '#FF6364', '#FFC000', '#0E7892',
-            '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
-            '#000000', '#7364C8', '#000000', '#DCBEBE'
-        ];
+        var thematicMapFlag = App.Temp.thematicMapFlag;
+        var RD_LINK_Colors = [];
+        if (thematicMapFlag) {
+            RD_LINK_Colors = [
+                '#000000', '#FF0000', '#00A500', '#E7EFF7', '#0000FF', '#EFEFF7',
+                '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
+                '#000000', '#7364C8', '#000000', '#DCBEBE'
+            ];
+        } else {
+            RD_LINK_Colors = [
+                '#646464', '#FFAAFF', '#E5C8FF', '#FF6364', '#FFC000', '#0E7892',
+                '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
+                '#000000', '#7364C8', '#000000', '#DCBEBE'
+            ];
+        }
         this.geometry['type'] = 'LineString';
         this.properties["featType"] = "RDLINK";
         this.properties['name'] = data.m.b;

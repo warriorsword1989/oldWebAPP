@@ -99,7 +99,25 @@ angular.module('fastmap.uikit').directive('image404',function (){
         }
     }
 });
-
+/**
+ *
+ */
+angular.module('fastmap.uikit').directive('fmAutoFocus',function ($timeout){
+    return {
+        restrict:'A',
+        replace:false,
+        link: function ( $scope, element, attrs ) {
+        },
+        controller: function ($scope, $element,$timeout){
+            $scope.selectFirstNum = function () {
+                $timeout(function () {
+                    //$($element).find("input[name=fmFocus]").focus();
+                    angular.element($element).find('input[name=fmFocus]:eq(0)').focus();
+                },200);
+            };
+        }
+    }
+});
 //方式二在form中增加指令
 //angular.module('fastmap.uikit', []).directive('myForm',function (){
 //     return {

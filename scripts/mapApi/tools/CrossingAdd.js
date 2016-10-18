@@ -179,75 +179,75 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
 
         return dataOfRectangle;
     },
-    _dataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, linkArr = [], nodeArr = [], dataOfRectangle = null;
-        var transform = new fastmap.mapApi.MecatorTranform();
-        var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
-            endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
-        var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
-        var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
-        var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
-        var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
-        var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
-        var polygon = new fastmap.mapApi.Polygon([lineString]);
-        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
-            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
-                var data = tiles[i + ":" + j].data.features;
-                if (data) {
-                    for (var item in data) {
-                        var pointsLen = data[item].geometry.coordinates.length;
-                            var startPoint = data[item].geometry.coordinates[0][0],
-                                endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
-                            startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
-                            startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
-                            endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
-                            endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
-                            if (polygon.containsPoint(startPoint)) {
-                                if (polygon.containsPoint(endPoint)) {
-                                    linkArr.push({
-                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
-                                        "link": parseInt(data[item].properties.id)
-                                    });
-
-                                } else {
-                                    var sObj = {
-                                        "node": parseInt(data[item].properties.snode),
-                                        "link": parseInt(data[item].properties.id)
-                                    }
-                                    nodeArr.push(sObj);
-                                }
-
-
-                            } else if (polygon.containsPoint(endPoint)) {
-
-                                if (polygon.containsPoint(startPoint)) {
-                                    linkArr.push({
-                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
-                                        "link": parseInt(data[item].properties.id)
-                                    });
-                                } else {
-                                    var eObj = {
-                                        "node": parseInt(data[item].properties.enode),
-                                        "link": parseInt(data[item].properties.id)
-                                    };
-                                    nodeArr.push(eObj);
-                                }
-
-                            }
-
-                            dataOfRectangle = {
-                                links: linkArr,
-                                nodes: nodeArr
-                            };
-
-
-                    }
-                }
-            }
-        }
-
-        return dataOfRectangle;
-    },
+    // _dataOfRectangle: function (layer, tiles) {
+    //     var points = layer._latlngs, linkArr = [], nodeArr = [], dataOfRectangle = null;
+    //     var transform = new fastmap.mapApi.MecatorTranform();
+    //     var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
+    //         endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
+    //     var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
+    //     var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
+    //     var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
+    //     var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
+    //     var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
+    //     var polygon = new fastmap.mapApi.Polygon([lineString]);
+    //     for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
+    //         for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
+    //             var data = tiles[i + ":" + j].data.features;
+    //             if (data) {
+    //                 for (var item in data) {
+    //                     var pointsLen = data[item].geometry.coordinates.length;
+    //                         var startPoint = data[item].geometry.coordinates[0][0],
+    //                             endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
+    //                         startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
+    //                         startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
+    //                         endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
+    //                         endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
+    //                         if (polygon.containsPoint(startPoint)) {
+    //                             if (polygon.containsPoint(endPoint)) {
+    //                                 linkArr.push({
+    //                                     "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
+    //                                     "link": parseInt(data[item].properties.id)
+    //                                 });
+    //
+    //                             } else {
+    //                                 var sObj = {
+    //                                     "node": parseInt(data[item].properties.snode),
+    //                                     "link": parseInt(data[item].properties.id)
+    //                                 }
+    //                                 nodeArr.push(sObj);
+    //                             }
+    //
+    //
+    //                         } else if (polygon.containsPoint(endPoint)) {
+    //
+    //                             if (polygon.containsPoint(startPoint)) {
+    //                                 linkArr.push({
+    //                                     "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
+    //                                     "link": parseInt(data[item].properties.id)
+    //                                 });
+    //                             } else {
+    //                                 var eObj = {
+    //                                     "node": parseInt(data[item].properties.enode),
+    //                                     "link": parseInt(data[item].properties.id)
+    //                                 };
+    //                                 nodeArr.push(eObj);
+    //                             }
+    //
+    //                         }
+    //
+    //                         dataOfRectangle = {
+    //                             links: linkArr,
+    //                             nodes: nodeArr
+    //                         };
+    //
+    //
+    //                 }
+    //             }
+    //         }
+    //     }
+    //
+    //     return dataOfRectangle;
+    // },
     _drawShape: function (latlng) {
         if (!this._shape) {
             this._shape = new L.Rectangle(new L.LatLngBounds(this._startLatLng, latlng), this.options.shapeOptions);

@@ -136,7 +136,7 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
                 }
                 dsEdit.getByPid($scope.lcLinkData.pid, "LCLINK").then(function(data) {
                     if (data){
-                        objCtrl.setCurrentObject(type, data);
+                        objCtrl.setCurrentObject("LCLINK", data);
                         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     }
                 });
@@ -193,4 +193,4 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
     if (objCtrl.data) {
         $scope.initializeData();
     }
-}]);
+}])

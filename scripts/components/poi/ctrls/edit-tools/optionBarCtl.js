@@ -82,10 +82,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
             }
         });
     };
-    /*执行检查*/
-    $scope.startCheckEvent = function() {
-        $scope.$emit('openModelEvent', 'check');
-    };
     /*查找检查结果*/
     function getCheckResultData(num) {
         dsEdit.getCheckData(num).then(function(data) {
