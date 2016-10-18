@@ -405,6 +405,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                                     map.removeLayer(map.floatMenu);
                                     map.floatMenu = null;
                                 }
+                                $scope.$emit("clearAttrStyleUp");//清除属性样式
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
                             } else {
                                 $scope.$emit("reQueryByPid",{"pid":objectCtrl.data.pid,"type":"IXPOI"});
@@ -425,6 +426,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;
                     }
+                    $scope.$emit("clearAttrStyleUp");//清除属性样式
                     eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'update'});
                 } else {
                     $scope.$emit("reQueryByPid",{"pid":objectCtrl.data.pid,"type":"IXPOI"});
