@@ -656,7 +656,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 param["type"] = selectShapeType;
                 var snodeGeo, enodeGeo, pointNew, distanceA, distanceB;
-                dsEdit.getByPid(selectCtrl.selectedFeatures.id,'RDLINK').then(function(data){
+                dsEdit.getByPid(selectCtrl.selectedFeatures.id, selectCtrl.selectedFeatures.featType).then(function(data){
                     snodeGeo = data.geometry.coordinates[0];
                     enodeGeo = data.geometry.coordinates[data.geometry.coordinates.length-1];
                     pointNew = L.latLng(geo.y, geo.x);
@@ -1044,6 +1044,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                              "kindCode":kindCode
 	                          }
 	                      };
+                          scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
 	                          if (data != null) {
@@ -1187,6 +1188,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "rdSlope") {
+                if(!geo.linkPid){
+                    swal('提示',"请选择退出线！","warning");
+                    return ;
+                }
                 dsEdit.create('RDSLOPE', geo).then(function (data) {
                     if (data != null) {
                         relationData.redraw();
@@ -1592,6 +1597,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     })
                 }
 
+            } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
+                return;
             }
             resetPage();
         }

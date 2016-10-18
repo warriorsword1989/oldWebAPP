@@ -239,7 +239,7 @@ oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout
                     $scope.linkData.limits[i].tollType = 9;
                 } else {
                     //如果切换类型后，不需要赋默认值的，需要回到原来的值
-                    for (var j = 0, oriLen = objCtrl.originalData.limits.length; j < oriLen; i++) {
+                    for (var j = 0, oriLen = objCtrl.originalData.limits.length; j < oriLen; j++) {
                         if (objCtrl.originalData.limits[j]["rowId"] === $scope.linkData["oridiRowId"]) {
                             $scope.linkData.limits[i].tollType = objCtrl.originalData.limits[j].tollType;
                             break;

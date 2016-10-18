@@ -39,7 +39,7 @@ requirejs.config({
         'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
         'fmEditView': 'scripts/components/directives/fmEditView/fmEditView',
     },
-    // urlArgs: "bust=" +  (new Date()).getTime(),
+    urlArgs: "bust=" +  (new Date()).getTime(),
     waitSeconds: 0,
     shim: {
         'angular': {

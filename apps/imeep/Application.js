@@ -60,7 +60,8 @@ App.Temp = {
         RDNODE:'道路点',
         RDLINKSPEEDLIMIT:'线限速'
 
-    }
+    },
+    thematicMapFlag: false
 };
 // web app的公用函数命名空间
 App.Util = {

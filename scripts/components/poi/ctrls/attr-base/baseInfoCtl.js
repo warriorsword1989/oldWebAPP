@@ -108,7 +108,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             temp.contactType = 2;
         } else {
             temp.contactType = 1;
-            if(temp.code){
+            if(temp.code && temp.contact){
                 if($scope.$parent.teleCodeToLength[temp.code]){
                     if($scope.$parent.teleCodeToLength[temp.code] != temp.contact.length){
                         swal("提示","电话填写不正确,不算区号长度应该是"+$scope.$parent.teleCodeToLength[temp.code]+"位！","warning");
@@ -127,7 +127,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                     }
                 });
             } else {
-                swal("保存提示","电话区号不正确,不能保存！","warning");
+                //swal("保存提示","电话区号不正确,不能保存！","warning");
             }
         }
     };

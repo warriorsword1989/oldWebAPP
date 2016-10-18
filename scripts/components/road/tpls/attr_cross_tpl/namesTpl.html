@@ -23,7 +23,7 @@
                     <li>
                         <label>名称内容</label>
                         <div>
-                            <input type="text" class="fm-control" ng-model="info.name" ng-blur="namePronunciation(info.name,info);"/>
+                            <input type="text" class="fm-control" ng-model="info.name" ng-change="maxNameContent($index);" ng-blur="namePronunciation(info.name,info);"/>
                         </div>
                     </li>
                     <li>

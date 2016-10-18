@@ -65,7 +65,12 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
             }
         });
     };
-
+    //限制名称内容个数
+    $scope.maxNameContent = function(index){
+        if($scope.rdCrossNames[index].name.length > 120){
+            $scope.rdCrossNames[index].name = $scope.rdCrossNames[index].name.substr(0,120);
+        }
+    };
     $scope.changeLanguage = function (index){
         if( $scope.rdCrossNames[index].langCode == 'ENG'){
             $scope.rdCrossNames[index].srcFlag = 1;

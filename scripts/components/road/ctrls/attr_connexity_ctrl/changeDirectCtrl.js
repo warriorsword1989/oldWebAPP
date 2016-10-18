@@ -145,6 +145,7 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
     };
     $scope.selectLaneInfo = function (item, index) {
         $scope.item = item;
+        map.currentTool.disable();
         $scope.changeLaneConnexity();
     }
 });
