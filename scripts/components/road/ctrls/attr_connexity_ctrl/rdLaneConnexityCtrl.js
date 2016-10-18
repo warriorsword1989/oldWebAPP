@@ -125,7 +125,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $scope.showNormalData = [];
         $scope.showTransitData = [];
         $scope.outLanesArr = [];
-        $scope.selectNum = 10;
+        // $scope.selectNum = 10;
         $scope.addFlag = false;
         $scope.changeFlag = false;
         $scope.showInfoFlag = false;
