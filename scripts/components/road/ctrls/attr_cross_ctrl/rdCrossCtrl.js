@@ -38,6 +38,15 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                 radius: 3
             }
         });
+        // highLightFeatures.push({
+        //     id: $scope.rdCrossData.pid.toString(),
+        //     layerid: 'rdCross',
+        //     type: 'rdCross',
+        //     style: {
+        //         fillColor: '#ff00ff',
+        //         radius: 3
+        //     }
+        // });
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
     };

@@ -400,7 +400,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "objStatus": "UPDATE"
                     }).then(function(data) {
                         if(data){
-                            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                            //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                            if(!$scope.rootCommonTemp.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                                 if (map.floatMenu) {
                                     map.removeLayer(map.floatMenu);
                                     map.floatMenu = null;
@@ -418,7 +419,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         dsEdit.update($scope.poi.pid, "IXPOI", chaged).then(function(data) {
             if(data){
-                if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+                if(!$scope.rootCommonTemp.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                     if(chaged.hasOwnProperty("kindCode") || chaged.hasOwnProperty("indoor")){
                         poiLayer.redraw();
                     }
@@ -453,7 +455,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+            //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
+            if(!$scope.rootCommonTemp.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {"poi":$scope.poi,"flag":'del'});
             }
         });
