@@ -30,7 +30,7 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
             parameter: JSON.stringify(paramObj)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data.data.result);
+                defer.resolve(data.data.result || []);
             } else if (data.errcode == -100) {
                 ajax.tokenExpired();
             } else {

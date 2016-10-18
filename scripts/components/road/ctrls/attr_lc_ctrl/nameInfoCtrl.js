@@ -42,7 +42,7 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
         };
     };
 
-    /*上移或者下移*/
+    /*上移或者下移或新增*/
     $scope.changeOrder = function(item,type){
         if(type == 1){
             $.each($scope.names,function(i,v){
@@ -53,7 +53,7 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
             for(var i=0;i<item.length;i++){
                 item[i].nameGroupid -= 1;
             }
-        }else{
+        }else if(type == 2){
             $.each($scope.names,function(i,v){
                 if(v.nameGroupid == item[0].nameGroupid+1){
                     v.nameGroupid -= 1;
@@ -62,6 +62,8 @@ angular.module("app").controller("nameInfoCtrls", function ($scope,$timeout,dsMe
             for(var i=0;i<item.length;i++){
                 item[i].nameGroupid+= 1;
             }
+        }else if(type == 3){    //新增
+
         }
          $scope.names.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
