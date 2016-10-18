@@ -27,12 +27,12 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
             arr = data.split("");
             if (index === 0) {
                 if(arr[1] == "["){
-                    if("a" < arr[2] && arr[2] < "z"){
+                    if("a" <= arr[2] && arr[2] < "z"){
                         $scope.showNormalData.unshift({"flag":arr[2].toString(),"type":2});
 
                     }
                 } else {
-                    if("a" < arr[1] && arr[1] < "z"){
+                    if("a" <= arr[1] && arr[1] < "z"){
                         $scope.showNormalData.unshift({"flag":arr[1].toString(),"type":2});
 
                     }
@@ -40,12 +40,12 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
 
                 if(arr[3]) {
                     if(arr[3]!="<"){
-                        if("a" < arr[3] && arr[3] < "z"){
+                        if("a" <= arr[3] && arr[3] < "z"){
                             $scope.showTransitData.unshift({"flag":arr[3].toString(),"type":1});
                         }
                     }else {
                         if(arr[4]){
-                            if("a" < arr[4] && arr[4] < "z"){
+                            if("a" <= arr[4] && arr[4] < "z"){
                                 $scope.showTransitData.unshift({"flag":arr[4].toString(),"type":1});
                             }
                         }
@@ -56,24 +56,24 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 }
             } else {
                 if(arr[1] == "["){
-                    if("a" < arr[2] && arr[2] < "z"){
+                    if("a" <= arr[2] && arr[2] < "z"){
                         $scope.showNormalData.push({"flag":arr[2].toString(),"type":2});
 
                     }
                 } else {
-                    if("a" < arr[1] && arr[1] < "z"){
+                    if("a" <= arr[1] && arr[1] < "z"){
                         $scope.showNormalData.push({"flag":arr[1].toString(),"type":2});
 
                     }
                 }
                 if(arr[3]) {
                     if(arr[3]!="<"){
-                        if("a" < arr[3] && arr[3] < "z"){
+                        if("a" <= arr[3] && arr[3] < "z"){
                             $scope.showTransitData.push({"flag":arr[3].toString(),"type":1});
                         }
                     }else {
                         if(arr[4]){
-                            if("a" < arr[4] && arr[4] < "z"){
+                            if("a" <= arr[4] && arr[4] < "z"){
                                 $scope.showTransitData.push({"flag":arr[4].toString(),"type":1});
                             }
                         }
@@ -335,6 +335,12 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     //增加车道
     $scope.addLane = function () {
         var index;
+        var laneInf = $scope.lanesData.laneInfo;
+        var str = laneInf.split(",");
+        if(str[str.length-1].indexOf("[") > -1){
+            swal("提示", '最后一个箭头是附加车道，请修改！', "warning");
+            return;
+        }
        if($scope.lanesData["selectNum"]!==undefined) {
            index = $scope.lanesData["selectNum"]+1;
        }else{
