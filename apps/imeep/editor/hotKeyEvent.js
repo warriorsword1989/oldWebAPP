@@ -1207,13 +1207,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 };
                 var oriData = objEditCtrl.data;
-                if (featCodeCtrl.getFeatCode().linkPid.toString() != oriData.linkPid) {
-                    param.data.linkPid = featCodeCtrl.getFeatCode().linkPid.toString();
-                }
+                param.data.pid = oriData.pid ;
                 if (featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length) {
                     param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
                 }
-                if (param.data.linkPids == undefined && param.data.linkPid == undefined) {
+                if (param.data.linkPids == undefined ) {
                     swal("操作失败", "坡度没有发生修改！", "info");
                     return;
                 }
