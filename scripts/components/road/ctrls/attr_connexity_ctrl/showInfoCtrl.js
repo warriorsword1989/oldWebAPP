@@ -6,6 +6,7 @@ var infoOfConnexityApp = angular.module("app");
 infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', function ($scope, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.infoData = objCtrl.data;
     $scope.directArr = $scope.infoData.laneInfo.split(",");
@@ -163,10 +164,15 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                     $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 2)].split("");
                 }
             } else {
+                $scope.laneFlag = false;
                 if (direct.indexOf(">") !== -1) {
-                    $scope.directArr = $scope.changeDirects[direct.charAt(0)].split("");
+                    if(direct.length > 3){
+                        $scope.directArr = $scope.changeDirects[direct.charAt(0)].split("");
+                    } else if(direct.length == 3){
+                        $scope.directArr = $scope.changeDirects[direct.charAt(1)].split("");
+                    }
                 } else {
-                    $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 1)].split("");
+                    $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 2)].split("");
                 }
             }
         }
@@ -208,6 +214,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
     $scope.getLanesInfo = function (item, event) {
         // $scope.removeTipsActive();
         // $(event.target).addClass("active");
+        tooltipsCtrl.setCurrentTooltip('请在地图上选择Link以调整退出线！');
         if (eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID]) {
             for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID].length; ii < lenII; ii++) {
                 eventController.off(eventController.eventTypes.GETOUTLINKSPID, eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID][ii]);
@@ -236,19 +243,10 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             if (parseInt(data.properties.fc) != 9) {
+                tooltipsCtrl.setCurrentTooltip('调整完成点击属性面板“保存”按钮以保存！');
                 if (outLinkArr.indexOf(parseInt(data.id)) > -1) {//在现有的退出线内,排除掉
-                    for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
-                        if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
-                            outLinkPid = data.id;
-                            changedObj = $scope.showLaneInfo[k];
-                            $scope.showLaneInfo.splice(k, 1);
-                            $scope.$apply();
-                            $scope.changeOutLinkFlag++;
-                            outLinkArr.splice(outLinkArr.indexOf(parseInt(data.id)), 1);
-                            break;
-                        }
-                    }
-                    var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
+
+                    var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
                     var infoLen = (16 - inLaneDecArr.length);
                     inLaneDecArr[infoLen] = "0";
                     var str = inLaneDecArr[0];
@@ -267,6 +265,17 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                         $scope.infoData["topos"].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)), 1);
                     } else {
                         $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
+                    }
+                    for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
+                        if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
+                            outLinkPid = data.id;
+                            changedObj = $scope.showLaneInfo[k];
+                            $scope.showLaneInfo.splice(k, 1);
+                            $scope.$apply();
+                            $scope.changeOutLinkFlag++;
+                            outLinkArr.splice(outLinkArr.indexOf(parseInt(data.id)), 1);
+                            break;
+                        }
                     }
                     for (var i = 0; i < highRenderCtrl.highLightFeatures.length; i++) {
                         if (highRenderCtrl.highLightFeatures[i].id == data.id.toString()) {
@@ -356,6 +365,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         });
     };
     $scope.changeVias = function (item) {
+        tooltipsCtrl.setCurrentTooltip('请在地图上选择Link以调整经过线！');
         var lastNode = objCtrl.data["nodePid"];
         var viaLink = [];
         dsEdit.getByPid(item.outLinkPid, "RDLINK").then(function (outLink) {
@@ -405,6 +415,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                     eventController.off(eventController.eventTypes.GETOUTLINKSPID);
                     eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
                         if ((parseInt(data.id) != objCtrl.data["inLinkPid"]) && (parseInt(data.id) != item.outLinkPid)) {
+                            tooltipsCtrl.setCurrentTooltip('继续调整或点击属性面板“保存”按钮以保存！');
                             if (viaLink.indexOf(parseInt(data.id)) < 0) { //不在现有的经过线中
                                 if (parseInt(data.properties.snode) == lastNode && (parseInt(data.properties.direct) != 3)) {
                                     viaLink.push(parseInt(data.id));

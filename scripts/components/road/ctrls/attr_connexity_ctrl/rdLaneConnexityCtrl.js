@@ -6,6 +6,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
 
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
@@ -428,7 +429,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
         $scope.lanesData["selectNum"] = index;
         $scope.showTransitData[num].flag = "test";
         if($scope.showNormalData[num].type == 2){//附加
-            $scope.lanesArr[num] = "<" + $scope.showNormalData[num].flag + ">";
+            $scope.lanesArr[num] = "[" + $scope.showNormalData[num].flag + "]";
         } else if($scope.showNormalData[num].type == 0){
             $scope.lanesArr[num] = $scope.showNormalData[num].flag;
         }
@@ -577,6 +578,10 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     }
                 });
+            }
+            map.currentTool.disable();
+            if (tooltipsCtrl.getCurrentTooltip()) {
+                tooltipsCtrl.onRemoveTooltip();
             }
             rdConnexity.redraw();
         })
