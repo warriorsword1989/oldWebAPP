@@ -617,6 +617,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 $scope.rdCrossData = null;
                 highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length == 0;
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                   'subAttrContainerTpl': false,
                   'attrContainerTpl': false

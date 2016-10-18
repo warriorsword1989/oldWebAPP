@@ -254,17 +254,21 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                         str += inLaneDecArr[j];
                     }
                     if (parseInt(parseInt(str, 2).toString(10)) == 0) {
-                        for (var i = 0; i < $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias.length; i++) {
+                        for (var i = 0; i < $scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))].vias.length; i++) {
                             for (var j = 0; j < highRenderCtrl.highLightFeatures.length; j++) {
-                                if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias[i].linkPid.toString()) {
+                                if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))].vias[i].linkPid.toString()) {
                                     highRenderCtrl.highLightFeatures.splice(j, 1);
                                     j--;
                                 }
                             }
                         }
-                        $scope.infoData["topos"].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)), 1);
+                        $scope.infoData["laneNum"] -= 1;
+                        if($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1){
+                            $scope.outLinkPidArr.splice($scope.outLinkPidArr.indexOf(parseInt(data.id)),1);
+                        }
+                        $scope.infoData["topos"].splice(outLinkArr.indexOf(parseInt(data.id)), 1);
                     } else {
-                        $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
+                        $scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
                     }
                     for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                         if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
