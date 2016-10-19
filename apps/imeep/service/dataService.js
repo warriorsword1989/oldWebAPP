@@ -128,4 +128,4 @@ angular.module("dataService", [], function($httpProvider) {
     this.clear = function() {
         this.output.length = 0;
     };
-}]);
+}])

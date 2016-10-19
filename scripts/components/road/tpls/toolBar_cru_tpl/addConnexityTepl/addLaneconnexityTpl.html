@@ -1,74 +1,12 @@
 <style>
-
-    div {
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.42857143;
-        color: #58666e;
-        /*background-color: transparent;*/
-        margin-right: 0px;
-    }
-
-    .list-group-item {
-        position: relative;
-        display: block;
-        padding: 1px 15px;
-        margin-bottom: -1px;
-        border: 0;
-    }
-
-    #laneConneexityDiv {
-        opacity: 1;
-        width: 100%;
-    }
-
-    #laneConneexityDiv ul {
-        background-color: #303030;
-        list-style: none;
-        overflow: hidden;
-    }
-
-    #laneConneexityDiv ul > li {
-        background-color: #303030;
-    }
-
-    #laneConneexityDiv ul > li > label {
-        color: #F3F6FA;
-        font-weight: normal;
-    }
-
-    .inline {
-        display: inline-block !important;
-        text-align: left;
-    }
-
-    .m-b-none {
-        margin-bottom: 0 !important;
-    }
-
-    .show-img-normal {
-        cursor: pointer;
-        width: auto;
-        margin-bottom: 10px;
-        transition: all 0.5s;
-    }
-
-    .show-img-transit {
-        cursor: pointer;
-        width: auto;
-        margin-bottom: 10px;
-        transition: all 0.5s;
-    }
-
-    .img-describe {
-        background-color: #777;
-        color: #fff;
-        font-size: 11px;
-        text-align: center;
+    form[name=addLaneConnexityForm] ul.fm-ul-form > li > div{
+        width: inherit;
     }
 </style>
 
-<div ng-controller="addLaneConnexityController" class="panel panel-default" id="laneConneexityDiv"
+<div ng-controller="addLaneConnexityController" class="panel panel-default"
      oncontextmenu="self.event.returnValue=false">
+    <form name="addLaneConnexityForm">
     <ul class="fm-ul fm-ul-form">
         <li >
             <label class="control-label" style="font-size: 12px;width: 100%">创建车信</label>
@@ -102,12 +40,12 @@
                 <div>
                        <span ng-if="busItem.flag!=='test'"
                              style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;
-                                     margin-left:-5px;color: #fff;cursor: pointer;"
+                                     color: #fff;cursor: pointer;"
                              class="glyphicon glyphicon-remove-sign"
                              ng-click="minusTransitData(busItem,$index)"></span>
                  <span ng-if="busItem.flag==='test'"
                        style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;
-                               margin-left:-5px;color: #fff;cursor: pointer;">
+                               color: #fff;cursor: pointer;">
 
                  </span>
                     <img
@@ -124,4 +62,5 @@
         </li>
 
     </ul>
+        </form>
 </div>

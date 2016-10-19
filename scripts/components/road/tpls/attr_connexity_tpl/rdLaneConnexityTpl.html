@@ -11,9 +11,6 @@
     <div class="content scroll-styled dark" style="height:90%;">
 
         <form name="rdLaneConnexityForm">
-            <!--<div style="width: 20px;text-align: right;margin-bottom: 10px;"><span-->
-                    <!--style="float:left;font-size: 14px;color: #FFF;" class="glyphicon glyphicon-plus"-->
-                    <!--ng-click="addLane()" title="增加车道"></span></div>-->
             <div class="fm-panel">
                 <div class="content">
                     <div style="display: block; overflow: auto;">
@@ -47,8 +44,9 @@
                                  ng-click="changeTransit(items,$index)"
                                  ng-src="../../../images/road/1301/1301_1_{{items.flag}}.svg"
                                  title="{{items}}">
-                            <span ng-if="items==='test'"
-                                  style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"></span>
+                            <span ng-if="items.flag==='test'"
+                                  style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #545454;cursor: pointer;"
+                                  class="glyphicon glyphicon-remove-sign" ></span>
                             <img class="lanePic" ng-if="items.flag==='test'"
                                  ng-click="changeTransit(items,$index)"
                                  ng-src="../../../images/road/1301/1301_1_test.svg">

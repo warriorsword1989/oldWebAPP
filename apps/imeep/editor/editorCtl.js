@@ -25,13 +25,15 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.projectType = 1; //1--POI作业，其他为道路作业
 		$scope.outputType = 1;
 		$scope.rootCommonTemp = {}; //用于保存需要全局控制的变量
+		$scope.rootCommonTemp.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
+		$scope.thematicMapShow = false;
 		//面板显示控制开关
 		$scope.editorPanelOpened = 'none';
 		$scope.suspendPanelOpened = false;
 		$scope.consolePanelOpened = false;
 		$scope.workPanelOpened = false;
 		$scope.rdLaneOpened = false;
-		$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
+		//$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
 		//$scope.controlFlag = {}; //用于父Scope控制子Scope
 		$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
 		// $scope.outputResult = []; //输出结果
@@ -289,18 +291,23 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// 消息推送
 		$scope.msgNotify = function(){
 			// 创建一个Socket实例
-			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5));
+			var sock = new WebSocket('ws://'+App.Util.getFullUrl('sys/sysMsg/webSocketServer').substr(5)),
+				msgCount = 0;
 			sock.onopen = function() {
 				console.log('已经建立websocket连接...');
 			};
 			sock.onmessage = function(e) {
 				console.log('message', JSON.parse(e.data));
 				if(JSON.parse(e.data).length == 1){
-					$scope.systemMsg.push(JSON.parse(e.data)[0]);
+					$scope.systemMsg.unshift(JSON.parse(e.data)[0]);
 				}else if(JSON.parse(e.data).length > 1){
 					$scope.systemMsg = JSON.parse(e.data);
 				}
 				$scope.sysMsgItem = $scope.systemMsg;
+				if(msgCount > 0){
+					logMsgCtrl.pushMsg($scope,$scope.sysMsgItem[0].msgContent);
+				}
+				msgCount++;
 				$scope.$apply();
 			};
 			sock.onclose = function() {
@@ -349,16 +356,17 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$scope.sysMsgType = type;
 		};
 		//历史消息翻页
-		$scope.pageChanged = function() {
+		$scope.pageChanged = function(pageNow) {
 			var param = {
 				userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-				pageNum:$scope.currentPage,
+				pageNum:pageNow,
 				pageSize:5
 			};
 			dsFcc.getReadMsg(param).then(function(data){
 				if(data){
 					$scope.sysMsgItem = data.result;
 					$scope.totalItems = data.totalCount;
+					$scope.currentPage = pageNow;
 				}
 			});
 		};
@@ -373,7 +381,6 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 				};
 				if($scope.sysMsgType == 'new'){
 					dsFcc.getReadCheck(param).then(function(data){
-						console.log(data)
 						$scope.sysMsgObj = data[0];
 						for(var i=0;i<$scope.systemMsg.length;i++){
 							if($scope.systemMsg[i].msgId == id){
@@ -564,6 +571,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 			});
+		};
+		$scope.thematicMapChange = function(){
+			var layerCtrl = fastmap.uikit.LayerController();
+			var rdLink = layerCtrl.getLayerById('rdLink');
+			App.Temp.thematicMapFlag = !$scope.thematicMapShow;
+			$scope.thematicMapShow = !$scope.thematicMapShow;
+			rdLink.redraw();
 		};
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;

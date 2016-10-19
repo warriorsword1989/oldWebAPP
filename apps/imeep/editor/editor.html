@@ -30,7 +30,6 @@
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-road.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataApi-canvasFeature.js"></script>
         <script type="text/javascript" src="../../../scripts/utils/Utils.js"></script>
-        <script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
         <script src="loadMapApi.js"></script>
         <script src="loadUikit.js"></script>
     </head>
@@ -43,12 +42,12 @@
             <div class="fm-top" style="left:60px;right:200px;position:fixed;min-width:1100px;">
                 <div ng-include="editorToolbarTpl"></div>
             </div>
-            <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;position: fixed;" uib-dropdown is-open="status.isopen" auto-close="outsideClick " appendToOpenClass="fadeInDown">
+            <div class="fm-top" style="width:208px;right:0px;text-align:right;padding:0px 25px;position: fixed;" uib-dropdown auto-close="outsideClick " appendToOpenClass="fadeInDown">
                 <button class="fm-top-right-btn profile" title="个人信息"></button>
                 <button class="fm-top-right-btn notice dropdown dropdown-toggle" uib-dropdown-toggle title="我的消息" ng-click="historyMsg();">
                     <div ng-class="{'msg-alert animated':true,'wobble':systemMsg.length}" ng-if="systemMsg.length" ng-bind="systemMsg.length"></div>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right animated-fast msg-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <ul class="dropdown-menu dropdown-menu-right animated-fast msg-dropdown-menu" uib-dropdown-menu aria-labelledby="system-message">
                     <li>
                         <div class="msg-container">
                             <div class="msgContainerlist" ng-show="!showMsgDetail">
@@ -64,22 +63,21 @@
                                         </p>
                                     </div>
                                     <div class="message-item" ng-repeat="item in sysMsgItem" ng-click="showDetailMsg(item.msgId);" title="{{item.msgContent}}">
-                                        <p>
+                                        <p class="text-ellipsis">
                                             <strong ng-bind="item.msgTitle" ng-class="{true:'history'}[sysMsgType=='his']"></strong>
                                             <span ng-bind="item.msgContent"></span>
                                         </p>
                                         <div ng-class="{'status available':true,'inactive':sysMsgType=='his'}"></div>
                                     </div>
                                     <div class="msg-pagination" ng-if="sysMsgType=='his'">
-                                        <!--<ul uib-pagination items-per-page="5" boundary-links="true" total-items="totalItems" ng-change="pageChanged()" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>-->
-                                        <ul uib-pagination items-per-page="5" max-size="5" total-items="totalItems" ng-model="currentPage" class="pagination" boundary-links="true" force-ellipses="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                                        <ul uib-pagination items-per-page="5" max-size="5" total-items="totalItems" ng-model="currentPage" class="pagination" boundary-links="true" force-ellipses="true" ng-change="pageChanged(currentPage)" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                                     </div>
                                 </div>
                             </div>
 
                             <div ng-class="{'detailview p1 animated-fast':true,'fadeIn':showMsgDetail,'fadeOutUp':!showMsgDetail}" ng-show="showMsgDetail">
                                 <div class="profile-title animated-fast">
-                                    <div id="close" ng-click="showDetailMsg(-1);" title="点击返回">
+                                    <div id="close" ng-click="showDetailMsg(-1);" title="点击返回" class="animated-fast rollIn">
                                         <div ng-class="{'cy':true,'cy s1 s2 s3':showMsgDetail}"></div>
                                         <div ng-class="{'cy':true,'cx s1 s2 s3':showMsgDetail}"></div>
                                     </div>

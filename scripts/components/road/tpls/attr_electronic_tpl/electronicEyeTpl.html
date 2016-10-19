@@ -14,6 +14,14 @@
                         </div>
                     </li>
                     <li>
+                        <label class="control-label">来源标识</label>
+                        <div>
+                            <select ng-model="electronicEyeData.srcFlag" class="chosen-disabled"
+                                    ng-options="value.id as value.label for value in srcFlagOption" disabled>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
                         <label class="control-label">电子眼方位</label>
                         <div>
                             <label>
@@ -89,13 +97,13 @@
                     <li>
                         <label class="control-label">照射角度</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.angle"/>
+                            <input type="text" ng-model="electronicEyeData.angle" class="chosen-disabled" disabled/>
                         </div>
                     </li>
                     <li>
                         <label class="control-label">图幅号码</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.meshId"/>
+                            <input type="text" ng-model="electronicEyeData.meshId" class="chosen-disabled" disabled/>
                         </div>
                     </li>
                     <li>

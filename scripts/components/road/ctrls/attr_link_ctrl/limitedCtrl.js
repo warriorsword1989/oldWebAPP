@@ -97,7 +97,7 @@ limitedApp.controller("limitedController", function($scope, $timeout, $ocLazyLoa
         "id": 28,
         "label": "残疾人车"
     }];
-    $scope.typeOptions = [{
+    $scope.limitTypeOptions = [{
         "id": 0,
         "label": "道路维修中"
     }, {

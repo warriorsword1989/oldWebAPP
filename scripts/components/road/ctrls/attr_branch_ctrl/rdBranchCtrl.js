@@ -39,9 +39,12 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         }
         selectCtrl.onSelected({//记录选中点信息
             geometry: objCtrl.data,
-            id: objCtrl.data.pid,
+            id: objCtrl.data.pid
         });
-
+        if($scope.diverObj.details[0].patternCode){
+            $scope.firstLetter = $scope.diverObj.details[0].patternCode.substring(0,1);
+            $scope.rightLetter = $scope.diverObj.details[0].patternCode.substring(1)
+        }
     }
 
     $scope.refreshData = function () {
@@ -206,7 +209,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         $scope.showImgData = false;
         oldPatCode = $scope.diverObj.details[0].patternCode;
         $scope.firstLetter = $scope.diverObj.details[0].patternCode.substring(0,1);
-        $scope.rightLetter = $scope.diverObj.details[0].patternCode.substring(1)
+        $scope.rightLetter = $scope.diverObj.details[0].patternCode.substring(1);
         changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/

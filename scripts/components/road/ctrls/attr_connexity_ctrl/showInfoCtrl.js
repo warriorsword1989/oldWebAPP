@@ -6,6 +6,7 @@ var infoOfConnexityApp = angular.module("app");
 infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', function ($scope, dsEdit) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.infoData = objCtrl.data;
     $scope.directArr = $scope.infoData.laneInfo.split(",");
@@ -162,6 +163,17 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                 } else {
                     $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 2)].split("");
                 }
+            } else {
+                $scope.laneFlag = false;
+                if (direct.indexOf(">") !== -1) {
+                    if(direct.length > 3){
+                        $scope.directArr = $scope.changeDirects[direct.charAt(0)].split("");
+                    } else if(direct.length == 3){
+                        $scope.directArr = $scope.changeDirects[direct.charAt(1)].split("");
+                    }
+                } else {
+                    $scope.directArr = $scope.changeDirects[direct.charAt(direct.length - 2)].split("");
+                }
             }
         }
     };
@@ -202,6 +214,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
     $scope.getLanesInfo = function (item, event) {
         // $scope.removeTipsActive();
         // $(event.target).addClass("active");
+        tooltipsCtrl.setCurrentTooltip('请在地图上选择Link以调整退出线！');
         if (eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID]) {
             for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID].length; ii < lenII; ii++) {
                 eventController.off(eventController.eventTypes.GETOUTLINKSPID, eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID][ii]);
@@ -230,7 +243,33 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             if (parseInt(data.properties.fc) != 9) {
+                tooltipsCtrl.setCurrentTooltip('调整完成点击属性面板“保存”按钮以保存！');
                 if (outLinkArr.indexOf(parseInt(data.id)) > -1) {//在现有的退出线内,排除掉
+
+                    var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
+                    var infoLen = (16 - inLaneDecArr.length);
+                    inLaneDecArr[infoLen] = "0";
+                    var str = inLaneDecArr[0];
+                    for (var j = 1; j < inLaneDecArr.length; j++) {
+                        str += inLaneDecArr[j];
+                    }
+                    if (parseInt(parseInt(str, 2).toString(10)) == 0) {
+                        for (var i = 0; i < $scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))].vias.length; i++) {
+                            for (var j = 0; j < highRenderCtrl.highLightFeatures.length; j++) {
+                                if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))].vias[i].linkPid.toString()) {
+                                    highRenderCtrl.highLightFeatures.splice(j, 1);
+                                    j--;
+                                }
+                            }
+                        }
+                        $scope.infoData["laneNum"] -= 1;
+                        if($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1){
+                            $scope.outLinkPidArr.splice($scope.outLinkPidArr.indexOf(parseInt(data.id)),1);
+                        }
+                        $scope.infoData["topos"].splice(outLinkArr.indexOf(parseInt(data.id)), 1);
+                    } else {
+                        $scope.infoData["topos"][outLinkArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
+                    }
                     for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                         if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
                             outLinkPid = data.id;
@@ -242,32 +281,13 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             break;
                         }
                     }
-                    var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
-                    var infoLen = (16 - inLaneDecArr.length);
-                    inLaneDecArr[infoLen] = "0";
-                    var str = inLaneDecArr[0];
-                    for (var j = 1; j < inLaneDecArr.length; j++) {
-                        str += inLaneDecArr[j];
-                    }
-                    if (parseInt(parseInt(str, 2).toString(10)) == 0) {
-                        for (var i = 0; i < $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias.length; i++) {
-                            for (var j = 0; j < highRenderCtrl.highLightFeatures.length; j++) {
-                                if (highRenderCtrl.highLightFeatures[j].id == $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))].vias[i].outLinkPid.toString()) {
-                                    highRenderCtrl.highLightFeatures.splice(j, 1);
-                                    j--;
-                                }
-                            }
-                        }
-                        // $scope.infoData["topos"].splice($scope.outLinkPidArr.indexOf(parseInt(data.id)), 1);
-                    } else {
-                        $scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"] = parseInt(parseInt(str, 2).toString(10));//二进制转十进制
-                    }
                     for (var i = 0; i < highRenderCtrl.highLightFeatures.length; i++) {
                         if (highRenderCtrl.highLightFeatures[i].id == data.id.toString()) {
                             highRenderCtrl.highLightFeatures.splice(i, 1);
                             i--;
                         }
                     }
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.drawHighlight();
                 }else if ($scope.outLinkPidArr.indexOf(parseInt(data.id)) > -1 && outLinkArr.indexOf(parseInt(data.id)) < 0) {//在当前的退出线中,但不是现有的退出线
                     outLinkArr.push(parseInt(data.id));
@@ -279,6 +299,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             highRenderCtrl.highLightFeatures[k].style.color = "#FFD306";
                         }
                     }
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.drawHighlight();
                     var inLaneDecArr = $scope.decimalToArr($scope.infoData["topos"][$scope.outLinkPidArr.indexOf(parseInt(data.id))]["inLaneInfo"]);//十进制转二进制
                     var infoLen = (16 - inLaneDecArr.length);
@@ -335,19 +356,20 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                             });
                             $scope.infoData["laneNum"] += 1;
                             $scope.infoData["topos"].unshift(selObj);
-                            selObj.enterLaneNum = $scope.showLaneInfo[0].enterLaneNum || 0;
-                            selObj.enterBusNum = $scope.showLaneInfo[0].enterBusNum || 0;
+                            selObj.enterLaneNum = $scope.infoData["selectNum"];
+                            selObj.enterBusNum = 0;
                             selObj.inLinkPid = objCtrl.data["inLinkPid"];
                             $scope.showLaneInfo.push(selObj);
                             outLinkArr.push(parseInt(data.id));
                         }
                     });
                 }
-                highRenderCtrl.drawHighlight();
+                // highRenderCtrl.drawHighlight();
             }
         });
     };
     $scope.changeVias = function (item) {
+        tooltipsCtrl.setCurrentTooltip('请在地图上选择Link以调整经过线！');
         var lastNode = objCtrl.data["nodePid"];
         var viaLink = [];
         dsEdit.getByPid(item.outLinkPid, "RDLINK").then(function (outLink) {
@@ -397,6 +419,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                     eventController.off(eventController.eventTypes.GETOUTLINKSPID);
                     eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
                         if ((parseInt(data.id) != objCtrl.data["inLinkPid"]) && (parseInt(data.id) != item.outLinkPid)) {
+                            tooltipsCtrl.setCurrentTooltip('继续调整或点击属性面板“保存”按钮以保存！');
                             if (viaLink.indexOf(parseInt(data.id)) < 0) { //不在现有的经过线中
                                 if (parseInt(data.properties.snode) == lastNode && (parseInt(data.properties.direct) != 3)) {
                                     viaLink.push(parseInt(data.id));

@@ -38,8 +38,9 @@ requirejs.config({
         'z-tree': 'scripts/libs/z-tree/jquery.ztree.all',
         'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
         'fmEditView': 'scripts/components/directives/fmEditView/fmEditView',
+        'langcodeFilter' :'scripts/components/filter/langCodeFilter'
     },
-    // urlArgs: "bust=" +  (new Date()).getTime(),
+    urlArgs: "bust=" +  (new Date()).getTime(),
     waitSeconds: 0,
     shim: {
         'angular': {
@@ -72,7 +73,8 @@ requirejs.config({
         'fmEditView': ['fastmapUikit'],
         'fmBindCompiledHtml': ['fastmapUikit'],
         'select2' : ['jquery'],
-        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView','angularChosen', 'select2']
+        'langcodeFilter' : ['fastmapUikit'],
+        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView','angularChosen', 'select2', 'langcodeFilter']
     }
 });
 // Start the main app logic.
