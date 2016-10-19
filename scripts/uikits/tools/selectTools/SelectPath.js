@@ -17,6 +17,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
+        this.showMenu = this.options.showMenu===false ?false : true;
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.linksFlag = this.options.linksFlag; // 选择模式：true:选Link,false:选组成
@@ -165,6 +166,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         }
         if (touchedObjects.length == 1) {
             this.selectCtrl.selectedFeatures = touchedObjects[0];
+            touchedObjects[0].showMenu = this.showMenu;
             if (this.linksFlag) {
                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, touchedObjects[0]);
             } else {

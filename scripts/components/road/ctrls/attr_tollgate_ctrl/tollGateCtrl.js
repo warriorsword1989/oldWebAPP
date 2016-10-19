@@ -259,7 +259,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.addItem = function (type) {
 		if (type == 'name') {
 			$scope.refreshNames();
-			var maxNameGroupId = Utils.getArrMax($scope.tollGateData.names,'nameGroupid');
+			var maxNameGroupId = 0;
+			if($scope.tollGateData.names.length>0){
+				maxNameGroupId = Utils.getArrMax($scope.tollGateData.names,'nameGroupid');
+			}
 			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({nameGroupid:maxNameGroupId+1}));
 			initNameInfo();
 		} else {

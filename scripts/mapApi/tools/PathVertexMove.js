@@ -187,7 +187,21 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
      * 重新设置节点
      */
     resetVertex:function(){
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+        //增加了形状点之间距离大于2米的判断(只判断相邻点)
+        var components = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
+        var componentA = components[this.targetIndex-1];
+        var componentB = components[this.targetIndex+1];
+        var pointA = L.latLng(componentA.y,componentA.x);
+        var pointB = L.latLng(componentB.y,componentB.x);
+        var currentPoint = L.latLng(this.targetPoint.lat,this.targetPoint.lng);
+        var dis1 = currentPoint.distanceTo(pointA);
+        var dis2 = currentPoint.distanceTo(pointB);
+
+        if(dis1 > 2 && dis2 > 2){
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+        }
+
+        //this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
         //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
         //distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
         //distance = distance1<distance2?distance1:distance2

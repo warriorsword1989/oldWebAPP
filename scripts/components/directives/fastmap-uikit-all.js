@@ -6,7 +6,9 @@
         "components/directives/fastmap-uikit.js",
         "components/directives/loginForm/loginForm.js",
         "components/directives/showBox/showBox.js",
-        "components/directives/fmTable/fmTable.js"
+        "components/directives/fmTable/fmTable.js",
+        "components/filter/langCodeFilter.js"
+        
     ]; // etc.
 
     // use "parser-inserted scripts" for guaranteed execution order

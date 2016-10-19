@@ -38,6 +38,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     };
     /*更新图片数组*/
     $scope.$on('refreshImgsData', function(event, data) {
+        initPoiData();
         initData();
         $scope.tipsBtnDisabled = $scope.tipsPage == Math.ceil($scope.poi.photos.length / 4);
     });
@@ -92,7 +93,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     /*删除照片*/
     $scope.deletePhoto = function(activePhoto){
         for (var i = 0, len = $scope.poi.photos.length; i < len; i++) {
-            if($scope.poi.photos[i] == activePhoto){
+            if($scope.poi.photos[i].fccPid == activePhoto.fccPid){
                 $scope.poi.photos.splice(i,1);
                 initData();
                 return;
