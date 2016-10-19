@@ -268,7 +268,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
     else if (arrlen == 1) {
       for (var item in data) {
         if (data[item].length == 1) {
-          this.fireEvents(item, data[item][0], event)
+          this.fireEvents(item, data[item][0], event);
         }
       }
     } else {
@@ -278,8 +278,21 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
           for (var key in data[item]) {
             data[item][key].selectedtype = item;
           }
-          totalFeature = totalFeature.concat(data[item])
+          if(item == 'lineStrings'){
+            if(data['markers'].length ==0&&data['points'].length==0&&data['tips'].length==0&&data['pointFeatures'].length==0){
+              totalFeature = totalFeature.concat(data[item]);
+            }
+
+          }else{
+            totalFeature = totalFeature.concat(data[item]);
+          }
+
         }
+      }
+
+      if (totalFeature.length == 1) {
+        this.fireEvents(totalFeature[0].selectedtype, totalFeature[0], event);
+        return;
       }
 
       var html = '<ul id="layerpopup">';
