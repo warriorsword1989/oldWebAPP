@@ -554,39 +554,58 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         param.command = "UPDATE";
         param.dbId = App.Temp.dbId;
         param.data = objCtrl.changedProperty;
+        function compareObjData(oldData,newData){
+            var compData = [];
+            for(var i=0;i<oldData.length;i++){
+                delete oldData[i]._initHooksCalled;
+                delete oldData[i].geoLiveType;
+                delete oldData[i].$$hashKey;
+                delete oldData[i].options;
+                for(var j=0;j<newData.length;j++){
+                    delete newData[j]._initHooksCalled;
+                    delete newData[j].geoLiveType;
+                    delete newData[j].$$hashKey;
+                    delete newData[j].options;
+                    if(newData[j].pid == 0){
+                        newData[j]['objStatus'] = 'INSERT';
+                        compData.push(newData[j]);
+                    }else{
+                        // 数值变化则UPDATE
+                        if(newData[j].pid == oldData[i].pid){
+                            for(item in newData[j]){
+                                if(oldData[i][item] != newData[j][item] && item !='objStatus'){
+                                    newData[j]['objStatus'] = 'UPDATE';
+                                }
+                            }
+                            compData.push(newData[j]);
+                            break;
+                        }
+                        if(j == newData.length-1 && newData[j].pid != oldData[i].pid){
+                            oldData[i] = new fastmap.dataApi.rdBranchName(oldData[i]);
+                            delete oldData[i]._initHooksCalled;
+                            delete oldData[i].geoLiveType;
+                            delete oldData[i].$$hashKey;
+                            delete oldData[i].options;
+                            oldData[i]['objStatus'] = 'DELETE';
+                            compData.push(oldData[i]);
+                        }
+                    }
+                }
+            }
+            var n = []; //一个新的临时数组
+            for(var i = 0; i < compData.length; i++) //遍历当前数组
+            {
+                //如果当前数组的第i已经保存进了临时数组，那么跳过，
+                //否则把当前项push到临时数组里面
+                if (n.indexOf(compData[i]) == -1) n.push(compData[i]);
+            }
+            return n;
+        }
         /*解决linkPid报错*/
         if (param.data.details) {
             delete param.data.details[0].linkPid;
             if (param.data.details[0].names) {
-                if(param.data.details[0].names.length == objCtrl.data.details[0].names.length){
-                    $.each(param.data.details[0].names, function (i, v) {
-                        delete v.linkPid;
-                        param.data.details[0].names[i].nameGroupid = objCtrl.data.details[0].names[i].nameGroupid;
-                        param.data.details[0].names[i].pid = objCtrl.data.details[0].names[i].pid;
-                        param.data.details[0].names[i].langCode = objCtrl.data.details[0].names[i].langCode;
-                        if(param.data.details[0].names[i].objStatus == 'DELETE'){
-                            return;
-                        } else if (param.data.details[0].names[i].objStatus == 'INSERT' && param.data.details[0].names[i].pid != 0){
-                            param.data.details[0].names[i].objStatus = 'UPDATE';
-                        } else if (param.data.details[0].names[i].objStatus == 'UPDATE' && param.data.details[0].names[i].pid == 0){
-                            param.data.details[0].names[i].objStatus = 'INSERT';
-                        }
-                    });
-                    $scope.delEmptyNames(param.data.details[0].names);
-                }else{
-                    param.data.details[0].names = objCtrl.data.details[0].names;
-                    for(var i=0;i<param.data.details[0].names.length;i++){
-                        delete param.data.details[0].names[i]._initHooksCalled;
-                        delete param.data.details[0].names[i].geoLiveType;
-                        delete param.data.details[0].names[i].$$hashKey;
-                        delete param.data.details[0].names[i].options;
-                        if(param.data.details[0].names[i].pid == 0){
-                            param.data.details[0].names[i].objStatus = 'INSERT';
-                        }else{
-                            param.data.details[0].names[i].objStatus = 'UPDATE';
-                        }
-                    }
-                }
+                param.data.details[0].names = compareObjData(objCtrl.originalData.details[0].names,objCtrl.data.details[0].names);
             }
         }
         if (!param.data) {
