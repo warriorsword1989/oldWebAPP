@@ -124,7 +124,13 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,dsMeta) {
                     }
                 });
             }else{
-                swal("查找失败", "问题原因："+data.errmsg, "error");
+                for(var i=0;i<$scope.details[0].names.length;i++){
+                    if($scope.details[0].names[i].nameGroupid == braName.nameGroupid){
+                        $scope.details[0].names[i].phonetic = '';
+                        $scope.details[0].names[i].voiceFile = '';
+                    }
+                }
+                swal("查找失败", "可能是服务出错或者输入过长，请重新尝试", "error");
             }
         });
     };

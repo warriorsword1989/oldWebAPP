@@ -167,22 +167,45 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else if (branchType === 5 || branchType === 7) {
                         dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
-                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                            })
+                            var branchInfoObj = {
+                                "loadType": "attrTplContainer",
+                                "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                                "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+                                "callback": function () {
+                                    var branchObj = {
+                                        "loadType": "attrTplContainer",
+                                        "propertyCtrl": appPath.road + 'ctrls/' + ctrl,
+                                        "propertyHtml": appPath.root + appPath.road + 'tpls/' + tpl
+                                    };
+                                    scope.$emit("transitCtrlAndTpl", branchObj);
+                                }
+                            };
+                            scope.$emit("transitCtrlAndTpl", branchInfoObj);
                         });
                     } else {
                         dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
-                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                            })
+                            var branchInfoObj = {
+                                "loadType": "attrTplContainer",
+                                "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                                "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+                                "callback": function () {
+                                    var branchObj = {
+                                        "loadType": "attrTplContainer",
+                                        "propertyCtrl": appPath.road + 'ctrls/' + ctrl,
+                                        "propertyHtml": appPath.root + appPath.road + 'tpls/' + tpl
+                                    };
+                                    scope.$emit("transitCtrlAndTpl", branchObj);
+                                }
+                            };
+                            scope.$emit("transitCtrlAndTpl", branchInfoObj);
                         });
                     }
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": true,
                         "subAttrContainerTpl": false
                     });
+
                 } else {
                     dsEdit.getByPid(data.pid, "IXPOI").then(function (rest) {
                         if (rest) {
@@ -1207,13 +1230,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 };
                 var oriData = objEditCtrl.data;
-                if (featCodeCtrl.getFeatCode().linkPid.toString() != oriData.linkPid) {
-                    param.data.linkPid = featCodeCtrl.getFeatCode().linkPid.toString();
-                }
+                param.data.pid = oriData.pid ;
                 if (featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length) {
                     param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
                 }
-                if (param.data.linkPids == undefined && param.data.linkPid == undefined) {
+                if (param.data.linkPids == undefined ) {
                     swal("操作失败", "坡度没有发生修改！", "info");
                     return;
                 }

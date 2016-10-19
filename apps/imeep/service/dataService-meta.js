@@ -160,7 +160,11 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                if(data.data.phonetic.indexOf('ERROR') > -1){
+                    defer.resolve(-1);
+                }else{
+                    defer.resolve(data);
+                }
             } else {
                 swal("查询数据出错：", data.errmsg, "error");
                 defer.resolve(-1);
