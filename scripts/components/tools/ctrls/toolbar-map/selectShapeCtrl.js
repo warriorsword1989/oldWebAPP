@@ -1630,31 +1630,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                         ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
                         //当要素切换时重新加载初始化方法;
-                        eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
+                        // eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
                         break;
                     case 1:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                         ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
-                        //当要素切换时重新加载初始化方法;
-                        eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
                         break;
                     case 2:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                         ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
-                        //当要素切换时重新加载初始化方法;
-                        eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
                         break;
                     case 3:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                         ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
-                        //当要素切换时重新加载初始化方法;
-                        eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
                         break;
                     case 4:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                         ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
-                        //当要素切换时重新加载初始化方法;
-                        eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
                         break;
                     case 5:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdRealImageCtrl";
