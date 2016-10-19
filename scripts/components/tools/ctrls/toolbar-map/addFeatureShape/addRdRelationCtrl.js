@@ -489,6 +489,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('点击增加限速!！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
+                eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
@@ -536,12 +537,12 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                                 })
                             } else {
-                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                // shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
                                 shapeCtrl.setEditingType("speedLimit");
                             }
-                        } else {}
+                        }
                     })
                 });
             } else if (type === "RDCROSS") {
