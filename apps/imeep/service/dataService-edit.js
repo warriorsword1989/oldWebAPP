@@ -476,7 +476,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             url = "editrow/run/";
         }
         param = JSON.stringify(param);
-        var that = this;
         ajax.get(url, {
             parameter: param //.replace(/\+/g, '%2B')
         }).success(function(data) {
@@ -524,7 +523,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         }).error(function(rejection) {
             defer.reject(rejection);
         }).finally(function() {
-            console.log(1);
             toggleLoading(false); // 关闭主页面的loadingbar
         });
         return defer.promise;
