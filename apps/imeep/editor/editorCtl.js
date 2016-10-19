@@ -786,9 +786,9 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					if (rest) {
 						objectCtrl.setCurrentObject('IXPOI', rest);
 						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
-						// eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, {
-						// 	feature: rest
-						// });
+						eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, { //重新执行图片显示
+							feature: rest
+						});
 						$scope.$emit("transitCtrlAndTpl", {
 							"loadType": "tipsTplContainer",
 							"propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
