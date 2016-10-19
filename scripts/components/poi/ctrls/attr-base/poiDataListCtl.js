@@ -74,12 +74,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 }
                 if(scope.tableParams.data[i]){ //排除最后一条报错的问题
                     scope.selectData(scope.tableParams.data[i], i);
+                } else { //最后一条
+                    scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
                 }
-                // $timeout(function(){
-                //     scope.$apply();
-                //     scope.selectData(scope.tableParams.data[i],i);
-                //     //scope.$apply();
-                // });
             } else if (scope.dataListType == 2) { //已作业
                 if(obj.flag == 'del'){
                     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
@@ -88,7 +85,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                             break;
                         }
                     }
-                    scope.selectData(scope.tableParams.data[i], i);
+                    if(scope.tableParams.data[i]){
+                        scope.selectData(scope.tableParams.data[i], i);
+                    } else {//最后一条
+                        scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
+                    }
                 } else if (obj.flag  == "update") {
                     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
                         if (scope.tableParams.data[i].pid == obj.poi.pid) {
@@ -99,6 +100,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                     }
                     if(i < scope.tableParams.data.length -1){
                         scope.selectData(scope.tableParams.data[i+1], i+1);
+                    } else { //最后一条
+                        scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
                     }
                 }
             }
