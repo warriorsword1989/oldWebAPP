@@ -1,5 +1,18 @@
 angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutput", function($http, $q, ajax, dsOutput) {
     /**
+     * add by chenx on 2016-10-19，用于控制主页面loadingbar的显示/隐藏
+     */
+    var showLoading; // 主页面控制Loading的开关的引用
+    // 利用对象引用的特性，将本地变量showLoading指向主scope中的控制loadingbar显隐的开关对象
+    // 主页面初始化的时候绑定一次即可
+    this.referenceLoadingSwitch = function(loadingSwitch) {
+        showLoading = loadingSwitch;
+    };
+    // 私有函数，修改loadingbar开关的状态
+    var toggleLoading = function(flag) {
+        showLoading.flag = flag;
+    };
+    /**
      * 根据pid获取要素详细属性
      * @param id     要素PID
      * @param type   要素类型
@@ -432,6 +445,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * @param func
      */
     this.save = function(param) {
+        toggleLoading(true); // 打开主页面的loadingbar
         var opDesc = {
             "CREATE": "创建" + [param.type],
             "UPDOWNDEPART": "创建上下线分离",
@@ -462,6 +476,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             url = "editrow/run/";
         }
         param = JSON.stringify(param);
+        var that = this;
         ajax.get(url, {
             parameter: param //.replace(/\+/g, '%2B')
         }).success(function(data) {
@@ -508,6 +523,9 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             }
         }).error(function(rejection) {
             defer.reject(rejection);
+        }).finally(function() {
+            console.log(1);
+            toggleLoading(false); // 关闭主页面的loadingbar
         });
         return defer.promise;
     };
@@ -711,16 +729,15 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
     //执行批处理;
     this.exeOnlinebatch = function(params) {
         var defer = $q.defer();
         var param = {
-            subtaskId:params.taskId,
-            batchRules:params.ruleCode,
-            batchType:params.type
+            subtaskId: params.taskId,
+            batchRules: params.ruleCode,
+            batchType: params.type
         }
-        ajax.get("edit/batch/run",{
+        ajax.get("edit/batch/run", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
@@ -734,7 +751,6 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
     //搜索檢查;
     this.seachCheckBox = function(params) {
         var defer = $q.defer();
@@ -756,16 +772,15 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
     //执行檢查;
     this.exeOnlineSearch = function(params) {
         var defer = $q.defer();
         var param = {
-            subtaskId:params.taskId,
-            ckRules:params.ruleCode,
-            checkType:params.type
+            subtaskId: params.taskId,
+            ckRules: params.ruleCode,
+            checkType: params.type
         }
-        ajax.get("edit/check/run",{
+        ajax.get("edit/check/run", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
@@ -779,5 +794,4 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         });
         return defer.promise;
     };
-
 }]);
