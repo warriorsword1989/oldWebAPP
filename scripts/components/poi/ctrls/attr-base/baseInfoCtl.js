@@ -100,7 +100,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     };
     $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
-        if(!Utils.verifyNumber(temp.contact)){
+        if(temp.contact && !Utils.verifyNumber(temp.contact)){
             swal("保存提示","电话填写不正确,不能保存！","warning");
             return ;
         }

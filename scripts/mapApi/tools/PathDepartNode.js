@@ -29,6 +29,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             snapVertex: false
         });
         this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdNode'));
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
         });
@@ -71,40 +72,29 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
      * @param event
      */
     onMouseDown: function(event) {
+
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
-        this.targetIndexs.length = 0;
+        this.targetIndex = 0;
         var layerPoint = event.layerPoint;
         var geom = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-        var points;
-        if (geom.type == 'MultiPolyline') {
-            points = geom.coordinates;
-        } else {
-            points = [geom];
-        }
-        // var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates;
+        var points = [];
+        points.push(geom.components[0]);
+        points.push(geom.components[geom.components.length -1]);
         var distAB = 0,
             k = 0;
         for (var j = 0, len = points.length; j < len; j++) {
-            k = 0;
-            disAB = this.distance(this._map.latLngToLayerPoint([points[j].components[k].y, points[j].components[k].x]), layerPoint);
+            disAB = this.distance(this._map.latLngToLayerPoint([points[j].y, points[j].x]), layerPoint);
             if (disAB > 0 && disAB < 5) {
-                this.targetIndexs.push(j + "-" + k);
-            } else {
-                k = points[j].components.length - 1;
-                disAB = this.distance(this._map.latLngToLayerPoint([points[j].components[k].y, points[j].components[k].x]), layerPoint);
-                if (disAB > 0 && disAB < 5) {
-                    this.targetIndexs.push(j + "-" + k);
-                }
+                this.targetIndex = j+1;
             }
         }
-        if (this.targetIndexs.length == points.length) {
-            this.targetIndex = this.targetIndexs.length;
-            this.snapHandler.setTargetIndex(this.targetIndex);
-        } else {
-            this.targetIndexs.length = 0;
+        if( this.selectCtrl.selectedFeatures.selectedIndex!=undefined && this.targetIndex -1 != this.selectCtrl.selectedFeatures.selectedIndex){//只能移动第一次捕捉的端点
+            this.targetIndex = 0;
+            return;
         }
+        this.snapHandler.setTargetIndex(this.targetIndex);
     },
 
     onMouseMove: function(event) {
@@ -113,21 +103,33 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             this._map.dragging.disable();
         }
         var layerPoint = event.containerPoint;
-        if (this.targetIndex == 0) {
+        if (this.targetIndex == 0 || this.targetIndex == undefined) {
             return;
         }
-        this.targetIndex = this.targetIndexs.length;
-        this.targetPoint = event.latlng;
-        for (var i in this.targetIndexs) {
-            this.resetVertex(this.targetIndexs[i], this.targetPoint);
+
+        if(this.snapHandler.snaped == true){
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+
+        }else{
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
+            this.targetPoint = event.latlng;
         }
-        var node = this.selectCtrl.selectedFeatures;
-        this.selectCtrl.selectedFeatures = {
-            catchNodePid:this.snapHandler.snaped?this.snapHandler.properties.id:0,
-            workLinkPid:this.selectCtrl.workLinkPid,
-            id: node.id,
-            latlng: this.snapHandler.snaped?null:this.targetPoint,
+
+        this.resetVertex(this.targetIndex-1, this.targetPoint);
+        var nodePid = null;
+        if(this.targetIndex-1 == 0){
+            this.selectCtrl.selectedFeatures.selectedIndex = 0;
+            nodePid = this.selectCtrl.selectedFeatures.snode;
+        } else {
+            this.selectCtrl.selectedFeatures.selectedIndex = 1;
+            nodePid = this.selectCtrl.selectedFeatures.enode;
         }
+
+        this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id : 0;
+        this.selectCtrl.selectedFeatures.workLinkPid = this.selectCtrl.workLinkPid;
+        this.selectCtrl.selectedFeatures.id = nodePid;
+        this.selectCtrl.selectedFeatures.latlng = this.snapHandler.snaped ? null : this.targetPoint;
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
@@ -147,10 +149,10 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
      */
     resetVertex: function(index, targetPoint) {
         var geom = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-        if (geom.type == 'MultiPolyline') {
-            geom.coordinates[index.split('-')[0]].components.splice(index.split('-')[1], 1, fastmap.mapApi.point(targetPoint.lng, targetPoint.lat));
+        if (index == 1) {
+            geom.components.splice(geom.components.length -1, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
         } else {
-            geom.components.splice(index.split('-')[1], 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+            geom.components.splice(0, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
         }
     }
 })

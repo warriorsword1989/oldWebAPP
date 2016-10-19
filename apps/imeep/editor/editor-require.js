@@ -7,6 +7,7 @@ requirejs.config({
         // 第三方库
         'angular': 'scripts/libs/angularjs/1.4.4/angular',
         'jquery': 'scripts/libs/jquery/2.1.1/jquery-2.1.1',
+        'select2': 'scripts/libs/select2/js/select2',
         'bootstrap': 'scripts/libs/bootstrap-3.3.5/js/bootstrap',
         'ocLazyLoad': 'scripts/libs/ocLazyLoad/ocLazyLoad.require',
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
@@ -38,7 +39,7 @@ requirejs.config({
         'fastmapUikit': 'scripts/components/directives/fastmap-uikit',
         'fmEditView': 'scripts/components/directives/fmEditView/fmEditView',
     },
-    urlArgs: "bust=" +  (new Date()).getTime(),
+    // urlArgs: "bust=" +  (new Date()).getTime(),
     waitSeconds: 0,
     shim: {
         'angular': {
@@ -70,7 +71,8 @@ requirejs.config({
         'fastmapUikit': ['angular'],
         'fmEditView': ['fastmapUikit'],
         'fmBindCompiledHtml': ['fastmapUikit'],
-        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView','angularChosen']
+        'select2' : ['jquery'],
+        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree','poi-msg','fastmapUikit','fmEditView','angularChosen', 'select2']
     }
 });
 // Start the main app logic.

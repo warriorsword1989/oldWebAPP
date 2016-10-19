@@ -40,6 +40,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             resetPage();
             map._container.style.cursor = '';
         }
+        var kindList = [];
+        //组装select2 下拉列表数据
+        var allKindList = scope.allKindList;
+        function initSelect2Option(){
+        	for(var i=0;i<allKindList.length;i++){
+        		if(allKindList[i].kindCode == 0){
+        			allKindList[i].kindName = '请选择分类';
+        		}
+        		kindList.push({
+        			id: allKindList[i].kindCode,
+    	            text: allKindList[i].kindName
+        		});
+        	}
+        	return kindList;
+        }
+        kindList = initSelect2Option();
         //是否包含点;
         function _contains(point, components) {
             var boolExit = false;
@@ -475,6 +491,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 param["type"] = 'RDLINK';
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
                         //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
@@ -980,37 +997,71 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
-                var points = selectCtrl.selectedFeatures;
-                if (!points || !points.geometry) {
-                    swal("操作失败", "无法获取poi点数据", "error");
-                    return;
-                }
-                if (points.geometry.components[1] == undefined) {
-                    points.geometry.components[1] = points.geometry.components[0]; //将显示坐标赋给引导坐标
-                }
-                if (points.geometry.linkPid == undefined) {
-                    points.geometry.linkPid = 0; //将引导link赋默认值
-                }
-                param = {
-                    "command": "CREATE",
-                    "type": "IXPOI",
-                    "dbId": App.Temp.dbId,
-                    "data": {
-                        "longitude": points.geometry.components[0].x,
-                        "latitude": points.geometry.components[0].y,
-                        "x_guide": points.geometry.components[1].x,
-                        "y_guide": points.geometry.components[1].y,
-                        "linkPid": parseInt(points.geometry.linkPid)
-                    }
-                };
-                dsEdit.save(param).then(function (data) {
-                    if (data != null) {
-                        layerCtrl.getLayerById("poi").redraw();
-                        highRenderCtrl._cleanHighLight();
-                        highRenderCtrl.highLightFeatures = [];
-                        treatmentOfChanged(data, "IXPOI", 'attr-base/generalBaseCtl', 'attr-base/generalBaseTpl.html');
-                    }
-                })
+            	var html = '<div style="height:120px">'+
+                        '<input id="name" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text"/>'+
+                        '<select class="form-control" style="width:230px;margin-left:105px;" id="kind"></select>'+
+                      '<div>';
+	            	swal({
+	            		  title: "请输入以下内容",
+	            		  text: html,
+	            		  html: true,
+	            		  showCancelButton: true,
+	            		  closeOnConfirm: false,
+	            		  showLoaderOnConfirm: true,
+	            		  allowEscapeKey: false,
+	            		  confirmButtonText: "创建",
+	            		  confirmButtonColor: "#ec6c62"
+	            		},
+	            		function(){
+	            		  var name = $("#name").val();
+                       	  var kindCode = $("#kind").val();
+	                      if(!name || kindCode == 0){
+	                      		 swal("创建POI失败", "名称或分类为空" , "error");
+	                      		 return;
+	                     };
+                       	  var points = selectCtrl.selectedFeatures;
+	                      if (!points || !points.geometry) {
+	                          swal("操作失败", "无法获取poi点数据", "error");
+	                          return;
+	                      }
+	                      if (points.geometry.components[1] == undefined) {
+	                          points.geometry.components[1] = points.geometry.components[0]; //将显示坐标赋给引导坐标
+	                      }
+	                      if (points.geometry.linkPid == undefined) {
+	                          points.geometry.linkPid = 0; //将引导link赋默认值
+	                      }
+	                      param = {
+	                          "command": "CREATE",
+	                          "type": "IXPOI",
+	                          "dbId": App.Temp.dbId,
+	                          "data": {
+	                              "longitude": points.geometry.components[0].x,
+	                              "latitude": points.geometry.components[0].y,
+	                              "x_guide": points.geometry.components[1].x,
+	                              "y_guide": points.geometry.components[1].y,
+	                              "linkPid": parseInt(points.geometry.linkPid),
+	                              "name":name,
+	                              "kindCode":kindCode
+	                          }
+	                      };
+	                      dsEdit.save(param).then(function (data) {
+	                    	  swal.close();
+	                          if (data != null) {
+	                        	  swal.close();
+	                              layerCtrl.getLayerById("poi").redraw();
+	                              highRenderCtrl._cleanHighLight();
+	                              highRenderCtrl.highLightFeatures = [];
+	                              treatmentOfChanged(data, "IXPOI", 'attr-base/generalBaseCtl', 'attr-base/generalBaseTpl.html');
+	                          }
+	                      });
+	            		});
+            		$("#kind").select2({
+                        width: "230px",
+                        placeholder: "请选择分类",
+                        allowClear: false,
+                        language: "cn",
+                        data: kindList
+                    });
             } else if (shapeCtrl.editType === "trafficSignal") {    //信号灯
                 if (!rdnode.selectedid) {
                     swal("操作失败", "请选取路口Node", "error");
@@ -1506,8 +1557,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
                         relationData.redraw();
-                        // highRenderCtrl._cleanHighLight();
-                        // highRenderCtrl.highLightFeatures.length = 0;
                         featCodeCtrl.setFeatCode({
                             laneTopo:data.data,
                             rdLaneData:rdLaneData
@@ -1516,16 +1565,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
-                var nodes = [];
-                var curNodes = geo.nodePids;
-                var flag = 0;
-                for(var i = 0;i<objEditCtrl.data.nodes.length;i++){
-                    if(curNodes.indexOf(objEditCtrl.data.nodes[i].nodePid) > -1){
-                        flag = 1;
-                        break;
-                    }
-                }
-                if(flag){
+                if(geo.nodePids && geo.nodePids.length > 0){
                     var param = {
                         "command": "BATCH",
                         "type": "RDCROSS",
@@ -1540,33 +1580,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         }
                     });
                 } else {
-                    swal({
-                        title: "警告！",
-                        text: "将会删除原来的路口，是否继续？",
-                        html: true,
-                        showCancelButton: true,
-                        allowEscapeKey: false,
-                        confirmButtonText: "是的，我要删除",
-                        confirmButtonColor: "#ec6c62"
-                    }, function(f) {
-                        if (f) { // 执行删除操作
-                            var param = {
-                                "command": "BATCH",
-                                "type": "RDCROSS",
-                                "dbId": App.Temp.dbId,
-                                "data": geo
-                            };
-                            //调用编辑接口;
-                            dsEdit.save(param).then(function (data) {
-                                if (data != null) {
-                                    rdCross.redraw();
-                                    treatmentOfChanged(data, "RDCROSS", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
-                                }
+                    dsEdit.delete(geo.pid, 'RDCROSS', 1).then(function(data) {
+                        if (data) {
+                            rdCross.redraw();
+                            highRenderCtrl._cleanHighLight();
+                            scope.$emit('SWITCHCONTAINERSTATE', {
+                                'subAttrContainerTpl': false,
+                                'attrContainerTpl': false
                             });
-                        } else { // 取消删除
-                            return;
                         }
-                    });
+                    })
                 }
 
             }

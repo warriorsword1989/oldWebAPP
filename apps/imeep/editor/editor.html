@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/font-awesome-4.6.3/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-datepicker/css/datepicker3.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/srs/srs.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/select2/css/select2.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.js"></script>
@@ -70,7 +71,8 @@
                                         <div ng-class="{'status available':true,'inactive':sysMsgType=='his'}"></div>
                                     </div>
                                     <div class="msg-pagination" ng-if="sysMsgType=='his'">
-                                        <ul uib-pagination boundary-links="true" total-items="totalItems" ng-change="pageChanged()" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                                        <!--<ul uib-pagination items-per-page="5" boundary-links="true" total-items="totalItems" ng-change="pageChanged()" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>-->
+                                        <ul uib-pagination items-per-page="5" max-size="5" total-items="totalItems" ng-model="currentPage" class="pagination" boundary-links="true" force-ellipses="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                                     </div>
                                 </div>
                             </div>

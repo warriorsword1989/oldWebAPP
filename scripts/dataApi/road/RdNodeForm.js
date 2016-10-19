@@ -5,60 +5,56 @@
  * Created by wangtun on 2015/9/9.
  * Class Rdnode
  */
-
 fastmap.dataApi.RdNodeForm = fastmap.dataApi.GeoDataModel.extend({
-
-
     /***
      *
      * @param data
      * @param options 其他可选参数
      */
-    initialize: function (data) {
+    initialize: function(data) {
         this.geoLiveType = "RDNODEFORM";
         this.setAttributeData(data);
     },
-
-    setAttributeData:function(data){
+    setAttributeData: function(data) {
         this.nodePid = data["nodePid"] || "";
-        this.formOfWay = data["formOfWay"] || 1;
+        this.formOfWay = data["formOfWay"];
+        if (this.formOfWay == undefined || this.formOfWay == null) {
+            this.formOfWay = 1;
+        }
         this.auxiFlag = data["auxiFlag"] || 0;
         this.rowId = data["rowId"] || "";
     },
-
     /**
      * 获取Node简略信息
      * @method getSnapShot
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function() {
         var data = {};
         data["nodePid"] = this.nodePid;
         data["formOfWay"] = this.formOfWay;
-        data["auxiFlag"]  = this.auxiFlag;
+        data["auxiFlag"] = this.auxiFlag;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
-
     /**
      * 获取Node详细信息
      * @method getIntegrate
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function() {
         var data = {};
         data["nodePid"] = this.nodePid;
         data["formOfWay"] = this.formOfWay;
-        data["auxiFlag"]  = this.auxiFlag;
+        data["auxiFlag"] = this.auxiFlag;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
-
 /***
  * Rdnode初始化函数
  * @param id
@@ -66,7 +62,6 @@ fastmap.dataApi.RdNodeForm = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdNodeForm = function (data, options) {
+fastmap.dataApi.rdNodeForm = function(data, options) {
     return new fastmap.dataApi.RdNodeForm(data, options);
 }
-

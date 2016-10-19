@@ -2,11 +2,19 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
     geometry: {},
     properties: {},
     setAttribute: function(data) {
-        var RD_LINK_Colors = [
-            '#646464', '#FFAAFF', '#E5C8FF', '#FF6364', '#FFC000', '#0E7892',
-            '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
-            '#000000', '#7364C8', '#000000', '#DCBEBE'
-        ];
+        var thematicMapFlag = App.Temp.thematicMapFlag;
+        var RD_LINK_Colors = [];
+        if (thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null) {
+            RD_LINK_Colors = [
+                '#000000', '#FF0000', '#00A500', '#E7EFF7', '#0000FF', '#EFEFF7'
+            ];
+        } else {
+            RD_LINK_Colors = [
+                '#646464', '#FFAAFF', '#E5C8FF', '#FF6364', '#FFC000', '#0E7892',
+                '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
+                '#000000', '#7364C8', '#000000', '#DCBEBE'
+            ];
+        }
         this.geometry['type'] = 'LineString';
         this.properties["featType"] = "RDLINK";
         this.properties['name'] = data.m.b;
@@ -27,7 +35,7 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
                 hashAngle: -90,
                 hashSymbol: {
                     type: 'SampleLineSymbol',
-                    color: RD_LINK_Colors[parseInt(data.m.a)],
+                    color: thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null ?  RD_LINK_Colors[parseInt(data.m.i)] : RD_LINK_Colors[parseInt(data.m.a)],
                     width: 1,
                     style: 'solid'
                 },
@@ -63,18 +71,18 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
                     color: 'gray',
                     width: 1,
                     style: 'solid'
-                        }, {
+                }, {
                     type: 'CartoLineSymbol',
                     color: 'blue',
                     width: 1,
                     pattern: [4, 4, 12, 4]
-                        }]
+                }]
             };
             var subSymbol = symbolFactory.dataToSymbol(symbolData);
             compositeSymbol.symbols.push(subSymbol);
         }
         this.properties['symbol'] = compositeSymbol;
-        this.properties['style']['strokeColor'] = RD_LINK_Colors[parseInt(data.m.a)];
+        this.properties['style']['strokeColor'] = thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null ?  RD_LINK_Colors[parseInt(data.m.i)] : RD_LINK_Colors[parseInt(data.m.a)];
         this.properties['style']['strokeWidth'] = 1;
         this.properties['style']['strokeOpacity'] = 1;
     },
