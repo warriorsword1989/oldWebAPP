@@ -1077,6 +1077,17 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
+                    highLightFeatures = [];
+                    highRenderCtrl._cleanHighLight();
+                    highLightFeatures.push({
+                        id: e.property.id.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: '#00F5FF'
+
+                    });
+                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                    highRenderCtrl.drawHighlight();
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
                         if (data) {
                             selectCtrl.onSelected({
@@ -1126,7 +1137,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
                                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
                             }
-                        } else {}
+                        } else {
+                            tooltipsCtrl.setCurrentTooltip('请重新选择位置创建电子眼!');
+                        }
                     })
                 });
             } else if (type === 'RDSLOPE'){ //坡度

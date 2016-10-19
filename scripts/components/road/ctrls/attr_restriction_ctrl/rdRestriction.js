@@ -59,7 +59,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
                         break;
                     }
                 } else {
-                    var temp = ''+details[j].restricInfo+'';
+                    var temp = '['+details[j].restricInfo+']';
                     if((details[j].flag == 0 || details[j].flag == 2) && temp == resArr[i]){
                         resArrSorted.push(details[j]);
                         break;

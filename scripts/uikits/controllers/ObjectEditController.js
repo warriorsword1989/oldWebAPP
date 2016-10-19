@@ -210,11 +210,34 @@ fastmap.uikit.ObjectEditController = (function() {
                 //     });
                 // }
                 //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
-                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType !=this.data.branchType)) {
+                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.pid != this.data.pid)) {
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
                     });
+                }
+                //同一类型分歧地图上选择必须清除事件，避免重复请求
+                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.pid == this.data.pid)) {
+                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY]) {
+                        for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY].length-1; i < len; i++) {
+                            this.eventController.off(this.eventController.eventTypes.SAVEPROPERTY, this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY][i]);
+                        }
+                    }
+                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.DELETEPROPERTY]) {
+                        for (var j = 0, lenJ = this.eventController.eventTypesMap[this.eventController.eventTypes.DELETEPROPERTY].length-1; j < lenJ; j++) {
+                            this.eventController.off(this.eventController.eventTypes.DELETEPROPERTY, this.eventController.eventTypesMap[this.eventController.eventTypes.DELETEPROPERTY][j]);
+                        }
+                    }
+                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.CANCELEVENT]) {
+                        for (var k = 0, lenK = this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY].length-1; k < lenK; k++) {
+                            this.eventController.off(this.eventController.eventTypes.CANCELEVENT, this.eventController.eventTypesMap[this.eventController.eventTypes.CANCELEVENT][k]);
+                        }
+                    }
+                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.SELECTEDFEATURECHANGE]) {
+                        for (var k = 0, lenK = this.eventController.eventTypesMap[this.eventController.eventTypes.SELECTEDFEATURECHANGE].length-1; k < lenK; k++) {
+                            this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE, this.eventController.eventTypesMap[this.eventController.eventTypes.SELECTEDFEATURECHANGE][k]);
+                        }
+                    }
                 }
                 this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                     "originalData": this.originalData,
