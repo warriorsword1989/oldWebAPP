@@ -679,7 +679,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 param["type"] = selectShapeType;
                 var snodeGeo, enodeGeo, pointNew, distanceA, distanceB;
-                dsEdit.getByPid(selectCtrl.selectedFeatures.id,'RDLINK').then(function(data){
+                dsEdit.getByPid(selectCtrl.selectedFeatures.id, selectCtrl.selectedFeatures.featType).then(function(data){
                     snodeGeo = data.geometry.coordinates[0];
                     enodeGeo = data.geometry.coordinates[data.geometry.coordinates.length-1];
                     pointNew = L.latLng(geo.y, geo.x);
@@ -1067,10 +1067,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                              "kindCode":kindCode
 	                          }
 	                      };
+                          scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
 	                          if (data != null) {
-	                        	  swal.close();
 	                              layerCtrl.getLayerById("poi").redraw();
 	                              highRenderCtrl._cleanHighLight();
 	                              highRenderCtrl.highLightFeatures = [];
@@ -1230,13 +1230,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 };
                 var oriData = objEditCtrl.data;
-                if (featCodeCtrl.getFeatCode().linkPid.toString() != oriData.linkPid) {
-                    param.data.linkPid = featCodeCtrl.getFeatCode().linkPid.toString();
-                }
+                param.data.pid = oriData.pid ;
                 if (featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length) {
                     param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
                 }
-                if (param.data.linkPids == undefined && param.data.linkPid == undefined) {
+                if (param.data.linkPids == undefined ) {
                     swal("操作失败", "坡度没有发生修改！", "info");
                     return;
                 }
@@ -1619,6 +1617,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     })
                 }
 
+            } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
+                return;
             }
             resetPage();
         }

@@ -136,15 +136,32 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 swal('提示','退出线和进入线不能为同一条线！','warning');
                 return ;
             }
-            $scope.excitLineArr.push(parseInt(data.id));
-            $scope.highFeatures.push({
-                id:  data.id.toString(),
-                layerid: 'rdLink',
-                type: 'line',
-                style: {
-                    color: '#CD0000'
+            var dex1 = $scope.excitLineArr.indexOf(parseInt(data.id)); //判断此退出线是否已经存在
+            var dex2 = -1;
+            for(var i = 0; i < $scope.highFeatures.length; i++){ //获取高亮线的下标
+                if($scope.highFeatures[i].id == data.id){
+                    dex2 = i;
+                    break;
                 }
-            });
+            }
+            if(dex1 > -1){
+                $scope.excitLineArr.splice(dex1,1);
+            }else {
+                $scope.excitLineArr.push(parseInt(data.id));
+            }
+            if(dex2 > -1){
+                $scope.highFeatures.splice(dex2,1);
+            }else{
+                $scope.highFeatures.push({
+                    id:  data.id.toString(),
+                    layerid: 'rdLink',
+                    type: 'line',
+                    style: {
+                        color: '#CD0000'
+                    }
+                });
+            }
+            highRenderCtrl._cleanHighLight();
             highRenderCtrl.drawHighlight();
             $scope.limitRelation.outLinkPids = $scope.excitLineArr;
             tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");

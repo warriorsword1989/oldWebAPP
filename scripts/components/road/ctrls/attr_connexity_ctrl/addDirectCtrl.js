@@ -7,6 +7,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",["$scope",'dsE
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var rdLink = layerCtrl.getLayerById('rdLink');
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = new fastmap.uikit.HighRenderController();

@@ -25,13 +25,15 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.projectType = 1; //1--POI作业，其他为道路作业
 		$scope.outputType = 1;
 		$scope.rootCommonTemp = {}; //用于保存需要全局控制的变量
+		$scope.rootCommonTemp.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
+		$scope.thematicMapShow = false;
 		//面板显示控制开关
 		$scope.editorPanelOpened = 'none';
 		$scope.suspendPanelOpened = false;
 		$scope.consolePanelOpened = false;
 		$scope.workPanelOpened = false;
 		$scope.rdLaneOpened = false;
-		$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
+		//$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
 		//$scope.controlFlag = {}; //用于父Scope控制子Scope
 		$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
 		// $scope.outputResult = []; //输出结果
@@ -569,6 +571,13 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/specialwork/roadNameCtl.js').then(function () {
 				$scope.specialWorkPanelTpl = appPath.root + 'scripts/components/road/tpls/specialwork/roadNameTpl.htm';
 			});
+		};
+		$scope.thematicMapChange = function(){
+			var layerCtrl = fastmap.uikit.LayerController();
+			var rdLink = layerCtrl.getLayerById('rdLink');
+			App.Temp.thematicMapFlag = !$scope.thematicMapShow;
+			$scope.thematicMapShow = !$scope.thematicMapShow;
+			rdLink.redraw();
 		};
 		$scope.closeAdvancedToolsPanel = function () {
 			$scope.advancedTool = null;

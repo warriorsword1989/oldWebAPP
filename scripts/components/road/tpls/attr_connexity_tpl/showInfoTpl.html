@@ -3,10 +3,10 @@
         <li style="margin-bottom:3px">
             <div ng-repeat="showItem in directArr track by $index">
 
-                <img class="lanePic"  ng-if="!laneFlag"
+                <img class="lanePic"  ng-if="!laneFlag" ng-click="getLanesInfo(showItem,$event)" title="点击可修改退出线"
                       ng-src="../../../images/road/1301/1301_0_{{showItem}}.svg"
                 >
-                <img class="lanePic"  ng-if="laneFlag"
+                <img class="lanePic"  ng-if="laneFlag" ng-click="getLanesInfo(showItem,$event)" title="点击可修改退出线"
                       ng-src="../../../images/road/1301/1301_2_{{showItem}}.svg"
                 >
                 <span style="font-size: 12px;top: 15px;left:-22px;color: #fff;cursor: pointer;"

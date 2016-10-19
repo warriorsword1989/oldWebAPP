@@ -12,29 +12,12 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         var eventCtrl = fastmap.uikit.EventController();
         var highRenderCtrl = fastmap.uikit.HighRenderController();
 
-        var adLink = layerCtrl.getLayerById('adLink');
-        var adNode = layerCtrl.getLayerById('adNode');
-
-        var rdLink = layerCtrl.getLayerById('rdLink');
-        var rdNode = layerCtrl.getLayerById('rdNode');
-
-        var lcNode = layerCtrl.getLayerById('lcNode');
-        var lcLink = layerCtrl.getLayerById('lcLink');
-
-        var luNode = layerCtrl.getLayerById('luNode');
-        var luLink = layerCtrl.getLayerById('luLink');
-
-        var rwLink = layerCtrl.getLayerById('rwLink');
-        var rwNode = layerCtrl.getLayerById('rwNode');
-
-        var zoneLink = layerCtrl.getLayerById('zoneLink');
-        var zoneNode = layerCtrl.getLayerById('zoneNode');
         // 工具按鈕控制開關
         $scope.selectBtnOpened = false;
         $scope.addBtnOpened = false;
         $scope.advanceBtnOpened = false;
-        $scope.nodeChecked = true;
-        $scope.linkChecked = true;
+        // $scope.nodeChecked = true;
+        // $scope.linkChecked = true;
         // 编辑操作符
         $scope.shapeOperator = "navigate"; // 形狀操作符selectNode,addLink等
         $scope.featureOperator = null; // 要素操作符RDNODE,RWLINK,ADLINK等，必須与形狀操作符配合使用
@@ -152,113 +135,5 @@ angular.module("app").controller("mapToolbarCtrl", ["$scope", '$ocLazyLoad', 'ap
         $scope.togglEspecialOperAdvanceBtn = function () {
             $scope.specialOperAdvanceBtnOpened = !$scope.specialOperAdvanceBtnOpened;
         };
-
-        //更改捕捉，type:node,link;
-        $scope.changeSnap = function (type, featType, snapLayer) {
-            var snapList = shapeCtrl.getCurrentTool().snapHandler._guides;
-            if (type == "node") {
-                if (!$scope.nodeChecked) {
-                    for (var i = 0; i < snapList.length; i++) {
-                        if (snapList[i].type == "Point") {
-                            snapList.splice(i, 1);
-                            i--;
-                        }
-                    }
-                } else {
-                    snapList.unshift(snapLayer);
-                }
-            } else if (type == "link") {
-                if (!$scope.linkChecked) {
-                    for (var i = 0; i < snapList.length; i++) {
-                        if (snapList[i].type == "LineString") {
-                            snapList.splice(i, 1);
-                            i--;
-                        }
-                    }
-                } else {
-                    snapList.push(snapLayer);
-                }
-            }
-        };
-
-        //更改图层可见性，type:node,link;
-        $scope.changeLayer = function (type, featType) {
-            var visible = true;
-            if (type == "node") {
-                visible = $scope.nodeChecked;
-            } else if (type == "link") {
-                visible = $scope.linkChecked;
-            }
-            for (var layer in layerCtrl.layers) {
-                if (layerCtrl.layers[layer].options.requestType === featType && layerCtrl.layers[layer].options.visible != visible) {
-                    layerCtrl.layers[layer].options.isUpDirect = false;
-                    layerCtrl.layers[layer].options.visible = visible;
-                    eventCtrl.fire(eventCtrl.eventTypes.LAYERONSWITCH, {
-                        layerArr: layerCtrl.layers
-                    });
-                    break;
-                }
-            }
-        };
-
-        $scope.changeSnapAndLayer = function (type) {
-            var tool = shapeCtrl.getCurrentTool();
-            var nodeType = null;
-            var snapNode = null;
-            var snapLink = null;
-            if (tool.shapeEditor != undefined) {
-                var linkType = tool.shapeEditor.editFeatType;
-
-                switch (linkType) {
-                    case "RDLINK":
-                        nodeType = "RDNODE";
-                        snapLink = rdLink;
-                        snapNode = rdNode;
-                        break;
-                    case "RWLINK":
-                        nodeType = "RWNODE";
-                        snapLink = rwLink;
-                        snapNode = rwNode;
-                        break;
-                    case "ADLINK":
-                        nodeType = "ADNODE";
-                        snapLink = adLink;
-                        snapNode = adNode;
-                        break;
-                    case "ZONELINK":
-                        nodeType = "ZONENODE";
-                        snapLink = zoneLink;
-                        snapNode = zoneNode;
-                        break;
-                    case "LCLINK":
-                        nodeType = "LCNODE";
-                        snapLink = lcLink;
-                        snapNode = lcNode;
-                        break;
-                    case "LULINK":
-                        nodeType = "LUNODE";
-                        snapLink = luLink;
-                        snapNode = luNode;
-                        break;
-                }
-                if (type == "node") {
-                    if ($scope.nodeChecked == true) {
-                        $scope.nodeChecked = false;
-                    } else {
-                        $scope.nodeChecked = true;
-                    }
-                    $scope.changeSnap("node", nodeType, snapNode);
-                    // $scope.changeLayer("node", nodeType);
-                } else {
-                    if ($scope.linkChecked == true) {
-                        $scope.linkChecked = false;
-                    } else {
-                        $scope.linkChecked = true;
-                    }
-                    $scope.changeSnap("link", linkType, snapLink);
-                    // $scope.changeLayer("link", linkType);
-                }
-            }
-        }
     }
 ]);

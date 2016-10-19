@@ -5,6 +5,7 @@
     <button class="fm-top-btn select-face" title="选择面" ng-click="selectShape('face')"></button>
     <button class="fm-top-btn blank eng" title="选择Tips" ng-click="selectShape('tips')">Tip</button>
     <button class="fm-top-btn blank" title="选择关系" ng-click="selectShape('relation')">关</button>
+    <button class="fm-top-btn blank" title="选择All" ng-click="selectShape('all')">All</button>
 </div>
 <div class="fm-top-btn split"></div>
 <div class="fm-top-btn-group">
@@ -36,7 +37,7 @@
                         <button class="fm-top-btn blank" title="制作行政区划面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ADNODE')">政</button>
                         <button class="fm-top-btn blank eng" title="制作Zone面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('ZONENODE')">ZN</button>
                         <button class="fm-top-btn blank eng" title="制作土地利用面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LUNODE')">LU</button>
-                        <button class="fm-top-btn blank eng" title="制作土地覆盖面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LCNENODE')">LC</button>
+                        <button class="fm-top-btn blank eng" title="制作土地覆盖面的组成线节点" ng-controller="addNodeFeatureCtrl" ng-click="addNode('LCNODE')">LC</button>
                     </div>
                 </div>
             </li>
@@ -195,9 +196,10 @@
             <li><a href="#" ng-click="openAdvancedToolsPanel('search')">搜 索</a></li>
             <!--<li><a href="#">检 查</a></li>-->
             <li><a href="#" ng-click="openSpecialWorkPanelTpl()">道路名作业</a></li>
+            <li><a href="#" ng-click="thematicMapChange()">FC专题图 <i class="glyphicon glyphicon-ok pull-right" ng-show="thematicMapShow"></i></a></li>
             <li role="presentation" class="divider"></li>
-            <li><a href="#" ng-click="linkChecked=!linkChecked">捕捉线 <i class="glyphicon glyphicon-ok pull-right" ng-if="linkChecked"></i></a></li>
-            <li><a href="#" ng-click="nodeChecked=!nodeChecked">捕捉点 <i class="glyphicon glyphicon-ok pull-right" ng-show="nodeChecked"></i></a></li>
+            <li><a href="#" ng-click="changeLayerSnap('link')">捕捉线 <i class="glyphicon glyphicon-ok pull-right" ng-if="linkChecked"></i></a></li>
+            <li><a href="#" ng-click="changeLayerSnap('node')">捕捉点 <i class="glyphicon glyphicon-ok pull-right" ng-show="nodeChecked"></i></a></li>
             <!--<li><a href="#" ng-click="isLinkTrack=!isLinkTrack">追踪选择 <i class="glyphicon glyphicon-ok pull-right" ng-show="isLinkTrack"></i></a></li>-->
         </ul>
     </div>

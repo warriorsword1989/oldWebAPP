@@ -5,7 +5,26 @@
 angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	$scope.tollGateNames = objCtrl.namesInfos;
-
+//	$scope.test = []; 
+//	var tt = function() {
+//		$scope.test.length = 0;
+//		for(var k in $scope.tollGateNames) {
+//			if($scope.test.indexOf($scope.tollGateNames[k].langCode) < 0) {
+//				$scope.test.push($scope.tollGateNames[k].langCode);
+//			}
+//		}
+//	};
+//	tt();
+	$scope.selectedLangcodeArr = []; 
+	var getSelectedLangcode = function() {
+		$scope.selectedLangcodeArr.length = 0;
+		for(var k in $scope.tollGateNames) {
+			if($scope.selectedLangcodeArr.indexOf($scope.tollGateNames[k].langCode) < 0) {
+				$scope.selectedLangcodeArr.push($scope.tollGateNames[k].langCode);
+			}
+		}
+	};
+	getSelectedLangcode();
 	/*名称语音*/
 	$scope.namePronunciation = function (nameCn,nameInfo) {
 		var param = {
@@ -21,7 +40,28 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 	};
 	// 增加名称信息
 	$scope.addNameInfo = function(){
-		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
+		$scope.tollGateNames;
+		for(var i=0;i<$scope.langCodeOptions.length;i++){
+			for(var j=0;j<$scope.tollGateNames.length;j++){
+				var flag = false;
+				if($scope.langCodeOptions[i].id == $scope.tollGateNames[j].langCode){
+					break;
+				}
+				if($scope.langCodeOptions[i].id != $scope.tollGateNames[j].langCode  && j==$scope.tollGateNames.length-1){
+					$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid,langCode:$scope.langCodeOptions[i].id}));
+					flag = true;
+					break;
+				}
+			}
+			if(flag){
+				break;
+			}
+		}
+//		$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid}));
+	};
+	//代码语言字段切换时，判断语言不能重复
+	$scope.langCodeChange = function(event,obj){
+		getSelectedLangcode();
 	};
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
@@ -60,4 +100,5 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 	$scope.$on('refreshTollgateName',function(data){
 		$scope.tollGateNames = objCtrl.namesInfos;
 	});
-}]);
+	
+}])

@@ -1090,7 +1090,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.getFeatDataCallback(data, data.id, "LCFACE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case "IXPOI":
-                    $scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true; //表示poi是从地图上选中的
+                    //$scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true; //表示poi是从地图上选中的
+                    $scope.rootCommonTemp.selectPoiInMap = true
                     toolsObj = {
                         items: [{
                             'text': "<a class='glyphicon glyphicon-open'></a>",
