@@ -181,27 +181,21 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
                 }
             }
         };
-        //更改图层可见性，type:node,link;
-        $scope.changeLayer = function(type, featType) {
-            var visible = true;
+
+        $scope.changeLayerSnap = function(type) {
             if (type == "node") {
-                // visible = $scope.nodeChecked;
-                visible = true; //为了解决捕捉点时新增link，rdnode图层不可见情况
-            } else if (type == "link") {
-                visible = $scope.linkChecked;
-            }
-            for (var layer in layerCtrl.layers) {
-                if (layerCtrl.layers[layer].options.requestType === featType && layerCtrl.layers[layer].options.visible != visible) {
-                    layerCtrl.layers[layer].options.isUpDirect = false;
-                    layerCtrl.layers[layer].options.visible = visible;
-                    eventCtrl.fire(eventCtrl.eventTypes.LAYERONSWITCH, {
-                        layerArr: layerCtrl.layers
-                    });
-                    break;
+                if ($scope.nodeChecked == true) {
+                    $scope.nodeChecked = false;
+                } else {
+                    $scope.nodeChecked = true;
+                }
+            } else {
+                if ($scope.linkChecked == true) {
+                    $scope.linkChecked = false;
+                } else {
+                    $scope.linkChecked = true;
                 }
             }
-        };
-        $scope.changeSnapAndLayer = function(type) {
             var tool = shapeCtrl.getCurrentTool();
             var nodeType = null;
             var snapNode = null;
@@ -241,21 +235,9 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
                         break;
                 }
                 if (type == "node") {
-                    if ($scope.nodeChecked == true) {
-                        $scope.nodeChecked = false;
-                    } else {
-                        $scope.nodeChecked = true;
-                    }
                     $scope.changeSnap("node", nodeType, snapNode);
-                    $scope.changeLayer("node", nodeType);
                 } else {
-                    if ($scope.linkChecked == true) {
-                        $scope.linkChecked = false;
-                    } else {
-                        $scope.linkChecked = true;
-                    }
                     $scope.changeSnap("link", linkType, snapLink);
-                    // $scope.changeLayer("link", linkType);
                 }
             }
         }
