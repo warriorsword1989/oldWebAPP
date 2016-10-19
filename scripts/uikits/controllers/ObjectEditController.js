@@ -30,6 +30,7 @@ fastmap.uikit.ObjectEditController = (function() {
                 this.updateObject = "";
                 this.nodeObjRefresh = "";
                 this.selectNodeRefresh = "";
+                this.falg = false;
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -202,20 +203,17 @@ fastmap.uikit.ObjectEditController = (function() {
                         "currentData": this.data
                     });
                 }
-                // 详细车道
-                // if (!this.originalData || this.originalData.geoLiveType == 'RDLANE') {
-                //     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
-                //         "originalData": this.originalData,
-                //         "currentData": this.data
-                //     });
-                // }
+
                 //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
-                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType !=this.data.branchType)) {
-                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
-                        "originalData": this.originalData,
-                        "currentData": this.data
-                    });
+                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType != this.data.branchType)) {
+                    if([0,1,2,3,4].indexOf(this.data.branchType)==-1){
+                        this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
+                            "originalData": this.originalData,
+                            "currentData": this.data
+                        });
+                    }
                 }
+
                 this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                     "originalData": this.originalData,
                     "currentData": this.data

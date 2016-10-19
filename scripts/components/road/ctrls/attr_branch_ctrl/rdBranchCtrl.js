@@ -637,6 +637,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.cancel = function () {
 
     }
+
+
+    //if(eventController.eventTypesMap['SAVEPROPERTY'].length){
+    //    eventController.eventTypesMap['SAVEPROPERTY'] = eventController.eventTypesMap['SAVEPROPERTY'][0];
+    //    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    //}else{
+    //    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    //}
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
