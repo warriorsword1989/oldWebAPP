@@ -42,7 +42,7 @@
                         <label class="control-label">电子眼类型</label>
                         <div>
                             <select ng-model="electronicEyeData.kind"
-                                    ng-options="value.id as value.label for value in elecEyeType">
+                                    ng-options="value.id as value.label for value in elecEyeType" ng-change="changeElecType(electronicEyeData.kind);">
                             </select>
                         </div>
                     </li>
@@ -57,7 +57,7 @@
                     <li>
                         <label class="control-label">限速值</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.speedLimit"/>
+                            <input type="text" ng-model="electronicEyeData.speedLimit" ng-class="{true:'chosen-disabled'}[!electronicEyeData.isSpeedlimit]" ng-if="electronicEyeData.isSpeedlimit" objectmodel="electronicEyeData.speedLimit" maxlength="5" fm-input-control/>
                         </div>
                     </li>
                     <li>
