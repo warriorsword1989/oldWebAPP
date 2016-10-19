@@ -3,20 +3,20 @@
         <div class="add-icon">
             <i class="glyphicon glyphicon-plus-sign" ng-click="addNameInfo();"></i>
         </div>
-        <div class="content" ng-repeat="info in rdCrossNames">
+        <div class="content" ng-repeat="info in rdCrossNames  | orderBy:'nameId'">
             <form>
                 <ul class="fm-ul fm-ul-form">
                     <li>
-                        <label>名称组号</label>
+                        <label>名称组</label>
                         <div >
-                            <input type="text" readonly class="fm-control" ng-model="info.nameGroupid"/>
+                            <input type="text" readonly class="fm-control chosen-disabled" ng-model="info.nameGroupid"/>
                         </div>
                     </li>
                     <li>
                         <label>代码语言</label>
                         <div>
                             <select ng-model="info.langCode" class="fm-control" ng-change="changeLanguage($index);"
-                                    ng-options="value.id as value.label for value in langCodeOptions">
+                                    ng-options="value.id as value.label for value in langCodeOptions | langCodeFilter: selectedLangcodeArr: info.langCode">
                             </select>
                         </div>
                     </li>
