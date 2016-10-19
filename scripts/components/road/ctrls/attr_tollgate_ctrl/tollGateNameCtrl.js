@@ -48,7 +48,7 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 					break;
 				}
 				if($scope.langCodeOptions[i].id != $scope.tollGateNames[j].langCode  && j==$scope.tollGateNames.length-1){
-					$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({nameGroupid:$scope.tollGateNames[0].nameGroupid,langCode:$scope.langCodeOptions[i].id}));
+					$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({"nameGroupid":$scope.tollGateNames[0].nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
 					flag = true;
 					break;
 				}

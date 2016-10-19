@@ -523,14 +523,21 @@ fastmap.uikit.HighRenderController = (function () {
           }
           var fillColor = style.fillColor ? style.fillColor : "red";
           var radius = style.radius ? style.radius : 6;
-          var geo = feature.geometry.coordinates[0]; //路口只高亮主点
-          this.layer._drawPoint({
-            boolPixelCrs: true,
-            ctx: ctx,
-            fillColor: fillColor,
-            radius: radius,
-            geom: geo
-          })
+
+          for (var j in feature.geometry.coordinates) {
+            var geo = feature.geometry.coordinates[j];
+            if(feature.properties.isMainArr[j] == 1){ //主点
+            } else {
+              fillColor = "green";
+            }
+            this.layer._drawPoint({
+              boolPixelCrs: true,
+              ctx: ctx,
+              fillColor: fillColor,
+              radius: radius,
+              geom: geo
+            })
+          }
         }
       },
       /**
