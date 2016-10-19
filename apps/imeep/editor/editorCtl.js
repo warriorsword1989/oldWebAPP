@@ -20,6 +20,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {} , $scope.topKind = {} , $scope.mediumKind = {} ;
 		$scope.metaData.kindFormatPart = {},  $scope.metaData.kindListPart = [];
 		$scope.showLoading = {flag: true};
+		// 将页面loading动画的开关引用赋给dsEdit的本地变量，以便在dsEdit中进行控制
+		// 注意：这里利用了对象引用的特性，变量必须是个对象，不能是字符串、bool、数字等
 		dsEdit.referenceLoadingSwitch($scope.showLoading);
 		$scope.showTab = true;
 		$scope.selectedTool = 1;
