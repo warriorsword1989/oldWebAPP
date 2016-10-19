@@ -3,13 +3,19 @@
         <div class="add-icon" ng-click="addNameInfo();">
           <i class="glyphicon glyphicon-plus-sign"></i>
         </div>
-        <div class="content" ng-repeat="info in tollGateNames">
+        <div class="content" ng-repeat="info in tollGateNames | orderBy: 'nameId'">
             <form>
                 <ul class="fm-ul fm-ul-form">
                     <li>
+                        <label>名称组</label>
+                        <div >
+                            <input type="text" readonly class="fm-control chosen-disabled" ng-model="info.nameGroupid"/>
+                        </div>
+                    </li>
+                    <li>
                         <label>名称组号</label>
                         <div >
-                            <input type="text" readonly class="fm-control" ng-model="info.nameGroupid"/>
+                            <input type="text" readonly class="fm-control chosen-disabled" ng-model="info.nameId"/>
                         </div>
                     </li>
                     <li>
