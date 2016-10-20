@@ -54,6 +54,14 @@
                       </div>
                   </li>
                   <li>
+                      <label>卡 车</label>
+                      <div class="block">
+                            <label ng-repeat="(key, value) in truckTypeOpt">
+                                <input type="radio" value={{key}} name="truckType" ng-model="poi.truckFlag" ng-class="{true:'chosen-disabled'}[truckFlagDisable]" ng-disabled="truckFlagDisable"> {{value}}
+                            </label>
+                      </div>
+                  </li>
+                  <li>
                       <label >24小时</label>
                       <div>
                           <label>
