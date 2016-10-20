@@ -89,7 +89,8 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
             if(data.errcode == 0){
                 nameInfo.phonetic = data.data.phonetic;
             }else{
-                swal("查找失败", "问题原因："+data.errmsg, "error");
+	            nameInfo.phonetic = '';
+	            swal("查找失败", "可能是服务出错或者输入过长，请重新尝试", "error");
             }
         });
     };

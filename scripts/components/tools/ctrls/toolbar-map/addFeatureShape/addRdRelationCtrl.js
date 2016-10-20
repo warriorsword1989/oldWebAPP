@@ -2116,7 +2116,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     });
                     highRenderCtrl._cleanHighLight();
                     highRenderCtrl.drawHighlight();
-                    tooltipsCtrl.setCurrentTooltipText("已选择一条退出线!");
+                    tooltipsCtrl.setCurrentTooltipText("请选择接续线!");
                 }
                 //高亮接续线方法;
                 function hightlightViasLink(){
@@ -2298,12 +2298,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     tooltipsCtrl.setCurrentTooltipText("退出线方向错误!");
                                     return;
                                 }
-                                //if(outLinkData.eNodePid==$scope.limitRelation.nodePid&&outLinkData.direct==3){
-                                //    $scope.jointNode = outLinkData.sNodePid;
-                                //}else{
-                                //    tooltipsCtrl.setCurrentTooltipText("接续线方向错误!");
-                                //    return;
-                                //}
                             }else{
                                 tooltipsCtrl.setCurrentTooltipText("该道路方向不确定!");
                                 map.currentTool.selectedFeatures.splice(map.currentTool.selectedFeatures.length-1);
@@ -2319,7 +2313,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
-                            tooltipsCtrl.setCurrentTooltip("退出线已选择!");
+                            tooltipsCtrl.setCurrentTooltip("请选择接续线!");
                             console.log($scope.links)
                             console.log($scope.linkNodes)
                         });

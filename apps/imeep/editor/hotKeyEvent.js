@@ -436,7 +436,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         var directOfLink = {
                             "objStatus": "UPDATE",
                             "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
+                            "direct": parseInt(selectCtrl.selectedFeatures.direct),
+                            "laneNum":objEditCtrl.data.laneNum,
+                            "direct": objEditCtrl.data.direct,
+                            "laneLeft":objEditCtrl.data.laneLeft,
+                            "laneRight":objEditCtrl.data.laneRight
                         };
                         param = {
                             "type": "RDLINK",
@@ -444,15 +448,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             "dbId": App.Temp.dbId,
                             "data": directOfLink
                         };
-                        //dsEdit.save(param).then(function (data) {
-                        //    evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
-                        //    //if (data != null) {
-                        //    //    rdLink.redraw();
-                        //    //    rdnode.redraw();
-                        //    //    treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
-                        //    //}
-                        //});
-                        evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                        console.log(objEditCtrl)
+                        dsEdit.save(param).then(function (data) {
+                            evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                            if (data != null) {
+                                rdLink.redraw();
+                                rdnode.redraw();
+                                //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                            }
+                        });
+                        //evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
@@ -994,8 +999,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
             	var html = '<div style="height:120px">'+
-                        '<input id="name" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text"/>'+
-                        '<select class="form-control" style="width:230px;margin-left:105px;" id="kind"></select>'+
+                        '<input id="poiAddName" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text"/>'+
+                        '<select class="form-control" style="width:230px;margin-left:105px;" id="poiAddKind"></select>'+
                       '<div>';
 	            	swal({
 	            		  title: "请输入以下内容",
@@ -1009,8 +1014,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	            		  confirmButtonColor: "#ec6c62"
 	            		},
 	            		function(){
-	            		  var name = $("#name").val();
-                       	  var kindCode = $("#kind").val();
+	            		  var name = $("#poiAddName").val();
+                       	  var kindCode = $("#poiAddKind").val();
 	                      if(!name || kindCode == 0){
 	                      		 swal("创建POI失败", "名称或分类为空" , "error");
 	                      		 return;
@@ -1051,7 +1056,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                          }
 	                      });
 	            		});
-            		$("#kind").select2({
+            		$("#poiAddKind").select2({
                         width: "230px",
                         placeholder: "请选择分类",
                         allowClear: false,

@@ -3815,7 +3815,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             //高亮
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
-            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
+            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
             console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
         }
     }
