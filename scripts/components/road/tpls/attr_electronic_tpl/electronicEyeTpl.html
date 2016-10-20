@@ -42,7 +42,7 @@
                         <label class="control-label">电子眼类型</label>
                         <div>
                             <select ng-model="electronicEyeData.kind"
-                                    ng-options="value.id as value.label for value in elecEyeType">
+                                    ng-options="value.id as value.label for value in elecEyeType" ng-change="changeElecType(electronicEyeData.kind);">
                             </select>
                         </div>
                     </li>
@@ -57,22 +57,22 @@
                     <li>
                         <label class="control-label">限速值</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.speedLimit"/>
+                            <input type="text" ng-model="electronicEyeData.speedLimit" ng-class="{true:'chosen-disabled'}[!electronicEyeData.isSpeedlimit]" ng-if="electronicEyeData.isSpeedlimit" placeholder="千米/小时" objectmodel="electronicEyeData.speedLimit" maxlength="5" fm-input-control/>
                         </div>
                     </li>
                     <li>
                         <label class="control-label">违章高发地</label>
                         <div>
                             <label>
-                                <input type="radio" value=0 ng-model="electronicEyeData.highViolation">
+                                <input type="radio" value=0 ng-class="{true:'chosen-disabled'}[electronicEyeData.highViolation !=0]" ng-model="electronicEyeData.highViolation" disabled>
                                 未调查
                             </label>
                             <label>
-                                <input type="radio" value=1 ng-model="electronicEyeData.highViolation">
+                                <input type="radio" value=1 ng-class="{true:'chosen-disabled'}[electronicEyeData.highViolation !=1]" ng-model="electronicEyeData.highViolation" disabled>
                                 是
                             </label>
                             <label>
-                                <input type="radio" value=2 ng-model="electronicEyeData.highViolation">
+                                <input type="radio" value=2 ng-class="{true:'chosen-disabled'}[electronicEyeData.highViolation !=2]" ng-model="electronicEyeData.highViolation" disabled>
                                 否
                             </label>
                         </div>
@@ -109,7 +109,7 @@
                     <li>
                         <label class="control-label">创建日期</label>
                         <div>
-                            <input type="text" ng-model="electronicEyeData.creationDate"/>
+                            <input type="text" class="chosen-disabled" ng-model="electronicEyeData.creationDate" disabled/>
                         </div>
                     </li>
                     <li>

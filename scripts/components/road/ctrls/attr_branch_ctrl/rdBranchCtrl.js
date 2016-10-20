@@ -520,7 +520,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             "propertyHtml": tempTepl,
             "data":objCtrl.data.details[0].names
         };*/
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
         // $scope.$emit("transitCtrlAndTpl", detailInfo);
         $scope.$emit("transitCtrlAndTpl", showBranchInfoObj);
@@ -608,7 +608,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if (param.data.details) {
             delete param.data.details[0].linkPid;
             if (param.data.details[0].names) {
-                param.data.details[0].names = compareObjData(objCtrl.originalData.details[0].names,objCtrl.data.details[0].names);
+                if(objCtrl.originalData.details[0].names.length){
+                    param.data.details[0].names = compareObjData(objCtrl.originalData.details[0].names,objCtrl.data.details[0].names);
+                }
             }
         }
         if (!param.data) {
@@ -656,6 +658,14 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     $scope.cancel = function () {
 
     }
+
+
+    //if(eventController.eventTypesMap['SAVEPROPERTY'].length){
+    //    eventController.eventTypesMap['SAVEPROPERTY'] = eventController.eventTypesMap['SAVEPROPERTY'][0];
+    //    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    //}else{
+    //    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    //}
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);

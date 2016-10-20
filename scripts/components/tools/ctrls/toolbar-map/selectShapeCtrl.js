@@ -85,6 +85,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     }
                 }
             }
+            objCtrl.data.links.sort(function(a,b){
+                return a.zlevel - b.zlevel;
+            });
             /*重绘link颜f色*/
             highRenderCtrl.highLightFeatures = [];
             for (var i = 0; i < objCtrl.data.links.length; i++) {
@@ -612,12 +615,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDELECTRONICEYE':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
-                            'title': "改关联Link",
-                            'type': "MODIFYOUTLINE",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }, {
                             'text': "<a class='glyphicon glyphicon-record'></a>",
                             'title': "改点位",
                             'type': "MODIFYNODE",
@@ -820,12 +817,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             }
                         })
                     }
-                    var showLaneInfoObj = {
-                        "loadType": "attrTplContainer",
-                        "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
-                        "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html'
-                    };
-                    $scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
+                    objCtrl.flag = true;
                     locllBranchCtlAndTpl(data.branchType);
                     $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml, toolsObj);
                     break;
@@ -1638,6 +1630,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     case 0:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";
                         ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html";
+                        //当要素切换时重新加载初始化方法;
+                        // eventController.fire(eventController.eventTypes.SELECTEDFEATURECHANGE);
                         break;
                     case 1:
                         ctrlAndTmplParams.propertyCtrl = appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl";

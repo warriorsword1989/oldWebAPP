@@ -30,6 +30,7 @@ fastmap.uikit.ObjectEditController = (function() {
                 this.updateObject = "";
                 this.nodeObjRefresh = "";
                 this.selectNodeRefresh = "";
+                this.falg = false;
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -196,60 +197,34 @@ fastmap.uikit.ObjectEditController = (function() {
                         throw "无法解析当前选择的类型!";
                         break;
                 }
+
                 if (!this.originalData || (this.originalData.geoLiveType != this.data.geoLiveType)) {
                     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
                         "originalData": this.originalData,
                         "currentData": this.data
                     });
                 }
-                // 详细车道
-                // if (!this.originalData || this.originalData.geoLiveType == 'RDLANE') {
-                //     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
-                //         "originalData": this.originalData,
-                //         "currentData": this.data
-                //     });
-                // }
-                //不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到
-                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.pid != this.data.pid)) {
-                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
-                        "originalData": this.originalData,
-                        "currentData": this.data
-                    });
-                }
-                //同一类型分歧地图上选择必须清除事件，避免重复请求
-                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.pid == this.data.pid)) {
-                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY]) {
-                        for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY].length-1; i < len; i++) {
-                            this.eventController.off(this.eventController.eventTypes.SAVEPROPERTY, this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY][i]);
-                        }
-                    }
-                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.DELETEPROPERTY]) {
-                        for (var j = 0, lenJ = this.eventController.eventTypesMap[this.eventController.eventTypes.DELETEPROPERTY].length-1; j < lenJ; j++) {
-                            this.eventController.off(this.eventController.eventTypes.DELETEPROPERTY, this.eventController.eventTypesMap[this.eventController.eventTypes.DELETEPROPERTY][j]);
-                        }
-                    }
-                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.CANCELEVENT]) {
-                        for (var k = 0, lenK = this.eventController.eventTypesMap[this.eventController.eventTypes.SAVEPROPERTY].length-1; k < lenK; k++) {
-                            this.eventController.off(this.eventController.eventTypes.CANCELEVENT, this.eventController.eventTypesMap[this.eventController.eventTypes.CANCELEVENT][k]);
-                        }
-                    }
-                    if (this.eventController.eventTypesMap[this.eventController.eventTypes.SELECTEDFEATURECHANGE]) {
-                        for (var k = 0, lenK = this.eventController.eventTypesMap[this.eventController.eventTypes.SELECTEDFEATURECHANGE].length-1; k < lenK; k++) {
-                            this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE, this.eventController.eventTypesMap[this.eventController.eventTypes.SELECTEDFEATURECHANGE][k]);
-                        }
+
+                /**
+                 * 不同类型的分歧切换时要先off掉之前的SELECTEDFEATURECHANGE，不然会先被on到;
+                 * **不同分歧切换清SELECTEDFEATURECHANGE包括类型在[0,1,2,3,4]和且他类型之间的切花，以及[5,6,7,8,9]内部之间的切换;
+                 * 相同分歧类型之间切换不清SELECTEDFEATURECHANGE，不然属性面板不能更新;
+                 */
+                if ((this.originalData&& this.data) && (this.originalData.geoLiveType == 'RDBRANCH' && this.data.geoLiveType == 'RDBRANCH') && (this.originalData.branchType != this.data.branchType)) {
+                    var tempArr = [0,1,2,3,4];
+                    if((tempArr.indexOf(this.originalData.branchType)==-1&&tempArr.indexOf(this.data.branchType)!=-1)||(tempArr.indexOf(this.originalData.branchType)!=-1&&tempArr.indexOf(this.data.branchType)==-1)||(tempArr.indexOf(this.originalData.branchType)==-1&&tempArr.indexOf(this.data.branchType)==-1)){
+                        this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE, {
+                            "originalData": this.originalData,
+                            "currentData": this.data
+                        });
                     }
                 }
+
                 this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
                     "originalData": this.originalData,
                     "currentData": this.data
                 });
-                // if (!this.originalData || (this.originalData.pid != this.data.pid)) {
-                //     // this.eventController.off(this.eventController.eventTypes.SELECTEDFEATURECHANGE);
-                //     this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE, {
-                //         "originalData": this.originalData,
-                //         "currentData": this.data
-                //     });
-                // }
+
             },
             /**
              *

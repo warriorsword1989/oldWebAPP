@@ -208,6 +208,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                 }
             }
+            $scope.jsonData.linkObjs.sort(function(a,b){
+                return a.zlevel - b.zlevel;
+            });
             /*重绘link颜f色*/
             for (var i = 0; i < $scope.jsonData.linkObjs.length; i++) {
                 var tempObj = {
@@ -588,12 +591,12 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                                 })
                             } else {
-                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                // shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
                                 shapeCtrl.setEditingType("speedLimit");
                             }
-                        } else {}
+                        }
                     })
                 });
             } else if (type === "RDCROSS") {
