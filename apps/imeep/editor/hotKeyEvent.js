@@ -160,47 +160,19 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (typeof branchType === 'undefined') {
                         dsEdit.getByPid(id, type).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
-                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                            })
                         });
                     } else if (branchType === 5 || branchType === 7) {
                         dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
-                            var branchInfoObj = {
-                                "loadType": "attrTplContainer",
-                                "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
-                                "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-                                "callback": function () {
-                                    var branchObj = {
-                                        "loadType": "attrTplContainer",
-                                        "propertyCtrl": appPath.road + 'ctrls/' + ctrl,
-                                        "propertyHtml": appPath.root + appPath.road + 'tpls/' + tpl
-                                    };
-                                    scope.$emit("transitCtrlAndTpl", branchObj);
-                                }
-                            };
-                            scope.$emit("transitCtrlAndTpl", branchInfoObj);
                         });
                     } else {
                         dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
-                            var branchInfoObj = {
-                                "loadType": "attrTplContainer",
-                                "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
-                                "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-                                "callback": function () {
-                                    var branchObj = {
-                                        "loadType": "attrTplContainer",
-                                        "propertyCtrl": appPath.road + 'ctrls/' + ctrl,
-                                        "propertyHtml": appPath.root + appPath.road + 'tpls/' + tpl
-                                    };
-                                    scope.$emit("transitCtrlAndTpl", branchObj);
-                                }
-                            };
-                            scope.$emit("transitCtrlAndTpl", branchInfoObj);
                         });
                     }
+                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                    })
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": true,
                         "subAttrContainerTpl": false
