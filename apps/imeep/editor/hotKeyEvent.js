@@ -155,7 +155,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else {
                         id = data.pid;
                     }
-                    //objEditCtrl.setOriginalData(null);
                     //根据不同的分歧类型加载数据面板;
                     if (typeof branchType === 'undefined') {
                         dsEdit.getByPid(id, type).then(function (data) {
@@ -182,7 +181,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             })
                         });
                     }
-
+                    //弹出属性面板;
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": true,
                         "subAttrContainerTpl": false
