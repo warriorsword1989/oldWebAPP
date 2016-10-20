@@ -41,13 +41,14 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		//$scope.controlFlag = {}; //用于父Scope控制子Scope
 		$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
 		// $scope.outputResult = []; //输出结果
+		$scope.specialWork = false;
 		/*切换项目平台*/
 		$scope.changeProject = function (type) {
 			$scope.showLoading.flag = true;
 			$scope.showPopoverTips = false;
 			$scope.tipsPanelOpened = false;
 			if (type == 1) { //poi
-				if ($scope.isSpecialOperation) {
+				if ($scope.specialWork) {
 					$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/specialWorkListCtl').then(function () {
 						$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/specialWorkListTpl.html';
 						$scope.showLoading.flag = false;
@@ -404,8 +405,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		};
 		//页面初始化方法调用
 		var initPage = function () {
-			var subtaskId = App.Util.getUrlParam("subtaskId"),
-					specialWork = App.Util.getUrlParam("specialWork");	//专项作业
+			var subtaskId = App.Util.getUrlParam("subtaskId");
+			$scope.specialWork = App.Util.getUrlParam("specialWork") || false;	//专项作业
 			App.Temp.subTaskId = subtaskId;
 			dsManage.getSubtaskById(subtaskId).then(function (data) {
 				if (data) {
@@ -432,7 +433,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 					});
 				}
 			});
-			if(specialWork) {
+			if($scope.specialWork) {
 				/*判断是否为专项作业，如果是则其他tab不能编辑*/
 				$scope.isSpecialOperation = true;
 			}

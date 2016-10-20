@@ -31,6 +31,13 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;
+            if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
+                scope.isSpecialOperation = true;
+            } else {
+                if(!scope.specialWork) {
+                    scope.isSpecialOperation = false;
+                }
+            }
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 scope.$parent.$parent.showLoading = false;
                 if (rest) {
@@ -128,12 +135,19 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         scope.cols = [{
                 field: "num_index",
                 title: "序号",
-                width: '35px',
+                width: '30px',
+                show: true
+            }, {
+                field: "uRecord",
+                title: "状态",
+                width: '30px',
+                sortable: "uRecord",
+                getValue: getState,
                 show: true
             }, {
                 field: "name",
                 title: "名称",
-                width: '135px',
+                width: '110px',
                 sortable: "name",
                 show: true
             }, {
@@ -143,12 +157,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 sortable: "kindCode",
                 getValue: getKindName,
                 show: true
-            }, {
-                field: "uRecord",
-                title: "更新记录",
-                width: '60px',
-                sortable: "uRecord",
-                show: false
             }, {
                 field: "collectTime",
                 title: "采集时间",
@@ -216,7 +224,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
         var refreshData = function() {
             _self.tableParams.reload();
         };
-
+        scope.total = 0;
         function initPoiTable() {
             _self.tableParams = new NgTableParams({
                 page: 1,
@@ -238,10 +246,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                         scope.poiListTableMsg = '列表无数据';
                         if(data){
                             scope.poiList = data.rows;
+                            scope.total = data.total;
                             _self.tableParams.total(data.total);
                             $defer.resolve(data.rows);
                         } else {
                             scope.poiList = [];
+                            scope.total = 0;
                             _self.tableParams.total(0);
                             $defer.resolve([]);
                         }
@@ -285,6 +295,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
                 return $sce.trustAsHtml("");
             }
 
+        }
+        function getState(scope, row) {
+            return $sce.trustAsHtml({1: '增', 2:'改', 3:'删'}[row.uRecord]);
         }
         scope.highlightPoi = function(pid) {
             highRenderCtrl._cleanHighLight();
