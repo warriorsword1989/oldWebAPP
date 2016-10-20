@@ -246,6 +246,14 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if(chain == 0){
             objectCtrl.data.chain = "";
         }
+
+        if(FM.Util.isEmptyObject(objectCtrl.data.sportsVenue)){ //运动场馆特殊处理，如果页面没有选择默认赋值为2
+            objectCtrl.data.sportsVenue = {2:true};
+        } else {
+            if(!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])){
+                objectCtrl.data.sportsVenue[2] = true;
+            }
+        }
     }
 
     /*默认显示baseInfo的tab页*/

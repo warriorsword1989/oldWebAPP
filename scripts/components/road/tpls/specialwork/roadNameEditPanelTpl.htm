@@ -51,9 +51,10 @@
                     </div> -->
                     <div>
                     	<select class="fm-control"  ng-model="roadNameData.adminId"
-                            placeholder_text_single="'--请选择--'"
-                            ng-options="value.id as value.label for value in adminOpt" ng-change="adminIdChange($event,this)">
-                    	</select>
+                                placeholder_text_single="'--请选择--'" search_contains=true
+                                chosen ng-options="value.id as value.label for value in adminOpt"
+                                ng-change="adminIdChange($event,this)" ng-class="{true:'chosen-disabled'}[adminIdDisable]" ng-disabled=adminIdDisable>
+                        </select>
                     </div>
                 </li>
                 <li>
