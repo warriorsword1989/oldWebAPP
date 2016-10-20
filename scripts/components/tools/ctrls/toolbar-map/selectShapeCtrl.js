@@ -3530,7 +3530,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     var newData = []; //去重后的数据
                     var repeatIdArr = [];
                     for (var i = 0, len = data.length; i < len; i++) {
-                        if (repeatIdArr.indexOf(data[i].properties.id) < 0 && data[i].properties.same != 1) {
+                        if (repeatIdArr.indexOf(data[i].properties.id) < 0) {
                             repeatIdArr.push(data[i].properties.id);
                             newData.push(data[i]);
                         }
