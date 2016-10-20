@@ -68,6 +68,7 @@ angular.module('app').controller("nameGroupTableCtl", ['$scope', '$ocLazyLoad', 
                         pageNum: params.page(),
                         pageSize: params.count(),
                         sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+                        flag:-1,
                         params:{"langCode":"CHI","name":params.filter().name}
                     };
                     dsMeta.roadNameList(parameter).then(function(data) {

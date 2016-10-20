@@ -242,7 +242,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 							if($scope.tollGateData.passages[i-1]['tollForm'] == 1){
 								if(i<_times+2){
 									_left = 1;
-								}else if(i < passageLen-_times+1 ){
+								}else if(i < ((passageLen+1)/3)*2 ){
 									_middle = 1;
 								}else{
 									_right = 1;
