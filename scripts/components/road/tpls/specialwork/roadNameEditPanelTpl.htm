@@ -45,9 +45,15 @@
                 </li>
                 <li>
                     <label style="width:30%;">行政区划:</label>
-                    <div>
+                    <!-- <div>
                     	<input type="text" class="fm-control chosen-disabled" ng-model="roadNameData.adminName" style="width:98%" ng-disabled=true>
                     	<a ng-show="adminIdEditable" href="#" title="搜索" class="glyphicon glyphicon-search" style="margin-left: -17px;" ng-click="openSearchModal('admin')"></a>
+                    </div> -->
+                    <div>
+                    	<select class="fm-control"  ng-model="roadNameData.adminId"
+                            placeholder_text_single="'--请选择--'"
+                            ng-options="value.id as value.label for value in adminOpt" ng-change="adminIdChange($event,this)">
+                    	</select>
                     </div>
                 </li>
                 <li>
