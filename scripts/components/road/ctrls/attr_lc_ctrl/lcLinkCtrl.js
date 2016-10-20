@@ -12,7 +12,6 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var editLayer = layerCtrl.getLayerById('edit');
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
-    var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.lcLinkData = null;
     $scope.fromOfTypeOption = [
@@ -69,7 +68,6 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.lcLinkData = objCtrl.data;
         $scope.formModel = $scope.lcLinkData.kinds[0].form;
-
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.lcLinkForm) {
             $scope.lcLinkForm.$setPristine();
@@ -190,6 +188,7 @@ angular.module("app").controller("lcLinkController",["$scope","dsEdit",'$ocLazyL
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+
     if (objCtrl.data) {
         $scope.initializeData();
     }
