@@ -429,7 +429,7 @@
     <div class="datetip fm-datepick-tip" style="display: none">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">时间段设置</div>
         <div class="pull-right" style="margin-top: -10px;">
-            <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)"
+            <button type="button" class="close" aria-label="Close" ng-click="close()"
                     style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -582,7 +582,7 @@
             </label>
         </div>
         <div class="btn-option btn-group">
-            <button class="btn date-btn" name="fmSaveDateIdTemporary" type="button" ng-click="dateSelect($event)">关闭</button>
+            <button class="btn date-btn" name="fmSaveDateIdTemporary" type="button" ng-click="close()">关闭</button>
             <button class="btn date-btn" name="fmSaveDateIdTemporary" ng-click="dateSave($event)" type="button">
                 <i class="glyphicon glyphicon-floppy-disk"></i> 保存
             </button>
