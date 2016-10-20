@@ -30,9 +30,10 @@
                         <li>
                             <label class="control-label">高度层次</label>
                             <div>
-                                <select ng-model="item.zlevel" class="chosen-disabled"
+                                <input type="text" disabled class="chosen-disabled" ng-model="item.zlevel"/>
+                                <!--<select ng-model="item.zlevel" class="chosen-disabled"
                                         ng-options="value.id as value.label for value in zlevel" disabled>
-                                </select>
+                                </select>-->
                             </div>
                         </li>
                         <li>

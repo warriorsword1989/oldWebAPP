@@ -1,12 +1,26 @@
 <div class="fm-panel" ng-controller="SearchSubModalCtl" style="margin:0px;">
     <div class="title">道路名信息查询</div>
     <div class="content" >
-        <div style="height:200px;">
+        <div style="height:210px;">
 			<ul class="fm-ul fm-ul-form">
-                <li>
-                    <label>名称:</label>
+				<li>
+                    <label>名  称:</label>
                     <div>
                         <input type="text" class="fm-control" style="width:200px;" ng-model="param.name"/>
+                    </div>
+                </li>
+				<li>
+                    <label>行政区划:</label>
+                    <!-- <nobr>
+                    	<input type="text" class="fm-control" style="width:200px;" ng-model="admin"/>
+                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -30px;" ng-click="openSubSearchModal('admin')"></a>
+                    </nobr> -->
+                    <div>
+                    	<select class="fm-control"  ng-model="param.adminId"
+                                placeholder_text_single="'--请选择--'" style="width:200px;"
+                                search_contains=true chosen
+                                ng-options="value.id as value.label for value in adminOpt">
+                        </select>
                     </div>
                 </li>
                 <li>
@@ -14,13 +28,6 @@
                     <nobr>
                     	<input type="text" class="fm-control" style="width:200px;" ng-model="param.nameGroupid"/>
                     	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -30px;" ng-click="openSubSearchModal('nameGroup')"></a>
-                    </nobr>
-                </li>
-                <li>
-                    <label>行政区划:</label>
-                    <nobr>
-                    	<input type="text" class="fm-control" style="width:200px;" ng-model="admin"/>
-                    	<a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -30px;" ng-click="openSubSearchModal('admin')"></a>
                     </nobr>
                 </li>
                 <!-- <li>

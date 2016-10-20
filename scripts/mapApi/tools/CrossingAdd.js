@@ -100,10 +100,10 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
             this._fireCreatedEvent();
         }
 
-        this.disable();
-        if (this.options.repeatMode) {
-            this.enable();
-        }
+        // this.disable();
+        // if (this.options.repeatMode) {
+        //     this.enable();
+        // }
     },
     onMouseMove: function (e) {
         var latlng = e.latlng;
@@ -122,6 +122,10 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
         		dataOfRectangle = dataOfRectangle.concat(middleArr);
         	}
 
+        }
+        this.disable();
+        if (this.options.repeatMode) {
+            this.enable();
         }
 //        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
 
