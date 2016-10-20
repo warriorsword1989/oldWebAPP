@@ -9,6 +9,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// var layerCtrl = new fastmap.uikit.LayerController({
 		// 	config: App.layersConfig
 		// });
+
 		var objectCtrl = fastmap.uikit.ObjectEditController();
 		var featCodeCtrl = fastmap.uikit.FeatCodeController();
 		var eventCtrl = new fastmap.uikit.EventController();
@@ -18,7 +19,10 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {} , $scope.topKind = {} , $scope.mediumKind = {} ;
 		$scope.metaData.kindFormatPart = {},  $scope.metaData.kindListPart = [];
-		$scope.showLoading = true;
+		$scope.showLoading = {flag: true};
+		// 将页面loading动画的开关引用赋给dsEdit的本地变量，以便在dsEdit中进行控制
+		// 注意：这里利用了对象引用的特性，变量必须是个对象，不能是字符串、bool、数字等
+		dsEdit.referenceLoadingSwitch($scope.showLoading);
 		$scope.showTab = true;
 		$scope.selectedTool = 1;
 		$scope.dataListType = 1;
@@ -39,25 +43,25 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		// $scope.outputResult = []; //输出结果
 		/*切换项目平台*/
 		$scope.changeProject = function (type) {
-			$scope.showLoading = true;
+			$scope.showLoading.flag = true;
 			$scope.showPopoverTips = false;
 			$scope.tipsPanelOpened = false;
 			if (type == 1) { //poi
 				if ($scope.isSpecialOperation) {
 					$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/specialWorkListCtl').then(function () {
 						$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/specialWorkListTpl.html';
-						$scope.showLoading = false;
+						$scope.showLoading.flag = false;
 					});
 				} else {
 					$ocLazyLoad.load(appPath.poi + 'ctrls/attr-base/poiDataListCtl').then(function () {
 						$scope.dataListTpl = appPath.root + appPath.poi + 'tpls/attr-base/poiDataListTpl.html';
-						$scope.showLoading = false;
+						$scope.showLoading.flag = false;
 					});
 				}
 			} else { //道路
 				$ocLazyLoad.load(appPath.road + 'ctrls/layers_switch_ctrl/filedsResultCtrl').then(function () {
 					$scope.dataListTpl = appPath.root + appPath.road + 'tpls/layers_switch_tpl/filedsResultTpl.html';
-					$scope.showLoading = false;
+					$scope.showLoading.flag = false;
 				});
 			}
 			$scope.projectType = type;
@@ -834,7 +838,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		});
         /*调loading*/
         $scope.$on("showFullLoadingOrNot", function (event, data) {
-            $scope.showLoading = data;
+            $scope.showLoading.flag = data;
         });
 		// $ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
 		// 	$scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";

@@ -236,8 +236,9 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
          //表格配置搜索;
          $scope.filter = {
      			name : "",
-     			nameGroup: "",
-     			adminId: ""
+     			nameGroupid: "",
+     			adminId: "",
+     			flag:-1
      	 };
          //接收高级查询过滤条件
          $scope.$on("FITERPARAMSCHANGE",function(event,data){
@@ -260,6 +261,7 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
                          pageNum: params.page(),
                          pageSize: params.count(),
                          sortby: params.orderBy().length == 0 ? "" : params.orderBy().join(""),
+                         flag: params.filter().flag,	 
                          params:{"name":params.filter().name,"nameGroupid":params.filter().nameGroupid,"adminId":params.filter().adminId}
                      };
                      dsMeta.roadNameList(param).then(function(data) {

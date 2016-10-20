@@ -57,6 +57,27 @@ angular.module('fastmap.uikit').directive('fmBindCompiledHtml',function (){
     }
 });
 /**
+ * 限制输入字符
+ */
+angular.module('fastmap.uikit').directive('fmInputControl',function (){
+    return {
+        restrict: "A",
+        replace:false,
+        scope:{
+            objectmodel:'='
+        },
+        link:function(scope,elem,attrs){
+            var re =new RegExp('^[0-9]*$');
+            elem.bind('change',function(){
+                if(!re.test(scope.objectmodel)){
+                    scope.objectmodel = 0;
+                    scope.$apply();
+                }
+            });
+        }
+    }
+});
+/**
  * 图片404时加默认图片
  */
 angular.module('fastmap.uikit').directive('image404',function (){

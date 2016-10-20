@@ -80,16 +80,23 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                 }
             }
             $scope.rdCrossData.names.sort(compare('nameGroupid'));
-            for (var i = 0, len = $scope.rdCrossData.names[0].nameGroupid; i < len; i++) {
+            //获取所有的nameGroupid
+            var nameGroupidArr = [];
+            for(var i = 0;i< $scope.rdCrossData.names.length;i++){
+            	nameGroupidArr.push($scope.rdCrossData.names[i].nameGroupid);
+            }
+            //去重
+            nameGroupidArr = Utils.distinctArr(nameGroupidArr);
+            for (var i = 0, len = nameGroupidArr.length; i < len; i++) {
                 var tempArr = [];
                 for (var j = 0, le = $scope.rdCrossData.names.length; j < le; j++) {
-                    if ($scope.rdCrossData.names[j].nameGroupid == i + 1) {
+                    if ($scope.rdCrossData.names[j].nameGroupid == nameGroupidArr[i]) {
                         tempArr.push($scope.rdCrossData.names[j]);
                     }
                 }
-                if(tempArr.length !=0){
-                	$scope.nameGroup.push(tempArr);
-                }
+//                if(tempArr.length !=0){
+                $scope.nameGroup.push(tempArr);
+//                }
             }
             $scope.refreshNames();
         }
@@ -127,10 +134,13 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
     /*增加item*/
     $scope.addItem = function(type) {
         $scope.refreshNames();
+        var maxNameGroupId = 0;
+        if($scope.rdCrossData.names.length > 0){
+        	maxNameGroupId = Utils.getArrMax($scope.rdCrossData.names,'nameGroupid');
+        }
         objCtrl.data.names.push(fastmap.dataApi.rdCrossName({
-            "nameGroupid": $scope.nameGroup.length + 1,
-            "pid": $scope.rdCrossData.pid,
-            "name": "路口名"
+            "nameGroupid": maxNameGroupId + 1,
+            "pid": $scope.rdCrossData.pid
         }));
         initNameInfo();
         // $scope.tollGateData.passageNum = $scope.tollGateData.passages.length;
