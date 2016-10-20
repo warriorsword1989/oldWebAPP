@@ -11,7 +11,7 @@ fastmap.dataApi.RdCrossName = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData: function (data) {
         this.pid = data["pid"];
         this.nameGroupid = data["nameGroupid"] || 1;
-//        this.nameId = data["nameId"] || 0;
+        this.nameId = data["nameId"] || 0;
         this.langCode = data["langCode"] || "CHI";
         this.name = data["name"] || "路口名";
         this.phonetic = data["phonetic"] || "Lu Kou Ming";
