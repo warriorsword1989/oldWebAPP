@@ -520,7 +520,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             "propertyHtml": tempTepl,
             "data":objCtrl.data.details[0].names
         };*/
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
         // $scope.$emit("transitCtrlAndTpl", detailInfo);
         $scope.$emit("transitCtrlAndTpl", showBranchInfoObj);
@@ -608,7 +608,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if (param.data.details) {
             delete param.data.details[0].linkPid;
             if (param.data.details[0].names) {
-                param.data.details[0].names = compareObjData(objCtrl.originalData.details[0].names,objCtrl.data.details[0].names);
+                if(objCtrl.originalData.details[0].names.length){
+                    param.data.details[0].names = compareObjData(objCtrl.originalData.details[0].names,objCtrl.data.details[0].names);
+                }
             }
         }
         if (!param.data) {

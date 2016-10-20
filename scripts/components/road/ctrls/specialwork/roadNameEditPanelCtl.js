@@ -191,12 +191,14 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.langCodeDisable = true;//语言类型
         		if($scope.roadNameData.langCode == "ENG"){
         			$scope.codeTypeDisable = true;//国家编号
-        			$scope.adminIdEditable = false;//行政区划
+        			$scope.adminIdDisable = true;//行政区划
+//        			$scope.adminIdEditable = false;//行政区划
         			$scope.roadTypeDisable = true;//道路类型
         			$scope.nameDisable = true;//道路名称
         		}else if($scope.roadNameData.langCode == "CHI"){
         			$scope.codeTypeDisable = false;//国家编号
-        			$scope.adminIdEditable = true;//行政区划
+        			$scope.adminIdDisable = false;//行政区划
+//        			$scope.adminIdEditable = true;//行政区划
         			$scope.roadTypeDisable = false;//道路类型
         			$scope.nameDisable = false;//道路名称
         		}
@@ -214,7 +216,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.nameGroupidEditable = true;//道路组id
         		$scope.langCodeDisable = false;//语言类型
         		$scope.codeTypeDisable = false;//国家编号
-    			$scope.adminIdEditable = true;//行政区划
+        		$scope.adminIdDisable = false;//行政区划
+//    			$scope.adminIdEditable = true;//行政区划
     			$scope.roadTypeDisable = false;//道路类型
     			$scope.nameDisable = false;//道路名称
     		}
@@ -445,7 +448,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.voiceFileDisable = true;//名称语音
         		$scope.srcFlagDisable = true;//名称来源
         		$scope.codeTypeDisable = true;//国家编号
-    			$scope.adminIdEditable = false;//行政区划
+        		$scope.adminIdDisable = true;//行政区划
+//    			$scope.adminIdEditable = false;//行政区划
     			$scope.hwInfoFlagDisable = true;
         	}else if(obj.roadNameData.roadType == 3){//出口编号
         		$scope.typeEditable = false;//类型名称
@@ -481,7 +485,7 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
          * adminId 切换事件
          */
         $scope.adminIdChange = function(event, obj) {
-        	$scope.roadNameData.adminName = getNameById($scope.roadNameData.adminId);
+        	$scope.roadNameData.adminName = getNameById(obj.roadNameData.adminId);
         };
         /**
          * 根据adminid 获取adminname

@@ -85,6 +85,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     }
                 }
             }
+            objCtrl.data.links.sort(function(a,b){
+                return a.zlevel - b.zlevel;
+            });
             /*重绘link颜f色*/
             highRenderCtrl.highLightFeatures = [];
             for (var i = 0; i < objCtrl.data.links.length; i++) {
@@ -612,12 +615,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDELECTRONICEYE':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
-                            'title': "改关联Link",
-                            'type': "MODIFYOUTLINE",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }, {
                             'text': "<a class='glyphicon glyphicon-record'></a>",
                             'title': "改点位",
                             'type': "MODIFYNODE",
@@ -3527,7 +3524,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     var newData = []; //去重后的数据
                     var repeatIdArr = [];
                     for (var i = 0, len = data.length; i < len; i++) {
-                        if (repeatIdArr.indexOf(data[i].properties.id) < 0 && data[i].properties.same != 1) {
+                        if (repeatIdArr.indexOf(data[i].properties.id) < 0) {
                             repeatIdArr.push(data[i].properties.id);
                             newData.push(data[i]);
                         }
@@ -3818,7 +3815,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             //高亮
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
-            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
+            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
             console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
         }
     }

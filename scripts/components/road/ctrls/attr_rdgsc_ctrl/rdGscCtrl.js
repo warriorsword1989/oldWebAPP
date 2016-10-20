@@ -57,13 +57,13 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
         {"id": 3, "label": "特殊处理"}
 
     ];
-    $scope.getLevels = function(){
+    /*$scope.getLevels = function(){
         $scope.zlevel = [];
         for(var i=0;i<$scope.reGscData.links.length;i++){
             $scope.zlevel.push({id:$scope.reGscData.links[i].zlevel,label:$scope.reGscData.links[i].zlevel});
         }
     };
-    $scope.getLevels();
+    $scope.getLevels();*/
 
     $scope.tableName = [
         {"id": "RD_LINK", "label": "RD_LINK"},
@@ -112,7 +112,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 rdgsc.redraw();
-                swal("操作成功", "修改立交成功！", "success");
+                // swal("操作成功", "修改立交成功！", "success");
             }
             $scope.refreshData();
         })

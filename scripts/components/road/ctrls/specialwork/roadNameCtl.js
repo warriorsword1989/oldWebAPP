@@ -238,13 +238,18 @@ angular.module('app').controller('RoadNameCtl', ['$scope', '$ocLazyLoad', 'NgTab
      			name : "",
      			nameGroupid: "",
      			adminId: "",
-     			flag:-1
+     			flag:1
      	 };
          //接收高级查询过滤条件
          $scope.$on("FITERPARAMSCHANGE",function(event,data){
         	 $scope.filter.name = data["name"];
         	 $scope.filter.nameGroupid = data["nameGroupid"];
-        	 $scope.filter.adminId = data["adminId"];
+        	 if(data["adminId"] == 0){
+        		 $scope.filter.adminId = "";
+        	 }else{
+        		 $scope.filter.adminId = data["adminId"];
+        	 }
+        	 $scope.filter.flag = data["flag"];
 //        	 $scope.filter.sql = data["sql"];
          });
 
