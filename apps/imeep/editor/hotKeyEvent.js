@@ -436,7 +436,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         var directOfLink = {
                             "objStatus": "UPDATE",
                             "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
+                            "direct": parseInt(selectCtrl.selectedFeatures.direct),
+                            "laneNum":objEditCtrl.data.laneNum,
+                            "direct": objEditCtrl.data.direct,
+                            "laneLeft":objEditCtrl.data.laneLeft,
+                            "laneRight":objEditCtrl.data.laneRight
                         };
                         param = {
                             "type": "RDLINK",
@@ -444,15 +448,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             "dbId": App.Temp.dbId,
                             "data": directOfLink
                         };
-                        //dsEdit.save(param).then(function (data) {
-                        //    evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
-                        //    //if (data != null) {
-                        //    //    rdLink.redraw();
-                        //    //    rdnode.redraw();
-                        //    //    treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
-                        //    //}
-                        //});
-                        evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                        console.log(objEditCtrl)
+                        dsEdit.save(param).then(function (data) {
+                            evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
+                            if (data != null) {
+                                rdLink.redraw();
+                                rdnode.redraw();
+                                //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                            }
+                        });
+                        //evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
