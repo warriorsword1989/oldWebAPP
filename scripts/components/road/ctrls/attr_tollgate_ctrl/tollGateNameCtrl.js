@@ -5,17 +5,7 @@
 angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	$scope.tollGateNames = objCtrl.namesInfos;
-//	$scope.test = []; 
-//	var tt = function() {
-//		$scope.test.length = 0;
-//		for(var k in $scope.tollGateNames) {
-//			if($scope.test.indexOf($scope.tollGateNames[k].langCode) < 0) {
-//				$scope.test.push($scope.tollGateNames[k].langCode);
-//			}
-//		}
-//	};
-//	tt();
-	$scope.selectedLangcodeArr = []; 
+	$scope.selectedLangcodeArr = [];
 	var getSelectedLangcode = function() {
 		$scope.selectedLangcodeArr.length = 0;
 		for(var k in $scope.tollGateNames) {
@@ -34,13 +24,13 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 			if(data.errcode == 0){
 				nameInfo.phonetic = data.data.phonetic;
 			}else{
-				swal("查找失败", "问题原因："+data.errmsg, "error");
+				nameInfo.phonetic = '';
+				swal("查找失败", "可能是服务出错或者输入过长，请重新尝试", "error");
 			}
 		});
 	};
 	// 增加名称信息
 	$scope.addNameInfo = function(){
-		$scope.tollGateNames;
 		for(var i=0;i<$scope.langCodeOptions.length;i++){
 			for(var j=0;j<$scope.tollGateNames.length;j++){
 				var flag = false;

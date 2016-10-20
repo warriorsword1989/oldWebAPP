@@ -177,7 +177,32 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 			})
 		});
 	};
+	/*定位配对电子眼位置*/
+	$scope.findPartElecLocation = function(pid){
+		dsEdit.getByPid(pid, 'RDELECTRONICEYE').then(function(data) {
+			if (!data) {
+				return;
+			}
+			if (data.errcode === -1) {
+				swal("", data.errmsg, "提示信息");
+				return;
+			}
+			map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
 
+			var highLightFeatures = [];
+			highLightFeatures.push({
+				id: data.linkPid.toString(),
+				layerid: 'rdLink',
+				type: 'line',
+				style: {
+					size: 5
+				}
+			});
+			highRenderCtrl.highLightFeatures = highLightFeatures;
+			highRenderCtrl.drawHighlight();
+			objCtrl.setCurrentObject("RDELECTRONICEYE", data);
+		});
+	};
 	$scope.initializeData();
 	$scope.save = function () {
 		objCtrl.data.location = bin2dec($scope.electronicEyeData.locationLeft + '' + $scope.electronicEyeData.locationRight + '' + $scope.electronicEyeData.locationTop) ;
