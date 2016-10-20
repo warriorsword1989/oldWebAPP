@@ -208,6 +208,9 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                 }
             }
+            $scope.jsonData.linkObjs.sort(function(a,b){
+                return a.zlevel - b.zlevel;
+            });
             /*重绘link颜f色*/
             for (var i = 0; i < $scope.jsonData.linkObjs.length; i++) {
                 var tempObj = {

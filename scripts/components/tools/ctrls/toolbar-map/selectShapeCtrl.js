@@ -85,6 +85,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     }
                 }
             }
+            objCtrl.data.links.sort(function(a,b){
+                return a.zlevel - b.zlevel;
+            });
             /*重绘link颜f色*/
             highRenderCtrl.highLightFeatures = [];
             for (var i = 0; i < objCtrl.data.links.length; i++) {
@@ -612,12 +615,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDELECTRONICEYE':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
-                            'title': "改关联Link",
-                            'type': "MODIFYOUTLINE",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }, {
                             'text': "<a class='glyphicon glyphicon-record'></a>",
                             'title': "改点位",
                             'type': "MODIFYNODE",
