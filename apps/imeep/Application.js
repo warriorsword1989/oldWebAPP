@@ -4,7 +4,7 @@ var App = {};
 // web app全局配置信息
 App.Config = {
     appType: "WEB",
-    serviceUrl: 'http://192.168.4.188:9500/service',
+    serviceUrl: 'http://192.168.4.188:8000/service',
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     specialUrl: "http://192.168.4.189/fos"
