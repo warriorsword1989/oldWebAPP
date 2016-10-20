@@ -166,7 +166,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 					$scope.$emit("transitCtrlAndTpl", showNameObj);
 				}
 			};
-			objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
+//			objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
+			objCtrl.namesInfos = $scope.getItemByNameGroupid($scope.nameGroup,nameGroupid);
 			$scope.$emit("transitCtrlAndTpl", showNameInfoObj);
 		} else {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
@@ -183,6 +184,26 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		$scope.tollGateNameData = detailInfo;
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 	};
+	/****
+     * 根据nameGroupid获取对应的数据
+     */
+    $scope.getItemByNameGroupid = function(arr,nameGroupid){
+    	var index = -1;
+    	var item;
+    	for(var i=0;i<arr.length;i++){
+    		for(var j=0;j<arr[i].length;j++){
+    			if(arr[i][j].nameGroupid == nameGroupid){
+    				index = i;
+    				break;
+    			};
+    		}
+    		if(index >=0){
+    			item = arr[i];
+    			break;
+    		};
+    	};
+    	return item;
+    };
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
 		var _code = '',

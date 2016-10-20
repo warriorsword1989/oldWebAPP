@@ -1,6 +1,6 @@
 <div ng-controller="addLclinkTypeController" style="color:#FFF;">
     <div style="padding: 5px;color:#FFF;"><label class="control-label">link种别添加</label></div>
     <div ng-repeat="addItem in fromOfTypeOption">
-        <input type="checkbox" ng-model="addItem.isCheck" ng-click="getCheck(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
+        <input type="checkbox" ng-model="addItem.isCheck" ng-change="getCheck(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
     </div>
 </div>

@@ -3524,7 +3524,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     var newData = []; //去重后的数据
                     var repeatIdArr = [];
                     for (var i = 0, len = data.length; i < len; i++) {
-                        if (repeatIdArr.indexOf(data[i].properties.id) < 0 && data[i].properties.same != 1) {
+                        if (repeatIdArr.indexOf(data[i].properties.id) < 0) {
                             repeatIdArr.push(data[i].properties.id);
                             newData.push(data[i]);
                         }
@@ -3815,7 +3815,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             //高亮
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
-            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
+            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
             console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
         }
     }
