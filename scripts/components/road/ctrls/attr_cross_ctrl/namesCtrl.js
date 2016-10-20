@@ -5,6 +5,17 @@ var namesOfCross = angular.module("app");
 namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsMeta) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.rdCrossNames = objCtrl.namesInfos;
+    
+    $scope.selectedLangcodeArr = []; 
+	var getSelectedLangcode = function() {
+		$scope.selectedLangcodeArr.length = 0;
+		for(var k in $scope.rdCrossNames) {
+			if($scope.selectedLangcodeArr.indexOf($scope.rdCrossNames[k].langCode) < 0) {
+				$scope.selectedLangcodeArr.push($scope.rdCrossNames[k].langCode);
+			}
+		}
+	};
+	getSelectedLangcode();
     $scope.langCodeOptions = [
         {"id": "CHI", "label": "简体中文"},
         {"id": "CHT", "label": "繁体中文"},
@@ -43,7 +54,24 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
     $scope.realtimeData = objCtrl.data;
     // 增加名称信息
     $scope.addNameInfo = function(){
-        $scope.rdCrossNames.unshift(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名","rowId":""}));
+    	for(var i=0;i<$scope.langCodeOptions.length;i++){
+			for(var j=0;j<$scope.rdCrossNames.length;j++){
+				var flag = false;
+				if($scope.langCodeOptions[i].id == $scope.rdCrossNames[j].langCode){
+					break;
+				}
+				if($scope.langCodeOptions[i].id != $scope.rdCrossNames[j].langCode  && j==$scope.rdCrossNames.length-1){
+					$scope.rdCrossNames.push(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"langCode":$scope.langCodeOptions[i].id,"pid": objCtrl.data.pid,"rowId":""}));
+//					$scope.rdCrossNames.unshift(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名","rowId":""}));
+					flag = true;
+					break;
+				}
+			}
+			if(flag){
+				break;
+			}
+		}
+//        $scope.rdCrossNames.unshift(fastmap.dataApi.rdCrossName({"nameGroupid":$scope.rdCrossNames[0].nameGroupid,"pid": objCtrl.data.pid,"name":"路口名","rowId":""}));
     };
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
@@ -72,6 +100,7 @@ namesOfCross.controller("namesController",['$scope','dsMeta',function($scope,dsM
         }
     };
     $scope.changeLanguage = function (index){
+    	getSelectedLangcode();
         if( $scope.rdCrossNames[index].langCode == 'ENG'){
             $scope.rdCrossNames[index].srcFlag = 1;
         } else {

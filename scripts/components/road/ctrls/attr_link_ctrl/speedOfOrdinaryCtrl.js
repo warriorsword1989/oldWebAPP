@@ -74,11 +74,13 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     $scope.changeClass = function (item,dir) {
         var value = 0;
         if (dir == 2) {
+            item.fromLimitSrc = 1;
             value = parseFloat(item.fromSpeedLimit);
             if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
                 value = parseFloat(item.toSpeedLimit);
             }
         } else if (dir == 3) {
+            item.toLimitSrc = 1;
             value = parseFloat(item.toSpeedLimit);
             if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
                 value = parseFloat(item.fromSpeedLimit);

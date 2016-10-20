@@ -343,8 +343,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "subAttrContainerTpl": false
             });
+
             //地图小于17级时不能选择
             if (map.getZoom < 17) {
+                return;
+            }
+            if (data.showMenu == false) {
                 return;
             }
             map.closePopup(); //如果有popup的话清除它
@@ -2950,7 +2954,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         map: map,
                         currentEditLayer: rdLink,
                         linksFlag: true,
-                        shapeEditor: shapeCtrl
+                        shapeEditor: shapeCtrl,
+                        showMenu:false
                     });
                     map.currentTool.enable();
                     if (type.split('_')[1] === 'OUT') {
@@ -3461,8 +3466,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         feature: objCtrl.data
                     });
                     $scope.$emit("clearAttrStyleUp"); //清除属性样式
+                    highlightPoiByPid();
+
                     $scope.$emit("highLightPoi", data.pid); //高亮OI并且重置上传组件的PID
                     $scope.$emit("refreshPhoto", true);
+
                     initPoiData(selectedData, data);
                 } else {
                     $scope.$emit("transitCtrlAndTpl", {
@@ -3795,7 +3803,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             }
         };
         //高亮显示左侧列表的poi
-        $scope.$on("highlightPoiByPid", function(event) {
+        highlightPoiByPid = function() {
             var pid = objCtrl.data.pid;
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
@@ -3811,6 +3819,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
             map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]], 18);
-        });
+            console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
+        }
     }
 ]);
