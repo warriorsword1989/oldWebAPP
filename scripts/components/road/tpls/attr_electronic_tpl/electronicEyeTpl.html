@@ -137,7 +137,8 @@
                     <li>
                         <label class="control-label">电子眼号</label>
                         <div>
-                            <input type="text" class="chosen-disabled" ng-model="elecPartPid" disabled/>
+                            <input type="text" style="width:80%;" class="chosen-disabled" ng-model="elecPartPid" disabled/>
+                            <span class="glyphicon glyphicon-map-marker fm-cursor" ng-click="findPartElecLocation(elecPartPid);" title="点击查询该电子眼信息"></span>
                         </div>
                     </li>
                 </ul>

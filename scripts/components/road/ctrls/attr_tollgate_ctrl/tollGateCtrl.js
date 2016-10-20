@@ -437,7 +437,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				}
 				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
-				swal("操作成功", "修改收费站成功！", "success");
+				// swal("操作成功", "修改收费站成功！", "success");
 				$('body .carTypeTip:last').hide();
 				$scope.$emit('SWITCHCONTAINERSTATE', {
 					'subAttrContainerTpl': false,
