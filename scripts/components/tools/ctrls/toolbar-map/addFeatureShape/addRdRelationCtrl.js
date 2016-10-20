@@ -123,7 +123,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         points.push(shapePoints[j+1]);
                         latlngs.push(L.latLng(shapePoints[j].y, shapePoints[j].x));
                         latlngs.push(L.latLng(shapePoints[j + 1].y, shapePoints[j + 1].x));
-                        links.push(L.polyline(latlngs));
+                        links.push(L.polyline(latlngs,{id:j}));
                         // pointsObj[j] = points;
                         pointsObj.push(points);
                     } else {
@@ -699,6 +699,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
             }  else if (type === 'RDGSC') {
                 $scope.selfInter = false;//是否是自相交
                 $scope.selfInterData = {};
+                $scope.selfInterData.crossGeos = [];
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setEditEventType('rdgsc');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
@@ -708,6 +709,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     type: "rectangle"
                 });
                 map.currentTool = shapeCtrl.getCurrentTool();
+                eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     $scope.jsonData = null;
                     highRenderCtrl._cleanHighLight();
@@ -792,14 +794,16 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                         return [sepLinks.pointsObj[index][0], sepLinks.pointsObj[index][sepLinks.pointsObj[index].length-1]];
                                     };
                                     if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
-                                        crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
+                                        var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));
+                                        crossGeos.push(temp);
                                         $scope.selfInter = true;
+                                        temp.index = i+"-"+j;
+                                        $scope.selfInterData.crossGeos.push(temp);
                                     }
                                 }
-
                             }
                             if (crossGeos.length > 0) {
-                                $scope.selfInterData.crossGeos = crossGeos;
+                                $scope.selfInterData.crosses = crossGeos;
                             }
                         } else {
                             swal("错误信息", "所选Link无自相交点，请重新选择立交点位！", "error");
@@ -828,7 +832,35 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl._cleanHighLight();
                         swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else {
-                        if($scope.selfInter){
+                        if($scope.selfInter){//自相交，不能用highRenderCtrl的方式高亮
+                            var changeColorAndLevel = function () {
+                                console.log('aaaa');
+                            };
+                            map.currentTool.disable();//取消鼠标事件
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            var editLayer = layerCtrl.getLayerById('edit');
+                            var mark = $scope.selfInterData.crossGeos[0].index.split("-");
+                            var points = $scope.selfInterData.links.pointsObj;
+                            var pointLine1 = points[parseInt(mark[0])];
+                            var pointLine2 = points[parseInt(mark[1])];
+                            var feature = {},colors = [],lines = [];
+                            lines.push(pointLine1);
+                            lines.push(pointLine2);
+                            feature.type = 'GSC';
+                            feature.geos = lines;
+                            layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
+                            editLayer.drawGeometry = feature;
+                            editLayer.draw(feature, editLayer,colors);//在编辑图层中画出需要编辑的几何体
+                            // var polyLines = $scope.selfInterData.links.links;
+                            // var ployLine1 = polyLines[parseInt(mark[0])];
+                            // var ployLine2 = polyLines[parseInt(mark[1])];
+                            // ployLine1.setStyle({color:"#14B7FC"}).on("click",changeColorAndLevel).addTo(map);
+                            // ployLine2.setStyle({color:"#4FFFB6"}).on("click",changeColorAndLevel).addTo(map);
+                            // if (map.getPanes().overlayPane.style.zIndex == "1") {
+                            //     map.getPanes().overlayPane.style.zIndex = "4";
+                            // }
+
 
                         } else {
                             //map.currentTool.disable();//禁止当前的参考线图层的事件捕获

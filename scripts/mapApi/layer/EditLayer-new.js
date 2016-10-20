@@ -132,6 +132,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Cross':
                 drawCross(currentGeo, {color: 'blue', width: 1}, false, self);
                 break;
+            case 'GSC':
+                drawGSC(currentGeo, index, false, self);
+                break;
             case 'marker':
                 drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
                 break;
@@ -164,6 +167,21 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             drawLineString(verLineArr, null, {color: 'blue', size: 1}, true, null, null, null, self);
             var horLineArr = [{x: p.x - 20, y: p.y}, {x: p.x + 20, y: p.y}];
             drawLineString(horLineArr, null, {color: 'blue', size: 1}, true, null, null, null, self);
+        }
+        function drawGSC(geom, style, boolPixelCrs, self) {
+            if (!geom) {
+                return;
+            }
+            for(var i =0;i<geom.length;i++){
+                var p = null;
+                if (boolPixelCrs) {
+                    p = {x: geom.x, y: geom.y}
+                } else {
+                    p = this.map.latLngToContainerPoint([geom.y, geom.x]);
+                }
+                var verLineArr = [{x: p.x, y: p.y}, {x: p.x, y: p.y}];
+                drawLineString(verLineArr, null, {color: style[i], size: 1}, true, null, null, null, self);
+            }
         }
 
         function drawBuffer(geom, width, self) {
