@@ -93,6 +93,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
      */
     $scope.changeAllowed = function(param){
         $scope.isAllowed[param] = !$scope.isAllowed[param];
+        $scope.passageIndex = param;
         checkViche()
     }
 
