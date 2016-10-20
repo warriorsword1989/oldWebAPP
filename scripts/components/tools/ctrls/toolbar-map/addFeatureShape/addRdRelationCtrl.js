@@ -87,6 +87,57 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 }).length !== 0;
         };
         /**
+         * 计算角度
+         * @param pointA,pointB
+         * @returns {angle}
+         */
+        $scope.angleOfLink=function(pointA,pointB) {
+            var PI = Math.PI,angle;
+            if((pointA.x-pointB.x)===0) {
+                angle = PI / 2;
+            }else{
+                angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
+            }
+            return angle;
+
+        };
+        /**
+         * 将线分离
+         * @param Points
+         * @returns {links}
+         */
+        $scope.seprateLink = function (shapePoints) {
+            var linksObj = {},links = [],pointsObj = [];
+            var point1, point2, point3, angle1, angle2;
+            var start = 0;
+            for (var j = 0; j < shapePoints.length; j++) {
+                point1 = map.latLngToContainerPoint([shapePoints[j].y, shapePoints[j].x]);
+                if ((j + 1) < shapePoints.length) {
+                    point2 = map.latLngToContainerPoint([shapePoints[j + 1].y, shapePoints[j + 1].x]);
+                    angle1 = $scope.angleOfLink(point1, point2);
+                    if (Math.abs(angle1 - start) > 0.1) {
+                        start = angle1;
+                        var points = [];
+                        var latlngs = [];
+                        points.push(shapePoints[j]);
+                        points.push(shapePoints[j+1]);
+                        latlngs.push(L.latLng(shapePoints[j].y, shapePoints[j].x));
+                        latlngs.push(L.latLng(shapePoints[j + 1].y, shapePoints[j + 1].x));
+                        links.push(L.polyline(latlngs));
+                        // pointsObj[j] = points;
+                        pointsObj.push(points);
+                    } else {
+                        links[links.length-1].addLatLng(L.latLng(shapePoints[j + 1].y, shapePoints[j + 1].x));
+                        // pointsObj[j].push(shapePoints[j+1]);
+                        pointsObj[pointsObj.length-1].push(shapePoints[j+1]);
+                    }
+                }
+            }
+            linksObj.links = links;
+            linksObj.pointsObj = pointsObj;
+            return linksObj;
+        };
+        /**
          * 运算两条线的交点坐标
          * @param a
          * @param b
@@ -489,6 +540,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('点击增加限速!！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
+                eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
@@ -536,12 +588,12 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                                 })
                             } else {
-                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                // shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
                                 shapeCtrl.setEditingType("speedLimit");
                             }
-                        } else {}
+                        }
                     })
                 });
             } else if (type === "RDCROSS") {
@@ -645,6 +697,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 };
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             }  else if (type === 'RDGSC') {
+                $scope.selfInter = false;//是否是自相交
+                $scope.selfInterData = {};
                 $scope.resetOperator("addRelation", type);
                 tooltipsCtrl.setEditEventType('rdgsc');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
@@ -730,14 +784,22 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     } else if (dealData.length == 1) {
                         if(dealData[0].line.points.length > 3){
                             var shapePoints = dealData[0].line.points; //形状点
-                            for(var i=0;i<shapePoints.length-1;i++){
-                                for(var j=1;j<shapePoints.length;j++){
-                                    if(i<j-1 && (shapePoints[j].x!=shapePoints[i].y) && shapePoints[j+1]){
-                                        if($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]])){
-                                            crossGeos.push($scope.segmentsIntr([shapePoints[i],shapePoints[i+1]], [shapePoints[j],shapePoints[j+1]]));
-                                        }
+                            var sepLinks = $scope.seprateLink(shapePoints);
+                            $scope.selfInterData.links = sepLinks;
+                            for(var i= 0;i<sepLinks.pointsObj.length-1;i++){
+                                for(var j= i+1;j<sepLinks.pointsObj.length;j++){
+                                    var lineGeoArr = function(index) {
+                                        return [sepLinks.pointsObj[index][0], sepLinks.pointsObj[index][sepLinks.pointsObj[index].length-1]];
+                                    };
+                                    if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
+                                        crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
+                                        $scope.selfInter = true;
                                     }
                                 }
+
+                            }
+                            if (crossGeos.length > 0) {
+                                $scope.selfInterData.crossGeos = crossGeos;
                             }
                         } else {
                             swal("错误信息", "所选Link无自相交点，请重新选择立交点位！", "error");
@@ -766,29 +828,34 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl._cleanHighLight();
                         swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else {
-                        //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                        /*重组linkData格式*/
-                        for (var linkMark = 0; linkMark < dealData.length; linkMark++) {
-                            var tempObj = {
-                                'pid': dealData[linkMark].data.properties.id,
-                                'type': dealData[linkMark].data.properties.featType,
-                                'zlevel': linkMark
-                            };
-                            $scope.jsonData.linkObjs.push(tempObj);
+                        if($scope.selfInter){
+
+                        } else {
+                            //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                            /*重组linkData格式*/
+                            for (var linkMark = 0; linkMark < dealData.length; linkMark++) {
+                                var tempObj = {
+                                    'pid': dealData[linkMark].data.properties.id,
+                                    'type': dealData[linkMark].data.properties.featType,
+                                    'zlevel': linkMark
+                                };
+                                $scope.jsonData.linkObjs.push(tempObj);
+                            }
+                            //如果自相交传两条一样的link
+                            if(dealData.length == 1) {
+                                var sameObj = {
+                                    'pid': $scope.jsonData.linkObjs[0].pid,
+                                    'type': $scope.jsonData.linkObjs[0].type,
+                                    'zlevel': 1
+                                };
+                                $scope.jsonData.linkObjs.push(sameObj);
+                            }
+                            tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
+                            $scope.changeLevel();
+                            shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
+                            // selectCtrl.onSelected($scope.jsonData);
                         }
-                        //如果自相交传两条一样的link
-                        if(dealData.length == 1) {
-                            var sameObj = {
-                                'pid': $scope.jsonData.linkObjs[0].pid,
-                                'type': $scope.jsonData.linkObjs[0].type,
-                                'zlevel': 1
-                            };
-                            $scope.jsonData.linkObjs.push(sameObj);
-                        }
-                        tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
-                        $scope.changeLevel();
-                        shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
-                        // selectCtrl.onSelected($scope.jsonData);
+
                     }
                 });
             }  else if (type === 'TRAFFIC_SIGNAL') {     //信号灯
