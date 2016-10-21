@@ -2658,8 +2658,8 @@ a.batchButton {
   padding: 3px;
   border: 1px solid #fff;
   border-radius: 4px;
-  margin: 4px;
+  margin: 4px !important;
   cursor: pointer;
-  width: 73px;
+  width: 87px;
   text-align: center;
 }
