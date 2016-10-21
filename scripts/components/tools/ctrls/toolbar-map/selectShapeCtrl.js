@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  * Rebuild by chenx on 2016-07-05
  */
-angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath',
+angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath','$interval',
     function($scope, $q, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
@@ -346,7 +346,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "subAttrContainerTpl": false
             });
-
             //地图小于17级时不能选择
             if (map.getZoom < 17) {
                 return;
@@ -788,21 +787,34 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDBRANCH':
-                    toolsObj = {
-                        items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
-                            'title': "改退出线",
-                            'type': "MODIFYBRANCH_OUT",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }, {
-                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                            'title': "改经过线",
-                            'type': "MODIFYBRANCH_THROUGH",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }]
-                    };
+
+                   if(objCtrl.data.relationshipType==2){
+                       toolsObj = {
+                           items: [{
+                               'text': "<a class='glyphicon glyphicon-move'></a>",
+                               'title': "改退出线",
+                               'type': "MODIFYBRANCH_OUT",
+                               'class': "feaf",
+                               callback: $scope.modifyTools
+                           }, {
+                               'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                               'title': "改经过线",
+                               'type': "MODIFYBRANCH_THROUGH",
+                               'class': "feaf",
+                               callback: $scope.modifyTools
+                           }]
+                       };
+                   }else if(objCtrl.data.relationshipType==1){
+                       toolsObj = {
+                           items: [{
+                               'text': "<a class='glyphicon glyphicon-move'></a>",
+                               'title': "改退出线",
+                               'type': "MODIFYBRANCH_OUT",
+                               'class': "feaf",
+                               callback: $scope.modifyTools
+                           }]
+                       }
+                   }
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
