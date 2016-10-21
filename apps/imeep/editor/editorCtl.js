@@ -836,8 +836,8 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		eventCtrl.on(eventCtrl.eventTypes.SHOWRAWPOI, function (data) {
 			var relationShap = {
 				"loadType": "sameRelationShapTplContainer",
-				"propertyCtrl": '/WebApp/scripts/components/poi/ctrls/attr-tips/poiRawFieldCtrl.js',
-				"propertyHtml": '/WebApp/scripts/components/poi/tpls/attr-tips/poiRawFieldTpl.html',
+				"propertyCtrl": appPath.poi + 'ctrls/attr-tips/poiRawFieldCtrl.js',
+				"propertyHtml": appPath.root + appPath.poi + 'tpls/attr-tips/poiRawFieldTpl.html',
 				"callback": function() {
 					$scope.$emit("showRawPoi");
 				}
