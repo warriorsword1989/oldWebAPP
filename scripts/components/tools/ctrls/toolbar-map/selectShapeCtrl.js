@@ -3528,7 +3528,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     return;
                 }
             }  else if (type === "RESETPOI") {
-
+                if (selectCtrl.selectedFeatures) {
+                    selectCtrl.selectedFeatures.geometry.components[0].y = objCtrl.data.geometry.coordinates[1];
+                    selectCtrl.selectedFeatures.geometry.components[0].x = objCtrl.data.geometry.coordinates[0];
+                    selectCtrl.selectedFeatures.geometry.components[1].y = objCtrl.data.yGuide;
+                    selectCtrl.selectedFeatures.geometry.components[1].x = objCtrl.data.xGuide;
+                    delete selectCtrl.selectedFeatures.lastLocGeo;
+                    editLayer.clear();
+                    editLayer._redraw();
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('坐标无变化！');
+                }
+                return;
             } else if (type === "POISAME") {
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);

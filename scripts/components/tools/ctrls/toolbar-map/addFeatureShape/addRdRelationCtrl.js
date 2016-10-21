@@ -849,7 +849,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     angle:20,
                                     title:'点击制作立交',
                                     icon:L.icon({
-                                        iconUrl: '/WebApp/images/road/img/cross.svg',
+                                        iconUrl: '../images/road/img/cross.svg',
                                         iconSize: [16, 16],
                                         //iconAnchor: [12,30],
                                         popupAnchor: [0, -32]
