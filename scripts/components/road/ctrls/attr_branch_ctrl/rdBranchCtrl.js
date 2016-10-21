@@ -531,10 +531,30 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         };*/
         // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
+        objCtrl.namesInfos = $scope.getItemByNameGroupid($scope.nameGroup,nameGroupid);
         // $scope.$emit("transitCtrlAndTpl", detailInfo);
         $scope.$emit("transitCtrlAndTpl", showBranchInfoObj);
     };
-
+    /****
+     * 根据nameGroupid获取对应的数据
+     */
+    $scope.getItemByNameGroupid = function(arr,nameGroupid){
+    	var index = -1;
+    	var item;
+    	for(var i=0;i<arr.length;i++){
+    		for(var j=0;j<arr[i].length;j++){
+    			if(arr[i][j].nameGroupid == nameGroupid){
+    				index = i;
+    				break;
+    			};
+    		}
+    		if(index >=0){
+    			item = arr[i];
+    			break;
+    		};
+    	};
+    	return item;
+    };
     if (objCtrl.data) {
         $scope.initDiver();
     }
