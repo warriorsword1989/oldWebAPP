@@ -3043,8 +3043,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 }else{//正确选取一根以后
 
                                 }
-
-
                                 highRenderCtrl.highLightFeatures = temparr;
                                 //绘制当前的退出线和原来的进入线;
                                 highRenderCtrl._cleanHighLight();
