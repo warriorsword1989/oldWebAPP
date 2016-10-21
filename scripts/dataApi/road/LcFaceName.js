@@ -9,12 +9,12 @@ fastmap.dataApi.LcFaceName=fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"];
+        this.pid = data["pid"] || 0;
         this.rowId = data["rowId"];
         this.nameGroupid = data["nameGroupid"] || 1;
-        this.langCode = data["longCode"] || "CHI";
-        this.name = data["name"] || "";
-        this.phonetic = data["phonetic"] || "";
+        this.langCode = data["langCode"] || "CHI";
+        this.name = data["name"] || "土地覆盖面名";
+        this.phonetic = data["phonetic"] || "Tu Di Fu Gai Mian Ming";
         this.srcFlag = data["srcFlag"] || 0;
     },
 
