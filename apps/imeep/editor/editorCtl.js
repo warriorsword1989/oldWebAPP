@@ -42,6 +42,7 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.outErrorArr = [false, true, true, false]; //输出框样式控制
 		// $scope.outputResult = []; //输出结果
 		$scope.specialWork = false;
+		$rootScope.isSpecialOperation = false;
 		/*切换项目平台*/
 		$scope.changeProject = function (type) {
 			$scope.showLoading.flag = true;
@@ -826,6 +827,21 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
 		$scope.$on("showSamePoi", function (event, data) {
 			$scope.$broadcast("showSamePoishap");
 		});
+		/**
+		 * 接收15米提醒事件
+		 */
+		// eventCtrl.on(eventCtrl.eventTypes.SHOWRAWPOI, function (data) {
+		// 	var relationShap = {
+		// 		"loadType": "sameRelationShapTplContainer",
+		// 		"propertyCtrl": appPath.poi + "ctrls/attr-tips/poiRawFieldCtrl",
+		// 		"propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiRawFieldTpl.html",
+		// 		"callback": function() {
+		// 			$scope.$broadcast("showRawshap");
+		// 		}
+		// 	};
+		// 	$scope.$emit("transitCtrlAndTpl", relationShap);
+        //
+		// });
 		/**
 		 * 接收刷新检查结果事件
 		 */

@@ -1118,6 +1118,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'title': "重置",
+                            'type': "RESETPOI",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
                         }]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.poi + "ctrls/attr-base/generalBaseCtl";
@@ -3476,8 +3482,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData, data) {
-                if (data.status == 3) {
-                    swal("提示", "此数据为已提交数据，不能修改几何！", "info");
+                if (data.status == 3 || data.uRecord == 2) {
+                    swal("提示", "数据已提交或者删除，不能修改几何！", "info");
                     return;
                 }
                 var locArr = data.geometry.coordinates;
@@ -3563,6 +3569,22 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
                     return;
                 }
+            }  else if (type === "RESETPOI") {
+                if (selectCtrl.selectedFeatures) {
+                    map.currentTool.disable();
+                    selectCtrl.selectedFeatures.geometry.components[0].y = objCtrl.data.geometry.coordinates[1];
+                    selectCtrl.selectedFeatures.geometry.components[0].x = objCtrl.data.geometry.coordinates[0];
+                    selectCtrl.selectedFeatures.geometry.components[1].y = objCtrl.data.yGuide;
+                    selectCtrl.selectedFeatures.geometry.components[1].x = objCtrl.data.xGuide;
+                    delete selectCtrl.selectedFeatures.lastLocGeo;
+                    editLayer.clear();
+                    setTimeout(function () {
+                        editLayer._redraw();
+                    },100);
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('坐标无变化！');
+                }
+                return;
             } else if (type === "POISAME") {
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);
@@ -3779,6 +3801,49 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             } else if (type === "SELECTPARENT") {
                 map.currentTool.snapHandler._guides = [];
             }
+            eventController.on(eventController.eventTypes.SHOWRAWPOI, function (data) {
+                var html = '<div style="height:auto;float: left">'+
+                    '<span>移动的距离是'+ data.distance.toFixed(1)+'米，确定要移动吗？确认选择移动原因并点击是，否则请点击否。' +
+                    '</span>'+
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied" checked/>与道路逻辑关系调整' +
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied"/>与设施逻辑关系调整'+
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied"/>精度调整'+
+                    '<div>';
+                swal({
+                    title: "移位提醒",
+                    text: html,
+                    html: true,
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    confirmButtonText: "是",
+                    cancelButtonText: "否"
+                },  function(f) {
+                    if (f) { // 执行是操作
+
+                    } else { // 执行否操作
+                        if (selectCtrl.selectedFeatures) {
+                            selectCtrl.selectedFeatures.geometry.components[0].y = parseFloat(selectCtrl.selectedFeatures.secLocGeo.lat);
+                            selectCtrl.selectedFeatures.geometry.components[0].x = parseFloat(selectCtrl.selectedFeatures.secLocGeo.lng);
+                            selectCtrl.selectedFeatures.geometry.components[1].y = parseFloat(selectCtrl.selectedFeatures.secGuideGeo.lat);
+                            selectCtrl.selectedFeatures.geometry.components[1].x = parseFloat(selectCtrl.selectedFeatures.secGuideGeo.lng);
+                            selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(selectCtrl.selectedFeatures.geometry[0].y,selectCtrl.selectedFeatures.geometry[0].x);
+                            selectCtrl.selectedFeatures.lastGuideGeo = new L.latLng(selectCtrl.selectedFeatures.geometry[1].y,selectCtrl.selectedFeatures.geometry[1].x);
+                            editLayer.clear();
+                            setTimeout(function () {
+                                editLayer._redraw();
+                            },100);
+                        }
+                    }
+                });
+
+            });
         };
         $scope.clearMap = function() {
             //重置选择工具

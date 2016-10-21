@@ -5,17 +5,17 @@
 angular.module('fastmap.uikit').directive('fmEditView', function() {
     return {
         restrict: 'A',
-        controller:function ($scope, $element){
-            $scope.$on("clearAttrStyleDown",function (){
+        controller: function($scope, $element) {
+            $scope.$on("clearAttrStyleDown", function() {
                 //var label = angular.element($element).parents('li').find('label:first');
                 var label = $($element).parents('li').find('label:first');
                 label.removeClass("modifiedInfo");
             });
         },
-        link: function ($scope, $element, attrs) {
+        link: function($scope, $element, attrs) {
             //var label = angular.element($element).parents('li').find('label:first');
             var label = $($element).parents('li').find('label:first');
-            $element.bind('change',function (){
+            $element.bind('change', function() {
                 label.addClass("modifiedInfo");
             });
             // $scope.$watch('model', function (a,b,c){ //不能使用watch的原因是，当切换POI的时候model就会发生变化，就会增加样式
@@ -23,53 +23,60 @@ angular.module('fastmap.uikit').directive('fmEditView', function() {
             // });;
             //label.removeClass("modifiedInfo");
         },
-
     };
 });
-angular.module('fastmap.uikit').directive('formDisabled',function() {
+angular.module('fastmap.uikit').directive('formDisabled', function() {
     return {
-        restrict:'A',
-        replace:false,
-        link: function ($scope, elem, attrs) {
-            if($scope.isSpecialOperation) {
-                angular.element(elem).find('input').attr('disabled','disabled').addClass('chosen-disabled');
-                angular.element(elem).find('textarea').attr('disabled','disabled').addClass('chosen-disabled');
-                angular.element(elem).find('.lv-radio').attr('disabled','disabled').addClass('chosen-disabled');
-                angular.element(elem).find('select').attr('disabled','disabled').addClass('chosen-disabled');
-                angular.element(elem).find('.select2-option').addClass('chosen-disabled');
-            }
+        restrict: 'A',
+        replace: false,
+        link: function($scope, elem, attrs) {
+            $scope.$watch('isSpecialOperation', function(newVal, oldVal) {
+                if (newVal) {
+                    elem.find('input').attr('disabled', 'disabled').addClass('chosen-disabled');
+                    elem.find('textarea').attr('disabled', 'disabled').addClass('chosen-disabled');
+                    elem.find('.lv-radio').attr('disabled', 'disabled').addClass('chosen-disabled');
+                    elem.find('select').attr('disabled', 'disabled').addClass('chosen-disabled');
+                    elem.find('.select2-option').addClass('chosen-disabled');
+                } else {
+                    elem.find('input').attr('disabled', null).removeClass('chosen-disabled');
+                    elem.find('textarea').attr('disabled', null).removeClass('chosen-disabled');
+                    elem.find('.lv-radio').attr('disabled', null).removeClass('chosen-disabled');
+                    elem.find('select').attr('disabled', null).removeClass('chosen-disabled');
+                    elem.find('.select2-option').removeClass('chosen-disabled');
+                }
+            });
         }
     }
 });
 /**
  * 用于ng-table表格cell编辑
  */
-angular.module('fastmap.uikit').directive('fmBindCompiledHtml',function (){
+angular.module('fastmap.uikit').directive('fmBindCompiledHtml', function() {
     return {
         restrict: "A",
-        controller: function ($scope, $element, $attrs, $compile){
-            $scope.$watch($attrs.fmBindCompiledHtml, function (html){
+        controller: function($scope, $element, $attrs, $compile) {
+            $scope.$watch($attrs.fmBindCompiledHtml, function(html) {
                 var compiledElements = $compile(html)($scope);
                 $element.empty();
                 $element.append(compiledElements);
-            },true);
+            }, true);
         }
     }
 });
 /**
  * 限制输入字符
  */
-angular.module('fastmap.uikit').directive('fmInputControl',function (){
+angular.module('fastmap.uikit').directive('fmInputControl', function() {
     return {
         restrict: "A",
-        replace:false,
-        scope:{
-            objectmodel:'='
+        replace: false,
+        scope: {
+            objectmodel: '='
         },
-        link:function(scope,elem,attrs){
-            var re =new RegExp('^[0-9]*$');
-            elem.bind('change',function(){
-                if(!re.test(scope.objectmodel)){
+        link: function(scope, elem, attrs) {
+            var re = new RegExp('^[0-9]*$');
+            elem.bind('change', function() {
+                if (!re.test(scope.objectmodel)) {
                     scope.objectmodel = 0;
                     scope.$apply();
                 }
@@ -80,7 +87,7 @@ angular.module('fastmap.uikit').directive('fmInputControl',function (){
 /**
  * 图片404时加默认图片
  */
-angular.module('fastmap.uikit').directive('image404',function (){
+angular.module('fastmap.uikit').directive('image404', function() {
     return {
         restrict: 'A',
         link: function(scope, element, attributes) {
@@ -123,18 +130,17 @@ angular.module('fastmap.uikit').directive('image404',function (){
 /**
  *
  */
-angular.module('fastmap.uikit').directive('fmAutoFocus',function ($timeout){
+angular.module('fastmap.uikit').directive('fmAutoFocus', function($timeout) {
     return {
-        restrict:'A',
-        replace:false,
-        link: function ( $scope, element, attrs ) {
-        },
-        controller: function ($scope, $element,$timeout){
-            $scope.selectFirstNum = function () {
-                $timeout(function () {
+        restrict: 'A',
+        replace: false,
+        link: function($scope, element, attrs) {},
+        controller: function($scope, $element, $timeout) {
+            $scope.selectFirstNum = function() {
+                $timeout(function() {
                     //$($element).find("input[name=fmFocus]").focus();
                     angular.element($element).find('input[name=fmFocus]:eq(0)').focus();
-                },200);
+                }, 200);
             };
         }
     }

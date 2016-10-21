@@ -41,5 +41,7 @@ L.Mixin.EventTypes = {
     GETRECTDATA:"getRectData",
     GETFEATURE:"getFeature",
     SELECTEDVEHICLECHANGE:"selectedVehicleChage", //更改车辆类型时触发,
-    CHANGESCENE:"changeScene" //更改场景
+    CHANGESCENE:"changeScene", //更改场景
+    GETEDITDATA:"getEditData", //立交自相交
+    SHOWRAWPOI:"showRawPoi" //poi15米移位
 }
