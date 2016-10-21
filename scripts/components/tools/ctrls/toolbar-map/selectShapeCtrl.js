@@ -1131,13 +1131,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
-                        }, {
-                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
-                            'title': "重置",
-                            'type': "RESETPOI",
-                            'class': "feaf",
-                            callback: $scope.modifyPoi
-                        }]
+                        }
+                        // , {
+                        //     'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                        //     'title': "重置",
+                        //     'type': "RESETPOI",
+                        //     'class': "feaf",
+                        //     callback: $scope.modifyPoi
+                        // }
+                        ]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.poi + "ctrls/attr-base/generalBaseCtl";
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html";
