@@ -373,7 +373,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             return;
         }
         if (objectCtrl.data.status == 3 || objectCtrl.data.uRecord == 2){
-            swal("提示", '数据已提交或者删除，不能做修改属性！', "info");
+            swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
 
