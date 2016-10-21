@@ -133,7 +133,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawCross(currentGeo, {color: 'blue', width: 1}, false, self);
                 break;
             case 'GSC':
-                drawGSC(currentGeo, index, false, self);
+                drawGSC(currentGeo.geos, currentGeo.style, false, self);
                 break;
             case 'marker':
                 drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
@@ -172,15 +172,19 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (!geom) {
                 return;
             }
+            geom.conPoints = [];
             for(var i =0;i<geom.length;i++){
-                var p = null;
+                var p = null,q = null;
                 if (boolPixelCrs) {
-                    p = {x: geom.x, y: geom.y}
+                    p = {x: geom[i][0].x, y: geom[i][0].y};
+                    q = {x: geom[i][geom[i].length-1].x, y: geom[i][geom[i].length-1].y}
                 } else {
-                    p = this.map.latLngToContainerPoint([geom.y, geom.x]);
+                    p = this.map.latLngToContainerPoint([geom[i][0].y, geom[i][0].x]);
+                    q = this.map.latLngToContainerPoint([geom[i][geom[i].length-1].y, geom[i][geom[i].length-1].x]);
                 }
-                var verLineArr = [{x: p.x, y: p.y}, {x: p.x, y: p.y}];
-                drawLineString(verLineArr, null, {color: style[i], size: 1}, true, null, null, null, self);
+                geom.conPoints.push([{x: p.x, y: p.y}, {x: q.x, y: q.y}]);
+                var verLineArr = [{x: p.x, y: p.y}, {x: q.x, y: q.y}];
+                drawLineString(verLineArr, null, {color: style[i], size: 4}, true, null, null, null, self);
             }
         }
 

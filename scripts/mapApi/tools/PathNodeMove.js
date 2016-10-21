@@ -18,6 +18,8 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         this.targetPoint = null;
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
+        this.objectCtrl = fastmap.uikit.ObjectEditController();
+        this.linePoints = [];
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
@@ -103,6 +105,14 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         } else {
             this.targetIndexs.length = 0;
         }
+
+        if(this.objectCtrl.data.geoLiveType == "RDNODE" && this.objectCtrl.data.meshes.length == 2){ //增加对于图廓点的特殊控制
+            var temp = new fastmap.mapApi.GridLayer();
+            var arr1 = temp.Calculate25TMeshBorder(this.objectCtrl.data.meshes[0].meshId+"");
+            var arr2 = temp.Calculate25TMeshBorder(this.objectCtrl.data.meshes[1].meshId+"");
+            this.linePoints = this.calculateSameLine([{x:arr1.maxLat,y:arr1.maxLon},{x:arr1.minLat,y:arr1.minLon}],[{x:arr2.maxLat,y:arr2.maxLon},{x:arr2.minLat,y:arr2.minLon}]);
+        }
+
     },
     onMouseMove: function(event) {
         this.container.style.cursor = 'pointer';
@@ -115,6 +125,7 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         }
         this.targetIndex = this.targetIndexs.length;
         this.targetPoint = event.latlng;
+
         for (var i in this.targetIndexs) {
             this.resetVertex(this.targetIndexs[i], this.targetPoint);
         }
@@ -122,10 +133,28 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         this.selectCtrl.selectedFeatures = {
             id: node.id,
             latlng: this.targetPoint
-        }
+        };
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+
     },
     onMouseUp: function(event) {
+        //增加图廓点只能在图廓线上移动的控制 --------begin----------
+        if(this.objectCtrl.data.geoLiveType == "RDNODE" && this.objectCtrl.data.meshes.length == 2){ //增加对于图廓点的特殊控制
+            var point= L.LineUtil.closestPointOnSegment(L.point(event.latlng.lat,event.latlng.lng),L.point(this.linePoints[0].x,this.linePoints[0].y),L.point(this.linePoints[1].x,this.linePoints[1].y));
+            this.targetPoint.lat = point.x;
+            this.targetPoint.lng = point.y;
+            for (var i in this.targetIndexs) {
+                this.resetVertex(this.targetIndexs[i], this.targetPoint);
+            }
+            var node = this.selectCtrl.selectedFeatures;
+            this.selectCtrl.selectedFeatures = {
+                id: node.id,
+                latlng: this.targetPoint
+            };
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
+        //-------end------
+
         this.targetIndex = 0;
         this.snapHandler.setTargetIndex(this.targetIndex);
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
@@ -134,6 +163,23 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
     distance: function(pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
+    },
+    /**
+     * 根据传递两个矩形的两组对角坐标获取公共线坐标
+     */
+    calculateSameLine: function (arrA,arrB){
+        var rectA = [{x:arrA[0].x,y:arrA[0].y},{x:arrA[0].x,y:arrA[1].y},{x:arrA[1].x,y:arrA[0].y},{x:arrA[1].x,y:arrA[1].y}];
+        var rectB = [{x:arrB[0].x,y:arrB[0].y},{x:arrB[0].x,y:arrB[1].y},{x:arrB[1].x,y:arrB[0].y},{x:arrB[1].x,y:arrB[1].y}];
+        var arrCommon  =[];
+        //var sPoint = {},ePoint = {};
+        for(var i = 0; i < 4; i ++){ //只会有4个点
+            for(var j = 0; j < 4; j ++){
+                if((rectA[i].x == rectB[j].x) && (rectA[i].y == rectB[j].y)){
+                    arrCommon.push(rectA[i]);
+                }
+            }
+        }
+        return arrCommon;
     },
     /***
      * 重新设置节点
