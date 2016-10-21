@@ -125,11 +125,32 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                     "propertyCtrl": appPath.road + 'ctrls/attr_cross_ctrl/namesCtrl',
                     "propertyHtml": appPath.root + appPath.road + 'tpls/attr_cross_tpl/namesTpl.html'
                 };
-                objCtrl.namesInfos = $scope.nameGroup[nameGroupid - 1];
+//                objCtrl.namesInfos = $scope.nameGroup[nameGroupid - 1];
+                objCtrl.namesInfos = $scope.getItemByNameGroupid($scope.nameGroup,nameGroupid);
                 $scope.$emit("transitCtrlAndTpl", detailInfo);
             }
         };
         $scope.$emit("transitCtrlAndTpl", crossNamesObj);
+    };
+    /****
+     * 根据nameGroupid获取对应的数据
+     */
+    $scope.getItemByNameGroupid = function(arr,nameGroupid){
+    	var index = -1;
+    	var item;
+    	for(var i=0;i<arr.length;i++){
+    		for(var j=0;j<arr[i].length;j++){
+    			if(arr[i][j].nameGroupid == nameGroupid){
+    				index = i;
+    				break;
+    			};
+    		}
+    		if(index >=0){
+    			item = arr[i];
+    			break;
+    		};
+    	};
+    	return item;
     };
     /*增加item*/
     $scope.addItem = function(type) {
