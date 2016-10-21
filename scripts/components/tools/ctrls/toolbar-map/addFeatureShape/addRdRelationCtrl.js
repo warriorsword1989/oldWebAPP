@@ -107,7 +107,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          * @returns {links}
          */
         $scope.seprateLink = function (shapePoints) {
-            var linksObj = {},links = [],pointsObj = [];
+            var linksObj = {},pointsObj = [];
             var point1, point2, point3, angle1, angle2;
             var start = 0;
             for (var j = 0; j < shapePoints.length; j++) {
@@ -118,22 +118,14 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     if (Math.abs(angle1 - start) > 0.1) {
                         start = angle1;
                         var points = [];
-                        var latlngs = [];
                         points.push(shapePoints[j]);
                         points.push(shapePoints[j+1]);
-                        latlngs.push(L.latLng(shapePoints[j].y, shapePoints[j].x));
-                        latlngs.push(L.latLng(shapePoints[j + 1].y, shapePoints[j + 1].x));
-                        links.push(L.polyline(latlngs,{id:j}));
-                        // pointsObj[j] = points;
                         pointsObj.push(points);
                     } else {
-                        links[links.length-1].addLatLng(L.latLng(shapePoints[j + 1].y, shapePoints[j + 1].x));
-                        // pointsObj[j].push(shapePoints[j+1]);
                         pointsObj[pointsObj.length-1].push(shapePoints[j+1]);
                     }
                 }
             }
-            linksObj.links = links;
             linksObj.pointsObj = pointsObj;
             return linksObj;
         };
@@ -232,6 +224,20 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 });
                 highRenderCtrl.drawHighlight();
             }
+        };
+        $scope.changeGSCIndex = function(data) {
+            if(data.drawGeometry.geos.length == 2){
+                data.drawGeometry.geos.reverse();
+            } else {
+                var geos = data.drawGeometry.geos[data.index];
+                data.drawGeometry.geos.splice(data.index,1);
+                if(data.index == data.drawGeometry.geos.length-1){
+                    data.drawGeometry.geos.unshift(geos);
+                } else {
+                    data.drawGeometry.geos.push(geos);
+                }
+            }
+            editLayer._redraw();
         };
         /**
          * 调整link层级高低
@@ -819,52 +825,80 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
-                        var editLayer = layerCtrl.getLayerById('edit');
                         var feature = {
                             components:[],
                             points:[]
                         };
-                        //组装一个线
-                        /*for(var i=0;i<crossGeos.length;i++){
-                            feature = crossGeos[i];
-                            feature.type = 'Symbol';
-                            layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
-                            editLayer.drawGeometry = feature;
-                            editLayer.draw(feature, editLayer);//在编辑图层中画出需要编辑的几何体
-                        }*/
+                        // for(var i=0;i<crossGeos.length;i++){
+                        //     feature.point = crossGeos[i];
+                        //     feature.type = 'marker';
+                        //     feature.orientation = 'cross';
+                        //     feature.angle = 0;
+                        //     layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
+                        //     editLayer.drawGeometry = feature;
+                        //     editLayer.draw(feature, editLayer);//在编辑图层中画出需要编辑的几何体
+                        // }
+                        for(var i=0;i<crossGeos.length;i++){
+                            var point =new L.LatLng(parseFloat(crossGeos[i].y),parseFloat(crossGeos[i].x) );
+                            var poiFeature = L.marker(point,{
+                                    draggable: false,
+                                    opacity: 0.8,
+                                    riseOnHover: true,
+                                    riseOffset:300,
+                                    rotate: false,
+                                    angle:20,
+                                    title:'点击制作立交',
+                                    icon:L.icon({
+                                        iconUrl: '/WebApp/images/road/img/cross.svg',
+                                        iconSize: [16, 16],
+                                        //iconAnchor: [12,30],
+                                        popupAnchor: [0, -32]
+                                    })
+                                }
+                            ).addTo(map);
+                        }
                         highRenderCtrl._cleanHighLight();
-                        swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
+                        // swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else {
                         if($scope.selfInter){//自相交，不能用highRenderCtrl的方式高亮
-                            var changeColorAndLevel = function () {
-                                console.log('aaaa');
-                            };
                             map.currentTool.disable();//取消鼠标事件
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.highLightFeatures = [];
-                            var editLayer = layerCtrl.getLayerById('edit');
                             var mark = $scope.selfInterData.crossGeos[0].index.split("-");
                             var points = $scope.selfInterData.links.pointsObj;
                             var pointLine1 = points[parseInt(mark[0])];
                             var pointLine2 = points[parseInt(mark[1])];
-                            var feature = {},colors = [],lines = [];
+                            var feature = {},colors = ["#14B7FC","#4FFFB6","#F8B19C","#FCD6A4"],lines = [];
                             lines.push(pointLine1);
                             lines.push(pointLine2);
                             feature.type = 'GSC';
                             feature.geos = lines;
+                            feature.style = colors;
                             layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
                             editLayer.drawGeometry = feature;
                             editLayer.draw(feature, editLayer,colors);//在编辑图层中画出需要编辑的几何体
-                            // var polyLines = $scope.selfInterData.links.links;
-                            // var ployLine1 = polyLines[parseInt(mark[0])];
-                            // var ployLine2 = polyLines[parseInt(mark[1])];
-                            // ployLine1.setStyle({color:"#14B7FC"}).on("click",changeColorAndLevel).addTo(map);
-                            // ployLine2.setStyle({color:"#4FFFB6"}).on("click",changeColorAndLevel).addTo(map);
-                            // if (map.getPanes().overlayPane.style.zIndex == "1") {
-                            //     map.getPanes().overlayPane.style.zIndex = "4";
-                            // }
-
-
+                            var tempObj = {
+                                'pid': dealData[0].data.properties.id,
+                                'type': dealData[0].data.properties.featType,
+                                'zlevel': 0
+                            };
+                            var tempObjs = {
+                                'pid': dealData[0].data.properties.id,
+                                'type': dealData[0].data.properties.featType,
+                                'zlevel': 1
+                            };
+                            $scope.jsonData.linkObjs.push(tempObj);
+                            $scope.jsonData.linkObjs.push(tempObjs);
+                            tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
+                            shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
+                            map._container.style.cursor = '';
+                            map.currentTool = new fastmap.uikit.SelectGSC({
+                                map: map,
+                                currentEditLayer: editLayer
+                            });
+                            map.currentTool.enable();
+                            eventController.off(eventController.eventTypes.GETEDITDATA, $scope.changeGSCIndex);
+                            eventController.on(eventController.eventTypes.GETEDITDATA, $scope.changeGSCIndex);
                         } else {
                             //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                             /*重组linkData格式*/
@@ -876,19 +910,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 };
                                 $scope.jsonData.linkObjs.push(tempObj);
                             }
-                            //如果自相交传两条一样的link
-                            if(dealData.length == 1) {
-                                var sameObj = {
-                                    'pid': $scope.jsonData.linkObjs[0].pid,
-                                    'type': $scope.jsonData.linkObjs[0].type,
-                                    'zlevel': 1
-                                };
-                                $scope.jsonData.linkObjs.push(sameObj);
-                            }
+
                             tooltipsCtrl.setCurrentTooltip("点击link调整层级,空格保存,或者按ESC键取消!");
                             $scope.changeLevel();
                             shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
-                            // selectCtrl.onSelected($scope.jsonData);
                         }
 
                     }
@@ -936,7 +961,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     tooltipsCtrl.setCurrentTooltip('点击空格保存信号灯,或者按ESC键取消!');
                 }
             } else if(type === "RD_GATE"){ //大门
-                featCodeCtrl.setFeatCode({});
+
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;
@@ -956,6 +981,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
                 $scope.gate = {};
+                featCodeCtrl.setFeatCode($scope.gate);
                 var automaticCommand = function (){ //自动计算退出线
                     var param = {};
                     param["dbId"] = App.Temp.dbId;
@@ -967,7 +993,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                         if(continueLinks.data){
                             if(continueLinks.data.length > 2){
-                                featCodeCtrl.setFeatCode({});
+                                //featCodeCtrl.setFeatCode({});
                                 swal("错误信息", "退出线有多条，不允许创建大门", "error");
                                 tooltipsCtrl.setCurrentTooltip("退出线有多条，不允许创建大门!");
                                 return ;
@@ -985,10 +1011,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     highRenderCtrl.drawHighlight();
                                     map.currentTool.selectedFeatures.push($scope.gate.outLinkPid.toString());
 
-                                    featCodeCtrl.setFeatCode($scope.gate);
+                                    //featCodeCtrl.setFeatCode($scope.gate);
                                     tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
                                     break;
                                 }
+                            }
+                            if(!$scope.gate.outLinkPid){
+                                tooltipsCtrl.setCurrentTooltip("当前所选线没有退出线，不能创建!");
                             }
                         }
                     });
@@ -1035,7 +1064,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             // featCodeCtrl.setFeatCode($scope.gate);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         } else {
-                            tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入线,请选择进入点!");
                         }
                     } else if (data.index === 1){ //进入点
                         //清除鼠标十字
