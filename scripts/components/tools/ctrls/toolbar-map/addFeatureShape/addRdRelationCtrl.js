@@ -936,7 +936,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     tooltipsCtrl.setCurrentTooltip('点击空格保存信号灯,或者按ESC键取消!');
                 }
             } else if(type === "RD_GATE"){ //大门
-                featCodeCtrl.setFeatCode({});
+
                 $scope.resetOperator("addRelation", type);
                 //保存所有需要高亮的图层数组;线方向
                 var highLightFeatures = [],linkDirect = 0;
@@ -956,6 +956,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
 
                 $scope.gate = {};
+                featCodeCtrl.setFeatCode($scope.gate);
                 var automaticCommand = function (){ //自动计算退出线
                     var param = {};
                     param["dbId"] = App.Temp.dbId;
@@ -967,7 +968,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                         if(continueLinks.data){
                             if(continueLinks.data.length > 2){
-                                featCodeCtrl.setFeatCode({});
+                                //featCodeCtrl.setFeatCode({});
                                 swal("错误信息", "退出线有多条，不允许创建大门", "error");
                                 tooltipsCtrl.setCurrentTooltip("退出线有多条，不允许创建大门!");
                                 return ;
@@ -985,10 +986,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     highRenderCtrl.drawHighlight();
                                     map.currentTool.selectedFeatures.push($scope.gate.outLinkPid.toString());
 
-                                    featCodeCtrl.setFeatCode($scope.gate);
+                                    //featCodeCtrl.setFeatCode($scope.gate);
                                     tooltipsCtrl.setCurrentTooltip("已选退出线,点击空格键保存!");
                                     break;
                                 }
+                            }
+                            if(!$scope.gate.outLinkPid){
+                                tooltipsCtrl.setCurrentTooltip("当前所选线没有退出线，不能创建!");
                             }
                         }
                     });
@@ -1035,7 +1039,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             // featCodeCtrl.setFeatCode($scope.gate);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         } else {
-                            tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入线,请选择进入点!");
                         }
                     } else if (data.index === 1){ //进入点
                         //清除鼠标十字

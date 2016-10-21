@@ -1073,7 +1073,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "gate") {    //大门
-                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 var gate = featCodeCtrl.getFeatCode();
                 if (!(gate.nodePid && gate.inLinkPid && gate.outLinkPid )) {
                     swal("操作失败", "请选进入线和进入点以及退出线", "error");
