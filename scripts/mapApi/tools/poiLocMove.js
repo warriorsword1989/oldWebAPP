@@ -131,16 +131,16 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         return false;
     },
     onMouseUp: function(event){
-        if(this.selectCtrl.selectedFeatures.lastLocGeo == undefined){//对应15米移位
-            var oriData = this.objectCtrl.data.geometry.coordinates;
-            this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
-        }
-        var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
-        if( distance > 0 && distance <= 15 && this.objectCtrl.data.uRecord == 3){
-            this.selectCtrl.selectedFeatures.distance = distance;
-            this.eventController.fire(this.eventController.eventTypes.SHOWRAWPOI);
-        }
-        this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x);
+        // if(this.selectCtrl.selectedFeatures.lastLocGeo == undefined){//对应15米移位
+        //     var oriData = this.objectCtrl.data.geometry.coordinates;
+        //     this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
+        // }
+        // var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
+        // if( distance > 0 && distance <= 15 && this.objectCtrl.data.uRecord == 3){
+        //     this.selectCtrl.selectedFeatures.distance = distance;
+        //     this.eventController.fire(this.eventController.eventTypes.SHOWRAWPOI);
+        // }
+        // this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x);
 
         this.targetIndex = null;
         this.captureHandler.setTargetIndex(this.targetIndex);
