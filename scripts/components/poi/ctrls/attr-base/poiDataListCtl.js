@@ -297,7 +297,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
 
         }
         function getState(scope, row) {
-            return $sce.trustAsHtml({1: '增', 2:'改', 3:'删'}[row.uRecord]);
+            return $sce.trustAsHtml({1: '增', 2:'删', 3:'改'}[row.uRecord]);
         }
         scope.highlightPoi = function(pid) {
             highRenderCtrl._cleanHighLight();
