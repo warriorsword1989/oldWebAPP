@@ -23,7 +23,7 @@ rawApp.controller("RawFieldController",['$scope','$ocLazyLoad','appPath','dsEdit
      */
     $scope.initializeData = function (){
         $scope.raw.rawTplShow = true;
-        $scope.distance = selectCtrl.selectedFeatures.distance;
+        $scope.distance = selectCtrl.selectedFeatures.distance.toFixed(1);
     };
 
     $scope.initializeData();

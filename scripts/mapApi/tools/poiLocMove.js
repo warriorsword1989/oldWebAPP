@@ -136,7 +136,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
             this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
         }
         var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
-        if( distance <= 15 && this.objectCtrl.data.uRecord == 3){
+        if( distance > 0 && distance <= 15 && this.objectCtrl.data.uRecord == 3){
             this.selectCtrl.selectedFeatures.distance = distance;
             this.eventController.fire(this.eventController.eventTypes.SHOWRAWPOI);
         }
