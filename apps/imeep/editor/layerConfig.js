@@ -159,7 +159,7 @@ App.layersConfig = [{
                 requestType: 'RDLINKINTRTIC',
                 showNodeLevel: 17,
                 isUpDirect: true,
-                gap: 40
+                gap: 80
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -186,7 +186,7 @@ App.layersConfig = [{
                 requestType: 'RDLINKRTIC',
                 showNodeLevel: 17,
                 isUpDirect: true,
-                gap: 40
+                gap: 80
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -213,7 +213,7 @@ App.layersConfig = [{
                 requestType: 'RDLINKSPEEDLIMIT',
                 showNodeLevel: 17,
                 isUpDirect: true,
-                gap: 40
+                gap: 80
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -265,7 +265,7 @@ App.layersConfig = [{
                 visible: false,
                 requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE',
                 showNodeLevel: 17,
-                gap: 40
+                gap: 80
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
