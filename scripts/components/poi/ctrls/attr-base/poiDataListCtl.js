@@ -1,5 +1,5 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout','dsOutput',
-    function(scope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout,dsOutput) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout','dsOutput',
+    function(scope, $rootScope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout,dsOutput) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -32,10 +32,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
             scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;
             if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
-                scope.isSpecialOperation = true;
+                $rootScope.isSpecialOperation = true;
             } else {
                 if(!scope.specialWork) {
-                    scope.isSpecialOperation = false;
+                    $rootScope.isSpecialOperation = false;
                 }
             }
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
