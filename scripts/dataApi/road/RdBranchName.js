@@ -16,10 +16,10 @@ fastmap.dataApi.RdBranchName=fastmap.dataApi.GeoDataModel.extend({
         this.nameClass = data["nameClass"] || 0;
         this.langCode = data["langCode"] || "CHI";
         this.codeType = data["codeType"] || 0;
-        this.name = data["name"] || "";
-        this.phonetic = data["phonetic"] || "";
+        this.name = data["name"] || "分歧名称";
+        this.phonetic = data["phonetic"] || "Fen Qi Ming Cheng";
         this.srcFlag = data["srcFlag"] || 0;
-        this.voiceFile = data["voiceFile"] || "";
+        this.voiceFile = data["voiceFile"] || "Fenqimingcheng";
     },
 
     getIntegrate:function(){
