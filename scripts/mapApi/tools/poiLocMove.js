@@ -131,23 +131,17 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         return false;
     },
     onMouseUp: function(event){
-        // if(this.selectCtrl.selectedFeatures.lastLocGeo == undefined){//对应15米移位
-        //     var oriData = this.objectCtrl.data.geometry.coordinates;
-        //     this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
-        // }
-        // var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
-        // if( distance <= 15 && this.objectCtrl.data.uRecord == 3){
-        //     var relationShap = {
-        //         "rectData": distance,
-        //         "loadType": "sameRelationShapTplContainer",
-        //         "propertyCtrl": '/WebApp/scripts/components/poi/ctrls/attr-tips/poiRawFieldCtrl',
-        //         "propertyHtml": '/WebApp/scripts/components/poi/tpls/attr-tips/poiRawFieldTpl.html',
-        //         "callback": function() {
-        //             $scope.$emit("showSamePoi");
-        //         }
-        //     };
-        //     $scope.$emit("transitCtrlAndTpl", relationShap);
-        // }
+        if(this.selectCtrl.selectedFeatures.lastLocGeo == undefined){//对应15米移位
+            var oriData = this.objectCtrl.data.geometry.coordinates;
+            this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
+        }
+        var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
+        if( distance > 0 && distance <= 15 && this.objectCtrl.data.uRecord == 3){
+            this.selectCtrl.selectedFeatures.distance = distance;
+            this.eventController.fire(this.eventController.eventTypes.SHOWRAWPOI);
+        }
+        this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x);
+
         this.targetIndex = null;
         this.captureHandler.setTargetIndex(this.targetIndex);
 
