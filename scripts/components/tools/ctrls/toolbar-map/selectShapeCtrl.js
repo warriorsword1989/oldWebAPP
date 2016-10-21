@@ -3,7 +3,7 @@
  * Rebuild by chenx on 2016-07-05
  */
 angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath','$interval',
-    function($scope, $q, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath) {
+    function($scope, $q, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath, $interval) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -787,34 +787,21 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDBRANCH':
-
-                   if(objCtrl.data.relationshipType==2){
-                       toolsObj = {
-                           items: [{
-                               'text': "<a class='glyphicon glyphicon-move'></a>",
-                               'title': "改退出线",
-                               'type': "MODIFYBRANCH_OUT",
-                               'class': "feaf",
-                               callback: $scope.modifyTools
-                           }, {
-                               'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                               'title': "改经过线",
-                               'type': "MODIFYBRANCH_THROUGH",
-                               'class': "feaf",
-                               callback: $scope.modifyTools
-                           }]
-                       };
-                   }else if(objCtrl.data.relationshipType==1){
-                       toolsObj = {
-                           items: [{
-                               'text': "<a class='glyphicon glyphicon-move'></a>",
-                               'title': "改退出线",
-                               'type': "MODIFYBRANCH_OUT",
-                               'class': "feaf",
-                               callback: $scope.modifyTools
-                           }]
-                       }
-                   }
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "改退出线",
+                            'type': "MODIFYBRANCH_OUT",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'title': "改经过线",
+                            'type': "MODIFYBRANCH_THROUGH",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
@@ -2959,6 +2946,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     });
                     return;
                 } else if (type.indexOf('BRANCH') > -1) {
+                    //地图选择配置;
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -2969,53 +2957,109 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     map.currentTool.enable();
                     if (type.split('_')[1] === 'OUT') {
                         tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
+                        eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            //进入线;
+                            highRenderCtrl.highLightFeatures.push({
+                                id: objCtrl.data.inLinkPid.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {
+                                    color: '#5FCD3A'
+                                }
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: objCtrl.data.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {
+                                    color: 'yellow'
+                                }
+                            });
+                            //退出线;
+                            highRenderCtrl.highLightFeatures.push({
+                                id: data.id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                            //绘制当前的退出线和原来的进入线;
+                            highRenderCtrl.drawHighlight();
+                            //设置热键修改时的监听类型;
+                            shapeCtrl.setEditingType("UPDATEBRANCH");
+                            //退出线选完后的鼠标提示;
+                            tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                            //设置修改确认的数据;
+                            featCodeCtrl.setFeatCode({
+                                "nodePid": objCtrl.data.nodePid.toString(),
+                                "inLinkPid": objCtrl.data.inLinkPid.toString(),
+                                "outLinkPid": data.id.toString(),
+                                "pid": objCtrl.data.pid.toString(),
+                                "objStatus": "UPDATE",
+                                "branchType": $scope.selectedFeature.branchType,
+                                'childId': $scope.selectedFeature.id
+                            });
+                        });
                     } else if (type.split('_')[1] === 'THROUGH') {
-                        tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
+                        if(objCtrl.data.relationshipType==2){
+                            tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
+                        }else{
+                            tooltipsCtrl.setCurrentTooltip('关系类型为路口没有经过线！');
+                            var timer = setTimeout(function(){
+                                tooltipsCtrl.onRemoveTooltip();
+                                clearTimeout(timer);
+                            },2000)
+                            return;
+                        }
+                        eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                            //经过线不能选择成退出线和进入线；
+                            var outInArr = [objCtrl.data.outLinkPid,objCtrl.data.inLinkPid];
+                            if(outInArr.indexOf(parseInt(data.id))!=-1){
+                                tooltipsCtrl.setCurrentTooltip('经过线不能为退出线或进入线！');
+                                return;
+                            }else{
+                                //第一次的正确选取；
+                                if(data.properties.id==objCtrl.data.nodePid.toString()&&(data.properties.direct==1||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid))){
+                                    objCtrl.data.vias = [parseInt(data.properties.id)];
+                                    var temparr = [];
+                                    for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                        if(highRenderCtrl.highLightFeatures[i].id==objCtrl.data.outLinkPid||highRenderCtrl.highLightFeatures[i].id==objCtrl.data.inLinkPid||highRenderCtrl.highLightFeatures[i].type=='rdnode'||highRenderCtrl.highLightFeatures[i].type=='relationData'){
+                                            temparr.push(highRenderCtrl.highLightFeatures[i]);
+                                        }
+                                    }
+                                    temparr.push({
+                                        id:data.properties.id.toString(),
+                                        layerid:'rdLink',
+                                        type:'line',
+                                        style:{color:'blue',strokeWidth:3}
+                                    })
+                                }else{//正确选取一根以后
+
+                                }
+
+
+                                highRenderCtrl.highLightFeatures = temparr;
+                                //绘制当前的退出线和原来的进入线;
+                                highRenderCtrl._cleanHighLight();
+                                highRenderCtrl.drawHighlight();
+                                ////设置热键修改时的监听类型;
+                                //shapeCtrl.setEditingType("UPDATEBRANCH");
+                                ////退出线选完后的鼠标提示;
+                                //tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                                ////设置修改确认的数据;
+                                //featCodeCtrl.setFeatCode({
+                                //    "nodePid": objCtrl.data.nodePid.toString(),
+                                //    "inLinkPid": objCtrl.data.inLinkPid.toString(),
+                                //    "outLinkPid": data.id.toString(),
+                                //    "pid": objCtrl.data.pid.toString(),
+                                //    "objStatus": "UPDATE",
+                                //    "branchType": $scope.selectedFeature.branchType,
+                                //    'childId': $scope.selectedFeature.id
+                                //});
+                            }
+                        })
                     }
-                    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                        highRenderCtrl._cleanHighLight();
-                        highRenderCtrl.highLightFeatures = [];
-                        //进入线;
-                        highRenderCtrl.highLightFeatures.push({
-                            id: objCtrl.data.inLinkPid.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {
-                                color: '#5FCD3A'
-                            }
-                        });
-                        highRenderCtrl.highLightFeatures.push({
-                            id: objCtrl.data.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'rdnode',
-                            style: {
-                                color: 'yellow'
-                            }
-                        });
-                        //退出线;
-                        highRenderCtrl.highLightFeatures.push({
-                            id: data.id,
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
-                        //绘制当前的退出线和原来的进入线;
-                        highRenderCtrl.drawHighlight();
-                        //设置热键修改时的监听类型;
-                        shapeCtrl.setEditingType("UPDATEBRANCH");
-                        //退出线选完后的鼠标提示;
-                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
-                        //设置修改确认的数据;
-                        featCodeCtrl.setFeatCode({
-                            "nodePid": objCtrl.data.nodePid.toString(),
-                            "inLinkPid": objCtrl.data.inLinkPid.toString(),
-                            "outLinkPid": data.id.toString(),
-                            "pid": objCtrl.data.pid.toString(),
-                            "objStatus": "UPDATE",
-                            "branchType": $scope.selectedFeature.branchType,
-                            'childId': $scope.selectedFeature.id
-                        });
-                    });
                     return;
                 } else if (type === "MODIFYVARIABLESPEED") {
                     //地图编辑相关设置;
