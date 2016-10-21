@@ -155,24 +155,33 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else {
                         id = data.pid;
                     }
-                    //objEditCtrl.setOriginalData(null);
                     //根据不同的分歧类型加载数据面板;
                     if (typeof branchType === 'undefined') {
                         dsEdit.getByPid(id, type).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
+                            objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate())
+                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                            })
                         });
                     } else if (branchType === 5 || branchType === 7) {
                         dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
+                            objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate())
+                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                            })
                         });
                     } else {
                         dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
+                            objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
+                            ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
+                                scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
+                            })
                         });
                     }
-                    ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
-                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
-                    })
+                    //弹出属性面板;
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": true,
                         "subAttrContainerTpl": false

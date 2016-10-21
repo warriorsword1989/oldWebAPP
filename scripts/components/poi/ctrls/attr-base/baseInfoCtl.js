@@ -154,7 +154,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
      */
     var getTruckByKindChain = function(kindcode,chain,fuelType){
         if(kindcode == "230215"){
-        	fuelType = $scope.poi.gasstations[0].fuelType;
+        	fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
         }
     	var param = {
         		kindCode: kindcode,
