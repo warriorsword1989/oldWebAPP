@@ -24,6 +24,7 @@
         "tools/selectTools/SelectPoi.js",
         "tools/selectTools/SelectObject.js",
         "tools/selectTools/SelectPath.js",
+        "tools/selectTools/SelectGSC.js",
         "tools/selectTools/SelectPolygon.js",
         "tools/selectTools/SelectRelation.js",
         "tools/selectTools/SelectForRectang.js",

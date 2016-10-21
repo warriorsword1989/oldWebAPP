@@ -1119,7 +1119,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
-                        }]
+                        }
+                        // , {
+                        //     'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                        //     'title': "重置",
+                        //     'type': "RESETPOI",
+                        //     'class': "feaf",
+                        //     callback: $scope.modifyPoi
+                        // }
+                        ]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.poi + "ctrls/attr-base/generalBaseCtl";
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html";
@@ -3420,8 +3428,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData, data) {
-                if (data.status == 3) {
-                    swal("提示", "此数据为已提交数据，不能修改几何！", "info");
+                if (data.status == 3 || data.uRecord == 2) {
+                    swal("提示", "数据已提交或者删除，不能修改几何！", "info");
                     return;
                 }
                 var locArr = data.geometry.coordinates;
@@ -3507,6 +3515,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
                     return;
                 }
+            }  else if (type === "RESETPOI") {
+
             } else if (type === "POISAME") {
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);

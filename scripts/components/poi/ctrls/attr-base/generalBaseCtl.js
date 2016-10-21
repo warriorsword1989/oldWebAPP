@@ -381,8 +381,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if(!validateForm()){
             return ;
         }
-        if (objectCtrl.data.status == 3){
-            swal("提示", '此数据为已提交数据，不能做修改属性！', "info");
+        if (objectCtrl.data.status == 3 || objectCtrl.data.uRecord == 2){
+            swal("提示", '数据已提交或者删除，不能做修改属性！', "info");
             return;
         }
         clearDeepInfo();//清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
