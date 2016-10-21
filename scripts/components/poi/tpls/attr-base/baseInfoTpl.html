@@ -23,7 +23,7 @@
                       <div><input fm-edit-view type="text" class="fm-control" ng-model="poi.postCode"/></div>
                   </li>
                   <li>
-                      <label>种 别</label>
+                      <label>分 类</label>
                       <div class="select2-option">
                           <select fm-edit-view class="fm-control" ng-model="poi.kindCode"
                                   no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'" search_contains=true
@@ -51,6 +51,14 @@
                               <input fm-edit-view type="radio" ng-class="{'chosen-disabled':isSpecialOperation,'lv-radio':true}" class="lv-radio" ng-model="poi.level" value="{{lev}}" ng-disabled="isSpecialOperation"> {{lev}}
 
                           </label>
+                      </div>
+                  </li>
+                  <li>
+                      <label>卡 车</label>
+                      <div class="block">
+                            <label ng-repeat="(key, value) in truckTypeOpt">
+                                <input type="radio" value={{key}} name="truckType" ng-model="poi.truckFlag" ng-class="{true:'chosen-disabled'}[truckFlagDisable]" ng-disabled="truckFlagDisable"> {{value}}
+                            </label>
                       </div>
                   </li>
                   <li>

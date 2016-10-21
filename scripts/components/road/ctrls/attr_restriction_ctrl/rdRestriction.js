@@ -59,7 +59,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
                         break;
                     }
                 } else {
-                    var temp = ''+details[j].restricInfo+'';
+                    var temp = '['+details[j].restricInfo+']';
                     if((details[j].flag == 0 || details[j].flag == 2) && temp == resArr[i]){
                         resArrSorted.push(details[j]);
                         break;
@@ -72,7 +72,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
     //初始化数据
     $scope.initializeData = function () {
         //对交限图表进行排序,为了解决属性栏图表顺序和地图上的不一致
-        sortRestricInfo();
+        //sortRestricInfo();
 
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
@@ -159,31 +159,28 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             $(v).removeClass('active');
         });
     };
-    //根据details数组中的每一项获取restricInfo对应的下标
-    $scope.getRestrictInfoIndex = function (item){
-        var restricInfo = objectEditCtrl.data.restricInfo;
-        var restricInfoArr = restricInfo.split(',');
-        var flag = item.flag;
-        var index = -1;
-        if(flag == 1){ //实地交限
-            index = restricInfoArr.indexOf(item.restricInfo+"");
-        } else {  // 0--未验证 2--理论交限
-            index = restricInfoArr.indexOf('['+item.restricInfo+']');
-        }
-        return index;
-    };
+    // //根据details数组中的每一项获取restricInfo对应的下标
+    // $scope.getRestrictInfoIndex = function (item){
+    //     var restricInfo = objectEditCtrl.data.restricInfo;
+    //     var restricInfoArr = restricInfo.split(',');
+    //     var flag = item.flag;
+    //     var index = -1;
+    //     if(flag == 1){ //实地交限
+    //         index = restricInfoArr.indexOf(item.restricInfo+"");
+    //     } else {  // 0--未验证 2--理论交限
+    //         index = restricInfoArr.indexOf('['+item.restricInfo+']');
+    //     }
+    //     return index;
+    // };
 
     //点击限制方向时,显示其有的属性信息
     $scope.showTips = function (item, e, index) {
         highRenderCtrl.highLightFeatures.length = 0;
         highRenderCtrl._cleanHighLight();
         limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
-        $scope.flag = $scope.getRestrictInfoIndex(item);
-        //$scope.flag = index;
-        // $timeout(function () {
-        //     $(".data-empty").trigger('click');
-        //     //$scope.$apply();
-        // });
+
+        //$scope.flag = $scope.getRestrictInfoIndex(item);
+        $scope.flag = index;
         $scope.removeTipsActive();
         $(e.target).addClass('active');
 
@@ -223,9 +220,9 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             return;
         } else {
             $scope.rdRestrictData.details.splice(index,1);
-            var restrictIndex = $scope.getRestrictInfoIndex(item);
+            //var restrictIndex = $scope.getRestrictInfoIndex(item);
             var arr = $scope.rdRestrictData.restricInfo.split(',');
-            arr.splice(restrictIndex,1);
+            arr.splice(index,1);
             $scope.rdRestrictData.restricInfo = arr.join(',');
             $timeout(function () {
                 $(".show-tips:first").trigger('click');

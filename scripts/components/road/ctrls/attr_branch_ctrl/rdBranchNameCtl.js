@@ -1,16 +1,16 @@
 /**
- * Created by wangmingdong on 2016/8/10.
+ * Created by mali on 2016/10/21.
  */
 
-angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
+angular.module("app").controller("RdBranchNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
-	$scope.tollGateNames = objCtrl.namesInfos;
+	$scope.rdBranchNames = objCtrl.namesInfos;
 	$scope.selectedLangcodeArr = [];
 	var getSelectedLangcode = function() {
 		$scope.selectedLangcodeArr.length = 0;
-		for(var k in $scope.tollGateNames) {
-			if($scope.selectedLangcodeArr.indexOf($scope.tollGateNames[k].langCode) < 0) {
-				$scope.selectedLangcodeArr.push($scope.tollGateNames[k].langCode);
+		for(var k in $scope.rdBranchNames) {
+			if($scope.selectedLangcodeArr.indexOf($scope.rdBranchNames[k].langCode) < 0) {
+				$scope.selectedLangcodeArr.push($scope.rdBranchNames[k].langCode);
 			}
 		}
 	};
@@ -32,13 +32,13 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 	// 增加名称信息
 	$scope.addNameInfo = function(){
 		for(var i=0;i<$scope.langCodeOptions.length;i++){
-			for(var j=0;j<$scope.tollGateNames.length;j++){
+			for(var j=0;j<$scope.rdBranchNames.length;j++){
 				var flag = false;
-				if($scope.langCodeOptions[i].id == $scope.tollGateNames[j].langCode){
+				if($scope.langCodeOptions[i].id == $scope.rdBranchNames[j].langCode){
 					break;
 				}
-				if($scope.langCodeOptions[i].id != $scope.tollGateNames[j].langCode  && j==$scope.tollGateNames.length-1){
-					$scope.tollGateNames.push(fastmap.dataApi.rdTollgateName({"nameGroupid":$scope.tollGateNames[0].nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
+				if($scope.langCodeOptions[i].id != $scope.rdBranchNames[j].langCode  && j==$scope.rdBranchNames.length-1){
+					$scope.rdBranchNames.push(fastmap.dataApi.lcFaceName({"nameGroupid":$scope.rdBranchNames[0].nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
 					flag = true;
 					break;
 				}
@@ -87,8 +87,4 @@ angular.module("app").controller("TollGateNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 		{"id": "UKR", "label": "乌克兰语"},
 		{"id": "SCR", "label": "克罗地亚语"}
 	];
-	$scope.$on('refreshTollgateName',function(data){
-		$scope.tollGateNames = objCtrl.namesInfos;
-	});
-	
 }])

@@ -16,6 +16,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.electronicEyeData = objCtrl.data;
 		conversionSystem();
+		$scope.changeElecType($scope.electronicEyeData.kind);
 		if($scope.electronicEyeData.pairs.length){
 			if($scope.electronicEyeData.pairs[0].parts[0].eleceyePid == $scope.electronicEyeData.pid){
 				$scope.elecPartPid = $scope.electronicEyeData.pairs[0].parts[1].eleceyePid;
@@ -36,7 +37,6 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		highRenderCtrl.drawHighlight();
 
 	};
-	$scope.initializeData();
 	$scope.refreshData = function () {
 		dsEdit.getByPid(parseInt($scope.electronicEyeData.pid), "RDELECTRONICEYE").then(function (data) {
 			if (data) {
@@ -48,20 +48,20 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 
 	/*十进制转二进制*/
 	function conversionSystem() {
-		$scope.electronicEyeData.location = parseInt(objCtrl.data.location, 10).toString(2);
-		if (objCtrl.data.location) {
-			if (objCtrl.data.location.length == 1) {
+		$scope.electronicEyeData.locations = parseInt(objCtrl.data.location, 10).toString(2);
+		if ($scope.electronicEyeData.locations) {
+			if ($scope.electronicEyeData.locations.length == 1) {
 				$scope.electronicEyeData.locationLeft = 0;
 				$scope.electronicEyeData.locationRight = 0;
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location;
-			} else if (objCtrl.data.location.length == 2) {
+				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.locations;
+			} else if ($scope.electronicEyeData.locations.length == 2) {
 				$scope.electronicEyeData.locationLeft = 0;
-				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.location.substr(0, 1);
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location.substr(1, 1);
-			} else if (objCtrl.data.location.length == 3) {
-				$scope.electronicEyeData.locationLeft = $scope.electronicEyeData.location.substr(0, 1);
-				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.location.substr(1, 1);
-				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.location.substr(2, 1);
+				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.locations.substr(0, 1);
+				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.locations.substr(1, 1);
+			} else if ($scope.electronicEyeData.locations.length == 3) {
+				$scope.electronicEyeData.locationLeft = $scope.electronicEyeData.locations.substr(0, 1);
+				$scope.electronicEyeData.locationRight = $scope.electronicEyeData.locations.substr(1, 1);
+				$scope.electronicEyeData.locationTop = $scope.electronicEyeData.locations.substr(2, 1);
 			}
 		}
 	}
@@ -105,6 +105,15 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 		}
 	};
 
+	//改变电子眼类型
+	$scope.changeElecType = function(type){
+		if(type == 1 || type == 2 || type == 3 || type ==20 || type == 21){
+			$scope.electronicEyeData.isSpeedlimit = true;
+		}else{
+			$scope.electronicEyeData.isSpeedlimit = false;
+			$scope.electronicEyeData.speedLimit = 0;
+		}
+	};
 	/*电子眼类型*/
 	$scope.elecEyeType = [
 		{"id": 0, "label": "未调查"},
@@ -168,9 +177,35 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 			})
 		});
 	};
+	/*定位配对电子眼位置*/
+	$scope.findPartElecLocation = function(pid){
+		dsEdit.getByPid(pid, 'RDELECTRONICEYE').then(function(data) {
+			if (!data) {
+				return;
+			}
+			if (data.errcode === -1) {
+				swal("", data.errmsg, "提示信息");
+				return;
+			}
+			map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
 
+			var highLightFeatures = [];
+			highLightFeatures.push({
+				id: data.linkPid.toString(),
+				layerid: 'rdLink',
+				type: 'line',
+				style: {
+					size: 5
+				}
+			});
+			highRenderCtrl.highLightFeatures = highLightFeatures;
+			highRenderCtrl.drawHighlight();
+			objCtrl.setCurrentObject("RDELECTRONICEYE", data);
+		});
+	};
+	$scope.initializeData();
 	$scope.save = function () {
-		objCtrl.data.location = bin2dec($scope.electronicEyeData.locationLeft + '' + $scope.electronicEyeData.locationRight + '' + $scope.electronicEyeData.locationTop);
+		objCtrl.data.location = bin2dec($scope.electronicEyeData.locationLeft + '' + $scope.electronicEyeData.locationRight + '' + $scope.electronicEyeData.locationTop) ;
 		objCtrl.save();
 		if (!objCtrl.changedProperty) {
 			swal("操作成功", '属性值没有变化！', "success");
@@ -196,7 +231,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				}
 				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
-				swal("操作成功", "修改电子眼成功！", "success");
+				// swal("操作成功", "修改电子眼成功！", "success");
 			}
 			$scope.refreshData();
 		})

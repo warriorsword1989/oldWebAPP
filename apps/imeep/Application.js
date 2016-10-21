@@ -23,43 +23,42 @@ App.Temp = {
         RDLANECONNEXITY: '车信',
         RDLINKINTRTIC: '实时信息',
         RDGSC: '立交',
-        RDWARNINGINFO:'警示信息',
-        RDVARIABLESPEED:'可变限速',
-        RDTRAFFICSIGNAL:'信号灯',
-        RDELECTRONICEYE:'电子眼',
-        RDSLOPE:'坡度',
-        RDGATE:'大门',
-        RDDIRECTROUTE:'顺行',
-        RDSPEEDBUMP:'减速带',
-        RDSE:'分叉口',
-        RDINTER:'CRF交叉点',
-        RDROAD:'CRF道路',
-        RDOBJECT:'CRF对象',
-        RDTOLLGATE:'收费站',
-        RDVOICEGUIDE:'语音引导',
-        RDSAMENODE:'同一点',
-        RDSAMELINK:'同一线',
-        RDLANE:'详细车道',
-        RDLINK:'道路线',
-        ADADMIN:'行政区划代表点',
-        ADNODE:'行政区划组成点',
-        ADLINK:'行政区划组成线',
-        ADFACE:'行政区划组成面',
-        RWNODE:'铁路点',
-        RWLINK:'铁路线',
-        ZONENODE:'ZONE组成点',
-        ZONELINK:'ZONE组成线',
-        ZONEFACE:'ZONE组成面',
-        LUNODE:'LU点',
-        LULINK:'LU线',
-        LUFACE:'LU面',
-        LCNODE:'LC(土地覆盖)-点',
-        LCLINK:'LC(土地覆盖)-线',
-        LCFACE:'LC(土地覆盖)-面',
-        IXPOI:'兴趣点（POI）',
-        RDNODE:'道路点',
-        RDLINKSPEEDLIMIT:'线限速'
-
+        RDWARNINGINFO: '警示信息',
+        RDVARIABLESPEED: '可变限速',
+        RDTRAFFICSIGNAL: '信号灯',
+        RDELECTRONICEYE: '电子眼',
+        RDSLOPE: '坡度',
+        RDGATE: '大门',
+        RDDIRECTROUTE: '顺行',
+        RDSPEEDBUMP: '减速带',
+        RDSE: '分叉口',
+        RDINTER: 'CRF交叉点',
+        RDROAD: 'CRF道路',
+        RDOBJECT: 'CRF对象',
+        RDTOLLGATE: '收费站',
+        RDVOICEGUIDE: '语音引导',
+        RDSAMENODE: '同一点',
+        RDSAMELINK: '同一线',
+        RDLANE: '详细车道',
+        RDLINK: '道路线',
+        ADADMIN: '行政区划代表点',
+        ADNODE: '行政区划组成点',
+        ADLINK: '行政区划组成线',
+        ADFACE: '行政区划组成面',
+        RWNODE: '铁路点',
+        RWLINK: '铁路线',
+        ZONENODE: 'ZONE组成点',
+        ZONELINK: 'ZONE组成线',
+        ZONEFACE: 'ZONE组成面',
+        LUNODE: 'LU点',
+        LULINK: 'LU线',
+        LUFACE: 'LU面',
+        LCNODE: 'LC(土地覆盖)-点',
+        LCLINK: 'LC(土地覆盖)-线',
+        LCFACE: 'LC(土地覆盖)-面',
+        IXPOI: '兴趣点（POI）',
+        RDNODE: '道路点',
+        RDLINKSPEEDLIMIT: '线限速'
     },
     thematicMapFlag: false
 };
@@ -77,30 +76,30 @@ App.Util = {
     getSpecUrl: function(url) {
         return App.Config.specialUrl + "/" + url + "?access_token=" + (App.Temp.accessToken || "");
     },
-    createTileRequestObject: function(url, requestType) {
+    createTileRequestObject: function(url, layerOptions) {
         var reqObj = {};
         reqObj.url = App.Config.serviceUrl + url;
         reqObj.parameter = {
             dbId: App.Temp.dbId,
-            gap: 80
+            gap: layerOptions.gap || 10
         }
-        if (requestType) {
-            reqObj.parameter['types'] = requestType.split(',');
-            if (requestType == "RDLINK") { //小于17级的时候用hbase渲染道路
+        if (layerOptions.requestType) {
+            reqObj.parameter['types'] = layerOptions.requestType.split(',');
+            if (reqObj.parameter.types.indexOf('RDLINK') >= 0 || reqObj.parameter.types.indexOf('RDLINKINTRTIC') >= 0) {
                 reqObj.hbaseUrl = reqObj.url;
             }
         }
         return reqObj;
     },
-    createTileRequestObjectForTips: function(url, requestType) {
+    createTileRequestObjectForTips: function(url, layerOptions) {
         var reqObj = {};
         reqObj.url = App.Config.serviceUrl + url;
         reqObj.parameter = {
-            gap: 80,
+            gap: layerOptions.gap || 10,
             mdFlag: App.Temp.mdFlag,
         }
-        if (requestType) {
-            reqObj.parameter['types'] = requestType.split(',');
+        if (layerOptions.requestType) {
+            reqObj.parameter['types'] = layerOptions.requestType.split(',');
         }
         return reqObj;
     },

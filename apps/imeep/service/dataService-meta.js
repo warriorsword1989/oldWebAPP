@@ -57,6 +57,24 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
         });
         return defer.promise;
     };
+    //获取卡车信息
+    this.queryTruck = function(param) {
+        var defer = $q.defer();
+        ajax.get("metadata/queryTruck/", {
+            parameter: JSON.stringify({
+            	 kindCode: param.kindCode,
+                 chain: param.chain,
+                 fuelType:param.fuelType
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取卡车信息出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
     //根据分类和品牌获取等级
     this.getChainLevel = function(kindCode,chainCode) {
         var defer = $q.defer();
@@ -160,7 +178,11 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data);
+                if(data.data.phonetic.indexOf('ERROR') > -1){
+                    defer.resolve(-1);
+                }else{
+                    defer.resolve(data);
+                }
             } else {
                 swal("查询数据出错：", data.errmsg, "error");
                 defer.resolve(-1);

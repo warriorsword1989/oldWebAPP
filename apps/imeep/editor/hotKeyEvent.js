@@ -155,11 +155,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else {
                         id = data.pid;
                     }
-                    //objEditCtrl.setOriginalData(null);
                     //根据不同的分歧类型加载数据面板;
                     if (typeof branchType === 'undefined') {
                         dsEdit.getByPid(id, type).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
+                            objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate())
                             ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                 scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                             })
@@ -167,6 +167,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else if (branchType === 5 || branchType === 7) {
                         dsEdit.getBranchByRowId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
+                            objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate())
                             ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                 scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                             })
@@ -174,15 +175,18 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     } else {
                         dsEdit.getBranchByDetailId(rowid_deatailId, branchType).then(function (data) {
                             objEditCtrl.setCurrentObject(type, data);
+                            objEditCtrl.setOriginalData(objEditCtrl.data.getIntegrate());
                             ocLazyLoad.load(appPath.road + 'ctrls/' + ctrl).then(function () {
                                 scope.attrTplContainer = appPath.root + appPath.road + 'tpls/' + tpl;
                             })
                         });
                     }
+                    //弹出属性面板;
                     scope.$emit("SWITCHCONTAINERSTATE", {
                         "attrContainerTpl": true,
                         "subAttrContainerTpl": false
                     });
+
                 } else {
                     dsEdit.getByPid(data.pid, "IXPOI").then(function (rest) {
                         if (rest) {
@@ -441,7 +445,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         var directOfLink = {
                             "objStatus": "UPDATE",
                             "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct)
+                            "direct": parseInt(selectCtrl.selectedFeatures.direct),
+                            "laneNum":objEditCtrl.data.laneNum,
+                            "direct": objEditCtrl.data.direct,
+                            "laneLeft":objEditCtrl.data.laneLeft,
+                            "laneRight":objEditCtrl.data.laneRight
                         };
                         param = {
                             "type": "RDLINK",
@@ -449,14 +457,16 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             "dbId": App.Temp.dbId,
                             "data": directOfLink
                         };
+                        console.log(objEditCtrl)
                         dsEdit.save(param).then(function (data) {
+                            evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                             if (data != null) {
                                 rdLink.redraw();
                                 rdnode.redraw();
-                                treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                                //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
                             }
                         });
-
+                        //evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                     } else {
                         pointOfArrow = geo.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
@@ -998,8 +1008,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "poiAdd") {
             	var html = '<div style="height:120px">'+
-                        '<input id="name" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text"/>'+
-                        '<select class="form-control" style="width:230px;margin-left:105px;" id="kind"></select>'+
+                        '<input id="poiAddName" class="form-control" style="display:inline-block;width:230px;height:30px;" placeholder="请输入名称" type="text"/>'+
+                        '<select class="form-control" style="width:230px;margin-left:105px;" id="poiAddKind"></select>'+
                       '<div>';
 	            	swal({
 	            		  title: "请输入以下内容",
@@ -1013,8 +1023,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	            		  confirmButtonColor: "#ec6c62"
 	            		},
 	            		function(){
-	            		  var name = $("#name").val();
-                       	  var kindCode = $("#kind").val();
+	            		  var name = $("#poiAddName").val();
+                       	  var kindCode = $("#poiAddKind").val();
 	                      if(!name || kindCode == 0){
 	                      		 swal("创建POI失败", "名称或分类为空" , "error");
 	                      		 return;
@@ -1055,7 +1065,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                          }
 	                      });
 	            		});
-            		$("#kind").select2({
+            		$("#poiAddKind").select2({
                         width: "230px",
                         placeholder: "请选择分类",
                         allowClear: false,
@@ -1077,7 +1087,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 });
             } else if (shapeCtrl.editType === "gate") {    //大门
-                if(!featCodeCtrl.getFeatCode().inLinkPid){return;}
                 var gate = featCodeCtrl.getFeatCode();
                 if (!(gate.nodePid && gate.inLinkPid && gate.outLinkPid )) {
                     swal("操作失败", "请选进入线和进入点以及退出线", "error");
@@ -1208,10 +1217,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 };
                 var oriData = objEditCtrl.data;
                 param.data.pid = oriData.pid ;
+                if (parseInt(featCodeCtrl.getFeatCode().linkPid) != oriData.linkPid) {
+                    param.data.linkPid = parseInt(featCodeCtrl.getFeatCode().linkPid);
+                }
                 if (featCodeCtrl.getFeatCode().linkPids.length != oriData.slopeVias.length) {
                     param.data.linkPids = featCodeCtrl.getFeatCode().linkPids;
                 }
-                if (param.data.linkPids == undefined ) {
+                if (param.data.linkPids == undefined && param.data.linkPid == undefined) {
                     swal("操作失败", "坡度没有发生修改！", "info");
                     return;
                 }

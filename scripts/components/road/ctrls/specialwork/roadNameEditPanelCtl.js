@@ -117,6 +117,42 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
 			{"id": 0, "label": "是"},
 			{"id": 1, "label": "否"}
 		];
+		$scope.adminOpt = [
+		    {"id": 214, "label": "全国"},
+		    {"id": 110000, "label": "北京"},
+		    {"id": 120000, "label": "天津"},
+		    {"id": 130000, "label": "河北"},
+		    {"id": 140000, "label": "山西"},
+		    {"id": 150000, "label": "内蒙古"},
+		    {"id": 210000, "label": "辽宁"},
+		    {"id": 220000, "label": "吉林"},
+		    {"id": 230000, "label": "黑龙江"},
+		    {"id": 310000, "label": "上海"},
+		    {"id": 320000, "label": "江苏"},
+		    {"id": 330000, "label": "浙江"},
+		    {"id": 340000, "label": "安徽"},
+		    {"id": 350000, "label": "福建"},
+		    {"id": 360000, "label": "江西"},
+		    {"id": 370000, "label": "山东"},
+		    {"id": 410000, "label": "河南"},
+		    {"id": 420000, "label": "湖北"},
+		    {"id": 430000, "label": "湖南"},
+		    {"id": 440000, "label": "广东"},
+		    {"id": 450000, "label": "广西"},
+		    {"id": 460000, "label": "海南"},
+		    {"id": 500000, "label": "重庆"},
+		    {"id": 510000, "label": "四川"},
+		    {"id": 520000, "label": "贵州"},
+		    {"id": 530000, "label": "云南"},
+		    {"id": 540000, "label": "西藏"},
+		    {"id": 610000, "label": "陕西"},
+		    {"id": 620000, "label": "甘肃"},
+		    {"id": 630000, "label": "青海"},
+		    {"id": 640000, "label": "宁夏"},
+		    {"id": 650000, "label": "新疆"},
+		    {"id": 810000, "label": "香港"},
+		    {"id": 820000, "label": "澳门"}
+		];
 		$scope.hwInfoFlag = 1;
 		$scope.initializeData = function(){
 			var type = $scope.roadNameFlag;
@@ -155,12 +191,14 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.langCodeDisable = true;//语言类型
         		if($scope.roadNameData.langCode == "ENG"){
         			$scope.codeTypeDisable = true;//国家编号
-        			$scope.adminIdEditable = false;//行政区划
+        			$scope.adminIdDisable = true;//行政区划
+//        			$scope.adminIdEditable = false;//行政区划
         			$scope.roadTypeDisable = true;//道路类型
         			$scope.nameDisable = true;//道路名称
         		}else if($scope.roadNameData.langCode == "CHI"){
         			$scope.codeTypeDisable = false;//国家编号
-        			$scope.adminIdEditable = true;//行政区划
+        			$scope.adminIdDisable = false;//行政区划
+//        			$scope.adminIdEditable = true;//行政区划
         			$scope.roadTypeDisable = false;//道路类型
         			$scope.nameDisable = false;//道路名称
         		}
@@ -178,7 +216,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.nameGroupidEditable = true;//道路组id
         		$scope.langCodeDisable = false;//语言类型
         		$scope.codeTypeDisable = false;//国家编号
-    			$scope.adminIdEditable = true;//行政区划
+        		$scope.adminIdDisable = false;//行政区划
+//    			$scope.adminIdEditable = true;//行政区划
     			$scope.roadTypeDisable = false;//道路类型
     			$scope.nameDisable = false;//道路名称
     		}
@@ -409,7 +448,8 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.voiceFileDisable = true;//名称语音
         		$scope.srcFlagDisable = true;//名称来源
         		$scope.codeTypeDisable = true;//国家编号
-    			$scope.adminIdEditable = false;//行政区划
+        		$scope.adminIdDisable = true;//行政区划
+//    			$scope.adminIdEditable = false;//行政区划
     			$scope.hwInfoFlagDisable = true;
         	}else if(obj.roadNameData.roadType == 3){//出口编号
         		$scope.typeEditable = false;//类型名称
@@ -440,6 +480,24 @@ angular.module('app').controller("RoadNameEditPanelCtl", ['$scope', '$ocLazyLoad
         		$scope.infixOpt = infixOpt_CHI;
         		$scope.suffixOpt = suffixOpt_CHI;
         	}
+        };
+        /***
+         * adminId 切换事件
+         */
+        $scope.adminIdChange = function(event, obj) {
+        	$scope.roadNameData.adminName = getNameById(obj.roadNameData.adminId);
+        };
+        /**
+         * 根据adminid 获取adminname
+         */
+        var getNameById = function(adminId){
+        	var name;
+        	for(var i=0;i<$scope.adminOpt.length;i++){
+        		if($scope.adminOpt[i].id == adminId){
+        			name = $scope.adminOpt[i].label;
+        		}
+        	}
+        	return name;
         };
         /*start 事件监听 *********************************************************/
         eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeData);

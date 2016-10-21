@@ -24,7 +24,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             map: this._map,
             shapeEditor: this.shapeEditor,
             selectedSnap: false,
-            snapLine: false,
+            snapLine: true,
             snapNode: true,
             snapVertex: false
         });

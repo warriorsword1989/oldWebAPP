@@ -166,7 +166,8 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 					$scope.$emit("transitCtrlAndTpl", showNameObj);
 				}
 			};
-			objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
+//			objCtrl.namesInfos = $scope.nameGroup[nameGroupid-1];
+			objCtrl.namesInfos = $scope.getItemByNameGroupid($scope.nameGroup,nameGroupid);
 			$scope.$emit("transitCtrlAndTpl", showNameInfoObj);
 		} else {
 			tempCtr = appPath.road + 'ctrls/attr_tollgate_ctrl/tollGatePassageCtrl';
@@ -183,6 +184,26 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 		$scope.tollGateNameData = detailInfo;
 		// objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 	};
+	/****
+     * 根据nameGroupid获取对应的数据
+     */
+    $scope.getItemByNameGroupid = function(arr,nameGroupid){
+    	var index = -1;
+    	var item;
+    	for(var i=0;i<arr.length;i++){
+    		for(var j=0;j<arr[i].length;j++){
+    			if(arr[i][j].nameGroupid == nameGroupid){
+    				index = i;
+    				break;
+    			};
+    		}
+    		if(index >=0){
+    			item = arr[i];
+    			break;
+    		};
+    	};
+    	return item;
+    };
 	/*自动计算ETC代码*/
 	$scope.changeEtcCode = function () {
 		var _code = '',
@@ -242,7 +263,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 							if($scope.tollGateData.passages[i-1]['tollForm'] == 1){
 								if(i<_times+2){
 									_left = 1;
-								}else if(i < passageLen-_times+1 ){
+								}else if(i < ((passageLen+1)/3)*2 ){
 									_middle = 1;
 								}else{
 									_right = 1;
@@ -259,7 +280,10 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 	$scope.addItem = function (type) {
 		if (type == 'name') {
 			$scope.refreshNames();
-			var maxNameGroupId = Utils.getArrMax($scope.tollGateData.names,'nameGroupid');
+			var maxNameGroupId = 0;
+			if($scope.tollGateData.names.length>0){
+				maxNameGroupId = Utils.getArrMax($scope.tollGateData.names,'nameGroupid');
+			}
 			objCtrl.data.names.push(fastmap.dataApi.rdTollgateName({nameGroupid:maxNameGroupId+1}));
 			initNameInfo();
 		} else {
@@ -434,7 +458,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				}
 				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
-				swal("操作成功", "修改收费站成功！", "success");
+				// swal("操作成功", "修改收费站成功！", "success");
 				$('body .carTypeTip:last').hide();
 				$scope.$emit('SWITCHCONTAINERSTATE', {
 					'subAttrContainerTpl': false,

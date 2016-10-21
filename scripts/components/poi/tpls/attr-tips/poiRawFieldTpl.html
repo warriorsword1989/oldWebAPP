@@ -1,0 +1,31 @@
+<div ng-controller="RawFieldController">
+    <div ng-class="{true:'divMsgBack',false:'divMsgHide'}[raw.rawTplShow]"></div>
+    <div ng-class="{true:'divMsg',false:'divMsgHide'}[raw.rawTplShow]">
+        <div style="font-size: 16px;font-weight: bold;margin-bottom: 5px;">移动的距离是{{distance}}米，确定要移动吗？</div>
+        <span>注：确认选择移动原因并点击是，否则请点击否。</span>
+        <div class="content" style="height: 180px;margin-top: 10px;">
+            <div class="fm-fitsize scroll-styled">
+                <table ng-if="true" class="table">
+                    <tbody>
+                    <tr >
+                        <td style="width:15%"><input type="radio" name="rawFied" ng-click="changeRawField(8)" checked ></td>
+                        <td class="tdWidthText"><span>与道路逻辑关系调整</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%"><input type="radio" name="rawFied" ng-click="changeRawField(9)" ></td>
+                        <td class="tdWidthText"><span>与设施逻辑关系调整</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%"><input type="radio" name="rawFied" ng-click="changeRawField(10)" ></td>
+                        <td class="tdWidthText"><span>精度调整</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-sm btn-lev" ng-click="saveRaw();">是</button>
+            <button type="button" class="btn btn-sm btn-lev" ng-click="clearRaw();">否</button>
+        </div>
+    </div>
+</div>
