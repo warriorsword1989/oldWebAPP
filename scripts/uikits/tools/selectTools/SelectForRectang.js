@@ -51,7 +51,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
             this._map.dragging.disable();
         }
         this.container.style.cursor = 'crosshair';
-        this._map.on('click', this.onMouseDown, this);
+        this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
 
     },
@@ -69,7 +69,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
             this.container.style.cursor = '';
 
             this._map
-                .off('click', this.onMouseDown, this)
+                .off('mousedown', this.onMouseDown, this)
                 .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
@@ -85,6 +85,11 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
     },
 
     onMouseDown: function (e) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(e.originalEvent.button > 0) {
+            return;
+        }
         this._isDrawing = true;
         this._startLatLng = e.latlng;
         if (this._map.getPanes().overlayPane.style.zIndex === "1") {

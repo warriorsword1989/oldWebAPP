@@ -32,7 +32,7 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        this._map.on('click', this.onMouseDown, this);
+        this._map.on('mousedown', this.onMouseDown, this);
         if(L.Browser.touch){
             this._map.on('click', this.onMouseDown, this);
         }
@@ -45,7 +45,7 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function () {
-        this._map.off('click', this.onMouseDown, this);
+        this._map.off('mousedown', this.onMouseDown, this);
         if(L.Browser.touch){
             this._map.off('click', this.onMouseDown, this);
         }
@@ -62,6 +62,11 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
 
 
     onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
         if(this.start){
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));

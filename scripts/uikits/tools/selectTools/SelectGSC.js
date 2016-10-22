@@ -49,7 +49,7 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function() {
-        this._map.on('click', this.onMouseDown_np, this);
+        this._map.on('mousedown', this.onMouseDown_np, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown_np, this);
             this.snapHandler.disable();
@@ -59,7 +59,7 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function() {
-        this._map.off('click', this.onMouseDown_np, this);
+        this._map.off('mousedown', this.onMouseDown_np, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown_np, this);
         }
