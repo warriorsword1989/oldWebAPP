@@ -332,7 +332,7 @@
                         <ul ng-repeat="pendSubItem in pendSubItems">
                             <li ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '"
                                 ng-click="showTab(pendSubItem,$event,pendItem.id,$index)" ng-class="{true:'selected'}[pendingStyleArr[$index]]">
-                                <label>{{pendSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                                <label>{{(pendSubItem.m.e == '')?'未命名': (pendSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss')}}</label>
                             </li>
                         </ul>
                     </li>
@@ -359,7 +359,7 @@
                             <li ng-if="solveSubItem.i!=''||solveSubItem.i!=null||solveSubItem.i!=' '"
                                 ng-click="showTab(solveSubItem,$event,solveItem.id,$index)"
                                 ng-class="{true:'selected'}[solvedStyleArr[$index]]">
-                                <label>{{solveSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss'}}</label>
+                                <label>{{(solveSubItem.m.e == '') ? '未命名':(solveSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss')}}</label>
                             </li>
                         </ul>
                     </li>
