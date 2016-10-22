@@ -120,10 +120,10 @@ angular.module('app').controller('SpecialWorkListCtl', ['$scope', 'NgTableParams
                 getValue: getKindName,
                 show: true
             }, {
-                field: "uRecord",
+                field: "state",
                 title: "更新记录",
                 width: '60px',
-                sortable: "uRecord",
+                sortable: "state",
                 show: false
             }, {
                 field: "collectTime",

@@ -31,7 +31,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;
-            if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
+            //if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
+            if(data.status == 3 || data.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
                 $rootScope.isSpecialOperation = true;
             } else {
                 if(!scope.specialWork) {
@@ -138,10 +139,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                 width: '30px',
                 show: true
             }, {
-                field: "uRecord",
+                field: "state",
                 title: "状态",
                 width: '30px',
-                sortable: "uRecord",
+                sortable: "state",
                 getValue: getState,
                 show: true
             }, {
@@ -297,7 +298,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
 
         }
         function getState(scope, row) {
-            return $sce.trustAsHtml({1: '增', 2:'删', 3:'改'}[row.uRecord]);
+            return $sce.trustAsHtml({0:'无',1: '增', 2:'删', 3:'改'}[row.state]);
         }
         scope.highlightPoi = function(pid) {
             highRenderCtrl._cleanHighLight();

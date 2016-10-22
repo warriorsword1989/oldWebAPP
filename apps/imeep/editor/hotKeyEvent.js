@@ -925,6 +925,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (data != null) {
                         rdLink.redraw();
                         rdnode.redraw();
+                        relationData.redraw();
                         treatmentOfChanged(data, "RDLINK", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
                     }
                 })

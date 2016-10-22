@@ -3438,7 +3438,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData, data) {
-                if (data.status == 3 || data.uRecord == 2) {
+                if (data.status == 3 || data.state == 2) {
                     swal("提示", "数据已提交或者删除，不能修改几何！", "info");
                     return;
                 }
