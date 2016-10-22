@@ -565,14 +565,48 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             if (pro.direct == 1) {
                                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                                var link = linkArr;
-                                // for (var i = 0, len = link.length; i < len; i++) {
-                                //     pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
-                                //     if (pointsOfDis < minLen) {
-                                //         minLen = pointsOfDis;
-                                //         pointForAngle = link[i];
-                                //     }
-                                // }
+                                var link = data.geometry.coordinates;
+
+                                //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
+                                //并用斜率判断默认值
+                                var index = 0;
+                                for (var i = 0, len = linkArr.length-1; i < len; i++) {
+                                    var distance = L.LineUtil.pointToSegmentDistance( map.latLngToContainerPoint([point.y,point.x]), map.latLngToContainerPoint(L.latLng(linkArr[i][1], linkArr[i][0])), map.latLngToContainerPoint(L.latLng(linkArr[i+1][1], linkArr[i+1][0])))
+                                    if (distance < 5) {
+                                        var latlng = L.latLng(point.y,point.x);
+                                        index = i;
+                                        linkArr.splice(index + 1, 0, [latlng.lng, latlng.lat])
+                                        break;
+                                    }
+                                }
+
+                                var spoint = map.latLngToContainerPoint([linkArr[index][1], linkArr[index][0]]),
+                                  hitpoint = map.latLngToContainerPoint([point.y,point.x]);
+
+                                //计算斜率，顺向2，逆向3
+                                var k = (spoint.y -hitpoint.y)/(spoint.x - hitpoint.x);
+                                var anglex = Math.atan(k);
+                                if(k > 0){
+                                    if(hitpoint.y < spoint.y){
+                                        anglex  = anglex + Math.PI
+                                    }
+                                }
+                                if(k == 0){
+                                    if(hitpoint.x < spoint.x){
+                                        anglex = anglex + Math.PI
+                                    }
+                                }
+
+                                if(k < 0){
+                                    if(hitpoint.y > spoint.y){
+                                        anglex  = anglex + Math.PI
+                                    }
+                                }
+                                //删除插入点
+                                linkArr.splice(index + 1);
+
+
+
                                 pointForAngle = link[link.length-1];
                                 angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
@@ -580,7 +614,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     point: point,
                                     type: "marker",
                                     angle: angle,
-                                    orientation: "2",
+                                    orientation: orientation,
                                     pointForDirect: point
                                 };
                                 layerCtrl.pushLayerFront('edit');
@@ -1227,25 +1261,67 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 direct: pro.direct,
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
+
+                            var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
+
+
                             var linkArr = data.geometry.coordinates,
                                 points = [];
                             if (pro.direct == 1) {
-                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
-                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                                var link = linkArr;
-                                for (var i = 0, len = link.length; i < len; i++) {
-                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
-                                    if (pointsOfDis < minLen) {
-                                        minLen = pointsOfDis;
-                                        pointForAngle = link[i];
+                                //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
+                                //并用斜率判断默认值
+                                var index = 0;
+                                for (var i = 0, len = linkArr.length-1; i < len; i++) {
+                                    var distance = L.LineUtil.pointToSegmentDistance( map.latLngToContainerPoint([point.y,point.x]), map.latLngToContainerPoint(L.latLng(linkArr[i][1], linkArr[i][0])), map.latLngToContainerPoint(L.latLng(linkArr[i+1][1], linkArr[i+1][0])))
+                                    if (distance < 5) {
+                                        var latlng = L.latLng(point.y,point.x);
+                                        index = i;
+                                        linkArr.splice(index + 1, 0, [latlng.lng, latlng.lat])
+                                        break;
                                     }
                                 }
-                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
+
+                                var spoint = map.latLngToContainerPoint([linkArr[index][1], linkArr[index][0]]),
+                                  hitpoint = map.latLngToContainerPoint([point.y,point.x]);
+
+                                //计算斜率，顺向2，逆向3
+                                var k = (spoint.y -hitpoint.y)/(spoint.x - hitpoint.x);
+                                var anglex = Math.atan(k);
+                                if(k > 0){
+                                    if(hitpoint.y < spoint.y){
+                                        anglex  = anglex + Math.PI
+                                    }
+                                }
+                                if(k == 0){
+                                    if(hitpoint.x < spoint.x){
+                                        anglex = anglex + Math.PI
+                                    }
+                                }
+
+                                if(k < 0){
+                                    if(hitpoint.y > spoint.y){
+                                        anglex  = anglex + Math.PI
+                                    }
+                                }
+                                //删除插入点
+                                linkArr.splice(index + 1);
+
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
+                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                //var link = data.geometry.coordinates;
+                                // for (var i = 0, len = link.length; i < len; i++) {
+                                //     pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
+                                //     if (pointsOfDis < minLen) {
+                                //         minLen = pointsOfDis;
+                                //         pointForAngle = link[i];
+                                //     }
+                                // }
+                                // angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
                                     flag: false,
                                     point: point,
                                     type: "marker",
-                                    angle: angle,
+                                    angle: anglex,
                                     orientation: "2",
                                     pointForDirect: point
                                 };
@@ -1253,6 +1329,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 var sObj = shapeCtrl.shapeEditorResult;
                                 editLayer.drawGeometry = marker;
                                 editLayer.draw(marker, editLayer);
+                                //marker.orientation =2;
                                 sObj.setOriginalGeometry(marker);
                                 sObj.setFinalGeometry(marker);
                                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
