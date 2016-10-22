@@ -144,7 +144,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
                     "layerId": layerCtrl.layers[i].options.id,
                     "requestType": reqType[j],
                     "single": reqType.length == 1,
-                    "selected": layerCtrl.layers[i].options.visible
+                    "selected": layerCtrl.layers[i].options.visible&& layerCtrl.layers[i].url.parameter["types"].indexOf(reqType[j])>-1   //wt++ 当一个图层中含有多个要素请求时，只勾选其中一个时候，第二次初始化的时候应当判断url parameter里面的type字段，做为该要素测checkbox是否勾选
                 });
             }
         }

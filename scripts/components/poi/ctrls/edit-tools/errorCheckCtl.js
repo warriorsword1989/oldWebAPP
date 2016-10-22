@@ -1,8 +1,25 @@
-angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath', function($scope,dsEdit,appPath) {
+angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout', 'dsEdit', 'appPath', function($window,$scope,$timeout,dsEdit,appPath) {
 
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = new fastmap.uikit.HighRenderController();
     var objCtrl = fastmap.uikit.ObjectEditController();
+
+    $scope.descriptStyle={
+        "overflow": "hidden",
+        "text-overflow":"ellipsis",
+        "white-space":"nowrap"
+    }
+
+    $timeout(function(){
+        var tableWidth=document.getElementById("errorCheckTable").clientWidth;
+        $scope.descriptStyle={
+            "width" : (tableWidth-100-59-100-tableWidth*0.05-tableWidth*0.05-47-110),
+            "overflow": "hidden",
+            "text-overflow":"ellipsis",
+            "white-space":"nowrap"
+        }
+    });
+
     //初始化ng-table表头;
     $scope.cols = [
         {field: "ruleid", title: "检查规则", show: true},
@@ -24,7 +41,12 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
         {"id": 3, "label": " 确认已修改"}
     ];
     $scope.initType = 0;
-    
+
+
+    $scope.tableResize = function(e){
+        alert(e)
+    };
+
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
         dsEdit.updateCheckType(rowid, selectInd).then(function (data) {
@@ -39,6 +61,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'dsEdit', 'appPath'
         };
         showOnMap(param.pid,param.type);
     };
+
 
     //点击数据在地图上高亮
     function showOnMap(id,type) {
