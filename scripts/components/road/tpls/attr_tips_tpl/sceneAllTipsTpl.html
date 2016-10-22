@@ -5,16 +5,13 @@
     .topTitle{
         height: 10%;
         width: 100%;
-        /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
         color: #FFF;
         margin-bottom: 3px;
         font-size: 12px;
     }
     .tips-title {
-        /*height: 20%;*/
         width: 100%;
-        /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
         margin-bottom:10px;
     }
@@ -32,8 +29,14 @@
     .right {
         float: left;
         width: 90%;
-        margin-left: 15px;
-        margin-top: 15px;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+    .right img{
+        height: 45px;
+        width: 45px;
+        margin-bottom: -8px;
+        margin-top: -8px;
     }
     .both {
         width: 95%;
@@ -168,7 +171,7 @@
     </div>
     <div class="right" ng-if="allTipsType==1302" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
-            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
+            <div class="col-sm-3" ng-repeat="item in dataTipsData.o_array">
                 <div ng-if="item.flag===1" class="out-link-img">
                     <img ng-src="../../../images/road/1302/1302_1_{{item.oInfo}}.svg" ng-click="showOutLink(item)">
                 </div>
@@ -180,15 +183,16 @@
     </div>
     <div class="right" ng-if="allTipsType==1105" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
-            <div class="col-sm-2" ng-repeat="item in dataTipsData.w_array">
+            <div class="col-sm-3" ng-repeat="item in dataTipsData.w_array">
                 <img ng-src="../../../images/road/tips/1105/1105_{{item.tp}}_0.svg" style="cursor: pointer" ng-click="showItem($index)">
+                <span ng-bind="item.tp" class="label"></span>
             </div>
         </div>
     </div>
     <!-- begin 卡车交限 -->
     <div class="right" ng-if="allTipsType==1303" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
-            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
+            <div class="col-sm-3" ng-repeat="item in dataTipsData.o_array">
                 <img ng-src="../../../images/road/tips/1303/1303_{{item.sq}}_0.svg" style="cursor: pointer" ng-click="showMutiInfoItem($index)">
             </div>
         </div>
@@ -197,7 +201,7 @@
     <!-- begin 路口语音引导 -->
     <div class="right" ng-if="allTipsType==1306" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
-            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
+            <div class="col-sm-3" ng-repeat="item in dataTipsData.o_array">
                 <img ng-src="../../../images/road/tips/1306/1306_{{item.sq}}_0.svg" style="cursor: pointer" ng-click="showMutiInfoItem($index)">
             </div>
         </div>
@@ -403,7 +407,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('tp')">
                             <label class="col-sm-5 control-label" style="padding: 4px">标牌类型:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dangerTypeObj[wArrayitem.tp]}}</span>
+                                <span class="label">{{dangerTypeObj[wArrayitem.tp]}}</span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('vDis')">
@@ -642,14 +646,15 @@
                         <!--begin 条件限速-->
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('d_array') && dataTipsData.isConditionLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp; 间&nbsp; 段:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" ng-bind="dataTipsData.d_array[0].time"></span>
+                            <div class="col-sm-7" style="padding: 3px">
+                                <div ng-repeat="item in dataTipsData.d_array" class="label text-left" style="float: inherit;" ng-bind="item.time">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.isConditionLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">限速条件:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span ng-repeat="item in dataTipsData.limitConditionObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>
+                                <span ng-repeat="item in dataTipsData.d_array" class="label col-sm-6 text-left" ng-bind="dataTipsData.limitConditionObj[item.dpnd]"></span>
                             </div>
                         </div>
                         <!--end 条件限速-->

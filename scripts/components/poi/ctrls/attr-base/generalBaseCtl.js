@@ -372,7 +372,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if (!validateForm()) {
             return;
         }
-        if (objectCtrl.data.status == 3 || objectCtrl.data.uRecord == 2){
+        if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2){
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
@@ -456,7 +456,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
     // 删除数据
     function del() {
-        if (objectCtrl.data.uRecord == 2) {
+        if (objectCtrl.data.state == 2) {
             setTimeout(function() { //为了使这个提示能弹出来，要加个延时
                 swal("提示", '此数据已经删除，不能再次删除！', "info");
             }, 300);
