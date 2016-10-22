@@ -795,13 +795,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'class': "feaf",
                             callback: $scope.modifyTools
                         },
-                        //    {
-                        //    'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                        //    'title': "改经过线",
-                        //    'type': "MODIFYBRANCH_THROUGH",
-                        //    'class': "feaf",
-                        //    callback: $scope.modifyTools
-                        //}
+                            {
+                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'title': "改经过线",
+                            'type': "MODIFYBRANCH_THROUGH",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
@@ -3028,7 +3028,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 return;
                             }else{
                                 //第一次的正确选取；
-                                if((data.properties.direct==1||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid))){
+                                if((data.properties.direct==1&&(data.properties.snode==objCtrl.data.nodePid||data.properties.enode==objCtrl.data.nodePid))||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid)){
                                     objCtrl.data.vias = [parseInt(data.properties.id)];
                                     var temparr = [];
                                     for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
