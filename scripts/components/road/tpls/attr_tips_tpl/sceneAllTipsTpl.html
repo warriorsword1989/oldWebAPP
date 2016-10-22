@@ -399,8 +399,9 @@
                         <!-- 配对信息 -->
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('pair')">
                             <label class="col-sm-5 control-label" style="padding: 4px">配对信息:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="dataTipsData.pair"></span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
+                                <span class="label " ng-bind="dataTipsData.pair" title="{{dataTipsData.pair}}" ng-if="dataTipsData.pair!=0"></span>
+                                <span class="label " ng-if="dataTipsData.pair == 0">无</span>
                             </div>
                         </div>
                         <!--begin 危险信息-->
