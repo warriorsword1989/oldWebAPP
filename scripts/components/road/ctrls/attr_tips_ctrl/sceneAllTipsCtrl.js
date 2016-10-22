@@ -816,38 +816,38 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "2001": //测线
                 $scope.returnLineType = function(code) {
-                    switch (code) {
-                        case 0:
-                            return '作业中';
-                        case 1:
-                            return "高速道路";
-                        case 2:
-                            return "城市高速";
-                        case 3:
-                            return "国道";
-                        case 4:
-                            return "省道";
-                        case 5:
-                            return "预留";
-                        case 6:
-                            return "县道";
-                        case 7:
-                            return "乡镇村道路";
-                        case 8:
-                            return "其他道路";
-                        case 9:
-                            return "非引导道路";
-                        case 10:
-                            return "步行道路";
-                        case 11:
-                            return "人渡";
-                        case 13:
-                            return "轮渡";
-                        case 15:
-                            return "10级路（障碍物）";
+                        switch (code) {
+                            case 0:
+                                return '作业中';
+                            case 1:
+                                return "高速道路";
+                            case 2:
+                                return "城市高速";
+                            case 3:
+                                return "国道";
+                            case 4:
+                                return "省道";
+                            case 5:
+                                return "预留";
+                            case 6:
+                                return "县道";
+                            case 7:
+                                return "乡镇村道路";
+                            case 8:
+                                return "其他道路";
+                            case 9:
+                                return "非引导道路";
+                            case 10:
+                                return "步行道路";
+                            case 11:
+                                return "人渡";
+                            case 13:
+                                return "轮渡";
+                            case 15:
+                                return "10级路（障碍物）";
+                        }
                     }
-                }
-                /*测线来源*/
+                    /*测线来源*/
                 $scope.returnLineSrc = function(code) {
                     switch (code) {
                         case 0:
@@ -885,16 +885,16 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             "3": "逆方向"
         };
         var sourceCodeObj = {
-            1:'情报',
-            2:'外业现场',
-            3:'代理店',
-            4:'监察',
-            5:'常规',
-            6:'人行过道',
-            7:'多源',
-            8:'众包',
-            11:'成果数据mark',
-            13:'数据挖掘'
+            1: '情报',
+            2: '外业现场',
+            3: '代理店',
+            4: '监察',
+            5: '常规',
+            6: '人行过道',
+            7: '多源',
+            8: '众包',
+            11: '成果数据mark',
+            13: '数据挖掘'
         };
         $scope.sourceCode = sourceCodeObj[$scope.dataTipsData.s_sourceCode];
         $scope.rdDir = dir[$scope.dataTipsData.rdDir];
@@ -1071,32 +1071,40 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }
             });
         } else if ($scope.dataTipsData.s_sourceType === "1201") { //道路种别
-            var info = null;
-            var kindObj = {
-                "objStatus": "UPDATE",
-                "pid": parseInt($scope.dataTipsData.f.id),
-                "kind": $scope.dataTipsData.kind
-            };
+            if (stage != 1) {
+                swal("操作提示", '数据已经转换过，不需要再次转换！', "info");
+                return;
+            }
+            objCtrl.save();
+            var changed = objCtrl.changedProperty;
+            if (changed) {
+                swal("操作提示", "RDLINK的属性已经修改，请先保存再进行一键录入！", "info");
+                return;
+            }
+            objCtrl.data.changeKind($scope.dataTipsData.kind, objCtrl.data['kind']);
+            objCtrl.save();
+            changed = objCtrl.changedProperty;
             var param = {
                 "type": "RDLINK",
                 "command": "UPDATE",
                 "dbId": App.Temp.dbId,
-                "data": kindObj
+                "data": changed
             };
-            if (stage === 1) {
-                var oPid = parseInt($scope.dataTipsData.f.id);
-                dsEdit.update(oPid, "RDLINK", kindObj).then(function(data) {
-                    // $scope.$parent.$parent.$apply();
-                    if (data != '属性值未发生变化') {
-                        objCtrl.data['kind'] = $scope.dataTipsData.kind;
-                        objCtrl.originalData['kind'] = $scope.dataTipsData.kind;
-                        $scope.upBridgeStatus(oPid);
-                        workPoint.redraw();
-                    }
-                });
-            } else {
-                swal("操作失败", '数据已经转换', "error");
-            }
+            var oPid = parseInt($scope.dataTipsData.f.id);
+            dsEdit.update(oPid, "RDLINK", kindObj).then(function(data) {
+                // $scope.$parent.$parent.$apply();
+                if (data != '属性值未发生变化') {
+                    $scope.upBridgeStatus(oPid);
+                    dsEdit.getByPid(oPid, "RDLINK").then(function(ret) {
+                        if (ret) {
+                            objectCtrl.setCurrentObject('RDLINK', ret);
+                            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                        }
+                    });
+                    workPoint.redraw();
+                    rdLink.redraw();
+                }
+            });
         } else if ($scope.dataTipsData.s_sourceType === "1302") {
             $scope.createRestrictByTips();
         }
