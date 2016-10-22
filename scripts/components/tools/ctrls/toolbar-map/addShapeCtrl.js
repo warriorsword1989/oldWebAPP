@@ -1080,7 +1080,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         }
                         highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltip("程序已完成自动追踪选择，开始做上下线分离或手动重新选择线!");
+                        tooltipsCtrl.setCurrentTooltip("自动追踪完成，可以重新选择线或直接进行上下线分离!");
                     })
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
@@ -1095,7 +1095,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
                         linkDirect = data["properties"]["direct"];
-                        if(linkDirect==1)tooltipsCtrl.setCurrentTooltip("已经选择上下线分离道路线,选择道路方向点!");
+                        if(linkDirect==1)tooltipsCtrl.setCurrentTooltip("已经选择起始线,请选择方向点!");
                         //如果进入线是单方向道路，自动选择进入点;
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.limitRelation.nodePid = (linkDirect == 2)?data["properties"]["enode"]:data["properties"]["snode"]
