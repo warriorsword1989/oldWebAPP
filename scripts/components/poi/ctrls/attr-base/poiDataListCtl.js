@@ -31,10 +31,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
             scope.$parent.$parent.showLoading = true;
-            if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
+            if(data.status == 3 || data.uRecord == 2) { // 提交、删除状态的POI不允许编辑
                 $rootScope.isSpecialOperation = true;
             } else {
-                if(!scope.specialWork) {
+                if(!scope.specialWork) { // 非专项作业
                     $rootScope.isSpecialOperation = false;
                 }
             }

@@ -51,7 +51,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
             this._map.dragging.disable();
         }
         this.container.style.cursor = 'crosshair';
-        this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('click', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
 
     },
@@ -69,7 +69,7 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
             this.container.style.cursor = '';
 
             this._map
-                .off('mousedown', this.onMouseDown, this)
+                .off('click', this.onMouseDown, this)
                 .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
