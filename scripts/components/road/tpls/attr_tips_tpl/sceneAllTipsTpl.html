@@ -932,8 +932,12 @@
                     </button>
                 </div>
                 <div class="col-sm-6" >
-                    <button type="button"  ng-click="upBridgeStatus(nArrayData[0],$event)" class="btn btn-xs pull-right">
-                    <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-saved"></i>标识状态</a>
+
+                    <button type="button" ng-if="disabledFlag" disabled ng-click="upBridgeStatus(nArrayData[0],$event)" class="btn btn-xs pull-right">
+                        <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-saved"></i>标识状态</a>
+                    </button>
+                    <button type="button" ng-if="!disabledFlag" ng-click="upBridgeStatus(nArrayData[0],$event)" class="btn btn-xs pull-right">
+                        <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-saved"></i>标识状态</a>
                     </button>
                 </div>
                 <!--<div class="col-sm-4" >

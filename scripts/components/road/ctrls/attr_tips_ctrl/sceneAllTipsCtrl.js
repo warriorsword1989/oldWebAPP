@@ -130,6 +130,13 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             type: 'workPoint',
             style: {}
         });
+
+        var lastTrackInfo = data.t_trackInfo[data.t_trackInfo.length - 1];
+        $scope.disabledFlag = false; //标识状态可以点击
+        if(lastTrackInfo && lastTrackInfo.stage == 2){
+            $scope.disabledFlag = true;//标识状态不可以点击
+        }
+
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -1140,7 +1147,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 "handler": 0,
                 "mdFlag": App.Temp.mdFlag
             };
-            if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 3) {
+            if ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage == 2) { //表示已经保存了
                 $timeout(function() {
                     $.showPoiMsg('状态已改，不允许改变状态！', e);
                     // $scope.$apply();
@@ -1150,9 +1157,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function(data) {
                 var info = [];
                 if (data) {
+                    $scope.disabledFlag = true;
                     if (workPoint) workPoint.redraw();
                     $scope.showContent = "外业新增";
-                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage = 3;
+                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage = 2;
                 }
                 // $scope.$emit('getConsoleInfo', info);
                 $scope.rowkey = undefined;
