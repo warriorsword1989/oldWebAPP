@@ -71,6 +71,11 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
      * @param event
      */
     onMouseDown: function(event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }

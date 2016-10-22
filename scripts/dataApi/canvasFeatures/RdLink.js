@@ -71,12 +71,12 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
                     color: 'gray',
                     width: 1,
                     style: 'solid'
-                        }, {
+                }, {
                     type: 'CartoLineSymbol',
                     color: 'blue',
                     width: 1,
                     pattern: [4, 4, 12, 4]
-                        }]
+                }]
             };
             var subSymbol = symbolFactory.dataToSymbol(symbolData);
             compositeSymbol.symbols.push(subSymbol);

@@ -85,6 +85,11 @@ fastmap.uikit.SelectForRectang = L.Handler.extend({
     },
 
     onMouseDown: function (e) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(e.originalEvent.button > 0) {
+            return;
+        }
         this._isDrawing = true;
         this._startLatLng = e.latlng;
         if (this._map.getPanes().overlayPane.style.zIndex === "1") {
