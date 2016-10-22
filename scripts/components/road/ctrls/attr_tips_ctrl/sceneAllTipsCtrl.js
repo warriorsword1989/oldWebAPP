@@ -47,6 +47,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     };
     $scope.getFeatDataCallback = function(id, type) {
         $scope.resetToolAndMap();
+        if(!id){
+            return;
+        }
         dsEdit.getByPid(id, type).then(function(data) {
             if (!data) {
                 return;
@@ -87,6 +90,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             };
             $scope.$emit("transitCtrlAndTpl", options);
         });
+    };
+    /*车信高亮link*/
+    $scope.highlightSymbol = function(id){
+        if (!id) {
+            return;
+        }
+        highRenderCtrl.highLightFeatures.push({
+            id: id.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {
+                strokeColor: '#21ed25'
+            }
+        });
+        highRenderCtrl.drawHighlight();
     };
     $scope.showItem = function(index) {
         $scope.wArrayitem = $scope.dataTipsData.w_array[index];
@@ -415,35 +433,17 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.dataTipsData.isLimitTruck = true;
                 break;
             case "1111": //条件限速
-                $scope.dataTipsData.limitConditionObj = [
-                    {
-                        "id": 1,
-                        "label": '雨天'
-                    },
-                    {
-                        "id": 2,
-                        "label": '雪天'
-                    },
-                    {
-                        "id": 3,
-                        "label": '雾天'
-                    },
-                    {
-                        "id": 6,
-                        "label": '学校'
-                    },
-                    {
-                        "id": 10,
-                        "label": '时间限制'
-                    },
-                    {
-                        "id": 12,
-                        "label": '季节时段'
-                    }
-                ];
-                for (var i = 0, len = $scope.dataTipsData.limitConditionObj.length; i < len; i++) {
-                    if ($scope.dataTipsData.limitConditionObj[i].id == $scope.dataTipsData.d_array[0].dpnd[i]) {
-                        $scope.dataTipsData.limitConditionObj[i].checked = true;
+                $scope.dataTipsData.limitConditionObj = {
+                    1:'雨天',
+                    2:'雪天',
+                    3:'雾天',
+                    6:'学校',
+                    10:'时间限制',
+                    12:'季节时段'
+                };
+                for (var i = 0 ; i < $scope.dataTipsData.d_array.length; i ++){
+                    if(!$scope.dataTipsData.d_array[i].time){
+                        $scope.dataTipsData.d_array[i].time = "- - - - - -";
                     }
                 }
                 $scope.dataTipsData.isConditionLimit = true;
@@ -552,6 +552,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         for (var m in $scope.oarrayData[i].d_array[j].out) {
                             $scope.outIdS.push({
                                 id: $scope.oarrayData[i].d_array[j].out[m].id
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: $scope.oarrayData[i].d_array[j].out[m].id.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
                             });
                         }
                     }
