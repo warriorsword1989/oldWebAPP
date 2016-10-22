@@ -795,13 +795,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'class': "feaf",
                             callback: $scope.modifyTools
                         },
-                            {
-                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                            'title': "改经过线",
-                            'type': "MODIFYBRANCH_THROUGH",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }
+                        //    {
+                        //    'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                        //    'title': "改经过线",
+                        //    'type': "MODIFYBRANCH_THROUGH",
+                        //    'class': "feaf",
+                        //    callback: $scope.modifyTools
+                        //}
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
