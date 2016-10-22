@@ -58,10 +58,16 @@ basicApp.controller("nameController", function($scope, $ocLazyLoad) {
         $scope.linkData.names.unshift(newName);
     };
     $scope.minusName = function(id) {
-        $scope.linkData.names.splice(id, 1);
-        $scope.$emit("SWITCHCONTAINERSTATE", {
-            "subAttrContainerTpl": false
-        });
+    	var t = $scope.linkData.names[id];
+	    for(var i=0;i<$scope.linkData.names.length;i++){
+	    	if($scope.linkData.names[i].seqNum > t.seqNum && $scope.linkData.names[i].nameClass == t.nameClass){
+	    		$scope.linkData.names[i].seqNum = $scope.linkData.names[i].seqNum -1;
+	    	}
+	    }
+	    $scope.linkData.names.splice(id, 1);
+	    $scope.$emit("SWITCHCONTAINERSTATE", {
+	        "subAttrContainerTpl": false
+	    });
     }
     $scope.changeColor = function(ind, ord) {
         $("#nameSpan" + ind).css("color", "#FFF");

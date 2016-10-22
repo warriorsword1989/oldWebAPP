@@ -228,9 +228,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         "attrContainerTpl": false,
                         "subAttrContainerTpl": false
                     });
-                    //ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
-                    //    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
-                    //});
+                    //以下代码先注释,注释原因：打断link后，如果加载空白页会导致再次修改保存link属性时发送多次保存请求，最终导致锁表服务报错；
+                    /*ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
+                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
+                    });*/
                 }
             }
         }
@@ -264,6 +265,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         'catchLinks': properties.catches
                     };
                     if (shapeCtrl.editFeatType === "RDLINK") {
+                        if(properties.sameLinkFlag) {
+                            swal("操作失败", "不允许连续两次捕捉打断同一根Link，请重新制作！", "error");
+                            return;
+                        }
                         param["type"] = "RDLINK";
                         ctrl = 'attr_link_ctrl/rdLinkCtrl';
                         tpl = 'attr_link_tpl/rdLinkTpl.html';

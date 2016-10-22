@@ -15,7 +15,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 		if(data['information'].length < 18){
 			this.shortInfo = data['information'];
 		}else{
-			this.shortInfo = data['information'].substring(0,17) + '...';
+			this.shortInfo = data['information'];
 		}
 		this.rank = data['rank'];
 		this.ruleid = data['ruleid'] || "";

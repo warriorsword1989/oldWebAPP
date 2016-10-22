@@ -569,6 +569,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                     delete newData[j].geoLiveType;
                     delete newData[j].$$hashKey;
                     delete newData[j].options;
+                    delete newData[i].snapShot;
+                    delete newData[i].attributes;
+                    delete newData[i].geometry;
+                    delete newData[i].id;
+                    delete newData[i].integrate;
+                    delete newData[i]._initHooks;
+                    delete newData[i].detailId;
                     if(newData[j].pid == 0){
                         newData[j]['objStatus'] = 'INSERT';
                         compData.push(newData[j]);
@@ -589,6 +596,13 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                             delete oldData[i].geoLiveType;
                             delete oldData[i].$$hashKey;
                             delete oldData[i].options;
+                            delete oldData[i].snapShot;
+                            delete oldData[i].attributes;
+                            delete oldData[i].geometry;
+                            delete oldData[i].id;
+                            delete oldData[i].integrate;
+                            delete oldData[i]._initHooks;
+                            delete oldData[i].detailId;
                             oldData[i]['objStatus'] = 'DELETE';
                             compData.push(oldData[i]);
                         }
@@ -613,6 +627,23 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 }
             }
         }
+        /*if (param.data.details) {
+            if (param.data.details[0].names) {
+                // param.data.signboards[0].names = compareObjData(objCtrl.originalData.signboards[0].names,objCtrl.data.signboards[0].names);
+                for(var i=0;i<param.data.details[0].names.length;i++){
+                    delete param.data.details[0].names[i].snapShot;
+                    delete param.data.details[0].names[i].attributes;
+                    delete param.data.details[0].names[i].geometry;
+                    delete param.data.details[0].names[i].id;
+                    delete param.data.details[0].names[i].integrate;
+                    delete param.data.details[0].names[i]._initHooksCalled;
+                    delete param.data.details[0].names[i]._initHooks;
+                    delete param.data.details[0].names[i].options;
+                    delete param.data.details[0].names[i].detailId;
+                    delete param.data.details[0].names[i].$$hashKey;
+                }
+            }
+        }*/
         if (!param.data) {
             swal("操作成功",'属性值没有变化！', "success");
             return false;

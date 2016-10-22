@@ -192,9 +192,6 @@ namesOfLinkApp.controller("namesOfLinkController", ['$scope', '$timeout', 'dsMet
     };
     $scope.selectNameInd = 0;
     $scope.searchGroupidByNames = function() {
-        $("#name").css("display", "block").css({
-            "height": '300px'
-        });
         $scope.pagesize = 5; //$("#pagesize").val();
         $scope.inNmae = $scope.oridiData.name;
         $timeout(function() {

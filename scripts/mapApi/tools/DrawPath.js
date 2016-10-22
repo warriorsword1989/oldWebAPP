@@ -30,11 +30,14 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             transform: new fastmap.mapApi.MecatorTranform()
         });
         this.lastClickEvent = null;
+        this.sameLinkFlag = false;
     },
     /***
      * 添加事件处理
      */
     addHooks: function() {
+        this.lastClickEvent = null;
+        this.sameLinkFlag = false;
         this._map.on('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
@@ -46,6 +49,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
      */
     removeHooks: function() {
         this.lastClickEvent = null;
+        this.sameLinkFlag = false;
         this._map.off('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown, this);
@@ -72,7 +76,8 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             this.shapeEditor.shapeEditorResult.setProperties({
                 snodePid: this.snodePid,
                 catches: this.catches,
-                enodePid: this.enodePid
+                enodePid: this.enodePid,
+                sameLinkFlag: this.sameLinkFlag
             });
             this.shapeEditor.stopEditing();
             fastmap.uikit.ShapeEditorController().stopEditing();
@@ -89,11 +94,19 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                     });
                     snapedNodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
                 } else if (this.snapHandler.snapIndex == -1) {
+                    // 为了判断是否有连续两次捕捉到同一根link而加
+                    // 目前的判断不是很严谨，临时加上的，只考虑到了捕捉到link的情况
+                    // 还应该处理捕捉到连续的两个node点、node点与link线是不是同一根link的情况
+                    if(this.catches.length > 0) {
+                        if(this.catches[this.catches.length - 1].linkPid && this.catches[this.catches.length - 1].linkPid == this.snapHandler.properties.id) {
+                            this.sameLinkFlag = true;
+                        }
+                    }
                     this.catches.push({
                         linkPid: parseInt(this.snapHandler.properties.id),
                         lon: mousePoint.lng,
                         lat: mousePoint.lat
-                    })
+                    });
                 } else if (this.snapHandler.snapIndex == -2) {
                     this.catches.push({
                         nodePid: parseInt(this.snapHandler.properties.id),
