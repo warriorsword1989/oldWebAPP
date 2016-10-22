@@ -19,7 +19,7 @@
                 <label class="control-label">道路种别</label>
             </div>
             <div class="inline">
-                <select  ng-model="linkData.kind" ng-change="changeKindCode();"
+                <select  ng-model="linkData.kind" ng-change="changeKind(linkData.kind, '{{linkData.kind}}');"
                         ng-options="value.id as value.label for value in kindOptions">
                     <option>--</option>
                 </select>

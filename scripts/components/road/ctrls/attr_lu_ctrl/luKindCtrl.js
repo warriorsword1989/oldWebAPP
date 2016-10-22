@@ -50,19 +50,74 @@ formOfWayApp.controller("luKindCtrl",function($scope){
     }
 
     //编辑种类时；
-    $scope.getCheck=function(item){
-        var tempObj = {};
-        //tempObj.linkPid = $scope.luLinkData.linkKinds[0].linkPid;
-        //tempObj.rowId = $scope.luLinkData.linkKinds[0].rowId;
-        $scope.luLinkData.linkKinds = [];
-        for(var i=0;i<$scope.kindOpt.length;i++){
+    //$scope.getCheck=function(item){
+    //    var tempObj = {};
+    //    //tempObj.linkPid = $scope.luLinkData.linkKinds[0].linkPid;
+    //    //tempObj.rowId = $scope.luLinkData.linkKinds[0].rowId;
+    //    $scope.luLinkData.linkKinds = [];
+    //    for(var i=0;i<$scope.kindOpt.length;i++){
+    //        if($scope.kindOpt[i].isCheck){
+    //            tempObj.kind = $scope.kindOpt[i].id;
+    //            $scope.luLinkData.linkKinds.push(fastmap.dataApi.luLinkKind(tempObj))
+    //        }
+    //    }
+    //    objCtrl.objRefresh();
+    //}
+
+    //判断除了未分类其他种别是否有选中;
+    function isSelectedEexpectFirst(){
+        var flag = false;
+        for(var i=1;i<$scope.kindOpt.length;i++){
             if($scope.kindOpt[i].isCheck){
-                tempObj.kind = $scope.kindOpt[i].id;
-                $scope.luLinkData.linkKinds.push(fastmap.dataApi.luLinkKind(tempObj))
+                flag = true;
+                break;
             }
         }
-        objCtrl.objRefresh();
+        return flag;
     }
+
+    function setAllFalse(){
+        for(var i=1;i<$scope.kindOpt.length;i++){
+            if($scope.kindOpt[i].isCheck){
+                $scope.kindOpt[i].isCheck = !$scope.kindOpt[i].isCheck;
+            }
+        }
+    }
+    //编辑种类时未分类与其他种别互斥；
+    $scope.getCheck=function(item){
+        var kinds = objCtrl.data.linkKinds;
+        if(isSelectedEexpectFirst() && item.id!=0){
+            if($scope.kindOpt[0].isCheck){
+                kinds.splice(0,kinds.length);
+                $scope.kindOpt[0].isCheck = false;
+            }
+            if(item.isCheck){
+                var temp = {
+                    linkPid:$scope.luLinkData.pid,
+                    kind:item.id,
+                    form:0
+                };
+                kinds.unshift(fastmap.dataApi.luLinkKind(temp));
+            }else{
+                for(var i = 0 ,len = kinds.length; i < len; i++){
+                    if(kinds[i].kind == item.id){
+                        kinds.splice(i,1);
+                        break;
+                    }
+                }
+            }
+        }else{
+            //如果其他种别没有选择，默认控制选择为分类
+            kinds.splice(0,kinds.length);
+            setAllFalse();
+            $scope.kindOpt[0].isCheck = true;
+            kinds[0] = fastmap.dataApi.luLinkKind({
+                linkPid:$scope.luLinkData.pid,
+                rowId:0
+            })
+        }
+        objCtrl.objRefresh();
+    };
 
 
     $scope.initFn();

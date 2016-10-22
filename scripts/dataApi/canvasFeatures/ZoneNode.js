@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.ZoneNode = fastmap.uikit.canvasFeature.Feature.exten
         this.properties['style']['strokeColor'] = '#00A600';
         this.properties['style']['strokeWidth'] = 1;
         this.properties['style']['strokeOpacity'] = 1;
-        this.properties['style']['radius'] = 3;
+        this.properties['style']['radius'] = 2;
         this.properties['style']['fillColor'] = '#00A600';
         this.properties['style']['fillOpacity'] = 0.2;
     }

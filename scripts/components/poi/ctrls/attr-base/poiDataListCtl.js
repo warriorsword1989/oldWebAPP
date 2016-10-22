@@ -35,7 +35,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
             if(data.status == 3 || data.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
                 $rootScope.isSpecialOperation = true;
             } else {
-                if(!scope.specialWork) {
+                if(!scope.specialWork) { // 非专项作业
                     $rootScope.isSpecialOperation = false;
                 }
             }

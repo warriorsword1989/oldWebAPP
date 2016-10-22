@@ -119,6 +119,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         }
     },
     onMouseDown: function(event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         //小于一定级别不让选择
         // if (this.currentEditLayer.showNodeLevel > this._map.getZoom()) {
         //     return;

@@ -53,6 +53,11 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
         this._map.off('mousemove', this.onMouseMove, this);
     },
     onMouseDown: function(event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var clickEvent = {
             time: new Date().getTime(),
             screenX: event.originalEvent.screenX,

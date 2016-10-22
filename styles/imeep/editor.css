@@ -651,7 +651,7 @@ a.fm-panel-controlArrowRight > span {
   width: 252px;
   height: 100%;
   background-color: transparent;
-  padding: 42px 0 0 0;
+  padding: 0px;
   opacity: 0;
 }
 .popoverTips > div.tipsPanel {
@@ -2658,8 +2658,8 @@ a.batchButton {
   padding: 3px;
   border: 1px solid #fff;
   border-radius: 4px;
-  margin: 4px;
+  margin: 4px !important;
   cursor: pointer;
-  width: 73px;
+  width: 87px;
   text-align: center;
 }
