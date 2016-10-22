@@ -152,6 +152,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         var id = data[item].properties.id;
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                             id: id,
+                            event:event,
                             properties:data[item].properties,
                             index: this.selectedFeatures.length
                         })
