@@ -794,13 +794,15 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'type': "MODIFYBRANCH_OUT",
                             'class': "feaf",
                             callback: $scope.modifyTools
-                        }, {
-                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                            'title': "改经过线",
-                            'type': "MODIFYBRANCH_THROUGH",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }]
+                        },
+                        //    {
+                        //    'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                        //    'title': "改经过线",
+                        //    'type': "MODIFYBRANCH_THROUGH",
+                        //    'class': "feaf",
+                        //    callback: $scope.modifyTools
+                        //}
+                        ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
@@ -3011,7 +3013,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         if(objCtrl.data.relationshipType==2){
                             tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
                         }else{
-                            tooltipsCtrl.setCurrentTooltip('关系类型为路口没有经过线！');
+                            tooltipsCtrl.setCurrentTooltip('该关系类型为路口没有经过线！');
                             var timer = setTimeout(function(){
                                 tooltipsCtrl.onRemoveTooltip();
                                 clearTimeout(timer);
@@ -3026,7 +3028,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 return;
                             }else{
                                 //第一次的正确选取；
-                                if(data.properties.id==objCtrl.data.nodePid.toString()&&(data.properties.direct==1||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid))){
+                                if((data.properties.direct==1&&(data.properties.snode==objCtrl.data.nodePid||data.properties.enode==objCtrl.data.nodePid))||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid)){
                                     objCtrl.data.vias = [parseInt(data.properties.id)];
                                     var temparr = [];
                                     for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
@@ -3047,20 +3049,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 //绘制当前的退出线和原来的进入线;
                                 highRenderCtrl._cleanHighLight();
                                 highRenderCtrl.drawHighlight();
-                                ////设置热键修改时的监听类型;
-                                //shapeCtrl.setEditingType("UPDATEBRANCH");
-                                ////退出线选完后的鼠标提示;
-                                //tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
-                                ////设置修改确认的数据;
-                                //featCodeCtrl.setFeatCode({
-                                //    "nodePid": objCtrl.data.nodePid.toString(),
-                                //    "inLinkPid": objCtrl.data.inLinkPid.toString(),
-                                //    "outLinkPid": data.id.toString(),
-                                //    "pid": objCtrl.data.pid.toString(),
-                                //    "objStatus": "UPDATE",
-                                //    "branchType": $scope.selectedFeature.branchType,
-                                //    'childId': $scope.selectedFeature.id
-                                //});
                             }
                         })
                     }
@@ -3480,7 +3468,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData, data) {
-                if (data.status == 3 || data.uRecord == 2) {
+                if (data.status == 3 || data.state == 2) {
                     swal("提示", "数据已提交或者删除，不能修改几何！", "info");
                     return;
                 }
