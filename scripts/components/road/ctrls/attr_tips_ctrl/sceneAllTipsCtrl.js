@@ -92,7 +92,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         });
     };
     /*车信高亮link*/
-    $scope.highlightSymbol = function(id,type){
+    $scope.highlightSymbol = function(id){
+        if (!id) {
+            return;
+        }
         highRenderCtrl.highLightFeatures.push({
             id: id.toString(),
             layerid: 'rdLink',
