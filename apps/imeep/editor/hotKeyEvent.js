@@ -228,9 +228,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         "attrContainerTpl": false,
                         "subAttrContainerTpl": false
                     });
-                    ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
-                        scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
-                    });
+                    //ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
+                    //    scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
+                    //});
                 }
             }
         }
