@@ -118,7 +118,14 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         }
         dsEdit.update($scope.rdGateData.pid, "RDGATE", objectEditCtrl.changedProperty).then(function(data) {
             if (data) {
-            	   relationData.redraw();
+                relationData.redraw();
+                dsEdit.getByPid($scope.rdGateData.pid, "RDGATE").then(function(ret) {
+                    if (ret) {
+                        objectEditCtrl.setCurrentObject('RDGATE', ret);
+                        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+                    }
+                });
+                $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
                 if (shapeCtrl.shapeEditorResult.getFinalGeometry() !== null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
@@ -131,8 +138,9 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
                     shapeCtrl.stopEditing();
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
+
+
                 }
-                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             }
         });
     };
