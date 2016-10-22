@@ -1028,7 +1028,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1606") { //收费站开放道路
-                    map.setView([data.g_location.coordinates[0][0][1], data.g_location.coordinates[0][0][0]], 17);
+                    map.setView([data.g_location.coordinates[0][0][1], data.g_location.coordinates[0][0][0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
