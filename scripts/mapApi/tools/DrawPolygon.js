@@ -41,7 +41,7 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('click', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
 
     },
@@ -50,7 +50,7 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function () {
-        this._map.off('mousedown', this.onMouseDown, this);
+        this._map.off('click', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
 
     },

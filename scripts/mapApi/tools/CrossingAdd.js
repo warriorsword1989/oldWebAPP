@@ -43,7 +43,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
             }
             this._container.style.cursor = 'crosshair';
             this._map
-                .on('mousedown', this.onMouseDown, this)
+                .on('click', this.onMouseDown, this)
                 .on('mousemove', this.onMouseMove, this);
         }
     },
@@ -61,7 +61,7 @@ fastmap.mapApi.CrossingAdd = L.Handler.extend({
             this._map._container.style.cursor = '';
 
             this._map
-                .off('mousedown', this.onMouseDown, this)
+                .off('click', this.onMouseDown, this)
                 .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
