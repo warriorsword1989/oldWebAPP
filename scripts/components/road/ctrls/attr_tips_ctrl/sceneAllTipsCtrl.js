@@ -47,6 +47,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     };
     $scope.getFeatDataCallback = function(id, type) {
         $scope.resetToolAndMap();
+        if(!id){
+            return;
+        }
         dsEdit.getByPid(id, type).then(function(data) {
             if (!data) {
                 return;
@@ -87,6 +90,21 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             };
             $scope.$emit("transitCtrlAndTpl", options);
         });
+    };
+    /*车信高亮link*/
+    $scope.highlightSymbol = function(id){
+        if (!id) {
+            return;
+        }
+        highRenderCtrl.highLightFeatures.push({
+            id: id.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {
+                strokeColor: '#21ed25'
+            }
+        });
+        highRenderCtrl.drawHighlight();
     };
     $scope.showItem = function(index) {
         $scope.wArrayitem = $scope.dataTipsData.w_array[index];
@@ -534,6 +552,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         for (var m in $scope.oarrayData[i].d_array[j].out) {
                             $scope.outIdS.push({
                                 id: $scope.oarrayData[i].d_array[j].out[m].id
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: $scope.oarrayData[i].d_array[j].out[m].id.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
                             });
                         }
                     }

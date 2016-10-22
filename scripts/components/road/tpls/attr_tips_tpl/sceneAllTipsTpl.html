@@ -33,8 +33,8 @@
         margin-top: 5px;
     }
     .right img{
-        height: 45px;
-        width: 45px;
+        height: 35px;
+        width: 35px;
         margin-bottom: -8px;
         margin-top: -8px;
     }
@@ -151,20 +151,20 @@
         </div>
     </div>
     <div class="right" ng-if="allTipsType==1301" >
-        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;height:30px;">
+        <div class="form-group" style="margin-bottom: 0px;height:30px;">
             <div class="col-sm-2" ng-repeat="item in dataTipsData.info" ng-if="item.arwG">
                 <div class="out-link-img" ng-if="item.ext == 0">
-                    <img ng-src="../../../images/road/1301/1301_0_{{item.arwG}}.svg" ng-click="getFeatDataCallback(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id,'RDLINK')">
+                    <img ng-src="../../../images/road/1301/1301_0_{{item.arwG}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id)">
                 </div>
                 <div class="out-link-img" ng-if="item.ext == 1">
-                    <img ng-src="../../../images/road/1301/1301_2_{{item.arwG}}.svg" ng-click="getFeatDataCallback(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id,'RDLINK')">
+                    <img ng-src="../../../images/road/1301/1301_2_{{item.arwG}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id)">
                 </div>
             </div>
         </div>
-        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;height:30px;">
+        <div class="form-group" style="margin-bottom: 0px;height:30px;">
             <div class="col-sm-2" ng-repeat="item in dataTipsData.info" ng-if="item.arwB">
                 <div class="out-link-img">
-                    <img ng-src="../../../images/road/1301/1301_1_{{item.arwB}}.svg" ng-click="getFeatDataCallback(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id,'RDLINK')">
+                    <img ng-src="../../../images/road/1301/1301_1_{{item.arwB}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id)">
                 </div>
             </div>
         </div>
@@ -399,8 +399,9 @@
                         <!-- 配对信息 -->
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('pair')">
                             <label class="col-sm-5 control-label" style="padding: 4px">配对信息:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="dataTipsData.pair"></span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
+                                <span class="label " ng-bind="dataTipsData.pair" title="{{dataTipsData.pair}}" ng-if="dataTipsData.pair!=0"></span>
+                                <span class="label " ng-if="dataTipsData.pair == 0">无</span>
                             </div>
                         </div>
                         <!--begin 危险信息-->

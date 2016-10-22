@@ -3028,7 +3028,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 return;
                             }else{
                                 //第一次的正确选取；
-                                if((data.properties.direct==1||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid))){
+                                if((data.properties.direct==1&&(data.properties.snode==objCtrl.data.nodePid||data.properties.enode==objCtrl.data.nodePid))||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid)){
                                     objCtrl.data.vias = [parseInt(data.properties.id)];
                                     var temparr = [];
                                     for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){

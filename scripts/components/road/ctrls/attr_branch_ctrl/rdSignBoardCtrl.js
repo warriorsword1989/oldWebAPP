@@ -8,6 +8,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var rdBranch = layerCtrl.getLayerById("relationData");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var selectCtrl = fastmap.uikit.SelectController();
 
     $scope.divergenceIds = objCtrl.data;
     objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
@@ -20,23 +21,31 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             $scope.nameBranchForm.$setPristine();
         }
 
-    }
+    };
 
+    $scope.refreshData = function () {
+        dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
+            if (data) {
+                objCtrl.setCurrentObject("RDBRANCH", data);
+                $scope.initDiver();
+            }
+        });
+    };
     /*点击关系类型*/
     $scope.switchRelType = function (code) {
         $scope.diverObj.relationshipType = code;
-    }
+    };
     /*点击箭头图标志*/
     $scope.switchArrowType = function (code) {
         $scope.diverObj.signboards[0].arrowFlag = code;
-    }
+    };
     /*根据id获取箭头图图片*/
     $scope.getArrowPic = function (id) {
         var params = {
             "id": id + ''
         };
         return dsMeta.getArrowImg(JSON.stringify(params));
-    }
+    };
 
     $scope.picNowNum = 0;
     $scope.getPicsData = function () {
@@ -332,24 +341,69 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         param.command = "UPDATE";
         param.dbId = App.Temp.dbId;
         param.data = objCtrl.changedProperty;
+        function compareObjData(oldData,newData){
+            var compData = [];
+            for(var i=0;i<oldData.length;i++){
+                delete oldData[i]._initHooksCalled;
+                delete oldData[i].geoLiveType;
+                delete oldData[i].$$hashKey;
+                delete oldData[i].options;
+                for(var j=0;j<newData.length;j++){
+                    delete newData[j]._initHooksCalled;
+                    delete newData[j].geoLiveType;
+                    delete newData[j].$$hashKey;
+                    delete newData[j].options;
+                    if(newData[j].pid == 0){
+                        newData[j]['objStatus'] = 'INSERT';
+                        compData.push(newData[j]);
+                    }else{
+                        // 数值变化则UPDATE
+                        if(newData[j].pid == oldData[i].pid){
+                            for(item in newData[j]){
+                                if(oldData[i][item] != newData[j][item] && item !='objStatus'){
+                                    newData[j]['objStatus'] = 'UPDATE';
+                                }
+                            }
+                            compData.push(newData[j]);
+                            break;
+                        }
+                        if(j == newData.length-1 && newData[j].pid != oldData[i].pid){
+                            oldData[i] = new fastmap.dataApi.rdBranchName(oldData[i]);
+                            delete oldData[i]._initHooksCalled;
+                            delete oldData[i].geoLiveType;
+                            delete oldData[i].$$hashKey;
+                            delete oldData[i].options;
+                            oldData[i]['objStatus'] = 'DELETE';
+                            compData.push(oldData[i]);
+                        }
+                    }
+                }
+            }
+            var n = []; //一个新的临时数组
+            for(var i = 0; i < compData.length; i++) //遍历当前数组
+            {
+                //如果当前数组的第i已经保存进了临时数组，那么跳过，
+                //否则把当前项push到临时数组里面
+                if (n.indexOf(compData[i]) == -1) n.push(compData[i]);
+            }
+            return n;
+        }
         /*解决linkPid报错*/
         if (param.data.signboards) {
-            delete param.data.signboards[0].linkPid;
             if (param.data.signboards[0].names) {
-                $.each(param.data.signboards[0].names, function (i, v) {
-                    delete v.linkPid;
-                    delete v.options;
-                    delete v._initHooksCalled;
-                    delete v._initHooks;
-                    delete v.id;
-                    delete v.geometry;
-                    delete v.attributes;
-                    delete v.snapShot;
-                    delete v.integrate;
-                    delete v['$$hashKey'];
-                    param.data.signboards[0].names[i].nameGroupid = objCtrl.data.signboards[0].names[i].nameGroupid;
-                });
-                $scope.delEmptyNames(param.data.signboards[0].names);
+                // param.data.signboards[0].names = compareObjData(objCtrl.originalData.signboards[0].names,objCtrl.data.signboards[0].names);
+                for(var i=0;i<param.data.signboards[0].names.length;i++){
+                    delete param.data.signboards[0].names[i].snapShot;
+                    delete param.data.signboards[0].names[i].attributes;
+                    delete param.data.signboards[0].names[i].geometry;
+                    delete param.data.signboards[0].names[i].id;
+                    delete param.data.signboards[0].names[i].integrate;
+                    delete param.data.signboards[0].names[i]._initHooksCalled;
+                    delete param.data.signboards[0].names[i]._initHooks;
+                    delete param.data.signboards[0].names[i].options;
+                    delete param.data.signboards[0].names[i].detailId;
+                    delete param.data.signboards[0].names[i].$$hashKey;
+                }
             }
         }
         if (!param.data) {
@@ -358,8 +412,21 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
         var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
         dsEdit.save(param).then(function (data) {
-            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-            rdBranch.redraw();
+            if (data) {
+                if (selectCtrl.rowkey) {
+                    var stageParam = {
+                        "rowkey": selectCtrl.rowkey.rowkey,
+                        "stage": 3,
+                        "handler": 0
+                    };
+                    dsFcc.changeDataTipsState(JSON.stringify(stageParam)).then(function (data) {
+                        selectCtrl.rowkey.rowkey = undefined;
+                    });
+                }
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                rdBranch.redraw();
+            }
+            $scope.refreshData();
         });
     };
 
