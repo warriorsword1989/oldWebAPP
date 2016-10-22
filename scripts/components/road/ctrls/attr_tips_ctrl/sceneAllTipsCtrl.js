@@ -267,9 +267,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     2: 'PG'
                 };
                 var gateDirObj = {
-                    0: 'EG',
-                    1: 'KG',
-                    2: 'PG'
+                    0: '未调查',
+                    1: '单向',
+                    2: '双向'
                 };
                 $scope.dataTipsData.gateType = gateTypeObj[$scope.dataTipsData.tp];
                 $scope.dataTipsData.gateDir = gateDirObj[$scope.dataTipsData.dir];
