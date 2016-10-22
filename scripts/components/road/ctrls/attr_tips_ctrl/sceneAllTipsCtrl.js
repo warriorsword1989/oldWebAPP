@@ -786,6 +786,23 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 }];
                 $scope.dataTipsData.regionRoad = true;
                 break;
+            case "1606": //收费站开放道路
+                /*$scope.fData = $scope.dataTipsData.f_array;
+                $scope.zoneRoadState = [{
+                    "type": 0,
+                    "state": "不应用"
+                }, {
+                    "type": 1,
+                    "state": "删除"
+                }, {
+                    "type": 2,
+                    "state": "修改"
+                }, {
+                    "type": 3,
+                    "state": "新增"
+                }];
+                $scope.dataTipsData.regionRoad = true;*/
+                break;
             case "1703":
                 $scope.sceneEnty = $scope.dataTipsData.in;
                 $scope.sceneOut = $scope.dataTipsData.out;

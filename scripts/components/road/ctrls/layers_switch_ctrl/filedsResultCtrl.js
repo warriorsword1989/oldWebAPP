@@ -1026,6 +1026,14 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                } else if (pItemId === "1606") { //收费站开放道路
+                    map.setView([data.g_location.coordinates[0][0][1], data.g_location.coordinates[0][0][0]], 17);
+                    var ctrlAndTpl = {
+                        "loadType": "tipsTplContainer",
+                        "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                        "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                    };
+                    $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1607") {    //风景路线
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                     var ctrlAndTpl = {
@@ -1231,7 +1239,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             //$scope.guideLayer._redraw();
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,branchType) {
-            if(type == 'RDBRANCH'){
+            /*if(type == 'RDBRANCH'){
                 if(selectedData.branchType == 5 || selectedData.branchType == 7){
                     dsEdit.getBranchByRowId(selectedData.rowkey,branchType).then(function(data){
                         if(data == -1){
@@ -1247,7 +1255,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         getByPidCallback(type,ctrl,tpl,data);
                     });
                 }
-            }else{
+            }else{*/
                 dsEdit.getByPid(id, type).then(function(data){
                     if(!data){
                         return;
@@ -1268,7 +1276,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     getByPidCallback(type,ctrl,tpl,data);
                 });
-            }
+            // }
             function getByPidCallback(type,ctrl,tpl,data){
                 var options = {
                     "loadType": 'attrTplContainer',
