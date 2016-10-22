@@ -41,7 +41,7 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        this._map.on('click', this.onMouseDown, this);
+        this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
 
     },
@@ -50,13 +50,18 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function () {
-        this._map.off('click', this.onMouseDown, this);
+        this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
 
     },
 
 
     onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
         var lastPoint = this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 2];
         if (lastPoint != null && lastPoint.x != 0) {

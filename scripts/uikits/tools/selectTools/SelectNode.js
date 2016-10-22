@@ -79,9 +79,9 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function() {
-        this._map.on('click', this.onMouseDown, this);
+        this._map.on('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
-            this._map.on("click", this.onMouseDown, this);
+            this._map.on('click', this.onMouseDown, this);
             this.snapHandler.disable();
         }
         if (this.id !== "rdcross") {
@@ -92,10 +92,10 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function() {
-        this._map.off('click', this.onMouseDown, this);
+        this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
         if (L.Browser.touch) {
-            this._map.off("click", this.onMouseDown, this);
+            this._map.off('click', this.onMouseDown, this);
         }
     },
     onMouseMove: function(event) {
@@ -119,6 +119,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         }
     },
     onMouseDown: function(event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this._lookup(tileCoordinate, event);

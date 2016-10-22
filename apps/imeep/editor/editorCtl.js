@@ -5,9 +5,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
     poi: "scripts/components/poi/",
     tool: "scripts/components/tools/"
 }).controller('EditorCtl', ['$scope', '$cookies', '$ocLazyLoad', '$rootScope', 'dsMeta', 'dsFcc', 'dsEdit', 'dsManage', '$q', 'appPath', '$timeout', '$interval',
-	function($scope, $cookies, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout, $interval) {
+    function($scope, $cookies, $ocLazyLoad, $rootScope, dsMeta, dsFcc, dsEdit, dsManage, $q, appPath, $timeout, $interval) {
         // var layerCtrl = new fastmap.uikit.LayerController({
-        // 	config: App.layersConfig
+        //  config: App.layersConfig
         // });
         var objectCtrl = fastmap.uikit.ObjectEditController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
@@ -161,8 +161,20 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             }
             // L.control.scale({position:'bottomleft',imperial:false}).addTo(map);
             // map.setView([40.012834, 116.476293], 17);
-            map.on("contextmenu", function(e) {
+            /**
+             * 右键点击地图位置居中
+             * 由于任务圈使用的是MultiPolygon，contextmenu、click等事件在MultiPolygon中不起作用了
+             * 目前使用的方案是使用mousedown事件，并用event.originalEvent.button来判断是左键、中键、右键的点击
+             * 另一种经验证可行方案是把任务圈的multipolygon改为polygon，用click事件来监听左键、中键的点击事件，用contextmenu来监听右键事件
+             * contextmenu事件在polygon中不起作用了，因此使用mousedown进行补充
+             */
+            map.on("contextmenu", function(e) { // 右键
                 map.setView(e.latlng);
+            });
+            map.on("mousedown", function(e) {
+                if (e.originalEvent.button == 2) { // 右键
+                    map.setView(e.latlng);
+                }
             });
             // map.on("click", function(e) {
             //     console.log('click');
@@ -284,24 +296,24 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         };
         /*//我的消息
         $scope.historyMsg = function(){
-        	var param = {
-        		userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-        		pageNum:5,
-        		pageSize:1
-        	};
-        	dsFcc.getReadMsg(param).then(function(data){
-        		console.log(data)
-        	});
+            var param = {
+                userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+                pageNum:5,
+                pageSize:1
+            };
+            dsFcc.getReadMsg(param).then(function(data){
+                console.log(data)
+            });
         };
         //查看详细消息
         $scope.showDetailMsg = function(){
-        	var param = {
-        		userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
-        		msgId:116
-        	};
-        	dsFcc.getDetailCheck(param).then(function(data){
-        		console.log(data)
-        	});
+            var param = {
+                userId:parseInt(document.cookie.split(';')[0].split('=')[1]),
+                msgId:116
+            };
+            dsFcc.getDetailCheck(param).then(function(data){
+                console.log(data)
+            });
         };*/
         // 消息推送
         $scope.msgNotify = function() {
@@ -333,21 +345,21 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             };
             // sock.close();
             /*if(App.Config.msgNotify){
-            	var timer = $interval(function() {
-            		dsEdit.getMsgNotify().then(function(data) {
-            			if (data.errcode == 0) {
-            				// data.data = [{"msgId":22,"msgType":1,"msgContent":"CCC","createTime":1473414246000,"targetUserId":1664}];
-            				if (data.data.length > 0) {
-            					// $interval.cancel(timer);
-            					for(var i=0,len=data.data.length;i<len;i++){
-            						logMsgCtrl.pushMsg($scope,data.data[i].msgContent);
-            					}
-            				}
-            			}else{
-            				logMsgCtrl.pushMsg($scope,data.errmsg);
-            			}
-            		});
-            	}, App.Config.msgNotify);
+                var timer = $interval(function() {
+                    dsEdit.getMsgNotify().then(function(data) {
+                        if (data.errcode == 0) {
+                            // data.data = [{"msgId":22,"msgType":1,"msgContent":"CCC","createTime":1473414246000,"targetUserId":1664}];
+                            if (data.data.length > 0) {
+                                // $interval.cancel(timer);
+                                for(var i=0,len=data.data.length;i<len;i++){
+                                    logMsgCtrl.pushMsg($scope,data.data[i].msgContent);
+                                }
+                            }
+                        }else{
+                            logMsgCtrl.pushMsg($scope,data.errmsg);
+                        }
+                    });
+                }, App.Config.msgNotify);
             }*/
         };
         //消息类型切换
@@ -767,7 +779,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         });
         //场景切换
         // $scope.$on("changeScene", function (event, data) {
-        // 	$scope.$broadcast("changeSceneLayers",data);
+        //  $scope.$broadcast("changeSceneLayers",data);
         // });
         //道路作业面板是否展开
         $scope.$on("WORKPANELOPENCLOSE", function(event, data) {
@@ -849,8 +861,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             $scope.showLoading.flag = data;
         });
         // $ocLazyLoad.load(appPath.road + "ctrls/attr_lane_ctrl/rdLaneCtrl").then(function () {
-        // 	$scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
+        //  $scope.attrTplContainer = appPath.root + appPath.road + "tpls/attr_lane_tpl/rdLaneTpl.html";
         // });
         // $scope.attrTplContainerSwitch(true);
-	}
+    }
 ]);
