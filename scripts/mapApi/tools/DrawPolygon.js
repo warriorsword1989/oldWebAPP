@@ -57,6 +57,11 @@ fastmap.mapApi.DrawPolygon = L.Handler.extend({
 
 
     onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
         var lastPoint = this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 2];
         if (lastPoint != null && lastPoint.x != 0) {
