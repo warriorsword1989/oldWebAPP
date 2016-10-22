@@ -2662,3 +2662,18 @@ a.batchButton {
   cursor: pointer;
   text-align: center;
 }
+
+/*车信剪头图*/
+.lane-direct-img-container {
+  display:inline-block;
+  margin:5px;
+}
+
+.lane-direct-img-container .remove {
+  float:right;
+  font-size:12px;
+  margin-top:-5px;
+  color:#fff;
+  cursor:pointer;
+}
+
