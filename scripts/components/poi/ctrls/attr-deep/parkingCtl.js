@@ -16,7 +16,20 @@ angular.module('app').controller('parkingCtl', function($scope) {
     $scope.remarkChange = function(event){
         var obj = $scope.poi.parkings[0].remark;
         var rejectVal = "0";
-        Utils.setCheckboxMutex(event,obj,rejectVal);
+        if (event.target.value == "0") {
+            if (event.target.checked) {
+                for (var key in obj) {
+                    if (key != "0" && key != "7") {
+                        obj[key] = false;
+                    }
+                }
+            }
+        } else {
+            if (event.target.checked && event.target.value != "7") {
+                obj["0"] = false;
+            }
+        }
+//        Utils.setCheckboxMutex(event,obj,rejectVal);
     }
     $scope.test = function(event,obj,rejectVal1,rejectVal2){
         for(var i=0;i<rejectVal1.length;i++){
