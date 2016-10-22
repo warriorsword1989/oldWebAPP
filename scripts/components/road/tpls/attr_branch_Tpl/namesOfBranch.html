@@ -1,193 +1,168 @@
 <div class="nameOfBraDiv fm-component" ng-controller="namesOfBranchCtrl">
-    <div class="fm-component" >
-        <div class="title">
-            分歧
-            <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-            </label>
-        </div>
+    <div class="title">
+        分歧
+        <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
+        </label>
+    </div>
 
-        <div class="content">
-            <div class="picMapShow">
-                <img class="picMapImg" ng-src="{{arrowMapShow}}" image-404="../../../images/road/img/noimg.png">
-                <img class="picModalImg" ng-src="{{patternCodeSrc}}" image-404="../../../images/road/img/noimg.png" alt="无此模式图">
-                <div class="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
+    <div class="picMapShow">
+        <img class="picMapImg" ng-src="{{arrowMapShow}}" image-404="../../../images/road/img/noimg.png">
+        <img class="picModalImg" ng-src="{{patternCodeSrc}}" image-404="../../../images/road/img/noimg.png" alt="无此模式图">
+        <div class="picMapDesc" ng-bind="diverObj.details[0].arrowCode"></div>
+    </div>
+    <form name="nameBranchForm">
+    <!--begin 模式图信息-->
+    <div class="module-fix-box">
+        <div id="detailChart" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
+            <div class="d-group">
+                <div class="d-name">进入线：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded chosen-disabled" placeholder="入" ng-model="diverObj.inLinkPid" disabled>
+                </div>
             </div>
-            <!--begin 模式图信息-->
-            <form>
-                <ul class="fm-ul fm-ul-form">
-                    <li>
-                        <label>进入线</label>
-                        <div >
-                            <input type="text" class="rounded chosen-disabled" placeholder="入" ng-model="diverObj.inLinkPid" disabled>
+            <div class="d-group">
+                <div class="d-name">退出线：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded chosen-disabled" placeholder="出" ng-model="diverObj.outLinkPid" disabled>
+                </div>
+            </div>
+            <div class="d-group info-group">
+                <div class="d-name">关系类型：</div>
+                <div class="d-value">
+                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                      <label ng-class="{'btn-primary':item.code==diverObj.relationshipType,'btn-default':item.code!=diverObj.relationshipType,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
+                        <input type="radio" name="relationType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">分歧类型：</div>
+                <div class="d-value">
+                    <select class="rounded d-input" ng-change="changeBranchType(diverObj.details[0].branchType);" ng-model="diverObj.details[0].branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">箭头图号：</div>
+                <div class="d-value">
+                    <div ng-show="diverObj.details[0].branchType != 3">
+                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()">
+                    </div>
+                    <div ng-show="diverObj.details[0].branchType == 3">
+                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
+                    </div>
+                    <div class="pic-show" ng-show="showImgData">
+                        <div class="option-hide">
+                            <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
+                                <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
+                            </button>
                         </div>
-                    </li>
-                    <li>
-                        <label>退出线</label>
-                        <div >
-                            <input type="text" class="rounded chosen-disabled" placeholder="出" ng-model="diverObj.outLinkPid" disabled>
-                        </div>
-                    </li>
-                    <li>
-                        <label>关系类型</label>
-                        <div>
-                            <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                                <label ng-class="{'btn-primary':item.code==diverObj.relationshipType,'btn-default':item.code!=diverObj.relationshipType,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
-                                    <input type="radio" name="relationType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
-                                </label>
+                        <div class="pic-show-well">
+                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName,picture.fileContent)">
+                                <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
+                                <div class="img-describe">{{picture.fileName}}</div>
                             </div>
                         </div>
-                    </li>
-                    <li>
-                        <label>分歧类型</label>
-                        <div >
-                            <select class="rounded" ng-change="changeBranchType(diverObj.details[0].branchType);" ng-model="diverObj.details[0].branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                        <div class="clearfix"></div>
+                        <div class="pull-left num-well">
+                            第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 |
+                            共 <span class="pic-total" ng-bind="picTotal">1</span> 页
                         </div>
-                    </li>
-                    <li>
-                        <label>箭头图号</label>
-                        <div >
-                            <div ng-show="diverObj.details[0].branchType != 3">
-                                <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()">
-                            </div>
-                            <div ng-show="diverObj.details[0].branchType == 3">
-                                <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
-                            </div>
-                            <div class="pic-show" ng-show="showImgData">
-                                <div class="option-hide">
-                                    <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
-                                    </button>
-                                </div>
-                                <div class="pic-show-well">
-                                    <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName,picture.fileContent)">
-                                        <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
-                                        <div class="img-describe">{{picture.fileName}}</div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="pull-left num-well">
-                                    第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 |
-                                    共 <span class="pic-total" ng-bind="picTotal">1</span> 页
-                                </div>
-                                <div class="pic-show-btn pull-right">
-                                    <div class="pull-right btn-group">
-                                        <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" ng-disabled="picNowNum == 1">
-                                            <i class="glyphicon glyphicon-menu-left"></i>
-                                        </button>
-                                        <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">
-                                            <i class="glyphicon glyphicon-menu-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="pic-loading" ng-show="showPicLoading" ng-bind="loadText">loading...</div>
+                        <div class="pic-show-btn pull-right">
+                            <div class="pull-right btn-group">
+                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" ng-disabled="picNowNum == 1">
+                                    <i class="glyphicon glyphicon-menu-left"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()" ng-disabled="picNowNum == picTotal">
+                                    <i class="glyphicon glyphicon-menu-right"></i>
+                                </button>
                             </div>
                         </div>
-                    </li>
-                    <li>
-                        <label>模式图号</label>
-                        <div >
-                            <div ng-show="diverObj.details[0].branchType != 1 && diverObj.details[0].branchType != 3 && diverObj.details[0].branchType != 4">
-                                <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
-                            </div>
-                            <!--方面分歧-->
-                            <div ng-show="diverObj.details[0].branchType == 1">
-                                <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="方面分歧模式图号必须5、7或8开头"/>
-                            </div>
-                            <!--3d-->
-                            <div ng-show="diverObj.details[0].branchType == 3">
-                                <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/> <!---->
-                            </div>
-                            <!--复杂路口-->
-                            <div ng-show="diverObj.details[0].branchType == 4">
-                                <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="复杂路口模式图号必须7开头"/>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>出口编号</label>
-                        <div >
-                            <input type="text" class="rounded" placeholder="出口编号" ng-model="diverObj.details[0].exitNum">
-                        </div>
-                    </li>
-                    <li>
-                        <label>箭头标志</label>
-                        <div >
-                            <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                                <label ng-class="{'btn-primary':item.code==diverObj.details[0].arrowFlag,'btn-default':item.code!=diverObj.details[0].arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
-                                    <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
-                                </label>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>设施类型</label>
-                        <div >
-                            <select ng-disabled="diverObj.details[0].estabType==9" ng-class="{'rounded':true,'chosen-disabled':diverObj.details[0].estabType==9}" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>名称种别</label>
-                        <div >
-                            <select ng-disabled="diverObj.details[0].nameKind==9" ng-class="{'rounded':true,'chosen-disabled':diverObj.details[0].nameKind==9}" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>声音方向</label>
-                        <div >
-                            <select ng-model="diverObj.details[0].voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <label>向导代码</label>
-                        <div >
-                            <select ng-model="diverObj.details[0].guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
-                            </select>
-                        </div>
-                    </li>
-                </ul>
-            </form>
-        </div>
-        <!--end 模式图信息-->
-        <!--begin 名称信息-->
-        <div ng-if="diverObj.details[0].branchType == 1||diverObj.details[0].branchType == 2" class="content">
-            <div class="module-box show-detail-title" ng-click="showDetail(0);">
-                <div class="box-head font-bold">
-                    名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
+                        <div class="pic-loading" ng-show="showPicLoading" ng-bind="loadText">loading...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">模式图号：</div>
+                <div class="d-value">
+                    <div ng-show="diverObj.details[0].branchType != 1 && diverObj.details[0].branchType != 3 && diverObj.details[0].branchType != 4">
+                        <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
+                    </div>
+                    <!--方面分歧-->
+                    <div ng-show="diverObj.details[0].branchType == 1">
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="方面分歧模式图号必须5、7或8开头"/>
+                    </div>
+                    <!--3d-->
+                    <div ng-show="diverObj.details[0].branchType == 3">
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/> <!---->
+                    </div>
+                    <!--复杂路口-->
+                    <div ng-show="diverObj.details[0].branchType == 4">
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="复杂路口模式图号必须7开头"/>
+                    </div>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">出口编号：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="diverObj.details[0].exitNum">
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">箭头标志：</div>
+                <div class="d-value">
+                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                      <label ng-class="{'btn-primary':item.code==diverObj.details[0].arrowFlag,'btn-default':item.code!=diverObj.details[0].arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
+                        <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">设施类型：</div>
+                <div class="d-value">
+                    <select ng-disabled="diverObj.details[0].estabType==9" ng-class="{'rounded d-input':true,'chosen-disabled':diverObj.details[0].estabType==9}" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">名称种别：</div>
+                <div class="d-value">
+                    <select ng-disabled="diverObj.details[0].nameKind==9" ng-class="{'rounded d-input':true,'chosen-disabled':diverObj.details[0].nameKind==9}" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                    </select>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">声音方向：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="diverObj.details[0].voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
+                    </select>
+                </div>
+            </div>
+            <div class="d-group">
+                <div class="d-name">向导代码：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="diverObj.details[0].guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
+                    </select>
                 </div>
             </div>
         </div>
-
-        <div class="content">
-            <ul class="list-group list-group-lg m-b-none">
-                <li class="list-group-item">
-                    <div class="list-name">
-                        <a ng-click="addItem()" class="fm-cursor">名称（共 {{nameGroup.length}} 组）</a>
-                    </div>
-                    <div class="list-add-icon" ng-click="addItem();">
-                        <i class="glyphicon glyphicon-plus-sign"></i>
-                    </div>
-                    <div class="list-line"></div>
-                </li>
-                <li class="list-group-item">
-                    <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
-                        <li class="list-group-item" ng-repeat="item in namesItem | orderBy:'nameId'">
-                            <label class="control-label fm-cursor" ng-click="showDetail(0,$index ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
-                            <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'name',item)"></i>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!--end 名称信息-->
-        <!--begin 经过线-->
-        <div class="module-box show-detail-title" ng-click="showDetail(1);">
+    </div>
+    </form>
+    <!--end 模式图信息-->
+    <!--begin 名称信息-->
+    <div ng-if="diverObj.details[0].branchType == 1||diverObj.details[0].branchType == 2">
+        <div class="module-box show-detail-title" ng-click="showDetail(0);">
             <div class="box-head font-bold">
-                 经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
+                名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
             </div>
         </div>
-        <!--end 经过线-->
     </div>
+    <!--end 名称信息-->
+    <!--begin 经过线-->
+    <div class="module-box show-detail-title" ng-click="showDetail(1);">
+        <div class="box-head font-bold">
+             经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
+        </div>
+    </div>
+    <!--end 经过线-->
 </div>
-
