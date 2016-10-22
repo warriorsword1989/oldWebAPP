@@ -264,6 +264,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         'catchLinks': properties.catches
                     };
                     if (shapeCtrl.editFeatType === "RDLINK") {
+                        if(properties.sameLinkFlag) {
+                            swal("操作失败", "不允许连续两次捕捉打断同一根Link，请重新制作！", "error");
+                            return;
+                        }
                         param["type"] = "RDLINK";
                         ctrl = 'attr_link_ctrl/rdLinkCtrl';
                         tpl = 'attr_link_tpl/rdLinkTpl.html';
