@@ -834,22 +834,6 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             $scope.$broadcast("showSamePoishap");
         });
         /**
-         * 接收15米提醒事件
-         */
-        $scope.$on("showRawPoi", function(event, data) {
-            $scope.$broadcast("showRawshap");
-        });
-        eventCtrl.on(eventCtrl.eventTypes.SHOWRAWPOI, function(data) {
-            var relationShap = {
-                "loadType": "sameRelationShapTplContainer",
-                "propertyCtrl": appPath.poi + 'ctrls/attr-tips/poiRawFieldCtrl.js',
-                "propertyHtml": appPath.root + appPath.poi + 'tpls/attr-tips/poiRawFieldTpl.html',
-                "callback": function() {
-                    $scope.$emit("showRawPoi");
-                }
-            };
-            $scope.$emit("transitCtrlAndTpl", relationShap);
-        });
         /**
          * 接收刷新检查结果事件
          */

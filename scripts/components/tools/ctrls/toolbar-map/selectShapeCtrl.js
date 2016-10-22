@@ -1131,15 +1131,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
-                        }
-                        // , {
-                        //     'text': "<a class='glyphicon glyphicon-refresh'></a>",
-                        //     'title': "重置",
-                        //     'type': "RESETPOI",
-                        //     'class': "feaf",
-                        //     callback: $scope.modifyPoi
-                        // }
-                        ]
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'title': "重置",
+                            'type': "RESETPOI",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.poi + "ctrls/attr-base/generalBaseCtl";
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html";
@@ -3529,13 +3527,16 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
             }  else if (type === "RESETPOI") {
                 if (selectCtrl.selectedFeatures) {
+                    map.currentTool.disable();
                     selectCtrl.selectedFeatures.geometry.components[0].y = objCtrl.data.geometry.coordinates[1];
                     selectCtrl.selectedFeatures.geometry.components[0].x = objCtrl.data.geometry.coordinates[0];
                     selectCtrl.selectedFeatures.geometry.components[1].y = objCtrl.data.yGuide;
                     selectCtrl.selectedFeatures.geometry.components[1].x = objCtrl.data.xGuide;
                     delete selectCtrl.selectedFeatures.lastLocGeo;
                     editLayer.clear();
-                    editLayer._redraw();
+                    setTimeout(function () {
+                        editLayer._redraw();
+                    },100);
                 } else {
                     tooltipsCtrl.setCurrentTooltip('坐标无变化！');
                 }
@@ -3756,6 +3757,49 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             } else if (type === "SELECTPARENT") {
                 map.currentTool.snapHandler._guides = [];
             }
+            eventController.on(eventController.eventTypes.SHOWRAWPOI, function (data) {
+                var html = '<div style="height:auto;float: left">'+
+                    '<span>移动的距离是'+ data.distance.toFixed(1)+'米，确定要移动吗？确认选择移动原因并点击是，否则请点击否。' +
+                    '</span>'+
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied" checked/>与道路逻辑关系调整' +
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied"/>与设施逻辑关系调整'+
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied"/>精度调整'+
+                    '<div>';
+                swal({
+                    title: "移位提醒",
+                    text: html,
+                    html: true,
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    confirmButtonText: "是",
+                    cancelButtonText: "否"
+                },  function(f) {
+                    if (f) { // 执行是操作
+
+                    } else { // 执行否操作
+                        if (selectCtrl.selectedFeatures) {
+                            selectCtrl.selectedFeatures.geometry.components[0].y = parseFloat(selectCtrl.selectedFeatures.secLocGeo.lat);
+                            selectCtrl.selectedFeatures.geometry.components[0].x = parseFloat(selectCtrl.selectedFeatures.secLocGeo.lng);
+                            selectCtrl.selectedFeatures.geometry.components[1].y = parseFloat(selectCtrl.selectedFeatures.secGuideGeo.lat);
+                            selectCtrl.selectedFeatures.geometry.components[1].x = parseFloat(selectCtrl.selectedFeatures.secGuideGeo.lng);
+                            selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(selectCtrl.selectedFeatures.geometry[0].y,selectCtrl.selectedFeatures.geometry[0].x);
+                            selectCtrl.selectedFeatures.lastGuideGeo = new L.latLng(selectCtrl.selectedFeatures.geometry[1].y,selectCtrl.selectedFeatures.geometry[1].x);
+                            editLayer.clear();
+                            setTimeout(function () {
+                                editLayer._redraw();
+                            },100);
+                        }
+                    }
+                });
+
+            });
         };
         $scope.clearMap = function() {
             //重置选择工具
@@ -3848,7 +3892,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             //高亮
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
-            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
+            //wt改，注释前会因为地图移动导致弹出工具条位置有偏移
+            //map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
             console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
         }
     }
