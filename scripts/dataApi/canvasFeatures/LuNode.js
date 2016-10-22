@@ -9,7 +9,7 @@ fastmap.uikit.canvasFeature.LUNode = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['style']['strokeColor'] = '#DAA520';
         this.properties['style']['strokeWidth'] = 1;
         this.properties['style']['strokeOpacity'] = 1;
-        this.properties['style']['radius'] = 3;
+        this.properties['style']['radius'] = 2;
         this.properties['style']['fillColor'] = '#DAA520';
         this.properties['style']['fillOpacity'] = 0.2;
     }

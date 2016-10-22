@@ -16,7 +16,7 @@ fastmap.dataApi.LuLinkKind = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData:function(data){
         this.linkPid = data["linkPid"];
         this.rowId = data["rowId"];
-        this.kind = data["kind"] || 1;
+        this.kind = data["kind"] || 0;
     },
 
     /*

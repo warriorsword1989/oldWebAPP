@@ -93,6 +93,11 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
     },
     onMouseMove: function(event) {},
     onMouseDown: function(event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var mouseLatlng;
         mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());

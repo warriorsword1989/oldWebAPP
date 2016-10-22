@@ -94,6 +94,11 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
     onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
 
@@ -152,6 +157,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         var id = data[item].properties.id;
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                             id: id,
+                            event:event,
                             properties:data[item].properties,
                             index: this.selectedFeatures.length
                         })

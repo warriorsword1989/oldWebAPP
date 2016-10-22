@@ -41,6 +41,11 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
   },
 
   onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
 
     //this.highRenderCtrl.setLayer(this.highlightLayer);
     //保存选中的数据

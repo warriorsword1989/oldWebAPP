@@ -66,6 +66,11 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
      * @param event
      */
     onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
@@ -131,16 +136,21 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         return false;
     },
     onMouseUp: function(event){
-        // if(this.selectCtrl.selectedFeatures.lastLocGeo == undefined){//对应15米移位
-        //     var oriData = this.objectCtrl.data.geometry.coordinates;
-        //     this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
-        // }
-        // var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
-        // if( distance > 0 && distance <= 15 && this.objectCtrl.data.uRecord == 3){
-        //     this.selectCtrl.selectedFeatures.distance = distance;
-        //     this.eventController.fire(this.eventController.eventTypes.SHOWRAWPOI);
-        // }
-        // this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x);
+        if(this.selectCtrl.selectedFeatures.lastLocGeo == undefined){//对应15米移位
+            var oriData = this.objectCtrl.data.geometry.coordinates;
+            this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(oriData[1],oriData[0]);
+            this.selectCtrl.selectedFeatures.lastGuideGeo = new L.latLng(this.objectCtrl.data.yGuide,this.objectCtrl.data.xGuide);
+        }
+        var distance = this.selectCtrl.selectedFeatures.lastLocGeo.distanceTo(new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x));
+        if( distance > 0 && distance <= 15 && this.objectCtrl.data.state == 3){
+            this.selectCtrl.selectedFeatures.distance = distance;
+            this.eventController.fire(this.eventController.eventTypes.SHOWRAWPOI,{'distance':distance});
+        }
+        this.selectCtrl.selectedFeatures.secLocGeo = {lat:this.selectCtrl.selectedFeatures.lastLocGeo.lat.toString(),lng:this.selectCtrl.selectedFeatures.lastLocGeo.lng.toString()};
+        this.selectCtrl.selectedFeatures.secGuideGeo = {lat:this.selectCtrl.selectedFeatures.lastGuideGeo.lat.toString(),lng:this.selectCtrl.selectedFeatures.lastGuideGeo.lng.toString()};
+        this.selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(this.selectCtrl.selectedFeatures.geometry[0].y,this.selectCtrl.selectedFeatures.geometry[0].x);
+        this.selectCtrl.selectedFeatures.lastGuideGeo = new L.latLng(this.selectCtrl.selectedFeatures.geometry[1].y,this.selectCtrl.selectedFeatures.geometry[1].x);
+        /*以上都是为了15米移位添置的代码*/
 
         this.targetIndex = null;
         this.captureHandler.setTargetIndex(this.targetIndex);

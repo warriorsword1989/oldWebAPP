@@ -43,7 +43,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('dblclick', this.onDbClick, this);
         if (L.Browser.touch) {
-            this._map.on('mousedown', this.onMouseDown, this);
+            this._map.on('click', this.onMouseDown, this);
         }
     },
 
@@ -55,10 +55,15 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('dblclick', this.onDbClick, this);
         if (L.Browser.touch) {
-            this._map.off('mousedown', this.onMouseDown, this);
+            this._map.off('click', this.onMouseDown, this);
         }
     },
     onMouseDown: function (event) {
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if(event.originalEvent.button > 0) {
+            return;
+        }
         this.clickcount++;
         this.tiles = [];
         var mouseLatlng = event.latlng;

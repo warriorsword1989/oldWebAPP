@@ -812,7 +812,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         'geometry': rectangleData,
                         'linkObjs': []
                     };
-                    if (dealData.length > 1) {
+                    if (dealData.length > 1) {//有bug，一条线和另一条线有多个交点时不适用
                         for (var i = 0; i < loopTime - 1; i++) {
                             for (var j = i + 1; j < dealData.length; j++) {
                                 if (i != j) {
@@ -859,19 +859,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
-                        var feature = {
-                            components:[],
-                            points:[]
+                        var selectOneGSC = function (event) {
+                            console.log(event);
                         };
-                        // for(var i=0;i<crossGeos.length;i++){
-                        //     feature.point = crossGeos[i];
-                        //     feature.type = 'marker';
-                        //     feature.orientation = 'cross';
-                        //     feature.angle = 0;
-                        //     layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
-                        //     editLayer.drawGeometry = feature;
-                        //     editLayer.draw(feature, editLayer);//在编辑图层中画出需要编辑的几何体
-                        // }
+                        map.currentTool.disable();//取消鼠标事件
                         for(var i=0;i<crossGeos.length;i++){
                             var point =new L.LatLng(parseFloat(crossGeos[i].y),parseFloat(crossGeos[i].x) );
                             var poiFeature = L.marker(point,{
@@ -883,13 +874,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     angle:20,
                                     title:'点击制作立交',
                                     icon:L.icon({
-                                        iconUrl: '../images/road/img/cross.svg',
+                                        iconUrl: '../../../images/road/img/cross.svg',
                                         iconSize: [16, 16],
                                         //iconAnchor: [12,30],
                                         popupAnchor: [0, -32]
                                     })
                                 }
-                            ).addTo(map);
+                            ).on("click",selectOneGSC).addTo(map);
                         }
                         highRenderCtrl._cleanHighLight();
                         // swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");

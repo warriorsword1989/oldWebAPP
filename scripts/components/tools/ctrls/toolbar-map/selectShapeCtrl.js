@@ -3,7 +3,7 @@
  * Rebuild by chenx on 2016-07-05
  */
 angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoad', '$rootScope', 'dsFcc', 'dsEdit', 'appPath','$interval',
-    function($scope, $q, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath) {
+    function($scope, $q, $ocLazyLoad, $rootScope, dsFcc, dsEdit, appPath, $interval) {
         var selectCtrl = fastmap.uikit.SelectController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -787,34 +787,23 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDBRANCH':
-
-                   if(objCtrl.data.relationshipType==2){
-                       toolsObj = {
-                           items: [{
-                               'text': "<a class='glyphicon glyphicon-move'></a>",
-                               'title': "改退出线",
-                               'type': "MODIFYBRANCH_OUT",
-                               'class': "feaf",
-                               callback: $scope.modifyTools
-                           }, {
-                               'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                               'title': "改经过线",
-                               'type': "MODIFYBRANCH_THROUGH",
-                               'class': "feaf",
-                               callback: $scope.modifyTools
-                           }]
-                       };
-                   }else if(objCtrl.data.relationshipType==1){
-                       toolsObj = {
-                           items: [{
-                               'text': "<a class='glyphicon glyphicon-move'></a>",
-                               'title': "改退出线",
-                               'type': "MODIFYBRANCH_OUT",
-                               'class': "feaf",
-                               callback: $scope.modifyTools
-                           }]
-                       }
-                   }
+                    toolsObj = {
+                        items: [{
+                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'title': "改退出线",
+                            'type': "MODIFYBRANCH_OUT",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        },
+                        //    {
+                        //    'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                        //    'title': "改经过线",
+                        //    'type': "MODIFYBRANCH_THROUGH",
+                        //    'class': "feaf",
+                        //    callback: $scope.modifyTools
+                        //}
+                        ]
+                    };
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
@@ -1131,15 +1120,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
-                        }
-                        // , {
-                        //     'text': "<a class='glyphicon glyphicon-refresh'></a>",
-                        //     'title': "重置",
-                        //     'type': "RESETPOI",
-                        //     'class': "feaf",
-                        //     callback: $scope.modifyPoi
-                        // }
-                        ]
+                        }, {
+                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'title': "重置",
+                            'type': "RESETPOI",
+                            'class': "feaf",
+                            callback: $scope.modifyPoi
+                        }]
                     };
                     ctrlAndTmplParams.propertyCtrl = appPath.poi + "ctrls/attr-base/generalBaseCtl";
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html";
@@ -2967,6 +2954,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     });
                     return;
                 } else if (type.indexOf('BRANCH') > -1) {
+                    //地图选择配置;
                     map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
                         currentEditLayer: rdLink,
@@ -2977,53 +2965,93 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     map.currentTool.enable();
                     if (type.split('_')[1] === 'OUT') {
                         tooltipsCtrl.setCurrentTooltip('开始修改退出线！');
+                        eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                            highRenderCtrl._cleanHighLight();
+                            highRenderCtrl.highLightFeatures = [];
+                            //进入线;
+                            highRenderCtrl.highLightFeatures.push({
+                                id: objCtrl.data.inLinkPid.toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {
+                                    color: '#5FCD3A'
+                                }
+                            });
+                            highRenderCtrl.highLightFeatures.push({
+                                id: objCtrl.data.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'rdnode',
+                                style: {
+                                    color: 'yellow'
+                                }
+                            });
+                            //退出线;
+                            highRenderCtrl.highLightFeatures.push({
+                                id: data.id,
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {}
+                            });
+                            //绘制当前的退出线和原来的进入线;
+                            highRenderCtrl.drawHighlight();
+                            //设置热键修改时的监听类型;
+                            shapeCtrl.setEditingType("UPDATEBRANCH");
+                            //退出线选完后的鼠标提示;
+                            tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
+                            //设置修改确认的数据;
+                            featCodeCtrl.setFeatCode({
+                                "nodePid": objCtrl.data.nodePid.toString(),
+                                "inLinkPid": objCtrl.data.inLinkPid.toString(),
+                                "outLinkPid": data.id.toString(),
+                                "pid": objCtrl.data.pid.toString(),
+                                "objStatus": "UPDATE",
+                                "branchType": $scope.selectedFeature.branchType,
+                                'childId': $scope.selectedFeature.id
+                            });
+                        });
                     } else if (type.split('_')[1] === 'THROUGH') {
-                        tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
+                        if(objCtrl.data.relationshipType==2){
+                            tooltipsCtrl.setCurrentTooltip('开始修改经过线！');
+                        }else{
+                            tooltipsCtrl.setCurrentTooltip('该关系类型为路口没有经过线！');
+                            var timer = setTimeout(function(){
+                                tooltipsCtrl.onRemoveTooltip();
+                                clearTimeout(timer);
+                            },2000)
+                            return;
+                        }
+                        eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                            //经过线不能选择成退出线和进入线；
+                            var outInArr = [objCtrl.data.outLinkPid,objCtrl.data.inLinkPid];
+                            if(outInArr.indexOf(parseInt(data.id))!=-1){
+                                tooltipsCtrl.setCurrentTooltip('经过线不能为退出线或进入线！');
+                                return;
+                            }else{
+                                //第一次的正确选取；
+                                if((data.properties.direct==1||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid))){
+                                    objCtrl.data.vias = [parseInt(data.properties.id)];
+                                    var temparr = [];
+                                    for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
+                                        if(highRenderCtrl.highLightFeatures[i].id==objCtrl.data.outLinkPid||highRenderCtrl.highLightFeatures[i].id==objCtrl.data.inLinkPid||highRenderCtrl.highLightFeatures[i].type=='rdnode'||highRenderCtrl.highLightFeatures[i].type=='relationData'){
+                                            temparr.push(highRenderCtrl.highLightFeatures[i]);
+                                        }
+                                    }
+                                    temparr.push({
+                                        id:data.properties.id.toString(),
+                                        layerid:'rdLink',
+                                        type:'line',
+                                        style:{color:'blue',strokeWidth:3}
+                                    })
+                                }else{//正确选取一根以后
+
+                                }
+                                highRenderCtrl.highLightFeatures = temparr;
+                                //绘制当前的退出线和原来的进入线;
+                                highRenderCtrl._cleanHighLight();
+                                highRenderCtrl.drawHighlight();
+                            }
+                        })
                     }
-                    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                        highRenderCtrl._cleanHighLight();
-                        highRenderCtrl.highLightFeatures = [];
-                        //进入线;
-                        highRenderCtrl.highLightFeatures.push({
-                            id: objCtrl.data.inLinkPid.toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {
-                                color: '#5FCD3A'
-                            }
-                        });
-                        highRenderCtrl.highLightFeatures.push({
-                            id: objCtrl.data.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'rdnode',
-                            style: {
-                                color: 'yellow'
-                            }
-                        });
-                        //退出线;
-                        highRenderCtrl.highLightFeatures.push({
-                            id: data.id,
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {}
-                        });
-                        //绘制当前的退出线和原来的进入线;
-                        highRenderCtrl.drawHighlight();
-                        //设置热键修改时的监听类型;
-                        shapeCtrl.setEditingType("UPDATEBRANCH");
-                        //退出线选完后的鼠标提示;
-                        tooltipsCtrl.setCurrentTooltip('点击空格保存修改！');
-                        //设置修改确认的数据;
-                        featCodeCtrl.setFeatCode({
-                            "nodePid": objCtrl.data.nodePid.toString(),
-                            "inLinkPid": objCtrl.data.inLinkPid.toString(),
-                            "outLinkPid": data.id.toString(),
-                            "pid": objCtrl.data.pid.toString(),
-                            "objStatus": "UPDATE",
-                            "branchType": $scope.selectedFeature.branchType,
-                            'childId': $scope.selectedFeature.id
-                        });
-                    });
                     return;
                 } else if (type === "MODIFYVARIABLESPEED") {
                     //地图编辑相关设置;
@@ -3440,7 +3468,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData, data) {
-                if (data.status == 3 || data.uRecord == 2) {
+                if (data.status == 3 || data.state == 2) {
                     swal("提示", "数据已提交或者删除，不能修改几何！", "info");
                     return;
                 }
@@ -3529,13 +3557,16 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
             }  else if (type === "RESETPOI") {
                 if (selectCtrl.selectedFeatures) {
+                    map.currentTool.disable();
                     selectCtrl.selectedFeatures.geometry.components[0].y = objCtrl.data.geometry.coordinates[1];
                     selectCtrl.selectedFeatures.geometry.components[0].x = objCtrl.data.geometry.coordinates[0];
                     selectCtrl.selectedFeatures.geometry.components[1].y = objCtrl.data.yGuide;
                     selectCtrl.selectedFeatures.geometry.components[1].x = objCtrl.data.xGuide;
                     delete selectCtrl.selectedFeatures.lastLocGeo;
                     editLayer.clear();
-                    editLayer._redraw();
+                    setTimeout(function () {
+                        editLayer._redraw();
+                    },100);
                 } else {
                     tooltipsCtrl.setCurrentTooltip('坐标无变化！');
                 }
@@ -3756,6 +3787,49 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             } else if (type === "SELECTPARENT") {
                 map.currentTool.snapHandler._guides = [];
             }
+            eventController.on(eventController.eventTypes.SHOWRAWPOI, function (data) {
+                var html = '<div style="height:auto;float: left">'+
+                    '<span>移动的距离是'+ data.distance.toFixed(1)+'米，确定要移动吗？确认选择移动原因并点击是，否则请点击否。' +
+                    '</span>'+
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied" checked/>与道路逻辑关系调整' +
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied"/>与设施逻辑关系调整'+
+                    '<div>'+
+                    '<div style="height:auto;float: left">'+
+                    '<input type="radio" class="form-control" style="display:inline-block;width:20px;height: 15px;" name="rawFied"/>精度调整'+
+                    '<div>';
+                swal({
+                    title: "移位提醒",
+                    text: html,
+                    html: true,
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    confirmButtonText: "是",
+                    cancelButtonText: "否"
+                },  function(f) {
+                    if (f) { // 执行是操作
+
+                    } else { // 执行否操作
+                        if (selectCtrl.selectedFeatures) {
+                            selectCtrl.selectedFeatures.geometry.components[0].y = parseFloat(selectCtrl.selectedFeatures.secLocGeo.lat);
+                            selectCtrl.selectedFeatures.geometry.components[0].x = parseFloat(selectCtrl.selectedFeatures.secLocGeo.lng);
+                            selectCtrl.selectedFeatures.geometry.components[1].y = parseFloat(selectCtrl.selectedFeatures.secGuideGeo.lat);
+                            selectCtrl.selectedFeatures.geometry.components[1].x = parseFloat(selectCtrl.selectedFeatures.secGuideGeo.lng);
+                            selectCtrl.selectedFeatures.lastLocGeo = new L.latLng(selectCtrl.selectedFeatures.geometry[0].y,selectCtrl.selectedFeatures.geometry[0].x);
+                            selectCtrl.selectedFeatures.lastGuideGeo = new L.latLng(selectCtrl.selectedFeatures.geometry[1].y,selectCtrl.selectedFeatures.geometry[1].x);
+                            editLayer.clear();
+                            setTimeout(function () {
+                                editLayer._redraw();
+                            },100);
+                        }
+                    }
+                });
+
+            });
         };
         $scope.clearMap = function() {
             //重置选择工具
@@ -3848,7 +3922,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             //高亮
             highRenderCtrl.highLightFeatures = highLightFeatures;
             highRenderCtrl.drawHighlight();
-            map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
+            //wt改，注释前会因为地图移动导致弹出工具条位置有偏移
+            //map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
             console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
         }
     }
