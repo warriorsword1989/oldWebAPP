@@ -12,7 +12,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     var selectCtrl = fastmap.uikit.SelectController();
 
 
-    $scope.divergenceIds = objCtrl.data;
+//    $scope.divergenceIds = objCtrl.data;
     $scope.refreshNames = function(){
 		$scope.diverObj.details[0].names = [];
 		for(var i=0,len=$scope.nameGroup.length;i<len;i++){
@@ -28,8 +28,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             $('[data-toggle="tooltip"]').tooltip();
         }
 
-        $scope.divergenceIds = objCtrl.data;
-        $scope.diverObj = $scope.divergenceIds;
+//        $scope.divergenceIds = objCtrl.data;
+//        $scope.diverObj = $scope.divergenceIds;
+        $scope.diverObj = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         objCtrl.namesInfo = objCtrl.data.details[0].names;
         $scope.nameGroup = [];
@@ -642,6 +643,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 }
             }
         }
+        $scope.refreshNames();
         if (!param.data) {
             swal("操作成功",'属性值没有变化！', "success");
             return false;

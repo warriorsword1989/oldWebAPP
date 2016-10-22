@@ -38,7 +38,7 @@ angular.module("app").controller("RdBranchNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 					break;
 				}
 				if($scope.langCodeOptions[i].id != $scope.rdBranchNames[j].langCode  && j==$scope.rdBranchNames.length-1){
-					$scope.rdBranchNames.push(fastmap.dataApi.lcFaceName({"nameGroupid":$scope.rdBranchNames[0].nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
+					$scope.rdBranchNames.push(fastmap.dataApi.rdBranchName({"nameGroupid":$scope.rdBranchNames[0].nameGroupid,"langCode":$scope.langCodeOptions[i].id}));
 					flag = true;
 					break;
 				}
