@@ -525,9 +525,6 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
             map.floatMenu = null;
         }
         map.scrollWheelZoom.enable();
-        // if (event) { //取消点击菜单自动回收功能
-        //     event.stopPropagation();
-        // }
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures = [];
         editLayer.drawGeometry = null;
