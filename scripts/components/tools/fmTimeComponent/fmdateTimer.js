@@ -376,6 +376,9 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope', '$timeout', '
                 } else if ((weeksStr.length == 1 && mutiDate.length == 1) || weeks_arr[0].indexOf('M') > -1) {
                     var _time = '';
                     $.each(weeksStr.join('').split(')('), function(i, v) { //选择固定 时间（只选择时间）
+                        if(v.indexOf('][') > -1){
+                            return;
+                        }
                         if (i == 0) {
                             _time = $scope.timeAnalyze(v);
                         } else {
