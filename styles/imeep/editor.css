@@ -651,7 +651,7 @@ a.fm-panel-controlArrowRight > span {
   width: 252px;
   height: 100%;
   background-color: transparent;
-  padding: 42px 0 0 0;
+  padding: 0px;
   opacity: 0;
 }
 .popoverTips > div.tipsPanel {
