@@ -228,9 +228,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         "attrContainerTpl": false,
                         "subAttrContainerTpl": false
                     });
-                    ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
+                    //以下代码先注释,注释原因：打断link后，如果加载空白页会导致再次修改保存link属性时发送多次保存请求，最终导致锁表服务报错；
+                    /*ocLazyLoad.load(appPath.road + 'ctrls/blank_ctrl/blankCtrl').then(function () {
                         scope.attrTplContainer = appPath.root + appPath.road + 'tpls/blank_tpl/blankTpl.html';
-                    });
+                    });*/
                 }
             }
         }
