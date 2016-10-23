@@ -30,7 +30,7 @@
                             </div>
                         </li>
                         <li>
-                            <label>图符号码</label>
+                            <label>图幅号</label>
                             <div>
                                 <input type="text" disabled class="fm-control chosen-disabled" ng-model="luFaceData.perimeter">
                             </div>
@@ -38,13 +38,36 @@
                     </ul>
                 </div>
             </div>
+            <div class="fm-panel">
+                <div class="content">
+                    <ul class="list-group list-group-lg m-b-none">
+                        <li class="list-group-item">
+                            <div class="list-name">
+                                <a ng-click="addItem()" class="fm-cursor">名称（共 {{nameGroup.length}} 组）</a>
+                            </div>
+                            <div class="list-add-icon" ng-click="addItem('name');">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </div>
+                            <div class="list-line"></div>
+                        </li>
+                        <li class="list-group-item">
+                            <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
+                                <li class="list-group-item" ng-repeat="item in namesItem  | orderBy:'pid'">
+                                    <label class="control-label fm-cursor" ng-click="showDetail($index ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
+                                    <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,item)"></i>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </form>
         <!--begin 名称组-->
-	    <div class="module-box show-detail-title" style="clear: both" ng-click="showDetail();">
+	    <!-- <div class="module-box show-detail-title" style="clear: both" ng-click="showDetail();">
 	        <div class="box-head font-bold">
 	            名称信息（共<span ng-bind="luFaceData.faceNames.length"></span> 条）
 	        </div>
-	    </div>
+	    </div> -->
         <div class="clearfix"></div>
     	<!--end 名称组-->
         <div class="fm-panel" style="margin-top: 10px">

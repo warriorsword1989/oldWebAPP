@@ -97,19 +97,17 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
         $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
             $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
-            var tmpStr = $scope.speedLimitData.timeDomain;
-            //$scope.fmdateTimer(tmpStr);
+            $scope.fmdateTimer($scope.speedLimitData.timeDomain);
+            $scope.$broadcast('set-code',$scope.speedLimitData.timeDomain);
         });
     });
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
-            $scope.codeOutput = data;
             $scope.speedLimitData.timeDomain = data;
         });
         $timeout(function () {
             $scope.$broadcast('set-code', str);
-            $scope.codeOutput = str;
             $scope.speedLimitData.timeDomain = str;
             $scope.$apply();
         }, 100);

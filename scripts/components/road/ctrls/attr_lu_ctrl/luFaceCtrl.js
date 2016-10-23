@@ -36,6 +36,15 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath','$fi
 	       {"id": 40, "label": "地下停车场"},
 	       {"id": 41, "label": "地铁出入口面"}
 	   ];
+    // 刷新luFaceData.faceNames
+	$scope.refreshNames = function(){
+		$scope.luFaceData.faceNames = [];
+		for(var i=0,len=$scope.nameGroup.length;i<len;i++){
+			for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
+				$scope.luFaceData.faceNames.push($scope.nameGroup[i][j]);
+			};
+		};
+	};
     //初始化
     $scope.initializeData = function(){
         $scope.luFaceData = objCtrl.data;//获取数据
@@ -45,7 +54,8 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath','$fi
         if($scope.luFaceForm) {
             $scope.luFaceForm.$setPristine();
         }
-
+        $scope.nameGroup = [];
+        initNameInfo();
         //高亮luface
         var highLightFeatures=[];
         highLightFeatures.push({
@@ -61,6 +71,7 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath','$fi
         $scope.initializeData();
     }
     $scope.save = function(){
+    	$scope.refreshNames();
         objCtrl.save();
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
@@ -131,19 +142,115 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath','$fi
 
     };
     /*展示详细信息*/
-    $scope.showDetail = function () {
-        var tempCtr = '', tempTepl = '';
-        //名称信息
-        tempCtr = appPath.road + 'ctrls/attr_lu_ctrl/nameInfoCtrl';
-        tempTepl = appPath.root + appPath.road + 'tpls/attr_lu_Tpl/nameInfoTpl.html';
-        var detailInfo = {
-            "loadType": "subAttrTplContainer",
-            "propertyCtrl": tempCtr,
-            "propertyHtml": tempTepl,
-            "data":objCtrl.data.faceNames
-        };
-        $scope.$emit("transitCtrlAndTpl", detailInfo);
-        eventController.fire('SHOWNAMEGROUP');
+    $scope.showDetail = function (index ,nameGroupid) {
+//        var tempCtr = '', tempTepl = '';
+//        //名称信息
+//        tempCtr = appPath.road + 'ctrls/attr_lu_ctrl/nameInfoCtrl';
+//        tempTepl = appPath.root + appPath.road + 'tpls/attr_lu_Tpl/nameInfoTpl.html';
+//        var detailInfo = {
+//            "loadType": "subAttrTplContainer",
+//            "propertyCtrl": tempCtr,
+//            "propertyHtml": tempTepl,
+//            "data":objCtrl.data.faceNames
+//        };
+//        $scope.$emit("transitCtrlAndTpl", detailInfo);
+//        eventController.fire('SHOWNAMEGROUP');
+        var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
+    			"loadType": "subAttrTplContainer",
+    			"propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+    			"propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+    			"callback": function () {
+    				var showNameObj = {
+    					"loadType": "subAttrTplContainer",
+    					"propertyCtrl": 'scripts/components/road/ctrls/attr_lu_ctrl/luFaceNameCtrl',
+    					"propertyHtml": '../../../scripts/components/road/tpls/attr_lu_tpl/luFaceNameTpl.html'
+    				};
+    				$scope.$emit("transitCtrlAndTpl", showNameObj);
+    			}
+    	};
+//        objCtrl.namesInfos = $scope.getItemByNameGroupid($scope.nameGroup,nameGroupid);
+        objCtrl.namesInfos = $scope.nameGroup[index];
+    	$scope.$emit("transitCtrlAndTpl", showNameInfoObj);
+    };
+    function initNameInfo(){
+		if($scope.luFaceData.faceNames.length > 0){
+			$scope.nameGroup = [];
+			/*根据数据中对象某一属性值排序*/
+			function compare(propertyName) {
+				return function (object1, object2) {
+					var value1 = object1[propertyName];
+					var value2 = object2[propertyName];
+					if (value2 < value1) {
+						return -1;
+					}
+					else if (value2 > value1) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
+				}
+			}
+			$scope.luFaceData.faceNames.sort(compare('nameGroupid'));
+			//获取所有的nameGroupid
+            var nameGroupidArr = [];
+            for(var i = 0;i< $scope.luFaceData.faceNames.length;i++){
+            	nameGroupidArr.push($scope.luFaceData.faceNames[i].nameGroupid);
+            }
+            //去重
+            nameGroupidArr = Utils.distinctArr(nameGroupidArr);
+			for(var i=0,len=nameGroupidArr.length;i<len;i++){
+				var tempArr = [];
+				for(var j=0,le=$scope.luFaceData.faceNames.length;j<le;j++){
+					if($scope.luFaceData.faceNames[j].nameGroupid == nameGroupidArr[i]){
+						tempArr.push($scope.luFaceData.faceNames[j]);
+					}
+				}
+				$scope.nameGroup.push(tempArr);
+			}
+			$scope.refreshNames();
+		}
+	}
+    /*增加item*/
+	$scope.addItem = function () {
+		$scope.refreshNames();
+		var maxNameGroupId = 0;
+		if($scope.luFaceData.faceNames.length>0){
+			maxNameGroupId = Utils.getArrMax($scope.luFaceData.faceNames,'nameGroupid');
+		}
+		objCtrl.data.faceNames.push(fastmap.dataApi.luFaceName({
+			"nameGroupid" : maxNameGroupId+1,
+			"pid": $scope.luFaceData.pid
+		}));
+		initNameInfo();
+	};
+	/*移除item*/
+	$scope.removeItem = function (index,item) {
+        for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
+            if ($scope.nameGroup[i]) {
+                for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
+                    if ($scope.nameGroup[i][j] === item) {
+                        if ($scope.nameGroup[i].length == 1) {
+                            $scope.nameGroup.splice(i, 1);
+                            for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
+                                if (n >= i) {
+                                    for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
+                                        $scope.nameGroup[n][m].nameGroupid--;
+                                    }
+                                }
+                            }
+                        } else {
+                            $scope.nameGroup[i].splice(index, 1);
+                        }
+                    }
+                }
+            }
+        }
+        $scope.refreshNames();
+        $scope.$emit('SWITCHCONTAINERSTATE', {
+            'subAttrContainerTpl': false,
+            'attrContainerTpl': true
+        });
     };
     //监听保存，修改,删除，取消，和初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
