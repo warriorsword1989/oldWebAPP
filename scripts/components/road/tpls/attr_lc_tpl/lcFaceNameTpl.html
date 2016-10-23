@@ -41,7 +41,8 @@
                     <li>
                         <label>名称来源</label>
                         <div>
-                            <select ng-model="info.srcFlag" ng-options="value.code as value.label for value in nameSource" ng-class="{true:'chosen-disabled'}[srcFlagDisable]" ng-disabled="srcFlagDisable"></select>
+                            <select ng-model="info.srcFlag" ng-options="value.code as value.label for value in nameSource"
+                            	ng-class="{true:'chosen-disabled'}[info.langCode != 'ENG']" ng-disabled="info.langCode != 'ENG'"></select>
                         </div>
                     </li>
                 </ul>
