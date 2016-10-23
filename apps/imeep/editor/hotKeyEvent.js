@@ -509,7 +509,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
-                        treatmentOfChanged(objEditCtrl.data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                        highRenderCtrl.highLightFeatures.push({
+                            id: objEditCtrl.data.pid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
                     }
                 })
             }
