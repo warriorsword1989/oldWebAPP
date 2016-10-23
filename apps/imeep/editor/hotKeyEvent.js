@@ -979,8 +979,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "LULINKFACE") {
-                var zoneLinksArr = selectCtrl.selectedFeatures.links;
-                if (!zoneLinksArr || zoneLinksArr.length < 2) {
+                var luLinksArr = selectCtrl.selectedFeatures.links;
+                if (!luLinksArr || luLinksArr.length < 2) {
                     swal("操作失败", "请双击结束增加线段", "error");
                     return;
                 }
@@ -990,19 +990,19 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "linkType": "LULINK",
                     "dbId": App.Temp.dbId,
                     "data": {
-                        "linkPids": zoneLinksArr
+                        "linkPids": luLinksArr
                     }
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
-                        zoneFace.redraw();
-                        zoneLink.redraw();
+                        luFace.redraw();
+                        luLink.redraw();
                         treatmentOfChanged(data, "LUFACE", 'attr_lu_ctrl/luFaceCtrl', 'attr_zone_tpl/luFaceTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "LCLINKFACE") {
-                var zoneLinksArr = selectCtrl.selectedFeatures.links;
-                if (!zoneLinksArr || zoneLinksArr.length < 2) {
+                var lcLinksArr = selectCtrl.selectedFeatures.links;
+                if (!lcLinksArr || lcLinksArr.length < 2) {
                     swal("操作失败", "请双击结束增加线段", "error");
                     return;
                 }
@@ -1012,13 +1012,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     "linkType": "LCLINK",
                     "dbId": App.Temp.dbId,
                     "data": {
-                        "linkPids": zoneLinksArr
+                        "linkPids": lcLinksArr
                     }
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
-                        zoneFace.redraw();
-                        zoneLink.redraw();
+                        lcFace.redraw();
+                        lcLink.redraw();
                         treatmentOfChanged(data, "LCFACE", 'attr_lc_ctrl/lcFaceCtrl', 'attr_lc_tpl/lcFaceTpl.html');
                     }
                 })
