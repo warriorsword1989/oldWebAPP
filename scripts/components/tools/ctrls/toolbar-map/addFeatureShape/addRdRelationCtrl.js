@@ -115,14 +115,14 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 if ((j + 1) < shapePoints.length) {
                     point2 = map.latLngToContainerPoint([shapePoints[j + 1].y, shapePoints[j + 1].x]);
                     angle1 = $scope.angleOfLink(point1, point2);
-                    if (Math.abs(angle1 - start) > 0.1) {
+                    if (Math.abs(angle1 - start) > 0.01) { //觉着没有必要
                         start = angle1;
                         var points = [];
                         points.push(shapePoints[j]);
                         points.push(shapePoints[j+1]);
                         pointsObj.push(points);
                     } else {
-                        pointsObj[pointsObj.length-1].push(shapePoints[j+1]);
+                        //pointsObj[pointsObj.length-1].push(shapePoints[j+1]);//此处有bug，update by wuzhen
                     }
                 }
             }
@@ -153,7 +153,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 dy = t * (a[1].y - a[0].y);
             return {
                 x: (a[0].x + dx).toFixed(5),
-                y: (a[0].y + dy).toFixed(5)
+                y: (a[0].y + dy).toFixed(5),
+                linkIdA:a[2],
+                featTypeA:a[3],
+                linkIdB:b[2],
+                featTypeB:b[3]
             }; //保留小数点后5位
         };
         /**
@@ -243,28 +247,28 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
          * 调整link层级高低
          */
         $scope.changeLevel = function() {
-                editLayer.drawGeometry = null;
-                map.currentTool.options.repeatMode = false;
-                shapeCtrl.stopEditing();
-                editLayer.bringToBack();
-                $(editLayer.options._div).unbind();
-                // $scope.changeBtnClass("");
-                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                editLayer.clear();
-                $scope.$emit("SWITCHCONTAINERSTATE", {
-                    "attrContainerTpl": false
+            editLayer.drawGeometry = null;
+            map.currentTool.options.repeatMode = false;
+            shapeCtrl.stopEditing();
+            editLayer.bringToBack();
+            $(editLayer.options._div).unbind();
+            // $scope.changeBtnClass("");
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            editLayer.clear();
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false
+            });
+            map._container.style.cursor = '';
+            if ($scope.containsRdLink($scope.jsonData.linkObjs)) {
+                map.currentTool = new fastmap.uikit.SelectPath({
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
                 });
-                map._container.style.cursor = '';
-                if ($scope.containsRdLink($scope.jsonData.linkObjs)) {
-                    map.currentTool = new fastmap.uikit.SelectPath({
-                        map: map,
-                        currentEditLayer: rdLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
-                    map.currentTool.enable();
-                }
+                map.currentTool.enable();
+            }
             if ($scope.containsRwLink($scope.jsonData.linkObjs)) {
                 map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
                     map: map,
@@ -275,13 +279,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.rwEvent.enable();
             }
             if ($scope.containsLcLink($scope.jsonData.linkObjs)) {
-                map.currentTool.rwEvent = new fastmap.uikit.SelectPath({
+                map.currentTool.lcEvent = new fastmap.uikit.SelectPath({
                     map: map,
                     currentEditLayer: lcLink,
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
-                map.currentTool.rwEvent.enable();
+                map.currentTool.lcEvent.enable();
             }
                 rdLink.options.selectType = 'link';
                 rdLink.options.editable = true;
@@ -774,6 +778,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             containObj[data[num].data.properties.id] = true;
                         }
                     }
+                    //获取矩形框的外包矩形
                     for (var rec = 0; rec < latArr.length; rec++) {
                         var tempArr = [];
                         tempArr.push(latArr[rec].lng);
@@ -783,18 +788,17 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             rectangleData.coordinates[0].push(rectangleData.coordinates[0][0]);
                         }
                     }
+                    var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
+                    var LINKTYPES = {
+                        RDLINK:'rdLink',
+                        RWLINK:'rwLink',
+                        LCLINK:'lcLink'
+                    };
                     /*高亮link*/
                     for (var i = 0, lenI = dealData.length; i < lenI; i++) {
-                        var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'];
-                        var tempObj = {
-                            RDLINK:'rdLink',
-                            RWLINK:'rwLink',
-                            LCLINK:'lcLink'
-                        };
                         highlightFeatures.push({
                             id: dealData[i].data.properties.id.toString(),
-                            // layerid: dealData[i].data.properties.featType == "RDLINK" ? 'rdLink' : 'rwLink',
-                            layerid: tempObj[dealData[i].data.properties.featType],
+                            layerid: LINKTYPES[dealData[i].data.properties.featType],
                             type: 'line',
                             index: i,
                             style: {
@@ -817,10 +821,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             for (var j = i + 1; j < dealData.length; j++) {
                                 if (i != j) {
                                     var lineGeoArr = function(mark) {
-                                        return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length-1]];
+                                        return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length-1],dealData[mark].data.properties.id,dealData[mark].data.properties.featType];
                                     };
-                                    if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
-                                        crossGeos.push($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j)));
+                                    var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))
+                                    if(temp){
+                                        crossGeos.push(temp);
                                     }
                                 }
                             }
@@ -836,8 +841,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     var lineGeoArr = function(index) {
                                         return [sepLinks.pointsObj[index][0], sepLinks.pointsObj[index][sepLinks.pointsObj[index].length-1]];
                                     };
-                                    if($scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))){
-                                        var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));
+                                    var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));
+                                    if(temp){
                                         crossGeos.push(temp);
                                         $scope.selfInter = true;
                                         temp.index = i+"-"+j;
@@ -859,10 +864,61 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl._cleanHighLight();
                         // tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     } else if (crossGeos.length > 1) {
-                        var selectOneGSC = function (event) {
-                            console.log(event);
+                        var selectOneGSC = function (e) { //立交点击事件
+                            console.info(e);
+                            console.info(crossGeos);
+                            map.removeLayer(map.markerLayer);
+                            //获取交点到当前点击点最近的那个交点
+                            var currentPoint = L.latLng(e.latlng.lng,e.latlng.lat);
+                            var minDis = Number.MAX_VALUE;
+                            var index = 0;
+                            for(var c = 0 ; c < crossGeos.length; c ++){
+                                var tempPoint = L.latLng(Number(crossGeos[c].x),Number(crossGeos[c].y));
+                                var dis = currentPoint.distanceTo(tempPoint);
+                                if(dis < minDis){
+                                    minDis = dis;
+                                    index = c;
+                                }
+                            }
+
+                            var tempObjA = {
+                                'pid': crossGeos[index].linkIdA,
+                                'type': crossGeos[index].featTypeA, //必须定义成type
+                                'zlevel': 0
+                            };
+                            var tempObjB = {
+                                'pid': crossGeos[index].linkIdB,
+                                'type': crossGeos[index].featTypeB,
+                                'zlevel': 1
+                            };
+                            var tempOjbs = [];
+                            tempOjbs.push(tempObjA);
+                            tempOjbs.push(tempObjB);
+                            $scope.jsonData.linkObjs = tempOjbs;
+
+                            var highlightFeatures = [];
+                            for (var i = 0, lenI = tempOjbs.length; i < lenI; i++) {
+                                highlightFeatures.push({
+                                    id: tempOjbs[i].pid.toString(),
+                                    layerid: LINKTYPES[tempOjbs[i].type],
+                                    type: 'line',
+                                    index: i,
+                                    style: {
+                                        strokeWidth: 5,
+                                        strokeColor:COLORTABLE[i]
+                                    }
+                                })
+                            }
+                            highRenderCtrl.highLightFeatures = highlightFeatures;
+                            highRenderCtrl.drawHighlight();
+
+                            tooltipsCtrl.setCurrentTooltip("点击link调整层级、空格保存或者按ESC键取消!");
+                            $scope.changeLevel();
+                            shapeCtrl.shapeEditorResult.setFinalGeometry($scope.jsonData);
+
                         };
                         map.currentTool.disable();//取消鼠标事件
+                        var markerArr = [];
                         for(var i=0;i<crossGeos.length;i++){
                             var point =new L.LatLng(parseFloat(crossGeos[i].y),parseFloat(crossGeos[i].x) );
                             var poiFeature = L.marker(point,{
@@ -876,12 +932,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     icon:L.icon({
                                         iconUrl: '../../../images/road/img/cross.svg',
                                         iconSize: [16, 16],
-                                        //iconAnchor: [12,30],
                                         popupAnchor: [0, -32]
                                     })
                                 }
-                            ).on("click",selectOneGSC).addTo(map);
+                            ).on("click",selectOneGSC);
+                            markerArr.push(poiFeature);
                         }
+                        var layers = L.layerGroup(markerArr);
+                        map.markerLayer = layers;
+                        map.addLayer(layers);
                         highRenderCtrl._cleanHighLight();
                         // swal("错误信息", "不能有多个相交点，请重新选择立交点位！", "error");
                     } else {
