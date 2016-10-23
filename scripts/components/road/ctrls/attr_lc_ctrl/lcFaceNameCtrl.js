@@ -6,7 +6,6 @@ angular.module("app").controller("LcFaceNameCtl", ['$scope', 'dsEdit' ,'dsMeta',
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	$scope.lcFaceNames = objCtrl.namesInfos;
 	$scope.selectedLangcodeArr = [];
-	$scope.srcFlagDisable = true;
 	var getSelectedLangcode = function() {
 		$scope.selectedLangcodeArr.length = 0;
 		for(var k in $scope.lcFaceNames) {
@@ -52,11 +51,6 @@ angular.module("app").controller("LcFaceNameCtl", ['$scope', 'dsEdit' ,'dsMeta',
 	};
 	//代码语言字段切换时，判断语言不能重复
 	$scope.langCodeChange = function(event,obj){
-		if(obj.info.langCode == "ENG"){
-    		$scope.srcFlagDisable = false;
-    	}else{
-    		$scope.srcFlagDisable = true;
-    	}
 		getSelectedLangcode();
 	};
 	/*名称来源*/
