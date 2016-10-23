@@ -8,16 +8,14 @@
         车信PID
         <span class="label label-info">{{lanesData.pid}}</span>
     </div>
-    <div class="content scroll-styled dark" style="height:90%;">
-
+    <div class="content scroll-styled dark">
         <form name="rdLaneConnexityForm">
             <div class="fm-panel">
                 <div class="content">
                     <div style="display: block; overflow: auto;">
-                        <div style="display:inline-block;margin:5px 10px;" ng-repeat="item in showNormalData track by $index"
+                        <div class="lane-direct-img-container" ng-repeat="item in showNormalData track by $index"
                              ng-if="showNormalData.length!==0">
-                            <span style=" float:right;font-size:12px;margin-top:-5px;color:#fff;cursor:pointer;"
-                                  class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                            <span class="glyphicon glyphicon-remove-sign remove" ng-click="minusLane($index)"></span>
                             <img class="lanePic" ng-if="item.type===0"
                                  ng-click="showLanesInfo(item,$index,$event)"
                                  ng-mousedown="changeDirect(item,$event,$index)"
@@ -36,10 +34,9 @@
 
                     </div>
                     <div style="display: block; overflow: auto;">
-                        <div style="display:inline-block;margin:5px 10px;" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
+                        <div class="lane-direct-img-container" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
                              <span ng-if="items.flag!=='test'"
-                                   style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #fff;cursor: pointer;"
-                                   class="glyphicon glyphicon-remove-sign" ng-click="minusTransitData(items,$index)"></span>
+                                   class="glyphicon glyphicon-remove-sign remove" ng-click="minusTransitData(items,$index)"></span>
                             <img class="lanePic" ng-if="items.flag!=='test'"
                                  ng-click="changeTransit(items,$index)"
                                  ng-src="../../../images/road/1301/1301_1_{{items.flag}}.svg"
