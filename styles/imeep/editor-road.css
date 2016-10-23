@@ -453,8 +453,8 @@
 }
 .blackTheme .show-tips {
   text-align: center;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   margin: 10px;
   transition: all 0.5s;
