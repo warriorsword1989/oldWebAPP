@@ -4,6 +4,8 @@
 var selectApp = angular.module("app");
 selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath', function($scope, dsEdit, dsFcc, appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
+    var editLayer = layerCtrl.getLayerById('edit');
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdcross = layerCtrl.getLayerById('rdCross');
     var relation = layerCtrl.getLayerById('relationData');
@@ -247,6 +249,22 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
                 rdcross.redraw();
                 relation.redraw();
                 highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                if (map.currentTool) {
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                }
+                //清空编辑图层和shapeCtrl
+                editLayer.drawGeometry = null;
+                shapeCtrl.stopEditing();
+                editLayer.bringToBack();
+                $(editLayer.options._div).unbind();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                editLayer.clear();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,
                     'attrContainerTpl': false
