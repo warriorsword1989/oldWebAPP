@@ -112,8 +112,8 @@ fastmap.uikit.HighRenderController = (function () {
                       this.layer._drawPoint({
                         boolPixelCrs: true,
                         ctx: ctx,
-                        fillColor: 'red',
-                        radius: 6,
+                        fillColor: 'yellow',
+                        radius: 4,
                         geom: geo
                       })
                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {

@@ -653,8 +653,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                     layerid:'rdLink',
                                     type:'line',
                                     style:{
-                                        color: '#21ed25',
-                                        strokeWidth:50
+                                        color: '#21ed25'
                                     }
                                 });
                             }
@@ -1123,7 +1122,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
                             }
                         }
                     };

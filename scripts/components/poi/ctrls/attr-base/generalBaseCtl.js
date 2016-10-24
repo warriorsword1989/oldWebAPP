@@ -479,6 +479,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            $scope.$emit('closePopoverTips', false);
             //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
             if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {

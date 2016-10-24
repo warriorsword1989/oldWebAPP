@@ -139,6 +139,10 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
             if (map.currentTool) {
                 map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
             }
+            if(map.markerLayer){ //清除marker图层
+                map.removeLayer(map.markerLayer);
+                map.markerLayer = null;
+            }
             if (selectCtrl.rowKey) {
                 selectCtrl.rowKey = null;
             }

@@ -111,7 +111,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
 
             highlightFeatures.push({
                 id:$scope.rdNodeData.pid.toString(),
-                layerid:'rdLink',
+                layerid:'rdNode',
                 type:'node',
                 style:{}
             })
@@ -139,9 +139,9 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
     if(objectEditCtrl.data) {
         $scope.initializeNodeData();
     }
-    // objectEditCtrl.nodeObjRefresh=function() {
-    //     $scope.initialForms();
-    // };
+    objectEditCtrl.nodeObjRefresh=function() {
+        $scope.initialForms();
+    };
     // $scope.loadJsAndCtrl=function(obj) {
     //     $scope.$emit('transitCtrlAndTpl', obj);
     // };

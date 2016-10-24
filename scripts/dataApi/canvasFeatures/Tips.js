@@ -1,13 +1,13 @@
 fastmap.uikit.canvasTips = {};
 fastmap.uikit.canvasTips.Tips = L.Class.extend({
-    // guideLineObj : null,
-    // linePoint : null,
-    // transform : null,
-    // layerCtrl : null,
-    // guideLayer : null,
+    guideLineObj : null,
+    linePoint : null,
+    transform : null,
+    layerCtrl : null,
+    guideLayer : null,
     geometry: null,
     properties: null,
-    // guideLineArr : [],
+    guideLineArr : [],
     redFill: {
         lineColor: 'red',
         fillColor: 'rgba(225,225,225,0.5)'
@@ -272,7 +272,7 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
             }
             return ret;
         },
-        transformation: function(data) {
+        transformation: function(data,param) {
             var list = [];
             if (FM.Util.isObject(data)) {
                 for (var key in data) {
@@ -297,6 +297,26 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                     } else if (FM.Util.isArray(tmp)) {
                         list = list.concat(tmp);
                     }
+                }
+            }
+            //画引导线
+            if(param){
+                transform = new fastmap.mapApi.MecatorTranform();
+                layerCtrl = fastmap.uikit.LayerController();
+                guideLayer = layerCtrl.getLayerById("guideLineLayer");
+                // guideLineArr = [];
+                for(var i=0;i<data.length;i++){
+                    linePoint= transform.PixelToLonlat(param.split(':')[0] * 256 + data[i].g[0], param.split(':')[1] * 256 + data[i].g[1], map.getZoom());
+                    if(linePoint.length && isNaN(linePoint[0])){
+                        break;
+                    }
+                    guideLineObj = {
+                        'coordinates':linePoint,
+                        'guidePoint':data[i].m.h,
+                        'id':data[i].i
+                    };
+                    // guideLineArr.push(guideLineObj);
+                    guideLayer.draw(guideLineObj);
                 }
             }
             return list;
