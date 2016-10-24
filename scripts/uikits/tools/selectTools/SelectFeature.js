@@ -303,7 +303,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
       var html = '<ul id="layerpopup">';
 
       for (var item in totalFeature) {
-        html += '<li><a href="#" id="' + totalFeature[item].properties.featType + totalFeature[item].id + '">' + App.Temp.relationNameObj[totalFeature[item].properties.featType] + '</a></li>';
+        html += '<li><a href="#" id="' + totalFeature[item].properties.featType + totalFeature[item].id + '">' + App.Temp.relationNameObj[totalFeature[item].properties.featType] +"&nbsp"+ totalFeature[item].id+ '</a></li>';
       }
       html += '</ul>';
       this.popup
