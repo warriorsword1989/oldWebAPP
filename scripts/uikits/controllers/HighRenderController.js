@@ -112,7 +112,7 @@ fastmap.uikit.HighRenderController = (function () {
                       this.layer._drawPoint({
                         boolPixelCrs: true,
                         ctx: ctx,
-                        fillColor: 'red',
+                        fillColor: 'yellow',
                         radius: 4,
                         geom: geo
                       })
