@@ -431,6 +431,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     }
     $scope.cancel = function() {}
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    console.log('------------------------------------')
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initializeLinkData);
