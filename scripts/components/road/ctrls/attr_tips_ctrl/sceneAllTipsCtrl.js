@@ -1118,11 +1118,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             dsEdit.update(oPid, "RDLINK", changed).then(function(data) {
                 // $scope.$parent.$parent.$apply();
                 if (data != '属性值未发生变化') {
-                    $scope.upBridgeStatus(oPid);
+                    $scope.upBridgeStatus(oPid,e);
                     dsEdit.getByPid(oPid, "RDLINK").then(function(ret) {
                         if (ret) {
-                            objectCtrl.setCurrentObject('RDLINK', ret);
-                            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                            objCtrl.setCurrentObject('RDLINK', ret);
+                            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                         }
                     });
                     workPoint.redraw();
