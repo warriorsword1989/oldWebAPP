@@ -552,7 +552,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 		if($scope.diverObj.signboards[0].names.length>0){
 			maxNameGroupId = Utils.getArrMax($scope.diverObj.signboards[0].names,'nameGroupid');
 		}
-		objCtrl.data.signboards[0].names.push(fastmap.dataApi.rdBranchSignBoardName({
+		objCtrl.data.signboards[0].names.push(fastmap.dataApi.rdBranchName({
 			"nameGroupid" : maxNameGroupId+1
 		}));
 		initNameInfo();
