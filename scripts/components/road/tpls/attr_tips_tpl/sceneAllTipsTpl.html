@@ -18,7 +18,7 @@
     .middle {
         float: left;
         margin: auto;
-        height: 100%;
+        /*height: 100%;*/
         width: 100%;
         margin-top: 5px;
     }
@@ -44,8 +44,9 @@
         padding-left: 10px;
     }
     #sceneRoadTipsDiv {
-        width: 350px;
-        height: 330px;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
     }
     .form-horizontal .control-label {
         text-align: center;
@@ -125,7 +126,7 @@
         font-weight: 100;
     }
 </style>
-<div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" style="width:100%;">
+<div ng-controller="sceneAllTipsController" class=" dark scroll-styled" id="sceneRoadTipsDiv">
     <div class="tips-title">
         <label class="col-sm-12 control-label">Tips--{{featureConfig[allTipsType].name}}</label>
         <span class="glyphicon glyphicon-remove-sign close-tips" ng-click="closeTips();"></span>

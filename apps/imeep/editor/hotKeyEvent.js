@@ -513,7 +513,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
-                        //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                        highRenderCtrl.highLightFeatures.push({
+                            id: objEditCtrl.data.pid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
                     }
                 })
             }
@@ -982,6 +988,50 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         zoneFace.redraw();
                         zoneLink.redraw();
                         treatmentOfChanged(data, "ZONEFACE", 'attr_zone_ctrl/zoneFaceCtrl', 'attr_zone_tpl/zoneFaceTpl.html');
+                    }
+                })
+            } else if (shapeCtrl.editType === "LULINKFACE") {
+                var luLinksArr = selectCtrl.selectedFeatures.links;
+                if (!luLinksArr || luLinksArr.length < 2) {
+                    swal("操作失败", "请双击结束增加线段", "error");
+                    return;
+                }
+                param = {
+                    "command": "CREATE",
+                    "type": "LUFACE",
+                    "linkType": "LULINK",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPids": luLinksArr
+                    }
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        luFace.redraw();
+                        luLink.redraw();
+                        treatmentOfChanged(data, "LUFACE", 'attr_lu_ctrl/luFaceCtrl', 'attr_zone_tpl/luFaceTpl.html');
+                    }
+                })
+            } else if (shapeCtrl.editType === "LCLINKFACE") {
+                var lcLinksArr = selectCtrl.selectedFeatures.links;
+                if (!lcLinksArr || lcLinksArr.length < 2) {
+                    swal("操作失败", "请双击结束增加线段", "error");
+                    return;
+                }
+                param = {
+                    "command": "CREATE",
+                    "type": "LCFACE",
+                    "linkType": "LCLINK",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPids": lcLinksArr
+                    }
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        lcFace.redraw();
+                        lcLink.redraw();
+                        treatmentOfChanged(data, "LCFACE", 'attr_lc_ctrl/lcFaceCtrl', 'attr_lc_tpl/lcFaceTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "poiLocMove" || shapeCtrl.editType === "poiGuideMove" || shapeCtrl.editType === "poiAutoDrag") {

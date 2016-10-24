@@ -111,7 +111,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
 
             highlightFeatures.push({
                 id:$scope.rdNodeData.pid.toString(),
-                layerid:'rdLink',
+                layerid:'rdNode',
                 type:'node',
                 style:{}
             })

@@ -700,6 +700,7 @@ a.fm-panel-controlArrowRight > span {
   top: -20px;
   font-size: 16px;
   cursor: pointer;
+  margin-right: 5px;
 }
 .close-tips:hover {
   color: #A5A1A1;
@@ -2639,11 +2640,11 @@ a.batchButton {
   position: absolute;
   height: 160px;
   z-index: 99;
-  top: 51px;
+  top: 45px;
 }
 .picModalImg {
   width: 192px;
-  top: 51px;
+  top: 45px;
   height: 160px;
   position: absolute;
   z-index: 9;
@@ -2662,18 +2663,15 @@ a.batchButton {
   cursor: pointer;
   text-align: center;
 }
-
 /*车信剪头图*/
 .lane-direct-img-container {
-  display:inline-block;
-  margin:5px;
+  display: inline-block;
+  margin: 5px;
 }
-
 .lane-direct-img-container .remove {
-  float:right;
-  font-size:12px;
-  margin-top:-5px;
-  color:#fff;
-  cursor:pointer;
+  float: right;
+  font-size: 12px;
+  margin-top: -5px;
+  color: #fff;
+  cursor: pointer;
 }
-

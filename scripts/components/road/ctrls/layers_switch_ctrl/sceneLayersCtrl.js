@@ -4,6 +4,7 @@
 angular.module('app').controller('scenceLayersController', function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
+    var guideLayer = layerCtrl.getLayerById("guideLineLayer");
     $scope.selectedScenceId = 1; // 默认选中常规场景
     $scope.scenceArray = [{
         "id": 1,
@@ -267,6 +268,9 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         item.selected = !item.selected;
         if (item.single) {
             layerCtrl.getLayerById(item.layerId).options.visible = item.selected;
+            //引导线图层随workPoint隐藏或显示
+            layerCtrl.getLayerById(item.layerId).options.visible = item.selected;
+            guideLayer.options.visible = item.selected;
             eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                 layerArr: layerCtrl.layers
             });
