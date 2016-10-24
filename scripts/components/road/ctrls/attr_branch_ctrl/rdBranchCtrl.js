@@ -652,8 +652,6 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             return false;
         }
         dsEdit.save(param).then(function (data) {
-        	console.log('原始值'+JSON.stringify(objCtrl.originalData.details[0].names))
-        	console.log('现值'+JSON.stringify(objCtrl.data.details[0].names))
             if (data) {
                 if (selectCtrl.rowkey) {
                     var stageParam = {
