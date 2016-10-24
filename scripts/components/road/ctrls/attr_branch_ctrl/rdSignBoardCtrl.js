@@ -368,7 +368,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                             break;
                         }
                         if(j == newData.length-1 && newData[j].pid != oldData[i].pid){
-                            oldData[i] = new fastmap.dataApi.rdBranchName(oldData[i]);
+                            oldData[i] = new fastmap.dataApi.rdBranchSignBoardName(oldData[i]);
                             delete oldData[i]._initHooksCalled;
                             delete oldData[i].geoLiveType;
                             delete oldData[i].$$hashKey;
