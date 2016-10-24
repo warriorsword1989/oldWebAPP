@@ -14,8 +14,8 @@ fastmap.dataApi.LuFaceName=fastmap.dataApi.GeoDataModel.extend({
         this.facePid = data["facePid"];
         this.nameGroupid = data["nameGroupid"] || 1;
         this.langCode = data["langCode"] || "CHI";
-        this.name = data["name"] || "";
-        this.phonetic = data["phonetic"] || "";
+        this.name = data["name"] || "土地利用面名";
+        this.phonetic = data["phonetic"] || "Tu Di Li Yong Mian Ming";
         this.srcFlag = data["srcFlag"] || 0;
     },
 

@@ -299,7 +299,7 @@ fastmap.uikit.ObjectEditController = (function() {
                                 if (oriData[item].length == 0) {
                                     for (var s in data[item][m]) {
                                         if (s != "$$hashKey") {
-                                            if (s == "linkPid") {
+                                            if (s == "linkPid" && item != 'vias') { // add by chenx on 2016-10-23，为了避免新增的拓扑的经过线的linkPid赋值错误
                                                 obj[s] = data["pid"];
                                             } else {
                                                 obj[s] = data[item][m][s];

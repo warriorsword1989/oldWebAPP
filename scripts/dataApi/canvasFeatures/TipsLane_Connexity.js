@@ -12,6 +12,5 @@ fastmap.uikit.canvasTips.TipsLane_Connexity = fastmap.uikit.canvasTips.Tips.exte
                 fillStyle:item.m.a == "0"?this.redFill:this.blueFill
             })
         );
-
     }
 });
