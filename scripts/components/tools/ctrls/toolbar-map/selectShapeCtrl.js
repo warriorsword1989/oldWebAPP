@@ -104,7 +104,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     index: objCtrl.data.links[i].zlevel,
                     style: {
                         strokeWidth: 5,
-                        strokeColor: COLORTABLE[i]
+                        strokeColor: COLORTABLE[objCtrl.data.links[i].zlevel]
                     }
                 });
             }
@@ -3254,6 +3254,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 } else if (type === "CHANGELEVEL") {
                     /*重绘link颜f色*/
                     highRenderCtrl.highLightFeatures = [];
+                    objCtrl.data.links.sort(function(a,b){
+                        return a.zlevel - b.zlevel;
+                    });
                     for (var i = 0; i < objCtrl.data.links.length; i++) {
                         var tempObj = {
                             'RD_LINK': 'rdLink',
@@ -3368,14 +3371,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 linkSpeedLimit.speedDependent = parseInt(data.condition);
             }
             dsEdit.getByCondition(param).then(function(links) { //查找link串
+                var linkArrays = [],
+                    speedLimitInfo = {};
                 if (links.errcode == 0) {
                     if (links.data) {
+                        linkArrays = links.data[0];
+                        speedLimitInfo = links.data[1];
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures = [];
-                        for (var i = 0; i < links.data.length; i++) {
-                            linkPids.push(links.data[i]);
+                        for (var i = 0; i < linkArrays.length; i++) {
+                            linkPids.push(linkArrays[i]);
                             highRenderCtrl.highLightFeatures.push({
-                                id: links.data[i].toString(),
+                                id: linkArrays[i].toString(),
                                 layerid: 'rdLink',
                                 type: 'line',
                                 style: {}
@@ -3389,7 +3396,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             "propertyCtrl": ctrl,
                             "propertyHtml": tpl
                         });
-                        dsEdit.getByPid(links.data[links.data.length - 1], "RDLINK").then(function(linkDetail) {
+                        dsEdit.getByPid(linkArrays[linkArrays.length - 1], "RDLINK").then(function(linkDetail) {
                             var linkNodes = [];
                             linkNodes.push(linkDetail.eNodePid);
                             linkNodes.push(linkDetail.sNodePid);

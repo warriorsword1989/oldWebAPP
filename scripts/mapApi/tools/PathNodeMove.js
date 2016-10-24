@@ -32,6 +32,7 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
         });
+        this.nodeArray = ["RDNODE"]; //["RDNODE","ADNODE","LCNODE","LUNODE","ZONENODE"];
     },
     /***
      * 添加事件处理
@@ -111,7 +112,8 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
             this.targetIndexs.length = 0;
         }
 
-        if(this.objectCtrl.data.geoLiveType == "RDNODE" && this.objectCtrl.data.meshes.length == 2){ //增加对于图廓点的特殊控制
+        //计算图幅的四个顶角
+        if((this.nodeArray.indexOf(this.objectCtrl.data.geoLiveType) > -1) && this.objectCtrl.data.meshes.length == 2){ //增加对于图廓点的特殊控制
             var temp = new fastmap.mapApi.GridLayer();
             var arr1 = temp.Calculate25TMeshBorder(this.objectCtrl.data.meshes[0].meshId+"");
             var arr2 = temp.Calculate25TMeshBorder(this.objectCtrl.data.meshes[1].meshId+"");
@@ -144,7 +146,7 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
     },
     onMouseUp: function(event) {
         //增加图廓点只能在图廓线上移动的控制 --------begin----------
-        if(this.objectCtrl.data.geoLiveType == "RDNODE" && this.objectCtrl.data.meshes.length == 2){ //增加对于图廓点的特殊控制
+        if((this.nodeArray.indexOf(this.objectCtrl.data.geoLiveType) > -1) && this.objectCtrl.data.meshes.length == 2){ //增加对于图廓点的特殊控制
             var point= L.LineUtil.closestPointOnSegment(L.point(event.latlng.lat,event.latlng.lng),L.point(this.linePoints[0].x,this.linePoints[0].y),L.point(this.linePoints[1].x,this.linePoints[1].y));
             this.targetPoint.lat = point.x;
             this.targetPoint.lng = point.y;

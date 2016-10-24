@@ -1114,21 +1114,15 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             objCtrl.data.changeKind($scope.dataTipsData.kind, objCtrl.data['kind']);
             objCtrl.save();
             changed = objCtrl.changedProperty;
-            var param = {
-                "type": "RDLINK",
-                "command": "UPDATE",
-                "dbId": App.Temp.dbId,
-                "data": changed
-            };
             var oPid = parseInt($scope.dataTipsData.f.id);
-            dsEdit.update(oPid, "RDLINK", kindObj).then(function(data) {
+            dsEdit.update(oPid, "RDLINK", changed).then(function(data) {
                 // $scope.$parent.$parent.$apply();
                 if (data != '属性值未发生变化') {
-                    $scope.upBridgeStatus(oPid);
+                    $scope.upBridgeStatus(oPid,e);
                     dsEdit.getByPid(oPid, "RDLINK").then(function(ret) {
                         if (ret) {
-                            objectCtrl.setCurrentObject('RDLINK', ret);
-                            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                            objCtrl.setCurrentObject('RDLINK', ret);
+                            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                         }
                     });
                     workPoint.redraw();

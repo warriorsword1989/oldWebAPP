@@ -210,6 +210,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                             });
                             scope.$emit("highLightPoi", rest.pid);
+                            scope.$emit("refreshPhoto", true); //更新图片面板
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.highLightFeatures = [];
                             var highLightFeatures = [];
