@@ -424,18 +424,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             } else if (param["type"] === "ADLINK") {
                                 adLink.redraw();
                                 adNode.redraw();
+                                adFace.redraw();
                             } else if (param["type"] === "RWLINK") {
                                 rwLink.redraw();
                                 rwnode.redraw();
                             } else if (param["type"] === "ZONELINK") {
                                 zoneLink.redraw();
                                 zoneNode.redraw();
+                                zoneFace.redraw();
                             } else if (param["type"] === "LULINK") {
                                 luLink.redraw();
                                 luNode.redraw();
+                                luFace.redraw();
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
                                 lcNode.redraw();
+                                lcFace.redraw();
                             }
                             shapeCtrl.editType = "pathBreak";//被清空了，下面方法的分支进不去，因此再次临时赋值
                             treatmentOfChanged(data, param["type"]);
