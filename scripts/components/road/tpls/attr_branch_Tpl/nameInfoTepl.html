@@ -66,7 +66,7 @@
                         <div class="d-value">
                             <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
                               <label ng-class="{'btn-primary active':n.code==nameObj.nameClass,'btn-default':n.code!=nameObj.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,nameObj.nameGroupid)">
-                                <input type="radio" name="nameClass{{nameObj.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
+                                <input type="radio" name="nameClass{{nameObj.pid}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
                               </label>
                             </div>
                         </div> 
