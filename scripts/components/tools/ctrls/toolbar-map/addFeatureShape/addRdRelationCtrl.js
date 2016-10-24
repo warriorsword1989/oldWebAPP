@@ -2403,7 +2403,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {color: 'yellow'}
                             });
                             highRenderCtrl.drawHighlight();
@@ -2418,7 +2418,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {color: 'yellow'}
                             });
                             highRenderCtrl.drawHighlight();
