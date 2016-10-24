@@ -227,14 +227,16 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
             for (var tips in tileData) {
               if (this._TouchesPoint(tileData[tips].geometry.coordinates, x, y, 5)) {
 
-                this.selectData.tips.push({
+                var temp = {
                   id: tileData[tips].properties.id,
                   optype: tileData[tips].properties.featType,
                   event: event,
                   point: point,
                   properties: tileData[tips].properties,
                   layer: layers[layer]
-                })
+                };
+                temp.properties.featType = "TIPS"; //对tips特殊处理，为了解决tips选中显示undefined的问题
+                this.selectData.tips.push(temp);
               }
             }
             break;
@@ -302,6 +304,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
 
       var html = '<ul id="layerpopup">';
 
+      console.info(totalFeature);
       for (var item in totalFeature) {
         html += '<li><a href="#" id="' + totalFeature[item].properties.featType + totalFeature[item].id + '">' + App.Temp.relationNameObj[totalFeature[item].properties.featType] +"&nbsp"+ totalFeature[item].id+ '</a></li>';
       }

@@ -397,6 +397,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                             }, 500);
                         } else {
                             scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
+                            scope.$emit("showFullLoadingOrNot",false);
                         }
                     });
                 }
