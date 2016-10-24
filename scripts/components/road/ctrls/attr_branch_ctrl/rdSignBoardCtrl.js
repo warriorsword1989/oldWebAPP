@@ -375,8 +375,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     };
     /*保存分歧数据*/
     $scope.save = function () {
-    	console.log('原始值'+JSON.stringify(objCtrl.originalData.signboards[0].names))
-    	console.log('现值'+JSON.stringify(objCtrl.data.signboards[0].names))
     	$scope.refreshNames();
         if (!$scope.diverObj) {
             swal("操作失败", "请输入属性值！", "error");
