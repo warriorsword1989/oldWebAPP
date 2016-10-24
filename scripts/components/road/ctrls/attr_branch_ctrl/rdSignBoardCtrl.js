@@ -317,8 +317,8 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     $scope.showDetail = function (type, nameInfo, nameGroupid) {
         var tempCtr = '', tempTepl = '';
         if (type == 0) {  //名称信息
-            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/rdBranchNameCtl';
-            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/rdBranchNameTpl.html';
+            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/rdSignBoardNameCtl';
+            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/signBoardNameTpl.html';
         } else {  //经过线
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
@@ -375,6 +375,8 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     };
     /*保存分歧数据*/
     $scope.save = function () {
+    	console.log('原始值'+JSON.stringify(objCtrl.originalData.signboards[0].names))
+    	console.log('现值'+JSON.stringify(objCtrl.data.signboards[0].names))
     	$scope.refreshNames();
         if (!$scope.diverObj) {
             swal("操作失败", "请输入属性值！", "error");
@@ -456,12 +458,18 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
-//        for(var i=0;i<param.data.signboards[0].names;i++){
-//        	delete param.data.signboards[0].names[i]._initHooksCalled;
-//            delete param.data.signboards[0].names[i].geoLiveType;
-//            delete param.data.signboards[0].names[i].$$hashKey;
-//            delete param.data.signboards[0].names[i].options;
-//        }
+        /*for(var i=0;i<param.data.signboards[0].names;i++){
+        	delete param.data.signboards[0].names[i]._initHooksCalled;
+            delete param.data.signboards[0].names[i].geoLiveType;
+            delete param.data.signboards[0].names[i].options;
+            delete param.data.signboards[0].names[i].$$hashKey;
+            delete param.data.signboards[0].names[i].snapShot;
+            delete param.data.signboards[0].names[i].attributes;
+            delete param.data.signboards[0].names[i].geometry;
+            delete param.data.signboards[0].names[i].id;
+            delete param.data.signboards[0].names[i].integrate;
+            delete param.data.signboards[0].names[i]._initHooks;
+        }*/
         dsEdit.save(param).then(function (data) {
             if (data) {
                 if (selectCtrl.rowkey) {
@@ -474,10 +482,10 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
+                $scope.refreshData();
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 rdBranch.redraw();
             }
-            $scope.refreshData();
         });
     };
 
@@ -552,7 +560,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 		if($scope.diverObj.signboards[0].names.length>0){
 			maxNameGroupId = Utils.getArrMax($scope.diverObj.signboards[0].names,'nameGroupid');
 		}
-		objCtrl.data.signboards[0].names.push(fastmap.dataApi.rdBranchName({
+		objCtrl.data.signboards[0].names.unshift(fastmap.dataApi.rdBranchSignBoardName({
 			"nameGroupid" : maxNameGroupId+1
 		}));
 		initNameInfo();
