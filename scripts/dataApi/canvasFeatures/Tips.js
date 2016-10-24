@@ -300,12 +300,11 @@ fastmap.uikit.canvasTips.Tips = L.Class.extend({
                 }
             }
             //画引导线
-            // console.log(param,data,this)
             if(param){
                 transform = new fastmap.mapApi.MecatorTranform();
                 layerCtrl = fastmap.uikit.LayerController();
                 guideLayer = layerCtrl.getLayerById("guideLineLayer");
-                guideLineArr = [];
+                // guideLineArr = [];
                 for(var i=0;i<data.length;i++){
                     linePoint= transform.PixelToLonlat(param.split(':')[0] * 256 + data[i].g[0], param.split(':')[1] * 256 + data[i].g[1], map.getZoom());
                     if(linePoint.length && isNaN(linePoint[0])){

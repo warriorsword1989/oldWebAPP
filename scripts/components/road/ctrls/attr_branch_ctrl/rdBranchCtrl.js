@@ -277,6 +277,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     }
     /*当分歧类型变更时*/
     $scope.changeBranchType = function(type){
+        $scope.diverObj.details[0].branchType = type;
         if(type == 1 || type == 3){
             $('[data-toggle="tooltip"]').tooltip();
         }
@@ -551,6 +552,10 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 objCtrl.data.details[0].names[i].name = Utils.ToDBC(objCtrl.data.details[0].names[i].name);
             }
         }
+        /*切换类型清空names*/
+        if($scope.diverObj.details[0].branchType != 1 && $scope.diverObj.details[0].branchType!=2){
+            $scope.diverObj.details[0].names = [];
+        }
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
@@ -619,7 +624,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             return n;
         }
         /*解决linkPid报错*/
-        if (param.data.details) {
+        if (param.data.details && objCtrl.originalData.details[0].branchType == param.data.details[0].branchType) {
             delete param.data.details[0].linkPid;
             if (param.data.details[0].names) {
                 if(objCtrl.originalData.details[0].names.length){

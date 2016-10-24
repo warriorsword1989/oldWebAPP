@@ -224,7 +224,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
                         strokeWidth: 5,
-                        strokeColor: COLORTABLE[i]
+                        strokeColor:COLORTABLE[$scope.jsonData.linkObjs[i].zlevel]
                     }
                 });
                 highRenderCtrl.drawHighlight();

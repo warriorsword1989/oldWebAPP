@@ -104,7 +104,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     index: objCtrl.data.links[i].zlevel,
                     style: {
                         strokeWidth: 5,
-                        strokeColor: COLORTABLE[i]
+                        strokeColor: COLORTABLE[objCtrl.data.links[i].zlevel]
                     }
                 });
             }
@@ -3254,6 +3254,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 } else if (type === "CHANGELEVEL") {
                     /*重绘link颜f色*/
                     highRenderCtrl.highLightFeatures = [];
+                    objCtrl.data.links.sort(function(a,b){
+                        return a.zlevel - b.zlevel;
+                    });
                     for (var i = 0; i < objCtrl.data.links.length; i++) {
                         var tempObj = {
                             'RD_LINK': 'rdLink',
