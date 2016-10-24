@@ -433,6 +433,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				if (data) {
 					// 暂时注释
 					App.Temp.dbId = data.dbId;
+                    App.Temp.taskType = data.type;
 					App.Temp.gridList = data.gridIds;
 					if (data.stage == 1) { // 日编
 						App.Temp.mdFlag = "d";

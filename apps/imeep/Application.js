@@ -61,7 +61,8 @@ App.Temp = {
         RDLINKSPEEDLIMIT: '线限速',
         TIPS:"TIPS"
     },
-    thematicMapFlag: false
+    thematicMapFlag: false,
+    taskType:null
 };
 // web app的公用函数命名空间
 App.Util = {
