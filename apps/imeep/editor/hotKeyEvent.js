@@ -100,6 +100,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
             }
+            if(map.markerLayer){ //清除marker图层
+                map.removeLayer(map.markerLayer);
+                map.markerLayer = null;
+            }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
             editLayer.drawGeometry = null;
@@ -875,6 +879,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (data != null) {
                         relationData.redraw();
                         rdLink.redraw();
+                        rwLink.redraw();
+                        lcLink.redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
@@ -1110,6 +1116,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                              "kindCode":kindCode
 	                          }
 	                      };
+                          scope.rootCommonTemp.selectPoiInMap = true;
                           scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();

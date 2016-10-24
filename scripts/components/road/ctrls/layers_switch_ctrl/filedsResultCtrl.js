@@ -653,8 +653,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                     layerid:'rdLink',
                                     type:'line',
                                     style:{
-                                        color: '#21ed25',
-                                        strokeWidth:50
+                                        color: '#21ed25'
                                     }
                                 });
                             }

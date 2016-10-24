@@ -131,7 +131,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
             if (data) {
                 $scope.reGscData = null;
                 rdgsc.redraw();
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+                $scope.$emit("SWITCHCONTAINERSTATE", { "subAttrContainerTpl": false });
             }
         })
     };

@@ -809,6 +809,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			if (data.type == "IXPOI") {
 				dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
 					if (rest) {
+						$scope.getCurrentKindByLittle(rest); //获取当前小分类所对应的大分类下的所有小分类
+
 						objectCtrl.setCurrentObject('IXPOI', rest);
 						objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
 						eventCtrl.fire(eventCtrl.eventTypes.SELECTBYATTRIBUTE, { //重新执行图片显示

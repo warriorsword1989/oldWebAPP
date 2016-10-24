@@ -521,6 +521,7 @@ otherApp.controller("rdLaneConnexityController",['$scope','$ocLazyLoad','$docume
     });
     $scope.save = function () {
         objCtrl.save();
+        console.log(objCtrl.changedProperty);
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return;

@@ -3914,6 +3914,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.resetMap(myPid);
                 });
             }
+            if(tooltipsCtrl.getCurrentTooltip()) {
+                tooltipsCtrl.onRemoveTooltip();
+            }
         };
         //高亮显示左侧列表的poi
         highlightPoiByPid = function() {
