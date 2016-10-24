@@ -1121,7 +1121,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 "data": changed
             };
             var oPid = parseInt($scope.dataTipsData.f.id);
-            dsEdit.update(oPid, "RDLINK", kindObj).then(function(data) {
+            dsEdit.update(oPid, "RDLINK", param).then(function(data) {
                 // $scope.$parent.$parent.$apply();
                 if (data != '属性值未发生变化') {
                     $scope.upBridgeStatus(oPid);
