@@ -12,10 +12,21 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 
     $scope.divergenceIds = objCtrl.data;
     objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
+    $scope.refreshNames = function(){
+		$scope.diverObj.signboards[0].names = [];
+		for(var i=0,len=$scope.nameGroup.length;i<len;i++){
+			for(var j=0,le=$scope.nameGroup[i].length;j<le;j++){
+				$scope.diverObj.signboards[0].names.push($scope.nameGroup[i][j]);
+			};
+		};
+	};
     $scope.initializeData = function () {
 
-        $scope.divergenceIds = objCtrl.data;
-        $scope.diverObj = $scope.divergenceIds;
+//        $scope.divergenceIds = objCtrl.data;
+//        $scope.diverObj = $scope.divergenceIds;
+        $scope.diverObj = objCtrl.data;
+        $scope.nameGroup = [];
+        initNameInfo();
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if($scope.nameBranchForm) {
             $scope.nameBranchForm.$setPristine();
@@ -303,24 +314,57 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         }
     }
     /*展示详细信息*/
-    $scope.showDetail = function (type) {
+    $scope.showDetail = function (type, nameInfo, nameGroupid) {
         var tempCtr = '', tempTepl = '';
         if (type == 0) {  //名称信息
-            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/nameInfoCtrl';
-            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/nameInfoTepl.html';
+            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/rdBranchNameCtl';
+            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/rdBranchNameTpl.html';
         } else {  //经过线
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }
-        var detailInfo = {
-            "loadType": "subAttrTplContainer",
-            "propertyCtrl": tempCtr,
-            "propertyHtml": tempTepl,
-            "data":objCtrl.data.signboards[0].names
+//        var detailInfo = {
+//            "loadType": "subAttrTplContainer",
+//            "propertyCtrl": tempCtr,
+//            "propertyHtml": tempTepl
+//            "data":objCtrl.data.signboards[0].names
+//        };
+        var showBranchInfoObj = {
+                "loadType": "subAttrTplContainer",
+                "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
+                "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
+                "callback": function () {
+                    var detailInfo = {
+                        "loadType": "subAttrTplContainer",
+                        "propertyCtrl": tempCtr,
+                        "propertyHtml": tempTepl
+                    };
+                    $scope.$emit("transitCtrlAndTpl", detailInfo);
+                }
         };
-        $scope.$emit("transitCtrlAndTpl", detailInfo);
+        objCtrl.namesInfos = $scope.getItemByNameGroupid($scope.nameGroup,nameGroupid);
+        $scope.$emit("transitCtrlAndTpl", showBranchInfoObj);
     };
-
+    /****
+     * 根据nameGroupid获取对应的数据
+     */
+    $scope.getItemByNameGroupid = function(arr,nameGroupid){
+    	var index = -1;
+    	var item;
+    	for(var i=0;i<arr.length;i++){
+    		for(var j=0;j<arr[i].length;j++){
+    			if(arr[i][j].nameGroupid == nameGroupid){
+    				index = i;
+    				break;
+    			};
+    		}
+    		if(index >=0){
+    			item = arr[i];
+    			break;
+    		};
+    	};
+    	return item;
+    };
     if (objCtrl.data) {
         $scope.initDiver();
     }
@@ -331,9 +375,19 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     };
     /*保存分歧数据*/
     $scope.save = function () {
+    	$scope.refreshNames();
         if (!$scope.diverObj) {
             swal("操作失败", "请输入属性值！", "error");
             return false;
+        }
+        //将出口编号转换成大写
+        if(objCtrl.data.signboards[0].exitNum){
+            objCtrl.data.signboards[0].exitNum = Utils.ToDBC(objCtrl.data.signboards[0].exitNum);
+        }
+        if(objCtrl.data.signboards[0].names && objCtrl.data.signboards[0].names.length > 0){
+            for(var i = 0 ; i < objCtrl.data.signboards[0].names.length; i ++ ){
+                objCtrl.data.signboards[0].names[i].name = Utils.ToDBC(objCtrl.data.signboards[0].names[i].name);
+            }
         }
         objCtrl.save();
         var param = {};
@@ -368,7 +422,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                             break;
                         }
                         if(j == newData.length-1 && newData[j].pid != oldData[i].pid){
-                            oldData[i] = new fastmap.dataApi.rdBranchName(oldData[i]);
+                            oldData[i] = new fastmap.dataApi.rdBranchSignBoardName(oldData[i]);
                             delete oldData[i]._initHooksCalled;
                             delete oldData[i].geoLiveType;
                             delete oldData[i].$$hashKey;
@@ -389,28 +443,25 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
             return n;
         }
         /*解决linkPid报错*/
-        if (param.data.signboards) {
-            if (param.data.signboards[0].names) {
-                // param.data.signboards[0].names = compareObjData(objCtrl.originalData.signboards[0].names,objCtrl.data.signboards[0].names);
-                for(var i=0;i<param.data.signboards[0].names.length;i++){
-                    delete param.data.signboards[0].names[i].snapShot;
-                    delete param.data.signboards[0].names[i].attributes;
-                    delete param.data.signboards[0].names[i].geometry;
-                    delete param.data.signboards[0].names[i].id;
-                    delete param.data.signboards[0].names[i].integrate;
-                    delete param.data.signboards[0].names[i]._initHooksCalled;
-                    delete param.data.signboards[0].names[i]._initHooks;
-                    delete param.data.signboards[0].names[i].options;
-                    delete param.data.signboards[0].names[i].detailId;
-                    delete param.data.signboards[0].names[i].$$hashKey;
-                }
-            }
-        }
+//        if (param.data.signboards) {
+//            delete param.data.signboards[0].linkPid;
+//            if (param.data.signboards[0].names) {
+//                if(objCtrl.originalData.signboards[0].names.length){
+//                    param.data.signboards[0].names = compareObjData(objCtrl.originalData.signboards[0].names,objCtrl.data.signboards[0].names);
+//                }
+//            }
+//        }
+//        $scope.refreshNames();
         if (!param.data) {
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
-        var oldPatCode = $scope.diverObj.signboards[0]?$scope.diverObj.signboards[0].backimageCode:'';
+//        for(var i=0;i<param.data.signboards[0].names;i++){
+//        	delete param.data.signboards[0].names[i]._initHooksCalled;
+//            delete param.data.signboards[0].names[i].geoLiveType;
+//            delete param.data.signboards[0].names[i].$$hashKey;
+//            delete param.data.signboards[0].names[i].options;
+//        }
         dsEdit.save(param).then(function (data) {
             if (data) {
                 if (selectCtrl.rowkey) {
@@ -452,6 +503,88 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     /*取消属性编辑*/
     $scope.cancel = function () {
     }
+//    $scope.$watch('nameGroup',function(newValue,oldValue,scope){
+//		$scope.refreshNames();
+//	},true);
+    function initNameInfo(){
+		if($scope.diverObj.signboards[0].names.length > 0){
+			$scope.nameGroup = [];
+			/*根据数据中对象某一属性值排序*/
+			function compare(propertyName) {
+				return function (object1, object2) {
+					var value1 = object1[propertyName];
+					var value2 = object2[propertyName];
+					if (value2 < value1) {
+						return -1;
+					}
+					else if (value2 > value1) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
+				}
+			}
+			$scope.diverObj.signboards[0].names.sort(compare('nameGroupid'));
+			//获取所有的nameGroupid
+            var nameGroupidArr = [];
+            for(var i = 0;i< $scope.diverObj.signboards[0].names.length;i++){
+            	nameGroupidArr.push($scope.diverObj.signboards[0].names[i].nameGroupid);
+            }
+            //去重
+            nameGroupidArr = Utils.distinctArr(nameGroupidArr);
+			for(var i=0,len=nameGroupidArr.length;i<len;i++){
+				var tempArr = [];
+				for(var j=0,le=$scope.diverObj.signboards[0].names.length;j<le;j++){
+					if($scope.diverObj.signboards[0].names[j].nameGroupid == nameGroupidArr[i]){
+						tempArr.push($scope.diverObj.signboards[0].names[j]);
+					}
+				}
+				$scope.nameGroup.push(tempArr);
+			}
+			$scope.refreshNames();
+		}
+	}
+    /*增加item*/
+	$scope.addItem = function () {
+		$scope.refreshNames();
+		var maxNameGroupId = 0;
+		if($scope.diverObj.signboards[0].names.length>0){
+			maxNameGroupId = Utils.getArrMax($scope.diverObj.signboards[0].names,'nameGroupid');
+		}
+		objCtrl.data.signboards[0].names.push(fastmap.dataApi.rdBranchSignBoardName({
+			"nameGroupid" : maxNameGroupId+1
+		}));
+		initNameInfo();
+	};
+	/*移除item*/
+	$scope.removeItem = function (index,item) {
+        for (var i = 0, len = $scope.nameGroup.length; i < len; i++) {
+            if ($scope.nameGroup[i]) {
+                for (var j = 0, le = $scope.nameGroup[i].length; j < le; j++) {
+                    if ($scope.nameGroup[i][j] === item) {
+                        if ($scope.nameGroup[i].length == 1) {
+                            $scope.nameGroup.splice(i, 1);
+                            for (var n = 0, nu = $scope.nameGroup.length; n < nu; n++) {
+                                if (n >= i) {
+                                    for (var m = 0, num = $scope.nameGroup[n].length; m < num; m++) {
+                                        $scope.nameGroup[n][m].nameGroupid--;
+                                    }
+                                }
+                            }
+                        } else {
+                            $scope.nameGroup[i].splice(index, 1);
+                        }
+                    }
+                }
+            }
+        }
+        $scope.refreshNames();
+        $scope.$emit('SWITCHCONTAINERSTATE', {
+            'subAttrContainerTpl': false,
+            'attrContainerTpl': true
+        });
+    };
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);

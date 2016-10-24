@@ -13,7 +13,11 @@ fastmap.dataApi.RdBranchSignBoard=fastmap.dataApi.GeoDataModel.extend({
         this.branchPid = data["branchPid"];
         this.backimageCode = data["backimageCode"] || "";
         this.arrowCode = data["arrowCode"] || "";
-        this.names = data["names"] || [];
+        this.names=[];
+        for(var i=0;i<data["names"].length;i++){
+            var name= fastmap.dataApi.rdBranchSignBoardName(data["names"][i]);
+            this.names.push(name);
+        }
     },
 
     getIntegrate:function(){
