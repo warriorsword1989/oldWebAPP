@@ -207,7 +207,7 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
             for(var i = 0, len = this.hornPoints.length; i < len; i++ ){
                 var point = L.latLng(this.hornPoints[i].x,this.hornPoints[i].y);
                 var dis = currentPoint.distanceTo(point);
-                if(dis < 0.5){
+                if(dis < 0.8){
                     return;
                 }
             }
