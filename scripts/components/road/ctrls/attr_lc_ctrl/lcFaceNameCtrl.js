@@ -53,6 +53,11 @@ angular.module("app").controller("LcFaceNameCtl", ['$scope', 'dsEdit' ,'dsMeta',
 	$scope.langCodeChange = function(event,obj){
 		getSelectedLangcode();
 	};
+	/*名称来源*/
+    $scope.nameSource = [
+        {"code":0,"label":"未定义"},
+        {"code":1,"label":"翻译"}
+    ];
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
 		{"id": "CHT", "label": "繁体中文"},

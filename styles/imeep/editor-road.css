@@ -251,6 +251,7 @@
   overflow: hidden;
   border-radius: 4px;
   margin-bottom: 10px;
+  color: #fff;
 }
 .blackTheme li.list-group-item {
   position: relative;
@@ -453,8 +454,8 @@
 }
 .blackTheme .show-tips {
   text-align: center;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   margin: 10px;
   transition: all 0.5s;
@@ -741,8 +742,6 @@
   min-width: 60%;
   min-height: 193px;
   max-width: 70%;
-  right: 37px;
-  margin-top: 25px;
 }
 .blackTheme .pic-show-well {
   min-width: 100%;

@@ -281,7 +281,8 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
      * 修改种别的关联维护
      * 两个参数都必选传
      */
-    kindChange: function(newValue, oldValue) {
+    changeKind: function(newValue, oldValue) {
+        this.kind = newValue;
         // 修改道路种别对道路名的维护;
         if (newValue == 1 || newValue == 2 || newValue == 3) {
             for (var i = 0, len = this.names.length; i < len; i++) {

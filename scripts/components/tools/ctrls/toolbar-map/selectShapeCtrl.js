@@ -795,13 +795,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'class': "feaf",
                             callback: $scope.modifyTools
                         },
-                        //    {
-                        //    'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
-                        //    'title': "改经过线",
-                        //    'type': "MODIFYBRANCH_THROUGH",
-                        //    'class': "feaf",
-                        //    callback: $scope.modifyTools
-                        //}
+                            {
+                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'title': "修改经过线",
+                            'type': "MODIFYBRANCH_THROUGH",
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
@@ -3020,35 +3020,44 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             },2000)
                             return;
                         }
-                        eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                            //经过线不能选择成退出线和进入线；
-                            var outInArr = [objCtrl.data.outLinkPid,objCtrl.data.inLinkPid];
-                            if(outInArr.indexOf(parseInt(data.id))!=-1){
-                                tooltipsCtrl.setCurrentTooltip('经过线不能为退出线或进入线！');
-                                return;
+                        var vialinkArr = [];
+                        var linkLastNode = objCtrl.data.nodePid;
+                        var tempArr = [];
+                        var outInArr = [objCtrl.data.outLinkPid,objCtrl.data.inLinkPid];
+                        function isSelectOk(params){
+                            if((params.properties.direct==1&&(params.properties.snode==linkLastNode||params.properties.enode==linkLastNode))||(params.properties.direct==2&&params.properties.snode==linkLastNode)||(params.properties.direct==3&&params.properties.enode==linkLastNode)){
+                                return true;
                             }else{
-                                //第一次的正确选取；
-                                if((data.properties.direct==1||(data.properties.direct==2&&data.properties.snode==objCtrl.data.nodePid)||(data.properties.direct==3&&data.properties.enode==objCtrl.data.nodePid))){
-                                    objCtrl.data.vias = [parseInt(data.properties.id)];
-                                    var temparr = [];
-                                    for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
-                                        if(highRenderCtrl.highLightFeatures[i].id==objCtrl.data.outLinkPid||highRenderCtrl.highLightFeatures[i].id==objCtrl.data.inLinkPid||highRenderCtrl.highLightFeatures[i].type=='rdnode'||highRenderCtrl.highLightFeatures[i].type=='relationData'){
-                                            temparr.push(highRenderCtrl.highLightFeatures[i]);
-                                        }
+                                return false;
+                            }
+                        }
+                        eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                            if(outInArr.indexOf(parseInt(data.id))!=-1){
+                                //经过线不能选择成退出线和进入线；
+                                tooltipsCtrl.setCurrentTooltip('经过线不能为退出线或进入线！')
+                            }else{
+                                if(isSelectOk(data)){
+                                    if(objCtrl.data.vias.indexOf(data.properties.id)!=-1){
+                                        objCtrl.data.vias.splice(objCtrl.data.vias.indexOf(data.properties.id));
+                                        console.log('repeat')
+                                    }else{
+                                        //objCtrl.data.vias.splice(objCtrl.data.vias.indexOf(data.properties.id)+1);
+                                        objCtrl.data.vias.push(data.properties.id)
+                                        linkLastNode=(data.properties.snode==linkLastNode)?data.properties.enode:data.properties.snode;
                                     }
-                                    temparr.push({
+                                    tempArr.push({
                                         id:data.properties.id.toString(),
                                         layerid:'rdLink',
                                         type:'line',
                                         style:{color:'blue',strokeWidth:3}
                                     })
-                                }else{//正确选取一根以后
-
+                                    highRenderCtrl.highLightFeatures = angular.copy(tempArr);
+                                    //绘制当前的退出线和原来的进入线;
+                                    highRenderCtrl._cleanHighLight();
+                                    highRenderCtrl.drawHighlight();
+                                }else{
+                                    console.log('error')
                                 }
-                                highRenderCtrl.highLightFeatures = temparr;
-                                //绘制当前的退出线和原来的进入线;
-                                highRenderCtrl._cleanHighLight();
-                                highRenderCtrl.drawHighlight();
                             }
                         })
                     }
@@ -3904,6 +3913,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 dsEdit.createParent(myPid, parentId).then(function(data) {
                     $scope.resetMap(myPid);
                 });
+            }
+            if(tooltipsCtrl.getCurrentTooltip()) {
+                tooltipsCtrl.onRemoveTooltip();
             }
         };
         //高亮显示左侧列表的poi

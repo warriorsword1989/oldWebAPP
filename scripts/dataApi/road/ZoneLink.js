@@ -45,6 +45,7 @@ fastmap.dataApi.ZoneLink = fastmap.dataApi.GeoDataModel.extend({
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
         data["kinds"] = [];
+        data["geoLiveType"] = this.geoLiveType;
         if (this.kinds) {
             for (var i = 0, len = this.kinds.length; i < len; i++) {
                 data["kinds"].push(this.kinds[i].getIntegrate());

@@ -511,7 +511,7 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
         $("#difGroupIdText").val("");
     }
     $scope.changeKind = function(newVal, oldVal) {
-        $scope.linkData.kindChange(newVal, oldVal);
+        $scope.linkData.changeKind(newVal, oldVal);
         //10级路变非10级以及非10级切换为10级时对行人导航面板联动控制;
         if (newValue == 10) {
             $scope.linkData.walkerLimitFlag = true;

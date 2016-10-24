@@ -72,7 +72,17 @@ fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
         if(data['branchType']){
             this.branchType = data['branchType'];
         }else{
-            this.branchType = data['details'][0]['branchType'];
+            if(data['details'].length){
+                this.branchType = data['details'][0]['branchType'];
+            }else if(data['schematics'].length){
+                this.branchType = 8;
+            }else if(data['seriesbranches'].length){
+                this.branchType = 7;
+            }else if(data['signasreals'].length){
+                this.branchType = 6;
+            }else if(data['signboards'].length){
+                this.branchType = 9;
+            }
         }
     },
 

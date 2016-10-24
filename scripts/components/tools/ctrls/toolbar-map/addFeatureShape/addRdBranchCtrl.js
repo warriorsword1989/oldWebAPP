@@ -123,9 +123,7 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                             id: $scope.limitRelation.inLinkPid.toString(),
                             layerid: 'rdLink',
                             type: 'line',
-                            style: {
-                                color: '#21ed25'
-                            }
+                            style: {color: '#21ed25'}
                         });
                         highRenderCtrl.highLightFeatures = highLightFeatures;
                         highRenderCtrl.drawHighlight();
@@ -135,11 +133,9 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                             $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {
-                                    color: 'yellow'
-                                }
+                                layerid: 'rdNode',
+                                type: 'node',
+                                style: {}
                             });
                             highRenderCtrl.drawHighlight();
                             map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
@@ -158,11 +154,9 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                             $scope.limitRelation.nodePid = parseInt(data.id);
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {
-                                    color: 'yellow'
-                                }
+                                layerid: 'rdNode',
+                                type: 'node',
+                                style: {}
                             });
                             highRenderCtrl.drawHighlight();
                             tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
