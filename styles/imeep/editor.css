@@ -2246,7 +2246,7 @@ a.batchButton {
   background: url("../../images/main/btn-icon/split.png") no-repeat center center;
 }
 .fm-top-btn.loading {
-  margin-top: -26px;
+  margin-top: -13px;
   margin-left: 0px;
   opacity: 0.5;
   background-color: gray;

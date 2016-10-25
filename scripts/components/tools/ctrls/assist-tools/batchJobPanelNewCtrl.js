@@ -87,7 +87,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                                             "pid": data,
                                             "childPid": ""
                                         });
-                                        logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'失败');
+                                        logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'异常');
                                     }
                                 }
                             });
