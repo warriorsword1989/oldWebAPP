@@ -1,13 +1,13 @@
 <div ng-controller="chargingStationCtrl">
     <div ng-show="propertyType=='deep'">
-        <div class="fm-panel">
+        <div class="fm-panel" form-disabled>
             <div class="content" style="padding-bottom: 30px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>充电站类型</label>
                         <div>
                             <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].chargingType"
-                                    ng-options="value.id as value.label for value in chargingTypeArr">
+                                    ng-options="value.id as value.label for value in chargingTypeArr" ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>
@@ -17,7 +17,7 @@
                             <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].changeBrands"
                                     no_results_text="'--无--'" placeholder_text_single="'--请选择--'"
                                     ng-options="value as lable.chainName for (value, lable) in chainList"
-                                    chosen multiple >
+                                    chosen multiple ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>
@@ -27,7 +27,7 @@
                             <label ng-repeat="(key, value) in chargingOpenType" class="col-md-5">
                                 <input fm-edit-view type="checkbox" value="{{key}}"
                                        ng-model="poi.chargingStation[0].chargingOpenType[key]"
-                                       ng-click="chargingOpenTypeChange($event)"> {{value}}
+                                       ng-click="chargingOpenTypeChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -42,7 +42,7 @@
                         <label>服务提供商</label>
                         <div>
                             <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].serviceProv"
-                                    ng-options="value.id as value.label for value in serviceProvArr">
+                                    ng-options="value.id as value.label for value in serviceProvArr" ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>
@@ -81,7 +81,7 @@
                         <label>可用状态</label>
                         <div>
                             <select fm-edit-view class="fm-control" ng-model="poi.chargingStation[0].availableState"
-                                    ng-options="value.id as value.label for value in stationAvailableState">
+                                    ng-options="value.id as value.label for value in stationAvailableState" ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>

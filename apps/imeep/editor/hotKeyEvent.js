@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/12/11.
  * Modified by liuyang on 2015/9/3
  */
-function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
+function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
         //取消
         var layerCtrl = fastmap.uikit.LayerController();
@@ -1129,6 +1129,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                           scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
+	                    	  rootScope.isSpecialOperation = false;
 	                          if (data != null) {
 	                              layerCtrl.getLayerById("poi").redraw();
 	                              highRenderCtrl._cleanHighLight();

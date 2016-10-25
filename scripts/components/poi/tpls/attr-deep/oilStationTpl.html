@@ -1,16 +1,16 @@
 <div ng-controller="OilStationCtl">
     <div ng-show="propertyType=='deep'">
-        <div class="fm-panel" >
+        <div class="fm-panel" form-disabled>
             <div class="content" style="padding-bottom: 30px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>支付方式</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in paymentML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].payment[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].payment[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in paymentHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].payment[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].payment[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -18,10 +18,10 @@
                         <label>附属服务</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in serviceML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].service[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].service[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in serviceHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].service[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].service[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -29,7 +29,7 @@
                         <label>汽油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in oilType">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].oilType[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].oilType[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -37,7 +37,7 @@
                         <label>甲醇汽油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in mgType">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].mgType[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].mgType[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -45,7 +45,7 @@
                         <label>乙醇汽油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in egType">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].egType[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].egType[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -53,10 +53,10 @@
                         <label>柴油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in fuelTypeML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in fuelTypeHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
