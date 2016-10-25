@@ -1,6 +1,6 @@
 <div ng-controller="parkingCtl">
     <div ng-show="propertyType=='deep'">
-        <div class="fm-panel" >
+        <div class="fm-panel" form-disabled>
             <div class="content" style="padding-bottom: 30px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
@@ -15,10 +15,10 @@
                         <label>收费标准</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollStd" ng-if="key != 5">
-                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollStd[key]" ng-click="tollStdChange($event)"> {{value}}
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollStd[key]" ng-click="tollStdChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in tollStd" ng-if="key == 5" style="color: greenyellow;">
-                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollStd[key]" ng-click="tollStdChange($event)"> {{value}}
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollStd[key]" ng-click="tollStdChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -26,7 +26,7 @@
                         <label>收费方式</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollWay">
-                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollWay[key]"> {{value}}
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollWay[key]" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -34,10 +34,10 @@
                         <label>收费备注</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in remark" ng-if="key == 0" style="color: greenyellow;">
-                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].remark[key]" ng-click="remarkChange($event)"> {{value}}
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].remark[key]" ng-click="remarkChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in remark" ng-if="key != 0">
-                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].remark[key]" ng-click="remarkChange($event)"> {{value}}
+                                <input fm-edit-view type="checkbox" value="{{key}}" ng-model="poi.parkings[0].remark[key]" ng-click="remarkChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
