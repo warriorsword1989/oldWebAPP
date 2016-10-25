@@ -344,6 +344,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         dsEdit.update($scope.linkData.pid, "RDLINK", objectCtrl.changedProperty).then(function(data) {
             if (data) {
                 rdLink.redraw();
+                relation.redraw();
                 if(objectCtrl.changedProperty.hasOwnProperty("speedlimits")){
                     rdLinkSpeedLimit.redraw();
                 }

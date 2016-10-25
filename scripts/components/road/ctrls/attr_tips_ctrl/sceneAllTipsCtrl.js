@@ -627,8 +627,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 ];
                 for (var i = 0, len = $scope.dataTipsData.eliminateCarObj.length; i < len; i++) {
-                    if ($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[i]) {
-                        $scope.dataTipsData.eliminateCarObj[i].checked = true;
+                    for(var j=0;j<$scope.dataTipsData.vt.length;j++){
+                        if ($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[j]) {
+                            $scope.dataTipsData.eliminateCarObj[i].checked = true;
+                        }
                     }
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
