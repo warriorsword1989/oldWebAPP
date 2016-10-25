@@ -1239,7 +1239,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             //$scope.guideLayer._redraw();
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,branchType) {
-            /*if(type == 'RDBRANCH'){
+            if(type == 'RDBRANCH'){
                 if(selectedData.branchType == 5 || selectedData.branchType == 7){
                     dsEdit.getBranchByRowId(selectedData.rowkey,branchType).then(function(data){
                         if(data == -1){
@@ -1255,7 +1255,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         getByPidCallback(type,ctrl,tpl,data);
                     });
                 }
-            }else{*/
+            }else{
                 dsEdit.getByPid(id, type).then(function(data){
                     if(!data){
                         return;
@@ -1276,7 +1276,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     getByPidCallback(type,ctrl,tpl,data);
                 });
-            // }
+            }
             function getByPidCallback(type,ctrl,tpl,data){
                 var options = {
                     "loadType": 'attrTplContainer',
