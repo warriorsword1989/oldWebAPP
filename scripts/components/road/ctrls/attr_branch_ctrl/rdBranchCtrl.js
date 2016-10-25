@@ -435,11 +435,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
-                $scope.arrowMapShow = '';
-                $scope.patternCodeSrc = '';
-                if ($scope.diverObj.details[0].arrowCode) {
-                    $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
-                }
+                $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
                 $scope.patternCodeSrc =  getArrowPic($scope.diverObj.details[0].patternCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
