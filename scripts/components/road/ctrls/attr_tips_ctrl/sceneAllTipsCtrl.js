@@ -267,7 +267,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1104": //大门
                 $scope.inLinkPid = $scope.dataTipsData.in.id;
-                $scope.outLinkPid = $scope.dataTipsData.out.id;
+                if($scope.dataTipsData.out){
+                    $scope.outLinkPid = $scope.dataTipsData.out.id;
+                }
                 var gateTypeObj = {
                     0: 'EG',
                     1: 'KG',
@@ -280,7 +282,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 };
                 $scope.dataTipsData.gateType = gateTypeObj[$scope.dataTipsData.tp];
                 $scope.dataTipsData.gateDir = gateDirObj[$scope.dataTipsData.dir];
-                $scope.dataTipsData.passTime = $scope.dataTipsData.time;
                 $scope.dataTipsData.isGate = true;
                 break;
             case "1105":
