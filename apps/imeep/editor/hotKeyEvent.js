@@ -66,7 +66,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             }
             return boolExit;
         }
-
         //返回两点之间的距离;
         function distance(pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
@@ -381,8 +380,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     swal("操作失败", "不允许同时打断多条link，请重新操作！", "error");
                     return;
                 }
+                var ppp = shapeCtrl.shapeEditorResult.getOriginalGeometry().points;
                 for (var item in geo.components) {
-                    if (!_contains(geo.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
+                    if (geo.components[item].x != ppp[item].x || geo.components[item].y != ppp[item].y) {
                         breakPoint = geo.components[item];
                     }
                 }
