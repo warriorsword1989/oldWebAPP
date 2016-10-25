@@ -52,14 +52,14 @@
                             <div ng-show="diverObj.details[0].branchType == 3">
                                 <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-change="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
                             </div>
-                            <div class="pic-show" ng-show="showImgData">
+                            <div class="pic-show" ng-show="showImgData" style="right: 30px;margin-top: 27px;">
                                 <div class="option-hide">
                                     <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
                                         <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
                                     </button>
                                 </div>
                                 <div class="pic-show-well">
-                                    <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName,picture.fileContent)">
+                                    <div class="img-well" style="width: 88px;" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName,picture.fileContent)">
                                         <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
                                         <div class="img-describe">{{picture.fileName}}</div>
                                     </div>
