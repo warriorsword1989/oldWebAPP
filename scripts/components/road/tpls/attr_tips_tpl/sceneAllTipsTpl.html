@@ -515,7 +515,7 @@
                         </div>
                         <!--end 实景图-->
                         <!--begin 维修-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.idGate && !dataTipsData.isNoDriveIn">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.isGate && !dataTipsData.isNoDriveIn">
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.isNoCrossing && !dataTipsData.isReversibleLine">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.isNoCrossing || dataTipsData.isReversibleLine">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
@@ -613,13 +613,13 @@
                         </div>
                         <!--end 红绿灯方位-->
                         <!--begin 大门-->
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.gateType">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('gateType')">
                             <label class="col-sm-5 control-label" style="padding: 4px">大门类型:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label " ng-bind="dataTipsData.gateType"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.gateDir">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('gateDir')">
                             <label class="col-sm-5 control-label" style="padding: 4px">大门方向:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label" ng-bind="dataTipsData.gateDir"></span>
@@ -628,7 +628,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && dataTipsData.isGate">
                             <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" ng-bind="dataTipsData.passTime"></span>
+                                <span class="label" ng-bind="dataTipsData.time"></span>
                             </div>
                         </div>
                         <!--end 大门-->
