@@ -61,7 +61,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                                         dsOutput.push({
                                             "op": "执行批处理执行成功",
                                             "type": "succ",
-                                            "pid": "0",
+                                            "pid": data,
                                             "childPid": ""
                                         });
                                         logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'完成');
@@ -69,7 +69,22 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                                         dsOutput.push({
                                             "op": "执行批处理执行失败",
                                             "type": "fail",
-                                            "pid": "0",
+                                            "pid": data,
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'失败');
+                                    }
+                                }else{
+                                    $interval.cancel(timer);
+                                    if(d.status!=1||d.status!=2){
+                                        $scope.$emit("job-batch", {
+                                            status: 'end'
+                                        });
+                                        $scope.running = false;
+                                        dsOutput.push({
+                                            "op": "执行批处理执行异常",
+                                            "type": "fail",
+                                            "pid": data,
                                             "childPid": ""
                                         });
                                         logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'失败');
