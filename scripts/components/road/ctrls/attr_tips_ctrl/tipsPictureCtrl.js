@@ -107,12 +107,12 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
     /*图片切换*/
     function switchPic(type) {
         if (type == 0) {
-            console.log('←')
+            // console.log('←')
             if ($scope.photoId - 1 >= 0) {
                 $scope.openOrigin($scope.photoId - 1);
             }
         } else {
-            console.log('→')
+            // console.log('→')
             if ($scope.photoId + 2 <= $scope.imgAllPage) {
                 $scope.openOrigin($scope.photoId + 1);
             }
