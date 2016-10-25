@@ -111,7 +111,6 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                 shapeCtrl.editType = type;
                 snapLayer.options.editable = true;
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    console.log(selectCount)
                     //第一次选择一个线
                     if (selectCount === 0) {
                         tooltipsCtrl.onRemoveTooltip();
