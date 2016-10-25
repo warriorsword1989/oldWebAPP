@@ -100,6 +100,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
     }
     /*tips图片全屏*/
     $scope.showFullPic = function () {
+        $("#fullScalePic").show();
         $("#fullScalePic img").attr('src', $("#dataTipsOriginImg").attr('src'));
         $scope.$emit('showRoadFullScreen',true);
     }
