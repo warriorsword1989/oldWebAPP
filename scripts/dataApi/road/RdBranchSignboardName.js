@@ -9,16 +9,16 @@ fastmap.dataApi.RdBranchSignBoardName=fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"];
+        this.pid = data["pid"] || 0;
         this.seqNum = data["seqNum"] || 1;
-        this.nameGroupId = data["nameGroupId"] || 1;
+        this.nameGroupid = data["nameGroupid"] || 1;
         this.signboardId = data["signboardId"];
         this.nameClass = data["nameClass"] || 0;
         this.langCode = data["langCode"] || "CHI";
         this.codeType = data["codeType"] || 0;
-        this.name = data["name"] || "";
-        this.phonetic = data["phonetic"] || "";
-        this.voiceFile = data["voiceFile"] || "";
+        this.name = data["name"] || "分歧名称";
+        this.phonetic = data["phonetic"] || "Fen Qi Ming Cheng";
+        this.voiceFile = data["voiceFile"] || "Fenqimingcheng";
         this.srcFlag = data["srcFlag"] || 0;
     },
 
@@ -26,7 +26,7 @@ fastmap.dataApi.RdBranchSignBoardName=fastmap.dataApi.GeoDataModel.extend({
         var data={};
         data["pid"] = this.pid;
         data["seqNum"] = this.seqNum;
-        data["nameGroupId"] = this.nameGroupId;
+        data["nameGroupid"] = this.nameGroupid;
         data["signboardId"] = this.signboardId;
         data["nameClass"] = this.nameClass;
         data["langCode"] = this.langCode;
@@ -43,7 +43,7 @@ fastmap.dataApi.RdBranchSignBoardName=fastmap.dataApi.GeoDataModel.extend({
         var data={};
         data["pid"] = this.pid;
         data["seqNum"] = this.seqNum;
-        data["nameGroupId"] = this.nameGroupId;
+        data["nameGroupid"] = this.nameGroupid;
         data["signboardId"] = this.signboardId;
         data["nameClass"] = this.nameClass;
         data["langCode"] = this.langCode;

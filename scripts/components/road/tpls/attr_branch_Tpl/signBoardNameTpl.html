@@ -1,0 +1,77 @@
+<div ng-controller="RdSignBoardNameCtl">
+    <div class="fm-component" >
+        <div class="add-icon" ng-click="addNameInfo();">
+          <i class="glyphicon glyphicon-plus-sign"></i>
+        </div>
+        <div class="content" ng-repeat="info in rdBranchNames | orderBy: 'pid'">
+            <form>
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>名称组号</label>
+                        <div >
+                            <input type="text" readonly class="fm-control chosen-disabled" ng-model="info.nameGroupid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称号码</label>
+                        <div >
+                            <input type="text" readonly class="fm-control chosen-disabled" ng-model="info.pid"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>代码语言</label>
+                        <div>
+                            <select ng-model="info.langCode" class="fm-control"
+                                    ng-options="value.id as value.label for value in langCodeOptions | langCodeFilter: selectedLangcodeArr: info.langCode" ng-change="langCodeChange($event, this)">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>分歧名称</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.name" ng-blur="namePronunciation(info.name,info);"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称发音</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.phonetic"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>名称语音：</label>
+                        <div>
+                            <input type="text" class="fm-control" ng-model="info.voiceFile">
+                        </div> 
+                    </li>
+                    <li>
+                        <label>名称分类：</label>
+                        <div class="fm-control">
+                            <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                              <label ng-class="{'btn-primary active':n.code==info.nameClass,'btn-default':n.code!=info.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,info.nameGroupid,$parent.$index)">
+                                <input type="radio" name="nameClass{{info.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
+                              </label>
+                            </div>
+                        </div> 
+                    </li>
+                    <li>
+                        <label>编号类型：</label>
+                        <div>
+                            <select class="fm-control" ng-model="info.codeType"
+                                    ng-options="value.id as value.label for value in codeTypeOptions" >
+                            </select>
+                        </div> 
+                    </li>
+                    <li>
+                        <label>名称来源：</label>
+                        <div>
+                            <select class="fm-control" ng-model="info.srcFlag" ng-class="{true:'chosen-disabled'}[info.langCode != 'ENG']"
+                                    ng-options="value.id as value.label for value in langSourceOptions" ng-disabled="info.langCode != 'ENG'">
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>

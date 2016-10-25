@@ -409,7 +409,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             //高亮进入点;
             highRenderCtrl.highLightFeatures.push({
                 id: $scope.diverObj.nodePid.toString(),
-                layerid: 'rdLink',
+                layerid: 'rdNode',
                 type: 'rdnode',
                 style: {color:'yellow'}
             });

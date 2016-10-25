@@ -11,7 +11,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     var selectCtrl = fastmap.uikit.SelectController();
 
     $scope.divergenceIds = objCtrl.data;
-    objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
     $scope.refreshNames = function(){
 		$scope.diverObj.signboards[0].names = [];
 		for(var i=0,len=$scope.nameGroup.length;i<len;i++){
@@ -24,6 +23,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 
 //        $scope.divergenceIds = objCtrl.data;
 //        $scope.diverObj = $scope.divergenceIds;
+        objCtrl.setOriginalData(clone(objCtrl.data.getIntegrate()));
         $scope.diverObj = objCtrl.data;
         $scope.nameGroup = [];
         initNameInfo();
@@ -38,6 +38,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         dsEdit.getByPid(parseInt($scope.diverObj.pid), "RDBRANCH").then(function (data) {
             if (data) {
                 objCtrl.setCurrentObject("RDBRANCH", data);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 $scope.initDiver();
             }
         });
@@ -474,7 +475,6 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 rdBranch.redraw();
             }
             $scope.refreshData();
@@ -552,7 +552,7 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
 		if($scope.diverObj.signboards[0].names.length>0){
 			maxNameGroupId = Utils.getArrMax($scope.diverObj.signboards[0].names,'nameGroupid');
 		}
-		objCtrl.data.signboards[0].names.push(fastmap.dataApi.rdBranchName({
+		objCtrl.data.signboards[0].names.push(fastmap.dataApi.rdBranchSignBoardName({
 			"nameGroupid" : maxNameGroupId+1
 		}));
 		initNameInfo();

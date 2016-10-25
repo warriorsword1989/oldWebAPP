@@ -10,6 +10,7 @@ fastmap.dataApi.RdBranchSignBoard=fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.pid = data["pid"];
+        this.rowId = data["rowId"];
         this.branchPid = data["branchPid"];
         this.backimageCode = data["backimageCode"] || "";
         this.arrowCode = data["arrowCode"] || "";
@@ -23,22 +24,32 @@ fastmap.dataApi.RdBranchSignBoard=fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function(){
         var data={};
         data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["branchPid"] = this.branchPid;
         data["backimageCode"] = this.backimageCode;
         data["arrowCode"] = this.arrowCode;
         data["geoLiveType"] = this.geoLiveType;
-        data["names"] = this.names;
+        data["names"] = [];
+        if(this.names.length){
+        	for(var i=0;i<this.names.length;i++){
+        		data['names'].push(this.names[i].getIntegrate());
+        	}
+        }
         return data;
     },
 
     getSnapShot:function(){
         var data={};
         data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["branchPid"] = this.branchPid;
         data["backimageCode"] = this.backimageCode;
         data["arrowCode"] = this.arrowCode;
         data["geoLiveType"] = this.geoLiveType;
-        data["names"] = this.names;
+        data["names"] = [];
+        for(var i=0;i<this.names.length;i++){
+            data["names"].push(this.names[i].getIntegrate());
+        }
         return data;
     }
 })

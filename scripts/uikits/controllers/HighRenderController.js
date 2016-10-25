@@ -223,7 +223,8 @@ fastmap.uikit.HighRenderController = (function () {
                       var fea = this.currentEditLayer.tiles[tile].data[feature];
                       this.drawPolygon(this.highLightFeatures[item].id, fea, ctx);
                     }
-                  } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
+                  }
+                  else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                     var ctxOfSNode = {
                       canvas: this.layer._tiles[tile],
                       tile: L.point(tile.split(':')[0], tile.split(':')[1])

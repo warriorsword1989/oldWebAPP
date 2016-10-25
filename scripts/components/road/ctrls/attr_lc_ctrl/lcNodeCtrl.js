@@ -69,7 +69,7 @@ angular.module("app").controller("lcNodeController",['$scope','dsEdit',function(
             //高亮点和线
             highlightFeatures.push({
                 id:$scope.lcNodeData.pid.toString(),
-                layerid:'lcLink',
+                layerid:'lcNode',
                 type:'node',
                 style:{}
             });
