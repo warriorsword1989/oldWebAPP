@@ -140,7 +140,7 @@
         }
     </style>
 </head>
-<body ng-controller="TaskSelectionCtlNew" style="background: #F3F3F3">
+<body ng-cloak ng-controller="TaskSelectionCtlNew" style="background: #F3F3F3">
     <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
         <!-- header part -->
         <div ui-layout-container size="40px">
@@ -181,7 +181,7 @@
 
                         <div class="fm-taskDataList">
                             <div ng-repeat="item in currentSubTaskList | orderBy : sortCondtion" style="display: inline-block;padding-left: 30px;padding-right: 30px;padding-bottom: 80px" ng-style="taskMargin">
-                                <div ng-cloak class="taskItem ng-cloak">
+                                <div class="taskItem">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left;width: 200px;margin-left: 10px;margin-right: 20px" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
                                         <button ng-if="item.percent==100" type="button" class="btn submitBtn">提交</button>
@@ -238,7 +238,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-show="!showTask" class="scroll-styled scrollDiy" style="margin-left: 60px">
+                <div ng-cloak ng-show="!showTask" class="scroll-styled scrollDiy" style="margin-left: 60px">
                     <div class="fm-taskDataList" style="padding-top: 80px">
                         <table class="table table-bordered table-striped">
                             <thead>
@@ -254,12 +254,12 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="item in currentSubTaskList | orderBy : sortCondtion">
-                                <td>{{$index + 1}}</td>
-                                <td>{{item.name}}</td>
-                                <td>{{item.stage+' '+item.type}}</td>
-                                <td>{{item.planStartDate}}</td>
-                                <td>{{item.planStartDate}}</td>
-                                <td>{{item.planEndDate}}</td>
+                                <td ng-bind="$index + 1"></td>
+                                <td ng-bind="item.name"></td>
+                                <td ng-bind="item.stage+' '+item.type"></td>
+                                <td ng-bind="item.planStartDate"></td>
+                                <td ng-bind="item.planStartDate"></td>
+                                <td ng-bind="item.planEndDate"></td>
                                 <td>已完成</td>
                             </tr>
                             </tbody>
