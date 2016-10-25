@@ -18,7 +18,7 @@ fastmap.dataApi.RdBranchSignBoardName=fastmap.dataApi.GeoDataModel.extend({
         this.codeType = data["codeType"] || 0;
         this.name = data["name"] || "分歧名称";
         this.phonetic = data["phonetic"] || "Fen Qi Ming Cheng";
-        this.voiceFile = data["voiceFile"] || "Fenqimingcheng";
+        this.voiceFile = data["voicefile"] || "Fenqimingcheng";
         this.srcFlag = data["srcFlag"] || 0;
     },
 

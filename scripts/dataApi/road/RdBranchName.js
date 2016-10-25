@@ -19,7 +19,7 @@ fastmap.dataApi.RdBranchName=fastmap.dataApi.GeoDataModel.extend({
         this.name = data["name"] || "分歧名称";
         this.phonetic = data["phonetic"] || "Fen Qi Ming Cheng";
         this.srcFlag = data["srcFlag"] || 0;
-        this.voiceFile = data["voiceFile"] || "Fenqimingcheng";
+        this.voiceFile = data["voicefile"] || "Fenqimingcheng";
     },
 
     getIntegrate:function(){

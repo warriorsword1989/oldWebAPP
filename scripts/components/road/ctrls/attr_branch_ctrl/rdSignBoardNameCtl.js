@@ -27,8 +27,10 @@ angular.module("app").controller("RdSignBoardNameCtl", ['$scope', 'dsEdit' ,'dsM
 		dsMeta.getNamePronunciation(param).then(function (data) {
 			if(data.errcode == 0){
 				nameInfo.phonetic = data.data.phonetic;
+				nameInfo.voiceFile = data.data.voicefile;
 			}else{
 				nameInfo.phonetic = '';
+				nameInfo.voiceFile = '';
 				swal("查找失败", "可能是服务出错或者输入过长，请重新尝试", "error");
 			}
 		});
