@@ -610,7 +610,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     point: point,
                                     type: "marker",
                                     angle: angle,
-                                    orientation: pro.direct.toString(),
+                                    orientation: '2',
+                                    // orientation: pro.direct.toString(),
                                     pointForDirect: point
                                 };
                                 layerCtrl.pushLayerFront('edit');
