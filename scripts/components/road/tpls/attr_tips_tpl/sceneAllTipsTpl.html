@@ -136,7 +136,7 @@
                 <img ng-src="../../../images/road/img/noimg.png" class="road-tips-img" width="60px" height="60px" ng-click="noPic()">
             </div>
             <div ng-if="tipsPhotos.length > 0">
-                <img ng-src="{{photos[0]}}" class="road-tips-img" width="60px" height="60px" ng-click="openOriginPic(0)">
+                <img ng-src="{{photos[0]}}" class="road-tips-img" width="60px" height="60px" ng-click="openOriginPic(0)" image-404="../../../images/road/img/noimg.png">
                 <span style=" float: right;top: 0px;right: 20px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center" ng-if="tipsPhotos.length!=0">{{tipsPhotos.length}}</span>
             </div>
         </div>
