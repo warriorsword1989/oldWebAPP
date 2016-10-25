@@ -165,8 +165,8 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                                 linksArr.push(data["id"]);
                                 //更新高数组;
                                 _highLightSelected(linksArr,layerId);
-                                tooltipsCtrl.onRemoveTooltip();
-                                tooltipsCtrl.setCurrentTooltip('已选择了两条线！');
+                                // tooltipsCtrl.onRemoveTooltip();
+                                // tooltipsCtrl.setCurrentTooltip('已选择了两条线！');
                             }else{
                                 tooltipsCtrl.onRemoveTooltip();
                                 tooltipsCtrl.setCurrentTooltip('选择的线必须和上一条线连接');
@@ -211,9 +211,9 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                         }
                     }
                     //console.log(nodeArr);
-                    //假如已经选择了三条及以上的线 并且第一根线的点和最后一根线的snode和enode重合
-                    if(selectCount > 2){
-                        if (selectCount > 2 && ($scope.endNode == $scope.startNode)) {
+                    //假如已经选择了二条及以上的线 并且第一根线的点和最后一根线的snode和enode重合
+                    if(selectCount >= 2){
+                        if (selectCount >= 2 && ($scope.endNode == $scope.startNode)) {
                             tooltipsCtrl.onRemoveTooltip();
                             tooltipsCtrl.setCurrentTooltip('选择的线已闭合,请点击空格，生成面!');
                             selectCtrl.onSelected({
