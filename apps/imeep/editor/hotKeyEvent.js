@@ -954,8 +954,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "ADLINKFACE") {
                 var adLinksArr = selectCtrl.selectedFeatures.links;
-                if (!adLinksArr || adLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成ADLINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -976,8 +977,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             } else if (shapeCtrl.editType === "ZONELINKFACE") {
                 var zoneLinksArr = selectCtrl.selectedFeatures.links;
-                if (!zoneLinksArr || zoneLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成ZONELINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -998,8 +1000,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "LULINKFACE") {
                 var luLinksArr = selectCtrl.selectedFeatures.links;
-                if (!luLinksArr || luLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成LULINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -1020,8 +1023,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "LCLINKFACE") {
                 var lcLinksArr = selectCtrl.selectedFeatures.links;
-                if (!lcLinksArr || lcLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成LCLINKFACE面", "error");
                     return;
                 }
                 param = {
