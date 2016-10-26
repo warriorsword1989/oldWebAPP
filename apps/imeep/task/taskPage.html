@@ -192,8 +192,10 @@
                                             <li>
                                                 <div class="itemInfo-left"><label style="font-weight: 100">完成进度：</label></div>
                                                 <div class="itemInfo-right">
-                                                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar animate="false" style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
-                                                    <div class="col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
+                                                    <div ng-if="((item.stage=='日编'&&item.type=='POI子任务')||(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar animate="false" style="display: block;height: 12px;background: #304455" class="progress" value="item.percent" type="success"></uib-progressbar></div>
+                                                    <div ng-if="((item.stage=='日编'&&item.type=='POI子任务')||(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs" style="color: #6AD0A6" ng-bind="'　'+item.percent+'%'"></div>
+                                                    <div ng-if="(!(item.stage=='日编'&&item.type=='POI子任务')&&!(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="col-lg-8 col-md-10 col-sm-9 col-xs-9"><uib-progressbar animate="false" style="display: block;height: 12px;background: #304455" class="progress" value="30" type="success"></uib-progressbar></div>
+                                                    <div ng-if="(!(item.stage=='日编'&&item.type=='POI子任务')&&!(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs" style="color: #6AD0A6" ng-bind="'　'+30+'%'"></div>
                                                 </div>
                                             </li>
                                             <li>
@@ -206,7 +208,9 @@
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="width: 60px;text-align: right;font-weight: 100">任务量：</label></div>
-                                                <div class="itemInfo-right">200个POI，100条tips</div>
+                                                <div ng-if="(!(item.stage=='日编'&&item.type=='POI子任务')&&!(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="itemInfo-right">200个POI，200个Tips</div>
+                                                <div ng-if="((item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="itemInfo-right"><span style="font-weight: bold">{{item.poi}}</span>个POI <span style="font-weight: bold">{{item.tips}}</span>个Tips</div>
+                                                <div ng-if="((item.stage=='日编'&&item.type=='POI子任务'))" class="itemInfo-right"><span style="font-weight: bold">{{item.poi}}</span>个POI <span style="font-weight: bold">{{item.poi}}</span>个Tips</div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="width: 60px;text-align: right;font-weight: 100">类型：</label></div>

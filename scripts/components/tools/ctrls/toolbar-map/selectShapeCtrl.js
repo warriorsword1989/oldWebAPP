@@ -375,38 +375,38 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //悬浮工具条的设置
                     toolsObj = {
                         items: [{
-                                'text': "<a class='glyphicon glyphicon-plus'></a>",
+                                'text': "<span class='float-option-bar'>插</span>",
                                 'title': "插入形状点",
                                 'type': 'PATHVERTEXINSERT',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         }, {
-                                'text': "<a class='glyphicon glyphicon-remove'></a>",
+                                'text': "<span class='float-option-bar'>删</span>",
                                 'title': "删除形状点",
                                 'type': 'PATHVERTEXREMOVE',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         }, {
-                                'text': "<a class='glyphicon glyphicon-move'></a>",
+                                'text': "<span class='float-option-bar'>修</span>",
                                 'title': "修改形状点",
                                 'type': 'PATHVERTEXMOVE',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         }, {
-                                'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                                'text': "<span class='float-option-bar'>方</span>",
                                 'title': "修改道路方向",
                                 'type': 'TRANSFORMDIRECT',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         }, {
-                                'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
+                                'text': "<span class='float-option-bar'>断</span>",
                                 'title': "打断link",
                                 'type': 'PATHBREAK',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
                         },
                             {
-                                'text': "<a class='glyphicon glyphicon-random' type=''></a>",
+                                'text': "<span class='float-option-bar'>分</span>",
                                 'title': "分离节点",
                                 'type': 'PATHDEPARTNODE',
                                 'class': "feaf",
@@ -438,7 +438,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "RDNODE":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动端点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
@@ -448,7 +448,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -498,13 +498,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //悬浮工具条的设置
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>修</span>",
                             'title': "修改点位",
                             'type': 'MODIFYSPEEDNODE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'text': "<span class='float-option-bar'>方</span>",
                             'title': "修改方向",
                             'type': 'TRANSFORMSPEEDDIRECT',
                             'class': "feaf",
@@ -528,7 +528,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDCROSS':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>组</span>",
                             'title': "编辑组成点",
                             'type': 'MODIFYRDCROSS',
                             'class': "feaf",
@@ -542,7 +542,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDGSC':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-retweet'></a>",
+                            'text': "<span class='float-option-bar'>层</span>",
                             'title': "调整层级关系",
                             'type': 'CHANGELEVEL',
                             'class': "feaf",
@@ -586,7 +586,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDVARIABLESPEED': //可变限速;
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>线</span>",
                             'title': "改关联退出线和接续线",
                             'type': "MODIFYVARIABLESPEED",
                             'class': "feaf",
@@ -596,7 +596,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -614,13 +614,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDELECTRONICEYE':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-record'></a>",
+                            'text': "<span class='float-option-bar'>改</span>",
                             'title': "改点位",
                             'type': "MODIFYNODE",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'text': "<span class='float-option-bar'>配</span>",
                             'title': "增加配对关系",
                             'type': "ADDPAIRBOND",
                             'class': "feaf",
@@ -630,7 +630,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -648,13 +648,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDSLOPE':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>退</span>",
                             'title': "改退出线",
                             'type': "MODIFYLINKPID",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'text': "<span class='float-option-bar'>连</span>",
                             'title': "改连续Link",
                             'type': "MODIFYLINKPIDS",
                             'class': "feaf",
@@ -664,7 +664,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -682,13 +682,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDINTER':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>增</span>",
                             'title': "增加点",
                             'type': "ADDRDINTERPART",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'text': "<span class='float-option-bar'>取</span>",
                             'title': "取消点",
                             'type': "DELETERDINTERPART",
                             'class': "feaf",
@@ -698,7 +698,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -716,13 +716,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDROAD':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>增</span>",
                             'title': "增加线",
                             'type': "ADDRDROADLINK",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'text': "<span class='float-option-bar'>取</span>",
                             'title': "取消线",
                             'type': "DELETERDROADLINK",
                             'class': "feaf",
@@ -732,7 +732,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -750,13 +750,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDOBJECT':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>增</span>",
                             'title': "增加要素",
                             'type': "ADDRDOBJECT",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-pencil'></a>",
+                            'text': "<span class='float-option-bar'>取</span>",
                             'title': "取消要素",
                             'type': "DELETERDOBJECT",
                             'class': "feaf",
@@ -766,7 +766,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -789,14 +789,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDBRANCH':
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>退</span>",
                             'title': "改退出线",
                             'type': "MODIFYBRANCH_OUT",
                             'class': "feaf",
                             callback: $scope.modifyTools
                         },
                             {
-                            'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                            'text': "<span class='float-option-bar'>经</span>",
                             'title': "修改经过线",
                             'type': "MODIFYBRANCH_THROUGH",
                             'class': "feaf",
@@ -807,7 +807,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     //当在移动端进行编辑时,弹出此按钮
                     if (L.Browser.touch) {
                         toolsObj.items.push({
-                            'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                            'text': "<span class='float-option-bar'>存</span>",
                             'title': "保存",
                             'type': shapeCtrl.editType,
                             'class': "feaf",
@@ -825,7 +825,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "RWNODE":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动端点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
@@ -839,25 +839,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "RWLINK":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'text': "<span class='float-option-bar'>插</span>",
                             'title': "插入形状点",
                             'type': 'PATHVERTEXINSERT',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'text': "<span class='float-option-bar'>删</span>",
                             'title': "删除形状点",
                             'type': 'PATHVERTEXREMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>修</span>",
                             'title': "修改形状点",
                             'type': 'PATHVERTEXMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'text': "<span class='float-option-bar'>断</span>",
                             'title': "打断link",
                             'type': 'PATHBREAK',
                             'class': "feaf",
@@ -871,7 +871,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "ADADMIN":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动行政区划代表点",
                             'type': "ADADMINMOVE",
                             'class': "feaf",
@@ -885,7 +885,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "ADNODE":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动端点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
@@ -899,25 +899,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "ADLINK":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'text': "<span class='float-option-bar'>插</span>",
                             'title': "插入形状点",
                             'type': 'PATHVERTEXINSERT',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'text': "<span class='float-option-bar'>删</span>",
                             'title': "删除形状点",
                             'type': 'PATHVERTEXREMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>修</span>",
                             'title': "修改形状点",
                             'type': 'PATHVERTEXMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'text': "<span class='float-option-bar'>断</span>",
                             'title': "打断link",
                             'type': 'PATHBREAK',
                             'class': "feaf",
@@ -936,7 +936,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "ZONENODE":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动ZONENODE点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
@@ -950,25 +950,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "ZONELINK":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'text': "<span class='float-option-bar'>插</span>",
                             'title': "插入形状点",
                             'type': 'PATHVERTEXINSERT',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'text': "<span class='float-option-bar'>删</span>",
                             'title': "删除形状点",
                             'type': 'PATHVERTEXREMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>修</span>",
                             'title': "修改形状点",
                             'type': 'PATHVERTEXMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'text': "<span class='float-option-bar'>断</span>",
                             'title': "打断link",
                             'type': 'PATHBREAK',
                             'class': "feaf",
@@ -987,7 +987,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "LUNODE":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动LUNODE点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
@@ -1006,25 +1006,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "LULINK":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'text': "<span class='float-option-bar'>插</span>",
                             'title': "插入形状点",
                             'type': 'PATHVERTEXINSERT',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'text': "<span class='float-option-bar'>删</span>",
                             'title': "删除形状点",
                             'type': 'PATHVERTEXREMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>修</span>",
                             'title': "修改形状点",
                             'type': 'PATHVERTEXMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'text': "<span class='float-option-bar'>断</span>",
                             'title': "打断link",
                             'type': 'PATHBREAK',
                             'class': "feaf",
@@ -1038,7 +1038,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "LCNODE":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>移</span>",
                             'title': "移动LCNODE点",
                             'type': "PATHNODEMOVE",
                             'class': "feaf",
@@ -1052,25 +1052,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case "LCLINK":
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-plus'></a>",
+                            'text': "<span class='float-option-bar'>插</span>",
                             'title': "插入形状点",
                             'type': 'PATHVERTEXINSERT',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-remove'></a>",
+                            'text': "<span class='float-option-bar'>删</span>",
                             'title': "删除形状点",
                             'type': 'PATHVERTEXREMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-move'></a>",
+                            'text': "<span class='float-option-bar'>修</span>",
                             'title': "修改形状点",
                             'type': 'PATHVERTEXMOVE',
                             'class': "feaf",
                             callback: $scope.modifyTools
                         }, {
-                            'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                            'text': "<span class='float-option-bar'>断</span>",
                             'title': "打断link",
                             'type': 'PATHBREAK',
                             'class': "feaf",
@@ -1091,37 +1091,37 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.rootCommonTemp.selectPoiInMap = true
                     toolsObj = {
                         items: [{
-                            'text': "<a class='glyphicon glyphicon-open'></a>",
+                            'text': "<span class='float-option-bar'>显</span>",
                             'title': "移动显示坐标",
                             'type': "POILOCMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-export'></a>",
+                            'text': "<span class='float-option-bar'>引</span>",
                             'title': "移动引导坐标",
                             'type': "POIGUIDEMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-random'></a>",
+                            'text': "<span class='float-option-bar'>随</span>",
                             'title': "引导坐标随着显示坐标变化",
                             'type': "POIAUTODRAG",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-cloud-upload'></a>",
+                            'text': "<span class='float-option-bar'>父</span>",
                             'title': "编辑父",
                             'type': "SELECTPARENT",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-transfer'></a>",
+                            'text': "<span class='float-option-bar'>同</span>",
                             'title': "同一关系",
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<a class='glyphicon glyphicon-refresh'></a>",
+                            'text': "<span class='float-option-bar'>重</span>",
                             'title': "重置",
                             'type': "RESETPOI",
                             'class': "feaf",
@@ -1319,6 +1319,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             case "1107": //收费站
                                 $scope.showTipsOrProperty(result, "RDLINK", objCtrl, result.in.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                 break;
+                            case "1108": //减速带
+                                var ctrlAndTpl = {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    callback: function() {
+                                        if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
+                                            $scope.getFeatDataCallback(result, result.in.id ? result.in.id : '', "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
+                                        }
+                                    }
+                                };
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                                break;
                             case "1109": //电子眼
                                 var ctrlAndTplOfTraffic = {
                                     "loadType": "tipsTplContainer",
@@ -1332,6 +1345,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfTraffic);
                                 break;
+                            case "1110": //卡车限制
+                                var ctrlAndTpl = {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                                };
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                                break;
                             case "1111": //条件限速
                                 var ctrlAndTpl = {
                                     "loadType": "tipsTplContainer",
@@ -1341,6 +1362,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             // $scope.getFeatDataCallback(result, result.in.id ? result.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
                                             $scope.getFeatDataCallback(result, result.f.id ? result.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                        }
+                                    }
+                                };
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                                break;
+                            case "1112": //可变限速
+                                var ctrlAndTpl = {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    callback: function() {
+                                        if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
+                                            $scope.getFeatDataCallback(result, result.in.id ? result.in.id : '', "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
                                         }
                                     }
                                 };
@@ -1389,6 +1423,28 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                                 break;
+                            case "1204": //可逆车道
+                                var ctrlAndTpl = {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                    callback: function() {
+                                        if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
+                                            highLightFeatures.push({
+                                                id: result.f.id.toString(),
+                                                layerid: 'rdLink',
+                                                type: 'line',
+                                                style: {
+                                                    color: 'rgb(255, 0, 0)'
+                                                }
+                                            });
+                                            highRenderCtrl.highLightFeatures = highLightFeatures;
+                                            highRenderCtrl.drawHighlight();
+                                        }
+                                    }
+                                };
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                                break;
                             case "1205": //SA
                                 var ctrlAndTplOfSA = {
                                     "loadType": "tipsTplContainer",
@@ -1436,6 +1492,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     callback: function() {
                                         $scope.getFeatDataCallback(result, result.f.id ? result.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                     }
+                                };
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
+                                break;
+                            case "1209": //详细车道
+                                var ctrlAndTpl = {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                                 };
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                                 break;
