@@ -2,76 +2,73 @@
     form[name=rdLaneConnexityForm] ul.fm-ul-form > li > div{
         width: inherit;
     }
+    .lane-pic-container {
+        display:inline-block;
+        width:50px;
+        height:90px;
+        vertical-align:top;
+        border: 1px solid gray;
+        margin: 5px;
+    }
 </style>
 <div ng-controller="rdLaneConnexityController" class="fm-component" oncontextmenu="self.event.returnValue=false">
     <div class="title">
         车信PID
         <span class="label label-info">{{lanesData.pid}}</span>
+        <div style="display:inline-block;float:right;font-size: 20px;cursor: pointer" >
+            <span title="增加车道" class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
+        </div>
     </div>
     <div class="content scroll-styled dark">
+        <div class="fm-panel">
+            <div class="content" style="min-height: 110px;">
+                <div ng-repeat="item in CurrentObject.lanes track by $index" class="lane-pic-container">
+                    <div class="lane-direct-img-container">
+                        <img class="lanePic"
+                        ng-src="../../../images/road/1301/1301_{{item.adt == 0?0:2}}_{{item.dir.flag}}.svg"
+                        ng-mousedown="clickLane(item, $index, $event)"
+                        title="{{item.dir.log}}">
+                        <span class="glyphicon glyphicon-remove-sign remove"
+                        ng-click="deleteLane(item, $index)"></span>
+                    </div>
+                    <div ng-if="item.busDir" class="lane-direct-img-container">
+                        <img class="lanePic"
+                        ng-src="../../../images/road/1301/1301_1_{{item.busDir.flag}}.svg"
+                        ng-click="changeBusLaneDir(item, $index, $event)"
+                        title="{{item.busDir.log}}">
+                        <span class="glyphicon glyphicon-remove-sign remove"
+                        ng-click="deleteBusLane(item)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <form name="rdLaneConnexityForm">
             <div class="fm-panel">
                 <div class="content">
-                    <div style="display: block; overflow: auto;">
-                        <div class="lane-direct-img-container" ng-repeat="item in showNormalData track by $index"
-                             ng-if="showNormalData.length!==0">
-                            <span class="glyphicon glyphicon-remove-sign remove" ng-click="minusLane($index)"></span>
-                            <img class="lanePic" ng-if="item.type===0"
-                                 ng-click="showLanesInfo(item,$index,$event)"
-                                 ng-mousedown="changeDirect(item,$event,$index)"
-                                 ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
-                                 title="{{item}}">
-                            <img class="lanePic" ng-if="item.type===2"
-                                 ng-click="showLanesInfo(item,$index,$event)"
-                                 ng-mousedown="changeDirect(item,$event,$index)"
-                                 ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
-                                 title="{{item}}">
-                        </div>
-                        <div class="inline">
-                            <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" title="增加车道"
-                                  class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
-                        </div>
-
-                    </div>
-                    <div style="display: block; overflow: auto;">
-                        <div class="lane-direct-img-container" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
-                             <span ng-if="items.flag!=='test'"
-                                   class="glyphicon glyphicon-remove-sign remove" ng-click="minusTransitData(items,$index)"></span>
-                            <img class="lanePic" ng-if="items.flag!=='test'"
-                                 ng-click="changeTransit(items,$index)"
-                                 ng-src="../../../images/road/1301/1301_1_{{items.flag}}.svg"
-                                 title="{{items}}">
-                            <span ng-if="items.flag==='test'"
-                                  style=" float: right;font-size: 12px;top: 5px;margin-top: -10px;color: #545454;cursor: pointer;"
-                                  class="glyphicon glyphicon-remove-sign" ></span>
-                            <img class="lanePic" ng-if="items.flag==='test'"
-                                 ng-click="changeTransit(items,$index)"
-                                 ng-src="../../../images/road/1301/1301_1_test.svg">
-                        </div>
-                    </div>
                     <ul class="fm-ul fm-ul-form">
                         <li>
                             <label class="control-label">进入线</label>
-                            <div><input type="text" class="chosen-disabled" readonly ng-model="lanesData.inLinkPid"
-                                        disabled/></div>
+                            <div>
+                                <input type="text" class="chosen-disabled" readonly disabled ng-model="CurrentObject.inLinkPid">
+                            </div>
                         </li>
                         <li>
                             <label class="control-label">车道总数</label>
-                            <div><input type="text" readonly ng-model="lanesData.laneNum"/></div>
+                            <div>
+                                <input type="text" class="chosen-disabled" readonly disabled ng-model="CurrentObject.lanes.length"/>
+                            </div>
                         </li>
                         <li>
                             <label class="control-label">附加车道</label>
                             <div>
                                 <label for="leftAddtionalLane">左</label>
                                 <input id="leftAddtionalLane" disabled class="chosen-disabled" type="text" style="width: 49px"
-                                       ng-model="lanesData.leftExtend"/>
+                                ng-value="CurrentObject.lanes[0].adt == 0 ? '是':'否'">
                                 <label for="rightAddtionalLane">右</label>
                                 <input id="rightAddtionalLane" disabled class="chosen-disabled" type="text" style="width: 49px"
-                                       ng-model="lanesData.rightExtend"/>
-
+                                ng-value="CurrentObject.lanes[CurrentObject.lanes.length - 1].adt == 0 ? '是':'否'">
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div>

@@ -699,12 +699,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.$emit("SWITCHCONTAINERSTATE", {
                     "attrContainerTpl": true
                 });
-                var obj = {};
-                obj["showTransitData"] = [];
-                obj["showAdditionalData"] = [];
-                obj["showNormalData"] = [];
-                obj["inLaneInfoArr"] = [];
-                objCtrl.setOriginalData(obj);
+                var rdConty = {
+                    inLinkPid: 0,
+                    nodePid: 0,
+                    lanes: [],
+                    outLinkPids: []
+                };
+                objCtrl.setOriginalData(rdConty);
                 var addLaneObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
                     "loadType": "attrTplContainer",
                     "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
