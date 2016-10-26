@@ -248,40 +248,41 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('in') && !dataTipsData.hasOwnProperty('linkRoad') && !dataTipsData.isTrafficLightsDir && !dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')"></span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 3px">
+                                <!--<span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-if="dataTipsData.in.type" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')"></span>-->
+                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in,'RDLINK')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('linkRoad') || dataTipsData.isTrafficLightsDir || dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}"></span>
+                                <span class="label" ng-bind="dataTipsData.in.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in,'RDLINK')" title="{{dataTipsData.in.id}}"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && dataTipsData.isSlope">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out,'RDLINK')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && !dataTipsData.isSlope && !dataTipsData.isLimitTruck && !dataTipsData.isVariableSpeedLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out,'RDLINK')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight && !dataTipsData.isVariableDirectionLane">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
                                 <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array">
-                                    <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
+                                    <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out,'RDLINK')"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.leftAndRight">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
-                                <span class="label" ng-bind="dataTipsData.o_array[0].out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.o_array[0].out.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="dataTipsData.o_array[0].out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.o_array[0].out,'RDLINK')"></span>
                             </div>
                         </div>
                         <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isVariableDirectionLane" ng-repeat="lane in dataTipsData.o_array">
@@ -289,7 +290,7 @@
                               <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;出Link:</label>
                               <div class="col-sm-7">
                                   <div class="col-sm-12" style="padding: 3px">
-                                      <span class="label" ng-bind="lane.id" style="cursor:pointer;" ng-click="getFeatDataCallback(lane.id,'RDLINK')"></span>
+                                      <span class="label" ng-bind="lane.id" style="cursor:pointer;" ng-click="getFeatDataCallback(lane,'RDLINK')"></span>
                                   </div>
                               </div>
                           </div>
@@ -306,7 +307,7 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <div ng-repeat="outItem in outIdS">
-                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(outItem.id,'RDLINK')">{{outItem.id}}</span>
+                                    <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(outItem,'RDLINK')">{{outItem.id}}</span>
                                 </div>
                             </div>
                         </div>
@@ -314,7 +315,7 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">组成Link:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 4px;">
                                 <div ng-repeat="item in dataTipsData.f_array">
-                                    <span class="label"  title="{{item.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(item.id,'RDLINK')">{{item.id}}</span>
+                                    <span class="label"  title="{{item.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')">{{item.id}}</span>
                                 </div>
                             </div>
                         </div>
@@ -322,25 +323,25 @@
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.leftAndRight">底图代码:</label>
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.leftAndRight">模式图号:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.ptn" title="dataTipsData.ptn"></span>
+                                <span class="label" ng-bind="dataTipsData.ptn" title="{{dataTipsData.ptn}}"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('schemaNo')">
                             <label class="col-sm-5 control-label" style="padding: 4px">模式图号:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.ptn" title="dataTipsData.ptn"></span>
+                                <span class="label" ng-bind="dataTipsData.ptn" title="{{dataTipsData.ptn}}"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f') && !dataTipsData.isCrossRoad">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px;cursor: pointer;">
-                                <span class="label" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" ng-click="getFeatDataCallback(dataTipsData.f,'RDLINK')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f') && dataTipsData.isCrossRoad">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联Node:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px;cursor: pointer;">
-                                <span class="label" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDCROSS')"></span>
+                                <span class="label" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" ng-click="getFeatDataCallback(dataTipsData.f,'RDCROSS')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('rdDir')">
@@ -475,13 +476,7 @@
                             <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                                 <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                                 <div class="col-sm-7 text-ellipsis">
-                                    <span class="label" ng-bind="branchItem.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(branchItem.out.id,'RDLINK')"></span>
-                                </div>
-                            </div>
-                            <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                                <label class="col-sm-5 control-label" style="padding: 4px">出口编号:</label>
-                                <div class="col-sm-7 text-ellipsis" style="padding: 3px">
-                                    <span class="label" ng-bind="branchItem.exit" style="cursor:pointer;" ng-click="getFeatDataCallback(branchItem.exit,'RDLINK')"></span>
+                                    <span class="label" ng-bind="branchItem.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(branchItem.out,'RDLINK')"></span>
                                 </div>
                             </div>
                         </div>
@@ -496,7 +491,7 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="sceneExit">
                             <label class="col-sm-5 control-label" style="padding: 4px">出口编号:</label>
                             <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
+                                <span class="label" ng-bind="item" style="cursor:pointer;"></span>
                             </div>
                         </div>
                         <!--end 高速分歧-->
@@ -590,7 +585,7 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">不受指控Link:</label>
                             <div class="col-sm-7" style="padding: 3px">
                                 <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.disableCtl">
-                                    <span class="label blank-text" ng-click="getFeatDataCallback(item.f.id,'RDLINK')" ng-bind="item.f.id"></span>
+                                    <span class="label blank-text" ng-click="getFeatDataCallback(item.f,'RDLINK')" ng-bind="item.f.id"></span>
                                 </div>
                             </div>
                         </div>
@@ -598,7 +593,7 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">受控&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link:</label>
                             <div class="col-sm-7">
                                 <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.enableCtl">
-                                    <span class="label blank-text" ng-click="getFeatDataCallback(item.f.id,'RDLINK')" ng-bind="item.f.id"></span>
+                                    <span class="label blank-text" ng-click="getFeatDataCallback(item.f,'RDLINK')" ng-bind="item.f.id"></span>
                                 </div>
                             </div>
                         </div>
@@ -664,7 +659,7 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('out') && dataTipsData.isLimitTruck">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out,'RDLINK')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('ht')">
@@ -862,7 +857,7 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.hasOwnProperty('out')">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label" ng-bind="oArrayItem.out[0].id" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.out[0].id,'RDLINK')"></span>
+                                <span class="label" ng-bind="oArrayItem.out[0].id" style="cursor:pointer;" ng-click="getFeatDataCallback(oArrayItem.out[0],'RDLINK')"></span>
                             </div>
                         </div>
                         <!-- end 路口语音引导 -->

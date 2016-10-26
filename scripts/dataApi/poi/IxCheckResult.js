@@ -19,12 +19,12 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
 		}
 		this.rank = data['rank'];
 		this.ruleid = data['ruleid'] || "";
-		this.shortRuleId = '';
-		if(data['ruleid'].length < 9){
-			this.shortRuleId = data['ruleid'];
-		}else{
-			this.shortRuleId = data['ruleid'].substring(0,10) + '...';
-		}
+		this.shortRuleId = data['ruleid'];
+		//if(data['ruleid'].length < 9){
+		//	this.shortRuleId = data['ruleid'];
+		//}else{
+		//	this.shortRuleId = data['ruleid'].substring(0,10) + '...';
+		//}
 		/*是否是poi检查项*/
 		this.poiCheck = false;
 		/*poi检查项数组*/

@@ -321,7 +321,11 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
                 // editorLayer.clear();
                 highRenderCtrl._cleanHighLight(); //清空高亮
             }
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
         });
     };
     $scope.cancel=function(){

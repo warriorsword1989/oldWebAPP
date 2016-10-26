@@ -392,6 +392,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                                             });
                                             swal("提交提示", '提交失败,' + data.latestStepMsg, "warning");
                                         }
+                                        scope.changeDataList(2);
                                     }
                                 });
                             }, 500);

@@ -45,7 +45,7 @@
                         </tr>
                         <tr ng-class-odd="'tableOdd'" ng-repeat="item in searchBoxData">
                             <td><input ng-click="batchSelect($index)" ng-model="item.checked" type="checkbox" /></td>
-                            <td style="cursor: pointer" ng-click="getCheckItem($index)" ng-bind="batchType==0?'路演POI检查包'+($index+1):'路演道路检查包'+($index+1)"></td>
+                            <td style="cursor: pointer" ng-click="getCheckItem($index)" ng-bind="item.suiteName"></td>
                             <td ng-click="getCheckItem($index)" ng-bind="item.suiteRange"></td>
                         </tr>
                         </tbody>
