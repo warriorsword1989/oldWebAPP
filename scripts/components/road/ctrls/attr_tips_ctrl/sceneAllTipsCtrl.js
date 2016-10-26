@@ -117,13 +117,13 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         geometry: line,
                         id: data.id
                     });
-                    /*highRenderCtrl.highLightFeatures.push({
-                        id: data.pid.toString(),
-                        layerid: 'rdLink',
-                        type: 'line',
+                    highRenderCtrl.highLightFeatures.push({
+                        id: link.id,
+                        layerid: 'workPoint',
+                        type: 'workPoint',
                         style: {}
                     });
-                    highRenderCtrl.drawHighlight();*/
+                    highRenderCtrl.drawHighlight();
                 }
                 // objCtrl.setCurrentObject(type, data);
                 /*var options = {
