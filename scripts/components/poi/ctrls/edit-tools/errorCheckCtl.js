@@ -37,6 +37,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
     $scope.changeType = function(selectInd, rowid) {
         dsEdit.updateCheckType(rowid, selectInd).then(function(data) {
             console.log('修改成功')
+            // $scope.$emit('refreshCheckResult',true);
         });
     };
 
