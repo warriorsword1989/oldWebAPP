@@ -289,6 +289,11 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
                 this.names[i].code = 1;
             }
         }
+        //根据车道种别位9，轮渡，人渡时维护车道数和车道等级为1;
+        if (newValue == 9 || newValue == 11 || newValue == 13){
+            this.laneNum = 1;
+            this.laneClass = 1;
+        }
         //根据道路种别维护路径采纳字段 ，参考的是bug4修改
         if (newValue == 1) {
             this.routeAdopt = 5;
@@ -343,7 +348,8 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
             this.sidewalkFlag = 0;
             this.walkerLimitFlag = false;
         }
-    },
+        //
+    }
 });
 /***
  * Rdlink初始化函数

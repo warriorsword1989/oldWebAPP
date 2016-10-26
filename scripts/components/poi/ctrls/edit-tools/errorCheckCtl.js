@@ -29,7 +29,6 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
         }
     }
 
-
     /**
      * 修改检查项状态
      * @param selectInd
