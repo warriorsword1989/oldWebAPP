@@ -22,15 +22,15 @@
             <div><label class="control-label" >人行便道标记</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input ng-disabled="naviData.walkerLimitFlag" type="radio" name="sideWalkFlagRadio" value=0 ng-model="naviData.sidewalkFlag">
+                    <input ng-disabled="naviData.kind==10" type="radio" name="sideWalkFlagRadio" value=0 ng-model="naviData.sidewalkFlag">
                     未采集
                 </label>
                 <label>
-                    <input ng-disabled="naviData.walkerLimitFlag" type="radio" name="sideWalkFlagRadio" value=1 ng-model="naviData.sidewalkFlag">
+                    <input ng-disabled="naviData.kind==10" type="radio" name="sideWalkFlagRadio" value=1 ng-model="naviData.sidewalkFlag">
                     有
                 </label>
                 <label>
-                    <input ng-disabled="naviData.walkerLimitFlag" type="radio" name="sideWalkFlagRadio" value=2 ng-model="naviData.sidewalkFlag">
+                    <input ng-disabled="naviData.kind==10" type="radio" name="sideWalkFlagRadio" value=2 ng-model="naviData.sidewalkFlag">
                     无
                 </label>
             </div>
@@ -56,15 +56,15 @@
             <div><label class="control-label" >行人步行</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input ng-disabled="naviData.walkerLimitFlag" type="radio" name="walkFlagRadio" value=0 ng-model="naviData.walkFlag">
+                    <input ng-disabled="naviData.kind==10" type="radio" name="walkFlagRadio" value=0 ng-model="naviData.walkFlag">
                     未调查
                 </label>
                 <label>
-                    <input ng-disabled="naviData.walkerLimitFlag" type="radio" name="walkFlagRadio" value=1 ng-model="naviData.walkFlag">
+                    <input ng-disabled="naviData.kind==10" type="radio" name="walkFlagRadio" value=1 ng-model="naviData.walkFlag">
                     允许
                 </label>
                 <label>
-                    <input ng-disabled="naviData.walkerLimitFlag" type="radio" name="walkFlagRadio" value=2 ng-model="naviData.walkFlag">
+                    <input ng-disabled="naviData.kind==10" type="radio" name="walkFlagRadio" value=2 ng-model="naviData.walkFlag">
                     禁止
                 </label>
             </div>
@@ -73,11 +73,11 @@
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
             <div class="list-name" style="width:120px;">
-                <a ng-class="{'text-muted':naviData.walkerLimitFlag}" ng-click="addSidewalk()">人行便道 共{{naviData.sidewalks.length}}个</a>
+                <a ng-class="{'text-muted':naviData.kind==10}" ng-click="addSidewalk()">人行便道 共{{(naviData.kind==10)?0:naviData.sidewalks.length}}个</a>
             </div>
             <div class="list-line"></div>
         </li>
-        <li class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
+        <li ng-if="naviData.kind!=10" class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
             <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer; width: 150px">
                 <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 0">未调查</label>
                 <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 1">高度差隔离(马路涯)</label>
