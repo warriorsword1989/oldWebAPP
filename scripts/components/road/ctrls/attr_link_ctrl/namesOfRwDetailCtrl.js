@@ -53,14 +53,25 @@ namesOfLinkApp.controller("namesOfRwLinkController",["$scope","$timeout","dsMeta
 
     $scope.selectNameInd=0;
     $scope.searchGroupidByNames=function(){
-        $("#name").css("display", "block").css({"height":'300px'});
-        $('.pic-show').show();
-
-        $timeout(function(){
+//        $("#name").css("display", "block").css({"height":'300px'});
+//        $('.pic-show').show();
+//
+//        $timeout(function(){
+//            $scope.picNowNum = 0;
+//            $scope.getPicsDate();
+//        },100);
+    	$scope.pagesize = 5; //$("#pagesize").val();
+        $scope.inName= $scope.rwName.name;
+        $timeout(function() {
             $scope.picNowNum = 0;
             $scope.getPicsDate();
-        },100);
-    }
+            if ($.trim($scope.inName) == '') {
+                $('.pic-show').hide();
+            } else {
+                $('.pic-show').show();
+            }
+        }, 100);
+    };
 
     $scope.selectNmaesId=function(nameid,name,e){
         $scope.rwName.nameGroupid = nameid;
