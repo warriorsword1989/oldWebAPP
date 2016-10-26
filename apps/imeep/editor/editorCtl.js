@@ -94,6 +94,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		//次属性开关逻辑控制
 		$scope.subAttrTplContainerSwitch = function(flag) {
 			$scope.suspendPanelOpened = flag;
+			$('body .carTypeTip').hide();
 		}
 		$scope.changeProperty = function(val) {
 			$scope.propertyType = val;
