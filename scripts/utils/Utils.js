@@ -132,5 +132,23 @@ Utils = {
 	    	} 
     	} 
     	return max;
+    },
+    /**
+     * 判断点1和点2是否是同一个点
+     * @param point1
+     * @param point2
+     * @param precision  精度
+     */
+    isSamePoint:function (point1,point2,precision){
+        if(!precision){
+            precision = 5
+        }
+        if(Number(point1.x).toFixed(precision) != Number(point2.x).toFixed(precision) ){
+            return false;
+        }
+        if(Number(point1.y).toFixed(precision) != Number(point2.y).toFixed(precision) ){
+            return false;
+        }
+        return true;
     }
 };
