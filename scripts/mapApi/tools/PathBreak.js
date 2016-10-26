@@ -13,28 +13,31 @@ fastmap.mapApi.PathBreak = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
-        this._mapDraggable = this._map.dragging.enabled();
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
             selectedSnap: true,
-            snapLine: false
+            snapLine: true,
+            snapVertex: true
         });
         this.snapHandler.enable();
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
         });
+        this.breakPointIndex = 0;
     },
     /***
      * 添加事件处理
      */
     addHooks: function() {
+        this.breakPointIndex = 0;
         this._map.on('mousedown', this.onMouseDown, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown, this);
         }
         this._map.on('mousemove', this.onMouseMove, this);
+        this._map.dragging.disable();
     },
     /***
      * 移除事件
@@ -45,68 +48,45 @@ fastmap.mapApi.PathBreak = L.Handler.extend({
             this._map.off('click', this.onMouseDown, this);
         }
         this._map.off('mousemove', this.onMouseMove, this);
-    },
-    disable: function() {
-        if (!this._enabled) {
-            return;
-        }
         this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
     },
     onMouseDown: function(event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         var layerPoint = event.layerPoint;
-        if (this._mapDraggable) {
-            this._map.dragging.disable();
-        }
         if (this.snapHandler.snaped) {
             layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
-            this.resetVertex(layerPoint);
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
-                changeTooltips: true
-            });
-            this.disable();
-        } else {
-            // this.snapHandler.targetindex = -1;
-            // this.snapHandler.onMouseMove(event);
-            // if (this.snapHandler.snaped) {
-            //     this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
-            //     layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
-            //     this.resetVertex(layerPoint);
-            //     this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
-            //         changeTooltips: true
-            //     });
-            //     this.disable();
-            //     this.snapHandler.snaped = false;
-            // }
-
-            this.snapHandler.targetindex = -1;
-            this.snapHandler.onMouseMove(event);
-
-            // this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
-            // layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
-            // this.resetVertex(layerPoint);
-
-            this.targetPoint = L.latLng(event.latlng.lat,event.latlng.lng);
-            this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
-                changeTooltips: true
-            });
-            this.disable();
-            //this.snapHandler.snaped = false;
+            var bp = this.resetVertex(layerPoint);
+            if (bp) {
+                this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
+                    changeTooltips: true
+                });
+                this.eventController.fire("breakPointAdded", {
+                    point: bp
+                });
+            }
+            // this.disable();
         }
+        // else {
+        //     this.snapHandler.targetindex = -1;
+        //     this.snapHandler.onMouseMove(event);
+        //     // this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
+        //     // layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
+        //     // this.resetVertex(layerPoint);
+        //     this.targetPoint = L.latLng(event.latlng.lat, event.latlng.lng);
+        //     this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
+        //     this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
+        //         changeTooltips: true
+        //     });
+        //     // this.disable();
+        // }
     },
     onMouseMove: function(event) {
         this.snapHandler.setTargetIndex(0);
         if (this.snapHandler.snaped) {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, {
-                'snaped': true
-            });
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
                 point: {
@@ -114,11 +94,14 @@ fastmap.mapApi.PathBreak = L.Handler.extend({
                     y: this.targetPoint.lat
                 }
             });
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, {
+                'snaped': true
+            });
         } else {
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
             this.eventController.fire(this.eventController.eventTypes.SNAPED, {
                 'snaped': false
             });
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
     //两点之间的距离
@@ -127,16 +110,54 @@ fastmap.mapApi.PathBreak = L.Handler.extend({
         return Math.sqrt(len);
     },
     resetVertex: function(layerPoint) {
-        var index = 0;
-        var segments = this.shapeEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
+        var breakPoint, obp;
+        var finalGeom = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        if (this.breakPointIndex > 0) {
+            obp = finalGeom.components.splice(this.breakPointIndex, 1);
+        }
+        var segments = finalGeom.getSortedSegments();
+        var minDist = 1000,
+            minObj = {},
+            sp1, sp2, dist;
         for (var i = 0, len = segments.length; i < len; i++) {
-            var distance = L.LineUtil.pointToSegmentDistance(layerPoint, this._map.latLngToLayerPoint(L.latLng(segments[i].y1, segments[i].x1)), this._map.latLngToLayerPoint(L.latLng(segments[i].y2, segments[i].x2)))
-            if (distance < 5) {
-                latlng = this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint, this._map.latLngToLayerPoint(L.latLng(segments[i].y1, segments[i].x1)), this._map.latLngToLayerPoint(L.latLng(segments[i].y2, segments[i].x2))));
-                index = i;
-                this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index + 1, 0, fastmap.mapApi.point(latlng.lng, latlng.lat))
-                this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
+            sp1 = this._map.latLngToLayerPoint(L.latLng(segments[i].y1, segments[i].x1));
+            sp2 = this._map.latLngToLayerPoint(L.latLng(segments[i].y2, segments[i].x2));
+            dist = L.LineUtil.pointToSegmentDistance(layerPoint, sp1, sp2);
+            if (dist < minDist) {
+                minDist = dist;
+                minObj.index = i;
+                minObj.sp = sp1;
+                minObj.ep = sp2;
             }
+        }
+        if (minObj.index != undefined) {
+            breakPoint = this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint, minObj.sp, minObj.ep));
+            var d1 = breakPoint.distanceTo(this._map.layerPointToLatLng(minObj.sp));
+            var d2 = breakPoint.distanceTo(this._map.layerPointToLatLng(minObj.ep));
+            if (d1 >= 2 && d2 >= 2) {
+                this.breakPointIndex = minObj.index + 1;
+            } else if (d1 <= d2) {
+                if (minObj.index == 0) {
+                    breakPoint = null;
+                } else {
+                    breakPoint = this._map.layerPointToLatLng(minObj.sp);
+                    this.breakPointIndex = minObj.index + 1;
+                }
+            } else {
+                if (minObj.index == segments.length - 1) {
+                    breakPoint = null;
+                } else {
+                    breakPoint = this._map.layerPointToLatLng(minObj.ep);
+                    this.breakPointIndex = minObj.index + 1;
+                }
+            }
+        }
+        if (breakPoint) {
+            finalGeom.components.splice(this.breakPointIndex, 0, fastmap.mapApi.point(breakPoint.lng, breakPoint.lat));
+            this.shapeEditor.shapeEditorResult.setFinalGeometry(finalGeom);
+        } else if(obp){
+            finalGeom.components.splice(this.breakPointIndex, 0, obp[0]);
+            this.shapeEditor.shapeEditorResult.setFinalGeometry(finalGeom);
         }
     }
 });

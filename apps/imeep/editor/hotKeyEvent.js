@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/12/11.
  * Modified by liuyang on 2015/9/3
  */
-function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
+function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
         //取消
         var layerCtrl = fastmap.uikit.LayerController();
@@ -66,7 +66,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             }
             return boolExit;
         }
-
         //返回两点之间的距离;
         function distance(pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
@@ -381,9 +380,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     swal("操作失败", "不允许同时打断多条link，请重新操作！", "error");
                     return;
                 }
+                var ppp = shapeCtrl.shapeEditorResult.getOriginalGeometry().points;
                 for (var item in geo.components) {
-                    if (!_contains(geo.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
+                    if (geo.components[item].x != ppp[item].x || geo.components[item].y != ppp[item].y) {
                         breakPoint = geo.components[item];
+                        break;
                     }
                 }
                 if (breakPoint == null) {
@@ -477,6 +478,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             if (data != null) {
                                 rdLink.redraw();
                                 rdnode.redraw();
+                                relationData.redraw();
                                 //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
                             }
                         });
@@ -953,8 +955,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "ADLINKFACE") {
                 var adLinksArr = selectCtrl.selectedFeatures.links;
-                if (!adLinksArr || adLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成ADLINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -975,8 +978,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             } else if (shapeCtrl.editType === "ZONELINKFACE") {
                 var zoneLinksArr = selectCtrl.selectedFeatures.links;
-                if (!zoneLinksArr || zoneLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成ZONELINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -997,8 +1001,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "LULINKFACE") {
                 var luLinksArr = selectCtrl.selectedFeatures.links;
-                if (!luLinksArr || luLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成LULINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -1019,8 +1024,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "LCLINKFACE") {
                 var lcLinksArr = selectCtrl.selectedFeatures.links;
-                if (!lcLinksArr || lcLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成LCLINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -1125,6 +1131,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                           scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
+	                    	  rootScope.isSpecialOperation = false;
 	                          if (data != null) {
 	                              layerCtrl.getLayerById("poi").redraw();
 	                              highRenderCtrl._cleanHighLight();

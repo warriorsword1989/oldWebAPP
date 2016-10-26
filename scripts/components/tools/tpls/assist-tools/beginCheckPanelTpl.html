@@ -23,9 +23,9 @@
 <div class="fm-panel handleCheck" ng-controller="BeginCheckPanelCtrl">
     <div class="title">执 行 检 查</div>
     <div class="content">
-        <div class="fm-tabs" style="padding: 0 10px;" ng-init="batchType=0">
-            <a href="#" class="tab" ng-class="{0:'active'}[batchType]" ng-click="switchBatchType(0)">POI检查</a>
-            <a href="#" class="tab" ng-class="{1:'active'}[batchType]" ng-click="switchBatchType(1)">道路检查</a>
+        <div class="fm-tabs" style="margin-left: -5px;">
+            <a ng-if="[1,8,9,10].indexOf(currentSubTaskType)==-1" href="#" class="tab" ng-class="{0:'active'}[batchType]" ng-click="switchBatchType(0)">POI检查</a>
+            <a ng-if="[0,5,6,7].indexOf(currentSubTaskType)==-1" href="#" class="tab" ng-class="{1:'active'}[batchType]" ng-click="switchBatchType(1)">道路检查</a>
         </div>
         <div style="postion:relative;min-height: 200px;" class="container-fluid">
             <div style="width: 100%;position: absolute; text-align: center;font-size: 16px;font-weight: bold" ng-show="dataLoading" class="row dataLoading">数据加载中...</div>
