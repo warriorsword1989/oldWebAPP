@@ -106,7 +106,6 @@ fastmap.uikit.HighRenderController = (function () {
                       this.drawOfLink(id, hightlightfeature, ctx, style);
 
                     }
-
                     else if (this.highLightFeatures[item].type == 'node') {
                       var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates;
                       this.layer._drawPoint({

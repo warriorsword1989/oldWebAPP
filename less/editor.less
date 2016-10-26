@@ -594,6 +594,9 @@ label > input[type='checkbox'] {
 }
 .fm-console-table {
   color: #ffffff;
+  thead th:last-child{
+    white-space: nowrap;
+  }
   margin-top: 5px;
   & > tbody > tr > td {
     padding: 0 3px;
@@ -2269,7 +2272,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: url("../../images/main/btn-icon/split.png") no-repeat center center;
 }
 .fm-top-btn.loading {
-  margin-top: -26px;
+  margin-top: -13px;
   margin-left: 0px;
   opacity: 0.5;
   background-color: gray;
@@ -2670,12 +2673,12 @@ input[type="range"]::-webkit-slider-thumb {
   position: absolute;
   height: 160px;
   z-index: 99;
-  top: 45px;
+  top: 50px;
 }
 
 .picModalImg {
   width: 192px;
-  top: 45px;
+  top: 50px;
   height: 160px;
   position: absolute;
   z-index: 9;

@@ -113,23 +113,29 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     //第一次选择一个线
                     if (selectCount === 0) {
+                        tooltipsCtrl.onRemoveTooltip();
                         tooltipsCtrl.setCurrentTooltip('已选择了一条线！');
                         linksArr.push(data["id"]);
                         //更新高数组;
                         _highLightSelected(linksArr,layerId);
                         sNode = data["properties"]["snode"];
                         eNode = data["properties"]["enode"];
+                        nodeArr.push(sNode);
+                        nodeArr.push(eNode);
                         selectCount++;
                     } else if (selectCount == 1) { //第二次选择的线  如果符合就添加到数组中
                         if(linksArr.indexOf(data.id)!=-1){
                             if(linksArr[linksArr.length-1]==data.id){
-                                $scope.endNode = $scope.preNode;
                                 //更新选中的符合条件的link；
                                 linksArr.splice(linksArr.indexOf(data.id),1);
+                                nodeArr = [];
+                                $scope.endNode = nodeArr[nodeArr.length-1];
                                 //更新高数组;
                                 _highLightSelected(linksArr,layerId);
                                 selectCount--;
+                                tooltipsCtrl.onRemoveTooltip();
                             }else{
+                                tooltipsCtrl.onRemoveTooltip();
                                 tooltipsCtrl.setCurrentTooltip('闭合线选择错误!');
                                 _clearTimeOut();
                                 return;
@@ -138,26 +144,31 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                             if(data["properties"]["snode"]==sNode||data["properties"]["enode"]==sNode||data["properties"]["snode"]==eNode||data["properties"]["enode"]==eNode){
                                 if(data["properties"]["snode"]==sNode){
                                     $scope.startNode = eNode;
-                                    $scope.preNode = sNode;
                                     $scope.endNode = data["properties"]["enode"]
                                 }else if(data["properties"]["snode"]==eNode){
                                     $scope.startNode = sNode;
-                                    $scope.preNode = eNode;
                                     $scope.endNode = data["properties"]["enode"]
                                 }else if(data["properties"]["enode"]==sNode){
                                     $scope.startNode = eNode;
-                                    $scope.preNode = sNode;
                                     $scope.endNode = data["properties"]["snode"]
                                 }else if(data["properties"]["enode"]==eNode){
                                     $scope.startNode = sNode;
-                                    $scope.preNode = eNode;
                                     $scope.endNode = data["properties"]["snode"]
                                 }
+
                                 selectCount++;
+                                nodeArr.push($scope.endNode);
+                                if($scope.startNode==nodeArr[1]){
+                                    nodeArr[1] = nodeArr[0];
+                                    nodeArr[0] = $scope.startNode;
+                                }
                                 linksArr.push(data["id"]);
                                 //更新高数组;
                                 _highLightSelected(linksArr,layerId);
+                                // tooltipsCtrl.onRemoveTooltip();
+                                // tooltipsCtrl.setCurrentTooltip('已选择了两条线！');
                             }else{
+                                tooltipsCtrl.onRemoveTooltip();
                                 tooltipsCtrl.setCurrentTooltip('选择的线必须和上一条线连接');
                                 _clearTimeOut();
                                 return;
@@ -166,13 +177,16 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                     }else if(selectCount > 1){
                         if(linksArr.indexOf(data.id)!=-1){
                             if(linksArr[linksArr.length-1]==data.id){
-                                $scope.endNode = $scope.preNode;
                                 //更新选中的符合条件的link；
                                 linksArr.splice(linksArr.indexOf(data.id),1);
+                                nodeArr.splice(nodeArr.length-1,1);
+                                $scope.endNode = nodeArr[nodeArr.length-1];
                                 //更新高数组;
                                 _highLightSelected(linksArr,layerId);
                                 selectCount--;
+                                tooltipsCtrl.onRemoveTooltip();
                             }else{
+                                tooltipsCtrl.onRemoveTooltip();
                                 tooltipsCtrl.setCurrentTooltip('闭合线选择错误!');
                                 _clearTimeOut();
                                 return;
@@ -181,12 +195,11 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                             if(data["properties"]["snode"]==$scope.endNode||data["properties"]["enode"]==$scope.endNode){
                                 if(data["properties"]["snode"]==$scope.endNode){
                                     $scope.endNode = data["properties"]["enode"];
-                                    $scope.preNode = data["properties"]["snode"];
                                 }else if(data["properties"]["enode"]==$scope.endNode){
                                     $scope.endNode = data["properties"]["snode"];
-                                    $scope.preNode = data["properties"]["enode"];
                                 }
                                 selectCount++;
+                                nodeArr.push( $scope.endNode);
                                 linksArr.push(data["id"]);
                                 //更新高数组;
                                 _highLightSelected(linksArr,layerId);
@@ -195,17 +208,29 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                                 _clearTimeOut();
                                 return;
                             }
-
                         }
                     }
-                    //假如已经选择了三条及以上的线 并且第一根线的点和最后一根线的snode和enode重合
-                    if (selectCount > 2 && ($scope.endNode == $scope.startNode)) {
-                        tooltipsCtrl.setStyleTooltip("color:black;");
-                        tooltipsCtrl.setCurrentTooltip('选择的线已闭合,请点击空格，生成面!');
-                        selectCtrl.onSelected({
-                            'links': linksArr
-                        })
+                    //console.log(nodeArr);
+                    //假如已经选择了二条及以上的线 并且第一根线的点和最后一根线的snode和enode重合
+                    if(selectCount >= 2){
+                        if (selectCount >= 2 && ($scope.endNode == $scope.startNode)) {
+                            tooltipsCtrl.onRemoveTooltip();
+                            tooltipsCtrl.setCurrentTooltip('选择的线已闭合,请点击空格，生成面!');
+                            selectCtrl.onSelected({
+                                'links': linksArr,
+                                'flag': true
+                            })
+                        }else{
+                            tooltipsCtrl.onRemoveTooltip();
+                            tooltipsCtrl.setCurrentTooltip('所选线还未闭合，请继续选择!');
+                            selectCtrl.onSelected({
+                                'links': linksArr,
+                                'flag': false
+                            })
+                        }
                     }
+
+
                 });
             }
         }

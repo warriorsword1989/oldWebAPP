@@ -287,6 +287,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
     }
     /*当分歧类型变更时*/
     $scope.changeBranchType = function(type){
+        $scope.diverObj.details[0].branchType = type;
         if(type == 1 || type == 3){
             $('[data-toggle="tooltip"]').tooltip();
         }
@@ -317,7 +318,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             $scope.diverObj.details[0].estabType = 0;
             $scope.diverObj.details[0].nameKind = 0;
         }
-
+        $scope.diverObj.details[0].names = [];
+        $scope.nameGroup = [];
+        $scope.refreshNames();
         $scope.diverObj.details[0].arrowCode = '';
         $scope.diverObj.details[0].patternCode = '';
         $scope.$emit('SWITCHCONTAINERSTATE', {
@@ -432,11 +435,7 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
             highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
-                $scope.arrowMapShow = '';
-                $scope.patternCodeSrc = '';
-                if ($scope.diverObj.details[0].arrowCode) {
-                    $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
-                }
+                $scope.arrowMapShow = getArrowPic($scope.diverObj.details[0].arrowCode);
                 $scope.patternCodeSrc =  getArrowPic($scope.diverObj.details[0].patternCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;

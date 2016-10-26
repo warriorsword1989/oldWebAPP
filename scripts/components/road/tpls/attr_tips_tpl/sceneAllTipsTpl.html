@@ -40,9 +40,7 @@
         margin-left: 4px;
     }
     .both {
-        width: 95%;
         margin-top: 5px;
-        padding-left: 10px;
     }
     #sceneRoadTipsDiv {
         width: 100%;
@@ -138,8 +136,8 @@
                 <img ng-src="../../../images/road/img/noimg.png" class="road-tips-img" width="60px" height="60px" ng-click="noPic()">
             </div>
             <div ng-if="tipsPhotos.length > 0">
-                <img ng-src="{{photos[0]}}" class="road-tips-img" width="60px" height="60px" ng-click="openOriginPic(0)">
-                <span style=" float: right;top: 0px;right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center" ng-if="tipsPhotos.length!=0">{{tipsPhotos.length}}</span>
+                <img ng-src="{{photos[0]}}" class="road-tips-img" width="60px" height="60px" ng-click="openOriginPic(0)" image-404="../../../images/road/img/noimg.png">
+                <span style=" float: right;top: 0px;right: 20px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center" ng-if="tipsPhotos.length!=0">{{tipsPhotos.length}}</span>
             </div>
         </div>
         <div class="col-sm-12" style="margin-left: 30px; display: inline; cursor: pointer; padding-top: 2px; padding-left: 23px; width: 80px">
@@ -342,7 +340,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('f') && dataTipsData.isCrossRoad">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联Node:</label>
                             <div class="col-sm-7 text-ellipsis" style="padding: 3px;cursor: pointer;">
-                                <span class="label" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDCROSS')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('rdDir')">
@@ -354,14 +352,14 @@
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('value') && !dataTipsData.isDrivewayLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp; 速&nbsp; 值:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dataTipsData.value}} km/h</span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
+                                <span class="label " title="{{dataTipsData.value}}">{{dataTipsData.value}} km/h</span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('value') && dataTipsData.isDrivewayLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">限&nbsp; 速&nbsp; 值:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dataTipsData.limitValue}} km/h</span>
+                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
+                                <span class="label " title="{{dataTipsData.limitValue}}>{{dataTipsData.limitValue}} km/h</span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('se')">
@@ -515,7 +513,7 @@
                         </div>
                         <!--end 实景图-->
                         <!--begin 维修-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.idGate && !dataTipsData.isNoDriveIn">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && !dataTipsData.isGate && !dataTipsData.isNoDriveIn">
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.isNoCrossing && !dataTipsData.isReversibleLine">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.isNoCrossing || dataTipsData.isReversibleLine">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
@@ -572,10 +570,11 @@
                         </div>
                         <!--end 辅路-->
                         <!--begin 禁止驶入-->
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.eliminateCarObj">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('vt')">
                             <label class="col-sm-5 control-label" style="padding: 4px">例外车辆:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <span ng-repeat="item in dataTipsData.eliminateCarObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>
+                                <span ng-repeat="item in dataTipsData.eliminateCarObj" class="label col-sm-6 text-left" ng-if="item.checked" ng-bind='item.label'></span>
+                                <!--<span ng-repeat="item in dataTipsData.eliminateCarObj" ng-class="{'seleted-text':item.checked,'unselected-text':!item.checked,'label col-sm-6 text-left':true}" ng-bind='item.label'></span>-->
                             </div>
                         </div>
                         <!--end 禁止驶入-->
@@ -613,13 +612,13 @@
                         </div>
                         <!--end 红绿灯方位-->
                         <!--begin 大门-->
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.gateType">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('gateType')">
                             <label class="col-sm-5 control-label" style="padding: 4px">大门类型:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label " ng-bind="dataTipsData.gateType"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.gateDir">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('gateDir')">
                             <label class="col-sm-5 control-label" style="padding: 4px">大门方向:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label" ng-bind="dataTipsData.gateDir"></span>
@@ -628,7 +627,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && dataTipsData.isGate">
                             <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" ng-bind="dataTipsData.passTime"></span>
+                                <span class="label" ng-bind="dataTipsData.time"></span>
                             </div>
                         </div>
                         <!--end 大门-->

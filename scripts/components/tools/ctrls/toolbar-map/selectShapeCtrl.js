@@ -1578,23 +1578,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
-                                        if (result.f.id) {
-                                            var obj = {
-                                                "nodePid": parseInt(result.f.id)
-                                            };
-                                            var param = {
-                                                "dbId": App.Temp.dbId,
-                                                "type": "RDCROSS",
-                                                "data": obj
-                                            };
-                                            dsEdit.getByCondition(JSON.stringify(param), function(data) {
-                                                var crossCtrlAndTpl = {
-                                                    propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
-                                                    propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
+                                        if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
+                                            if (result.f.id) {
+                                                var obj = {
+                                                    "nodePid": parseInt(result.f.id)
                                                 };
-                                                objCtrl.setCurrentObject("RDCROSS", result.data[0]);
-                                                $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
-                                            });
+                                                var param = {
+                                                    "dbId": App.Temp.dbId,
+                                                    "type": "RDCROSS",
+                                                    "data": obj
+                                                };
+                                                dsEdit.getByCondition(param, function(data) {
+                                                    var crossCtrlAndTpl = {
+                                                        propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
+                                                        propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
+                                                    };
+                                                    objCtrl.setCurrentObject("RDCROSS", data);
+                                                    $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
+                                                });
+                                            }
                                         }
                                     }
                                 };
