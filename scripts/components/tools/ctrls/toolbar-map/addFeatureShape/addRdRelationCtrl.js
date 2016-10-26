@@ -224,7 +224,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     index: $scope.jsonData.linkObjs[i].zlevel,
                     style: {
                         strokeWidth: 5,
-                        strokeColor:COLORTABLE[$scope.jsonData.linkObjs[i].zlevel]
+                        strokeColor: COLORTABLE[$scope.jsonData.linkObjs[i].zlevel]
                     }
                 });
                 highRenderCtrl.drawHighlight();
@@ -563,55 +563,39 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 direct: pro.direct,
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
-                            var linkArr = data.geometry.coordinates,
-                                points = [];
                             if (pro.direct == 1) {
                                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                                var link = data.geometry.coordinates;
+                                var linkCoords = data.geometry.coordinates;
                                 //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
                                 //并用斜率判断默认值
-                                var index = 0;
-                                for (var i = 0, len = linkArr.length - 1; i < len; i++) {
-                                    var distance = L.LineUtil.pointToSegmentDistance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint(L.latLng(linkArr[i][1], linkArr[i][0])), map.latLngToContainerPoint(L.latLng(linkArr[i + 1][1], linkArr[i + 1][0])))
-                                    if (distance < 5) {
-                                        var latlng = L.latLng(point.y, point.x);
-                                        index = i;
-                                        linkArr.splice(index + 1, 0, [latlng.lng, latlng.lat])
-                                        break;
+                                var index = 0,
+                                    tp = map.latLngToContainerPoint([point.y, point.x]),
+                                    dist, sVertex, eVertex, d1, d2, d3;
+                                for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
+                                    sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
+                                    eVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i + 1][1], linkCoords[i + 1][0]));
+                                    dist = L.LineUtil.pointToSegmentDistance(tp, sVertex, eVertex);
+                                    if (dist < 5) {
+                                        d1 = (tp.x - sVertex.x) * (tp.x - sVertex.x) + (tp.y - sVertex.y) * (tp.y - sVertex.y);
+                                        d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
+                                        d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
+                                        if (d1 <= d3 && d2 <= d3) {
+                                            index = i;
+                                            break;
+                                        }
                                     }
                                 }
-                                var spoint = map.latLngToContainerPoint([linkArr[index][1], linkArr[index][0]]),
-                                    hitpoint = map.latLngToContainerPoint([point.y, point.x]);
-                                //计算斜率，顺向2，逆向3
-                                var k = (spoint.y - hitpoint.y) / (spoint.x - hitpoint.x);
-                                var anglex = Math.atan(k);
-                                if (k > 0) {
-                                    if (hitpoint.y < spoint.y) {
-                                        anglex = anglex + Math.PI
-                                    }
+                                angle = $scope.angleOfLink(sVertex, eVertex);
+                                if (sVertex.x > eVertex.x) {
+                                    angle = Math.PI + angle;
                                 }
-                                if (k == 0) {
-                                    if (hitpoint.x < spoint.x) {
-                                        anglex = anglex + Math.PI
-                                    }
-                                }
-                                if (k < 0) {
-                                    if (hitpoint.y > spoint.y) {
-                                        anglex = anglex + Math.PI
-                                    }
-                                }
-                                //删除插入点
-                                linkArr.splice(index + 1, 1);
-                                pointForAngle = link[link.length - 1];
-                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
                                     flag: false,
                                     point: point,
                                     type: "marker",
                                     angle: angle,
-                                    orientation: '2',
-                                    // orientation: pro.direct.toString(),
+                                    orientation: "2", // 默认都是顺方向
                                     pointForDirect: point
                                 };
                                 layerCtrl.pushLayerFront('edit');
@@ -1282,60 +1266,39 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 direct: pro.direct,
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
-                            var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                            var linkArr = data.geometry.coordinates,
-                                points = [];
                             if (pro.direct == 1) {
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
+                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                var linkCoords = data.geometry.coordinates;
                                 //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
                                 //并用斜率判断默认值
-                                var index = 0;
-                                for (var i = 0, len = linkArr.length - 1; i < len; i++) {
-                                    var distance = L.LineUtil.pointToSegmentDistance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint(L.latLng(linkArr[i][1], linkArr[i][0])), map.latLngToContainerPoint(L.latLng(linkArr[i + 1][1], linkArr[i + 1][0])))
-                                    if (distance < 5) {
-                                        var latlng = L.latLng(point.y, point.x);
-                                        index = i;
-                                        linkArr.splice(index + 1, 0, [latlng.lng, latlng.lat])
-                                        break;
+                                var index = 0,
+                                    tp = map.latLngToContainerPoint([point.y, point.x]),
+                                    dist, sVertex, eVertex, d1, d2, d3;
+                                for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
+                                    sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
+                                    eVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i + 1][1], linkCoords[i + 1][0]));
+                                    dist = L.LineUtil.pointToSegmentDistance(tp, sVertex, eVertex);
+                                    if (dist < 5) {
+                                        d1 = (tp.x - sVertex.x) * (tp.x - sVertex.x) + (tp.y - sVertex.y) * (tp.y - sVertex.y);
+                                        d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
+                                        d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
+                                        if (d1 <= d3 && d2 <= d3) {
+                                            index = i;
+                                            break;
+                                        }
                                     }
                                 }
-                                var spoint = map.latLngToContainerPoint([linkArr[index][1], linkArr[index][0]]),
-                                    hitpoint = map.latLngToContainerPoint([point.y, point.x]);
-                                //计算斜率，顺向2，逆向3
-                                var k = (spoint.y - hitpoint.y) / (spoint.x - hitpoint.x);
-                                var anglex = Math.atan(k);
-                                if (k > 0) {
-                                    if (hitpoint.y < spoint.y) {
-                                        anglex = anglex + Math.PI
-                                    }
+                                angle = $scope.angleOfLink(sVertex, eVertex);
+                                if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
+                                    angle = Math.PI + angle;
                                 }
-                                if (k == 0) {
-                                    if (hitpoint.x < spoint.x) {
-                                        anglex = anglex + Math.PI
-                                    }
-                                }
-                                if (k < 0) {
-                                    if (hitpoint.y > spoint.y) {
-                                        anglex = anglex + Math.PI
-                                    }
-                                }
-                                //删除插入点
-                                linkArr.splice(index + 1);
                                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
-                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                                //var link = data.geometry.coordinates;
-                                // for (var i = 0, len = link.length; i < len; i++) {
-                                //     pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
-                                //     if (pointsOfDis < minLen) {
-                                //         minLen = pointsOfDis;
-                                //         pointForAngle = link[i];
-                                //     }
-                                // }
-                                // angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
                                     flag: false,
                                     point: point,
                                     type: "marker",
-                                    angle: anglex,
+                                    angle: angle,
                                     orientation: "2",
                                     pointForDirect: point
                                 };
@@ -1352,7 +1315,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-                                })
+                                });
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 // tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDELECTRONICEYE);
