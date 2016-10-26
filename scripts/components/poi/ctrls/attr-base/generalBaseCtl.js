@@ -414,15 +414,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
-        console.info(JSON.stringify(objectCtrl.data.getIntegrate()));
-        console.info(JSON.stringify(objectCtrl.originalData));
         clearDeepInfo(); //清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
         attrToDBC(); //部分属性转全角
 
         objectCtrl.save();
         var changed = objectCtrl.changedProperty;
-        console.info("chage:",changed);
-        //return ;
         if (!changed) {
             swal({
                 title: "属性值没有变化，是否保存？",
