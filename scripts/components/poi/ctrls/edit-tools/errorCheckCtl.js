@@ -3,21 +3,16 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
     var highRenderCtrl = new fastmap.uikit.HighRenderController();
     var objCtrl = fastmap.uikit.ObjectEditController();
 
-    $scope.descriptStyle={
-        "overflow": "hidden",
-        "text-overflow":"ellipsis",
-        "white-space":"nowrap"
-    }
-
-    $timeout(function(){
+    //修改table单元格显示的宽度防止属性面板弹出挤压出现垂直滚动条;
+    $scope.setTableCeilWidth = function(){
         var tableWidth=document.getElementById("errorCheckTable").clientWidth;
         $scope.descriptStyle={
-            "width" : (tableWidth-100-59-100-tableWidth*0.05-tableWidth*0.05-47-110),
+            "width" : (tableWidth-125-60-tableWidth*0.05-110-110-110)+'px',
             "overflow": "hidden",
             "text-overflow":"ellipsis",
             "white-space":"nowrap"
         }
-    });
+    }
 
     //初始化ng-table表头;
     $scope.cols = [
