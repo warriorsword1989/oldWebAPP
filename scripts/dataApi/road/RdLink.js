@@ -341,14 +341,11 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         if (newValue == 10) {
             this.walkFlag = 1;
             this.sidewalkFlag = 0;
-            this.sidewalks = [];
-            this.walkerLimitFlag = true;
+            //this.sidewalks = [];
         } else if (newValue != 10) {
             this.walkFlag = 0;
             this.sidewalkFlag = 0;
-            this.walkerLimitFlag = false;
         }
-        //
     }
 });
 /***
