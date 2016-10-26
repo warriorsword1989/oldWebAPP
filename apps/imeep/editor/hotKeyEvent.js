@@ -384,6 +384,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 for (var item in geo.components) {
                     if (geo.components[item].x != ppp[item].x || geo.components[item].y != ppp[item].y) {
                         breakPoint = geo.components[item];
+                        break;
                     }
                 }
                 if (breakPoint == null) {
