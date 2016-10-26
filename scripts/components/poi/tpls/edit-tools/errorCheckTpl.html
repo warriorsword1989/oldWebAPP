@@ -44,8 +44,8 @@
                     <!--<div style="width:110px">{{row.worker}}</div>-->
                 <!--</td>-->
                 <td width="110">
-                    <select class="fm-control" ng-model="initType"
-                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
+                    <select ng-class="{'fm-control':true,'chosen-disabled':initType!=0}" class="fm-control" ng-model="initType"
+                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)" ng-disabled="initType!=0">
                     </select>
                 </td>
             </tr>
