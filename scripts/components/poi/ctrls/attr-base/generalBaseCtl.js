@@ -442,16 +442,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         if (data) {
                             //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                             if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
-                                if (map.floatMenu) {
-                                    map.removeLayer(map.floatMenu);
-                                    map.floatMenu = null;
-                                }
                                 $scope.$emit("clearAttrStyleUp"); //清除属性样式
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
                                     "poi": $scope.poi,
                                     "flag": 'update'
                                 });
                             } else {
+                                $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
                                 $scope.$emit("reQueryByPid", {
                                     "pid": objectCtrl.data.pid,
                                     "type": "IXPOI"
@@ -490,13 +487,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     function saveChaged(changed) {
         dsEdit.update($scope.poi.pid, "IXPOI", changed).then(function(data) {
             if (data) {
+                $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
+
                 if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
                     if (changed.hasOwnProperty("kindCode") || changed.hasOwnProperty("indoor")) {
                         poiLayer.redraw();
-                    }
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
                     }
                     $scope.$emit("clearAttrStyleUp"); //清除属性样式
                     eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
@@ -504,6 +499,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "flag": 'update'
                     });
                 } else {
+                    $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
                     $scope.$emit("reQueryByPid", {
                         "pid": objectCtrl.data.pid,
                         "type": "IXPOI"
@@ -529,10 +525,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             poiLayer.redraw();
-            if (map.floatMenu) { //移除半圈工具条
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
+            $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");

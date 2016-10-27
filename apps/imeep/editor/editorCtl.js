@@ -648,6 +648,25 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			}
 		});
 		/**
+		 * 监听清除页面信息事件
+		 */
+		$scope.$on("CLEARPAGEINFO", function() {
+			var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+			if (tooltipsCtrl.getCurrentTooltip()) {
+				tooltipsCtrl.onRemoveTooltip();
+			}
+			if (map.floatMenu) {
+				map.removeLayer(map.floatMenu);
+				map.floatMenu = null;
+			}
+			if(map.markerLayer){ //清除marker图层
+				map.removeLayer(map.markerLayer);
+				map.markerLayer = null;
+			}
+			
+			$scope.$broadcast('closeTipsImg',false);
+		});
+		/**
 		 * 监听组件加载请求事件
 		 */
 		$scope.$on("transitCtrlAndTpl", function(event, data) {
