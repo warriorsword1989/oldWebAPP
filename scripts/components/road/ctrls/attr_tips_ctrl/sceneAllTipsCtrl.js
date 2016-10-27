@@ -774,12 +774,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
                 $scope.scheName = $scope.dataTipsData.name;
                 /*出口编号*/
-                $scope.sceneExit = [];
+                /*$scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array, function(i, v) {
                     if (v.out) {
                         $scope.sceneExit.push(v.out.id);
                     }
-                });
+                });*/
                 $scope.dataTipsData.isBranch = true;
                 break;
             case "1409": //普通路口模式图
@@ -1036,6 +1036,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     }
     //打开图片大图页面
     $scope.openOriginPic = function(id) {
+        selectCtrl.rowKey = $scope.dataTipsData;
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",
