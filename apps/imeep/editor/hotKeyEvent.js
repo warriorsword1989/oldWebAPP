@@ -812,24 +812,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 })
             } else if (shapeCtrl.editType === "addRdLaneConnexity") {
-                var laneData = objEditCtrl.originalData["inLaneInfoArr"],
-                    laneInfo = objEditCtrl.originalData["laneConnexity"];
-                if(laneData == undefined || laneInfo== undefined){
-                    swal("操作失败", "请检查选择的数据！", "error");
+                var contyObj = objEditCtrl.originalData;
+                if(contyObj.inLinkPid == 0 || contyObj.nodePid == 0 || contyObj.outLinkPids.length == 0 || contyObj.lanes.length == 0){
+                    swal("操作失败", "数据不完整，请确认已选择了进入线、进入点和退出线，以及对应的车道方向！", "error");
                     return;
                 }
-                var laneStr = "";
-                if (laneData.length === 0) {
-                    laneStr = laneData[0];
-                } else {
-                    laneStr = laneData.join(",");
+                var laneInfo = [];
+                for(var i=0;i<contyObj.lanes.length;i++) {
+                    laneInfo.push(contyObj.lanes[i].laneInfo);
                 }
-                laneInfo["laneInfo"] = laneStr;
+                contyObj["laneInfo"] = laneInfo.join(",");
+                delete contyObj.lanes;
                 param = {
                     "command": "CREATE",
                     "type": "RDLANECONNEXITY",
                     "dbId": App.Temp.dbId,
-                    "data": laneInfo
+                    "data": contyObj
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {

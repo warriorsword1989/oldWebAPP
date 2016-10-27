@@ -272,11 +272,15 @@ fastmap.uikit.ObjectEditController = (function() {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
                                 var obj = null ;
-                                if (data[item][i]["_flag_"]){//深度信息特殊处理
+                                if (data[item][i].hasOwnProperty("_flag_")){//深度信息特殊处理
                                     if(data[item][i]["_flag_"] != "ignore"){
-                                        obj = data[item][i];
-                                        delete obj["_flag_"];
-                                        obj["objStatus"] = "INSERT";
+                                        if(oriData[item][i]["_flag_"]){
+                                            obj = data[item][i];
+                                            delete obj["_flag_"];
+                                            obj["objStatus"] = "INSERT";
+                                        } else {
+                                            obj = this.compareJson(pids, oriData[item][i], data[item][i], "UPDATE");
+                                        }
                                     }
                                 } else {
                                     obj = this.compareJson(pids, oriData[item][i], data[item][i], "UPDATE");
