@@ -622,7 +622,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('time') && dataTipsData.isGate">
                             <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="date in dataTipsData.time.split(';')">
+                                <div ng-repeat="date in timeDomain">
                                 	<span ng-bind="date"></span>
                                 </div>
                             </div>
