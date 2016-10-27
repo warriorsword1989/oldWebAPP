@@ -1958,23 +1958,31 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         if (data) {
                             var endNum = parseInt(data.geometry.coordinates.length / 2);
                             var point = {
-                                x: data.geometry.coordinates[0][0],
+                                x:data.geometry.coordinates[0][0],
                                 y: data.geometry.coordinates[0][1]
+                            };
+                            var SpeedPoint = {
+                                x: objCtrl.data.geometry.coordinates[0],
+                                y: objCtrl.data.geometry.coordinates[1]
                             };
                             var pointVertex = {
                                 x: data.geometry.coordinates[endNum][0],
                                 y: data.geometry.coordinates[endNum][1]
                             };
+                            var tempPoint = map.latLngToContainerPoint([SpeedPoint.y, SpeedPoint.x]);
                             containerPoint = map.latLngToContainerPoint([point.y, point.x]);
                             pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
                             var angle = $scope.angleOfLink(containerPoint, pointVertex);
-                            if (parseInt(objCtrl.data.direct) == 3) {
+                            if (parseInt(objCtrl.data.direct) == 3 && tempPoint.x > pointVertex.x) {
                                 angle = angle + Math.PI;
+                            }
+                            if (parseInt(objCtrl.data.direct) == 2 && tempPoint.x > pointVertex.x) {
+                                angle = Math.PI + angle;
                             }
                             var marker = {
                                 flag: false,
                                 pid: objCtrl.data.pid,
-                                point: point,
+                                point: SpeedPoint,
                                 type: "marker",
                                 angle: angle,
                                 orientation: objCtrl.data.direct.toString()

@@ -109,30 +109,35 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
         $scope.seprateLink = function(shapePoints) {
             var linksObj = {},
                 pointsObj = [];
+            if(shapePoints.length < 3){ //表示只有两个点
+                linksObj.pointsObj = [[shapePoints[0],shapePoints[1]]];
+                return linksObj;
+            }
             var point1, point2, point3, angle1, angle2;
-            var start = 0;
-            // for (var j = 0; j < shapePoints.length; j++) {
-            //     point1 = map.latLngToContainerPoint([shapePoints[j].y, shapePoints[j].x]);
-            //     if ((j + 1) < shapePoints.length) {
-            //         point2 = map.latLngToContainerPoint([shapePoints[j + 1].y, shapePoints[j + 1].x]);
-            //         angle1 = $scope.angleOfLink(point1, point2);
-            //         if (Math.abs(angle1 - start) > 0.1) {
-            //             start = angle1;
-            //             var points = [];
-            //             points.push(shapePoints[j]);
-            //             points.push(shapePoints[j + 1]);
-            //             pointsObj.push(points);
-            //         } else {
-            //             pointsObj[pointsObj.length-1].push(shapePoints[j+1]);
-            //         }
-            //     }
-            // }
-            for (var j = 0; j < shapePoints.length; j++) {
-                if ((j + 1) < shapePoints.length) {
+            for (var j = 0; j < shapePoints.length - 1;) {
+                point1 = map.latLngToContainerPoint([shapePoints[j].y, shapePoints[j].x]);
+                if ((j + 2) < shapePoints.length) {
+                    point2 = map.latLngToContainerPoint([shapePoints[j + 1].y, shapePoints[j + 1].x]);
+                    point3 = map.latLngToContainerPoint([shapePoints[j + 2].y, shapePoints[j + 2].x]);
+                    angle1 = $scope.angleOfLink(point1, point2);
+                    angle2 = $scope.angleOfLink(point2, point3);
+                    if (Math.abs(angle1 - angle2) > 0.1) {
+                        var points = [];
+                        points.push(shapePoints[j]);
+                        points.push(shapePoints[j + 1]);
+                        pointsObj.push(points);
+                        j++;
+                    } else {
+                        shapePoints.splice(j+1,1);
+                        tempPoint = shapePoints[j + 1];
+                    }
+                } else {
                     var points = [];
-                    points.push(shapePoints[j]);
+                    var temp = pointsObj[pointsObj.length -1];
+                    points.push(temp[1]);
                     points.push(shapePoints[j + 1]);
                     pointsObj.push(points);
+                    j++;
                 }
             }
             linksObj.pointsObj = pointsObj;
@@ -577,8 +582,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 var linkCoords = data.geometry.coordinates;
                                 //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
                                 //并用斜率判断默认值
-                                var index = 0,
-                                    tp = map.latLngToContainerPoint([point.y, point.x]),
+                                var tp = map.latLngToContainerPoint([point.y, point.x]),
                                     dist, sVertex, eVertex, d1, d2, d3;
                                 for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
                                     sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
@@ -589,7 +593,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                         d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
                                         d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
                                         if (d1 <= d3 && d2 <= d3) {
-                                            index = i;
                                             break;
                                         }
                                     }
@@ -803,17 +806,41 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         'linkObjs': []
                     };
                     if (dealData.length > 1) { //有bug，一条线和另一条线有多个交点时不适用
-                        for (var i = 0; i < loopTime - 1; i++) {
-                            for (var j = i + 1; j < dealData.length; j++) {
-                                if (i != j) {
-                                    var lineGeoArr = function(mark) {
-                                        return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length - 1], dealData[mark].data.properties.id, dealData[mark].data.properties.featType];
-                                    };
-                                    var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))
-                                    if (temp) {
-                                        crossGeos.push(temp);
-                                    }
-                                 }
+                        // for (var i = 0; i < loopTime - 1; i++) {
+                        //     for (var j = i + 1; j < dealData.length; j++) {
+                        //         if (i != j) {
+                        //             var lineGeoArr = function(mark) {
+                        //                 return [dealData[mark].line.points[0], dealData[mark].line.points[dealData[mark].line.points.length - 1], dealData[mark].data.properties.id, dealData[mark].data.properties.featType];
+                        //             };
+                        //             var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j))
+                        //             if (temp) {
+                        //                 crossGeos.push(temp);
+                        //             }
+                        //          }
+                        //     }
+                        // }
+                        var sepLinks = [];//$scope.seprateLink(shapePoints); //将线分成多条线
+                        for (var i = 0; i < dealData.length; i++) {
+                            var links = $scope.seprateLink(dealData[i].line.points).pointsObj; //将线分成多条线
+                            var linkData = [];
+                            for(var t in links){
+                                var linkObj = {
+                                    line:links[t],
+                                    data:dealData[i].data
+                                };
+                                linkData.push(linkObj);
+                            }
+                            sepLinks = sepLinks.concat(linkData);
+                        }
+                        for (var i = 0; i < sepLinks.length; i++) {
+                            for (var j = i + 1; j < sepLinks.length; j++) {
+                                var lineGeoArr = function(mark) {
+                                    return [sepLinks[mark].line[0], sepLinks[mark].line[sepLinks[mark].line.length - 1], sepLinks[mark].data.properties.id, sepLinks[mark].data.properties.featType];
+                                };
+                                var temp = $scope.segmentsIntr(lineGeoArr(i), lineGeoArr(j));
+                                if (temp) {
+                                    crossGeos.push(temp);
+                                }
                             }
                         }
                         crossGeos = $scope.ArrUnique(crossGeos);
@@ -1802,7 +1829,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         "nodePid": $scope.rdSe.nodePid
                     };
                     dsEdit.getByCondition(param).then(function(continueLinks) {
-                        console.info(continueLinks);
                         if (continueLinks.errcode === -1) {
                             return;
                         }
@@ -1938,7 +1964,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         "nodePid": $scope.rdTollgateData.nodePid
                     };
                     dsEdit.getByCondition(param).then(function(continueLinks) {
-                        console.info(continueLinks);
                         if (continueLinks.errcode === -1) {
                             return;
                         }
@@ -2385,8 +2410,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             });
                             highRenderCtrl.drawHighlight();
                             tooltipsCtrl.setCurrentTooltip("请选择接续线!");
-                            console.log($scope.links)
-                            console.log($scope.linkNodes)
+                            //console.log($scope.links)
+                            //console.log($scope.linkNodes)
                         });
                     } else if (data.index > 2) {
                         selectOutOrSeriesLinks(data);
