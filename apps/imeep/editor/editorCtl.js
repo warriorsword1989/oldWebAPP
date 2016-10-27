@@ -890,7 +890,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         /*要素地图高亮及定位事件监听*/
         $scope.$on("locatedOnMap", function(event, data) {
             _showOnMapNew(data.objPid,data.objType);
-            $scope.showOnMap(data.pid, data.type);
+            //$scope.showOnMap(data.pid, data.type);
         });
 
         function _showOnMapNew(pid, featType) {
