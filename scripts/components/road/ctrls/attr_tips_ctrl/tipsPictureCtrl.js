@@ -48,6 +48,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
             });*/
             // originImg.smartZoom({'containerClass':'zoomableContainer'});
             // document.getElementById("dataTipsOriginModal").style.display = 'block';
+            $("#dataTipsOriginModal").show();
         }
     }
     var getCoordInDocumentExample = function(canvasObj){
