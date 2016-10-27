@@ -2,8 +2,7 @@
     <div class="fm-component" >
         <div class="title">
             方向看板
-            <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-            </label>
+            <span class="label label-info" ng-bind="branchPid"></span>
         </div>
 
         <div class="content">
@@ -99,32 +98,34 @@
         </div>
         <!--end 模式图信息-->
         <!--begin 名称信息-->
-        <!--<div class="content">
-            <ul class="list-group list-group-lg m-b-none">
-                <li class="list-group-item">
-                    <div class="list-name">
-                        <a ng-click="addItem('name')" class="fm-cursor">名称（共 {{diverObj.signboards[0].names.length}} 组）</a>
-                    </div>
-                    <div class="list-add-icon" ng-click="addItem('name');">
-                        <i class="glyphicon glyphicon-plus-sign"></i>
-                    </div>
-                    <div class="list-line"></div>
-                </li>
-                <li class="list-group-item">
-                    &lt;!&ndash;<ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
-                        <li class="list-group-item" ng-repeat="item in namesItem | orderBy:'nameId'">
-                            <label class="control-label fm-cursor" ng-click="showDetail('name',$index ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
-                            <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,'name',item)"></i>
-                        </li>
-                    </ul>&ndash;&gt;
-                </li>
-            </ul>
-        </div>-->
-        <div class="module-box show-detail-title" ng-click="showDetail(0);">
+        <div class="content">
+			<div class="content">
+	            <ul class="list-group list-group-lg m-b-none">
+	                <li class="list-group-item">
+	                    <div class="list-name">
+	                        <a ng-click="addItem()" class="fm-cursor">名称（共 {{nameGroup.length}} 组）</a>
+	                    </div>
+	                    <div class="list-add-icon" ng-click="addItem();">
+	                        <i class="glyphicon glyphicon-plus-sign"></i>
+	                    </div>
+	                    <div class="list-line"></div>
+	                </li>
+	                <li class="list-group-item">
+	                    <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
+	                        <li class="list-group-item" ng-repeat="item in namesItem | orderBy:'pid'">
+	                            <label class="control-label fm-cursor" ng-click="showDetail(0 ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
+	                            <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,item)"></i>
+	                        </li>
+	                    </ul>
+	                </li>
+	            </ul>
+        	</div>
+		</div>
+        <!-- <div class="module-box show-detail-title" ng-click="showDetail(0);">
             <div class="box-head font-bold">
                 名称信息（共 <span ng-bind="diverObj.signboards[0].names.length"></span> 条）
             </div>
-        </div>
+        </div> -->
         <!--end 名称信息-->
         <!--begin 经过线-->
         <div class="module-box show-detail-title" ng-click="showDetail(1);">

@@ -67,7 +67,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         this.truckFlag = data["truckFlag"] || 0;
         this.feeStd = data["feeStd"] || 0;
         this.feeFlag = data["feeFlag"] || 0;
-        this.systemId = data["systemId"] || 0;
+        //this.systemId = data["systemId"] || 0;
         this.originLinkPid = data["originLinkPid"] || 0;
         this.centerDivider = data["centerDivider"] || 0;
         this.parkingFlag = data["parkingFlag"] || 0;
@@ -218,7 +218,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         data["truckFlag"] = this.truckFlag;
         data["feeStd"] = this.feeStd;
         data["feeFlag"] = this.feeFlag;
-        data["systemId"] = this.systemId;
+        //data["systemId"] = this.systemId;
         data["originLinkPid"] = this.originLinkPid;
         data["centerDivider"] = this.centerDivider;
         data["parkingFlag"] = this.parkingFlag;
@@ -280,14 +280,27 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
     /**
      * 修改种别的关联维护
      * 两个参数都必选传
+     * @param newValue
+     * @param oldValue
+     * @param param 选传
      */
-    changeKind: function(newValue, oldValue) {
+    changeKind: function(newValue, oldValue, param) {
         this.kind = newValue;
         // 修改道路种别对道路名的维护;
         if (newValue == 1 || newValue == 2 || newValue == 3) {
             for (var i = 0, len = this.names.length; i < len; i++) {
                 this.names[i].code = 1;
             }
+        }
+
+        //根据车道种别位9，轮渡，人渡时维护车道数和车道等级为1;
+        if (newValue == 9 || newValue == 11 || newValue == 13){
+            this.laneNum = 1;
+            this.laneClass = 1;
+        }else{
+            //当种类切换回去时再切回原数据;
+            this.laneNum = param.originalData.laneNum;
+            this.laneClass =  param.originalData.laneClass;
         }
         //根据道路种别维护路径采纳字段 ，参考的是bug4修改
         if (newValue == 1) {
@@ -336,14 +349,12 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         if (newValue == 10) {
             this.walkFlag = 1;
             this.sidewalkFlag = 0;
-            this.sidewalks = [];
-            this.walkerLimitFlag = true;
+            //this.sidewalks = [];
         } else if (newValue != 10) {
             this.walkFlag = 0;
             this.sidewalkFlag = 0;
-            this.walkerLimitFlag = false;
         }
-    },
+    }
 });
 /***
  * Rdlink初始化函数

@@ -246,26 +246,26 @@ addDirectOfRest.controller("addDirectOfNodeController", function($scope, $timeou
             if($scope.formsData.length == 1){
                 item.isCheck = true;
             }
-            // // 最后一个是无属性，不能反选
-            // if (item.id == 1 && $scope.formsData.length == 1) {
-            //     item.isCheck = true;
-            // } else {
-            //     for (var p in $scope.formsData) {
-            //         if ($scope.formsData[p].formOfWay == item.id) {
-            //             $scope.formsData.splice(p, 1);
-            //         }
-            //     }
-            //     // 形态全部去掉后，自动加上无属性
-            //     if ($scope.formsData.length == 0) {
-            //         var newForm = fastmap.dataApi.rdNodeForm({
-            //             "auxiFlag": 0,
-            //             "formOfWay": 1,
-            //             "nodePid": $scope.dataPid
-            //         });
-            //         $scope.formsData.unshift(newForm);
-            //         $scope.fromOfWayOption[1].isCheck = true;
-            //     }
-            // }
+            // 最后一个是无属性，不能反选
+            if (item.id == 1 && $scope.formsData.length == 1) {
+                item.isCheck = true;
+            } else {
+                for (var p in $scope.formsData) {
+                    if ($scope.formsData[p].formOfWay == item.id) {
+                        $scope.formsData.splice(p, 1);
+                    }
+                }
+                // 形态全部去掉后，自动加上无属性
+                if ($scope.formsData.length == 0) {
+                    var newForm = fastmap.dataApi.rdNodeForm({
+                        "auxiFlag": 0,
+                        "formOfWay": 1,
+                        "nodePid": $scope.dataPid
+                    });
+                    $scope.formsData.unshift(newForm);
+                    $scope.fromOfWayOption[1].isCheck = true;
+                }
+            }
         }
         objectEditCtrl.nodeObjRefresh();
     };

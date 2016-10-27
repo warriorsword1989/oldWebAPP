@@ -9,7 +9,7 @@ fastmap.dataApi.RdBranchName=fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"];
+        this.pid = data["pid"] || 0;
         this.seqNum = data["seqNum"] || 1;
         this.nameGroupid = data["nameGroupid"] || 1;
         this.detailId = data["detailId"];

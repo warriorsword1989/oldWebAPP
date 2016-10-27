@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/12/11.
  * Modified by liuyang on 2015/9/3
  */
-function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
+function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
         //取消
         var layerCtrl = fastmap.uikit.LayerController();
@@ -66,7 +66,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             }
             return boolExit;
         }
-
         //返回两点之间的距离;
         function distance(pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
@@ -99,6 +98,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
+            }
+            if(map.markerLayer){ //清除marker图层
+                map.removeLayer(map.markerLayer);
+                map.markerLayer = null;
             }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures = [];
@@ -206,6 +209,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                                 "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                             });
                             scope.$emit("highLightPoi", rest.pid);
+                            scope.$emit("refreshPhoto", true); //更新图片面板
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.highLightFeatures = [];
                             var highLightFeatures = [];
@@ -376,9 +380,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     swal("操作失败", "不允许同时打断多条link，请重新操作！", "error");
                     return;
                 }
+                var ppp = shapeCtrl.shapeEditorResult.getOriginalGeometry().points;
                 for (var item in geo.components) {
-                    if (!_contains(geo.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
+                    if (geo.components[item].x != ppp[item].x || geo.components[item].y != ppp[item].y) {
                         breakPoint = geo.components[item];
+                        break;
                     }
                 }
                 if (breakPoint == null) {
@@ -420,18 +426,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             } else if (param["type"] === "ADLINK") {
                                 adLink.redraw();
                                 adNode.redraw();
+                                adFace.redraw();
                             } else if (param["type"] === "RWLINK") {
                                 rwLink.redraw();
                                 rwnode.redraw();
                             } else if (param["type"] === "ZONELINK") {
                                 zoneLink.redraw();
                                 zoneNode.redraw();
+                                zoneFace.redraw();
                             } else if (param["type"] === "LULINK") {
                                 luLink.redraw();
                                 luNode.redraw();
+                                luFace.redraw();
                             } else if (param["type"] === "LCLINK") {
                                 lcLink.redraw();
                                 lcNode.redraw();
+                                lcFace.redraw();
                             }
                             shapeCtrl.editType = "pathBreak";//被清空了，下面方法的分支进不去，因此再次临时赋值
                             treatmentOfChanged(data, param["type"]);
@@ -468,6 +478,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                             if (data != null) {
                                 rdLink.redraw();
                                 rdnode.redraw();
+                                relationData.redraw();
                                 //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
                             }
                         });
@@ -509,7 +520,13 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         selectCtrl.selectedFeatures = null;
                         rdLink.redraw();
                         rdnode.redraw();
-                        //treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK,'attr_link_ctrl/rdLinkCtrl','attr_link_tpl/rdLinkTpl.html');
+                        highRenderCtrl.highLightFeatures.push({
+                            id: objEditCtrl.data.pid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
                     }
                 })
             }
@@ -795,24 +812,22 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     }
                 })
             } else if (shapeCtrl.editType === "addRdLaneConnexity") {
-                var laneData = objEditCtrl.originalData["inLaneInfoArr"],
-                    laneInfo = objEditCtrl.originalData["laneConnexity"];
-                if(laneData == undefined || laneInfo== undefined){
-                    swal("操作失败", "请检查选择的数据！", "error");
+                var contyObj = objEditCtrl.originalData;
+                if(contyObj.inLinkPid == 0 || contyObj.nodePid == 0 || contyObj.outLinkPids.length == 0 || contyObj.lanes.length == 0){
+                    swal("操作失败", "数据不完整，请确认已选择了进入线、进入点和退出线，以及对应的车道方向！", "error");
                     return;
                 }
-                var laneStr = "";
-                if (laneData.length === 0) {
-                    laneStr = laneData[0];
-                } else {
-                    laneStr = laneData.join(",");
+                var laneInfo = [];
+                for(var i=0;i<contyObj.lanes.length;i++) {
+                    laneInfo.push(contyObj.lanes[i].laneInfo);
                 }
-                laneInfo["laneInfo"] = laneStr;
+                contyObj["laneInfo"] = laneInfo.join(",");
+                delete contyObj.lanes;
                 param = {
                     "command": "CREATE",
                     "type": "RDLANECONNEXITY",
                     "dbId": App.Temp.dbId,
-                    "data": laneInfo
+                    "data": contyObj
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
@@ -869,6 +884,8 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                     if (data != null) {
                         relationData.redraw();
                         rdLink.redraw();
+                        rwLink.redraw();
+                        lcLink.redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
@@ -936,8 +953,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 })
             } else if (shapeCtrl.editType === "ADLINKFACE") {
                 var adLinksArr = selectCtrl.selectedFeatures.links;
-                if (!adLinksArr || adLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成ADLINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -958,8 +976,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                 });
             } else if (shapeCtrl.editType === "ZONELINKFACE") {
                 var zoneLinksArr = selectCtrl.selectedFeatures.links;
-                if (!zoneLinksArr || zoneLinksArr.length < 2) {
-                    swal("操作失败", "请双击结束增加线段", "error");
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成ZONELINKFACE面", "error");
                     return;
                 }
                 param = {
@@ -976,6 +995,52 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
                         zoneFace.redraw();
                         zoneLink.redraw();
                         treatmentOfChanged(data, "ZONEFACE", 'attr_zone_ctrl/zoneFaceCtrl', 'attr_zone_tpl/zoneFaceTpl.html');
+                    }
+                })
+            } else if (shapeCtrl.editType === "LULINKFACE") {
+                var luLinksArr = selectCtrl.selectedFeatures.links;
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成LULINKFACE面", "error");
+                    return;
+                }
+                param = {
+                    "command": "CREATE",
+                    "type": "LUFACE",
+                    "linkType": "LULINK",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPids": luLinksArr
+                    }
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        luFace.redraw();
+                        luLink.redraw();
+                        treatmentOfChanged(data, "LUFACE", 'attr_lu_ctrl/luFaceCtrl', 'attr_zone_tpl/luFaceTpl.html');
+                    }
+                })
+            } else if (shapeCtrl.editType === "LCLINKFACE") {
+                var lcLinksArr = selectCtrl.selectedFeatures.links;
+                var enableFlag = selectCtrl.selectedFeatures.flag;
+                if (!enableFlag) {
+                    swal("操作失败", "所选线无法构成LCLINKFACE面", "error");
+                    return;
+                }
+                param = {
+                    "command": "CREATE",
+                    "type": "LCFACE",
+                    "linkType": "LCLINK",
+                    "dbId": App.Temp.dbId,
+                    "data": {
+                        "linkPids": lcLinksArr
+                    }
+                };
+                dsEdit.save(param).then(function (data) {
+                    if (data != null) {
+                        lcFace.redraw();
+                        lcLink.redraw();
+                        treatmentOfChanged(data, "LCFACE", 'attr_lc_ctrl/lcFaceCtrl', 'attr_lc_tpl/lcFaceTpl.html');
                     }
                 })
             } else if (shapeCtrl.editType === "poiLocMove" || shapeCtrl.editType === "poiGuideMove" || shapeCtrl.editType === "poiAutoDrag") {
@@ -1060,9 +1125,11 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath) {
 	                              "kindCode":kindCode
 	                          }
 	                      };
+                          scope.rootCommonTemp.selectPoiInMap = true;
                           scope.$broadcast("clearAttrStyleDown"); //父向子 清除属性样式
 	                      dsEdit.save(param).then(function (data) {
 	                    	  swal.close();
+	                    	  rootScope.isSpecialOperation = false;
 	                          if (data != null) {
 	                              layerCtrl.getLayerById("poi").redraw();
 	                              highRenderCtrl._cleanHighLight();

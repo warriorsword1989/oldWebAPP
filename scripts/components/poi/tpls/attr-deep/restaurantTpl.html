@@ -1,16 +1,16 @@
 <div ng-controller="restaurantCtl">
     <div ng-show="propertyType=='deep'">
-        <div class="fm-panel" >
+        <div class="fm-panel" form-disabled>
             <div class="content" style="padding-bottom: 30px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>信用卡类型</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in creditCard" ng-if="key == 0" style="color: greenyellow;">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in creditCard" ng-if="key != 0">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].creditCard[key]" ng-click="creditCardChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -19,7 +19,7 @@
                         <div>
                             <select class="fm-control" ng-model="poi.restaurants[0].parking"
                                     ng-options="value.id as value.label for value in parkingOptions"
-                                    >
+                                    ng-disabled="isSpecialOperation">
                             </select>
                         </div>
                     </li>
@@ -36,18 +36,18 @@
                         <div class="block">
                             <div style="border-bottom: 1px solid gray;width:100%;padding-left:4px;">
                                 <label ng-repeat="(key, value) in foodType1Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key == 2016 || key == 1001 || key == 3009 || key == 3015" class="fm-specialopt">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)" ng-disabled="isSpecialOperation"> {{value}}
                                 </label>
                                 <label ng-repeat="(key, value) in foodType1Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key != 2016 && key != 1001 && key != 3009 && key != 3015">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)"> {{value}}
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType1[key]" ng-click="foodType1Change($event)" ng-disabled="isSpecialOperation"> {{value}}
                                 </label>
                             </div>
                             <div style="padding-left:4px;">
                             	<label ng-repeat="(key, value) in foodType2Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key == 3015" class="fm-specialopt">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)" ng-disabled="isSpecialOperation"> {{value}}
                                 </label>
                                 <label ng-repeat="(key, value) in foodType2Obj" style="font-weight: normal;margin-right: 2px;" ng-if="key!= 3015">
-                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}
+                                    <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)" ng-disabled="isSpecialOperation"> {{value}}
                                 </label>
                                 <!-- <label ng-repeat="(key, value) in foodType2Obj" style="font-weight: normal;margin-right: 2px;">
                                     <input type="checkbox" value="{{key}}" ng-model="poi.restaurants[0].foodType2[key]" ng-click="foodType2Change($event)"> {{value}}

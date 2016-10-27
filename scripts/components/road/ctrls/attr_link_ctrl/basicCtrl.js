@@ -411,6 +411,7 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
                 $scope.basicFrom.$setPristine();
             }
         }
+
         //车道等级的联动控制;
     function linkClassCtr(tempVar) {
         if (tempVar == 0) {
@@ -432,6 +433,7 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
             if ($scope.linkData.laneNum > 99) $scope.linkData.laneNum = 98;
         }
     }
+    //车道数修改对车道等级的维护；
     $scope.numberLengthLimit = function() {
         switch (arguments[0]) {
             case 1:
@@ -501,6 +503,7 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
         }
         $scope.$apply();
     });
+
     if (objectEditCtrl.data) {
         $scope.initOtherData();
     }
@@ -510,84 +513,12 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
     $scope.emptyGroupId = function() {
         $("#difGroupIdText").val("");
     }
+
     $scope.changeKind = function(newVal, oldVal) {
-        $scope.linkData.changeKind(newVal, oldVal);
-        //10级路变非10级以及非10级切换为10级时对行人导航面板联动控制;
-        if (newValue == 10) {
-            $scope.linkData.walkerLimitFlag = true;
-        } else if (newValue != 10) {
-            $scope.linkData.walkerLimitFlag = false;
-        }
+        //在模型里设置方法处理种别 变化的关联维护;
+        $scope.linkData.changeKind(newVal, oldVal, objectEditCtrl);
     };
-    //    // 修改道路种别
-    //    $scope.changeKindCode = function(){
-    //        //修改道路种别对道路名的维护;
-    //        if ($scope.linkData.kind == 1 || $scope.linkData.kind == 2 || $scope.linkData.kind == 3) {
-    //            for(var i=0,len=$scope.linkData.names.length;i<len;i++) {
-    //                $scope.linkData.names[i].code = 1;
-    //            }
-    //        }
-    // 	//根据道路种别维护路径采纳字段 ，参考的是bug4修改
-    // 	var kind = $scope.linkData.kind;
-    // 	if(kind == 1){
-    // 		$scope.linkData.routeAdopt = 5;
-    // 	}else if(kind == 2 || kind == 3){
-    // 		$scope.linkData.routeAdopt = 4;
-    // 	}else if(kind == 4 || kind == 6 || kind == 7 ){
-    // 		$scope.linkData.routeAdopt = 2;
-    // 	}else if(kind == 8 || kind == 9 || kind == 10 || kind == 11 || kind == 13){
-    // 		$scope.linkData.routeAdopt = 0;
-    // 	}
-    //    };
-    // $scope.$watch('linkData.kind',function(newValue,oldValue,$scope){
-    // 	if((newValue == 9 || newValue ==10) && (oldValue != 9 && oldValue != 10)){
-    // 		if ($scope.linkData.limits.length == 0) {
-    // 			var newLimit = fastmap.dataApi.rdLinkLimit({
-    // 				"linkPid": $scope.linkData.pid,
-    // 				"processFlag": 2,
-    // 				"limitDir": 0
-    // 			});
-    // 			$scope.linkData.limits.unshift(newLimit);
-    // 		} else {
-    // 			var temp = 0;
-    // 			for (var i = 0, len = $scope.linkData.limits.length; i < len; i++) {
-    // 				if ($scope.linkData.limits[i].type == 3) {
-    // 					$scope.linkData.limits[i].processFlag = 2;
-    // 					$scope.linkData.limits[i].limitDir = 0;
-    // 				}
-    // 				if ($scope.linkData.limits[i].type != 3) {
-    // 					temp++;
-    // 				}
-    // 			}
-    // 			if (temp == $scope.linkData.limits.length) {
-    // 				var newLimit = fastmap.dataApi.rdLinkLimit({
-    // 					"linkPid": $scope.linkData.pid,
-    // 					"processFlag": 2,
-    // 					"limitDir": 0
-    // 				});
-    // 				$scope.linkData.limits.unshift(newLimit);
-    // 			}
-    // 		}
-    // 	} else if ((newValue != 9 && newValue !=10) && (oldValue == 9 || oldValue == 10)){
-    // 		for (var i = 0, len = $scope.linkData.limits.length; i < len; i++) {
-    // 			if ($scope.linkData.limits[i] && $scope.linkData.limits[i].type == 3) {
-    // 				$scope.linkData.limits.splice(i,1);
-    // 				i--;
-    // 			}
-    // 		}
-    // 	}
-    //        //10级路变非10级以及非10级切换为10级时对行人导航面板联动控制;
-    //        if(newValue == 10 ){
-    //            $scope.linkData.walkFlag = 1;
-    //            $scope.linkData.sidewalkFlag = 0;
-    //            $scope.linkData.sidewalks = [];
-    //            $scope.linkData.walkerLimitFlag = true;
-    //        }else if(newValue != 10 ){
-    //            $scope.linkData.walkFlag = 0;
-    //            $scope.linkData.sidewalkFlag = 0;
-    //            $scope.linkData.walkerLimitFlag = false;
-    //        }
-    // });
+
     $scope.showNames = function() {
         var showNameInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
             "loadType": "subAttrTplContainer",

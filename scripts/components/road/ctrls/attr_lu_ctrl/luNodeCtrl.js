@@ -69,7 +69,7 @@ angular.module("app").controller("luNodeController",['$scope','dsEdit',function(
             //高亮点和线
             highlightFeatures.push({
                 id:$scope.luNodeData.pid.toString(),
-                layerid:'luLink',
+                layerid:'luNode',
                 type:'node',
                 style:{}
             });

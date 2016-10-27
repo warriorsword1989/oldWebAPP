@@ -80,6 +80,8 @@
                     <div class="col-md-9" ng-controller="addFaceFeatureCtrl">
                         <button class="fm-top-btn blank" title="选线构建行政区划面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ADLINKFACE', 2)">政</button>
                         <button class="fm-top-btn blank eng" title="选线构建Zone面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('ZONELINKFACE', 2)">ZN</button>
+                        <button class="fm-top-btn blank" title="选线构建土地利用面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LULINKFACE', 2)">LU</button>
+                        <button class="fm-top-btn blank eng" title="选线构建土地覆盖面" ng-controller="addFaceFeatureCtrl" ng-click="addFace('LCLINKFACE', 2)">LC</button>
                     </div>
                 </div>
             </li>
@@ -183,7 +185,9 @@
 </div>
 <div class="fm-top-btn split"></div>
 <div class="fm-top-btn-group">
-    <button class="fm-top-btn blank" title="执行检查" ng-click="openAdvancedToolsPanel('check')">检</button>
+    <button class="fm-top-btn blank" title="执行检查" ng-click="openAdvancedToolsPanel('check')">检
+        <div class="fm-top-btn loading" ng-if="checkRunning"></div>
+    </button>
     <button class="fm-top-btn blank" title="批处理" ng-click="openAdvancedToolsPanel('batch')">批
         <div class="fm-top-btn loading" ng-if="batchRunning"></div>
     </button>

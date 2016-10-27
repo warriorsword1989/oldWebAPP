@@ -184,23 +184,23 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 }
             }
         }
-        this.chargingStation = [];
-        if (data["chargingStation"]) {
-            if (data["chargingStation"].length == 0) {
-                this.chargingStation = [new FM.dataApi.IxPoiChargingstation({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+        this.chargingstations = [];
+        if (data["chargingstations"]) {
+            if (data["chargingstations"].length == 0) {
+                this.chargingstations = [new FM.dataApi.IxPoiChargingstation({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
             } else {
-                for (var i = 0, len = data["chargingStation"].length; i < len; i++) {
-                    this.chargingStation.push(new FM.dataApi.IxPoiChargingstation(data["chargingStation"][i]));
+                for (var i = 0, len = data["chargingstations"].length; i < len; i++) {
+                    this.chargingstations.push(new FM.dataApi.IxPoiChargingstation(data["chargingstations"][i]));
                 }
             }
         }
-        this.chargingPlot = [];
-        if (data["chargingPlot"]) {
-            if (data["chargingPlot"].length == 0) {
-                this.chargingPlot = [new FM.dataApi.IxPoiChargingplot({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
+        this.chargingplots = [];
+        if (data["chargingplots"]) {
+            if (data["chargingplots"].length == 0) {
+                this.chargingplots = [new FM.dataApi.IxPoiChargingplot({"_flag_":true})]; //深度信息特殊处理,服务如果返回的是空数组，需要将数组中增加对象,用于在ObjectEditController.js中保存时会将falg=true认为是新增加的.
             } else {
-                for (var i = 0, len = data["chargingPlot"].length; i < len; i++) {
-                    this.chargingPlot.push(new FM.dataApi.IxPoiChargingplot(data["chargingPlot"][i]));
+                for (var i = 0, len = data["chargingplots"].length; i < len; i++) {
+                    this.chargingplots.push(new FM.dataApi.IxPoiChargingplot(data["chargingplots"][i]));
                 }
             }
         }
@@ -409,23 +409,23 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             //     }
             // }
         }
-        ret["chargingStation"] = [];
-        if (this.chargingStation) {
-            if (this.chargingStation.length == 1 && FM.Util.isEmptyObject(this.chargingStation[0])) {
-                ret["chargingStation"] = [];
+        ret["chargingstations"] = [];
+        if (this.chargingstations) {
+            if (this.chargingstations.length == 1 && FM.Util.isEmptyObject(this.chargingstations[0])) {
+                ret["chargingstations"] = [];
             } else {
-                for (var i = 0, len = this.chargingStation.length; i < len; i++) {
-                    ret["chargingStation"].push(this.chargingStation[i].getIntegrate());
+                for (var i = 0, len = this.chargingstations.length; i < len; i++) {
+                    ret["chargingstations"].push(this.chargingstations[i].getIntegrate());
                 }
             }
         }
-        ret["chargingPlot"] = [];
-        if (this.chargingPlot) {
-            if (this.chargingPlot.length == 1 && FM.Util.isEmptyObject(this.chargingPlot[0])) {
-                ret["chargingPlot"] = [];
+        ret["chargingplots"] = [];
+        if (this.chargingplots) {
+            if (this.chargingplots.length == 1 && FM.Util.isEmptyObject(this.chargingplots[0])) {
+                ret["chargingplots"] = [];
             } else {
-                for (var i = 0, len = this.chargingPlot.length; i < len; i++) {
-                    ret["chargingPlot"].push(this.chargingPlot[i].getIntegrate());
+                for (var i = 0, len = this.chargingplots.length; i < len; i++) {
+                    ret["chargingplots"].push(this.chargingplots[i].getIntegrate());
                 }
             }
         }

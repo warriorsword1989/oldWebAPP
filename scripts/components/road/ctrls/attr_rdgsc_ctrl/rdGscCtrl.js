@@ -127,11 +127,14 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
             "objId": objId
         };
         dsEdit.save(param).then(function (data) {
-            var info = null;
             if (data) {
                 $scope.reGscData = null;
                 rdgsc.redraw();
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+                $scope.$emit("SWITCHCONTAINERSTATE", { "subAttrContainerTpl": false ,"attrContainerTpl":false});
+            }
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
             }
         })
     };

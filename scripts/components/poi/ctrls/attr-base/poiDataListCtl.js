@@ -119,7 +119,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                             scope.tableParams.data[i].name = obj.poi.name.name;
                             scope.tableParams.data[i].kindCode = obj.poi.kindCode;
                             if(obj.flag  == "update"){
-                                scope.tableParams.data[i].state = 3;//修改
+                                //scope.tableParams.data[i].state = 3;//修改 保存不会修改数据状态(不存在数据状态为无的数据)
                             } else if (obj.flag  == "del"){
                                 scope.tableParams.data[i].state = 2;//删除
                             }
@@ -344,7 +344,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
             swal({
                 title: "确认提交？",
                 type: "warning",
-                animation: 'slide-from-top',
+                animation: 'none',
                 showCancelButton: true,
                 closeOnConfirm: true,
                 confirmButtonText: "是的，我要提交",
@@ -355,7 +355,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                         attrContainerTpl: false,
                         subAttrContainerTpl: false
                     });
-                    scope.$parent.$parent.showLoading = true;
+                    //scope.$parent.$parent.showLoading = true;
+                    $timeout(function(){
+                        scope.$emit("showFullLoadingOrNot",true); //初次打开必须要等待会儿
+                    });
                     var param = {
                         dbId: App.Temp.dbId,
                         gridIds: App.Temp.gridList
@@ -367,7 +370,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                                     scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
 
                                     if (data.status == 3 || data.status == 4) { //1-创建，2-执行中 3-成功 4-失败
-                                        scope.$parent.$parent.showLoading = false;
+                                        //scope.$parent.$parent.showLoading = false;
+                                        scope.$emit("showFullLoadingOrNot",false);
                                         refreshData();
                                         poiLayer.redraw();
                                         $interval.cancel(timer);
@@ -388,11 +392,13 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                                             });
                                             swal("提交提示", '提交失败,' + data.latestStepMsg, "warning");
                                         }
+                                        scope.changeDataList(2);
                                     }
                                 });
                             }, 500);
                         } else {
                             scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
+                            scope.$emit("showFullLoadingOrNot",false);
                         }
                     });
                 }

@@ -44,7 +44,7 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
             }
         }
         this.feeStd = data["feeStd"] || 0;
-        this.systemId = data["systemId"] || 0;
+        //this.systemId = data["systemId"] || 0;
         this.locationFlag = data["locationFlag"] || 0;
         this.rowId = data["rowId"] || null;
     },
@@ -75,7 +75,7 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         for (var i = 0; i < this.passages.length; i++) {
             data["passages"].push(this.passages[i].getIntegrate());
         }
-        data["systemId"] = this.systemId;
+        //data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
@@ -108,7 +108,7 @@ fastmap.dataApi.RdTollgate = fastmap.dataApi.GeoDataModel.extend({
         for (var i = 0; i < this.passages.length; i++) {
             data["passages"].push(this.passages[i].getIntegrate());
         }
-        data["systemId"] = this.systemId;
+        //data["systemId"] = this.systemId;
         data["locationFlag"] = this.locationFlag;
         data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;

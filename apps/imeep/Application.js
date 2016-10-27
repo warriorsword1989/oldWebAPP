@@ -58,9 +58,11 @@ App.Temp = {
         LCFACE: 'LC(土地覆盖)-面',
         IXPOI: '兴趣点（POI）',
         RDNODE: '道路点',
-        RDLINKSPEEDLIMIT: '线限速'
+        RDLINKSPEEDLIMIT: '线限速',
+        TIPS:"TIPS"
     },
-    thematicMapFlag: false
+    thematicMapFlag: false,
+    taskType:null
 };
 // web app的公用函数命名空间
 App.Util = {

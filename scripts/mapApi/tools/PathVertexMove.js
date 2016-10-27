@@ -21,10 +21,13 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
         this.interLinks = [];
         this.interNodes = [];
         this.selectCtrl = fastmap.uikit.SelectController();
+        this.objectCtrl = fastmap.uikit.ObjectEditController();
         this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.eventController = fastmap.uikit.EventController();
+        this.hornPoints = null;
+        this.nodeArray = ["RDLINK"];//["RDLINK","ADLINK","LCLINK","LULINK","ZONELINK"];
     },
 
     /***
@@ -88,8 +91,14 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
             }
         }
         this.snapHandler.setTargetIndex(this.targetIndex);
-    },
 
+        //计算图幅的四个顶角
+        if(this.nodeArray.indexOf(this.objectCtrl.data.geoLiveType) > -1){ //增加对形状点不能移动到顶角的判断
+            var temp = new fastmap.mapApi.GridLayer();
+            var arr = temp.Calculate25TMeshBorder(this.objectCtrl.data.meshId+"");
+            this.hornPoints = [{x:arr.maxLat,y:arr.maxLon},{x:arr.maxLat,y:arr.minLon},{x:arr.minLat,y:arr.maxLon},{x:arr.minLat,y:arr.minLon}];
+        }
+    },
     onMouseMove: function (event) {
         this.container.style.cursor = 'pointer';
         if (this._mapDraggable) {
@@ -192,13 +201,24 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
      * 重新设置节点
      */
     resetVertex:function(){
+        var currentPoint = L.latLng(this.targetPoint.lat,this.targetPoint.lng);
+
+        if(this.hornPoints){ //形状点不能够移动到图幅的顶角处
+            for(var i = 0, len = this.hornPoints.length; i < len; i++ ){
+                var point = L.latLng(this.hornPoints[i].x,this.hornPoints[i].y);
+                var dis = currentPoint.distanceTo(point);
+                if(dis < 0.8){
+                    return;
+                }
+            }
+        }
+
         //增加了形状点之间距离大于2米的判断(只判断相邻点)
         var components = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
         var componentA = components[this.targetIndex-1];
         var componentB = components[this.targetIndex+1];
         var pointA = L.latLng(componentA.y,componentA.x);
         var pointB = L.latLng(componentB.y,componentB.x);
-        var currentPoint = L.latLng(this.targetPoint.lat,this.targetPoint.lng);
         var dis1 = currentPoint.distanceTo(pointA);
         var dis2 = currentPoint.distanceTo(pointB);
 

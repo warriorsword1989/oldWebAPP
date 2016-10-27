@@ -74,7 +74,7 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
         if(objCtrl.data.names){
             for (var i = 0 ,len = objCtrl.data.names.length; i < len ; i ++){
                 if(!objCtrl.data.names[i].nameGroupid){
-                    swal("保存提示", '名称组号存在为空，不能保存！', "info");
+                    swal("保存提示", '道路名不合法(合法的道路名应该来源于道路名库)', "error");
                     return
                 }
             }
@@ -96,7 +96,14 @@ rwLinkZone.controller("rwLinkController",["$scope" , "appPath","dsEdit",function
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                dsEdit.getByPid($scope.rwLinkData.pid, "RWLINK").then(function(ret) {
+					if (ret) {
+						objCtrl.setCurrentObject('RWLINK', ret);
+						objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+					}
+				});
+                $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
+//                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         })
     };

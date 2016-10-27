@@ -157,10 +157,11 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
         var params = {
             dbId: App.Temp.dbId,
             pageNum: num,
+            subtaskType: App.Temp.taskType,
             pageSize: 5,
             grids: App.Temp.gridList
         };
-        ajax.get("edit/check/get", {
+        ajax.get("edit/check/list", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {

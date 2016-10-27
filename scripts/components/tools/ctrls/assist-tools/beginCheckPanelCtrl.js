@@ -9,7 +9,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         $scope.selectedBatches = [];
         $scope.pageSize = 10;
         $scope.page = 1;
-        $scope.batchType = 0;
+        $scope.batchType = ([1,8,9,10].indexOf($scope.currentSubTaskType)==-1)?0:([0,5,6,7].indexOf($scope.currentSubTaskType)==-1)?1:0;
         $scope.dataLoading = true;
         $scope.currentBoxIndex = 0;
 
@@ -118,6 +118,21 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                                             "childPid": ""
                                         });
                                         logMsgCtrl.pushMsg($scope,'执行检查任务'+data+'失败,共耗时'+timeLog);
+                                    }
+                                }else{
+                                    $interval.cancel(timer);
+                                    if(d.status!=1||d.status!=2){
+                                        $scope.$emit("job-check", {
+                                            status: 'end'
+                                        });
+                                        $scope.running = false;
+                                        dsOutput.push({
+                                            "op": "执行检查异常",
+                                            "type": "fail",
+                                            "pid": data,
+                                            "childPid": ""
+                                        });
+                                        logMsgCtrl.pushMsg($scope,'执行检查任务'+data+'异常');
                                     }
                                 }
                             });

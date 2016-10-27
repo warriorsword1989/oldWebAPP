@@ -347,7 +347,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                               $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
+                               $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
                             }
                         }
                     };
@@ -653,8 +653,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                     layerid:'rdLink',
                                     type:'line',
                                     style:{
-                                        color: '#21ed25',
-                                        strokeWidth:50
+                                        color: '#21ed25'
                                     }
                                 });
                             }
@@ -1123,7 +1122,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
                             }
                         }
                     };
@@ -1240,7 +1239,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             //$scope.guideLayer._redraw();
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,branchType) {
-            /*if(type == 'RDBRANCH'){
+            if(type == 'RDBRANCH'){
                 if(selectedData.branchType == 5 || selectedData.branchType == 7){
                     dsEdit.getBranchByRowId(selectedData.rowkey,branchType).then(function(data){
                         if(data == -1){
@@ -1256,7 +1255,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         getByPidCallback(type,ctrl,tpl,data);
                     });
                 }
-            }else{*/
+            }else{
                 dsEdit.getByPid(id, type).then(function(data){
                     if(!data){
                         return;
@@ -1277,7 +1276,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     getByPidCallback(type,ctrl,tpl,data);
                 });
-            // }
+            }
             function getByPidCallback(type,ctrl,tpl,data){
                 var options = {
                     "loadType": 'attrTplContainer',
