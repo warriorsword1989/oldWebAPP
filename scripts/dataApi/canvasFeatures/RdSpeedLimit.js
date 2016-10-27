@@ -13,6 +13,20 @@ fastmap.uikit.canvasFeature.RdSpeedLimit = fastmap.uikit.canvasFeature.Feature.e
         this.properties['condition'] = 0;
         this.properties['markerStyle']["icon"] = [];
         this.properties["featType"] = "RDSPEEDLIMIT";
+        if(item.m.f){
+            this.properties['markerStyle']["icon"].push(
+                fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                        text: item.m.f,
+                        row: 0,
+                        column: 3,
+                        location: this.geometry['coordinates'],
+                        rotate: (item.m.c - 90) * (Math.PI / 180),
+                        dx: 20,
+                        dy: -6
+                    }
+                )
+            );
+        }
         if (type == 0) {
             var fieldCollection = resArray[0];//采集标志（0,现场采集;1,理论判断）
             var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)

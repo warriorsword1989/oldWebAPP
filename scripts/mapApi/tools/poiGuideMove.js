@@ -207,29 +207,31 @@ fastmap.mapApi.poiGuideMove = L.Handler.extend({
 
             var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
-            var id = null;
-            var transform = new fastmap.mapApi.MecatorTranform();
+            if(data && data.length > 0){
+                var id = null;
+                var transform = new fastmap.mapApi.MecatorTranform();
 
-            var temp = 0;
-            for (var i = 0; i < data.length; i++)
-            {
-                for (var j = 0; j < data.length - i; j++)
+                var temp = 0;
+                for (var i = 0; i < data.length; i++)
                 {
-                    if((j+1)<(data.length - i-1)){
-                        if (this._TouchesPath(data[j].geometry.coordinates, x, y) > this._TouchesPath(data[j+1].geometry.coordinates, x, y))
-                        {
-                            temp = data[j+1];
-                            data[j + 1] = data[j];
-                            data[j] = temp;
+                    for (var j = 0; j < data.length - i; j++)
+                    {
+                        if((j+1)<(data.length - i-1)){
+                            if (this._TouchesPath(data[j].geometry.coordinates, x, y) > this._TouchesPath(data[j+1].geometry.coordinates, x, y))
+                            {
+                                temp = data[j+1];
+                                data[j + 1] = data[j];
+                                data[j] = temp;
+                            }
                         }
-                    }
 
+                    }
                 }
+                var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
+                point= new fastmap.mapApi.Point(point[0], point[1]);
+                //id = data[0].properties.id;
+                this.selectCtrl.selectedFeatures.linkPid = data[0].properties.id;
             }
-            var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
-            point= new fastmap.mapApi.Point(point[0], point[1]);
-            //id = data[0].properties.id;
-            this.selectCtrl.selectedFeatures.linkPid = data[0].properties.id;
         }
     },
     /***

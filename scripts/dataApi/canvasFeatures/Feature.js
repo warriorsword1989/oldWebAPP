@@ -210,6 +210,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
             icon["dy"] = options.dy || "";
             icon["scalex"] = options.scalex || 1;
             icon["scaley"] = options.scaley || 1;
+            icon["text"] = options.text || "";
             icon["fillStyle"] = options.fillStyle || "";
             return icon;
         }
