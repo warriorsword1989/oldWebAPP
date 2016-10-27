@@ -14,7 +14,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		var eventCtrl = new fastmap.uikit.EventController();
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         var selectCtrl = fastmap.uikit.SelectController();
-		$scope.logMessage = logMsgCtrl.messages;
+
+        $scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
 		$scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {}, $scope.topKind = {}, $scope.mediumKind = {};
