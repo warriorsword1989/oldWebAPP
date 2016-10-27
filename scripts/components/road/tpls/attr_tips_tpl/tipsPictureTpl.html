@@ -17,7 +17,7 @@
             <img src="../../../images/road/img/left.png">
         </div>-->
         <div id="imgContainer" ng-class="{'cursor-left':imgSwitchCondition == -1,'cursor-right':imgSwitchCondition == 1,'cursor-default':imgSwitchCondition == 0}" title="{{switchArrowTitle}}" ng-click="switchImg();">
-            <img id="dataTipsOriginImg" src="" image-404="../../../images/road/img/noimg.png"/>
+            <img id="dataTipsOriginImg" img-show ng-src="{{tipsPhoto}}"/>
         </div>
         <!--<div class="road-switch-right" ng-click="switchPic(1);">
             <img src="../../../images/road/img/right.png">
