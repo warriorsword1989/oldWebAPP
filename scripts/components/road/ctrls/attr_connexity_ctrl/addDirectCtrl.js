@@ -132,6 +132,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
     var currentLaneIndex = CurrentObject.lanes.length;
     var currentDirArray = [];
     var outLanesArr = [];
+    var selectedLaneInfo = null;
     // 选择道路方向
     $scope.selectLaneDir = function(item, event) {
         $(event.target).siblings().removeClass("active");
@@ -142,18 +143,13 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         for (var k in tmp) {
             currentDirArray.push(dirCharToNum[tmp[k]]);
         }
-        var lane = {
+        selectedLaneInfo = {
             dir: item,
             adt: 0,
             busDir: null
         };
         if (event.button == 2) {
-            event.preventDefault();
-        }
-        if (CurrentObject.lanes.length == currentLaneIndex) { // 插入
-            CurrentObject.lanes.push(lane);
-        } else { // 替换
-            CurrentObject.lanes.splice(currentLaneIndex, 1, lane);
+            selectedLaneInfo.adt = 1;
         }
         enableOutLinkHandler();
     };
@@ -166,8 +162,11 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             shapeEditor: shapeCtrl
         });
         map.currentTool.enable();
+        tooltipsCtrl.setCurrentTooltip('请在地图上选择退出线！');
+        eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
-            if (parseInt(data.properties.fc) == 9) { // 不能选择9级路
+            var pid = parseInt(data.id);
+            if (parseInt(data.properties.fc) == 9 || pid == CurrentObject.inLinkPid) { // 不能选择9级路，不能选择进入线
                 return;
             }
             var flag = false,
@@ -175,9 +174,9 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             //如果在当前车道相同方向的退出线内,进行车道信息删除
             for (i = outLanesArr.length - 1; i >= 0; i--) {
                 topo = outLanesArr[i];
-                if (topo.outLinkPid == data.id) {
-                    topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, currentLaneIndex, 0);
-                    topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, currentLaneIndex, 0);
+                if (topo.outLinkPid == pid) {
+                    // topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, currentLaneIndex, 0);
+                    // topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, currentLaneIndex, 0);
                     outLanesArr.splice(i, 1);
                     flag = true;
                 }
@@ -186,8 +185,8 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             if (!flag) {
                 for (i = 0, len = CurrentObject["topos"].length; i < len; i++) {
                     topo = CurrentObject["topos"][i];
-                    if (topo.outLinkPid == data.id && currentDirArray.indexOf(topo.reachDir) >= 0) {
-                        topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, currentLaneIndex, 1);
+                    if (topo.outLinkPid == pid && currentDirArray.indexOf(topo.reachDir) >= 0) {
+                        // topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, currentLaneIndex, 1);
                         outLanesArr.push(topo);
                         flag = true;
                     }
@@ -199,7 +198,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                     "busLaneInfo": 0,
                     "connexityPid": CurrentObject["pid"],
                     "inLaneInfo": changeLineInfo(0, currentLaneIndex, 1),
-                    "outLinkPid": parseInt(data.id),
+                    "outLinkPid": pid,
                     "reachDir": currentDirArray[0],
                     "relationshipType": 1,
                     "vias": []
@@ -210,7 +209,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                 param["data"] = {
                     "inLinkPid": CurrentObject.inLinkPid,
                     "nodePid": CurrentObject.nodePid,
-                    "outLinkPid": parseInt(data.id)
+                    "outLinkPid": pid
                 };
                 dsEdit.getByCondition(param).then(function(conLinks) { //找出经过线
                     if (conLinks !== -1) {
@@ -224,14 +223,41 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                             topo.vias.push(via);
                         }
                     }
-                    CurrentObject["topos"].unshift(topo);
+                    // CurrentObject["topos"].unshift(topo);
                     outLanesArr.push(topo);
                     doHighlight();
                 });
             } else {
                 doHighlight();
             }
+            if (outLanesArr.length > 0) {
+                tooltipsCtrl.setCurrentTooltip('已选择了' + outLanesArr.length + '根退出线！');
+            } else {
+                tooltipsCtrl.setCurrentTooltip('请在地图上选择退出线！');
+            }
         });
+    };
+    $scope.addLane = function() {
+        if (selectedLaneInfo) {
+            if (map.currentTool) {
+                map.currentTool.disable();
+            }
+            if (CurrentObject.lanes.length == currentLaneIndex) { // 插入
+                CurrentObject.lanes.push(selectedLaneInfo);
+            } else { // 替换
+                CurrentObject.lanes.splice(currentLaneIndex, 1, selectedLaneInfo);
+            }
+            for (var i = 0; i < outLanesArr.length; i++) {
+                if (outLanesArr[i].pid == 0) { // 新增
+                    CurrentObject["topos"].unshift(outLanesArr[i]);
+                } else {
+                    outLanesArr[i].inLaneInfo = changeLineInfo(outLanesArr[i].inLaneInfo, currentLaneIndex, 1);
+                }
+            }
+            // 清空全局信息后，可以再当前页面继续增加
+            selectedLaneInfo = null;
+            currentLaneIndex = CurrentObject.lanes.length;
+        }
     };
     // 高亮一个方向
     var doHighlight = function() {
