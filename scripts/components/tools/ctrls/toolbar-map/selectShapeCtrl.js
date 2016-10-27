@@ -1091,37 +1091,38 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.rootCommonTemp.selectPoiInMap = true
                     toolsObj = {
                         items: [{
-                            'text': "<span class='float-option-bar'>显</span>",
+                            // 'text': "<span class='float-option-bar'>显</span>",
+                            'text': "<div class='icon-location'>",
                             'title': "移动显示坐标",
                             'type': "POILOCMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>引</span>",
+                            'text': "<div class='icon-guide'></div>",
                             'title': "移动引导坐标",
                             'type': "POIGUIDEMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>随</span>",
+                            'text': "<div class='icon-location'></div>",
                             'title': "引导坐标随着显示坐标变化",
                             'type': "POIAUTODRAG",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>父</span>",
+                            'text': "<div class='icon-father'></div>",
                             'title': "编辑父",
                             'type': "SELECTPARENT",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>同</span>",
+                            'text': "<div class='icon-same'></div>",
                             'title': "同一关系",
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>重</span>",
+                            'text': "<div class='icon-reset'></div>",
                             'title': "重置",
                             'type': "RESETPOI",
                             'class': "feaf",
