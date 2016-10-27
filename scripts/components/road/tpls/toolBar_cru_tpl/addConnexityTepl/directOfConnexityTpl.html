@@ -3,12 +3,13 @@
         /*float: left;*/
         transition: all 0.5s;
         /*border-radius: 50%;*/
-
     }
     .trafficPic > img{
         text-align: center;
         cursor: pointer;
         margin: 15px;
+        width: 30px;
+        height: 30px;
         transition: all 0.5s;
         /*border-radius: 50%;*/
     }
@@ -20,14 +21,12 @@
         opacity: 1;
         width: 100%;
     }
-
     #addDirectOfConnexityDiv ul {
         /*background-color: #000;*/
         list-style: none;
         /*padding:5px;*/
         overflow: hidden;
     }
-
     #addDirectOfConnexityDiv ul > li {
         background-color: transparent;
     }
@@ -38,16 +37,12 @@
             <div><label class="control-label" style="font-size: 12px">增加车信</label></div>
             <div><label class="control-label" style="font-size: 10px">提示：左击增加普通车道，右击增加附加车道</label></div>
         </li>
-        <li class="list-group-item">
-            <div  class="trafficPic">
-                <img  ng-repeat="item in laneConnexityData"
-                      ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
-                      ng-click="addNormalData(item,$event)"
-                      ng-mousedown="additionalData($event,item)">
+        <li class="list-group-item" style="padding:0px;">
+            <div class="trafficPic">
+                <img ng-repeat="item in laneDirectData"
+                ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
+                ng-mousedown="addLaneDir(item,$event)">
             </div>
         </li>
-
     </ul>
-
-
 </div>

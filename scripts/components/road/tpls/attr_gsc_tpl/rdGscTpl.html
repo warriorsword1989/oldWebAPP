@@ -56,9 +56,10 @@
                         <li>
                             <label class="control-label">要素类型</label>
                             <div>
-                                <select ng-model="item.tableName" class="chosen-disabled"
-                                        ng-options="value.id as value.label for value in tableName" disabled>
-                                </select>
+                                <!--<select ng-model="item.tableName" class="chosen-disabled"-->
+                                        <!--ng-options="value.id as value.label for value in tableName" disabled>-->
+                                <!--</select>-->
+                                <input type="text" disabled class="chosen-disabled" ng-model="item.tableName"/>
                             </div>
                         </li>
                     </ul>

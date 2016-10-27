@@ -2,44 +2,39 @@
     form[name=addLaneConnexityForm] ul.fm-ul-form > li > div{
         width: inherit;
     }
+    .lane-pic-container {
+        display:inline-block;
+        width:50px;
+        height:90px;
+        vertical-align:top;
+        border: 1px solid gray;
+        margin: 5px;
+    }
 </style>
 <div ng-controller="addLaneConnexityController" class="fm-component" oncontextmenu="self.event.returnValue=false">
-    <div class="content scroll-styled dark" style="height:90%;">
+    <div class="content scroll-styled dark">
         <div class="fm-panel">
             <div class="title">
                 创建车信
                 <span class='pull-right'>（提示：点击箭头图可创建公交车道）</span>
             </div>
-            <div class="content">
-                <div style="display: block; overflow: auto;min-height: 45px;">
-                    <div class="lane-direct-img-container" ng-repeat="item in directData.showNormalData">
+            <div class="content" style="min-height: 110px;">
+                <div ng-repeat="item in CurrentObject.lanes track by $index" class="lane-pic-container">
+                    <div class="lane-direct-img-container">
+                        <img class="lanePic"
+                        ng-src="../../../images/road/1301/1301_{{item.adt == 0?0:2}}_{{item.dir.flag}}.svg"
+                        ng-click="toBusLane(item)"
+                        title="{{item.dir.log}}">
                         <span class="glyphicon glyphicon-remove-sign remove"
-                        ng-click="minusNormalData(item,$index,$event)"></span>
-                        <img class="lanePic"
-                        ng-if="item.type===0"
-                        ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
-                        ng-click="addTransitData(item,$index)"
-                        title="{{item.flag}}">
-                        <img class="lanePic" ng-if="item.type===2"
-                        ng-click="addTransitData(item,$index)"
-                        ng-src="../../../images/road/1301/1301_2_{{item.flag}}.svg"
-                        title="{{item.flag}}">
+                        ng-click="deleteLane(item, $index)"></span>
                     </div>
-                </div>
-                <div style="display: block; overflow: auto;min-height: 45px;">
-                    <div class="lane-direct-img-container"
-                        ng-repeat="busItem in directData.showTransitData track by $index">
-                        <span ng-if="busItem.flag!=='test'" class="glyphicon glyphicon-remove-sign remove"
-                        ng-click="minusTransitData(busItem,$index)"></span>
-                        <span ng-if="busItem.flag==='test'" class="remove" style="width:12px;height: 14px;">
-                        </span>
+                    <div ng-if="item.busDir" class="lane-direct-img-container">
                         <img class="lanePic"
-                        ng-if="items.flag!=='test'"
-                        ng-src="../../../images/road/1301/1301_1_{{busItem.flag}}.svg"
-                        title="{{items}}">
-                        <img class="lanePic"
-                        ng-if="items.flag==='test'"
-                        ng-src="../../../images/road/1301/1301_1_test.svg">
+                        ng-src="../../../images/road/1301/1301_1_{{item.busDir.flag}}.svg"
+                        ng-click="changeLaneDir(item.busDir)"
+                        title="{{item.busDir.log}}">
+                        <span class="glyphicon glyphicon-remove-sign remove"
+                        ng-click="deleteBusLane(item)"></span>
                     </div>
                 </div>
             </div>
