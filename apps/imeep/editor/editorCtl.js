@@ -324,7 +324,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				console.log('已经建立websocket连接...');
 			};
 			sock.onmessage = function(e) {
-				console.log('message', JSON.parse(e.data));
+				//console.log('message', JSON.parse(e.data));
 				if (JSON.parse(e.data).length == 1) {
 					$scope.systemMsg.unshift(JSON.parse(e.data)[0]);
 				} else if (JSON.parse(e.data).length > 1) {
@@ -646,6 +646,25 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			if (data.hasOwnProperty("subAttrContainerTpl")) {
 				$scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
 			}
+		});
+		/**
+		 * 监听清除页面信息事件
+		 */
+		$scope.$on("CLEARPAGEINFO", function() {
+			var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+			if (tooltipsCtrl.getCurrentTooltip()) {
+				tooltipsCtrl.onRemoveTooltip();
+			}
+			if (map.floatMenu) {
+				map.removeLayer(map.floatMenu);
+				map.floatMenu = null;
+			}
+			if(map.markerLayer){ //清除marker图层
+				map.removeLayer(map.markerLayer);
+				map.markerLayer = null;
+			}
+
+			$scope.$broadcast('closeTipsImg',false);
 		});
 		/**
 		 * 监听组件加载请求事件

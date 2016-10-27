@@ -24,6 +24,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
+            scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
             if(!(data && data.pid)){
                 return ;
             }
@@ -73,6 +74,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
          */
         evtCtrl.off(evtCtrl.eventTypes.CHANGEPOILIST);
         evtCtrl.on(evtCtrl.eventTypes.CHANGEPOILIST, function(obj) {
+
             if (scope.dataListType == 1) { //表示的是待作业
                 for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
                     if (scope.tableParams.data[i].pid == obj.poi.pid) {

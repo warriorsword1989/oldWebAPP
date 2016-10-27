@@ -1091,37 +1091,38 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.rootCommonTemp.selectPoiInMap = true
                     toolsObj = {
                         items: [{
-                            'text': "<span class='float-option-bar'>显</span>",
+                            // 'text': "<span class='float-option-bar'>显</span>",
+                            'text': "<div class='icon-location'>",
                             'title': "移动显示坐标",
                             'type': "POILOCMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>引</span>",
+                            'text': "<div class='icon-guide'></div>",
                             'title': "移动引导坐标",
                             'type': "POIGUIDEMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>随</span>",
+                            'text': "<div class='icon-location'></div>",
                             'title': "引导坐标随着显示坐标变化",
                             'type': "POIAUTODRAG",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>父</span>",
+                            'text': "<div class='icon-father'></div>",
                             'title': "编辑父",
                             'type': "SELECTPARENT",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>同</span>",
+                            'text': "<div class='icon-same'></div>",
                             'title': "同一关系",
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>重</span>",
+                            'text': "<div class='icon-reset'></div>",
                             'title': "重置",
                             'type': "RESETPOI",
                             'class': "feaf",
@@ -1958,23 +1959,31 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         if (data) {
                             var endNum = parseInt(data.geometry.coordinates.length / 2);
                             var point = {
-                                x: data.geometry.coordinates[0][0],
+                                x:data.geometry.coordinates[0][0],
                                 y: data.geometry.coordinates[0][1]
+                            };
+                            var SpeedPoint = {
+                                x: objCtrl.data.geometry.coordinates[0],
+                                y: objCtrl.data.geometry.coordinates[1]
                             };
                             var pointVertex = {
                                 x: data.geometry.coordinates[endNum][0],
                                 y: data.geometry.coordinates[endNum][1]
                             };
+                            var tempPoint = map.latLngToContainerPoint([SpeedPoint.y, SpeedPoint.x]);
                             containerPoint = map.latLngToContainerPoint([point.y, point.x]);
                             pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
                             var angle = $scope.angleOfLink(containerPoint, pointVertex);
-                            if (parseInt(objCtrl.data.direct) == 3) {
+                            if (parseInt(objCtrl.data.direct) == 3 && tempPoint.x > pointVertex.x) {
                                 angle = angle + Math.PI;
+                            }
+                            if (parseInt(objCtrl.data.direct) == 2 && tempPoint.x > pointVertex.x) {
+                                angle = Math.PI + angle;
                             }
                             var marker = {
                                 flag: false,
                                 pid: objCtrl.data.pid,
-                                point: point,
+                                point: SpeedPoint,
                                 type: "marker",
                                 angle: angle,
                                 orientation: objCtrl.data.direct.toString()

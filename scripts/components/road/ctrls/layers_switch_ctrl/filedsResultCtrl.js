@@ -693,7 +693,16 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html',3);
+                                // $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html',3);
+                                highCtrl.highLightFeatures.push({
+                                    id:data.in.id.toString(),
+                                    layerid:'rdLink',
+                                    type:'line',
+                                    style:{
+                                        color: '#21ed25'
+                                    }
+                                });
+                                highCtrl.drawHighlight();
                             }
                         }
                     };
@@ -744,9 +753,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
-                            if (data.t_lifecycle != 3) { //3表示新增
+                            /*if (data.t_lifecycle != 3) { //3表示新增
                                 $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",0)
-                            }
+                            }*/
+                            highCtrl.highLightFeatures.push({
+                                id:data.in.id.toString(),
+                                layerid:'rdLink',
+                                type:'line',
+                                style:{
+                                    color: '#21ed25'
+                                }
+                            });
+                            highCtrl.drawHighlight();
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
@@ -864,8 +882,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         layerid:'rdLink',
                         type:'line',
                         style:{
-                            color: '#21ed25',
-                            strokeWidth:50
+                            color: '#21ed25'
                         }
                     });
                     highCtrl.drawHighlight();

@@ -52,6 +52,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         }
         if(link.type == 1){
             dsEdit.getByPid(link.id, type).then(function(data) {
+                var options = {};
                 if (!data) {
                     return;
                 }
@@ -82,13 +83,26 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         style: {}
                     });
                     highRenderCtrl.drawHighlight();
+                    options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                        "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+                    };
+                }else if(type== "RDNODE"){
+                    highRenderCtrl.highLightFeatures.push({
+                        id: data.pid.toString(),
+                        layerid: 'rdNode',
+                        type: 'node',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "scripts/components/road/ctrls/attr_node_ctrl/rdNodeFormCtrl",
+                        "propertyHtml": "../../../scripts/components/road/tpls/attr_node_tpl/rdNodeFormTpl.html"
+                    };
                 }
                 objCtrl.setCurrentObject(type, data);
-                var options = {
-                    "loadType": 'attrTplContainer',
-                    "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-                    "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-                };
                 $scope.$emit("transitCtrlAndTpl", options);
             });
         }else{
@@ -760,12 +774,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
                 $scope.scheName = $scope.dataTipsData.name;
                 /*出口编号*/
-                $scope.sceneExit = [];
+                /*$scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array, function(i, v) {
                     if (v.out) {
                         $scope.sceneExit.push(v.out.id);
                     }
-                });
+                });*/
                 $scope.dataTipsData.isBranch = true;
                 break;
             case "1409": //普通路口模式图
@@ -957,6 +971,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         /*时间段*/
         if ($scope.dataTipsData.time) {
             $scope.timeDomain = $scope.dataTipsData.time.split(';');
+        }else{
+        	$scope.timeDomain = [];
         }
         var dir = {
             "0": "不应用",
@@ -1020,6 +1036,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     }
     //打开图片大图页面
     $scope.openOriginPic = function(id) {
+        selectCtrl.rowKey = $scope.dataTipsData;
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",
