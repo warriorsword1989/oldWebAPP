@@ -35,14 +35,10 @@
                                 </div>
                             </div>
                             <div class="date-body full-width">
-                                <div ng-class="{'select-car animated-fast':true,'blue':isAllowed[$parent.$index],'red':!isAllowed[$parent.$index]}" ng-repeat="item in carData[$index] track by $index" ng-click="carSelect(item);">
+                                <div ng-class="{'select-car animated-fast':true,'blue':isAllowed[$parent.$index],'red':!isAllowed[$parent.$index]}" ng-repeat="item in carData[$index] track by $index" ng-click="carSelect(item,$parent.$index);">
                                     <div class="select-car-text" ng-bind="item.label"></div>
                                     <span class="glyphicon glyphicon-remove remove-car-type"></span>
                                 </div>
-                                <!--<div class="date-list col-md-6" ng-repeat="item in carData[$index] track by $index">
-                                    <div ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="padding: 5px;" ng-bind="item.label"></div>
-                                    <i ng-style="{'color':{true: '#3bec61', false: '#ec3b3b'}[isAllowed[$parent.$index]]}" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="carSelect(item)"></i>
-                                </div>-->
                                 <div class="clearfix"></div>
                                 <div class="line"></div>
                             </div>
@@ -66,7 +62,7 @@
             <li ng-repeat="item in vehicleOptions" style=" list-style: none;color:#ffffff;">
                 <input tabindex="1" style="float:right;margin-right: 10px" type="checkbox"
                        ng-checked="item.checked"
-                       ng-click="carSelect(item,$event)"/>{{item.label}}
+                       ng-click="carSelect(item)"/>{{item.label}}
             </li>
         </div>
         <div class='tooltip-arrow-right'></div>
