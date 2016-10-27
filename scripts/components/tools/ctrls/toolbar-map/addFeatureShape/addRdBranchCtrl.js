@@ -133,7 +133,7 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                             $scope.limitRelation.nodePid = parseInt(linkDirect == 2 ? data["properties"]['enode'] : data["properties"]['snode']);
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'rdNode',
+                                layerid: 'rdLink',
                                 type: 'node',
                                 style: {}
                             });
@@ -154,7 +154,7 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                             $scope.limitRelation.nodePid = parseInt(data.id);
                             highLightFeatures.push({
                                 id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'rdNode',
+                                layerid: 'rdLink',
                                 type: 'node',
                                 style: {}
                             });

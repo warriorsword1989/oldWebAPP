@@ -157,7 +157,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
         //当前瓦片中缓存的数据
         var data = options.data;
         //捕捉候选id
-        var candidateId = options.candidateId?options.candidateId:null;
+        var candidateId = options.candidateId ? options.candidateId : null;
 
         var mindistline = Infinity, mindistvertex = Infinity, mindistnode = Infinity,
             result = null,
@@ -177,8 +177,8 @@ fastmap.mapApi.Capture = L.Handler.extend({
 
                             distaceResult = this.closest(geometry, mousePoint);
 
-                            if (distaceResult){
-                                if(distaceResult.distance.distance<minDis){
+                            if (distaceResult) {
+                                if (distaceResult.distance.distance < minDis) {
                                     minDis = distaceResult.distance.distance;
                                     result = {
                                         layer: geometry,
@@ -188,7 +188,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
                                         properties: data[i].properties
                                     };
                                     fc = data[i].properties.fc;//把fc做为取舍条件之一
-                                }else if(distaceResult.distance.distance==minDis && (data[i].properties.fc != 0 && data[i].properties.fc < fc)){//fc的原则：1>2>3>4>5>0
+                                } else if (distaceResult.distance.distance == minDis && (data[i].properties.fc != 0 && data[i].properties.fc < fc)) {//fc的原则：1>2>3>4>5>0
                                     minDis = distaceResult.distance.distance;
                                     result = {
                                         layer: geometry,
@@ -208,8 +208,8 @@ fastmap.mapApi.Capture = L.Handler.extend({
 
                         distaceResult = this.closest(geometry, mousePoint);
 
-                        if (distaceResult){
-                            if(distaceResult.distance.distance<minDis){
+                        if (distaceResult) {
+                            if (distaceResult.distance.distance < minDis) {
                                 minDis = distaceResult.distance.distance;
                                 result = {
                                     layer: geometry,
@@ -219,7 +219,7 @@ fastmap.mapApi.Capture = L.Handler.extend({
                                     properties: data[i].properties
                                 };
                                 fc = data[i].properties.fc;//把fc做为取舍条件之一
-                            }else if(distaceResult.distance.distance==minDis && (data[i].properties.fc != 0 && data[i].properties.fc < fc)){//fc的原则：1>2>3>4>5>0
+                            } else if (distaceResult.distance.distance == minDis && (data[i].properties.fc != 0 && data[i].properties.fc < fc)) {//fc的原则：1>2>3>4>5>0
                                 minDis = distaceResult.distance.distance;
                                 result = {
                                     layer: geometry,
@@ -251,13 +251,13 @@ fastmap.mapApi.Capture = L.Handler.extend({
      * @param vertices
      * @returns {*}
      */
-    closest: function ( layer, p, vertices) {
+    closest: function (layer, p, vertices) {
         if (typeof layer.getLatLngs != 'function')
 
-        var latlngs = layer,
-            mindist = Infinity,
-            result = null,
-            i, n, distance;
+            var latlngs = layer,
+                mindist = Infinity,
+                result = null,
+                i, n, distance;
 
         // Lookup vertices
         if (vertices) {
