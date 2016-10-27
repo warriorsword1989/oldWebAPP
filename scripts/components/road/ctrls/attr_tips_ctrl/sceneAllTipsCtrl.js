@@ -45,51 +45,110 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
     };
-    $scope.getFeatDataCallback = function(id, type) {
+    $scope.getFeatDataCallback = function(link, type) {
         $scope.resetToolAndMap();
-        if(!id){
+        if(!link){
             return;
         }
-        dsEdit.getByPid(id, type).then(function(data) {
-            if (!data) {
-                return;
-            }
-            if (data.errcode === -1) {
-                swal("", data.errmsg, "提示信息");
-                return;
-            }
-            if (type === "RDLINK") {
-                var linkArr = data.geometry.coordinates,
-                    points = [];
-                for (var i = 0, len = linkArr.length; i < len; i++) {
-                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                    points.push(point);
+        if(link.type == 1){
+            dsEdit.getByPid(link.id, type).then(function(data) {
+                var options = {};
+                if (!data) {
+                    return;
                 }
-                map.panTo({
-                    lat: points[0].y,
-                    lon: points[0].x
-                });
-                var line = fastmap.mapApi.lineString(points);
-                selectCtrl.onSelected({
-                    geometry: line,
-                    id: $scope.dataId
-                });
-                highRenderCtrl.highLightFeatures.push({
-                    id: data.pid.toString(),
-                    layerid: 'rdLink',
-                    type: 'line',
-                    style: {}
-                });
-                highRenderCtrl.drawHighlight();
-            }
-            objCtrl.setCurrentObject(type, data);
-            var options = {
-                "loadType": 'attrTplContainer',
-                "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-                "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-            };
-            $scope.$emit("transitCtrlAndTpl", options);
-        });
+                if (data.errcode === -1) {
+                    swal("", data.errmsg, "提示信息");
+                    return;
+                }
+                if (type === "RDLINK") {
+                    var linkArr = data.geometry.coordinates,
+                        points = [];
+                    for (var i = 0, len = linkArr.length; i < len; i++) {
+                        var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                        points.push(point);
+                    }
+                    map.panTo({
+                        lat: points[0].y,
+                        lon: points[0].x
+                    });
+                    var line = fastmap.mapApi.lineString(points);
+                    selectCtrl.onSelected({
+                        geometry: line,
+                        id: $scope.dataId
+                    });
+                    highRenderCtrl.highLightFeatures.push({
+                        id: data.pid.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                        "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+                    };
+                }else if(type== "RDNODE"){
+                    highRenderCtrl.highLightFeatures.push({
+                        id: data.pid.toString(),
+                        layerid: 'rdNode',
+                        type: 'node',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "scripts/components/road/ctrls/attr_node_ctrl/rdNodeFormCtrl",
+                        "propertyHtml": "../../../scripts/components/road/tpls/attr_node_tpl/rdNodeFormTpl.html"
+                    };
+                }
+                objCtrl.setCurrentObject(type, data);
+                $scope.$emit("transitCtrlAndTpl", options);
+            });
+        }else{
+            dsFcc.getTipsResult(link.id).then(function(data){
+                if (!data) {
+                    return;
+                }
+                if (data.errcode === -1) {
+                    swal("", data.errmsg, "提示信息");
+                    return;
+                }
+                if (type === "RDLINK") {
+                    var laneLocation = data.geo.coordinates,
+                        geoLocation = data.g_location.coordinates,
+                        points = [];
+                    for (var i = 0, len = geoLocation.length; i < len; i++) {
+                        var point = fastmap.mapApi.point(geoLocation[i][0], geoLocation[i][1]);
+                        points.push(point);
+                    }
+                    map.panTo({
+                        lat: laneLocation[1],
+                        lon: laneLocation[0]
+                    });
+                    var line = fastmap.mapApi.lineString(points);
+                    selectCtrl.onSelected({
+                        geometry: line,
+                        id: data.id
+                    });
+                    highRenderCtrl.highLightFeatures.push({
+                        id: link.id,
+                        layerid: 'workPoint',
+                        type: 'workPoint',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                }
+                // objCtrl.setCurrentObject(type, data);
+                /*var options = {
+                    "loadType": 'attrTplContainer',
+                    "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                    "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+                };
+                $scope.$emit("transitCtrlAndTpl", options);*/
+            });
+        }
+
     };
     /*车信高亮link*/
     $scope.highlightSymbol = function(id){
@@ -267,7 +326,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 break;
             case "1104": //大门
                 $scope.inLinkPid = $scope.dataTipsData.in.id;
-                $scope.outLinkPid = $scope.dataTipsData.out.id;
+                $scope.outLinkPid = "";
+                if($scope.dataTipsData.out){
+                    $scope.outLinkPid = $scope.dataTipsData.out.id;
+                }
                 var gateTypeObj = {
                     0: 'EG',
                     1: 'KG',
@@ -280,7 +342,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 };
                 $scope.dataTipsData.gateType = gateTypeObj[$scope.dataTipsData.tp];
                 $scope.dataTipsData.gateDir = gateDirObj[$scope.dataTipsData.dir];
-                $scope.dataTipsData.passTime = $scope.dataTipsData.time;
                 $scope.dataTipsData.isGate = true;
                 break;
             case "1105":
@@ -626,8 +687,10 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 ];
                 for (var i = 0, len = $scope.dataTipsData.eliminateCarObj.length; i < len; i++) {
-                    if ($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[i]) {
-                        $scope.dataTipsData.eliminateCarObj[i].checked = true;
+                    for(var j=0;j<$scope.dataTipsData.vt.length;j++){
+                        if ($scope.dataTipsData.eliminateCarObj[i].id == $scope.dataTipsData.vt[j]) {
+                            $scope.dataTipsData.eliminateCarObj[i].checked = true;
+                        }
                     }
                 }
                 $scope.dataTipsData.isNoDriveIn = true;
@@ -711,12 +774,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
                 $scope.scheName = $scope.dataTipsData.name;
                 /*出口编号*/
-                $scope.sceneExit = [];
+                /*$scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array, function(i, v) {
                     if (v.out) {
                         $scope.sceneExit.push(v.out.id);
                     }
-                });
+                });*/
                 $scope.dataTipsData.isBranch = true;
                 break;
             case "1409": //普通路口模式图
@@ -908,6 +971,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         /*时间段*/
         if ($scope.dataTipsData.time) {
             $scope.timeDomain = $scope.dataTipsData.time.split(';');
+        }else{
+        	$scope.timeDomain = [];
         }
         var dir = {
             "0": "不应用",
@@ -971,6 +1036,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     }
     //打开图片大图页面
     $scope.openOriginPic = function(id) {
+        selectCtrl.rowKey = $scope.dataTipsData;
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",
@@ -1114,21 +1180,15 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
             objCtrl.data.changeKind($scope.dataTipsData.kind, objCtrl.data['kind']);
             objCtrl.save();
             changed = objCtrl.changedProperty;
-            var param = {
-                "type": "RDLINK",
-                "command": "UPDATE",
-                "dbId": App.Temp.dbId,
-                "data": changed
-            };
             var oPid = parseInt($scope.dataTipsData.f.id);
-            dsEdit.update(oPid, "RDLINK", param).then(function(data) {
+            dsEdit.update(oPid, "RDLINK", changed).then(function(data) {
                 // $scope.$parent.$parent.$apply();
                 if (data != '属性值未发生变化') {
-                    $scope.upBridgeStatus(oPid);
+                    $scope.upBridgeStatus(oPid,e);
                     dsEdit.getByPid(oPid, "RDLINK").then(function(ret) {
                         if (ret) {
-                            objectCtrl.setCurrentObject('RDLINK', ret);
-                            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+                            objCtrl.setCurrentObject('RDLINK', ret);
+                            objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                         }
                     });
                     workPoint.redraw();

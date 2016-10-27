@@ -53,12 +53,12 @@ formOfWayApp.controller("formOfWayController", function($scope) {
         },
         {
             "id": "16",
-            "label": "跨线天桥",
+            "label": "跨线天桥(Overpass)",
             "isCheck": false
         },
         {
             "id": "17",
-            "label": "跨线地道",
+            "label": "跨线地道(Underpass)",
             "isCheck": false
         },
         {
@@ -118,7 +118,7 @@ formOfWayApp.controller("formOfWayController", function($scope) {
         },
         {
             "id": "35",
-            "label": "掉头口",
+            "label": "调头口(U-Turn)",
             "isCheck": false
         },
         {
@@ -138,7 +138,7 @@ formOfWayApp.controller("formOfWayController", function($scope) {
         },
         {
             "id": "39",
-            "label": "主辅路入口",
+            "label": "主辅路出入口",
             "isCheck": false
         },
         {
@@ -163,7 +163,7 @@ formOfWayApp.controller("formOfWayController", function($scope) {
         },
         {
             "id": "51",
-            "label": "未定义交通区域",
+            "label": "未定义交通区域(UTA)",
             "isCheck": false
         },
         {
@@ -193,12 +193,12 @@ formOfWayApp.controller("formOfWayController", function($scope) {
         },
         {
             "id": "80",
-            "label": "停车位引导道路",
+            "label": "停车位引导道路(Parking Lane)",
             "isCheck": false
         },
         {
             "id": "81",
-            "label": "停车位引导道路",
+            "label": "虚拟调头口",
             "isCheck": false
         },
         {

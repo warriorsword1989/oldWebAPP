@@ -14,7 +14,7 @@ adAdminZone.controller("adAdminLevelController",['$scope','dsEdit',function($sco
         }
     };
     var newZNodes={};
-    
+
 //    Application.functions.getByCondition(JSON.stringify(param), function (data) {
 //        //zNodes=data.data;
 //        $scope.initF(data.data);//绘制层级
@@ -22,7 +22,7 @@ adAdminZone.controller("adAdminLevelController",['$scope','dsEdit',function($sco
     dsEdit.getByCondition({"type":"ADADMINGROUP",
         "dbId": App.Temp.dbId,
         "data": {
-            "subTaskId":  162
+            "subTaskId":  App.Temp.subTaskId
         }}).then(function(data){
         	if (data == -1) {
                 return;

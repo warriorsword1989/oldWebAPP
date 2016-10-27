@@ -9,7 +9,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         $scope.selectedBatches = [];
         $scope.pageSize = 10;
         $scope.page = 1;
-        $scope.batchType = 0;
+        $scope.batchType = ([1,8,9,10].indexOf($scope.currentSubTaskType)==-1)?0:([0,5,6,7].indexOf($scope.currentSubTaskType)==-1)?1:0;
         $scope.dataLoading = true;
         $scope.currentBoxIndex = 0;
 

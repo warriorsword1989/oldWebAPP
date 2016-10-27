@@ -73,7 +73,9 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
      * 车辆类型复选并将选中的类型转化为二进制;
      * @param item
      */
-    $scope.carSelect=function(item){
+    $scope.carSelect=function(item,index){
+        //根据点击的位置必须要更新当前编辑数组的下标;
+        if(index){$scope.passageIndex = index}
         if(item.checked){
             item.checked=false;
             for(var i in $scope.carData[$scope.passageIndex]){

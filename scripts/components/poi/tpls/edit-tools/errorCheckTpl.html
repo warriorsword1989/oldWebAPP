@@ -12,9 +12,11 @@
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
             <tr ng-repeat="row in checkResultData">
-                <td title="{{row.ruleid}}" width="6%" class="fm-table-long-text">{{row.shortRuleId}}</td>
-                <td width="59">
-                    <div style="width: 59px">
+                <td width="120">
+                    <div style="width: 120px" class="text-ellipsis" title="{{row.ruleid}}">{{row.shortRuleId}}</div>
+                </td>
+                <td width="60">
+                    <div style="width: 60px">
                         <span ng-if="row.rank==0" >无 </span>
                         <span ng-if="row.rank==1" >Fatal </span>
                         <span ng-if="row.rank==2" >Critical </span>
@@ -33,17 +35,17 @@
                     </div>
                 </td>
                 <td>
-                    <div ng-style="descriptStyle" title="{{row.information}}">{{row.shortInfo}}</div>
+                    <div ng-style="setTableCeilWidth()" title="{{row.information}}">{{row.shortInfo}}</div>
                 </td>
-                <td width="5%">
+                <td width="110">
                     <div>{{row.create_date.substr(0,10)}}</div>
                 </td>
-                <td width="47">
-                    <div style="width:47px">{{row.worker}}</div>
-                </td>
-                <td width="103">
-                    <select class="fm-control" ng-model="initType"
-                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
+                <!--<td width="110">-->
+                    <!--<div style="width:110px">{{row.worker}}</div>-->
+                <!--</td>-->
+                <td width="110">
+                    <select ng-class="{'fm-control':true,'chosen-disabled':initType!=0}" class="fm-control" ng-model="initType"
+                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)" ng-disabled="initType!=0">
                     </select>
                 </td>
             </tr>

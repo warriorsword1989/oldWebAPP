@@ -3,7 +3,6 @@
         /*float: left;*/
         transition: all 0.5s;
         /*border-radius: 50%;*/
-
     }
     .trafficPic > img{
         text-align: center;
@@ -20,14 +19,12 @@
         opacity: 1;
         width: 100%;
     }
-
     #directOfConnexityDiv ul {
         /*background-color: #000;*/
         list-style: none;
         /*padding:5px;*/
         overflow: hidden;
     }
-
     #directOfConnexityDiv ul > li {
         background-color: transparent;
     }
@@ -53,16 +50,15 @@
 </style>
 <div ng-controller="directOfConnexityController" id="directOfConnexityDiv">
     <ul class="list-group list-group-lg m-b-none">
-            <li class="list-group-item">
-                <div><label class="control-label" style="color:#fff">修改车信</label></div>
-            </li>
-            <li class="list-group-item">
-                <div class="trafficPic ">
-                    <img  ng-repeat="addItem in addRdLancdData"
-                          ng-src="../../../images/road/1301/1301_0_{{addItem.id}}.svg"
-                          ng-click="selectLaneInfo(addItem,$index)">
-                </div>
-            </li>
-
-        </ul>
+        <li class="list-group-item">
+            <div><label class="control-label" style="color:#fff">修改车信</label></div>
+        </li>
+        <li class="list-group-item">
+            <div class="trafficPic">
+                <img  ng-repeat="item in laneDirectData"
+                ng-src="../../../images/road/1301/1301_0_{{item.flag}}.svg"
+                ng-click="selectLaneDir(item, $index, $event)">
+            </div>
+        </li>
+    </ul>
 </div>

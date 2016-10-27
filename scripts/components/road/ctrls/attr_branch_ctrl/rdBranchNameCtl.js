@@ -5,6 +5,10 @@
 angular.module("app").controller("RdBranchNameCtl", ['$scope', 'dsEdit' ,'dsMeta', function ($scope, dsEdit,dsMeta) {
 	var objCtrl = fastmap.uikit.ObjectEditController();
 	$scope.rdBranchNames = objCtrl.namesInfos;
+	if (objCtrl.data) {
+        $scope.details = objCtrl.data.details.length>0?objCtrl.data.details:objCtrl.data.signboards;
+        $scope.nameGroup = [];
+    }
 	$scope.selectedLangcodeArr = [];
 	var getSelectedLangcode = function() {
 		$scope.selectedLangcodeArr.length = 0;
@@ -23,8 +27,10 @@ angular.module("app").controller("RdBranchNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 		dsMeta.getNamePronunciation(param).then(function (data) {
 			if(data.errcode == 0){
 				nameInfo.phonetic = data.data.phonetic;
+				nameInfo.voiceFile = data.data.voicefile;
 			}else{
 				nameInfo.phonetic = '';
+				nameInfo.voiceFile = '';
 				swal("查找失败", "可能是服务出错或者输入过长，请重新尝试", "error");
 			}
 		});
@@ -53,6 +59,15 @@ angular.module("app").controller("RdBranchNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 	$scope.langCodeChange = function(event,obj){
 		getSelectedLangcode();
 	};
+	//点击名称分类
+    $scope.switchNameClass = function(code,id,index){
+//        $.each($scope.details[0].names,function(i,v){
+//            if(id == v.nameGroupid){
+//                v.nameClass = code;
+//            }
+//        });
+    	$scope.rdBranchNames[index].nameClass = code;
+    };
 	$scope.langCodeOptions = [
 		{"id": "CHI", "label": "简体中文"},
 		{"id": "CHT", "label": "繁体中文"},
@@ -87,4 +102,39 @@ angular.module("app").controller("RdBranchNameCtl", ['$scope', 'dsEdit' ,'dsMeta
 		{"id": "UKR", "label": "乌克兰语"},
 		{"id": "SCR", "label": "克罗地亚语"}
 	];
-}])
+	/*名称分类*/
+    $scope.nameClassType = [
+        {"code":0,"label":"方向"},
+        {"code":1,"label":"出口"}
+    ];
+    /*点击名称分类*/
+    $scope.switchNameClasss = function(code,id){
+        $.each($scope.details[0].names,function(i,v){
+            if(id == v.nameGroupid){
+                v.nameClass = code;
+            }
+        });
+    };
+    $scope.codeTypeOptions=[
+        {"id":0,"label":"0 无"},
+        {"id":1,"label":"1 普通道路名"},
+        {"id":2,"label":"2 设施名"},
+        {"id":3,"label":"3 高速道路名"},
+        {"id":4,"label":"4 国家高速编号"},
+        {"id":5,"label":"5 国道编号"},
+        {"id":6,"label":"6 省道编号"},
+        {"id":7,"label":"7 县道编号"},
+        {"id":8,"label":"8 乡道编号"},
+        {"id": 9, "label": "9 专用道编号"},
+        {"id": 10, "label": "10 省级高速编号"}
+    ];
+    //名称来源
+    $scope.langSourceOptions = [
+        {id:0,label:'未定义'},
+        {id:1,label:'翻译'},
+        {id:2,label:'道路名英文名'},
+        {id:3,label:'行政区划英文名'},
+        {id:4,label:'Hamlet英文名'},
+        {id:5,label:'POI英文名'}
+    ];
+}]);

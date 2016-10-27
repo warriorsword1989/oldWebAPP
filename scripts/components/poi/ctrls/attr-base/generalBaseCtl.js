@@ -175,80 +175,122 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     poi.gasstations[0]._flag_ = "ignore";
                     poi.hotels[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
                     break;
                 case 2: //加油站
                     poi.parkings[0]._flag_ = "ignore";
                     poi.hotels[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
+                    break;
+                case 3: //充电站
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
                     break;
                 case 4: //宾馆酒店
                     poi.parkings[0]._flag_ = "ignore";
                     poi.gasstations[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
                     break;
                 case 5: //运动场馆 由于运动场馆深度信息没有子表，使用的是poi的label字段，所以需要和default一样的处理方式
                     poi.parkings[0]._flag_ = "ignore";
                     poi.gasstations[0]._flag_ = "ignore";
                     poi.hotels[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
                     break;
                 case 6: //餐馆
                     poi.parkings[0]._flag_ = "ignore";
                     poi.gasstations[0]._flag_ = "ignore";
                     poi.hotels[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
                     break;
                 case 7: //加气站
                     poi.parkings[0]._flag_ = "ignore";
                     poi.hotels[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
+                    break;
+                case 9: //充电桩
+                    poi.parkings[0]._flag_ = "ignore";
+                    poi.hotels[0]._flag_ = "ignore";
+                    poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.gasstations[0]._flag_ = "ignore";
                     break;
                 default:
                     poi.parkings[0]._flag_ = "ignore";
                     poi.gasstations[0]._flag_ = "ignore";
                     poi.hotels[0]._flag_ = "ignore";
                     poi.restaurants[0]._flag_ = "ignore";
+                    poi.chargingstations[0]._flag_ = "ignore";
+                    poi.chargingplots[0]._flag_ = "ignore";
                     break;
             }
         }
         var originKindCode = objectCtrl.data.originJson.kindCode;
         var originData = $scope.metaData.kindFormat[originKindCode];
-        //当切换了分类需要将原来的深度信息置为空数组
-        if (kindCode != originKindCode && originKindCode) {
-            switch (originData.extend) {
-                case 1: //停车场
-                    poi.parkings = [];
-                    break;
-                case 2: //加油站
-                    poi.gasstations = [];
-                    break;
-                case 4: //宾馆酒店
-                    poi.hotels = [];
-                    break;
-                case 5: //运动场馆
-                    break;
-                case 6: //餐馆
-                    poi.restaurants = [];
-                    break;
-                case 7: //加气站
-                    poi.gasstations = [];
-                    break;
-                default:
-                    break;
-            }
-        }
+        //当切换了分类需要将原来的深度信息置为空数组,目的是为了在比较方法中可以删除原有深度信息 , 和彩花沟通需要删除
+        // if (kindCode != originKindCode && originKindCode) {
+        //     switch (originData.extend) {
+        //         case 1: //停车场
+        //             poi.parkings = [];
+        //             break;
+        //         case 2: //加油站
+        //             poi.gasstations = [];
+        //             break;
+        //         case 3: //充电站
+        //             poi.chargingstations = [];
+        //             break;
+        //         case 4: //宾馆酒店
+        //             poi.hotels = [];
+        //             break;
+        //         case 5: //运动场馆
+        //             break;
+        //         case 6: //餐馆
+        //             poi.restaurants = [];
+        //             break;
+        //         case 7: //加气站
+        //             poi.gasstations = [];
+        //         case 9: //充电桩
+        //             poi.chargingplots = [];
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // }
         //品牌字段特殊处理
         var chain = objectCtrl.data.chain;
         if (chain == 0) {
             objectCtrl.data.chain = "";
         }
-        if (FM.Util.isEmptyObject(objectCtrl.data.sportsVenue)) { //运动场馆特殊处理，如果页面没有选择默认赋值为2
-            objectCtrl.data.sportsVenue = {
-                2: true
-            };
-        } else {
-            if (!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])) {
+        if(data && data.extend == '5'){
+            if(!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])){//运动场馆特殊处理，如果页面没有选择默认赋值为2
+                objectCtrl.data.sportsVenue[0] = false;
+                objectCtrl.data.sportsVenue[1] = false;
                 objectCtrl.data.sportsVenue[2] = true;
+            }else {
+                objectCtrl.data.sportsVenue[2] = false;
             }
+        } else {
+            objectCtrl.data.sportsVenue[0] = false;
+            objectCtrl.data.sportsVenue[1] = false;
+            objectCtrl.data.sportsVenue[2] = false;
+        }
+
+        //需求--当分类为加油站，并且open14h为1时，需要将gasstations中的openHour字段赋值为“00:00-24:00”
+        if(objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1){
+            objectCtrl.data.gasstations[0].openHour = '00:00-24:00';
         }
     }
     /*默认显示baseInfo的tab页*/
@@ -369,29 +411,21 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     };
     // 保存数据
     function save() {
-        if (!validateForm()) {
-            return;
-        }
         if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2){
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
-
+        if (!validateForm()) {
+            return;
+        }
         clearDeepInfo(); //清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
         attrToDBC(); //部分属性转全角
+
         objectCtrl.save();
         var changed = objectCtrl.changedProperty;
-        var confirmMsg;
         if (!changed) {
-            confirmMsg = "属性值没有变化，是否保存？";
-        } else {
-            if (objectCtrl.originalData.level == 'A' || objectCtrl.originalData.vipFlag) {
-                confirmMsg = "确定要维护该重要POI吗？";
-            }
-        }
-        if (confirmMsg) {
             swal({
-                title: confirmMsg,
+                title: "属性值没有变化，是否保存？",
                 type: "warning",
                 animation: 'slide-from-top',
                 showCancelButton: true,
@@ -408,16 +442,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         if (data) {
                             //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                             if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
-                                if (map.floatMenu) {
-                                    map.removeLayer(map.floatMenu);
-                                    map.floatMenu = null;
-                                }
                                 $scope.$emit("clearAttrStyleUp"); //清除属性样式
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
                                     "poi": $scope.poi,
                                     "flag": 'update'
                                 });
                             } else {
+                                $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
                                 $scope.$emit("reQueryByPid", {
                                     "pid": objectCtrl.data.pid,
                                     "type": "IXPOI"
@@ -428,31 +459,54 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 }
             });
         } else {
-            dsEdit.update($scope.poi.pid, "IXPOI", changed).then(function(data) {
-                if (data) {
-                    //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
-                    if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
-                        if (changed.hasOwnProperty("kindCode") || changed.hasOwnProperty("indoor")) {
-                            poiLayer.redraw();
-                        }
-                        if (map.floatMenu) {
-                            map.removeLayer(map.floatMenu);
-                            map.floatMenu = null;
-                        }
-                        $scope.$emit("clearAttrStyleUp"); //清除属性样式
-                        eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
-                            "poi": $scope.poi,
-                            "flag": 'update'
-                        });
-                    } else {
-                        $scope.$emit("reQueryByPid", {
-                            "pid": objectCtrl.data.pid,
-                            "type": "IXPOI"
-                        });
+            var vipPoi = false;
+            if (objectCtrl.originalData.level == 'A' || objectCtrl.originalData.vipFlag) {
+                vipPoi = true;
+            }
+            if(vipPoi){
+                swal({
+                    title: "确定要维护该重要POI吗？",
+                    type: "warning",
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    confirmButtonText: "是的，我要保存",
+                    cancelButtonText: "取消"
+                }, function(f) {
+                    if (f) {
+                        saveChaged(changed);
                     }
-                }
-            });
+                });
+            } else {
+                saveChaged(changed);
+            }
+
         }
+    }
+    
+    function saveChaged(changed) {
+        dsEdit.update($scope.poi.pid, "IXPOI", changed).then(function(data) {
+            if (data) {
+                $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
+
+                if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
+                    if (changed.hasOwnProperty("kindCode") || changed.hasOwnProperty("indoor")) {
+                        poiLayer.redraw();
+                    }
+                    $scope.$emit("clearAttrStyleUp"); //清除属性样式
+                    eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
+                        "poi": $scope.poi,
+                        "flag": 'update'
+                    });
+                } else {
+                    $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
+                    $scope.$emit("reQueryByPid", {
+                        "pid": objectCtrl.data.pid,
+                        "type": "IXPOI"
+                    });
+                }
+            }
+        });
     }
     // 删除数据
     function del() {
@@ -471,10 +525,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             poiLayer.redraw();
-            if (map.floatMenu) { //移除半圈工具条
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
+            $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");

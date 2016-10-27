@@ -538,6 +538,9 @@ label > input[type='checkbox'] {
   color: #ffffff;
   margin-top: 5px;
 }
+.fm-console-table thead th:last-child {
+  white-space: nowrap;
+}
 .fm-console-table > tbody > tr > td {
   padding: 0 3px;
   line-height: 2;
@@ -1091,21 +1094,95 @@ a.fm-panel-controlArrowRight > span {
   border-radius: 16px;
   left: 200px;
   top: 300px;
-  padding: 8px;
+  line-height: 2.5;
   text-align: center;
-  width: 32px;
-  height: 32px;
-  background-color: blueviolet;
+  width: 30px;
+  height: 30px;
+  background-color: #0A06B8;
   cursor: pointer;
   z-index: 1000;
 }
 .floatMenu > li:hover {
-  color: blueviolet;
-  background-color: #00FF33;
+  background-color: #0600FF;
 }
 .floatMenu > li > a {
   font-size: 16px;
   color: #FFF;
+}
+.floatMenu > li .float-option-bar {
+  color: #fff;
+}
+.floatMenu > li .icon-location {
+  background-image: url("../../images/road/floatBtn/default/location.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-location:hover {
+  background-image: url("../../images/road/floatBtn/hover/location.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-father {
+  background-image: url("../../images/road/floatBtn/default/father.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-father:hover {
+  background-image: url("../../images/road/floatBtn/hover/father.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-same {
+  background-image: url("../../images/road/floatBtn/default/same.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-same:hover {
+  background-image: url("../../images/road/floatBtn/hover/same.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-guide {
+  background-image: url("../../images/road/floatBtn/default/guide.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-guide:hover {
+  background-image: url("../../images/road/floatBtn/hover/guide.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-move {
+  background-image: url("../../images/road/floatBtn/default/move.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-move:hover {
+  background-image: url("../../images/road/floatBtn/hover/move.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-reset {
+  background-image: url("../../images/road/floatBtn/default/reset.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-reset:hover {
+  background-image: url("../../images/road/floatBtn/hover/reset.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
 }
 /* ---------------------滚动条-------------------------------------------------- */
 .scroll-styled {
@@ -2243,7 +2320,7 @@ a.batchButton {
   background: url("../../images/main/btn-icon/split.png") no-repeat center center;
 }
 .fm-top-btn.loading {
-  margin-top: -26px;
+  margin-top: -13px;
   margin-left: 0px;
   opacity: 0.5;
   background-color: gray;
@@ -2640,11 +2717,11 @@ a.batchButton {
   position: absolute;
   height: 160px;
   z-index: 99;
-  top: 45px;
+  top: 50px;
 }
 .picModalImg {
   width: 192px;
-  top: 45px;
+  top: 50px;
   height: 160px;
   position: absolute;
   z-index: 9;

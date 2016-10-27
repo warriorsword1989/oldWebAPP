@@ -142,23 +142,23 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
                     $scope.currentSubTaskList[i].stage = $scope.currentSubTaskList[i].stage == 0 ? '采集' : $scope.currentSubTaskList[i].stage = $scope.currentSubTaskList[i].stage == 1 ? '日编' : '月编';
                 }
                 /*-------------------获取所有子任务的统计数据并重新组织对象------------------*/
-                var currentIndex = 0;
-
-                function requestfn() {
-                    if (currentIndex >= $scope.currentSubTaskList.length) {
-                        return;
-                    }
-                    dsManage.getSubtaskSummaryById($scope.currentSubTaskList[currentIndex].subtaskId).then(function(data) {
-                        for (var i in data) {
-                            if (i != 'subtaskId') {
-                                $scope.currentSubTaskList[currentIndex][i] = data[i]
-                            }
-                        }
-                        currentIndex++;
-                        requestfn()
-                    })
-                }
-                requestfn();
+                //var currentIndex = 0;
+                //
+                //function requestfn() {
+                //    if (currentIndex >= $scope.currentSubTaskList.length) {
+                //        return;
+                //    }
+                //    dsManage.getSubtaskSummaryById($scope.currentSubTaskList[currentIndex].subtaskId).then(function(data) {
+                //        for (var i in data) {
+                //            if (i != 'subtaskId') {
+                //                $scope.currentSubTaskList[currentIndex][i] = data[i]
+                //            }
+                //        }
+                //        currentIndex++;
+                //        requestfn()
+                //    })
+                //}
+                //requestfn();
             });
         }
         //子任务查询

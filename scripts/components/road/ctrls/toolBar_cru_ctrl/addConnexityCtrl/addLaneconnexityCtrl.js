@@ -2,151 +2,136 @@
  * Created by liwanchong on 2016/1/25.
  */
 var laneConnexityApp = angular.module("app");
-laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad','appPath', function ($scope, $ocLazyLoad, appPath) {
+laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad', 'appPath', function($scope, $ocLazyLoad, appPath) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     var rdLink = layerCtrl.getLayerById('rdLink');
-    $scope.inLaneInfoArr = [];
-    $scope.directData = objCtrl.originalData;
-    $scope.laneConnexity = {};
-    $scope.clickFlag = true;
-    $scope.excitLineArr = [];
-    $scope.highFeatures = [];
-
-
+    $scope.CurrentObject = objCtrl.originalData;
     var changedDirectObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
         "loadType": "subAttrTplContainer",
         "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
         "propertyHtml": '../../../scripts/components/road/tpls/blank_tpl/blankTpl.html',
-        "callback": function () {
+        "callback": function() {
             var laneObj = {
                 "loadType": "subAttrTplContainer",
-                "propertyCtrl":appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
-                "propertyHtml":appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
+                "propertyCtrl": appPath.road + 'ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
+                "propertyHtml": appPath.root + appPath.road + 'tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
             };
             $scope.$emit("transitCtrlAndTpl", laneObj);
         }
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
-
-
-    //增加公交车道方向(单击)
-    $scope.addTransitData=function(item,index) {
-
-        var transitStr="",transitObj=null;
-        transitObj = {
-            "flag":item.flag,
-            "type":1
-        };
-        transitStr = "<" + item.flag + ">";
-        $scope.directData.showTransitData[index]=transitObj;
-        $scope.directData.inLaneInfoArr[index] += transitStr;
-
-    };
-
-    //删除普通车道或附加车道方向有公交车道的时候 一并删除
-    $scope.minusNormalData = function (item,index,event) {
-        if ( $scope.directData.showNormalData.length > 0) {
-
-            $scope.directData.showNormalData.splice(index, 1);
-            $scope.directData.showTransitData.splice(index, 1);
-            $scope.directData.inLaneInfoArr.splice(index, 1);
-
-        }
-
-    };
-    $scope.minusTransitData=function(item,index) {
-        if ( $scope.directData.showNormalData.length > 0) {
-            $scope.directData.showTransitData[index] = {"flag":"test" , "log": ""};//主要是为了图标对齐
-            $scope.directData.inLaneInfoArr[index] = $scope.directData.showNormalData[index].flag;
+    $scope.toBusLane = function(item) {
+        item.busDir = item.dir;
+        item.laneInfo = '<' + item.dir.flag + '>';
+        if (item.adt == 1) {
+            item.laneInfo = '[' + item.laneInfo + ']';
         }
     };
-
-    shapeCtrl.setEditingType("addRdLaneConnexity")
-
-    if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
-        map.currentTool.cleanHeight();
-        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+    $scope.deleteLane = function(item, index) {
+        $scope.CurrentObject.lanes.splice(index, 1);
+    };
+    $scope.deleteBusLane = function(item) {
+        item.busDir = null;
+        item.laneInfo = item.dir.flag;
+        if (item.adt == 1) {
+            item.laneInfo = '[' + item.laneInfo + ']';
+        }
     }
+    var doHighlight = function() {
+        //清除高亮
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+        // 进入线
+        if ($scope.CurrentObject["inLinkPid"]) {
+            highRenderCtrl.highLightFeatures.push({
+                id: $scope.CurrentObject["inLinkPid"].toString(),
+                layerid: 'rdLink',
+                type: 'line',
+                style: {
+                    color: 'red'
+                }
+            });
+        }
+        // 退出线
+        for (var i = 0; i < $scope.CurrentObject.outLinkPids.length; i++) {
+            highRenderCtrl.highLightFeatures.push({
+                id: $scope.CurrentObject.outLinkPids[i].toString(),
+                layerid: 'rdLink',
+                type: 'line',
+                style: {
+                    color: '#008000'
+                }
+            });
+        }
+        // 进入点
+        if ($scope.CurrentObject["nodePid"]) {
+            highRenderCtrl.highLightFeatures.push({
+                id: $scope.CurrentObject["nodePid"].toString(),
+                layerid: 'rdNode',
+                type: 'node',
+                style: {}
+            });
+        }
+        highRenderCtrl.drawHighlight();
+    };
+    if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+        map.currentTool.cleanHeight();
+        map.currentTool.disable();
+    }
+    shapeCtrl.setEditingType("addRdLaneConnexity");
     tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDLANECONNEXITY);
-    tooltipsCtrl.setCurrentTooltip('正要新建车信,先选择线！');
+    tooltipsCtrl.setCurrentTooltip('开始新建车信, 请选择进入线！');
     map.currentTool = new fastmap.uikit.SelectForRestriction({
         map: map,
-        createLaneFlag:true,
+        createLaneFlag: true,
         currentEditLayer: rdLink,
         shapeEditor: shapeCtrl,
-        operationList:['line','point','line']
+        operationList: ['line', 'point', 'line']
     });
     map.currentTool.enable();
     $scope.excitLineArr = [];
-    eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+    eventController.on(eventController.eventTypes.GETLINKID, function(data) {
         if (data.index === 0) {
-            if(parseInt(data.properties.direct) == 1){
-                $scope.laneConnexity.inLinkPid = parseInt(data.id);
-                highRenderCtrl.highLightFeatures.push({
-                    id:   $scope.laneConnexity.inLinkPid.toString(),
-                    layerid: 'rdLink',
-                    type: 'line',
-                    style: {}
-                });
-                highRenderCtrl.drawHighlight();
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setCurrentTooltip("已经选择进入线,选择进入点!");
-            } else if(parseInt(data.properties.direct) == 2 || parseInt(data.properties.direct) == 3){
-                $scope.laneConnexity.inLinkPid = parseInt(data.id);
-                if(parseInt(data.properties.direct) == 2){
-                    $scope.laneConnexity.nodePid = parseInt(data.properties.enode);
-                } else if(parseInt(data.properties.direct) == 3){
-                    $scope.laneConnexity.nodePid = parseInt(data.properties.snode);
+            if (parseInt(data.properties.direct) == 1) {
+                $scope.CurrentObject.inLinkPid = parseInt(data.id);
+                tooltipsCtrl.setCurrentTooltip("已经选择进入线, 请选择进入点!");
+            } else if (parseInt(data.properties.direct) == 2 || parseInt(data.properties.direct) == 3) {
+                $scope.CurrentObject.inLinkPid = parseInt(data.id);
+                if (parseInt(data.properties.direct) == 2) {
+                    $scope.CurrentObject.nodePid = parseInt(data.properties.enode);
+                } else if (parseInt(data.properties.direct) == 3) {
+                    $scope.CurrentObject.nodePid = parseInt(data.properties.snode);
                 }
-                highRenderCtrl.highLightFeatures.push({
-                    id:   $scope.laneConnexity.inLinkPid.toString(),
-                    layerid: 'rdLink',
-                    type: 'line',
-                    style: {}
-                });
-                highRenderCtrl.highLightFeatures.push({
-                    id:   $scope.laneConnexity.nodePid.toString(),
-                    layerid: 'rdLink',
-                    type: 'rdnode',
-                    style: {}
-                });
-                highRenderCtrl.drawHighlight();
-                tooltipsCtrl.setStyleTooltip("color:red;");
-                tooltipsCtrl.setCurrentTooltip("已经选择进入点,请选择退出线!");
-                map.currentTool.selectedFeatures.push($scope.laneConnexity.nodePid);
+                tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+                map.currentTool.selectedFeatures.push($scope.CurrentObject.nodePid);
             }
         } else if (data.index === 1) {
-            $scope.laneConnexity.nodePid = parseInt(data.id);
-            highRenderCtrl.highLightFeatures.push({
-                id:   $scope.laneConnexity.nodePid.toString(),
-                layerid: 'rdLink',
-                type: 'rdnode',
-                style: {}
-            });
-            highRenderCtrl.drawHighlight();
-            tooltipsCtrl.setStyleTooltip("color:red;");
-            tooltipsCtrl.setCurrentTooltip("已经选择进入点,请选择退出线!");
+            $scope.CurrentObject.nodePid = parseInt(data.id);
+            tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+            map.currentTool.selectedFeatures.push($scope.CurrentObject.nodePid);
         } else if (data.index > 1) {
-            if(parseInt(data.properties.fc) != 9){
-                $scope.excitLineArr.push(parseInt(data.id));
-                highRenderCtrl.highLightFeatures.push({
-                    id:  data.id.toString(),
-                    layerid: 'rdLink',
-                    type: 'line',
-                    style: {}
-                });
-                highRenderCtrl .drawHighlight();
-                $scope.laneConnexity.outLinkPids = $scope.excitLineArr;
-                tooltipsCtrl.setCurrentTooltip("已选退出线,请选择方向或者选择退出线!");
+            var pid = parseInt(data.id);
+            // 退出线不能是9级路
+            // 退出线不能与进入线相同
+            if (parseInt(data.properties.fc) == 9 || pid == $scope.CurrentObject.inLinkPid) {
+                return;
+            }
+            if ($scope.CurrentObject.outLinkPids.indexOf(pid) >= 0) {
+                $scope.CurrentObject.outLinkPids.splice($scope.CurrentObject.outLinkPids.indexOf(pid), 1);
+            } else {
+                $scope.CurrentObject.outLinkPids.push(pid);
+            }
+            if ($scope.CurrentObject.outLinkPids.length == 0) {
+                tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+            } else {
+                tooltipsCtrl.setCurrentTooltip("已选退出线, 请在右侧面板中选择车道方向或者继续选择退出线或者按空格键保存!");
             }
         }
-        $scope.directData["laneConnexity"]=$scope.laneConnexity
+        doHighlight();
     });
-
 }])

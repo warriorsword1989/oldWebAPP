@@ -237,24 +237,10 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         if(!$scope.linkData){
             return;
         }
-        ////如果为双方向时对车道数进行判断;
-        //if($scope.linkData.direct==1){
-        //    if($scope.linkData.laneLeft==$scope.linkData.laneRight&&$scope.linkData.laneLeft!=0&&$scope.linkData.laneRight!=0){
-        //        $scope.linkData.laneNum = parseInt($scope.linkData.laneLeft)*2;
-        //        $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-        //    }
-        //    if($scope.linkData.laneLeft!=$scope.linkData.laneRight){
-        //        $scope.linkData.laneNum=0;
-        //        $scope.linkData.laneLeft = parseInt($scope.linkData.laneLeft);
-        //        $scope.linkData.laneRight = parseInt($scope.linkData.laneRight);
-        //    }
-        //}
-        ////如果为单方向时,左右车道清零;
-        //if($scope.linkData.direct==2||$scope.linkData.direct==3){
-        //    $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-        //    $scope.linkData.laneNum = parseInt($scope.linkData.laneNum);
-        //}
-
+        //车道种类变换位10时，行人便道清空;
+        if($scope.linkData.kind==10){
+            $scope.linkData.sidewalks = [];
+        }
         //车道幅宽维护;
         if($scope.linkData.laneNum){
             if($scope.linkData.laneNum==1){
@@ -310,10 +296,19 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         }
         /*如果道路名新增*/
         if ($scope.linkData.names) {
+        	var flag = false;
             $.each($scope.linkData.names, function(i, v) {
+            	if(v.nameGroupid == 0){
+            		flag= true;
+            	}
                 if (v.pid) delete v.pid;
             });
+            if(flag){
+            	swal("保存提示", '道路名不合法(合法的道路名应该来源于道路名库)', "error");
+            	return;
+            }
         }
+
         objectCtrl.save();
         if (!objectCtrl.changedProperty) {
             swal("保存提示", '属性值没有变化，不需要保存！', "info");
@@ -336,6 +331,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         dsEdit.update($scope.linkData.pid, "RDLINK", objectCtrl.changedProperty).then(function(data) {
             if (data) {
                 rdLink.redraw();
+                relation.redraw();
                 if(objectCtrl.changedProperty.hasOwnProperty("speedlimits")){
                     rdLinkSpeedLimit.redraw();
                 }
