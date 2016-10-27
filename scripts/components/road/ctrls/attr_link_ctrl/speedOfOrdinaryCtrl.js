@@ -87,7 +87,7 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
             }
         }
 
-        if(value < 11 && value >= 0){
+        if(value < 11 && value > 0){
             item.speedClass = 8;
         }else if(value <= 30 && value >= 11){
             item.speedClass = 7;
@@ -103,8 +103,6 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
             item.speedClass = 2;
         }else if(value > 130){
             item.speedClass = 1;
-        }else {
-            item.speedClass = 0;
         }
         item.speedClassWork = 1;
     };
@@ -186,6 +184,10 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        if (containerPoint.x < pointVertex.x || (containerPoint.x == pointVertex.x && containerPoint.y > pointVertex.y)) {
+            angle = angle + Math.PI;
+        }
+
         var marker = {
             flag:false,
             pid:$scope.roadlinkData.pid,
