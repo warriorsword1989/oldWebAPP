@@ -324,7 +324,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				console.log('已经建立websocket连接...');
 			};
 			sock.onmessage = function(e) {
-				console.log('message', JSON.parse(e.data));
+				//console.log('message', JSON.parse(e.data));
 				if (JSON.parse(e.data).length == 1) {
 					$scope.systemMsg.unshift(JSON.parse(e.data)[0]);
 				} else if (JSON.parse(e.data).length > 1) {
@@ -663,7 +663,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				map.removeLayer(map.markerLayer);
 				map.markerLayer = null;
 			}
-			
+
 			$scope.$broadcast('closeTipsImg',false);
 		});
 		/**
