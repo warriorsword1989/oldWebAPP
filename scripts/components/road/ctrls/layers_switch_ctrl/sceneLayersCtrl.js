@@ -4,6 +4,7 @@
 angular.module('app').controller('scenceLayersController', function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
+    var guideLayer = layerCtrl.getLayerById("guideLineLayer");
     $scope.selectedScenceId = 1; // 默认选中常规场景
     $scope.scenceArray = [{
         "id": 1,
@@ -58,12 +59,12 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "rdLinkRtic"
         }]
-    },{
+    }, {
         "id": 5,
         "label": "CRF场景",
         "dataLayers": [{
             "layerId": "rdNode"
-        },{
+        }, {
             "layerId": "rdLink"
         }, {
             "layerId": "rwLink"
@@ -73,7 +74,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "crfData",
             "requestType": "RDINTER,RDROAD,RDOBJECT"
         }]
-    },{
+    }, {
         "id": 6,
         "label": "同一关系场景",
         "dataLayers": [{
@@ -92,10 +93,10 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "luLink"
         }, {
             "layerId": "luNode"
-        },{
+        }, {
             "layerId": "rdSame"
         }]
-    },{
+    }, {
         "id": 7,
         "label": "限速场景",
         "dataLayers": [{
@@ -105,14 +106,12 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "rwLink"
         }, {
-            "layerId": "poi"
-        }, {
             "layerId": "rdLinkSpeedLimit"
         }, {
             "layerId": "relationData",
             "requestType": "RDSPEEDLIMIT"
         }]
-    },{
+    }, {
         "id": 8,
         "label": "详细车道场景",
         "dataLayers": [{
@@ -131,20 +130,30 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "requestType": "1202,1508,1113"
         }]
     }];
-
     $scope.dataLayers = [];
     var reqType;
     for (var i = 0; i < layerCtrl.layers.length; i++) {
         if (layerCtrl.layers[i].options.groupId == "dataLayers" || layerCtrl.layers[i].options.groupId == "worklayer") {
-            reqType = layerCtrl.layers[i].options.requestType.split(",");
-            for (var j = 0; j < reqType.length; j++) {
+            if (layerCtrl.layers[i].options.requestType) {
+                reqType = layerCtrl.layers[i].options.requestType.split(",");
+                for (var j = 0; j < reqType.length; j++) {
+                    $scope.dataLayers.push({
+                        "id": layerCtrl.layers[i].options.id + "-" + reqType[j],
+                        "label": layerCtrl.layers[i].options.name + (reqType.length == 1 ? "" : ("-" + fastmap.uikit.FeatureConfig.featureName(reqType[j]))),
+                        "layerId": layerCtrl.layers[i].options.id,
+                        "requestType": reqType[j],
+                        "single": reqType.length == 1,
+                        "selected": layerCtrl.layers[i].options.visible && layerCtrl.layers[i].url.parameter["types"].indexOf(reqType[j]) > -1 //wt++ 当一个图层中含有多个要素请求时，只勾选其中一个时候，第二次初始化的时候应当判断url parameter里面的type字段，做为该要素测checkbox是否勾选
+                    });
+                }
+            } else {
                 $scope.dataLayers.push({
                     "id": layerCtrl.layers[i].options.id + "-" + reqType[j],
-                    "label": layerCtrl.layers[i].options.name + (reqType.length == 1 ? "" : ("-" + fastmap.uikit.FeatureConfig.featureName(reqType[j]))),
+                    "label": layerCtrl.layers[i].options.name,
                     "layerId": layerCtrl.layers[i].options.id,
-                    "requestType": reqType[j],
-                    "single": reqType.length == 1,
-                    "selected": layerCtrl.layers[i].options.visible&& layerCtrl.layers[i].url.parameter["types"].indexOf(reqType[j])>-1   //wt++ 当一个图层中含有多个要素请求时，只勾选其中一个时候，第二次初始化的时候应当判断url parameter里面的type字段，做为该要素测checkbox是否勾选
+                    "requestType": "",
+                    "single": true,
+                    "selected": layerCtrl.layers[i].options.visible
                 });
             }
         }
@@ -159,11 +168,11 @@ angular.module('app').controller('scenceLayersController', function($scope) {
     function resetDataLayers(dataLayers) {
         var vLayerIds = [];
         var layer, aReqType,
-            bReqType,
-            cReqType;
+          bReqType,
+          cReqType;
         for (var i = 0; i < dataLayers.length; i++) {
             layer = layerCtrl.getLayerById(dataLayers[i].layerId);
-            if(dataLayers[i].layerId == "workPoint" && dataLayers[i]["requestType"]==""){//特殊处理tips图层,requestType默认为空
+            if (dataLayers[i].layerId == "workPoint" && dataLayers[i]["requestType"] == "") { //特殊处理tips图层,requestType默认为空
                 layer.options.visible = true;
             }
             if (dataLayers[i]["requestType"]) {
@@ -241,7 +250,6 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             return;
         }
         $scope.selectedScenceId = item.id;
-
         var layers = item.dataLayers || [];
         resetDataLayers(layers);
         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
@@ -255,9 +263,9 @@ angular.module('app').controller('scenceLayersController', function($scope) {
     //         }
     //     }
     // });
-    eventController.on(eventController.eventTypes.CHANGESCENE, function (data) {
-        for(var i = 0;i<$scope.scenceArray.length;i++){
-            if($scope.scenceArray[i].label == data.data){
+    eventController.on(eventController.eventTypes.CHANGESCENE, function(data) {
+        for (var i = 0; i < $scope.scenceArray.length; i++) {
+            if ($scope.scenceArray[i].label == data.data) {
                 $scope.changeScence($scope.scenceArray[i]);
             }
         }
@@ -267,6 +275,9 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         item.selected = !item.selected;
         if (item.single) {
             layerCtrl.getLayerById(item.layerId).options.visible = item.selected;
+            //引导线图层随workPoint隐藏或显示
+            layerCtrl.getLayerById(item.layerId).options.visible = item.selected;
+            guideLayer.options.visible = item.selected;
             eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                 layerArr: layerCtrl.layers
             });
