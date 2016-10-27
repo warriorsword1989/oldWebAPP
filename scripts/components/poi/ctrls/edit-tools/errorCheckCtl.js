@@ -50,6 +50,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
         resetToolAndMap();
         $scope.$emit('locatedOnMap',{'objPid':pid,'objType':type.split('_').join('')})
     };
+    
 
     /************** 数据格式化 **************/
     /*检查时间*/
