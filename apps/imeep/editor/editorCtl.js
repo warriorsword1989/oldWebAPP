@@ -15,6 +15,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         var selectCtrl = fastmap.uikit.SelectController();
 
+
         $scope.logMessage = logMsgCtrl.messages;
 		$scope.appPath = appPath;
 		$scope.metaData = {}; //存放元数据
@@ -888,6 +889,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         /*要素地图高亮及定位事件监听*/
         $scope.$on("locatedOnMap", function(event, data) {
             _showOnMapNew(data.objPid,data.objType);
+            $scope.showOnMap(data.pid, data.type);
         });
 
         function _showOnMapNew(pid, featType) {
@@ -895,6 +897,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 return;
             }
             dsEdit.getByPid(pid, featType).then(function(data) {
+                var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
                 var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
                 var coord;
@@ -916,7 +919,20 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                         "propertyCtrl": appPath.poi + "ctrls/attr-tips/poiPopoverTipsCtl",
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-tips/poiPopoverTips.html"
                     });
-                    highlightPoi(pid, data.geometry);
+                    $scope.$emit("transitCtrlAndTpl", {
+                        "loadType": "attrTplContainer",
+                        "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
+                        "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
+                    });
+                    //$scope.highlighPoi(data.pid);
+                    highRenderCtrl.highLightFeatures.push({
+                        id:data.pid.toString(),
+                        layerid:'poi',
+                        type:'IXPOI',
+                        style:{}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    return;
                 }
                 // 不知道这个是要干啥的，以后再研究
                 selectCtrl.onSelected({
