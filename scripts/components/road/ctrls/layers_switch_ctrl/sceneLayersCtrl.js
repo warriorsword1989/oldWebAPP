@@ -168,8 +168,8 @@ angular.module('app').controller('scenceLayersController', function($scope) {
     function resetDataLayers(dataLayers) {
         var vLayerIds = [];
         var layer, aReqType,
-            bReqType,
-            cReqType;
+          bReqType,
+          cReqType;
         for (var i = 0; i < dataLayers.length; i++) {
             layer = layerCtrl.getLayerById(dataLayers[i].layerId);
             if (dataLayers[i].layerId == "workPoint" && dataLayers[i]["requestType"] == "") { //特殊处理tips图层,requestType默认为空

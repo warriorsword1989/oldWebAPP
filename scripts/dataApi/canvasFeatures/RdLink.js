@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
         var RD_LINK_Colors = [];
         if (thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null) {
             RD_LINK_Colors = [
-                '#000000', '#FF0000', '#00A500', '#E7EFF7', '#0000FF', '#EFEFF7'
+                '#000000', '#FF0000', '#00A500', '#E7EFF7', '#0000FF', '#AB5C25'
             ];
         } else {
             RD_LINK_Colors = [

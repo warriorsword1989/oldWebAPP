@@ -957,6 +957,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         /*时间段*/
         if ($scope.dataTipsData.time) {
             $scope.timeDomain = $scope.dataTipsData.time.split(';');
+        }else{
+        	$scope.timeDomain = [];
         }
         var dir = {
             "0": "不应用",

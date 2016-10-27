@@ -582,8 +582,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 var linkCoords = data.geometry.coordinates;
                                 //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
                                 //并用斜率判断默认值
-                                var index = 0,
-                                    tp = map.latLngToContainerPoint([point.y, point.x]),
+                                var tp = map.latLngToContainerPoint([point.y, point.x]),
                                     dist, sVertex, eVertex, d1, d2, d3;
                                 for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
                                     sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
@@ -594,7 +593,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                         d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
                                         d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
                                         if (d1 <= d3 && d2 <= d3) {
-                                            index = i;
                                             break;
                                         }
                                     }
@@ -712,12 +710,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.$emit("SWITCHCONTAINERSTATE", {
                     "attrContainerTpl": true
                 });
-                var obj = {};
-                obj["showTransitData"] = [];
-                obj["showAdditionalData"] = [];
-                obj["showNormalData"] = [];
-                obj["inLaneInfoArr"] = [];
-                objCtrl.setOriginalData(obj);
+                var rdConty = {
+                    inLinkPid: 0,
+                    nodePid: 0,
+                    lanes: [],
+                    outLinkPids: []
+                };
+                objCtrl.setOriginalData(rdConty);
                 var addLaneObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
                     "loadType": "attrTplContainer",
                     "propertyCtrl": 'scripts/components/road/ctrls/blank_ctrl/blankCtrl',
