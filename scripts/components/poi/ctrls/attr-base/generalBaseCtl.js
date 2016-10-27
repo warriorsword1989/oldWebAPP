@@ -274,14 +274,18 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if (chain == 0) {
             objectCtrl.data.chain = "";
         }
-        if (FM.Util.isEmptyObject(objectCtrl.data.sportsVenue)) { //运动场馆特殊处理，如果页面没有选择默认赋值为2
-            objectCtrl.data.sportsVenue = {
-                2: true
-            };
-        } else {
-            if (!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])) {
+        if(data && data.extend == '5'){
+            if(!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])){//运动场馆特殊处理，如果页面没有选择默认赋值为2
+                objectCtrl.data.sportsVenue[0] = false;
+                objectCtrl.data.sportsVenue[1] = false;
                 objectCtrl.data.sportsVenue[2] = true;
+            }else {
+                objectCtrl.data.sportsVenue[2] = false;
             }
+        } else {
+            objectCtrl.data.sportsVenue[0] = false;
+            objectCtrl.data.sportsVenue[1] = false;
+            objectCtrl.data.sportsVenue[2] = false;
         }
 
         //需求--当分类为加油站，并且open14h为1时，需要将gasstations中的openHour字段赋值为“00:00-24:00”
@@ -407,11 +411,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     };
     // 保存数据
     function save() {
-        if (!validateForm()) {
-            return;
-        }
         if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2){
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
+            return;
+        }
+        if (!validateForm()) {
             return;
         }
         clearDeepInfo(); //清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
