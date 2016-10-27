@@ -355,7 +355,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         })
     };
     $scope.delete = function() {
-        var objId = parseInt($scope.lanesData.pid);
+        var objId = parseInt($scope.CurrentObject.pid);
         var param = {
             "command": "DELETE",
             "type": "RDLANECONNEXITY",
