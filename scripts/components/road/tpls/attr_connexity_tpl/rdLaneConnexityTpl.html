@@ -14,7 +14,7 @@
 <div ng-controller="rdLaneConnexityController" class="fm-component" oncontextmenu="self.event.returnValue=false">
     <div class="title">
         车信PID
-        <span class="label label-info">{{lanesData.pid}}</span>
+        <span class="label label-info" title="点击显示整个车信" style="cursor: pointer;" ng-click="showMe()">{{CurrentObject.pid}}</span>
         <div style="display:inline-block;float:right;font-size: 20px;cursor: pointer" >
             <span title="增加车道" class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
         </div>
@@ -63,10 +63,10 @@
                             <div>
                                 <label for="leftAddtionalLane">左</label>
                                 <input id="leftAddtionalLane" disabled class="chosen-disabled" type="text" style="width: 49px"
-                                ng-value="CurrentObject.lanes[0].adt == 0 ? '是':'否'">
+                                ng-value="CurrentObject.lanes[0].adt == 1 ? '是':'否'">
                                 <label for="rightAddtionalLane">右</label>
                                 <input id="rightAddtionalLane" disabled class="chosen-disabled" type="text" style="width: 49px"
-                                ng-value="CurrentObject.lanes[CurrentObject.lanes.length - 1].adt == 0 ? '是':'否'">
+                                ng-value="CurrentObject.lanes[CurrentObject.lanes.length - 1].adt == 1 ? '是':'否'">
                             </div>
                         </li>
                     </ul>
