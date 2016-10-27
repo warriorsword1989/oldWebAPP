@@ -119,21 +119,6 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
                                         });
                                         logMsgCtrl.pushMsg($scope,'执行检查任务'+data+'失败,共耗时'+timeLog);
                                     }
-                                }else{
-                                    $interval.cancel(timer);
-                                    if(d.status!=1||d.status!=2){
-                                        $scope.$emit("job-check", {
-                                            status: 'end'
-                                        });
-                                        $scope.running = false;
-                                        dsOutput.push({
-                                            "op": "执行检查异常",
-                                            "type": "fail",
-                                            "pid": data,
-                                            "childPid": ""
-                                        });
-                                        logMsgCtrl.pushMsg($scope,'执行检查任务'+data+'异常');
-                                    }
                                 }
                             });
                         }, 5000);
