@@ -23,7 +23,7 @@ fastmap.uikit.canvasFeature.IXPOI = fastmap.uikit.canvasFeature.Feature.extend({
             fillColor: 'rgba(225,225,225,0.5)',
             fillType :'IXPOI'
         };
-        var poiColor = redFill;
+        var poiColor = null;
         if(data.m.b == 1){
             poiColor = redFill;
         }else if(data.m.b == 2){
