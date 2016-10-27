@@ -1,28 +1,25 @@
 <div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
     <div class="fm-panel" style="border-radius:0px;">
         <div class='content'>
-            <div ng-repeat="showItem in directArr track by $index" style="display:inline-block;">
-                <img class="lanePic" ng-class="{0: 'active'}[$index]" style="margin: 5px;"  ng-if="!laneFlag" ng-click="selectLaneDirect($index, $event)"
-                ng-dblclick="doEditOutLinks(showItem)"
-                title="双击可修改退出线" ng-src="../../../images/road/1301/1301_0_{{showItem}}.svg">
-                <img class="lanePic" ng-class="{0: 'active'}[$index]" style="margin: 5px;" ng-if="laneFlag" ng-click="selectLaneDirect($index, $event)"
-                ng-dblclick="doEditOutLinks(showItem)"
-                title="双击可修改退出线" ng-src="../../../images/road/1301/1301_2_{{showItem}}.svg">
+            <div ng-repeat="item in directArr track by $index" style="display:inline-block;">
+                <img class="lanePic" ng-class="{0: 'active'}[$index]" style="margin: 5px;"
+                ng-click="selectLaneDirect($index, $event)" ng-dblclick="doEditOutLinks(item)"
+                title="双击可修改退出线" ng-src="../../../images/road/1301/1301_{{CurrentLane.adt == 1 ? 2 : 0}}_{{item}}.svg">
             </div>
         </div>
     </div>
     <form name="infoConnexityForm">
-        <ul class="list-group list-group-lg m-b-none" style="margin:5px;" ng-repeat="laneData in outLanesArr track by $index">
+        <ul class="list-group list-group-lg m-b-none" style="margin:5px;" ng-repeat="item in outLinkArray track by $index">
             <li class="list-group-item">
                 <div><label class="control-label">退出linkID</label></div>
                 <div class="inline">
-                    <input type="text" ng-model="laneData.outLinkPid"
+                    <input type="text" ng-model="item.outLinkPid"
                     class='chosen-disabled' disabled="disabled" readonly>
                 </div>
             </li>
             <li class="list-group-item">
                 <div><label class="control-label">通达方向</label></div>
-                <div class="inline">{{reachDirTrans[laneData.reachDir]}}</div>
+                <div class="inline">{{reachDirTrans[item.reachDir]}}</div>
             </li>
             <li class="list-group-item">
                 <div><label class="control-label">车道序号</label></div>
@@ -30,17 +27,17 @@
             </li>
             <li class="list-group-item">
                 <div><label class="control-label">公交车道</label></div>
-                <div class="inline">{{getBusFlag(laneData.busLaneInfo)}}</div>
+                <div class="inline">{{getBusFlag(item.busLaneInfo)}}</div>
             </li>
             <li class="list-group-item">
                 <div><label class="control-label">关系类型</label></div>
                 <div class="radio inline" style="text-align: left">
                     <label>
-                        <input type="radio" name="crossingOrLine{{$index}}" value=1 ng-model="laneData.relationshipType">
+                        <input type="radio" name="crossingOrLine{{$index}}" value=1 ng-model="item.relationshipType">
                         路口
                     </label>
                     <label>
-                        <input type="radio" name="crossingOrLine{{$index}}" value=2 ng-model="laneData.relationshipType">
+                        <input type="radio" name="crossingOrLine{{$index}}" value=2 ng-model="item.relationshipType">
                         线线
                     </label>
                 </div>
@@ -48,12 +45,12 @@
             <li class="list-group-item">
                 <div><label class="control-label">经过线</label></div>
                 <div class="inline">
-                    <label ng-click="changeVias(laneData)" style="cursor: pointer">编辑</label>
+                    <label ng-click="changeVias(item)" style="cursor: pointer">编辑</label>
                 </div>
             </li>
             <li style="padding-left: 20px">
                 <div style="width:260px;" >
-                    <div ng-repeat="cItem in laneData.vias track by $index" class="checkboxli">
+                    <div ng-repeat="cItem in item.vias track by $index" class="checkboxli">
                         {{cItem.linkPid}}
                     </div>
                 </div>
