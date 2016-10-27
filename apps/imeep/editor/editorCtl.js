@@ -925,7 +925,6 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                         "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
-                    //$scope.highlighPoi(data.pid);
                     highRenderCtrl.highLightFeatures.push({
                         id:data.pid.toString(),
                         layerid:'poi',
