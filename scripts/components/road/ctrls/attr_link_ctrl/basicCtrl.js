@@ -516,7 +516,7 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
 
     $scope.changeKind = function(newVal, oldVal) {
         //在模型里设置方法处理种别 变化的关联维护;
-        $scope.linkData.changeKind(newVal, oldVal);
+        $scope.linkData.changeKind(newVal, oldVal, objectEditCtrl);
     };
 
     $scope.showNames = function() {
