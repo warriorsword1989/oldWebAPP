@@ -753,6 +753,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		});
 		/*接收全屏请求*/
 		$scope.$on('showRoadFullScreen', function(event, data) {
+			$scope.fullPhoto = data;
 			$scope.roadFullScreen = true;
 		});
 		/*弹出控制台*/

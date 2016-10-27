@@ -3328,6 +3328,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     return;
                 } else if (type === "CHANGELEVEL") {
                     /*重绘link颜f色*/
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [];
                     objCtrl.data.links.sort(function(a,b){
                         return a.zlevel - b.zlevel;

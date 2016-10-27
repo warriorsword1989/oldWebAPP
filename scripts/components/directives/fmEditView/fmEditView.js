@@ -85,6 +85,18 @@ angular.module('fastmap.uikit').directive('fmInputControl', function() {
     }
 });
 /**
+ * 图片缩放
+ */
+angular.module('fastmap.uikit').directive('imgShow', function() {
+    return {
+        restrict: "A",
+        replace: false,
+        link: function (scope, element, attr) {
+            wheelzoom(element);
+        }
+    }
+});
+/**
  * 图片404时加默认图片
  */
 angular.module('fastmap.uikit').directive('image404', function() {
