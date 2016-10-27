@@ -121,7 +121,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     point3 = map.latLngToContainerPoint([shapePoints[j + 2].y, shapePoints[j + 2].x]);
                     angle1 = $scope.angleOfLink(point1, point2);
                     angle2 = $scope.angleOfLink(point2, point3);
-                    if (Math.abs(angle1 - angle2) > 0.1) {
+                    if (Math.abs(angle1 - angle2) > 0.2) {
                         var points = [];
                         points.push(shapePoints[j]);
                         points.push(shapePoints[j + 1]);
@@ -129,14 +129,20 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         j++;
                     } else {
                         shapePoints.splice(j+1,1);
-                        tempPoint = shapePoints[j + 1];
+                        //tempPoint = shapePoints[j + 1];
                     }
                 } else {
                     var points = [];
-                    var temp = pointsObj[pointsObj.length -1];
-                    points.push(temp[1]);
-                    points.push(shapePoints[j + 1]);
-                    pointsObj.push(points);
+                    if(pointsObj.length == 0){
+                        points.push(shapePoints[0]); //第一个
+                        points.push(shapePoints[j + 1]);//最后一个
+                        pointsObj.push(points);
+                    } else {
+                        var temp = pointsObj[pointsObj.length -1];
+                        points.push(temp[1]);
+                        points.push(shapePoints[j + 1]); //最后一个
+                        pointsObj.push(points);
+                    }
                     j++;
                 }
             }
@@ -754,6 +760,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
                     $scope.jsonData = null;
                     highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     var data = event.data,
                         highlightFeatures = [],
                         containObj = {},
@@ -996,6 +1003,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         "latitude":crossGeos[index].y,
                         "longitude":crossGeos[index].x
                     };
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     var highlightFeatures = [];
                     for (var i = 0, lenI = tempOjbs.length; i < lenI; i++) {
                         highlightFeatures.push({

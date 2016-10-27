@@ -240,7 +240,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
             for (var item in this.overlays) {
-                html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +App.Temp.relationNameObj[this.overlays[item].data.properties.featType] + '</a></li>';
+                html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +App.Temp.relationNameObj[this.overlays[item].data.properties.featType] +"&nbsp"+ this.overlays[item].data.properties.id + '</a></li>';
             }
             html += '</ul>';
             this.popup
