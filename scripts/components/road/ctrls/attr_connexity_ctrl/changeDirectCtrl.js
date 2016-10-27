@@ -106,6 +106,22 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
         "r": 5,
         "s": 6
     };
+    var intToBinaryArray = function(num) {
+        var num = +num;
+        var arr = num.toString(2).split("");
+        for (var i = 0, len = arr.length; i < 16 - len; i++) {
+            arr.unshift('0');
+        }
+        return arr;
+    }
+    var binaryArrayToInt = function(array) {
+        return parseInt(array.join(''), 2);
+    }
+    var changeLineInfo = function(laneInfo, index, value) {
+        var arr = intToBinaryArray(laneInfo);
+        arr[index] = value;
+        return binaryArrayToInt(arr);
+    };
     var CurrentObject = objCtrl.data;
     var currentLaneIndex = CurrentObject.selectedLaneIndex;
     var currentLane = CurrentObject.lanes[currentLaneIndex];
@@ -121,8 +137,40 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
             currentLane.busDir.flag = item.flag;
         }
     };
-    // todo:关联维护topo中的inLaneInfo
-    var changeLaneDir = function(newDir, oldDir) {};
-    // todo:关联维护topo中的busLaneInfo
-    var changeBusLaneDir = function(newDir, oldDir) {};
+    // 关联维护topo中的inLaneInfo
+    var changeLaneDir = function(newDir, oldDir) {
+        var n = dirTranform[newDir].split("");
+        var o = dirTranform[oldDir].split("");
+        var d = []; // 被删除的通行方向
+        for (var k in o) {
+            if (n.indexOf(o[k]) < 0) {
+                d.push(dirCharToNum[o[k]]);
+            }
+        }
+        var topo;
+        for (var i = 0; i < CurrentObject.topos.length; i++) {
+            topo = CurrentObject.topos[i];
+            if (d.indexOf(topo.reachDir) >= 0) {
+                topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, currentLaneIndex, 0);
+            }
+        }
+    };
+    // 关联维护topo中的busLaneInfo
+    var changeBusLaneDir = function(newDir, oldDir) {
+        var n = dirTranform[newDir].split("");
+        var o = dirTranform[oldDir].split("");
+        var d = []; // 被删除的通行方向
+        for (var k in o) {
+            if (n.indexOf(o[k]) < 0) {
+                d.push(dirCharToNum[o[k]]);
+            }
+        }
+        var topo;
+        for (var i = 0; i < CurrentObject.topos.length; i++) {
+            topo = CurrentObject.topos[i];
+            if (d.indexOf(topo.reachDir) >= 0) {
+                topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, currentLaneIndex, 0);
+            }
+        }
+    };
 });
