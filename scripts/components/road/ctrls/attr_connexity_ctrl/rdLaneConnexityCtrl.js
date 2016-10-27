@@ -111,7 +111,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         // 进入点
         highRenderCtrl.highLightFeatures.push({
             id: $scope.CurrentObject["nodePid"].toString(),
-            layerid: 'rdNode',
+            layerid: 'rdLink',
             type: 'node',
             style: {}
         });
