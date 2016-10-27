@@ -256,6 +256,8 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
                 point= new fastmap.mapApi.Point(point[0], point[1]);
                 //id = data[0].properties.id;
                 this.selectCtrl.selectedFeatures.linkPid = data[0].properties.id;
+            } else {
+                this.selectCtrl.selectedFeatures.linkPid = 0;
             }
         }
     },
