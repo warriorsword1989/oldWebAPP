@@ -225,6 +225,9 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         dsEdit.save(param).then(function(data) {
             var info = [];
             if (data) {
+                if(objCtrl.changedProperty.hasOwnProperty("type")){
+                    relation.redraw();//主要是想刷新一下信号灯
+                }
                 if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,

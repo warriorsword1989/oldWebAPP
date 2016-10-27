@@ -68,14 +68,14 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     $scope.photoTagType = 1;
     /*查看图片*/
     $scope.showImage = function(img, index) {
-            var temp = {
-                img: img,
-                index: index + 1
-            }
-            $scope.$broadcast('changeImgShow', temp);
-            $scope.showImgModal = true;
+        var temp = {
+            img: img,
+            index: index + 1
         }
-        /*预览active图片的缩略图*/
+        $scope.$broadcast('changeImgShow', temp);
+        $scope.showImgModal = true;
+    }
+    /*预览active图片的缩略图*/
     $scope.showPreviewImg = function(img, index) {
         $scope.nowActiveImg = img;
         $scope.nowActiveIndex = index;
