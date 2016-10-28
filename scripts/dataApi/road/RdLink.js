@@ -299,8 +299,10 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
             this.laneClass = 1;
         }else{
             //当种类切换回去时再切回原数据;
-            this.laneNum = param.originalData.laneNum;
-            this.laneClass =  param.originalData.laneClass;
+            if(param){
+                this.laneNum = param.originalData.laneNum;
+                this.laneClass =  param.originalData.laneClass;
+            }
         }
         //根据道路种别维护路径采纳字段 ，参考的是bug4修改
         if (newValue == 1) {
