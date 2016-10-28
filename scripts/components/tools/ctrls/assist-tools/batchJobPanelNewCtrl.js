@@ -30,7 +30,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                 $scope.selectedBatches = 'BATCH_SPEED_CLASS:P_ASSIGN_WAY=>'+$scope.myOption;
             }else{
                 $scope.selectedBatches = 'BATCH_POI_GUIDELINK';
-                batchType = 1
+                batchType = 0
             }
             if ($scope.selectedBatches.length == 0) {
                 swal("请选择要执行的批处理", "", "info");
