@@ -795,13 +795,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'class': "feaf",
                             callback: $scope.modifyTools
                         },
-                            {
-                            'text': "<span class='float-option-bar'>经</span>",
-                            'title': "修改经过线",
-                            'type': "MODIFYBRANCH_THROUGH",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }
+                        //    {
+                        //    'text': "<span class='float-option-bar'>经</span>",
+                        //    'title': "修改经过线",
+                        //    'type': "MODIFYBRANCH_THROUGH",
+                        //    'class': "feaf",
+                        //    callback: $scope.modifyTools
+                        //}
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
@@ -1993,27 +1993,30 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     var containerPoint;
                     dsEdit.getByPid(objCtrl.data.linkPid, "RDLINK").then(function(data) {
                         if (data) {
-                            var endNum = parseInt(data.geometry.coordinates.length / 2);
-                            var point = {
-                                x:data.geometry.coordinates[0][0],
-                                y: data.geometry.coordinates[0][1]
-                            };
                             var SpeedPoint = {
                                 x: objCtrl.data.geometry.coordinates[0],
                                 y: objCtrl.data.geometry.coordinates[1]
                             };
-                            var pointVertex = {
-                                x: data.geometry.coordinates[endNum][0],
-                                y: data.geometry.coordinates[endNum][1]
-                            };
-                            var tempPoint = map.latLngToContainerPoint([SpeedPoint.y, SpeedPoint.x]);
-                            containerPoint = map.latLngToContainerPoint([point.y, point.x]);
-                            pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
-                            var angle = $scope.angleOfLink(containerPoint, pointVertex);
-                            if (parseInt(objCtrl.data.direct) == 3 && (tempPoint.x > pointVertex.x || (tempPoint.x == pointVertex.x && tempPoint.y > pointVertex.y))) {
+                            var tp = map.latLngToContainerPoint([SpeedPoint.y, SpeedPoint.x]),
+                                dist, sVertex, eVertex, d1, d2, d3;
+                            for (var i = 0, len = data.geometry.coordinates.length - 1; i < len; i++) {
+                                sVertex = map.latLngToContainerPoint(L.latLng(data.geometry.coordinates[i][1], data.geometry.coordinates[i][0]));
+                                eVertex = map.latLngToContainerPoint(L.latLng(data.geometry.coordinates[i + 1][1], data.geometry.coordinates[i + 1][0]));
+                                dist = L.LineUtil.pointToSegmentDistance(tp, sVertex, eVertex);
+                                if (dist < 5) {
+                                    d1 = (tp.x - sVertex.x) * (tp.x - sVertex.x) + (tp.y - sVertex.y) * (tp.y - sVertex.y);
+                                    d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
+                                    d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
+                                    if ((d1 < d3) && (d1 + d2 <= d3+1)) {
+                                        break;
+                                    }
+                                }
+                            }
+                            var angle = $scope.angleOfLink(sVertex, eVertex);
+                            if (parseInt(objCtrl.data.direct) == 3 && (tp.x > eVertex.x || (tp.x == eVertex.x && tp.y > eVertex.y))) {
                                 angle = angle + Math.PI;
                             }
-                            if (parseInt(objCtrl.data.direct) == 2 && (tempPoint.x > pointVertex.x || (tempPoint.x == pointVertex.x && tempPoint.y > pointVertex.y))) {
+                            if (parseInt(objCtrl.data.direct) == 2 && (tp.x > eVertex.x || (tp.x == eVertex.x && tp.y > eVertex.y))) {
                                 angle = Math.PI + angle;
                             }
                             var marker = {

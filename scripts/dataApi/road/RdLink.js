@@ -284,7 +284,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
      * @param oldValue
      * @param param 选传
      */
-    changeKind: function(newValue, oldValue, param) {
+    changeKind: function(newValue, oldValue) {
         this.kind = newValue;
         // 修改道路种别对道路名的维护;
         if (newValue == 1 || newValue == 2 || newValue == 3) {
@@ -297,10 +297,6 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         if (newValue == 9 || newValue == 11 || newValue == 13){
             this.laneNum = 1;
             this.laneClass = 1;
-        }else{
-            //当种类切换回去时再切回原数据;
-            this.laneNum = param.originalData.laneNum;
-            this.laneClass =  param.originalData.laneClass;
         }
         //根据道路种别维护路径采纳字段 ，参考的是bug4修改
         if (newValue == 1) {
