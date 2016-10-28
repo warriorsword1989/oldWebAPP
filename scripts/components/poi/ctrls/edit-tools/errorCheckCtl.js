@@ -51,6 +51,8 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
         $scope.$emit('locatedOnMap',{'objPid':pid,'objType':type.split('_').join('')})
     };
 
+
+    //$scope.$on('highMappoi',highlighPoi);
     /************** 数据格式化 **************/
     /*检查时间*/
     function getCreateData($scope, rows) {

@@ -1094,10 +1094,10 @@ a.fm-panel-controlArrowRight > span {
   border-radius: 16px;
   left: 200px;
   top: 300px;
-  padding: 8px;
+  line-height: 2.5;
   text-align: center;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   background-color: #0A06B8;
   cursor: pointer;
   z-index: 1000;
@@ -1111,6 +1111,78 @@ a.fm-panel-controlArrowRight > span {
 }
 .floatMenu > li .float-option-bar {
   color: #fff;
+}
+.floatMenu > li .icon-location {
+  background-image: url("../../images/road/floatBtn/default/location.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-location:hover {
+  background-image: url("../../images/road/floatBtn/hover/location.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-father {
+  background-image: url("../../images/road/floatBtn/default/father.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-father:hover {
+  background-image: url("../../images/road/floatBtn/hover/father.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-same {
+  background-image: url("../../images/road/floatBtn/default/same.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-same:hover {
+  background-image: url("../../images/road/floatBtn/hover/same.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-guide {
+  background-image: url("../../images/road/floatBtn/default/guide.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-guide:hover {
+  background-image: url("../../images/road/floatBtn/hover/guide.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-move {
+  background-image: url("../../images/road/floatBtn/default/move.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-move:hover {
+  background-image: url("../../images/road/floatBtn/hover/move.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-reset {
+  background-image: url("../../images/road/floatBtn/default/reset.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-reset:hover {
+  background-image: url("../../images/road/floatBtn/hover/reset.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
 }
 /* ---------------------滚动条-------------------------------------------------- */
 .scroll-styled {
@@ -1650,7 +1722,7 @@ a.fm-panel-controlArrowRight > span {
   right: auto;
   bottom: 0;
   left: 60px;
-  position: absolute;
+  position: fixed;
   width: 250px;
   z-index: 99;
   display: none;
@@ -1659,7 +1731,7 @@ a.fm-panel-controlArrowRight > span {
   color: #fff;
   background-color: #949090;
   padding: 13px;
-  height: 40px;
+  min-height: 40px;
   margin-top: 3px;
 }
 .log-message-container .log-message .log-message-remove {

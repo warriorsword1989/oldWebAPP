@@ -95,6 +95,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     });
     map.currentTool.enable();
     $scope.excitLineArr = [];
+    eventController.off(eventController.eventTypes.GETLINKID);
     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
         if (data.index === 0) {
             if (parseInt(data.properties.direct) == 1) {

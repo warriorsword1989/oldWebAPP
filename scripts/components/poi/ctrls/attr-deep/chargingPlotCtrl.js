@@ -1,5 +1,5 @@
 angular.module('app').controller('chargingPlotCtrl', function($scope) {
-    $scope.chargingArr = $scope.poi.chargingPlot;
+    $scope.chargingArr = $scope.poi.chargingplots;
 
     var chargeChainFmt = {};
     /*初始化品牌*/
@@ -25,7 +25,7 @@ angular.module('app').controller('chargingPlotCtrl', function($scope) {
     //     chargeChainFmt[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
     // }
     $scope.chargingPlugTypeChange = function(event){
-        var obj = $scope.poi.chargingPlot[0].plugType;
+        var obj = $scope.poi.chargingplots[0].plugType;
         Utils.setCheckBoxSingleCheck(event,obj);
     };
     $scope.ctrl = {
@@ -96,11 +96,11 @@ angular.module('app').controller('chargingPlotCtrl', function($scope) {
             "payment" : "4",
             "manufacturer" : null
         };
-        $scope.poi.chargingPlot.push(new FM.dataApi.IxPoiChargingplot(chargingObj));
+        $scope.poi.chargingplots.push(new FM.dataApi.IxPoiChargingplot(chargingObj));
     };
     $scope.removeChargPole = function(index){
-        if ($scope.poi.chargingPlot.length > 1) {
-            $scope.poi.chargingPlot.splice(index, 1);
+        if ($scope.poi.chargingplots.length > 1) {
+            $scope.poi.chargingplots.splice(index, 1);
         }
     };
     if($scope.chargingArr.length == 0){

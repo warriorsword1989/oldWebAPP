@@ -212,7 +212,7 @@
         <div id="dataTipsVideoModal" style="display:none">
             <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>
         </div>
-         <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();" style="display: none;" class="animated-fast zoomIn"><img src=""></div>
+         <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();" style="display: none;" class="animated-fast zoomIn"><img ng-src="{{fullPhoto}}"></div>
         <!-- logMsg提示 -->
         <div class="log-message-container" ng-style="logMsgStyle">
           <div class="log-message animated-fast fadeInLeft" ng-repeat="msg in logMessage">

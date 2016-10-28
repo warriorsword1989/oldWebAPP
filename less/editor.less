@@ -1093,10 +1093,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     .roundedCorners(16px);
     left: 200px;
     top: 300px;
-    padding: 8px;
+    //padding: 8px;
+    line-height: 2.5;
     text-align: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     background-color: #0A06B8;
     cursor: pointer;
     z-index: 1000;
@@ -1110,6 +1111,54 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     }
     .float-option-bar{
       color: #fff;
+    }
+    .icon-function(@icoName){
+      background-image: url(@icoName);
+      width: 30px;
+      height: 30px;
+      transition: all 1s;
+    }
+    // 移动显示坐标
+    .icon-location{
+      .icon-function("../../images/road/floatBtn/default/location.png");
+      &:hover{
+        .icon-function("../../images/road/floatBtn/hover/location.png");
+      }
+    }
+    // 父子关系
+    .icon-father{
+      .icon-function("../../images/road/floatBtn/default/father.png");
+      &:hover{
+        .icon-function("../../images/road/floatBtn/hover/father.png");
+      }
+    }
+    // 同一关系
+    .icon-same{
+      .icon-function("../../images/road/floatBtn/default/same.png");
+      &:hover{
+        .icon-function("../../images/road/floatBtn/hover/same.png");
+      }
+    }
+    // 移动引导坐标
+    .icon-guide{
+      .icon-function("../../images/road/floatBtn/default/guide.png");
+      &:hover{
+        .icon-function("../../images/road/floatBtn/hover/guide.png");
+      }
+    }
+    // 移动坐标
+    .icon-move{
+      .icon-function("../../images/road/floatBtn/default/move.png");
+      &:hover{
+        .icon-function("../../images/road/floatBtn/hover/move.png");
+      }
+    }
+    // 重置
+    .icon-reset{
+      .icon-function("../../images/road/floatBtn/default/reset.png");
+      &:hover{
+        .icon-function("../../images/road/floatBtn/hover/reset.png");
+      }
     }
   }
 }
@@ -1655,7 +1704,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .log-message-container {
-  .absolute-position(auto,auto,0,60px);
+  .absolute-position(auto,auto,0,60px,fixed);
   width: 250px;
   z-index: 99;
   display: none;
@@ -1663,7 +1712,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #fff;
     background-color: #949090;
     padding: 13px;
-    height: 40px;
+    min-height: 40px;
     margin-top: 3px;
     .log-message-remove{
       height:100%;

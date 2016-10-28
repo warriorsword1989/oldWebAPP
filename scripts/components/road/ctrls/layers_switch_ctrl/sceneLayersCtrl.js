@@ -69,8 +69,6 @@ angular.module('app').controller('scenceLayersController', function($scope) {
         }, {
             "layerId": "rwLink"
         }, {
-            "layerId": "poi"
-        }, {
             "layerId": "crfData",
             "requestType": "RDINTER,RDROAD,RDOBJECT"
         }]
@@ -120,9 +118,7 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "rdNode"
         }, {
             "layerId": "rwLink"
-        }, {
-            "layerId": "poi"
-        }, {
+        },{
             "layerId": "relationData",
             "requestType": "RDLANE,RDLANECONNEXITY"
         }, {

@@ -795,13 +795,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             'class': "feaf",
                             callback: $scope.modifyTools
                         },
-                            {
-                            'text': "<span class='float-option-bar'>经</span>",
-                            'title': "修改经过线",
-                            'type': "MODIFYBRANCH_THROUGH",
-                            'class': "feaf",
-                            callback: $scope.modifyTools
-                        }
+                        //    {
+                        //    'text': "<span class='float-option-bar'>经</span>",
+                        //    'title': "修改经过线",
+                        //    'type': "MODIFYBRANCH_THROUGH",
+                        //    'class': "feaf",
+                        //    callback: $scope.modifyTools
+                        //}
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
@@ -1091,37 +1091,38 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     $scope.rootCommonTemp.selectPoiInMap = true
                     toolsObj = {
                         items: [{
-                            'text': "<span class='float-option-bar'>显</span>",
+                            // 'text': "<span class='float-option-bar'>显</span>",
+                            'text': "<div class='icon-location'>",
                             'title': "移动显示坐标",
                             'type': "POILOCMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>引</span>",
+                            'text': "<div class='icon-guide'></div>",
                             'title': "移动引导坐标",
                             'type': "POIGUIDEMOVE",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>随</span>",
+                            'text': "<div class='icon-location'></div>",
                             'title': "引导坐标随着显示坐标变化",
                             'type': "POIAUTODRAG",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>父</span>",
+                            'text': "<div class='icon-father'></div>",
                             'title': "编辑父",
                             'type': "SELECTPARENT",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>同</span>",
+                            'text': "<div class='icon-same'></div>",
                             'title': "同一关系",
                             'type': "POISAME",
                             'class': "feaf",
                             callback: $scope.modifyPoi
                         }, {
-                            'text': "<span class='float-option-bar'>重</span>",
+                            'text': "<div class='icon-reset'></div>",
                             'title': "重置",
                             'type': "RESETPOI",
                             'class': "feaf",
@@ -1973,10 +1974,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             containerPoint = map.latLngToContainerPoint([point.y, point.x]);
                             pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
                             var angle = $scope.angleOfLink(containerPoint, pointVertex);
-                            if (parseInt(objCtrl.data.direct) == 3 && tempPoint.x > pointVertex.x) {
+                            if (parseInt(objCtrl.data.direct) == 3 && (tempPoint.x > pointVertex.x || (tempPoint.x == pointVertex.x && tempPoint.y > pointVertex.y))) {
                                 angle = angle + Math.PI;
                             }
-                            if (parseInt(objCtrl.data.direct) == 2 && tempPoint.x > pointVertex.x) {
+                            if (parseInt(objCtrl.data.direct) == 2 && (tempPoint.x > pointVertex.x || (tempPoint.x == pointVertex.x && tempPoint.y > pointVertex.y))) {
                                 angle = Math.PI + angle;
                             }
                             var marker = {
@@ -3257,7 +3258,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.snode));
                             hightlightOutLink();
-                            return;
                         } else if (dataresult.properties.snode == $scope.linkNodes[0] && dataresult.properties.direct == 2 && $scope.links[0] != dataresult.id) {
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
@@ -3267,7 +3267,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             $scope.linkNodes.splice(1);
                             $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightOutLink();
-                            return;
                         } else if ($scope.links[0] != dataresult.id && (dataresult.properties.enode == $scope.linkNodes[0] || dataresult.properties.snode == $scope.linkNodes[0]) && dataresult.properties.direct == 1) {
                             tempObj.outLinkPid = dataresult.id;
                             tempObj.vias = [];
@@ -3277,7 +3276,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             $scope.linkNodes.splice(1);
                             (dataresult.properties.enode == $scope.linkNodes[0]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightOutLink();
-                            return;
                         } else {
                             tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
                         }
@@ -3307,6 +3305,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 (dataresult.properties.enode == $scope.linkNodes[$scope.linkNodes.length - 1]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                                 hightlightViasLink()
                             } else {
+                                if(dataresult.id!=tempObj.outLinkPid)
                                 tooltipsCtrl.setCurrentTooltipText("您选择的接续线与上一条不连续或方向错误!");
                             }
                         } else {
@@ -3327,6 +3326,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     return;
                 } else if (type === "CHANGELEVEL") {
                     /*重绘link颜f色*/
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [];
                     objCtrl.data.links.sort(function(a,b){
                         return a.zlevel - b.zlevel;

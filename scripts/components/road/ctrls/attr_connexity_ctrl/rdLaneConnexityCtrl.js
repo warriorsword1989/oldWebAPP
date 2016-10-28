@@ -11,8 +11,73 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
     var rdLink = layerCtrl.getLayerById('rdLink');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var rdConnexity = layerCtrl.getLayerById("relationData");
-    var outLinkPids = [],
-        viaLinkPids = []; // 用于防止重复绘制，以及优先画退出线
+    var changeDirects = {
+        "a": "a",
+        "b": "b",
+        "c": "c",
+        "d": "d",
+        "e": "ad",
+        "f": "ac",
+        "g": "ab",
+        "h": "bac",
+        "i": "dac",
+        "j": "dab",
+        "k": "bc",
+        "l": "db",
+        "m": "dbc",
+        "n": "dc",
+        "o": "o",
+        "p": "bace",
+        "t": "ar",
+        "u": "br",
+        "v": "cr",
+        "w": "dr",
+        "x": "as",
+        "y": "bs",
+        "z": "cs",
+        "0": "ds",
+        "1": "rs",
+        "2": "abr",
+        "3": "abs",
+        "4": "acr",
+        "5": "acs"
+    };
+    var transData = {
+        "a": 1,
+        "b": 2,
+        "c": 3,
+        "d": 4,
+        "r": 5,
+        "s": 6
+    };
+    var getDirectNumArray = function(laneDir) {
+        var ret = [];
+        var tmp = changeDirects[laneDir].split("");
+        for (var k in tmp) {
+            ret.push(transData[tmp[k]]);
+        }
+        return ret;
+    };
+    var intToBinaryArray = function(num) {
+        var num = +num;
+        var arr = num.toString(2).split("");
+        for (var i = 0, len = arr.length; i < 16 - len; i++) {
+            arr.unshift('0');
+        }
+        return arr;
+    }
+    var binaryArrayToInt = function(array) {
+        return parseInt(array.join(''), 2);
+    }
+    var changeLineInfo = function(laneInfo, index, value) {
+        var arr = intToBinaryArray(laneInfo);
+        arr[index] = value;
+        return binaryArrayToInt(arr);
+    };
+    var getLaneDirFlag = function(laneInfo, index) {
+        var arr = intToBinaryArray(laneInfo);
+        return parseInt(arr[index]);
+    };
     $scope.initialize = function() {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.initializeData();
@@ -65,8 +130,8 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
     };
     // 高亮
     var doHighlight = function() {
-        outLinkPids.length = 0;
-        viaLinkPids.length = 0;
+        var outLinkPids = [],
+            viaLinkPids = []; // 用于防止重复绘制，以及优先画退出线
         //清除高亮
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
@@ -83,7 +148,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         // 退出线
         for (var i = 0; i < $scope.CurrentObject['topos'].length; i++) {
             linkPid = $scope.CurrentObject['topos'][i].outLinkPid;
-            if (outLinkPids.indexOf(linkPid) < 0) {
+            if (outLinkPids.indexOf(linkPid) < 0 && $scope.CurrentObject['topos'][i].inLaneInfo > 0) {
                 highRenderCtrl.highLightFeatures.push({
                     id: linkPid.toString(),
                     layerid: 'rdLink',
@@ -92,19 +157,19 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
                         color: '#008000'
                     }
                 });
-            }
-            // 经过线
-            for (var j = 0; j < $scope.CurrentObject['topos'][i].vias.length; j++) {
-                linkPid = $scope.CurrentObject['topos'][i].vias[j].linkPid;
-                if (outLinkPids.indexOf(linkPid) < 0 && viaLinkPids.indexOf(linkPid) < 0) {
-                    highRenderCtrl.highLightFeatures.push({
-                        id: $scope.CurrentObject['topos'][i].vias[j].linkPid.toString(),
-                        layerid: 'rdLink',
-                        type: 'line',
-                        style: {
-                            color: '#FFD306'
-                        }
-                    });
+                // 经过线
+                for (var j = 0; j < $scope.CurrentObject['topos'][i].vias.length; j++) {
+                    linkPid = $scope.CurrentObject['topos'][i].vias[j].linkPid;
+                    if (outLinkPids.indexOf(linkPid) < 0 && viaLinkPids.indexOf(linkPid) < 0) {
+                        highRenderCtrl.highLightFeatures.push({
+                            id: $scope.CurrentObject['topos'][i].vias[j].linkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {
+                                color: '#FFD306'
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -114,6 +179,16 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             layerid: 'rdLink',
             type: 'node',
             style: {}
+        });
+        //高亮本身图标
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.CurrentObject.pid.toString(),
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {
+                fillColor: '#ff00ff',
+                radius: 3
+            }
         });
         highRenderCtrl.drawHighlight();
     };
@@ -171,41 +246,6 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         };
         $scope.$emit("transitCtrlAndTpl", rdlaneInfoObj);
     };
-    // 启动退出线选择器
-    var enableOutLinkSelectHandler = function() {
-        map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
-        map.currentTool = new fastmap.uikit.SelectPath({
-            map: map,
-            currentEditLayer: rdLink,
-            linksFlag: false,
-            shapeEditor: shapeCtrl
-        });
-        map.currentTool.enable();
-        eventController.off(eventController.eventTypes.GETOUTLINKSPID);
-        eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
-            var highLightFeatures = [];
-            highLightFeatures.push({
-                id: objCtrl.data["inLinkPid"].toString(),
-                layerid: 'rdLink',
-                type: 'line',
-                style: {}
-            });
-            for (var i = 0, len = $scope.lanesData["topos"].length; i < len; i++) {
-                var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-                var lenOfInfo = (16 - arrOfDecimal.length);
-                if (lenOfInfo === index) {
-                    highLightFeatures.push({
-                        id: data.id,
-                        layerid: 'rdLink',
-                        type: 'line',
-                        style: {}
-                    });
-                }
-            }
-            highRenderCtrl.highLightFeatures = highLightFeatures;
-            highRenderCtrl.drawHighlight();
-        });
-    };
     // 打开增加车道的方向选择面板
     $scope.addLane = function() {
         var rdlaneInfoObj = { //这样写的目的是为了解决子ctrl只在第一次加载时执行的问题,解决的办法是每次点击都加载一个空的ctrl，然后在加载namesOfDetailCtrl。
@@ -225,26 +265,46 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
     };
     //删除车道
     $scope.deleteLane = function(item, index) {
+        var topo;
+        for (var i = 0; i < $scope.CurrentObject.topos.length; i++) {
+            topo = $scope.CurrentObject.topos[i];
+            topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, index, 0);
+            topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, index, 0);
+        }
         $scope.CurrentObject.lanes.splice(index, 1);
-        // todo 删除车道对topo的关联维护
     };
     // 增加公交车道属性
-    var addBusLane = function(item) {
+    var addBusLane = function(item, index) {
+        var topo;
+        var dir = getDirectNumArray(item.dir.flag);
+        for (var i = 0; i < $scope.CurrentObject.topos.length; i++) {
+            topo = $scope.CurrentObject.topos[i];
+            // 新增公交方向，必须参考普通方向
+            if (dir.indexOf(topo.reachDir) >= 0 && getLaneDirFlag(topo.inLaneInfo, index) == 1) {
+                topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, index, 1);
+            }
+        }
         item.busDir = {
             flag: item.dir.flag
         };
-        // todo 对topo的关联维护
     };
     //删除公交车道属性
-    $scope.deleteBusLane = function(item) {
+    $scope.deleteBusLane = function(item, index) {
+        var topo;
+        var dir = getDirectNumArray(item.busDir.flag);
+        for (var i = 0; i < $scope.CurrentObject.topos.length; i++) {
+            topo = $scope.CurrentObject.topos[i];
+            if (dir.indexOf(topo.reachDir) >= 0) {
+                topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, index, 0);
+            }
+        }
         item.busDir = null;
-        // todo 对topo的关联维护
     };
-    var toggleBusLane = function(item) {
+    var toggleBusLane = function(item, index) {
         if (item.busDir) {
-            $scope.deleteBusLane(item);
+            $scope.deleteBusLane(item, index);
         } else {
-            addBusLane(item);
+            addBusLane(item, index);
         }
     };
     var toggleAdtLane = function(item) {
@@ -276,9 +336,9 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         }
         $scope.CurrentObject.laneInfo = lanes.join(",");
         // 删除三个用于与二级页面交互的控制属性
-        delete $scope.CurrentObject.lanes;
-        delete $scope.CurrentObject.selectedLaneIndex;
-        delete $scope.CurrentObject.changeLaneDirectFlag;
+        // delete $scope.CurrentObject.lanes;
+        // delete $scope.CurrentObject.selectedLaneIndex;
+        // delete $scope.CurrentObject.changeLaneDirectFlag;
         objCtrl.save();
         console.log(objCtrl.changedProperty);
         if (!objCtrl.changedProperty) {
@@ -355,7 +415,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         })
     };
     $scope.delete = function() {
-        var objId = parseInt($scope.lanesData.pid);
+        var objId = parseInt($scope.CurrentObject.pid);
         var param = {
             "command": "DELETE",
             "type": "RDLANECONNEXITY",
@@ -364,7 +424,9 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         };
         dsEdit.save(param).then(function(data) {
             if (data) {
-                rdConnexity.redraw();
+                // 高亮必须放在redraw之前，因为redraw后，tile重新加载会触发高亮操作
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 if (map.floatMenu) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
@@ -372,13 +434,11 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
                 if (map.currentTool) {
                     map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
                 }
+                rdConnexity.redraw();
                 //清空编辑图层和shapeCtrl
                 shapeCtrl.stopEditing();
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                $scope.rdCrossData = null;
-                highRenderCtrl._cleanHighLight();
-                highRenderCtrl.highLightFeatures.length == 0;
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,
                     'attrContainerTpl': false
@@ -387,13 +447,23 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         })
     };
     $scope.cancel = function() {};
+    $scope.showMe = function() {
+        $scope.$emit('SWITCHCONTAINERSTATE', {
+            'subAttrContainerTpl': false
+        });
+        if (map.currentTool) {
+            map.currentTool.disable();
+        }
+        doHighlight();
+    };
     $scope.initialize();
+    // $document.unbind("keydown");
     $document.bind("keydown", function(event) {
         if ($scope.CurrentObject.selectedLaneIndex == undefined) {
             return;
         }
         if (event.keyCode == 16) { //shift键 公交车道
-            toggleBusLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex]);
+            toggleBusLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex], $scope.CurrentObject.selectedLaneIndex);
             $scope.$apply();
         } else if (event.keyCode === 17) { //ctrl键 附加车道
             toggleAdtLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex]);

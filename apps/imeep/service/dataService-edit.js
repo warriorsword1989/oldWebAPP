@@ -160,7 +160,7 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
             subtaskType: App.Temp.taskType,
             pageSize: 5,
             subtaskId:App.Util.getUrlParam("subtaskId"),
-            grids: App.Temp.gridList
+            grids: App.Temp.gridList?App.Temp.gridList:[]
         };
         ajax.get("edit/check/list", {
             parameter: JSON.stringify(params)
