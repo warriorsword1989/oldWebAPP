@@ -74,6 +74,10 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         arr[index] = value;
         return binaryArrayToInt(arr);
     };
+    var getLaneDirFlag = function(laneInfo, index) {
+        var arr = intToBinaryArray(laneInfo);
+        return parseInt(arr[index]);
+    };
     $scope.initialize = function() {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.initializeData();
@@ -275,7 +279,8 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         var dir = getDirectNumArray(item.dir.flag);
         for (var i = 0; i < $scope.CurrentObject.topos.length; i++) {
             topo = $scope.CurrentObject.topos[i];
-            if (dir.indexOf(topo.reachDir) >= 0) {
+            // 新增公交方向，必须参考普通方向
+            if (dir.indexOf(topo.reachDir) >= 0 && getLaneDirFlag(topo.inLaneInfo, index) == 1) {
                 topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, index, 1);
             }
         }
