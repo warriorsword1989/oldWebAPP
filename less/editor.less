@@ -1704,7 +1704,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .log-message-container {
-  .absolute-position(auto,auto,0,60px);
+  .absolute-position(auto,auto,0,60px,fixed);
   width: 250px;
   z-index: 99;
   display: none;
@@ -1712,7 +1712,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #fff;
     background-color: #949090;
     padding: 13px;
-    height: 40px;
+    min-height: 40px;
     margin-top: 3px;
     .log-message-remove{
       height:100%;
