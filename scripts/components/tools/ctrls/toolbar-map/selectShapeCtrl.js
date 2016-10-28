@@ -1256,7 +1256,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             // $scope.getFeatDataCallback(result, result.f_array[0].f.id ? result.f_array[0].f.id : '', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                            $scope.getFeatDataCallback(result, result.f_array[0].f.id ? result.f_array[0].f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
                                         }
                                     }
                                 };
@@ -1270,7 +1270,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             // $scope.getFeatDataCallback(result, result.in.id ? result.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                            $scope.getFeatDataCallback(result, result.in.id ? result.in.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDTRAFFICSIGNAL", appPath.road + "ctrls/attr_trafficSignal_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_trafficSignal_Tpl/rdTrafficSignalTpl.html");
                                         }
                                     }
                                 };
