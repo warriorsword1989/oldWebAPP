@@ -578,7 +578,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
                             }
                         }
                     };

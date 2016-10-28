@@ -1553,7 +1553,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            $scope.getFeatDataCallback(result, result.f.id ? result.f.id : '', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                                            $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
                                         }
                                     }
                                 };
