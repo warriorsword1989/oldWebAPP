@@ -1974,10 +1974,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             containerPoint = map.latLngToContainerPoint([point.y, point.x]);
                             pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
                             var angle = $scope.angleOfLink(containerPoint, pointVertex);
-                            if (parseInt(objCtrl.data.direct) == 3 && tempPoint.x > pointVertex.x) {
+                            if (parseInt(objCtrl.data.direct) == 3 && (tempPoint.x > pointVertex.x || (tempPoint.x == pointVertex.x && tempPoint.y > pointVertex.y))) {
                                 angle = angle + Math.PI;
                             }
-                            if (parseInt(objCtrl.data.direct) == 2 && tempPoint.x > pointVertex.x) {
+                            if (parseInt(objCtrl.data.direct) == 2 && (tempPoint.x > pointVertex.x || (tempPoint.x == pointVertex.x && tempPoint.y > pointVertex.y))) {
                                 angle = Math.PI + angle;
                             }
                             var marker = {
@@ -3328,6 +3328,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     return;
                 } else if (type === "CHANGELEVEL") {
                     /*重绘link颜f色*/
+                    highRenderCtrl._cleanHighLight();
                     highRenderCtrl.highLightFeatures = [];
                     objCtrl.data.links.sort(function(a,b){
                         return a.zlevel - b.zlevel;

@@ -131,37 +131,37 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         var value = 0;
         if (dir == 2) {
             item.fromLimitSrc = 1;
-            value = parseFloat(item.fromSpeedLimit);
-            if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
-                value = parseFloat(item.toSpeedLimit);
-            }
+            // value = parseFloat(item.fromSpeedLimit);
+            // if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
+            //     value = parseFloat(item.toSpeedLimit);
+            // }
         } else if (dir == 3) {
             item.toLimitSrc = 1;
-            value = parseFloat(item.toSpeedLimit);
-            if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
-                value = parseFloat(item.fromSpeedLimit);
-            }
+            // value = parseFloat(item.toSpeedLimit);
+            // if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
+            //     value = parseFloat(item.fromSpeedLimit);
+            // }
         }
-
-        if(value < 11 && value >= 0){
-            item.speedClass = 8;
-        }else if(value <= 30 && value >= 11){
-            item.speedClass = 7;
-        }else if(value <= 50 && value >= 30.1){
-            item.speedClass = 6;
-        }else if(value <= 70 && value >= 50.1){
-            item.speedClass = 5;
-        }else if(value <= 90 && value >= 70.1){
-            item.speedClass = 4;
-        }else if(value <= 100 && value >= 90.1){
-            item.speedClass = 3;
-        }else if(value <= 130 && value >= 100.1){
-            item.speedClass = 2;
-        }else if(value > 130){
-            item.speedClass = 1;
-        }else {
-            item.speedClass = 0;
-        }
+        //
+        // if(value < 11 && value >= 0){
+        //     item.speedClass = 8;
+        // }else if(value <= 30 && value >= 11){
+        //     item.speedClass = 7;
+        // }else if(value <= 50 && value >= 30.1){
+        //     item.speedClass = 6;
+        // }else if(value <= 70 && value >= 50.1){
+        //     item.speedClass = 5;
+        // }else if(value <= 90 && value >= 70.1){
+        //     item.speedClass = 4;
+        // }else if(value <= 100 && value >= 90.1){
+        //     item.speedClass = 3;
+        // }else if(value <= 130 && value >= 100.1){
+        //     item.speedClass = 2;
+        // }else if(value > 130){
+        //     item.speedClass = 1;
+        // }else {
+        //     item.speedClass = 0;
+        // }
         // item.speedClassWork = 1;
     };
 
@@ -194,6 +194,9 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope,$timeout
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        if (containerPoint.x < pointVertex.x || (containerPoint.x == pointVertex.x && containerPoint.y > pointVertex.y)) {
+            angle = angle + Math.PI;
+        }
         var marker = {
             flag:false,
             pid:$scope.roadlinkData.pid,

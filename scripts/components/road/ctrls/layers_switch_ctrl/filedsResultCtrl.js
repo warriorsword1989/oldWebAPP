@@ -693,8 +693,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html',3);
-                                highCtrl.highLightFeatures.push({
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",3);
+                                /*highCtrl.highLightFeatures.push({
                                     id:data.in.id.toString(),
                                     layerid:'rdLink',
                                     type:'line',
@@ -702,7 +702,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                         color: '#21ed25'
                                     }
                                 });
-                                highCtrl.drawHighlight();
+                                highCtrl.drawHighlight();*/
                             }
                         }
                     };
@@ -753,10 +753,10 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
-                            /*if (data.t_lifecycle != 3) { //3表示新增
+                            if (data.t_lifecycle != 3) { //3表示新增
                                 $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",0)
-                            }*/
-                            highCtrl.highLightFeatures.push({
+                            }
+                            /*highCtrl.highLightFeatures.push({
                                 id:data.in.id.toString(),
                                 layerid:'rdLink',
                                 type:'line',
@@ -764,7 +764,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                     color: '#21ed25'
                                 }
                             });
-                            highCtrl.drawHighlight();
+                            highCtrl.drawHighlight();*/
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
@@ -1256,7 +1256,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             //$scope.guideLayer._redraw();
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,branchType) {
-            if(type == 'RDBRANCH'){
+            /*if(type == 'RDBRANCH'){
                 if(selectedData.branchType == 5 || selectedData.branchType == 7){
                     dsEdit.getBranchByRowId(selectedData.rowkey,branchType).then(function(data){
                         if(data == -1){
@@ -1272,7 +1272,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         getByPidCallback(type,ctrl,tpl,data);
                     });
                 }
-            }else{
+            }else{*/
                 dsEdit.getByPid(id, type).then(function(data){
                     if(!data){
                         return;
@@ -1293,7 +1293,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     getByPidCallback(type,ctrl,tpl,data);
                 });
-            }
+            // }
             function getByPidCallback(type,ctrl,tpl,data){
                 var options = {
                     "loadType": 'attrTplContainer',
