@@ -162,8 +162,8 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         		fuelType:fuelType
 			};
         dsMeta.queryTruck(param).then(function(data){
-        	if(data != null || data != undefined){
-        		$scope.poi.truck = data;
+        	if(data != -1){
+        		$scope.poi.truckFlag = data;
         		$scope.truckFlagDisable = true;
         	}else{
         		$scope.truckFlagDisable = false;
