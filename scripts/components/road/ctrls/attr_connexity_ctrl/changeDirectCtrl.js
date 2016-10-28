@@ -122,6 +122,10 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
         arr[index] = value;
         return binaryArrayToInt(arr);
     };
+    var getLaneDirFlag = function(laneInfo, index) {
+        var arr = intToBinaryArray(laneInfo);
+        return parseInt(arr[index]);
+    };
     var CurrentObject = objCtrl.data;
     var currentLaneIndex = CurrentObject.selectedLaneIndex;
     var currentLane = CurrentObject.lanes[currentLaneIndex];
@@ -159,16 +163,23 @@ directConnexityApp.controller("directOfConnexityController", function($scope) {
     var changeBusLaneDir = function(newDir, oldDir) {
         var n = dirTranform[newDir].split("");
         var o = dirTranform[oldDir].split("");
-        var d = []; // 被删除的通行方向
-        for (var k in o) {
+        var d = [],
+            k; // 被删除的通行方向
+        for (k in o) {
             if (n.indexOf(o[k]) < 0) {
                 d.push(dirCharToNum[o[k]]);
             }
         }
+        for (k in n) {
+            n[k] = dirCharToNum[n[k]];
+        }
         var topo;
         for (var i = 0; i < CurrentObject.topos.length; i++) {
             topo = CurrentObject.topos[i];
-            if (d.indexOf(topo.reachDir) >= 0) {
+            // 新增公交方向，必须参考普通方向
+            if (n.indexOf(topo.reachDir) >= 0 && getLaneDirFlag(topo.inLaneInfo, currentLaneIndex) == 1) {
+                topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, currentLaneIndex, 1);
+            } else if (d.indexOf(topo.reachDir) >= 0) { // 删除公交方向
                 topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, currentLaneIndex, 0);
             }
         }
