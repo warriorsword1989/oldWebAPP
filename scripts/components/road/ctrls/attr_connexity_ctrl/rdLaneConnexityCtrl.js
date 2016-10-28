@@ -74,6 +74,10 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         arr[index] = value;
         return binaryArrayToInt(arr);
     };
+    var getLaneDirFlag = function(laneInfo, index) {
+        var arr = intToBinaryArray(laneInfo);
+        return parseInt(arr[index]);
+    };
     $scope.initialize = function() {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.initializeData();
@@ -176,6 +180,16 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             type: 'node',
             style: {}
         });
+        //高亮本身图标
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.CurrentObject.pid.toString(),
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {
+                fillColor: '#ff00ff',
+                radius: 3
+            }
+        });
         highRenderCtrl.drawHighlight();
     };
     $scope.clickLane = function(item, index, event) {
@@ -265,7 +279,8 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         var dir = getDirectNumArray(item.dir.flag);
         for (var i = 0; i < $scope.CurrentObject.topos.length; i++) {
             topo = $scope.CurrentObject.topos[i];
-            if (dir.indexOf(topo.reachDir) >= 0) {
+            // 新增公交方向，必须参考普通方向
+            if (dir.indexOf(topo.reachDir) >= 0 && getLaneDirFlag(topo.inLaneInfo, index) == 1) {
                 topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, index, 1);
             }
         }

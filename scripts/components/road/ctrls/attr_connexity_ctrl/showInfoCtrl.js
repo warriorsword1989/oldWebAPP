@@ -88,15 +88,15 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
     var transformDirect = function() {
         // 普通车方向
         Array.prototype.push.apply($scope.directArr, changeDirects[$scope.CurrentLane.dir.flag].split(""));
-        // 公交车方向
-        if ($scope.CurrentLane.busDir) {
-            var tmp = changeDirects[$scope.CurrentLane.busDir.flag].split("");
-            for (var k in tmp) {
-                if ($scope.directArr.indexOf(tmp[k]) < 0) {
-                    $scope.directArr.push(tmp[k]);
-                }
-            }
-        }
+        // 公交车方向,不需要对公交车道做编辑，先注释掉
+        // if ($scope.CurrentLane.busDir) {
+        //     var tmp = changeDirects[$scope.CurrentLane.busDir.flag].split("");
+        //     for (var k in tmp) {
+        //         if ($scope.directArr.indexOf(tmp[k]) < 0) {
+        //             $scope.directArr.push(tmp[k]);
+        //         }
+        //     }
+        // }
     };
     transformDirect();
     // 计算一个当前车道一个通行方向的退出线
