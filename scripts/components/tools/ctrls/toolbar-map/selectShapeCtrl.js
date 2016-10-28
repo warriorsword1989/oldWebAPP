@@ -1284,7 +1284,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             // $scope.getFeatDataCallback(result, result.in.id ? result.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                            $scope.getFeatDataCallback(result, result.in.id ? result.in.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDGATE", appPath.road + "ctrls/attr_gate_ctrl/rdGateCtrl", appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html");
                                         }
                                     }
                                 };
@@ -1310,8 +1310,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            // $scope.getFeatDataCallback(result, result.in.id ? result.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                            $scope.getFeatDataCallback(result, result.out.id ? result.out.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDSLOP", appPath.road + "ctrls/attr_rdSlope_ctrl/rdSlopeCtrl", appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html");
                                         }
                                     }
                                 };
