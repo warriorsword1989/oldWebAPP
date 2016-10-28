@@ -176,6 +176,16 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             type: 'node',
             style: {}
         });
+        //高亮本身图标
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.CurrentObject.pid.toString(),
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {
+                fillColor: '#ff00ff',
+                radius: 3
+            }
+        });
         highRenderCtrl.drawHighlight();
     };
     $scope.clickLane = function(item, index, event) {
