@@ -807,6 +807,7 @@ a.fm-panel-controlArrowRight > span {
   max-height: 190px;
   max-width: 220px;
   margin: auto;
+  height: 140px;
 }
 .preview-left {
   position: absolute;

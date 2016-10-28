@@ -7,7 +7,7 @@
     <span class="glyphicon glyphicon-remove-sign close-tips" ng-click="closeTips();"></span>
     <div class="col-sm-12 img-preview-container">
         <span ng-if="nowActiveImg.thumbnailUrl" class="glyphicon glyphicon-trash remove-preview-img" title="删除" ng-click="deletePhoto(nowActiveImg);"></span>
-        <img ng-if="nowActiveImg.thumbnailUrl" ng-click="showImage(nowActiveImg,nowActiveIndex);" image-404="../../../images/road/img/noimg.png" ng-src="{{nowActiveImg.originUrl}}" class="img-preview" alt="">
+        <img ng-if="nowActiveImg.thumbnailUrl" ng-click="showImage(nowActiveImg,nowActiveIndex);" image-404="../../../images/road/img/noimg.png" ng-src="{{nowActiveImg.thumbnailUrl}}" class="img-preview" alt="">
         <img ng-if="!nowActiveImg.thumbnailUrl" src="../../../images/road/img/noimg.png" class="img-preview" alt="当前无图片">
         <span class="photo-page">{{nowActiveIndex+1}}/{{poi.photos.length==0?1:poi.photos.length}}</span>
         <!--<div class="photo-load-bg" ng-show="showPhotoLoading">
@@ -97,7 +97,7 @@
             </div>
         </div>
     </div>-->
-    <div ng-show="showImgModal" ng-class="{true:'modal-tips-img animated-fast fadeInDown',false:'modal-tips-img animated fadeOutDown'}[showImgModal]">
+    <div ng-show="showImgModal" ng-class="{true:'showImgModal modal-tips-img animated-fast fadeInDown',false:'modal-tips-img animated fadeOutDown'}[showImgModal]">
         <div oc-lazy-load="['scripts/components/poi/ctrls/attr-tips/showImgModalCtl']">
             <div ng-include="'../../../scripts/components/poi/tpls/attr-tips/showImgModalTpl.html'">
             </div>
