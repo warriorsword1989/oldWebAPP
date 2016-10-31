@@ -158,6 +158,7 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
                 // var editorLayer = layerCtrl.getLayerById("edit");
                 // editorLayer.clear();
                 highRenderCtrl._cleanHighLight(); //清空高亮
+                highRenderCtrl.highLightFeatures.length = 0;
             }
             $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         });
