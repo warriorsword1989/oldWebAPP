@@ -154,6 +154,7 @@ rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($sc
                 $scope.trafficSignalData = null;
                 relationData.redraw();
                 highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,
                     'attrContainerTpl': false

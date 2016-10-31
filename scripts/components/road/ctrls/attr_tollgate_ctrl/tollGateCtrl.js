@@ -483,6 +483,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
+				highRenderCtrl.highLightFeatures.length = 0;
 				$scope.$emit('SWITCHCONTAINERSTATE', {
 					'subAttrContainerTpl': false,
 					'attrContainerTpl': false

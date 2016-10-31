@@ -149,6 +149,8 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
         dsEdit.save(param).then(function (data) {
             if (data) {
                 speedLimit.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.speedLimitData = null;
                 $scope.speedLimitGeometryData = null;
                 if (map.floatMenu) {
