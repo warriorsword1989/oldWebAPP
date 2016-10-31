@@ -172,6 +172,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             }
             //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
             dsFcc.getTipsListItems(stages[arr], item.id).then(function(data) {
+                if (data == -1) {
+                    return;
+                }
                 dataLoading = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;
