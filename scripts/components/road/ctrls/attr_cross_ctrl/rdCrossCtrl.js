@@ -21,6 +21,8 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
         initNameInfo();
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures = [];
         var links = $scope.rdCrossData.links,
             highLightFeatures = [];
         for (var i = 0, len = links.length; i < len; i++) {

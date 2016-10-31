@@ -16,16 +16,15 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-
-        // this.pid = data["pid"] || 0;
+        this.pid = data["pid"] || 0;
         this.timeDomain = data["timeDomain"] || null;
-        this.rowId = data["rowId"] || "";
         this.vehicle = data["vehicle"] || 0;
         this.resTrailer = data["resTrailer"] || 0;
         this.resWeigh = data["resWeigh"] || 0;
         this.resAxleLoad = data["resAxleLoad"] || 0;
         this.resAxleCount = data["resAxleCount"] || 0;
         this.resOut = data["resOut"] || 0;
+        this.rowId = data["rowId"] || "";
     },
 
     /**
@@ -36,8 +35,7 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        // data["pid"] = this.pid;
-        data["rowId"] = this.rowId;
+        data["pid"] = this.pid;
         data["timeDomain"] = this.timeDomain;
         data["vehicle"] = this.vehicle;
         data["resTrailer"]  = this.resTrailer;
@@ -45,6 +43,7 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
         data["resAxleLoad"]  = this.resAxleLoad;
         data["resAxleCount"]  = this.resAxleCount;
         data["resOut"] = this.resOut;
+        data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     },
@@ -57,8 +56,7 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        // data["pid"] = this.pid;
-        data["rowId"] = this.rowId;
+        data["pid"] = this.pid;
         data["timeDomain"] = this.timeDomain;
         data["vehicle"] = this.vehicle;
         data["resTrailer"]  = this.resTrailer;
@@ -66,6 +64,7 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
         data["resAxleLoad"]  = this.resAxleLoad;
         data["resAxleCount"]  = this.resAxleCount;
         data["resOut"] = this.resOut;
+        data["rowId"] = this.rowId;
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }

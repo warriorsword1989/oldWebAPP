@@ -19,6 +19,9 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
         //}, 100);
     };
     $scope.$on('get-date', function (event, date) {
+        if($scope.rdSubRestrictData.conditions.length < 1){
+            $scope.rdSubRestrictData.conditions[0] = fastmap.dataApi.rdRestrictionCondition({});
+        }
         $scope.rdSubRestrictData.conditions[0].timeDomain = date;
     });
 
@@ -77,6 +80,8 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         $scope.flag = 0;
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures = [];
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objectEditCtrl.data["inLinkPid"].toString(),
@@ -175,8 +180,9 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
 
     //点击限制方向时,显示其有的属性信息
     $scope.showTips = function (item, e, index) {
-        highRenderCtrl.highLightFeatures.length = 0;
         highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+
         limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
 
         //$scope.flag = $scope.getRestrictInfoIndex(item);
