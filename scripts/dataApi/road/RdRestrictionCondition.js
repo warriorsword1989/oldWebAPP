@@ -16,7 +16,6 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"] || 0;
         this.timeDomain = data["timeDomain"] || null;
         this.vehicle = data["vehicle"] || 0;
         this.resTrailer = data["resTrailer"] || 0;
@@ -35,7 +34,6 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid;
         data["timeDomain"] = this.timeDomain;
         data["vehicle"] = this.vehicle;
         data["resTrailer"]  = this.resTrailer;
@@ -56,7 +54,6 @@ fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid;
         data["timeDomain"] = this.timeDomain;
         data["vehicle"] = this.vehicle;
         data["resTrailer"]  = this.resTrailer;
