@@ -524,6 +524,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		 * 保存数据
 		 */
 		$scope.doSave = function() {
+			$(".datetip").hide();
 			eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
 		};
 		/**
@@ -539,6 +540,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				confirmButtonColor: "#ec6c62"
 			}, function(f) {
 				if (f) {
+					$(".datetip").hide();
 					eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
 				}
 			});

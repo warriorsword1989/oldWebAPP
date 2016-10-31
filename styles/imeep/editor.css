@@ -2171,6 +2171,7 @@ a.batchButton {
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+  display: inline-block;
 }
 .select-car.blue {
   background-color: #40A2D7;
@@ -2192,6 +2193,7 @@ a.batchButton {
   color: #ffffff;
   right: -2px;
   position: relative;
+  display: inline-block;
 }
 .select-car .remove-car-type {
   position: relative;
