@@ -318,9 +318,12 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
     $scope.showDetail = function (type, nameInfo, nameGroupid) {
         var tempCtr = '', tempTepl = '';
         if (type == 0) {  //名称信息
-            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/rdBranchNameCtl';
-            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/rdBranchNameTpl.html';
+            tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/rdSignBoardNameCtl';
+            tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/signBoardNameTpl.html';
         } else {  //经过线
+            if(!$scope.diverObj.vias.length){
+                return;
+            }
             tempCtr = appPath.road + 'ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = appPath.root + appPath.road + 'tpls/attr_branch_Tpl/passlineTepl.html';
         }

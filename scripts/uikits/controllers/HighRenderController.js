@@ -487,6 +487,7 @@ fastmap.uikit.HighRenderController = (function() {
                     for (var j in feature.geometry.coordinates) {
                         var geo = feature.geometry.coordinates[j];
                         if (feature.properties.isMainArr[j] == 1) { //主点
+                            fillColor = style.fillColor ? style.fillColor : "red";
                         } else {
                             fillColor = "green";
                         }
