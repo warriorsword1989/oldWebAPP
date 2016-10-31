@@ -106,8 +106,15 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
             if ($scope.showOrHideId !== "") {
+                //防止出现两个tips同时打开面板的情况
+                $.each($("#dataList > li"), function (m, n) {
+                    if (n.id !=$scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
+                        $("#" + n.id).removeClass("selected");
+                        $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                    }
+                });
                 if ($("#" + $scope.showOrHideId).hasClass("selected")) {
                     $("#" + $scope.showOrHideId).removeClass("selected");
                     $("#" + $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -122,6 +129,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
             }
             if ($scope.showOrHideIdOfPending !== "") {
+                //防止出现两个tips同时打开面板的情况
+                $.each($("#pendingTaskers > li"), function (m, n) {
+                    if (n.id !=$scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
+                        $("#" + n.id).removeClass("selected");
+                        $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                    }
+                });
                 if ($("#" + $scope.showOrHideIdOfPending).hasClass("selected")) {
                     $("#" + $scope.showOrHideIdOfPending).removeClass("selected");
                     $("#" + $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -136,6 +150,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
             }
             if ($scope.showOrHideIdOfPended !== "") {
+                //防止出现两个tips同时打开面板的情况
+                $.each($("#solvedTaskers > li"), function (m, n) {
+                    if (n.id !=$scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
+                        $("#" + n.id).removeClass("selected");
+                        $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                    }
+                });
                 if ($("#" + $scope.showOrHideIdOfPended).hasClass("selected")) {
                     $("#" + $scope.showOrHideIdOfPended).removeClass("selected");
                     $("#" + $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -154,6 +175,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 dataLoading = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;
+                    $.each($("#dataList > li"), function (m, n) {
+                        if (n.id !=$scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
+                            $("#" + n.id).removeClass("selected");
+                            $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                        }
+                    });
                     if ($("#" + $scope.showOrHideId).hasClass("selected")) {
                         $("#" + $scope.showOrHideId).removeClass("selected");
                         $("#" + $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -168,6 +195,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                 } else if (stage === 1) {
                     $scope.showOrHideIdOfPending = (item.id + "Pending");
+                    //防止出现两个tips同时打开面板的情况
+                    $.each($("#pendingTaskers > li"), function (m, n) {
+                        if (n.id !=$scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
+                            $("#" + n.id).removeClass("selected");
+                            $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                        }
+                    });
                     if ($("#" + $scope.showOrHideIdOfPending).hasClass("selected")) {
                         $("#" + $scope.showOrHideIdOfPending).removeClass("selected");
                         $("#" + $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -182,6 +216,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                 } else if (stage === 3) {
                     $scope.showOrHideIdOfPended = (item.id + "Pended");
+                    //防止出现两个tips同时打开面板的情况
+                    $.each($("#solvedTaskers > li"), function (m, n) {
+                        if (n.id !=$scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
+                            $("#" + n.id).removeClass("selected");
+                            $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                        }
+                    });
                     if ($("#" + $scope.showOrHideIdOfPended).hasClass("selected")) {
                         $("#" + $scope.showOrHideIdOfPended).removeClass("selected");
                         $("#" + $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
