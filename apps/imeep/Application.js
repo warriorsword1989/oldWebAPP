@@ -1,5 +1,5 @@
 "use strict"
-// web app全局命名空间
+// web app全局命名空间 //测试版本分支的注释，对程序没有影响
 var App = {};
 // web app全局配置信息
 App.Config = {
