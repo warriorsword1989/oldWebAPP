@@ -106,8 +106,15 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             $scope.$emit("SWITCHCONTAINERSTATE", {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
-            })
+            });
             if ($scope.showOrHideId !== "") {
+                //防止出现两个tips同时打开面板的情况
+                $.each($("#dataList > li"), function (m, n) {
+                    if (n.id !=$scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
+                        $("#" + n.id).removeClass("selected");
+                        $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                    }
+                });
                 if ($("#" + $scope.showOrHideId).hasClass("selected")) {
                     $("#" + $scope.showOrHideId).removeClass("selected");
                     $("#" + $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -122,6 +129,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
             }
             if ($scope.showOrHideIdOfPending !== "") {
+                //防止出现两个tips同时打开面板的情况
+                $.each($("#pendingTaskers > li"), function (m, n) {
+                    if (n.id !=$scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
+                        $("#" + n.id).removeClass("selected");
+                        $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                    }
+                });
                 if ($("#" + $scope.showOrHideIdOfPending).hasClass("selected")) {
                     $("#" + $scope.showOrHideIdOfPending).removeClass("selected");
                     $("#" + $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -136,6 +150,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 }
             }
             if ($scope.showOrHideIdOfPended !== "") {
+                //防止出现两个tips同时打开面板的情况
+                $.each($("#solvedTaskers > li"), function (m, n) {
+                    if (n.id !=$scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
+                        $("#" + n.id).removeClass("selected");
+                        $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                    }
+                });
                 if ($("#" + $scope.showOrHideIdOfPended).hasClass("selected")) {
                     $("#" + $scope.showOrHideIdOfPended).removeClass("selected");
                     $("#" + $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -151,9 +172,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             }
             //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
             dsFcc.getTipsListItems(stages[arr], item.id).then(function(data) {
+                if (data == -1) {
+                    return;
+                }
                 dataLoading = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;
+                    $.each($("#dataList > li"), function (m, n) {
+                        if (n.id !=$scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
+                            $("#" + n.id).removeClass("selected");
+                            $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                        }
+                    });
                     if ($("#" + $scope.showOrHideId).hasClass("selected")) {
                         $("#" + $scope.showOrHideId).removeClass("selected");
                         $("#" + $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -168,6 +198,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                 } else if (stage === 1) {
                     $scope.showOrHideIdOfPending = (item.id + "Pending");
+                    //防止出现两个tips同时打开面板的情况
+                    $.each($("#pendingTaskers > li"), function (m, n) {
+                        if (n.id !=$scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
+                            $("#" + n.id).removeClass("selected");
+                            $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                        }
+                    });
                     if ($("#" + $scope.showOrHideIdOfPending).hasClass("selected")) {
                         $("#" + $scope.showOrHideIdOfPending).removeClass("selected");
                         $("#" + $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -182,6 +219,13 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                 } else if (stage === 3) {
                     $scope.showOrHideIdOfPended = (item.id + "Pended");
+                    //防止出现两个tips同时打开面板的情况
+                    $.each($("#solvedTaskers > li"), function (m, n) {
+                        if (n.id !=$scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
+                            $("#" + n.id).removeClass("selected");
+                            $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
+                        }
+                    });
                     if ($("#" + $scope.showOrHideIdOfPended).hasClass("selected")) {
                         $("#" + $scope.showOrHideIdOfPended).removeClass("selected");
                         $("#" + $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
@@ -257,8 +301,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.f_array[0].f.id ? data.f_array[0].f.id : '', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.f_array[0].f.id ? data.f_array[0].f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                // $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDTRAFFICSIGNAL", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
                             }
                         }
                     };
@@ -271,8 +315,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDTRAFFICSIGNAL", appPath.road + "ctrls/attr_trafficSignal_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_trafficSignal_Tpl/rdTrafficSignalTpl.html");
+                                // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
@@ -286,7 +330,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
                                 // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDGATE", appPath.road + "ctrls/attr_gate_ctrl/rdGateCtrl", appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html");
                             }
                         }
                     };
@@ -312,8 +356,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.out.id ? data.out.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSLOP", appPath.road + "ctrls/attr_rdSlope_ctrl/rdSlopeCtrl", appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html");
                             }
                         }
                     };
@@ -334,7 +377,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
                             }
                         }
                     };
@@ -368,8 +411,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.sID[0].id ? data.sID[0].id:'', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                             }
                         }
                     };
@@ -395,8 +437,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                // $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
@@ -580,7 +622,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
                             }
                         }
                     };
@@ -715,7 +757,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html',3);
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html',3);
                             }
                         }
                     };

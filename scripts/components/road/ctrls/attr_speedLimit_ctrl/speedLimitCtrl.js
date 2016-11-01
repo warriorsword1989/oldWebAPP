@@ -92,6 +92,11 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
         {"id": 8, "label": "8 缓速行驶"},
         {"id": 9, "label": "9 未调查"}
     ];
+    $scope.captureFlagOption = [
+        {"id": 0, "label": "0 现场采集"},
+        {"id": 1, "label": "1 理论判断"},
+        {"id": 2, "label": "2 现场自动识别"}
+    ];
     $scope.speedLimitValue = $scope.speedLimitData.speedValue / 10;
     $timeout(function () {
         $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
@@ -149,6 +154,8 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
         dsEdit.save(param).then(function (data) {
             if (data) {
                 speedLimit.redraw();
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.speedLimitData = null;
                 $scope.speedLimitGeometryData = null;
                 if (map.floatMenu) {

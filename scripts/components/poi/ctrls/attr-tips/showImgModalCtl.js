@@ -22,10 +22,4 @@ angular.module('app').controller('ShowImgModalCtl', ['$scope', function ($scope)
 	$scope.closeTipsImg = function () {
 		$scope.$emit('closeTipsImg',false);
 	};
-}]).directive('imgShow', function () {
-	return {
-		link: function (scope, element, attr) {
-			wheelzoom(element);
-		}
-	}
-});
+}]);
