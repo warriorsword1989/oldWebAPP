@@ -254,9 +254,41 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                     outLanesArr[i].inLaneInfo = changeLineInfo(outLanesArr[i].inLaneInfo, currentLaneIndex, 1);
                 }
             }
+            toggleExtend();
             // 清空全局信息后，可以再当前页面继续增加
             selectedLaneInfo = null;
             currentLaneIndex = CurrentObject.lanes.length;
+        }
+    };
+    var toggleExtend = function() {
+        if (CurrentObject.lanes.length > 0) {
+            if (CurrentObject.lanes.length == 1) {
+                CurrentObject.leftExtend = CurrentObject.lanes[0].adt;
+                CurrentObject.rightExtend = 0;
+            } else {
+                var cnt = 0,
+                    i;
+                for (i = 0; i < CurrentObject.lanes.length; i++) {
+                    if (CurrentObject.lanes[i].adt == 1) {
+                        cnt++;
+                    } else {
+                        break;
+                    }
+                }
+                CurrentObject.leftExtend = cnt;
+                cnt = 0;
+                for (i = CurrentObject.lanes.length - 1; i >= 0; i--) {
+                    if (CurrentObject.lanes[i].adt == 1) {
+                        cnt++;
+                    } else {
+                        break;
+                    }
+                }
+                CurrentObject.rightExtend = cnt;
+            }
+        } else {
+            CurrentObject.leftExtend = 0;
+            CurrentObject.rightExtend = 0;
         }
     };
     // 高亮一个方向
