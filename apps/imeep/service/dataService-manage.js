@@ -84,7 +84,7 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
         });
         return defer.promise;
     },
-        
+
     //提交子任务方法；；
     this.submitTask = function(subtaskId) {
         var defer = $q.defer();

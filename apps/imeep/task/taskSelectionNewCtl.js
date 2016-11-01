@@ -52,6 +52,8 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
         }
         /*切换当前作业和历史作业tab页*/
         $scope.chnageTab = function(param) {
+            $scope.showLoading = true;
+            $scope.currentSubTaskList = [];
             $scope.currentTab = param;
             if ($scope.currentTab == 1) {
                 $scope.tab1Url = '../../../images/main/task/icon-c1.png';
