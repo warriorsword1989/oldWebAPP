@@ -15,7 +15,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$rootScope', '$ocL
         if($scope.poi.status == 3 || $scope.poi.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
             $rootScope.isSpecialOperation = true;
         } else {
-            $rootScope.isSpecialOperation = false;
+            if(!$rootScope.specialWork) { // 非专项作业
+                $rootScope.isSpecialOperation = false;
+            }
         }
         _retreatData($scope.poi);
         /**
