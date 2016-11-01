@@ -419,7 +419,11 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.sID[0].id ? data.sID[0].id : '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                // $scope.getFeatDataCallback(data, data.sID[0].id ? data.sID[0].id : '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                var rPid = getRelatedFeaturePid(data.rowkey);
+                                if(rPid) {
+                                    $scope.getFeatDataCallback(data, rPid, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                }
                             }
                         }
                     };
@@ -432,11 +436,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                // $scope.getFeatDataCallback(data, data.in.id ? data.in.id : '', "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
-                                var rPid = getRelatedFeaturePid(data.rowkey);
-                                if(rPid) {
-                                    $scope.getFeatDataCallback(data, rPid, "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
-                                }
+                                $scope.getFeatDataCallback(data, data.in.id ? data.in.id : '', "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
                             }
                         }
                     };
