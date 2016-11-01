@@ -6,7 +6,7 @@
                   <li>
                       <label>名 称</label>
                       <div >
-                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.name.name" ng-blur="validataName($event);"/>
+                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.name.name" title="{{poi.name.name}}" ng-blur="validataName($event);"/>
                       </div>
                   </li>
                   <li>
@@ -15,7 +15,7 @@
                           <!--<input type="text" class="fm-control" ng-model="address.fullname"/>-->
                       <!--</div>-->
                       <div>
-                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.address.fullname"/>
+                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.address.fullname" title="{{poi.address.fullname}}"/>
                       </div>
                   </li>
                   <li>
