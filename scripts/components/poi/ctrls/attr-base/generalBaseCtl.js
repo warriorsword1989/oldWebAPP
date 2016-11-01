@@ -1,4 +1,4 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
+angular.module('app').controller('generalBaseCtl', ['$scope','$rootScope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope,$rootScope, $ocll, $q, dsEdit, dsMeta, appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -11,6 +11,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         $scope.poi = objectCtrl.data;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+
+        if($scope.poi.status == 3 || $scope.poi.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
+            $rootScope.isSpecialOperation = true;
+        } else {
+            $rootScope.isSpecialOperation = false;
+        }
         _retreatData($scope.poi);
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
