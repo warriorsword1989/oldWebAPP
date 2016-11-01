@@ -1407,6 +1407,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         /**
          * 根据tips的rowkey值来获取其关联的要素的PID
          * 参考rowkey的赋值原则，以及警示信息、可变限速的关联要素的查询原则
+         * add by chenx on 20161101，临时方案
          */
         var getRelatedFeaturePid = function(rowkey) {
             var ret = null;
