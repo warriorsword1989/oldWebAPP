@@ -54,7 +54,7 @@ fastmap.uikit.canvasFeature.RdLaneConnexity = fastmap.uikit.canvasFeature.Featur
             } else if (laneArr[lane].indexOf("<") > -1) {
                 this.properties['markerStyle']["icon"].push(
                     fastmap.uikit.canvasFeature.Feature.getIconStyle({
-                        iconName: '../../../images/road/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg',
+                        iconName: '../../../images/road/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<") - 1, 1) + '.svg',
                         row: lane,
                         column: lane,
                         location: geomnew,
