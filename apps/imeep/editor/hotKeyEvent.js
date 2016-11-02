@@ -683,7 +683,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
-                if(shapeCtrl.editFeatType){//创建点限速时距离过近，不让保存
+                if(!shapeCtrl.editFeatType){//创建点限速时距离过近，不让保存
                     return;
                 }
                 var ctrl, tpl;
