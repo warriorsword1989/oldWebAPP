@@ -491,8 +491,12 @@ namesOfBranch.controller("SignBoardOfBranchCtrl",['$scope','$timeout','$ocLazyLo
         dsEdit.deleteBranchByDetailId(detailId,9).then(
             function(params){
                 if(params){
-                    highRenderCtrl.highLightFeatures = null;
                     highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
                     rdBranch.redraw();
                     $scope.$emit('SWITCHCONTAINERSTATE', {
             					'subAttrContainerTpl': false,
