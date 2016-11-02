@@ -101,7 +101,7 @@ fastmap.uikit.canvasFeature.RdSpeedLimit = fastmap.uikit.canvasFeature.Feature.e
                 startEndArrow = "../../../images/road/1101/1101_0_0_s.svg";
             } else if (limitSpeedFlag == "1") {
                 iconName = '../../../images/road/1101/condition_speedlimit_end' + '.svg';
-                startEndArrow = "../../../images/road/1101/1101_1_1_e.svg";
+                startEndArrow = "../../../images/road/1101/1101_0_1_e.svg";
             }
 
             this.properties['markerStyle']["icon"].push(

@@ -14,45 +14,6 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
     var highRenderCtrl = fastmap.uikit.HighRenderController();
 
     $scope.carSpeedType = false;
-    $scope.initializeData = function () {
-        $scope.speedLimitData = objectEditCtrl.data;
-        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-        $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
-        highRenderCtrl.highLightFeatures.push({
-            id: $scope.speedLimitData.linkPid.toString(),
-            layerid: 'rdLink',
-            type: 'line',
-            style: {}
-        });
-        highRenderCtrl.highLightFeatures.push({
-            id: $scope.speedLimitData.pid,
-            layerid: 'relationData',
-            type: 'relationData',
-            style: {}
-        });
-        highRenderCtrl.drawHighlight();
-        var geo = {};
-        geo.points = [];
-        geo.points.push(fastmap.mapApi.point($scope.speedLimitData.geometry.coordinates[0], $scope.speedLimitData.geometry.coordinates[1]));
-        geo.components = geo.points;
-        geo.type = "SpeedLimit";
-        selectCtrl.onSelected({
-            geometry: geo,
-            id: $scope.speedLimitData.pid,
-            linkPid:$scope.speedLimitData.linkPid,
-            type: "Marker",
-            direct: $scope.speedLimitData.direct,
-            point: $scope.speedLimitData.geometry.coordinates
-        });
-
-        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
-        if ($scope.speedLimitForm) {
-            $scope.speedLimitForm.$setPristine();
-        }
-    };
-    if (objectEditCtrl.data) {
-        $scope.initializeData();
-    }
     $scope.speedTypeOptions = [
         {"id": 0, "label": "普通"},
         {"id": 1, "label": "指示牌"},
@@ -97,15 +58,59 @@ selectApp.controller("speedlimitTeplController", ['$scope', '$timeout', '$ocLazy
         {"id": 1, "label": "1 理论判断"},
         {"id": 2, "label": "2 现场自动识别"}
     ];
-    $scope.speedLimitValue = $scope.speedLimitData.speedValue / 10;
-    $timeout(function () {
-        $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
-            $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
-            /*查询数据库取出时间字符串*/
-            $scope.fmdateTimer($scope.speedLimitData.timeDomain);
-            $scope.$broadcast('set-code',$scope.speedLimitData.timeDomain);
+    $scope.initTimer = function(){
+        $timeout(function () {
+            $ocLazyLoad.load('scripts/components/tools/fmTimeComponent/fmdateTimer').then(function () {
+                $scope.dateURL = '../../../scripts/components/tools/fmTimeComponent/fmdateTimer.html';
+                /*查询数据库取出时间字符串*/
+                $scope.fmdateTimer($scope.speedLimitData.timeDomain);
+                $scope.$broadcast('set-code',$scope.speedLimitData.timeDomain);
+            });
         });
-    });
+    };
+
+    $scope.initializeData = function () {
+        $scope.speedLimitData = objectEditCtrl.data;
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.speedLimitData.linkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {}
+        });
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.speedLimitData.pid,
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {}
+        });
+        highRenderCtrl.drawHighlight();
+        var geo = {};
+        geo.points = [];
+        geo.points.push(fastmap.mapApi.point($scope.speedLimitData.geometry.coordinates[0], $scope.speedLimitData.geometry.coordinates[1]));
+        geo.components = geo.points;
+        geo.type = "SpeedLimit";
+        selectCtrl.onSelected({
+            geometry: geo,
+            id: $scope.speedLimitData.pid,
+            linkPid:$scope.speedLimitData.linkPid,
+            type: "Marker",
+            direct: $scope.speedLimitData.direct,
+            point: $scope.speedLimitData.geometry.coordinates
+        });
+
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if ($scope.speedLimitForm) {
+            $scope.speedLimitForm.$setPristine();
+        }
+        $scope.initTimer();
+    };
+    if (objectEditCtrl.data) {
+        $scope.initializeData();
+    }
+    $scope.speedLimitValue = $scope.speedLimitData.speedValue / 10;
+    $scope.initTimer();
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
