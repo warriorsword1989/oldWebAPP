@@ -27,7 +27,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
     $scope.toBusLane = function(item) {
         item.busDir = item.dir;
-        item.laneInfo = '<' + item.dir.flag + '>';
+        item.laneInfo = item.dir.flag + '<' + item.dir.flag + '>';
         if (item.adt == 1) {
             item.laneInfo = '[' + item.laneInfo + ']';
         }
