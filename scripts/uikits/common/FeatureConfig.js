@@ -190,6 +190,10 @@ fastmap.uikit.FeatureConfig = {
       name: '停车场出入口Link',
       checked: false
     },
+    1209: {
+      name: '航线',
+      checked: false
+    },
     1301: {
       name: '车信',
       checked: false

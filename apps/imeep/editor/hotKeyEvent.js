@@ -6,7 +6,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
         //取消
         var layerCtrl = fastmap.uikit.LayerController();
-        var outPutCtrl = fastmap.uikit.OutPutController();
+        var outPutCtrl = fastmap.uikit.OutPutController();//没用啦
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var evtCtrl = fastmap.uikit.EventController();
         var toolTipsCtrl = fastmap.uikit.ToolTipsController();
@@ -683,6 +683,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
+                if(shapeCtrl.editFeatType){//创建点限速时距离过近，不让保存
+                    return;
+                }
                 var ctrl, tpl;
                 var selectShapeType = shapeCtrl.editFeatType;
                 param["command"] = "CREATE";

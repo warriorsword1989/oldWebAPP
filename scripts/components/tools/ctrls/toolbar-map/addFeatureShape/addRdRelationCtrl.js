@@ -575,6 +575,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                            selectCtrl.selectedFeatures = null;
+                            editLayer.drawGeometry = null;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                            editLayer.clear();
+                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">距离端点太近啦，请重新选择位置！</span>');
+                            return;
+                        }
                         if (data) {
                             selectCtrl.onSelected({
                                 geometry: data.geometry.coordinates,
