@@ -2426,8 +2426,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
                         var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat, $scope.selectedFeature.event.latlng.lng, shapeCtrl.shapeEditorResult.getFinalGeometry().y, shapeCtrl.shapeEditorResult.getFinalGeometry().x);
-                        if (actualDistance > 15) {
-                            swal("操作失败", '移动距离必须小于15米！', "warning");
+                        if (actualDistance > 50) {
+                            swal("操作失败", '移动距离必须小于50米！', "warning");
                         } else {
                             dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
                                 if (data) {
