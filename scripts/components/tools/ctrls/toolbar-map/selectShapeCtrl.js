@@ -2066,12 +2066,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
                                 break;
                             case "2001": //测线
-                                var ctrlAndTplOfName = {
+                                var ctrlAndTpl = {
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                                 };
-                                $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                                 break;
                             case "2101": //删除标记
                                 var ctrlAndTpl = {

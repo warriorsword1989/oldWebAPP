@@ -282,10 +282,21 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     feather: data
                 });
                 var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
+                if(data.hasOwnProperty('geo')){
+                    map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
+                }else if(data.hasOwnProperty('gSLoc')){
+                    map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
+                }else{
+                    if(data.g_location.type == 'Point'){
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    }else if(data.g_location.type == 'LineString'){
+                        map.setView([data.g_location.coordinates[0][1], data.g_location.coordinates[0][0]], zoom);
+                    }else if(data.g_location.type == 'Polygon'){
+                        map.setView([data.g_location.coordinates[0][0][1], data.g_location.coordinates[0][0][0]], zoom);
+                    }
+                }
                 if (pItemId === "1101") { //限速
-                    //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                    //$scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfTraffic = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -298,7 +309,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfTraffic);
                 } else if (pItemId === "1102") { //红绿灯
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfTraffic = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -312,7 +323,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfTraffic);
                 } else if (pItemId === "1103") { //红绿灯方位
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfTraffic = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -326,7 +337,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfTraffic);
                 } else if (pItemId === "1104") { //大门
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfTraffic = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -340,7 +351,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfTraffic);
                 } else if (pItemId === "1105") { //危险信息
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfDirect = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -357,7 +368,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                 } else if (pItemId === "1106") { //坡度
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -370,7 +381,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1107") { //收费站
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfDirect = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -378,7 +389,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                 } else if (pItemId === "1108") { //减速带
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -391,7 +402,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1109") {
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -404,7 +415,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1110") { //卡车限制
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -412,7 +423,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1111") { //条件限速
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -429,7 +440,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1112") { //可变限速
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -442,7 +453,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1113") { //车道限速
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -456,7 +467,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1201") { //道路种别
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -469,7 +480,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1202") { //车道数
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -482,7 +493,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1203") { //道路方向
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfDirect = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -495,7 +506,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                 } else if (pItemId === "1204") { //可逆车道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -516,7 +527,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1205") { //SA
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfSA = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -529,7 +540,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
                 } else if (pItemId === "1206") { //PA
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfSA = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -542,7 +553,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
                 } else if (pItemId === "1207") { //匝道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -555,7 +566,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1208") { //停车场出入口Link
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -566,7 +577,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1209") { //详细车道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -574,10 +585,10 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1301") { //车信
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, appPath.road + "ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", appPath.root + appPath.road + "tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                 } else if (pItemId === "1302") { //交限
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -590,7 +601,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1303") { //卡车交限
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -603,7 +614,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1304") { //禁止穿行
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -616,7 +627,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1305") { //禁止驶入
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -629,7 +640,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1306") { //路口语音引导
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -642,7 +653,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1308") { //禁止卡车驶入
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -655,7 +666,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1310") { //公交车道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -676,7 +687,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1311") { //可变导向车道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -697,7 +708,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1401") { //方向看板
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfOrientation = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -733,7 +744,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOrientation);
                 } else if (pItemId === "1402") { //real sign
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfRealSign = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -746,7 +757,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRealSign);
                 } else if (pItemId === "1403") { //3D
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOf3d = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -768,7 +779,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOf3d);
                 } else if (pItemId === "1404") { //提左提右
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -781,7 +792,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1405") { //一般道路方面;
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfRoadClass = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -794,7 +805,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRoadClass);
                 } else if (pItemId === "1406") { //实景图
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfJCV = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -807,7 +818,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfJCV);
                 } else if (pItemId === "1407") { //高速分歧
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -829,7 +840,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1409") { //普通路口模式图
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfD = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -842,7 +853,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                 } else if (pItemId === "1410") { //高速入口模式图
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfD = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -855,11 +866,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                 } else if (pItemId === "1501") { //上下线分离
-                    if (data.geo != null) {
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
-                    } else {
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
-                    }
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTplOfUpAndLower = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -875,7 +882,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndLower);
                 } else if (pItemId === "1502") { //路面覆盖
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -883,7 +890,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1503") { //高架路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -891,7 +898,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1504") { //overpass
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -899,7 +906,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1505") { //underpass
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -907,7 +914,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1506") { //私道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -915,7 +922,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1507") { //步行街
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -923,7 +930,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1508") { //公交专用道路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -931,7 +938,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1509") { //跨线立交桥
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -948,16 +955,16 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     highCtrl.drawHighlight();
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1510") { //桥1510
-                    var points = [];
-                    var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
-                    var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
-                    points.push(endPoint);
-                    points.push(startPoint);
-                    var line = new L.polyline(points);
-                    var bounds = line.getBounds();
-                    map.fitBounds(bounds, {
-                        "maxZoom": 18
-                    });
+                    // var points = [];
+                    // var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                    // var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                    // points.push(endPoint);
+                    // points.push(startPoint);
+                    // var line = new L.polyline(points);
+                    // var bounds = line.getBounds();
+                    // map.fitBounds(bounds, {
+                    //     "maxZoom": 18
+                    // });
                     var ctrlAndTplOfBridge = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -971,7 +978,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfBridge);
                 } else if (pItemId === "1511") { //隧道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -979,7 +986,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1512") { //辅路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -987,7 +994,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1513") { //窄道
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -995,16 +1002,16 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1514") { //施工
-                    var points = [];
-                    var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
-                    var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
-                    points.push(endPoint);
-                    points.push(startPoint);
-                    var line = new L.polyline(points);
-                    var bounds = line.getBounds();
-                    map.fitBounds(bounds, {
-                        "maxZoom": 18
-                    });
+                    // var points = [];
+                    // var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                    // var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                    // points.push(endPoint);
+                    // points.push(startPoint);
+                    // var line = new L.polyline(points);
+                    // var bounds = line.getBounds();
+                    // map.fitBounds(bounds, {
+                    //     "maxZoom": 18
+                    // });
                     var ctrlAndTplOfConstruction = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1018,16 +1025,16 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                 } else if (pItemId === "1515") {
-                    var point = [];
-                    var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
-                    var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
-                    point.push(endPoint);
-                    point.push(startPoint);
-                    var line = new L.polyline(point);
-                    var bounds = line.getBounds();
-                    map.fitBounds(bounds, {
-                        "maxZoom": 18
-                    });
+                    // var point = [];
+                    // var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                    // var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                    // point.push(endPoint);
+                    // point.push(startPoint);
+                    // var line = new L.polyline(point);
+                    // var bounds = line.getBounds();
+                    // map.fitBounds(bounds, {
+                    //     "maxZoom": 18
+                    // });
                     //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTplOfD = {
                         "loadType": "tipsTplContainer",
@@ -1042,7 +1049,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                 } else if (pItemId === "1516") { //季节性关闭道路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1050,7 +1057,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1517") { //Usage Fee Required
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1058,7 +1065,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1601") { //环岛
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1066,7 +1073,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1602") { //特殊交通类型
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1074,7 +1081,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1603") { //未定义交通类型
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1082,7 +1089,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1604") { //区域内道路
-                    map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTplOfRoad = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1095,7 +1102,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfRoad);
                 } else if (pItemId === "1605") { //POI连接路
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1103,7 +1110,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1606") { //收费站开放道路
-                    map.setView([data.g_location.coordinates[0][0][1], data.g_location.coordinates[0][0][0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1111,7 +1118,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1607") { //风景路线
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1124,7 +1131,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1701") { //障碍物
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1137,7 +1144,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1702") { //铁路道口
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1150,7 +1157,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1703") { //分叉口提示
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfForks = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1190,7 +1197,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                      }
                      }
                      $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);*/
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var crossCtrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1203,7 +1210,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                 } else if (pItemId === "1705") { //立交桥名称
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1211,7 +1218,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1706") { //GPS打点
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1219,7 +1226,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1707") { //里程桩
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1227,7 +1234,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1801") { //立交
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfOverPass = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1235,7 +1242,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                 } else if (pItemId === "1803") { //挂接
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfOfGJ = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1243,7 +1250,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                 } else if (pItemId === "1804") { //顺行
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1251,7 +1258,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1806") { //草图
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTplOfOfGJ = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1259,7 +1266,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                 } else if (pItemId === "1901") { //道路名
-                    map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTplOfOfGJ = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1267,7 +1274,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     }
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                 } else if (pItemId === "2001") { //测线
-                    map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
+                    // map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1277,7 +1284,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     //测线不需要打开属性面板
                     //$scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                 } else if (pItemId === "2101") { //删除标记
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -1285,7 +1292,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "2102") { //万能标记
-                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
+                    // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
