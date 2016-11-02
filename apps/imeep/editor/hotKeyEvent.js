@@ -6,7 +6,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
         //取消
         var layerCtrl = fastmap.uikit.LayerController();
-        var outPutCtrl = fastmap.uikit.OutPutController();
+        var outPutCtrl = fastmap.uikit.OutPutController();//没用啦
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var evtCtrl = fastmap.uikit.EventController();
         var toolTipsCtrl = fastmap.uikit.ToolTipsController();
