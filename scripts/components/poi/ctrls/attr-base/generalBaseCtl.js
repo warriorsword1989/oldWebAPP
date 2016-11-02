@@ -300,6 +300,29 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         if (objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1) {
             objectCtrl.data.gasstations[0].openHour = '00:00-24:00';
         }
+
+        //21CHI为空时,增加名称的控制
+        var flag = true;
+        for (var i = 0, len = $scope.poi.names.length; i < len; i++) {
+            if ($scope.poi.name.langCode == $scope.poi.names[i].langCode && $scope.poi.name.nameClass == $scope.poi.names[i].nameClass && $scope.poi.name.nameType == $scope.poi.names[i].nameType) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            $scope.poi.names.unshift($scope.poi.name);
+        }
+        //增加对CHI地址为空的控制
+        flag = true;
+        for (var i = 0, len = $scope.poi.addresses.length; i < len; i++) {
+            if ($scope.poi.address.langCode == $scope.poi.addresses[i].langCode) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            $scope.poi.addresses.unshift($scope.poi.address);
+        }
     }
     /*默认显示baseInfo的tab页*/
     function initShowTag() {

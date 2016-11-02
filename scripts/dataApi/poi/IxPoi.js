@@ -283,18 +283,18 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret["names"] = [];
         if (this.names) {
             if (this.names.length > 0) {
-                if (this.name && !FM.Util.isEmptyObject(this.name) && this.name.name != "") {
-                    var flag = true;
-                    for (var i = 0, len = this.names.length; i < len; i++) {
-                        if (this.name.langCode == this.names[i].langCode && this.name.nameClass == this.names[i].nameClass && this.name.nameType == this.names[i].nameType) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        this.names.push(this.name);
-                    }
-                }
+                // if (this.name && !FM.Util.isEmptyObject(this.name) && this.name.name != "") {
+                //     var flag = true;
+                //     for (var i = 0, len = this.names.length; i < len; i++) {
+                //         if (this.name.langCode == this.names[i].langCode && this.name.nameClass == this.names[i].nameClass && this.name.nameType == this.names[i].nameType) {
+                //             flag = false;
+                //             break;
+                //         }
+                //     }
+                //     if (flag) {
+                //         this.names.push(this.name);
+                //     }
+                // }
                 for (var i = 0, len = this.names.length; i < len; i++) {
                     ret["names"].push(this.names[i].getIntegrate());
                 }
@@ -307,18 +307,18 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret["addresses"] = [];
         if (this.addresses) {
             if (this.addresses.length > 0) {
-                if (this.address && !FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
-                    var flag = true;
-                    for (var i = 0, len = this.addresses.length; i < len; i++) {
-                        if (this.address.langCode == this.addresses[i].langCode) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        this.addresses.push(this.address);
-                    }
-                }
+                // if (this.address && !FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
+                //     var flag = true;
+                //     for (var i = 0, len = this.addresses.length; i < len; i++) {
+                //         if (this.address.langCode == this.addresses[i].langCode) {
+                //             flag = false;
+                //             break;
+                //         }
+                //     }
+                //     if (flag) {
+                //         this.addresses.push(this.address);
+                //     }
+                // }
                 for (var i = 0, len = this.addresses.length; i < len; i++) {
                     ret["addresses"].push(this.addresses[i].getIntegrate());
                 }
