@@ -549,6 +549,27 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             }
         });
     }
+    /***
+     * kindcode chain fueltype变化时，联动truck 
+     */
+    $scope.getTruckByKindChain = function(kindcode,chain,fuelType){
+        if(kindcode == "230215"){//加油站
+        	fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
+        }
+    	var param = {
+        		kindCode: kindcode,
+        		chain: chain,
+        		fuelType:fuelType
+			};
+        dsMeta.queryTruck(param).then(function(data){
+        	if(data != -1){
+        		$scope.poi.truckFlag = data;
+        		$scope.truckFlagDisable = true;
+        	}else{
+        		$scope.truckFlagDisable = false;
+        	}
+        });
+    };
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
     eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, del); // 删除
