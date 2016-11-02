@@ -86,7 +86,7 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
         }else{
             this.shapeEditor.fire('snaped',{'snaped':false});
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+            // this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
     onMouseUp: function () {
@@ -97,7 +97,8 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
         this.eventController.fire(this.eventController.eventTypes.RESETCOMPLETE,
             {
                 'property':this.snapHandler.properties,
-                'geometry':this.snapHandler.coordinates
+                'geometry':this.snapHandler.coordinates,
+                'latlng':latlng
             }
         );
     }
