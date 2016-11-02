@@ -100,21 +100,13 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             if (laneInfo[i].indexOf('<') >= 0) { // 公交车道
                 laneInfo[i] = laneInfo[i].replace(/\<|\>/g, '');
                 temp = laneInfo[i].split('');
-                if (temp.length == 1) { // 普通车道与公交车道同方向
-                    lane.dir = {
-                        flag: temp[0]
-                    };
-                    lane.busDir = {
-                        flag: temp[0]
-                    };
-                } else { // 普通车道与公交车道不同方向，普通车道在前，公交车道在后
-                    lane.dir = {
-                        flag: temp[0]
-                    };
-                    lane.busDir = {
-                        flag: temp[1]
-                    };
-                }
+                // 普通车道在前，公交车道在后
+                lane.dir = { // 普通车道
+                    flag: temp[0]
+                };
+                lane.busDir = { // 公交车道
+                    flag: temp[1]
+                };
             } else {
                 lane.dir = {
                     flag: laneInfo[i]
@@ -317,35 +309,25 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         toggleExtend();
     };
     var toggleExtend = function() {
-        if ($scope.CurrentObject.lanes.length > 0) {
-            if ($scope.CurrentObject.lanes.length == 1) {
-                $scope.CurrentObject.leftExtend = $scope.CurrentObject.lanes[0].adt;
-                $scope.CurrentObject.rightExtend = 0;
+        var left = 0,
+            right = 0,
+            i;
+        for (i = 0; i < $scope.CurrentObject.lanes.length; i++) {
+            if ($scope.CurrentObject.lanes[i].adt == 1) {
+                left++;
             } else {
-                var cnt = 0,
-                    i;
-                for (i = 0; i < $scope.CurrentObject.lanes.length; i++) {
-                    if ($scope.CurrentObject.lanes[i].adt == 1) {
-                        cnt++;
-                    } else {
-                        break;
-                    }
-                }
-                $scope.CurrentObject.leftExtend = cnt;
-                cnt = 0;
-                for (i = $scope.CurrentObject.lanes.length - 1; i >= 0; i--) {
-                    if ($scope.CurrentObject.lanes[i].adt == 1) {
-                        cnt++;
-                    } else {
-                        break;
-                    }
-                }
-                $scope.CurrentObject.rightExtend = cnt;
+                break;
             }
-        } else {
-            $scope.CurrentObject.leftExtend = 0;
-            $scope.CurrentObject.rightExtend = 0;
         }
+        $scope.CurrentObject.leftExtend = left;
+        for (i = $scope.CurrentObject.lanes.length - 1; i > left; i--) {
+            if ($scope.CurrentObject.lanes[i].adt == 1) {
+                right++;
+            } else {
+                break;
+            }
+        }
+        $scope.CurrentObject.rightExtend = right;
     };
     $scope.save = function() {
         // 重组laneInfo
@@ -354,11 +336,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         for (var k in $scope.CurrentObject.lanes) {
             tmp = $scope.CurrentObject.lanes[k];
             if (tmp.busDir) {
-                if (tmp.busDir.flag == tmp.dir.flag) {
-                    str = '<' + tmp.dir.flag + '>';
-                } else {
-                    str = tmp.dir.flag + '<' + tmp.busDir.flag + '>';
-                }
+                str = tmp.dir.flag + '<' + tmp.busDir.flag + '>';
             } else {
                 str = tmp.dir.flag;
             }
