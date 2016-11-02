@@ -184,7 +184,7 @@
                                 <div class="taskItem">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left;width: 200px;margin-left: 10px;margin-right: 20px" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
-                                        <button ng-if="item.percent==100" type="button" class="btn submitBtn">提交</button>
+                                        <button  type="button" ng-click="submitTask(item.subtaskId);" class="btn submitBtn">提交</button>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div ng-click="goEditorPage(item.subtaskId)" class="taskItem-body">

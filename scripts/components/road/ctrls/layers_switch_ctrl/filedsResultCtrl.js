@@ -6,16 +6,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         var objCtrl = fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
         var stages = {};
-        if(App.Temp.mdFlag == "d"){//日编
+        if (App.Temp.mdFlag == "d") { //日编
             stages = {
                 1: [1, 2],
                 2: [1],
-                3: [2]}
-        } else {//月编
+                3: [2]
+            }
+        } else { //月编
             stages = {
-                1: [1, 2 ,3],
-                2: [1,2],
-                3: [3]}
+                1: [1, 2, 3],
+                2: [1, 2],
+                3: [3]
+            }
         }
         $scope.workPoint = layerCtrl.getLayerById("workPoint");
         $scope.guideLayer = layerCtrl.getLayerById("guideLineLayer");
@@ -68,7 +70,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 $scope.workPoint.redraw();
             }
             dsFcc.getTipsStatics(stages[type]).then(function(data) {
-                if(data == -1){
+                if (data == -1) {
                     return;
                 }
                 var arr = [],
@@ -95,8 +97,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         var dataLoading = true; //此变量用于控制菜单点击速度过快导致异常
         //点击下拉框的时  显示内容
         $scope.showContent = function(item, arr, stage, event) {
-            if(!dataLoading){
-                return ;
+            if (!dataLoading) {
+                return;
             }
             dataLoading = false;
             $scope.$emit('closePopoverTips', false);
@@ -109,8 +111,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             });
             if ($scope.showOrHideId !== "") {
                 //防止出现两个tips同时打开面板的情况
-                $.each($("#dataList > li"), function (m, n) {
-                    if (n.id !=$scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
+                $.each($("#dataList > li"), function(m, n) {
+                    if (n.id != $scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
                         $("#" + n.id).removeClass("selected");
                         $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
@@ -130,8 +132,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             }
             if ($scope.showOrHideIdOfPending !== "") {
                 //防止出现两个tips同时打开面板的情况
-                $.each($("#pendingTaskers > li"), function (m, n) {
-                    if (n.id !=$scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
+                $.each($("#pendingTaskers > li"), function(m, n) {
+                    if (n.id != $scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
                         $("#" + n.id).removeClass("selected");
                         $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
@@ -151,8 +153,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             }
             if ($scope.showOrHideIdOfPended !== "") {
                 //防止出现两个tips同时打开面板的情况
-                $.each($("#solvedTaskers > li"), function (m, n) {
-                    if (n.id !=$scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
+                $.each($("#solvedTaskers > li"), function(m, n) {
+                    if (n.id != $scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
                         $("#" + n.id).removeClass("selected");
                         $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
@@ -178,8 +180,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 dataLoading = true;
                 if (stage === 0) {
                     $scope.showOrHideId = item.id;
-                    $.each($("#dataList > li"), function (m, n) {
-                        if (n.id !=$scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
+                    $.each($("#dataList > li"), function(m, n) {
+                        if (n.id != $scope.showOrHideId && $("#" + n.id).hasClass("selected")) {
                             $("#" + n.id).removeClass("selected");
                             $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                         }
@@ -199,8 +201,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 } else if (stage === 1) {
                     $scope.showOrHideIdOfPending = (item.id + "Pending");
                     //防止出现两个tips同时打开面板的情况
-                    $.each($("#pendingTaskers > li"), function (m, n) {
-                        if (n.id !=$scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
+                    $.each($("#pendingTaskers > li"), function(m, n) {
+                        if (n.id != $scope.showOrHideIdOfPending && $("#" + n.id).hasClass("selected")) {
                             $("#" + n.id).removeClass("selected");
                             $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                         }
@@ -220,8 +222,8 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                 } else if (stage === 3) {
                     $scope.showOrHideIdOfPended = (item.id + "Pended");
                     //防止出现两个tips同时打开面板的情况
-                    $.each($("#solvedTaskers > li"), function (m, n) {
-                        if (n.id !=$scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
+                    $.each($("#solvedTaskers > li"), function(m, n) {
+                        if (n.id != $scope.showOrHideIdOfPended && $("#" + n.id).hasClass("selected")) {
                             $("#" + n.id).removeClass("selected");
                             $("#" + n.id).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                         }
@@ -253,7 +255,9 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         //点击列表需要的方法
         $scope.showTab = function(item, e, pItemId, index) {
             $scope.$emit('closePopoverTips', false);
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false
+            });
             if ($scope.allStyleArr && $scope.allStyleArr.length >= 1) {
                 $scope.changeStyleArr($scope.allStyleArr, index);
             }
@@ -288,7 +292,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) { //只有新增
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                             }
                         }
                     };
@@ -330,7 +334,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
                                 // $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDGATE", appPath.road + "ctrls/attr_gate_ctrl/rdGateCtrl", appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDGATE", appPath.road + "ctrls/attr_gate_ctrl/rdGateCtrl", appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html");
                             }
                         }
                     };
@@ -343,7 +347,11 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.wID[0].id ? data.wID[0].id : '', "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
+                                // $scope.getFeatDataCallback(data, data.wID[0].id ? data.wID[0].id : '', "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
+                                var rPid = getRelatedFeaturePid(data.rowkey);
+                                if(rPid) {
+                                    $scope.getFeatDataCallback(data, rPid, "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
+                                }
                             }
                         }
                     };
@@ -356,7 +364,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSLOP", appPath.road + "ctrls/attr_rdSlope_ctrl/rdSlopeCtrl", appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDSLOP", appPath.road + "ctrls/attr_rdSlope_ctrl/rdSlopeCtrl", appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html");
                             }
                         }
                     };
@@ -377,7 +385,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
                             }
                         }
                     };
@@ -390,12 +398,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                               $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1110") {    //卡车限制
+                } else if (pItemId === "1110") { //卡车限制
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -403,7 +411,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1111") {    //条件限速
+                } else if (pItemId === "1111") { //条件限速
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -411,7 +419,11 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.sID[0].id ? data.sID[0].id:'', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                // $scope.getFeatDataCallback(data, data.sID[0].id ? data.sID[0].id : '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                var rPid = getRelatedFeaturePid(data.rowkey);
+                                if(rPid) {
+                                    $scope.getFeatDataCallback(data, rPid, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                }
                             }
                         }
                     };
@@ -424,12 +436,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.in.id ? data.in.id:'', "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
+                                $scope.getFeatDataCallback(data, data.in.id ? data.in.id : '', "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1113") {    //车道限速
+                } else if (pItemId === "1113") { //车道限速
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -437,7 +449,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                 // $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
@@ -451,12 +463,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 3 && data.f.type == 1) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1202") {    //车道数
+                } else if (pItemId === "1202") { //车道数
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -464,7 +476,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 3) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
@@ -488,16 +500,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        callback:function(){
-                          if(data.t_lifecycle !=3){
-                            highCtrl.highLightFeatures.push({
-                                id: data.f.id,
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {color:'yellow'}
-                            });
-                            highCtrl.drawHighlight();
-                          }
+                        callback: function() {
+                            if (data.t_lifecycle != 3) {
+                                highCtrl.highLightFeatures.push({
+                                    id: data.f.id,
+                                    layerid: 'rdLink',
+                                    type: 'rdnode',
+                                    style: {
+                                        color: 'yellow'
+                                    }
+                                });
+                                highCtrl.drawHighlight();
+                            }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
@@ -527,7 +541,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfSA);
-                } else if (pItemId === "1207") {    //匝道
+                } else if (pItemId === "1207") { //匝道
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -535,23 +549,23 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 3) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1208") {    //停车场出入口Link
+                } else if (pItemId === "1208") { //停车场出入口Link
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
-                            $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                            $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1209") {    //详细车道
+                } else if (pItemId === "1209") { //详细车道
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -570,12 +584,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1303") {    //卡车交限
+                } else if (pItemId === "1303") { //卡车交限
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -583,12 +597,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1304") {    //禁止穿行
+                } else if (pItemId === "1304") { //禁止穿行
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -596,12 +610,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1305") {    //禁止驶入
+                } else if (pItemId === "1305") { //禁止驶入
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -609,12 +623,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1306") {    //路口语音引导
+                } else if (pItemId === "1306") { //路口语音引导
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -622,12 +636,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.id ? data.id:'', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                                $scope.getFeatDataCallback(data, data.id ? data.id : '', "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1308") {    //禁止卡车驶入
+                } else if (pItemId === "1308") { //禁止卡车驶入
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -635,7 +649,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
@@ -646,16 +660,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        callback:function(){
-                          if(data.t_lifecycle !=3){
-                            highCtrl.highLightFeatures.push({
-                                id: data.f.id,
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {color:'yellow'}
-                            });
-                            highCtrl.drawHighlight();
-                          }
+                        callback: function() {
+                            if (data.t_lifecycle != 3) {
+                                highCtrl.highLightFeatures.push({
+                                    id: data.f.id,
+                                    layerid: 'rdLink',
+                                    type: 'rdnode',
+                                    style: {
+                                        color: 'yellow'
+                                    }
+                                });
+                                highCtrl.drawHighlight();
+                            }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
@@ -665,16 +681,18 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "loadType": "tipsTplContainer",
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                        callback:function(){
-                          if(data.t_lifecycle !=3){
-                            highCtrl.highLightFeatures.push({
-                                id: data.f.id,
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {color:'yellow'}
-                            });
-                            highCtrl.drawHighlight();
-                          }
+                        callback: function() {
+                            if (data.t_lifecycle != 3) {
+                                highCtrl.highLightFeatures.push({
+                                    id: data.f.id,
+                                    layerid: 'rdLink',
+                                    type: 'rdnode',
+                                    style: {
+                                        color: 'yellow'
+                                    }
+                                });
+                                highCtrl.drawHighlight();
+                            }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
@@ -686,26 +704,26 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/signBoardOfBranch.html",9);
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/signBoardOfBranch.html", 9);
                             }
                             //高亮进入线
-                            if(data.in){
+                            if (data.in) {
                                 highCtrl.highLightFeatures.push({
-                                    id:data.in.id.toString(),
-                                    layerid:'rdLink',
-                                    type:'line',
-                                    style:{
+                                    id: data.in.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
                                         color: '#21ed25'
                                     }
                                 });
                             }
                             //高亮退出线;
-                            if(data.out){
+                            if (data.out) {
                                 highCtrl.highLightFeatures.push({
-                                    id:data.out.id.toString(),
-                                    layerid:'rdLink',
-                                    type:'line',
-                                    style:{
+                                    id: data.out.id.toString(),
+                                    layerid: 'rdLink',
+                                    type: 'line',
+                                    style: {
                                         color: '#CD0011'
                                     }
                                 });
@@ -735,7 +753,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",3);
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html", 3);
                                 /*highCtrl.highLightFeatures.push({
                                     id:data.in.id.toString(),
                                     layerid:'rdLink',
@@ -749,7 +767,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOf3d);
-                } else if (pItemId === "1404") {    //提左提右
+                } else if (pItemId === "1404") { //提左提右
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -757,7 +775,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html',3);
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 3);
                             }
                         }
                     };
@@ -770,7 +788,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.o_array.length > 0) {
-                                $scope.getFeatDataCallback(data, data.in.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html",1)
+                                $scope.getFeatDataCallback(data, data.in.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html", 1)
                             }
                         }
                     };
@@ -783,7 +801,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html',5);
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html', 5);
                             }
                         }
                     };
@@ -796,7 +814,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle != 3) { //3表示新增
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",0)
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html", 0)
                             }
                             /*highCtrl.highLightFeatures.push({
                                 id:data.in.id.toString(),
@@ -818,7 +836,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle != 3) { //3表示新增
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",4)
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html", 4)
                             }
                         }
                     };
@@ -831,7 +849,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle != 3) { //3表示新增
-                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html",3)
+                                $scope.getFeatDataCallback(data, data.brID ? data.brID[0].id : '', "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdBranchCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/namesOfBranch.html", 3)
                             }
                         }
                     };
@@ -849,7 +867,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         callback: function() {
                             if (data.f_array.length != 0) {
                                 $scope.brigeLinkArray = data.f_array;
-                                if(data.f_array[0].type == 1 ){ //type ==1 表示的是道路link ，type==2表示测线（测线不需要打开面板）
+                                if (data.f_array[0].type == 1) { //type ==1 表示的是道路link ，type==2表示测线（测线不需要打开面板）
                                     $scope.getFeatDataCallback(data, data.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
@@ -920,10 +938,10 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     };
                     highCtrl.highLightFeatures.push({
-                        id:data.in.id.toString(),
-                        layerid:'rdLink',
-                        type:'line',
-                        style:{
+                        id: data.in.id.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {
                             color: '#21ed25'
                         }
                     });
@@ -1001,16 +1019,15 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                 } else if (pItemId === "1515") {
                     var point = [];
-                    var endPoint = L.latLng(data.gELoc.coordinates[1],data.gELoc.coordinates[0]);
-                    var startPoint = L.latLng(data.gSLoc.coordinates[1],data.gSLoc.coordinates[0]);
+                    var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                    var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
                     point.push(endPoint);
                     point.push(startPoint);
                     var line = new L.polyline(point);
                     var bounds = line.getBounds();
-                    map.fitBounds(bounds,{
+                    map.fitBounds(bounds, {
                         "maxZoom": 18
                     });
-
                     //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                     var ctrlAndTplOfD = {
                         "loadType": "tipsTplContainer",
@@ -1093,7 +1110,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1607") {    //风景路线
+                } else if (pItemId === "1607") { //风景路线
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -1101,12 +1118,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1701") {    //障碍物
+                } else if (pItemId === "1701") { //障碍物
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -1114,12 +1131,12 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
                             }
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1702") {    //铁路道口
+                } else if (pItemId === "1702") { //铁路道口
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -1127,7 +1144,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                         callback: function() {
                             if (data.t_lifecycle == 1 || data.t_lifecycle == 2) {
-                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id:'', "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
+                                $scope.getFeatDataCallback(data, data.f.id ? data.f.id : '', "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
                             }
                         }
                     };
@@ -1173,7 +1190,6 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                      }
                      }
                      $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);*/
-
                     map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var crossCtrlAndTpl = {
                         "loadType": "tipsTplContainer",
@@ -1297,7 +1313,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
             $scope.workPoint.redraw();
             //$scope.guideLayer._redraw();
         };
-        $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl,branchType) {
+        $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl, branchType) {
             /*if(type == 'RDBRANCH'){
                 if(selectedData.branchType == 5 || selectedData.branchType == 7){
                     dsEdit.getBranchByRowId(selectedData.rowkey,branchType).then(function(data){
@@ -1315,28 +1331,28 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                     });
                 }
             }else{*/
-                dsEdit.getByPid(id, type).then(function(data){
-                    if(!data){
-                        return;
+            dsEdit.getByPid(id, type).then(function(data) {
+                if (!data) {
+                    return;
+                }
+                if (type === "RDLINK") {
+                    var linkArr = data.geometry.coordinates,
+                        points = [];
+                    for (var i = 0, len = linkArr.length; i < len; i++) {
+                        var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                        points.push(point);
                     }
-                    if (type === "RDLINK") {
-                        var linkArr = data.geometry.coordinates,
-                            points = [];
-                        for (var i = 0, len = linkArr.length; i < len; i++) {
-                            var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                            points.push(point);
-                        }
-                        /* map.panTo({lat: points[0].y, lon: points[0].x});*/
-                        var line = fastmap.mapApi.lineString(points);
-                        selectCtrl.onSelected({
-                            geometry: line,
-                            id: id
-                        });
-                    }
-                    getByPidCallback(type,ctrl,tpl,data);
-                });
+                    /* map.panTo({lat: points[0].y, lon: points[0].x});*/
+                    var line = fastmap.mapApi.lineString(points);
+                    selectCtrl.onSelected({
+                        geometry: line,
+                        id: id
+                    });
+                }
+                getByPidCallback(type, ctrl, tpl, data);
+            });
             // }
-            function getByPidCallback(type,ctrl,tpl,data){
+            function getByPidCallback(type, ctrl, tpl, data) {
                 var options = {
                     "loadType": 'attrTplContainer',
                     "propertyCtrl": ctrl,
@@ -1349,44 +1365,58 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
         }
         $scope.showTipsOrProperty = function(data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
             var ctrlAndTplParams = {
-                loadType: 'tipsTplContainer',
-                propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                callback: function() {
-                    if (data.t_lifecycle === 2) { //修改
-                        $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                    } else { //1删除 3新增
-                        var stageLen = data.t_trackInfo.length;
-                        var stage = data.t_trackInfo[stageLen - 1];
-                        if (stage.stage === 1) { //未作业
-                            if (data.s_sourceType === "1201") { //道路种别 无论作业未作业 道路种别相关的属性页面都要弹出
-                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                            } else {
-                                if (data.t_lifecycle === 1) {
+                    loadType: 'tipsTplContainer',
+                    propertyCtrl: appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                    propertyHtml: appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                    callback: function() {
+                        if (data.t_lifecycle === 2) { //修改
+                            $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                        } else { //1删除 3新增
+                            var stageLen = data.t_trackInfo.length;
+                            var stage = data.t_trackInfo[stageLen - 1];
+                            if (stage.stage === 1) { //未作业
+                                if (data.s_sourceType === "1201") { //道路种别 无论作业未作业 道路种别相关的属性页面都要弹出
                                     $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                                } else {
+                                    if (data.t_lifecycle === 1) {
+                                        $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                                    }
                                 }
-                            }
-                            $scope.$emit("SWITCHCONTAINERSTATE", {
-                                "attrContainerTpl": false
-                            })
-                        } else if (stage.stage === 3) {
-                            if (data.t_lifecycle === 3) {
-                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                                $scope.$emit("SWITCHCONTAINERSTATE", {
+                                    "attrContainerTpl": false
+                                })
+                            } else if (stage.stage === 3) {
+                                if (data.t_lifecycle === 3) {
+                                    $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+                                } else {
+                                    $scope.$emit("SWITCHCONTAINERSTATE", {
+                                        "attrContainerTpl": false
+                                    })
+                                }
                             } else {
                                 $scope.$emit("SWITCHCONTAINERSTATE", {
                                     "attrContainerTpl": false
                                 })
                             }
-                        } else {
-                            $scope.$emit("SWITCHCONTAINERSTATE", {
-                                "attrContainerTpl": false
-                            })
                         }
                     }
                 }
-            }
-            //先load Tips面板和控制器
+                //先load Tips面板和控制器
             $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
-        }
+        };
+        /**
+         * 根据tips的rowkey值来获取其关联的要素的PID
+         * 参考rowkey的赋值原则，以及警示信息、可变限速的关联要素的查询原则
+         * add by chenx on 20161101，临时方案
+         */
+        var getRelatedFeaturePid = function(rowkey) {
+            var ret = null;
+            if(rowkey) {
+                if(rowkey.length > 6 && rowkey.substr(0,2) == '11') {
+                    ret = rowkey.substr(6);
+                }
+            }
+            return ret;
+        };
     }
 ])

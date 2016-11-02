@@ -272,6 +272,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, index, 0);
         }
         $scope.CurrentObject.lanes.splice(index, 1);
+        toggleExtend();
     };
     // 增加公交车道属性
     var addBusLane = function(item, index) {
@@ -312,6 +313,38 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             item.adt = 0;
         } else {
             item.adt = 1;
+        }
+        toggleExtend();
+    };
+    var toggleExtend = function() {
+        if ($scope.CurrentObject.lanes.length > 0) {
+            if ($scope.CurrentObject.lanes.length == 1) {
+                $scope.CurrentObject.leftExtend = $scope.CurrentObject.lanes[0].adt;
+                $scope.CurrentObject.rightExtend = 0;
+            } else {
+                var cnt = 0,
+                    i;
+                for (i = 0; i < $scope.CurrentObject.lanes.length; i++) {
+                    if ($scope.CurrentObject.lanes[i].adt == 1) {
+                        cnt++;
+                    } else {
+                        break;
+                    }
+                }
+                $scope.CurrentObject.leftExtend = cnt;
+                cnt = 0;
+                for (i = $scope.CurrentObject.lanes.length - 1; i >= 0; i--) {
+                    if ($scope.CurrentObject.lanes[i].adt == 1) {
+                        cnt++;
+                    } else {
+                        break;
+                    }
+                }
+                $scope.CurrentObject.rightExtend = cnt;
+            }
+        } else {
+            $scope.CurrentObject.leftExtend = 0;
+            $scope.CurrentObject.rightExtend = 0;
         }
     };
     $scope.save = function() {
