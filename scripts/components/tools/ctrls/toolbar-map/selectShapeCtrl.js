@@ -3276,12 +3276,18 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     return;
                 } else if (type === "MODIFYVARIABLESPEED") {
                     //地图编辑相关设置;
-                    map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    // map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    //     map: map,
+                    //     createBranchFlag: true,
+                    //     currentEditLayer: rdLink,
+                    //     shapeEditor: shapeCtrl,
+                    //     operationList: ['line', 'line']
+                    // });
+                    map.currentTool = new fastmap.uikit.SelectPath({
                         map: map,
-                        createBranchFlag: true,
                         currentEditLayer: rdLink,
-                        shapeEditor: shapeCtrl,
-                        operationList: ['line', 'line']
+                        linksFlag: false,
+                        shapeEditor: shapeCtrl
                     });
                     map.currentTool.enable();
                     //热键操作设置;
@@ -3379,8 +3385,8 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltipText("已选接续线!");
                     }
-                    eventController.off(eventController.eventTypes.GETLINKID);
-                    eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
+                    eventController.off(eventController.eventTypes.GETOUTLINKSPID);
+                    eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(dataresult) {
                         var selectIndex = $scope.links.indexOf(parseInt(dataresult.id));
                         if (selectIndex == -1) {
                             selectIndex = $scope.links.length - 1;
@@ -3413,9 +3419,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             $scope.linkNodes.splice(1);
                             (dataresult.properties.enode == $scope.linkNodes[0]) ? $scope.linkNodes.push(parseInt(dataresult.properties.snode)): $scope.linkNodes.push(parseInt(dataresult.properties.enode));
                             hightlightOutLink();
-                        } else {
-                            tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
                         }
+                        // else {
+                        //     tooltipsCtrl.setCurrentTooltipText("退出线与进入点不连续或方向错误!");
+                        // }
                         /*判断接续线是否能与进入线重合，原则上不能重合*/
                         if (dataresult.id == $scope.links[0]) {
                             tooltipsCtrl.setCurrentTooltipText("接续线不能与进入线重合!");
