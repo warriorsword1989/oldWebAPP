@@ -1242,9 +1242,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             feather: result
                         });
                         switch (result.s_sourceType) {
-                            case "2001": //测线
-                                $scope.showTipsOrProperty(result, "RDLINK", objCtrl, result.id, appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
-                                break;
                             case "1101": //点限速
                                 $scope.showTipsOrProperty(result, "RDSPEEDLIMIT", objCtrl, result.id, appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                 break;
@@ -2061,6 +2058,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                                 break;
                             case "1901": //道路名
+                                var ctrlAndTplOfName = {
+                                    "loadType": "tipsTplContainer",
+                                    "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                    "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                                };
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
+                                break;
+                            case "2001": //测线
                                 var ctrlAndTplOfName = {
                                     "loadType": "tipsTplContainer",
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
