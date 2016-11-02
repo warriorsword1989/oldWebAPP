@@ -100,21 +100,13 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
             if (laneInfo[i].indexOf('<') >= 0) { // 公交车道
                 laneInfo[i] = laneInfo[i].replace(/\<|\>/g, '');
                 temp = laneInfo[i].split('');
-                if (temp.length == 1) { // 普通车道与公交车道同方向
-                    lane.dir = {
-                        flag: temp[0]
-                    };
-                    lane.busDir = {
-                        flag: temp[0]
-                    };
-                } else { // 普通车道与公交车道不同方向，普通车道在前，公交车道在后
-                    lane.dir = {
-                        flag: temp[0]
-                    };
-                    lane.busDir = {
-                        flag: temp[1]
-                    };
-                }
+                // 普通车道在前，公交车道在后
+                lane.dir = { // 普通车道
+                    flag: temp[0]
+                };
+                lane.busDir = { // 公交车道
+                    flag: temp[1]
+                };
             } else {
                 lane.dir = {
                     flag: laneInfo[i]
@@ -344,11 +336,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         for (var k in $scope.CurrentObject.lanes) {
             tmp = $scope.CurrentObject.lanes[k];
             if (tmp.busDir) {
-                if (tmp.busDir.flag == tmp.dir.flag) {
-                    str = '<' + tmp.dir.flag + '>';
-                } else {
-                    str = tmp.dir.flag + '<' + tmp.busDir.flag + '>';
-                }
+                str = tmp.dir.flag + '<' + tmp.busDir.flag + '>';
             } else {
                 str = tmp.dir.flag;
             }
