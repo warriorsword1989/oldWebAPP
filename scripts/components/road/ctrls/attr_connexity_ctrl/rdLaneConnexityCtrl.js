@@ -317,35 +317,25 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         toggleExtend();
     };
     var toggleExtend = function() {
-        if ($scope.CurrentObject.lanes.length > 0) {
-            if ($scope.CurrentObject.lanes.length == 1) {
-                $scope.CurrentObject.leftExtend = $scope.CurrentObject.lanes[0].adt;
-                $scope.CurrentObject.rightExtend = 0;
+        var left = 0,
+            right = 0,
+            i;
+        for (i = 0; i < $scope.CurrentObject.lanes.length; i++) {
+            if ($scope.CurrentObject.lanes[i].adt == 1) {
+                left++;
             } else {
-                var cnt = 0,
-                    i;
-                for (i = 0; i < $scope.CurrentObject.lanes.length; i++) {
-                    if ($scope.CurrentObject.lanes[i].adt == 1) {
-                        cnt++;
-                    } else {
-                        break;
-                    }
-                }
-                $scope.CurrentObject.leftExtend = cnt;
-                cnt = 0;
-                for (i = $scope.CurrentObject.lanes.length - 1; i >= 0; i--) {
-                    if ($scope.CurrentObject.lanes[i].adt == 1) {
-                        cnt++;
-                    } else {
-                        break;
-                    }
-                }
-                $scope.CurrentObject.rightExtend = cnt;
+                break;
             }
-        } else {
-            $scope.CurrentObject.leftExtend = 0;
-            $scope.CurrentObject.rightExtend = 0;
         }
+        $scope.CurrentObject.leftExtend = left;
+        for (i = $scope.CurrentObject.lanes.length - 1; i > left; i--) {
+            if ($scope.CurrentObject.lanes[i].adt == 1) {
+                right++;
+            } else {
+                break;
+            }
+        }
+        $scope.CurrentObject.rightExtend = right;
     };
     $scope.save = function() {
         // 重组laneInfo
