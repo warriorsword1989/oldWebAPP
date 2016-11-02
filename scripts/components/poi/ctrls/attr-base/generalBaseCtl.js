@@ -4,7 +4,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
     var layerCtrl = fastmap.uikit.LayerController();
     var poiLayer = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-
+    $scope.truckFlagDisable = false;
     function initData() {
         if ($scope.generalPoiForm) {
             $scope.generalPoiForm.$setPristine();
@@ -566,6 +566,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         		$scope.poi.truckFlag = data;
         		$scope.truckFlagDisable = true;
         	}else{
+        		$scope.poi.truckFlag = 0;
         		$scope.truckFlagDisable = false;
         	}
         });

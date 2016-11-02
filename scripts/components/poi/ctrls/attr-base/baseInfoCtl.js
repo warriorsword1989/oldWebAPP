@@ -5,7 +5,6 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     pKindFormat = $scope.$parent.metaData.kindFormat;
     pAllChain = $scope.$parent.metaData.allChain;
     $scope.truckTypeOpt = FM.dataApi.Constant.truckType;
-    $scope.truckFlagDisable = false;
     //初始化时让分类、品牌默认选中
     $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
         //$scope.selectedKind = newVlaue;
