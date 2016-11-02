@@ -113,7 +113,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             editLayer.clear();
-            if(!objEditCtrl.originalData.hasOwnProperty("pid")){
+            if(objEditCtrl.originalData && !objEditCtrl.originalData.hasOwnProperty("pid")){
                 scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,
                     'attrContainerTpl': false
@@ -683,6 +683,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
+                if(shapeCtrl.editFeatType){//创建点限速时距离过近，不让保存
+                    return;
+                }
                 var ctrl, tpl;
                 var selectShapeType = shapeCtrl.editFeatType;
                 param["command"] = "CREATE";
