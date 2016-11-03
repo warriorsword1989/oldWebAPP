@@ -374,7 +374,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                 // $scope.getFeatDataCallback(data, data.wID[0].id ? data.wID[0].id : '', "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
                                 var rPid = getRelatedFeaturePid(data.rowkey);
                                 if(rPid) {
-                                    $scope.getFeatDataCallback(data, rPid, "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
+                                    $scope.getFeatDataCallback(data, data.wID[0].id, "RDWARNINGINFO", appPath.road + "ctrls/attr_warninginfo_ctrl/warningInfoCtrl", appPath.root + appPath.road + "tpls/attr_warninginfo_tpl/warningInfoTpl.html");
                                 }
                             }
                         }
@@ -455,7 +455,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                                 // $scope.getFeatDataCallback(data, data.sID[0].id ? data.sID[0].id : '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                 var rPid = getRelatedFeaturePid(data.rowkey);
                                 if(rPid) {
-                                    $scope.getFeatDataCallback(data, rPid, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                    $scope.getFeatDataCallback(data, data.wID[0].id, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                 }
                             }
                         }

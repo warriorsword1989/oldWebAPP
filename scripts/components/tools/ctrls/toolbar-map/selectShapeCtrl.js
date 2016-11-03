@@ -1431,7 +1431,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
                                             var rPid = getRelatedFeaturePid(result.rowkey);
                                             if(rPid) {
-                                                $scope.getFeatDataCallback(result, result.sID[0].id ? result.sID[0].id: '', "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                                $scope.getFeatDataCallback(result, result.sID[0].id, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                             }
                                         }
                                     }
