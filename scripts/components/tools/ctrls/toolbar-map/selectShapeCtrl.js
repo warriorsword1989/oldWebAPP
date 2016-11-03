@@ -1274,8 +1274,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                            var featurePid = getRelatedFeatureById(result.id);
+                                            if(featurePid){
+                                                $scope.getFeatDataCallback(result, featurePid, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                             }
                                         }
                                     }
@@ -1289,8 +1290,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
+                                            var featurePid = getRelatedFeatureById(result.id);
+                                            if(featurePid){
+                                                $scope.getFeatDataCallback(result, featurePid, "RDCROSS", appPath.road + 'ctrls/attr_cross_ctrl/rdCrossCtrl', appPath.root + appPath.road + 'tpls/attr_cross_tpl/rdCrossTpl.html');
                                             }
                                         }
                                     }
@@ -1304,8 +1306,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDTRAFFICSIGNAL", appPath.road + "ctrls/attr_trafficSignal_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_trafficSignal_Tpl/rdTrafficSignalTpl.html");
+                                            var featurePid = getRelatedFeatureById(result.id);
+                                            if(featurePid){
+                                                $scope.getFeatDataCallback(result, featurePid, "RDTRAFFICSIGNAL", appPath.road + "ctrls/attr_trafficSignal_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_trafficSignal_Tpl/rdTrafficSignalTpl.html");
                                             }
                                             // $scope.getFeatDataCallback(result, result.in.id ? result.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
                                         }
@@ -1320,8 +1323,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id ? result.id : '', "RDGATE", appPath.road + "ctrls/attr_gate_ctrl/rdGateCtrl", appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html");
+                                            var featurePid = getRelatedFeatureById(result.id);
+                                            if(featurePid){
+                                                $scope.getFeatDataCallback(result, featurePid, "RDGATE", appPath.road + "ctrls/attr_gate_ctrl/rdGateCtrl", appPath.root + appPath.road + "tpls/attr_gate_tpl/rdGateTpl.html");
                                             }
                                             // $scope.getFeatDataCallback(result, result.in.id ? result.in.id:'', "RDLINK", appPath.road + "ctrls/attr_branch_ctrl/rdTrafficSignalCtrl", appPath.root + appPath.road + "tpls/attr_branch_Tpl/rdTrafficSignalTpl.html");
                                         }
@@ -1352,8 +1356,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDSLOP", appPath.road + "ctrls/attr_rdSlope_ctrl/rdSlopeCtrl", appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDSLOP", appPath.road + "ctrls/attr_rdSlope_ctrl/rdSlopeCtrl", appPath.root + appPath.road + "tpls/attr_rdSlope_tpl/rdSlopeTpl.html");
                                             }
                                         }
                                     }
@@ -1367,8 +1372,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.in.id)){
-                                                $scope.getFeatDataCallback(result, result.in.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.in.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1383,8 +1389,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDSPEEDBUMP", appPath.road + "ctrls/attr_speedbump_ctrl/speedBumpCtrl", appPath.root + appPath.road + "tpls/attr_speedbump_tpl/speedBumpTpl.html");
                                             }
                                         }
                                     }
@@ -1398,8 +1405,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.in.id)){
-                                                $scope.getFeatDataCallback(result, result.in.id, "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDELECTRONICEYE", appPath.road + "ctrls/attr_electronic_ctrl/electronicEyeCtrl", appPath.root + appPath.road + "tpls/attr_electronic_tpl/electronicEyeTpl.html");
                                             }
                                         }
                                     }
@@ -1437,8 +1445,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.in.id)){
-                                                $scope.getFeatDataCallback(result, result.in.id, "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
+                                            var f_id = getRelatedFeatureById(result.in.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDVARIABLESPEED", appPath.road + "ctrls/attr_variableSpeed_ctrl/variableSpeedCtrl", appPath.root + appPath.road + "tpls/attr_variableSpeed_tpl/variableSpeed.html");
                                             }
                                         }
                                     }
@@ -1452,8 +1461,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDSPEEDLIMIT", appPath.road + "ctrls/attr_speedLimit_ctrl/speedLimitCtrl", appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                                             }
                                         }
                                     }
@@ -1467,8 +1477,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 3) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1482,8 +1493,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 3) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1497,8 +1509,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f.type == 1) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                             }
                                         }
                                     }
@@ -1534,8 +1547,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1549,8 +1563,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.f) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1564,8 +1579,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 3) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1578,8 +1594,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
-                                        if(getRelatedFeatureById(result.f.id)){
-                                            $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                        var f_id = getRelatedFeatureById(result.f.id);
+                                        if(f_id){
+                                            $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                         }
                                     }
                                 };
@@ -1600,8 +1617,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDLANECONNEXITY", appPath.road + "ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", appPath.root + appPath.road + "tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLANECONNEXITY", appPath.road + "ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", appPath.root + appPath.road + "tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                                             }
                                         }
                                     }
@@ -1615,8 +1633,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                                             }
                                         }
                                     }
@@ -1630,8 +1649,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDRESTRICTION", appPath.road + "ctrls/attr_restriction_ctrl/rdRestriction", appPath.root + appPath.road + "tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                                             }
                                         }
                                     }
@@ -1645,8 +1665,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1660,8 +1681,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1675,8 +1697,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.id)){
-                                                $scope.getFeatDataCallback(result, result.id, "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
+                                            var f_id = getRelatedFeatureById(result.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDVOICEGUIDE", appPath.road + "ctrls/attr_voiceGuide_ctrl/voiceGuide", appPath.root + appPath.road + "tpls/attr_voiceGuide_tpl/voiceGuide.html");
                                             }
                                         }
                                     }
@@ -1690,8 +1713,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html");
                                             }
                                         }
                                     }
@@ -1743,8 +1767,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "../../../scripts/components/road/tpls/attr_branch_Tpl/signBoardOfBranch.html");
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + "ctrls/attr_branch_ctrl/rdSignBoardCtrl", appPath.root + appPath.road + "../../../scripts/components/road/tpls/attr_branch_Tpl/signBoardOfBranch.html");
                                             }
                                         }
                                     }
@@ -1758,8 +1783,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                                             }
                                         }
                                     }
@@ -1773,8 +1799,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", "scripts/components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                                             }
                                         }
                                     }
@@ -1788,8 +1815,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 3);
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 3);
                                             }
                                         }
                                     }
@@ -1803,8 +1831,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 3);
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 3);
                                             }
                                         }
                                     }
@@ -1818,8 +1847,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html');
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdRealImageCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/realImageOfBranch.html');
                                             }
                                         }
                                     }
@@ -1833,8 +1863,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html');
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html');
                                             }
                                         }
                                     }
@@ -1848,8 +1879,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 4);
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 4);
                                             }
                                         }
                                     }
@@ -1863,8 +1895,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.brID[0].id)){
-                                                $scope.getFeatDataCallback(result, result.brID[0].id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 4);
+                                            var f_id = getRelatedFeatureById(result.brID[0].id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDBRANCH", appPath.road + 'ctrls/attr_branch_ctrl/rdBranchCtrl', appPath.root + appPath.road + 'tpls/attr_branch_Tpl/namesOfBranch.html', 4);
                                             }
                                         }
                                     }
@@ -2038,9 +2071,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if(result.t_lifecycle == 3){
-                                            if(getRelatedFeatureById(result.f_array[0].id)){
-                                                $scope.brigeLinkArray = result.f_array;
-                                                $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
+                                            var f_id = getRelatedFeatureById(result.f_array[0].id);
+                                            if(f_id){
+                                                // $scope.brigeLinkArray = result.f_array;
+                                                $scope.getFeatDataCallback(result, f_id, "RDLINK", appPath.road + "ctrls/attr_link_ctrl/rdLinkCtrl", appPath.root + appPath.road + "tpls/attr_link_tpl/rdLinkTpl.html")
                                             }
                                         }
                                     }
@@ -2078,8 +2112,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
                                             }
                                         }
                                     }
@@ -2093,8 +2128,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if(getRelatedFeatureById(result.f.id)){
-                                                $scope.getFeatDataCallback(result, result.f.id, "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                $scope.getFeatDataCallback(result, f_id, "RDNODEFORM", appPath.road + "ctrls/attr_node_ctrl/rdNodeFormCtrl", appPath.root + appPath.road + "tpls/attr_node_tpl/rdNodeFormTpl.html");
                                             }
                                         }
                                     }
@@ -2116,25 +2152,24 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                     "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                     callback: function() {
                                         if (result.t_lifecycle == 1 || result.t_lifecycle == 2) {
-                                            if (result.f.id) {
-                                                if(getRelatedFeatureById(result.f.id)){
-                                                    var obj = {
-                                                        "nodePid": parseInt(result.f.id)
+                                            var f_id = getRelatedFeatureById(result.f.id);
+                                            if(f_id){
+                                                var obj = {
+                                                    "nodePid": parseInt(f_id)
+                                                };
+                                                var param = {
+                                                    "dbId": App.Temp.dbId,
+                                                    "type": "RDCROSS",
+                                                    "data": obj
+                                                };
+                                                dsEdit.getByCondition(param, function(data) {
+                                                    var crossCtrlAndTpl = {
+                                                        propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
+                                                        propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
                                                     };
-                                                    var param = {
-                                                        "dbId": App.Temp.dbId,
-                                                        "type": "RDCROSS",
-                                                        "data": obj
-                                                    };
-                                                    dsEdit.getByCondition(param, function(data) {
-                                                        var crossCtrlAndTpl = {
-                                                            propertyCtrl: appPath.road + "ctrls/attr_cross_ctrl/rdCrossCtrl",
-                                                            propertyHtml: appPath.root + appPath.road + "tpls/attr_cross_tpl/rdCrossTpl.html"
-                                                        };
-                                                        objCtrl.setCurrentObject("RDCROSS", data);
-                                                        $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
-                                                    });
-                                                }
+                                                    objCtrl.setCurrentObject("RDCROSS", data);
+                                                    $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
+                                                });
                                             }
                                         }
                                     }
