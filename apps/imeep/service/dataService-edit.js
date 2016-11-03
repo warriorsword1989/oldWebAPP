@@ -16,21 +16,27 @@ angular.module("dataService").service("dsEdit", ["$http", "$q", "ajax", "dsOutpu
      * 根据pid获取要素详细属性
      * @param id     要素PID
      * @param type   要素类型
+     * @param alertError   是否弹出错误信息
      */
-    this.getByPid = function(pid, type) {
+    this.getByPid = function(pid, type ,alertError) {
         var defer = $q.defer();
         var params = {
             "dbId": App.Temp.dbId,
             "type": type,
             "pid": pid
         };
+        if(alertError === undefined){
+            alertError = true;
+        }
         ajax.get("edit/getByPid", {
             parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
-                swal("根据Pid查询" + type + "数据出错：", data.errmsg, "error");
+                if(alertError){
+                    swal("根据Pid查询" + type + "数据出错：", data.errmsg, "error");
+                }
                 defer.resolve(null);
             }
         }).error(function(rejection) {
