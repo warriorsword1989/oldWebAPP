@@ -76,13 +76,13 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         if (dir == 2) {
             item.fromLimitSrc = 1;
             value = parseFloat(item.fromSpeedLimit);
-            if (value == 0 || (item.toSpeedLimit < item.fromSpeedLimit)) {
+            if (value == 0 || (item.toSpeedLimit != "0" && item.toSpeedLimit < item.fromSpeedLimit)) {
                 value = parseFloat(item.toSpeedLimit);
             }
         } else if (dir == 3) {
             item.toLimitSrc = 1;
             value = parseFloat(item.toSpeedLimit);
-            if (value == 0 || (item.fromSpeedLimit < item.toSpeedLimit)) {
+            if (value == 0 || (item.fromSpeedLimit != "0" && item.fromSpeedLimit < item.toSpeedLimit)) {
                 value = parseFloat(item.fromSpeedLimit);
             }
         }

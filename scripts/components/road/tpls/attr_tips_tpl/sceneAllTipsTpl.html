@@ -466,7 +466,7 @@
                         </div>
                         <!--end 收费站-->
                         <!--begin 高速分歧-->
-                        <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isBranch" ng-repeat="branchItem in dataTipsData.o_array">
+                        <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isBranch" ng-repeat="branchItem in dataTipsData.o_array track by $index">
                             <hr style="margin:0;">
                             <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                                 <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>

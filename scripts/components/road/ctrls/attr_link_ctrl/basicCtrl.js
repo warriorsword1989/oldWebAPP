@@ -483,26 +483,26 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
                 break;
         }
     }
-    eventController.off('directChange');
-    eventController.on('directChange', function() {
-        console.log($scope.linkData.direct)
-        if ($scope.linkData.direct == 2 || $scope.linkData.direct == 3) {
-            linkClassCtr($scope.linkData.laneNum);
-            $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
-        } else {
-            if ($scope.linkData.laneNum % 2) {
-                linkClassCtr((parseInt($scope.linkData.laneNum) + 1) / 2);
-            } else {
-                if (!$scope.linkData.laneNum) {
-                    var temp = $scope.linkData.laneRight > $scope.linkData.laneLeft ? $scope.linkData.laneRight : $scope.linkData.laneLeft;
-                    linkClassCtr(temp);
-                } else {
-                    linkClassCtr(parseInt($scope.linkData.laneNum) / 2);
-                }
-            }
-        }
-        $scope.$apply();
-    });
+    // eventController.off('directChange');
+    // eventController.on('directChange', function() {
+    //     // console.log($scope.linkData.direct)
+    //     if ($scope.linkData.direct == 2 || $scope.linkData.direct == 3) {
+    //         linkClassCtr($scope.linkData.laneNum);
+    //         $scope.linkData.laneLeft = $scope.linkData.laneRight = 0;
+    //     } else {
+    //         if ($scope.linkData.laneNum % 2) {
+    //             linkClassCtr((parseInt($scope.linkData.laneNum) + 1) / 2);
+    //         } else {
+    //             if (!$scope.linkData.laneNum) {
+    //                 var temp = $scope.linkData.laneRight > $scope.linkData.laneLeft ? $scope.linkData.laneRight : $scope.linkData.laneLeft;
+    //                 linkClassCtr(temp);
+    //             } else {
+    //                 linkClassCtr(parseInt($scope.linkData.laneNum) / 2);
+    //             }
+    //         }
+    //     }
+    //     $scope.$apply();
+    // });
 
     if (objectEditCtrl.data) {
         $scope.initOtherData();

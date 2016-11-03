@@ -463,22 +463,17 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        var directOfLink = {
-                            "objStatus": "UPDATE",
-                            "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct),
-                            "laneNum":objEditCtrl.data.laneNum,
-                            "direct": objEditCtrl.data.direct,
-                            "laneLeft":objEditCtrl.data.laneLeft,
-                            "laneRight":objEditCtrl.data.laneRight
-                        };
+                        objEditCtrl.save();
+                        if (!objEditCtrl.changedProperty) {
+                            swal("保存提示", '属性值没有变化，不需要保存！', "info");
+                            return;
+                        }
                         param = {
                             "type": "RDLINK",
                             "command": "UPDATE",
                             "dbId": App.Temp.dbId,
-                            "data": directOfLink
+                            "data": objEditCtrl.changedProperty
                         };
-                        console.log(objEditCtrl)
                         dsEdit.save(param).then(function (data) {
                             evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                             if (data != null) {

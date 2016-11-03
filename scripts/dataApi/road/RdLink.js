@@ -350,8 +350,99 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
             this.walkFlag = 0;
             this.sidewalkFlag = 0;
         }
+    },
+    /**
+     * 修改方向的关联维护
+     * 传改变后的方向
+     * @param direct
+     */
+    changeDirect: function(direct) {
+        //以下是对限速的维护
+        for(var i = 0;i<this.speedlimits.length;i++){
+            if(direct ==2){
+                this.speedlimits[i].toLimitSrc = 9;
+                this.speedlimits[i].toSpeedLimit = 0;
+                if(this.speedlimits[i].fromSpeedLimit != 0){
+                    this.speedlimits[i].speedClass = this.changeSpeedClass(this.speedlimits[i].fromSpeedLimit);
+                } else {
+                    this.speedlimits[i].speedClass = 0;
+                }
+                this.speedlimits[i].speedClassWork = 1;
+            } else if(direct == 3) {
+                this.speedlimits[i].fromLimitSrc = 9;
+                this.speedlimits[i].fromSpeedLimit = 0;
+                if(this.speedlimits[i].toSpeedLimit != 0){
+                    this.speedlimits[i].speedClass = this.changeSpeedClass(this.speedlimits[i].toSpeedLimit);
+                } else {
+                    this.speedlimits[i].speedClass = 0;
+                }
+                this.speedlimits[i].speedClassWork = 1;
+            } else {
+                this.speedlimits[i].speedClass = 0;
+                this.speedlimits[i].speedClassWork = 1;
+            }
+        }
+        //以下是对车道的维护
+        if (direct == 2 || direct == 3) {
+            this.changeLinkClass(this.laneNum);
+            this.laneLeft = this.laneRight = 0;
+        } else {
+            if (this.laneNum % 2) {
+                this.changeLinkClass((parseInt(this.laneNum) + 1) / 2);
+            } else {
+                if (!this.laneNum) {
+                    var temp = this.laneRight > this.laneLeft ? this.laneRight : this.laneLeft;
+                    this.changeLinkClass(temp);
+                } else {
+                    this.changeLinkClass(parseInt(this.laneNum) / 2);
+                }
+            }
+        }
+    },
+    /**
+     * 修改laneNum的关联维护
+     * 传laneNum
+     * @param laneNum
+     */
+    changeLinkClass: function (laneNum) {
+        if (laneNum == 0) {
+            this.laneClass = 0;
+        } else if (laneNum == 1) {
+            this.laneClass = 1;
+        } else if (laneNum >= 2 && laneNum <= 3) {
+            this.laneClass = 2;
+        } else {
+            this.laneClass = 3;
+        }
+    },
+    /**
+     * 修改SpeedClass的关联维护
+     * 传SpeedLimit的值
+     * @param value
+     */
+    changeSpeedClass: function (value) {
+        var result;
+        if(value < 11 && value > 0){
+            result = 8;
+        }else if(value <= 30 && value >= 11){
+            result = 7;
+        }else if(value <= 50 && value >= 30.1){
+            result = 6;
+        }else if(value <= 70 && value >= 50.1){
+            result = 5;
+        }else if(value <= 90 && value >= 70.1){
+            result = 4;
+        }else if(value <= 100 && value >= 90.1){
+            result = 3;
+        }else if(value <= 130 && value >= 100.1){
+            result = 2;
+        }else if(value > 130){
+            result = 1;
+        }
+        return result;
     }
 });
+
 /***
  * Rdlink初始化函数
  * @param data node数据
