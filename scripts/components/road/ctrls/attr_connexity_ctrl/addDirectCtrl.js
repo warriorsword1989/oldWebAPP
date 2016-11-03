@@ -271,15 +271,20 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                 break;
             }
         }
-        CurrentObject.leftExtend = left;
-        for (i = CurrentObject.lanes.length - 1; i > left; i--) {
-            if (CurrentObject.lanes[i].adt == 1) {
-                right++;
-            } else {
-                break;
+        if (CurrentObject.lanes.length == left) {
+            CurrentObject.leftExtend = Math.ceil(left / 2);
+            CurrentObject.rightExtend = Math.floor(left / 2);
+        } else {
+            CurrentObject.leftExtend = left;
+            for (i = CurrentObject.lanes.length - 1; i > left; i--) {
+                if (CurrentObject.lanes[i].adt == 1) {
+                    right++;
+                } else {
+                    break;
+                }
             }
+            CurrentObject.rightExtend = right;
         }
-        CurrentObject.rightExtend = right;
     };
     // 高亮一个方向
     var doHighlight = function() {
