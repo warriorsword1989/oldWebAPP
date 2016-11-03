@@ -2266,7 +2266,13 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                             selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
                         }
                         objCtrl.data["direct"] = selectCtrl.selectedFeatures["direct"];
-                        eventController.fire('directChange', objCtrl.data["direct"]);
+                        // eventController.fire('directChange', objCtrl.data["direct"]);
+                        objCtrl.data.changeDirect(objCtrl.data["direct"]);
+                        //如果有打开的二级面板（限速的二级面板），需要关掉
+                        $scope.$emit("SWITCHCONTAINERSTATE", {
+                            "subAttrContainerTpl": false
+                        });
+                        $scope.$apply();
                         tooltipsCtrl.setEditEventType('transformDirection');
                         tooltipsCtrl.setCurrentTooltip('修改方向！');
                     } else {
