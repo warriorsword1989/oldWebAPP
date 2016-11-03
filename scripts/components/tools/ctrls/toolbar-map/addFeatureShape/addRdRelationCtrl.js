@@ -121,7 +121,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     point3 = map.latLngToContainerPoint([shapePoints[j + 2].y, shapePoints[j + 2].x]);
                     angle1 = $scope.angleOfLink(point1, point2);
                     angle2 = $scope.angleOfLink(point2, point3);
-                    if (Math.abs(angle1 - angle2) > 0.2) {
+                    if (Math.abs(angle1 - angle2) > 0.06) {
                         var points = [];
                         points.push(shapePoints[j]);
                         points.push(shapePoints[j + 1]);
