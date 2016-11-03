@@ -319,15 +319,20 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
                 break;
             }
         }
-        $scope.CurrentObject.leftExtend = left;
-        for (i = $scope.CurrentObject.lanes.length - 1; i > left; i--) {
-            if ($scope.CurrentObject.lanes[i].adt == 1) {
-                right++;
-            } else {
-                break;
+        if ($scope.CurrentObject.lanes.length == left) {
+            $scope.CurrentObject.leftExtend = Math.ceil(left / 2);
+            $scope.CurrentObject.rightExtend = Math.floor(left / 2);
+        } else {
+            $scope.CurrentObject.leftExtend = left;
+            for (i = $scope.CurrentObject.lanes.length - 1; i > left; i--) {
+                if ($scope.CurrentObject.lanes[i].adt == 1) {
+                    right++;
+                } else {
+                    break;
+                }
             }
+            $scope.CurrentObject.rightExtend = right;
         }
-        $scope.CurrentObject.rightExtend = right;
     };
     $scope.save = function() {
         // 重组laneInfo
