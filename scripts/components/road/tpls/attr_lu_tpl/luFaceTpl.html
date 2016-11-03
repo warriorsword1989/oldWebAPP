@@ -53,7 +53,7 @@
                         <li class="list-group-item">
                             <ul ng-repeat="namesItem in nameGroup | orderBy:'nameGrouppid'" class="list-group child-list-ul list-group-lg m-b-none">
                                 <li class="list-group-item" ng-repeat="item in namesItem  | orderBy:'pid'">
-                                    <label class="control-label fm-cursor" ng-click="showDetail($index ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
+                                    <label class="control-label fm-cursor" ng-click="showDetail($parent.$index ,namesItem,item.nameGroupid);" ng-bind="item.name"></label>
                                     <i class="glyphicon glyphicon-remove-circle" ng-click="removeItem($index,item)"></i>
                                 </li>
                             </ul>
