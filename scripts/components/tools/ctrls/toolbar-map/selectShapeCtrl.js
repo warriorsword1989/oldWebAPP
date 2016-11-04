@@ -4261,6 +4261,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
                 return;
             } else if (type === "POISAME") {
+                map.closePopup();
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
@@ -4317,6 +4318,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 });
                 // return;
             } else if (type === "SELECTPARENT") {
+                map.closePopup();
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
@@ -4567,10 +4569,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
         $scope.resetMap = function(myPid) {
             map.closePopup();
             // $scope.clearMap();
-            var drawLayer = $scope.getLayerById('parentLayer');
-            if (drawLayer != undefined) {
-                map.removeLayer(drawLayer);
-            }
+            // var drawLayer = $scope.getLayerById('parentLayer');
+            // if (drawLayer != undefined) {
+            //     map.removeLayer(drawLayer);
+            // }
             $scope.getPoi(myPid);
         };
         /*

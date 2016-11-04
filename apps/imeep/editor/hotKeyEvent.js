@@ -1641,6 +1641,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                    scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
                   });
             } else if (shapeCtrl.editType === "rdLaneTopoDetail") {    //查询详细车道
+                if(geo && (geo.nodePid == undefined || (geo.linkPids && geo.linkPids.length < 2))){
+                    swal("提示","选择要素不全，重新选择一下!","warning");
+                    return;
+                }
                 var param = {
                     "type": "RDLANE",
                     "dbId": App.Temp.dbId,

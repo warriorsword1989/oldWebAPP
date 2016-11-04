@@ -2730,7 +2730,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.highLightFeatures.push({
                                 id: nodePids[1].toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
@@ -2739,7 +2739,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.highLightFeatures.push({
                                 id: nodePids[0].toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
@@ -2758,7 +2758,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 highRenderCtrl.highLightFeatures.push({
                                     id: nodePids[2].toString(),
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {}
                                 });
                             }
@@ -2767,7 +2767,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 highRenderCtrl.highLightFeatures.push({
                                     id: nodePids[3].toString(),
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {}
                                 });
                             }

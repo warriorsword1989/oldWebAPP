@@ -73,7 +73,7 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
         llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addFeatureShape/addPoiCtrl.js'));
         llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/addShapeCtrl.js'));
         $q.all(llPromises).then(function() {
-            $scope.toolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarTpl.htm';;
+            $scope.toolbarTpl = appPath.root + 'scripts/components/tools/tpls/toolbar/toolbarTpl.htm';
         });
         $scope.toggleSelectBtn = function() {
             $scope.selectBtnOpened = !$scope.selectBtnOpened;
@@ -119,6 +119,7 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
             eventCtrl.off(eventCtrl.eventTypes.GETFEATURE);
             $('body .carTypeTip').hide();
             $('body .datetip').hide();
+            map.closePopup();
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;

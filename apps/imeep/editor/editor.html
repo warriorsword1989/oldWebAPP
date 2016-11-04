@@ -187,6 +187,12 @@
                                 <div ng-include="rdLaneTopoPanelTpl"></div>
                             </div>
                         </div> -->
+                        <div class="fm-foldable fm-row" style="height:100%;left:2px;width:auto;"
+                             ng-style="{'top':{true: '0px', false: '-1100px'}[clmPanelOpened], right: '0px'}">
+                            <div class="fm-container fm-row" style="height:100%;">
+                                <div ng-include="rdLaneTopoPanelTpl"></div>
+                            </div>
+                        </div>
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
                             <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
@@ -202,6 +208,7 @@
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
         </div>
+
         </div>
         </div>
 
