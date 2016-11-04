@@ -1055,7 +1055,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         "propertyCtrl": appPath.road + "ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                         "propertyHtml": appPath.root + appPath.road + "tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                     };
-                    highCtrl.highLightFeatures.push({
+                    /*highCtrl.highLightFeatures.push({
                         id: data.in.id.toString(),
                         layerid: 'rdLink',
                         type: 'line',
@@ -1063,7 +1063,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                             color: '#21ed25'
                         }
                     });
-                    highCtrl.drawHighlight();
+                    highCtrl.drawHighlight();*/
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
                 } else if (pItemId === "1510") { //桥1510
                     // var points = [];
