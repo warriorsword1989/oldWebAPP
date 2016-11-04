@@ -52,7 +52,7 @@
                             </button>
                         </div>
                         <div class="pic-show-well">
-                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName)">
+                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName)" style="width: 78px;">
                                 <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
                                 <div class="img-describe">{{picture.fileName}}</div>
                             </div>
