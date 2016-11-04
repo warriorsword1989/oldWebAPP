@@ -117,6 +117,8 @@ angular.module("app").controller("ToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 
             eventCtrl.off(eventCtrl.eventTypes.GETBOXDATA);
             eventCtrl.off(eventCtrl.eventTypes.GETRECTDATA);
             eventCtrl.off(eventCtrl.eventTypes.GETFEATURE);
+            $('body .carTypeTip').hide();
+            $('body .datetip').hide();
             if (map.floatMenu) {
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;

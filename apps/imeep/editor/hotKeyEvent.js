@@ -1495,13 +1495,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             } else if (shapeCtrl.editType === "updateSpeedNode") {
+                if(!featCodeCtrl.getFeatCode().speedData){return;}
                 var param = {
                     "command": "UPDATE",
                     "type": "RDSPEEDLIMIT",
                     "dbId": App.Temp.dbId,
-                    "data": geo
+                    "data": featCodeCtrl.getFeatCode().speedData
                 };
-                if (geo.direct == objEditCtrl.data.direct) {
+                if (featCodeCtrl.getFeatCode().speedData.direct == objEditCtrl.data.direct) {
                     swal("操作失败", "方向未改变！", "info");
                     return;
                 }

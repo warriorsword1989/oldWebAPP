@@ -2414,50 +2414,63 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     return;
                 } else if (type === "MODIFYSPEEDNODE") {
                     var pid = parseInt(selectCtrl.selectedFeatures.id),
-                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid);
+                        linkPid = parseInt(selectCtrl.selectedFeatures.linkPid),
+                        currentLink = null;
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.UPDATESPEEDNODE);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
                     map.currentTool.enable();
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
-                    tooltipsCtrl.setEditEventType('pointVertexAdd');
+                    tooltipsCtrl.setEditEventType('updateSpeedNode');
                     tooltipsCtrl.setCurrentTooltip('请选择新的位置点！');
                     tooltipsCtrl.setStyleTooltip("color:black;");
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
-                        var actualDistance = transform.distance($scope.selectedFeature.event.latlng.lat, $scope.selectedFeature.event.latlng.lng, shapeCtrl.shapeEditorResult.getFinalGeometry().y, shapeCtrl.shapeEditorResult.getFinalGeometry().x);
+                        var actualDistance = $scope.selectedFeature.event.latlng.distanceTo(new L.latLng(shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x));
                         if (actualDistance > 50) {
-                            swal("操作失败", '移动距离必须小于50米！', "warning");
+                            selectCtrl.selectedFeatures = null;
+                            editLayer.drawGeometry = null;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                            editLayer.clear();
+                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">移动距离必须小于50米，请重新选择位置！</span>');
                         } else {
-                            dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                                if (data) {
-                                    var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
-                                    var speedData = {
-                                        pid: pid,
-                                        longitude: point.x,
-                                        latitude: point.y,
-                                        objStatus: "UPDATE"
-                                    };
-                                    if (parseInt(pro.id) != linkPid) {
-                                        speedData.linkPid = parseInt(pro.id);
+                            var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
+                            var speedData = {
+                                pid: pid,
+                                longitude: point.x,
+                                latitude: point.y,
+                                objStatus: "UPDATE",
+                                linkPid:parseInt(pro.id)
+                            };
+                            if(pro.id != currentLink){
+                                currentLink = pro.id;
+                                dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                                    if (data) {
+                                        selectCtrl.onSelected({
+                                            geometry: data.geometry.coordinates,
+                                            id: data.pid,
+                                            direct: pro.direct,
+                                            point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                                        });
+                                        featCodeCtrl.setFeatCode({
+                                            "speedData": speedData
+                                        });
+                                        tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
                                     }
-                                    selectCtrl.onSelected({
-                                        geometry: data.geometry.coordinates,
-                                        id: data.pid,
-                                        direct: pro.direct,
-                                        point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
-                                    });
-                                    shapeCtrl.shapeEditorResult.setFinalGeometry(speedData);
-                                    shapeCtrl.setEditingType('updateSpeedNode');
-                                    tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
-                                }
-                            })
+                                })
+                            } else {
+                                featCodeCtrl.setFeatCode({
+                                    "speedData": speedData
+                                });
+                                tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
+                            }
                         }
                     });
                     return;

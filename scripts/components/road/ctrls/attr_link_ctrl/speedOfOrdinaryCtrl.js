@@ -158,17 +158,6 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
 
     };
 
-    $scope.angleOfLink=function(pointA,pointB) {
-        var PI = Math.PI,angle;
-        if((pointA.x-pointB.x)===0) {
-            angle = PI / 2;
-        }else{
-            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
-        }
-        return angle;
-
-    };
-
     $scope.showDirect = function (direct) {
         if($scope.rticDir != 1){
             return;

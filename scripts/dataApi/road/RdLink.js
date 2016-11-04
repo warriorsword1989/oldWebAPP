@@ -363,7 +363,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
                 this.speedlimits[i].toLimitSrc = 9;
                 this.speedlimits[i].toSpeedLimit = 0;
                 if(this.speedlimits[i].fromSpeedLimit != 0){
-                    this.speedlimits[i].speedClass = this.changeSpeedClass(this.speedlimits[i].fromSpeedLimit);
+                    this.speedlimits[i].speedClass = this._changeSpeedClass(this.speedlimits[i].fromSpeedLimit);
                 } else {
                     this.speedlimits[i].speedClass = 0;
                 }
@@ -372,7 +372,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
                 this.speedlimits[i].fromLimitSrc = 9;
                 this.speedlimits[i].fromSpeedLimit = 0;
                 if(this.speedlimits[i].toSpeedLimit != 0){
-                    this.speedlimits[i].speedClass = this.changeSpeedClass(this.speedlimits[i].toSpeedLimit);
+                    this.speedlimits[i].speedClass = this._changeSpeedClass(this.speedlimits[i].toSpeedLimit);
                 } else {
                     this.speedlimits[i].speedClass = 0;
                 }
@@ -384,27 +384,27 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         }
         //以下是对车道的维护
         if (direct == 2 || direct == 3) {
-            this.changeLinkClass(this.laneNum);
+            this._changeLaneClass(this.laneNum);
             this.laneLeft = this.laneRight = 0;
         } else {
             if (this.laneNum % 2) {
-                this.changeLinkClass((parseInt(this.laneNum) + 1) / 2);
+                this._changeLaneClass((parseInt(this.laneNum) + 1) / 2);
             } else {
                 if (!this.laneNum) {
                     var temp = this.laneRight > this.laneLeft ? this.laneRight : this.laneLeft;
-                    this.changeLinkClass(temp);
+                    this._changeLaneClass(temp);
                 } else {
-                    this.changeLinkClass(parseInt(this.laneNum) / 2);
+                    this._changeLaneClass(parseInt(this.laneNum) / 2);
                 }
             }
         }
     },
     /**
-     * 修改laneNum的关联维护
+     * 根据laneNum修改laneClass
      * 传laneNum
      * @param laneNum
      */
-    changeLinkClass: function (laneNum) {
+    _changeLaneClass: function (laneNum) {
         if (laneNum == 0) {
             this.laneClass = 0;
         } else if (laneNum == 1) {
@@ -416,11 +416,12 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         }
     },
     /**
-     * 修改SpeedClass的关联维护
+     * 根据SpeedLimit修改SpeedClass
      * 传SpeedLimit的值
      * @param value
+     * @return SpeedClass
      */
-    changeSpeedClass: function (value) {
+    _changeSpeedClass: function (value) {
         var result;
         if(value < 11 && value > 0){
             result = 8;
