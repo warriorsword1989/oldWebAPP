@@ -117,7 +117,9 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.contacts = [];
         if (data["contacts"]) {
             for (var i = 0, len = data["contacts"].length; i < len; i++) {
-                this.contacts.push(new FM.dataApi.IxPoiContact(data["contacts"][i]));
+            	if(data["contacts"][i].contactType == 1 || data["contacts"][i].contactType == 2){
+            		this.contacts.push(new FM.dataApi.IxPoiContact(data["contacts"][i]));
+            	}
             }
         }
         this.photos = [];
