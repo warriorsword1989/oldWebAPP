@@ -83,5 +83,27 @@ angular.module("dataService").service("dsManage", ["$http", "$q", "ajax", functi
             ajax.error(defer, rejection);
         });
         return defer.promise;
+    },
+
+    //提交子任务方法；；
+    this.submitTask = function(subtaskId) {
+        var defer = $q.defer();
+        ajax.get("edit/road/base/release/", {
+            parameter: JSON.stringify({
+                "subtaskId": subtaskId
+            })
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data);
+            } else if (data.errcode == -100) {
+                ajax.tokenExpired(defer);
+            } else {
+                swal("提交子任务出错", data.errmsg, "error");
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            ajax.error(defer, rejection);
+        });
+        return defer.promise;
     }
 }]);

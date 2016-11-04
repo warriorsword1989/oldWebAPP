@@ -132,7 +132,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData.passages[i]['tollForm'] = 0;
 			}
 		}
-		$scope.changeEtcCode();
+		$scope.tollGateData.etcFigureCode = $scope.changeEtcCode();
 		$scope.$emit('SWITCHCONTAINERSTATE', {
 			'subAttrContainerTpl': false,
 			'attrContainerTpl': true
@@ -214,7 +214,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 			if (passageLen < 6) {
 				_code = 'T0' + passageLen;
 				for (var i = 0, len = passageLen; i < len; i++) {
-					if ($scope.tollGateData.passages[i]['tollForm'] == 1) {
+					if ($scope.tollGateData.passages[i]['tollForm'] == 1 || $scope.tollGateData.passages[i]['cardType'] == 1) {
 						_code += '1';
 					} else {
 						_code += '0';
@@ -235,7 +235,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				if(passageLen%3 == 0){
 					for (var i = 1; i <= passageLen; i+=_times) {
 						for(var j=i;j<i+_times;j++){
-							if($scope.tollGateData.passages[j-1]['tollForm'] == 1){
+							if($scope.tollGateData.passages[j-1]['tollForm'] == 1 || $scope.tollGateData.passages[j-1]['cardType'] == 1){
 								if(i < _times+1){
 									_left = 1;
 								}else if(i < passageLen-_times+1 ){
@@ -248,7 +248,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 					}
 				}else if(passageLen%3 == 1){
 					for(var i=1;i<=passageLen;i++){
-							if($scope.tollGateData.passages[i-1]['tollForm'] == 1){
+							if($scope.tollGateData.passages[i-1]['tollForm'] == 1 || $scope.tollGateData.passages[i-1]['cardType'] == 1){
 								if(i<_times+1){
 									_left = 1;
 								}else if(i < passageLen-_times+1 ){
@@ -260,7 +260,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 					}
 				}else if(passageLen%3 == 2){
 					for(var i=1;i<=passageLen;i++){
-							if($scope.tollGateData.passages[i-1]['tollForm'] == 1){
+							if($scope.tollGateData.passages[i-1]['tollForm'] == 1 || $scope.tollGateData.passages[i-1]['cardType'] == 1){
 								if(i<_times+2){
 									_left = 1;
 								}else if(i < ((passageLen+1)/3)*2 ){
@@ -483,6 +483,7 @@ angular.module("app").controller("TollGateCtl", ['$scope', 'dsEdit', 'appPath', 
 				$scope.tollGateData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
+				highRenderCtrl.highLightFeatures.length = 0;
 				$scope.$emit('SWITCHCONTAINERSTATE', {
 					'subAttrContainerTpl': false,
 					'attrContainerTpl': false

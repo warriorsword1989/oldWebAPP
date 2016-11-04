@@ -807,6 +807,7 @@ a.fm-panel-controlArrowRight > span {
   max-height: 190px;
   max-width: 220px;
   margin: auto;
+  height: 140px;
 }
 .preview-left {
   position: absolute;
@@ -1722,7 +1723,7 @@ a.fm-panel-controlArrowRight > span {
   right: auto;
   bottom: 0;
   left: 60px;
-  position: absolute;
+  position: fixed;
   width: 250px;
   z-index: 99;
   display: none;
@@ -1731,7 +1732,7 @@ a.fm-panel-controlArrowRight > span {
   color: #fff;
   background-color: #949090;
   padding: 13px;
-  height: 40px;
+  min-height: 40px;
   margin-top: 3px;
 }
 .log-message-container .log-message .log-message-remove {
@@ -2170,6 +2171,7 @@ a.batchButton {
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+  display: inline-block;
 }
 .select-car.blue {
   background-color: #40A2D7;
@@ -2191,6 +2193,7 @@ a.batchButton {
   color: #ffffff;
   right: -2px;
   position: relative;
+  display: inline-block;
 }
 .select-car .remove-car-type {
   position: relative;

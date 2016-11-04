@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
-                        <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
+                        <div ng-cloak id="map" ng-style="{backgroundColor:'#FFFFFF',width: '100%',height: '100%'}">
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                         </div>
                         <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{left:advancedTool=='check'?'12%':'25%',right:advancedTool=='check'?'12%':'25%'}" style="top:50px;left:30%;right: 30%;">
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px','z-index':2,display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px','z-index':1,display: {true: 'block', false:'none'}[suspendPanelOpened]}">
                             <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
@@ -207,7 +207,7 @@
 
         <div ng-show="showLoading.flag" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
         <div id="dataTipsOriginModal" style="display:none" class="animated-fast zoomIn">
-            <div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
+            <div ng-include="tipsPitureContainer"></div>
         </div>
         <div id="dataTipsVideoModal" style="display:none">
             <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>

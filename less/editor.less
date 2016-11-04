@@ -839,6 +839,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   max-height: 190px;
   max-width: 220px;
   margin: auto;
+  height:140px;
 }
 .preview-btn() {
   position: absolute;
@@ -1704,7 +1705,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .log-message-container {
-  .absolute-position(auto,auto,0,60px);
+  .absolute-position(auto,auto,0,60px,fixed);
   width: 250px;
   z-index: 99;
   display: none;
@@ -1712,7 +1713,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #fff;
     background-color: #949090;
     padding: 13px;
-    height: 40px;
+    min-height: 40px;
     margin-top: 3px;
     .log-message-remove{
       height:100%;
@@ -2167,6 +2168,7 @@ input[type="range"]::-webkit-slider-thumb {
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+  display: inline-block;
   &.blue{
     background-color: #40A2D7;
     &:hover{
@@ -2187,6 +2189,7 @@ input[type="range"]::-webkit-slider-thumb {
     color: #ffffff;
     right: -2px;
     position: relative;
+    display: inline-block;
   }
   .remove-car-type{
     position: relative;

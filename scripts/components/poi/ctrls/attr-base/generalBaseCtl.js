@@ -1,16 +1,25 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
+angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $rootScope, $ocll, $q, dsEdit, dsMeta, appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var poiLayer = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-
+    $scope.truckFlagDisable = false;
     function initData() {
         if ($scope.generalPoiForm) {
             $scope.generalPoiForm.$setPristine();
         }
         $scope.poi = objectCtrl.data;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+        if ($scope.poi.status == 3 || $scope.poi.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
+            $rootScope.isSpecialOperation = true;
+        } else {
+            if ($rootScope.specialWork) { // 专项作业
+                $rootScope.isSpecialOperation = true;
+            } else {
+                $rootScope.isSpecialOperation = false;
+            }
+        }
         _retreatData($scope.poi);
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
@@ -274,12 +283,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if (chain == 0) {
             objectCtrl.data.chain = "";
         }
-        if(data && data.extend == '5'){
-            if(!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])){//运动场馆特殊处理，如果页面没有选择默认赋值为2
+        if (data && data.extend == '5') {
+            if (!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])) { //运动场馆特殊处理，如果页面没有选择默认赋值为2
                 objectCtrl.data.sportsVenue[0] = false;
                 objectCtrl.data.sportsVenue[1] = false;
                 objectCtrl.data.sportsVenue[2] = true;
-            }else {
+            } else {
                 objectCtrl.data.sportsVenue[2] = false;
             }
         } else {
@@ -287,10 +296,32 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             objectCtrl.data.sportsVenue[1] = false;
             objectCtrl.data.sportsVenue[2] = false;
         }
-
         //需求--当分类为加油站，并且open14h为1时，需要将gasstations中的openHour字段赋值为“00:00-24:00”
-        if(objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1){
+        if (objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1) {
             objectCtrl.data.gasstations[0].openHour = '00:00-24:00';
+        }
+
+        //21CHI为空时,增加名称的控制
+        var flag = true;
+        for (var i = 0, len = $scope.poi.names.length; i < len; i++) {
+            if ($scope.poi.name.langCode == $scope.poi.names[i].langCode && $scope.poi.name.nameClass == $scope.poi.names[i].nameClass && $scope.poi.name.nameType == $scope.poi.names[i].nameType) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            $scope.poi.names.unshift($scope.poi.name);
+        }
+        //增加对CHI地址为空的控制
+        flag = true;
+        for (var i = 0, len = $scope.poi.addresses.length; i < len; i++) {
+            if ($scope.poi.address.langCode == $scope.poi.addresses[i].langCode) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            $scope.poi.addresses.unshift($scope.poi.address);
         }
     }
     /*默认显示baseInfo的tab页*/
@@ -411,7 +442,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     };
     // 保存数据
     function save() {
-        if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2){
+        if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2) {
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
@@ -420,7 +451,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         clearDeepInfo(); //清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
         attrToDBC(); //部分属性转全角
-
         objectCtrl.save();
         var changed = objectCtrl.changedProperty;
         if (!changed) {
@@ -463,7 +493,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             if (objectCtrl.originalData.level == 'A' || objectCtrl.originalData.vipFlag) {
                 vipPoi = true;
             }
-            if(vipPoi){
+            if (vipPoi) {
                 swal({
                     title: "确定要维护该重要POI吗？",
                     type: "warning",
@@ -480,15 +510,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             } else {
                 saveChaged(changed);
             }
-
         }
     }
-    
+
     function saveChaged(changed) {
         dsEdit.update($scope.poi.pid, "IXPOI", changed).then(function(data) {
             if (data) {
                 $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
-
                 if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
                     if (changed.hasOwnProperty("kindCode") || changed.hasOwnProperty("indoor")) {
                         poiLayer.redraw();
@@ -530,7 +558,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
             $scope.$emit('closePopoverTips', false);
             //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
             if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
@@ -541,6 +572,28 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             }
         });
     }
+    /***
+     * kindcode chain fueltype变化时，联动truck 
+     */
+    $scope.getTruckByKindChain = function(kindcode,chain,fuelType){
+        if(kindcode == "230215"){//加油站
+        	fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
+        }
+    	var param = {
+        		kindCode: kindcode,
+        		chain: chain,
+        		fuelType:fuelType
+			};
+        dsMeta.queryTruck(param).then(function(data){
+        	if(data != -1){
+        		$scope.poi.truckFlag = data;
+        		$scope.truckFlagDisable = true;
+        	}else{
+        		$scope.poi.truckFlag = 0;
+        		$scope.truckFlagDisable = false;
+        	}
+        });
+    };
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
     eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, del); // 删除

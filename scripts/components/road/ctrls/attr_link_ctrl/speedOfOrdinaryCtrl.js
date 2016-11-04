@@ -76,18 +76,19 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         if (dir == 2) {
             item.fromLimitSrc = 1;
             value = parseFloat(item.fromSpeedLimit);
-            if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
+            if (value == 0 || (item.toSpeedLimit != "0" && item.toSpeedLimit < item.fromSpeedLimit)) {
                 value = parseFloat(item.toSpeedLimit);
             }
         } else if (dir == 3) {
             item.toLimitSrc = 1;
             value = parseFloat(item.toSpeedLimit);
-            if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
+            if (value == 0 || (item.fromSpeedLimit != "0" && item.fromSpeedLimit < item.toSpeedLimit)) {
                 value = parseFloat(item.fromSpeedLimit);
             }
         }
-
-        if(value < 11 && value > 0){
+        if(value == 0){
+            item.speedClass = 0;
+        } else if(value < 11 && value > 0){
             item.speedClass = 8;
         }else if(value <= 30 && value >= 11){
             item.speedClass = 7;
@@ -154,17 +155,6 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         eventController.on(eventController.eventTypes.DIRECTEVENT,function(event){
             $scope.speedAndDirect(event.geometry,index);
         })
-
-    };
-
-    $scope.angleOfLink=function(pointA,pointB) {
-        var PI = Math.PI,angle;
-        if((pointA.x-pointB.x)===0) {
-            angle = PI / 2;
-        }else{
-            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
-        }
-        return angle;
 
     };
 

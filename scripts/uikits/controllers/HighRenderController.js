@@ -192,7 +192,7 @@ fastmap.uikit.HighRenderController = (function() {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, fea, ctx);
                                     }
-                                } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
+                                } else if (this.highLightFeatures[item].type == 'node' && this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                                     var ctxOfSNode = {
                                         canvas: this.layer._tiles[tile],
                                         tile: L.point(tile.split(':')[0], tile.split(':')[1])
@@ -213,7 +213,7 @@ fastmap.uikit.HighRenderController = (function() {
                                         geom: geoOfSNode
                                     })
                                     break;
-                                } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
+                                } else if (this.highLightFeatures[item].type == 'node' && this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
                                     var ctxOfENode = {
                                         canvas: this.layer._tiles[tile],
                                         tile: L.point(tile.split(':')[0], tile.split(':')[1])
@@ -400,23 +400,46 @@ fastmap.uikit.HighRenderController = (function() {
                 if (feature.properties.id == id) {
                     if (id !== undefined) {
                         var laneObjArr = feature.properties.markerStyle.icon;
+                        // for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
+                        //     this.layer._drawBackground({
+                        //         ctx: ctx,
+                        //         geo: laneObjArr[fact].location,
+                        //         boolPixelCrs: true,
+                        //         rotate: feature.properties.rotate * (Math.PI / 180),
+                        //         lineColor: 'rgb(4, 187, 245)',
+                        //         fillColor: 'rgba(225,225,225, 0)',
+                        //         lineWidth: 1,
+                        //         width: 10,
+                        //         height: 20,
+                        //         drawx: -5,
+                        //         drawy: -10,
+                        //         scalex: 2 / 3,
+                        //         scaley: 2 / 3
+                        //     })
+                        // }
+                        var gjFlag = 1,gjNum = 0;
                         for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-                            this.layer._drawBackground({
-                                ctx: ctx,
-                                geo: laneObjArr[fact].location,
-                                boolPixelCrs: true,
-                                rotate: feature.properties.rotate * (Math.PI / 180),
-                                lineColor: 'rgb(4, 187, 245)',
-                                fillColor: 'rgba(225,225,225, 0)',
-                                lineWidth: 1,
-                                width: 10,
-                                height: 20,
-                                drawx: -5,
-                                drawy: -10,
-                                scalex: 2 / 3,
-                                scaley: 2 / 3
-                            })
+                            var nameStr = laneObjArr[fact].iconName.split("_");
+                            if(nameStr[1] == 1){
+                                gjNum ++;
+                                gjFlag = 2;
+                            }
                         }
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: laneObjArr[0].location,
+                            boolPixelCrs: true,
+                            rotate: feature.properties.rotate * (Math.PI / 180),
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(225,225,225, 0)',
+                            lineWidth: 1,
+                            width: 10 * (laneObjArr.length-gjNum),
+                            height: 20 * gjFlag,
+                            drawx: -5,
+                            drawy: -10,
+                            scalex: 2 / 3,
+                            scaley: 2 / 3
+                        })
                     }
                 }
             },
@@ -487,6 +510,7 @@ fastmap.uikit.HighRenderController = (function() {
                     for (var j in feature.geometry.coordinates) {
                         var geo = feature.geometry.coordinates[j];
                         if (feature.properties.isMainArr[j] == 1) { //主点
+                            fillColor = style.fillColor ? style.fillColor : "red";
                         } else {
                             fillColor = "green";
                         }

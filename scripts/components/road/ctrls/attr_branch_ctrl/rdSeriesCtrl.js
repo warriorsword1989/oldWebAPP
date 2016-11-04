@@ -371,8 +371,12 @@ namesOfBranch.controller("SeriesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad'
         dsEdit.deleteBranchByRowId(detailId,7).then(
             function(params){
                 if(params){
-                    highRenderCtrl.highLightFeatures = null
+                    highRenderCtrl.highLightFeatures.length = 0;
                     highRenderCtrl._cleanHighLight();
+                    if (map.floatMenu) {
+                        map.removeLayer(map.floatMenu);
+                        map.floatMenu = null;
+                    }
                     rdBranch.redraw();
                     $scope.$emit('SWITCHCONTAINERSTATE', {
             					'subAttrContainerTpl': false,

@@ -121,7 +121,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     point3 = map.latLngToContainerPoint([shapePoints[j + 2].y, shapePoints[j + 2].x]);
                     angle1 = $scope.angleOfLink(point1, point2);
                     angle2 = $scope.angleOfLink(point2, point3);
-                    if (Math.abs(angle1 - angle2) > 0.2) {
+                    if (Math.abs(angle1 - angle2) > 0.06) {
                         var points = [];
                         points.push(shapePoints[j]);
                         points.push(shapePoints[j + 1]);
@@ -575,6 +575,15 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
+                            selectCtrl.selectedFeatures = null;
+                            editLayer.drawGeometry = null;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                            editLayer.clear();
+                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">距离端点太近啦，请重新选择位置！</span>');
+                            return;
+                        }
                         if (data) {
                             selectCtrl.onSelected({
                                 geometry: data.geometry.coordinates,

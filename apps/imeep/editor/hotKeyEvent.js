@@ -6,7 +6,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
         //取消
         var layerCtrl = fastmap.uikit.LayerController();
-        var outPutCtrl = fastmap.uikit.OutPutController();
+        var outPutCtrl = fastmap.uikit.OutPutController();//没用啦
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var evtCtrl = fastmap.uikit.EventController();
         var toolTipsCtrl = fastmap.uikit.ToolTipsController();
@@ -113,6 +113,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             editLayer.clear();
+            if(objEditCtrl.originalData && !objEditCtrl.originalData.hasOwnProperty("pid")){
+                scope.$emit('SWITCHCONTAINERSTATE', {
+                    'subAttrContainerTpl': false,
+                    'attrContainerTpl': false
+                });
+            }
         }
 
         //获取当前的控制器级对应的模板;
@@ -457,22 +463,17 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        var directOfLink = {
-                            "objStatus": "UPDATE",
-                            "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct),
-                            "laneNum":objEditCtrl.data.laneNum,
-                            "direct": objEditCtrl.data.direct,
-                            "laneLeft":objEditCtrl.data.laneLeft,
-                            "laneRight":objEditCtrl.data.laneRight
-                        };
+                        objEditCtrl.save();
+                        if (!objEditCtrl.changedProperty) {
+                            swal("保存提示", '属性值没有变化，不需要保存！', "info");
+                            return;
+                        }
                         param = {
                             "type": "RDLINK",
                             "command": "UPDATE",
                             "dbId": App.Temp.dbId,
-                            "data": directOfLink
+                            "data": objEditCtrl.changedProperty
                         };
-                        console.log(objEditCtrl)
                         dsEdit.save(param).then(function (data) {
                             evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                             if (data != null) {
@@ -677,6 +678,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
+                if(!shapeCtrl.editFeatType){//创建点限速时距离过近，不让保存
+                    return;
+                }
                 var ctrl, tpl;
                 var selectShapeType = shapeCtrl.editFeatType;
                 param["command"] = "CREATE";
@@ -1491,13 +1495,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             } else if (shapeCtrl.editType === "updateSpeedNode") {
+                if(!featCodeCtrl.getFeatCode().speedData){return;}
                 var param = {
                     "command": "UPDATE",
                     "type": "RDSPEEDLIMIT",
                     "dbId": App.Temp.dbId,
-                    "data": geo
+                    "data": featCodeCtrl.getFeatCode().speedData
                 };
-                if (geo.direct == objEditCtrl.data.direct) {
+                if (featCodeCtrl.getFeatCode().speedData.direct == objEditCtrl.data.direct) {
                     swal("操作失败", "方向未改变！", "info");
                     return;
                 }

@@ -301,10 +301,10 @@
                             <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[pItem.flag]" ng-click="showLayers(pItem,$event)"></a>
                             <label>{{pItem.name}} <span>{{pItem.total}}</span></label>
                         </div>
-                        <ul ng-repeat="aItem in allSubItems">
+                        <ul ng-repeat="aItem in allSubItems" class="text-ellipsis">
                             <li ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '"
                                 ng-click="showTab(aItem,$event,pItem.id,$index)" ng-class="{true:'selected'}[allStyleArr[$index]]">
-                                <i class="glyphicon glyphicon-copyright-mark"> </i> <label data-toggle="tooltip"  title="{{aItem.m.f|date:'yyyy-MM-dd HH:mm:ss'}}">{{(aItem.m.e==''||aItem.m.e==null)?'未命名':aItem.m.e}}</label>
+                                <i class="glyphicon glyphicon-copyright-mark"> </i> <label data-toggle="tooltip"  title="{{aItem.m.f|date:'yyyy-MM-dd HH:mm:ss'}}">{{(!aItem.m.e)?'未命名':aItem.m.e}}</label>
                             </li>
                         </ul>
                     </li>
@@ -329,10 +329,10 @@
                             <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[pendItem.flag]" ng-click="showLayers(pendItem,$event)"></a>
                             <label>{{pendItem.name}} <span>{{pendItem.total}}</span></label>
                         </div>
-                        <ul ng-repeat="pendSubItem in pendSubItems">
+                        <ul ng-repeat="pendSubItem in pendSubItems" class="text-ellipsis">
                             <li ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '"
                                 ng-click="showTab(pendSubItem,$event,pendItem.id,$index)" ng-class="{true:'selected'}[pendingStyleArr[$index]]">
-                                <label>{{(pendSubItem.m.e == '')?'未命名': (pendSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss')}}</label>
+                                <label>{{(!pendSubItem.m.e)?'未命名': (pendSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss')}}</label>
                             </li>
                         </ul>
                     </li>
@@ -355,11 +355,11 @@
                             <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[solveItem.flag]" ng-click="showLayers(solveItem,$event)"></a>
                             <label>{{solveItem.name}}  <span>{{solveItem.total}}</span></label>
                         </div>
-                        <ul ng-repeat="solveSubItem in solvedSubItems">
+                        <ul ng-repeat="solveSubItem in solvedSubItems" class="text-ellipsis">
                             <li ng-if="solveSubItem.i!=''||solveSubItem.i!=null||solveSubItem.i!=' '"
                                 ng-click="showTab(solveSubItem,$event,solveItem.id,$index)"
                                 ng-class="{true:'selected'}[solvedStyleArr[$index]]">
-                                <label>{{(solveSubItem.m.e == '') ? '未命名':(solveSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss')}}</label>
+                                <label>{{(!solveSubItem.m.e) ? '未命名':(solveSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss')}}</label>
                             </li>
                         </ul>
                     </li>

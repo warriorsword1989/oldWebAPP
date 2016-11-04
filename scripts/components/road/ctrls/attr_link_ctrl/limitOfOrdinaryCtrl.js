@@ -392,6 +392,9 @@ oridinaryInfoApp.controller("ordinaryLimitController", function($scope, $timeout
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        if (containerPoint.x > pointVertex.x) {
+            angle = Math.PI + angle;
+        }
         var marker = {
             flag: true,
             pid: $scope.linkData.pid,
