@@ -893,7 +893,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 
         /*要素地图高亮及定位事件监听*/
         $scope.$on("locatedOnMap", function(event, data) {
-            _showOnMapNew(data.objPid,data.objType);
+            _showOnMapNew(data.objPid, data.objType);
             //$scope.showOnMap(data.pid, data.type);
         });
 
@@ -904,17 +904,19 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             dsEdit.getByPid(pid, featType).then(function(data) {
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
-                var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
-                var coord;
-                if (data.geometry.type == 'Point') {
-                    coord = data.geometry.coordinates;
-                } else if (data.geometry.type == 'LineString') {
-                    coord = data.geometry.coordinates[0];
-                } else if (data.geometry.type == 'Polygon') {
-                    coord = data.geometry.coordinates[0][0];
-                }
-                if (coord) {
-                    map.setView([coord[1], coord[0]]);
+                if (data.geometry) {
+                    var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
+                    var coord;
+                    if (data.geometry.type == 'Point') {
+                        coord = data.geometry.coordinates;
+                    } else if (data.geometry.type == 'LineString') {
+                        coord = data.geometry.coordinates[0];
+                    } else if (data.geometry.type == 'Polygon') {
+                        coord = data.geometry.coordinates[0][0];
+                    }
+                    if (coord) {
+                        map.setView([coord[1], coord[0]], zoom);
+                    }
                 }
                 var page = _getFeaturePage(featType);
                 if (featType == "IXPOI") {
@@ -930,10 +932,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
                     highRenderCtrl.highLightFeatures.push({
-                        id:data.pid.toString(),
-                        layerid:'poi',
-                        type:'IXPOI',
-                        style:{}
+                        id: data.pid.toString(),
+                        layerid: 'poi',
+                        type: 'IXPOI',
+                        style: {}
                     });
                     highRenderCtrl.drawHighlight();
                     return;
