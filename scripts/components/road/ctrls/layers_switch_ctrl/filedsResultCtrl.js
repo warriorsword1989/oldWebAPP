@@ -510,7 +510,7 @@ var filedsModule = angular.module('app').controller('FieldsResultController', ['
                         }
                     };
                     $scope.$emit("transitCtrlAndTpl", ctrlAndTpl);
-                } else if (pItemId === "1202") { //车道数
+                } else if (pItemId === "1202") { //车道数 ;
                     // map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], zoom);
                     var ctrlAndTpl = {
                         "loadType": "tipsTplContainer",
