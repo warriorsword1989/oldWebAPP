@@ -13,6 +13,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
+        this.container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndexs = [];
@@ -101,7 +102,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
     },
 
     onMouseMove: function(event) {
-        this.container.style.cursor = 'crosshair';
+        this.container.style.cursor = 'pointer';
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
