@@ -36,6 +36,7 @@
 #dataTipsOriginImg {
   width: 100%;
   display: block;
+  transition: all .3s;
 }
 #loadText {
   width: 50%;

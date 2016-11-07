@@ -4140,7 +4140,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             });
         };
         $scope.getFeatDataCallback = function(selectedData, id, type, ctrl, tpl, toolsObj) {
-            /*if (type == 'RDBRANCH') {
+            if (type == 'RDBRANCH') {
                 if (selectedData.branchType == 5 || selectedData.branchType == 7) {
                     dsEdit.getBranchByRowId(selectedData.id, selectedData.branchType).then(function(data) {
                         getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj);
@@ -4150,11 +4150,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj);
                     });
                 }
-            } else {*/
+            } else {
                 dsEdit.getByPid(id, type).then(function(data) {
                     getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj);
                 });
-            // }
+             }
             //高亮poi并放入selectCtrl
             function initPoiData(selectedData, data) {
                 if (data.status == 3 || data.state == 2) {
