@@ -17,6 +17,7 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
         }
         this.geometry['type'] = 'LineString';
         this.properties["featType"] = "RDLINK";
+        this.properties['kind'] = data.m.a;
         this.properties['name'] = data.m.b;
         this.properties['direct'] = data.m.d;
         this.properties['snode'] = data.m.e;

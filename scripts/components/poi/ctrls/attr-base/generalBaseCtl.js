@@ -442,7 +442,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
     };
     // 保存数据
     function save() {
-        if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2) {
+    	//对于已提交的数据支持编辑|| objectCtrl.data.state == 2
+        if (objectCtrl.data.status == 3) {
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
