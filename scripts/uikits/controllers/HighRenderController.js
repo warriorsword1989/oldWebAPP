@@ -24,7 +24,10 @@ fastmap.uikit.HighRenderController = (function() {
                 var that = this;
                 this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
                     that.drawHighlight();
-                })
+                });
+                this.eventController.on('TileJsonLayerLoaded', function(e) {
+                    console.log('--------------------------------------------');
+                });
             },
             /**
              * 当前渲染图层

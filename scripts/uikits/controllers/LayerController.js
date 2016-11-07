@@ -26,8 +26,19 @@ fastmap.uikit.LayerController = (function() {
                 this.eventController.on(this.eventController.eventTypes.LAYERONADD, this.OnAddLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONREMOVE, this.OnRemoveLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONSWITCH, this.OnSwitchLayer, this);
+                this.tileLayerLoaded = 0;
+                this.tileLayerVisible = 0;
             },
             initLayer: function() {
+                var cnt = 0,
+                    tileLayer;
+                var that = this;
+                var loadedFunc = function() {
+                    that.tileLayerLoaded++;
+                    if (that.tileLayerLoaded == that.tileLayerVisible) {
+                        that.eventController.fire('TileJsonLayerLoaded');
+                    }
+                };
                 for (var group in this.config) {
                     for (var layer in this.config[group].layers) {
                         if (this.maxZIndex < (this.config[group].layers[layer].options.zIndex)) {
@@ -40,9 +51,13 @@ fastmap.uikit.LayerController = (function() {
                         this.zIndexQueue.push(zIndexObj);
                         this.config[group].layers[layer].options.groupId = this.config[group].groupId;
                         if (this.config[group].groupId == "dataLayers") {
-                            this.layers.push(this.config[group].layers[layer].clazz(App.Util.createTileRequestObject(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options));
+                            tileLayer = this.config[group].layers[layer].clazz(App.Util.createTileRequestObject(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options);
+                            tileLayer.on('load', loadedFunc);
+                            this.layers.push(tileLayer);
                         } else if (this.config[group].groupId == "worklayer") {
-                            this.layers.push(this.config[group].layers[layer].clazz(App.Util.createTileRequestObjectForTips(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options));
+                            tileLayer = this.config[group].layers[layer].clazz(App.Util.createTileRequestObjectForTips(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options);
+                            tileLayer.on('load', loadedFunc);
+                            this.layers.push(tileLayer);
                         } else {
                             this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));
                         }
@@ -131,16 +146,18 @@ fastmap.uikit.LayerController = (function() {
              * @method setLayersVisible
              * @param layerId
              */
-            setLayersVisible : function(layerId){
+            setLayersVisible: function(layerId) {
                 var tempLayer = [];
-                if(typeof layerId=='object'&&layerId.length){
-                    for(var layer in layerId){
+                if (typeof layerId == 'object' && layerId.length) {
+                    for (var layer in layerId) {
                         tempLayer.push(this.getLayerById(layerId[layer]));
                     }
-                }else{
+                } else {
                     tempLayer.push(this.getLayerById(layerId));
                 }
-                this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {layer: tempLayer});
+                this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {
+                    layer: tempLayer
+                });
             },
             /**
              * 可编辑的图层
@@ -179,7 +196,6 @@ fastmap.uikit.LayerController = (function() {
                 }
                 return layers;
             },
-
             /**
              * 根据id获取图层
              * @method getLayerById
@@ -246,15 +262,14 @@ fastmap.uikit.LayerController = (function() {
                     }
                 }
             },
-
-          /**
-           * 获取所有可见的tilejson图层
-           * @returns {Array}
-           */
-            getAllTileJsonLayer: function () {
+            /**
+             * 获取所有可见的tilejson图层
+             * @returns {Array}
+             */
+            getAllTileJsonLayer: function() {
                 var layers = [];
                 for (var item in this.layers) {
-                    if (!FM.Util.isEmptyObject(this.layers[item].tiles)&&this.layers[item].options.visible==true) {
+                    if (!FM.Util.isEmptyObject(this.layers[item].tiles) && this.layers[item].options.visible == true) {
                         layers.push(this.layers[item]);
                     }
                 }

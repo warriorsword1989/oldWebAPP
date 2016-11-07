@@ -149,6 +149,15 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 					map.invalidateSize()
 				}, 400);
 			});
+			map.on("movestart", function(e) {
+				layerCtrl.tileLayerLoaded = 0;
+				layerCtrl.tileLayerVisible = 0;
+				map.eachLayer(function(l) {
+					if(l instanceof fastmap.mapApi.TileJSON) {
+						layerCtrl.tileLayerVisible++;
+					}
+				});
+			});
 			map.on("moveend", function(e) {
 				var c = map.getCenter();
 				$cookies.put('IMEEP_EDITOR_MAP_ZOOM', map.getZoom(), {
