@@ -1238,6 +1238,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入线;
+                    	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1){
+                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+                    		return;
+                    	}
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -2681,6 +2685,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     nodePid: "",
                     laneDir: 1
                 };
+                var rdlinkData = [];
+                var nodePids = [];
                 highRenderCtrl.highLightFeatures = [];
                 highRenderCtrl._cleanHighLight();
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
@@ -2700,8 +2706,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         return;
                     }
                     var rdlinks = rdLink.tiles[data.tileId].data;
-                    var rdlinkData = [];
-                    var nodePids = [];
+
                     for (var i = 0; i < rdlinks.length; i++) {
                         if (rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
                             laneTopoData.linkPids.push(parseInt(data.id));
@@ -2730,7 +2735,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.highLightFeatures.push({
                                 id: nodePids[1].toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
@@ -2739,13 +2744,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             highRenderCtrl.highLightFeatures.push({
                                 id: nodePids[0].toString(),
                                 layerid: 'rdLink',
-                                type: 'rdnode',
+                                type: 'node',
                                 style: {}
                             });
                             highRenderCtrl.drawHighlight();
                         }
                         tooltipsCtrl.setCurrentTooltip('请选择经过线或者退出线！');
-                    } else if (laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") { //经过线、退出线
+                    } else if (laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") { //进入线方向为1时候的经过线、退出线
                         if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2 || nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
                             highRenderCtrl.highLightFeatures.push({
                                 id: laneTopoData.linkPids[1].toString(),
@@ -2758,7 +2763,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 highRenderCtrl.highLightFeatures.push({
                                     id: nodePids[2].toString(),
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {}
                                 });
                             }
@@ -2767,7 +2772,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 highRenderCtrl.highLightFeatures.push({
                                     id: nodePids[3].toString(),
                                     layerid: 'rdLink',
-                                    type: 'rdnode',
+                                    type: 'node',
                                     style: {}
                                 });
                             }
@@ -2786,9 +2791,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl.drawHighlight();
                     }
                     shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
-                    tooltipsCtrl.setEditEventType('laneTopoData');
-                    tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
+                    // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
                 });
             }
         }

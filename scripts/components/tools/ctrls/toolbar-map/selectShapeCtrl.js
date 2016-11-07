@@ -21,8 +21,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
         var crfData = layerCtrl.getLayerById('crfData');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
-        var originalFeature = []; // 用于poi
-        var selectCount = 0; // 用于poi
         var popup = L.popup();
         $scope.toolTipText = "";
         $scope.angleOfLink = function(pointA, pointB) {
@@ -306,8 +304,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     nodeType: "PointFeature"
                 });
                 map.currentTool.enable();
-                selectCount = 0;
-                originalFeature = [];
                 //需要捕捉的图层
                 // map.currentTool.snapHandler.addGuideLayer(rdNode);
                 $scope.toolTipText = '请选择点要素！';
@@ -4246,6 +4242,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
             }  else if (type === "RESETPOI") {
                 if (selectCtrl.selectedFeatures) {
+                    if (tooltipsCtrl.getCurrentTooltip()) {
+                        tooltipsCtrl.onRemoveTooltip();
+                    }
                     map.currentTool.disable();
                     selectCtrl.selectedFeatures.geometry.components[0].y = objCtrl.data.geometry.coordinates[1];
                     selectCtrl.selectedFeatures.geometry.components[0].x = objCtrl.data.geometry.coordinates[0];
@@ -4261,6 +4260,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
                 return;
             } else if (type === "POISAME") {
+                map.closePopup();
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
@@ -4317,6 +4317,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 });
                 // return;
             } else if (type === "SELECTPARENT") {
+                map.closePopup();
                 tooltipsCtrl.setCurrentTooltip('请框选地图上的POI点！');
                 eventController.off(eventController.eventTypes.GETBOXDATA);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function(event) {
@@ -4424,39 +4425,25 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             if (!selectCtrl.selectedFeatures) {
                 return;
             }
-            if (!selectCount) {
-                // $scope.$apply();
-                //停止shapeCtrl
-                if (shapeCtrl.getCurrentTool()['options']) {
-                    shapeCtrl.stopEditing();
-                }
-                var feature = null;
-                if (map.currentTool) {
-                    map.currentTool.disable();
-                }
-                if (shapeCtrl.shapeEditorResult) {
-                    if (tooltipsCtrl.getCurrentTooltip()) {
-                        tooltipsCtrl.onRemoveTooltip();
-                    }
-                    feature = selectCtrl.selectedFeatures.geometry; //获取要编辑的几何体的geometry
-                    //组装一个线
-                    feature.components = [];
-                    feature.points = [];
-                    feature.components.push(feature[0]);
-                    feature.components.push(feature[1]);
-                    feature.points.push(feature[0]);
-                    feature.points.push(feature[1]);
-                    originalFeature.push(feature[0].clone());
-                    originalFeature.push(feature[1].clone());
-                    feature.type = "IXPOI";
-                    layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
-                    var sObj = shapeCtrl.shapeEditorResult;
-                    editLayer.drawGeometry = feature;
-                    editLayer.draw(feature, editLayer); //在编辑图层中画出需要编辑的几何体
-                    sObj.setOriginalGeometry(feature);
-                    sObj.setFinalGeometry(feature);
-                    selectCount = 1;
-                }
+            var feature = null;
+            if (map.currentTool) {
+                map.currentTool.disable();
+            }
+            if (shapeCtrl.shapeEditorResult) {
+                feature = selectCtrl.selectedFeatures.geometry; //获取要编辑的几何体的geometry
+                feature.components = [];
+                feature.points = [];
+                feature.components.push(feature[0]);
+                feature.components.push(feature[1]);
+                feature.points.push(feature[0]);
+                feature.points.push(feature[1]);
+                feature.type = "IXPOI";
+                layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
+                var sObj = shapeCtrl.shapeEditorResult;
+                editLayer.drawGeometry = feature;
+                editLayer.draw(feature, editLayer); //在编辑图层中画出需要编辑的几何体
+                sObj.setOriginalGeometry(feature);
+                sObj.setFinalGeometry(feature);
             }
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑的类型
             shapeCtrl.startEditing(); // 开始编辑
@@ -4520,30 +4507,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
 
             });
         };
-        $scope.clearMap = function() {
-            //重置选择工具
-            $scope.resetToolAndMap();
-            //移除上一步中的悬浮按钮
-            // $scope.classArr[0] = false;
-            //重置上一步中的属性栏和tips框
-            originalFeature = [];
-            selectCount = 0;
-        };
-        /*
-         获取地图上的指定图层
-         */
-        $scope.getLayerById = function(layerId) {
-            var layer;
-            for (var item in map._layers) {
-                if (map._layers[item].options && map._layers[item].options.id) {
-                    if (map._layers[item].options.id === layerId) {
-                        layer = map._layers[item];
-                        break;
-                    }
-                }
-            }
-            return layer;
-        };
         /**
          * 查找poi
          */
@@ -4564,15 +4527,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
             });
         };
-        $scope.resetMap = function(myPid) {
-            map.closePopup();
-            // $scope.clearMap();
-            var drawLayer = $scope.getLayerById('parentLayer');
-            if (drawLayer != undefined) {
-                map.removeLayer(drawLayer);
-            }
-            $scope.getPoi(myPid);
-        };
         /*
          变更父子关系
          */
@@ -4582,18 +4536,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             if (myParent.length > 0) {
                 if (myParent[0].parentPoiPid == parentId) { //解除
                     dsEdit.deleteParent(myPid).then(function(data) {
-                        $scope.resetMap(myPid);
+                        $scope.getPoi(myPid);
                     });
                 } else { //更新
                     dsEdit.updateParent(myPid, parentId).then(function(data) {
-                        $scope.resetMap(myPid);
+                        $scope.getPoi(myPid);
                     });
                 }
             } else { //新增
                 dsEdit.createParent(myPid, parentId).then(function(data) {
-                    $scope.resetMap(myPid);
+                    $scope.getPoi(myPid);
                 });
             }
+            map.closePopup();
             if(tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -4603,7 +4558,6 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             var pid = objCtrl.data.pid;
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
-            // $scope.clearMap();
             var highLightFeatures = [];
             highLightFeatures.push({
                 id: pid,
