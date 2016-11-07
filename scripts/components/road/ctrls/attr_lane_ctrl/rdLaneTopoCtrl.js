@@ -110,10 +110,10 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
             $("#label"+laneTopoVias[i].lanePid).text("");
             $("#"+laneTopoVias[i].lanePid).removeClass('green');
         }
-        inLanePid = null;
-        outLanePid = null;
-        outLinkPid = null;
-        laneTopoVias = [];
+        // inLanePid = null;
+        // outLanePid = null;
+        // outLinkPid = null;
+        // laneTopoVias = [];
     };
     $scope.checkLanes =function(){
         var checkFlag = true;
@@ -169,7 +169,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
         dsEdit.save(param).then(function (data) {
             if (data != null) {
                 relationData.redraw();
-                $scope.clearLanes();1
+                $scope.clearLanes();
                 swal("提示","保存车道连通成功！","success");
                 $scope.doClose();
             }
@@ -248,7 +248,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
             // var distance = (L.latLng(laneInfoArr[i].geometry.coordinates[0][1],laneInfoArr[i].geometry.coordinates[0][0])).distanceTo(L.latLng(laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length-1][1],laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length-1][0]))
             var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI) ;//旋转角度
             if ((s_lat > e_lat || (s_lat == e_lat && s_lng > e_lng))) {
-                deg = deg + 180;
+                deg = 180 + deg;
             }
             // var scale = distance/150;
             var _width = lanes1Arr.length * 30 + 20;
@@ -298,7 +298,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 var kk = ( s_lng - e_lng) / (s_lat - e_lat);
                 var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI);//旋转角度
                 if ((s_lat > e_lat || (s_lat == e_lat && s_lng > e_lng))) {
-                    deg = deg + 180;
+                    deg = 180 + deg;
                 }
                 var _width = lanes2Arr.length * 30 + 20;
                 var xtrans = _width / 2 * Math.sin(deg);
@@ -324,6 +324,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 html += "<div class='roadside-right'></div>";
                 html += "</div>";
                 var myIcon = L.divIcon({
+                    iconSize:[0,0],
                     // iconAnchor:[0,50],
                     html: html
                 });
@@ -343,7 +344,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 var kk = ( s_lng - e_lng) / (s_lat - e_lat);
                 var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI) ;//旋转角度
                 if ((s_lat > e_lat || (s_lat == e_lat && s_lng > e_lng))) {
-                    deg = deg + 180;
+                    deg = 180 + deg;
                 }
                 var _width = lanes3Arr.length * 30 + 20;
                 var xtrans = _width / 2 * Math.sin(deg);
@@ -369,6 +370,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 html += "<div class='roadside-right'></div>";
                 html += "</div>";
                 var myIcon = L.divIcon({
+                    iconSize:[0,0],
                     // iconAnchor:[0,50],
                     html: html
                 });

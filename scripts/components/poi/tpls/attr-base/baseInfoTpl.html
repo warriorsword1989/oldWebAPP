@@ -94,7 +94,8 @@
                   <li>
                       <label >关联LINK</label>
                       <div>
-                          <span ng-bind="poi.linkPid"></span>
+                          <span ng-bind="poi.linkPid"></span>&nbsp;&nbsp;
+                          <span>{{{0:'不应用',1:'左侧',2:'右侧',3:'线上'}[poi.side]}}</span>
                       </div>
                   </li>
                   <li>
