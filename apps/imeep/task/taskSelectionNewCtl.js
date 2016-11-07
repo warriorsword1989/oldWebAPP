@@ -111,7 +111,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
         function loadSubTaskfn() {
             $scope.selectArrow = false;
             dsManage.getSubtaskListByUser({
-                'exeUserId': pUserCookie.userId,
+                // 'exeUserId': pUserCookie.userId,  // commented by chenx on 2016-11-7，服务接口已改，不传userId时会查当前用户的
                 'status': $scope.currentTab,
                 'snapshot': 0,
                 'platForm': 1,
