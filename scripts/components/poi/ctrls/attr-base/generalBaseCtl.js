@@ -5,6 +5,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
     var poiLayer = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.truckFlagDisable = false;
+
     function initData() {
         if ($scope.generalPoiForm) {
             $scope.generalPoiForm.$setPristine();
@@ -21,6 +22,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             }
         }
         _retreatData($scope.poi);
+        initShowTag();
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
          * 将名称组中的21CHI的名称放置在name中，如果不存在21CHI的数据，则给name赋值默认数据
@@ -62,7 +64,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             }
         }
     }
-    initData();
     /*切换tag按钮*/
     $scope.changeProperty = function(tagName) {
         $scope.propertyType = tagName;
@@ -300,7 +301,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         if (objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1) {
             objectCtrl.data.gasstations[0].openHour = '00:00-24:00';
         }
-
         //21CHI为空时,增加名称的控制
         var flag = true;
         for (var i = 0, len = $scope.poi.names.length; i < len; i++) {
@@ -333,7 +333,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         }
         $scope.changeProperty($scope.propertyType);
     }
-    initShowTag();
     //清除样式
     $scope.$on("clearBaseInfo", function() {
         $scope.nodeForm.$setPristine(); //清除ng-ditry
@@ -442,7 +441,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
     };
     // 保存数据
     function save() {
-    	//对于已提交的数据支持编辑|| objectCtrl.data.state == 2
+        //对于已提交的数据支持编辑|| objectCtrl.data.state == 2
         if (objectCtrl.data.status == 3) {
             swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
@@ -574,25 +573,25 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         });
     }
     /***
-     * kindcode chain fueltype变化时，联动truck 
+     * kindcode chain fueltype变化时，联动truck
      */
-    $scope.getTruckByKindChain = function(kindcode,chain,fuelType){
-        if(kindcode == "230215"){//加油站
-        	fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
+    $scope.getTruckByKindChain = function(kindcode, chain, fuelType) {
+        if (kindcode == "230215") { //加油站
+            fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
         }
-    	var param = {
-        		kindCode: kindcode,
-        		chain: chain,
-        		fuelType:fuelType
-			};
-        dsMeta.queryTruck(param).then(function(data){
-        	if(data != -1){
-        		$scope.poi.truckFlag = data;
-        		$scope.truckFlagDisable = true;
-        	}else{
-        		$scope.poi.truckFlag = 0;
-        		$scope.truckFlagDisable = false;
-        	}
+        var param = {
+            kindCode: kindcode,
+            chain: chain,
+            fuelType: fuelType
+        };
+        dsMeta.queryTruck(param).then(function(data) {
+            if (data != -1) {
+                $scope.poi.truckFlag = data;
+                $scope.truckFlagDisable = true;
+            } else {
+                $scope.poi.truckFlag = 0;
+                $scope.truckFlagDisable = false;
+            }
         });
     };
     /* start 事件监听 ********************************************************/
@@ -600,4 +599,5 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
     eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, del); // 删除
     eventCtrl.on(eventCtrl.eventTypes.CANCELEVENT, $scope.cancel); // 取消
     eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, initData); // 数据切换
+    initData();
 }]);
