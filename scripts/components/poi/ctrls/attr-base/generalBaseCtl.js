@@ -21,6 +21,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
                 $rootScope.isSpecialOperation = false;
             }
         }
+        $scope.changeProperty('base');//默认显示基本属性页面
         _retreatData($scope.poi);
         initShowTag();
         /**
@@ -314,14 +315,22 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         }
         //增加对CHI地址为空的控制
         flag = true;
+        var addIndex = -1;
         for (var i = 0, len = $scope.poi.addresses.length; i < len; i++) {
             if ($scope.poi.address.langCode == $scope.poi.addresses[i].langCode) {
                 flag = false;
+                addIndex = i;
                 break;
             }
         }
         if (flag) {
-            $scope.poi.addresses.unshift($scope.poi.address);
+            if($scope.poi.address.fullname){ //当fullname不为空时在增加地址对象
+                $scope.poi.addresses.unshift($scope.poi.address);
+            }
+        } else {
+            if(!$scope.poi.address.fullname){ //当从编辑页面把fullname字段删除后，需要清除address对象
+                $scope.poi.addresses.splice(addIndex,1);
+            }
         }
     }
     /*默认显示baseInfo的tab页*/
@@ -374,6 +383,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         var name = objectCtrl.data.name.name;
         if (!(name && name.length <= 35)) {
             swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
+            return false;
+        }
+        if(objectCtrl.data.address.fullname && objectCtrl.data.address.fullname.length == 1){
+            swal("保存提示", '地址的长度不能为1！', "warning");
             return false;
         }
         var kindCode = objectCtrl.data.kindCode;

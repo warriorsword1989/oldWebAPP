@@ -186,7 +186,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
         if (!clickEventA || !clickEventB) {
             return false;
         }
-        if (Math.abs(clickEventA.time - clickEventB.time) <= 200 && Math.abs(clickEventA.screenX - clickEventB.screenX) <= 2 && Math.abs(clickEventA.screenY - clickEventB.screenY) <= 2) {
+        if (Math.abs(clickEventA.time - clickEventB.time) <= 500 && Math.abs(clickEventA.screenX - clickEventB.screenX) <= 3 && Math.abs(clickEventA.screenY - clickEventB.screenY) <= 3) {
             return true;
         }
         return false;
