@@ -1238,6 +1238,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入线;
+                    	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1){
+                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+                    		return;
+                    	}
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
