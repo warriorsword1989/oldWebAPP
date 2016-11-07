@@ -411,7 +411,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 'type': 'PATHDEPARTNODE',
                                 'class': "feaf",
                                 callback: $scope.modifyTools
-                        }
+                        },
+                            {
+                                'text': "<span class='float-option-bar'>平</span>",
+                                'title': "平滑修行",
+                                'type': 'PATHSMOOTH',
+                                'class': "feaf",
+                                callback: $scope.modifyTools
+                            }
                         ]
                     };
                     //当在移动端进行编辑时,弹出此按钮
@@ -3958,6 +3965,20 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         return;
                     }*/
                     return;
+                }
+                else if(type == 'PATHSMOOTH'){
+                    //防止用户混合操作，原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                    if (shapeCtrl.editType && !(shapeCtrl.editType == 'PATHSMOOTH')) { //这样做的原因是，打断、修改方向、增加形状点(删除，移动形状点)是分开的保存方法
+                        tooltipsCtrl.setCurrentTooltip('<span style="color: red;">道路线的端点已经修改过或分离，请先按空格键保存！</span>');
+                        return;
+                    }
+                    if (selectCtrl.selectedFeatures) {
+                        tooltipsCtrl.setEditEventType('pathSmooth');
+                        tooltipsCtrl.setCurrentTooltip('开始平滑修形！');
+                    } else {
+                        tooltipsCtrl.setCurrentTooltip('正要平滑修形,请选择形状点或是端点进行移动！');
+                        return;
+                    }
                 }
                 if (!selectCtrl.selectedFeatures) {
                     return;

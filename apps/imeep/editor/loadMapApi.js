@@ -18,7 +18,7 @@
         "Tile.js",
         "ShapeOptionTypeEnum.js",
         // layer
-                "layer/Layer.js",
+        "layer/Layer.js",
         "layer/WholeLayer.js",
         "layer/MeshLayer.js",
         "LayerRender.js",

@@ -169,5 +169,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      分离节点
      */
-    'PATHDEPARTNODE':'pathDepartNode'
+    'PATHDEPARTNODE':'pathDepartNode',
+
+    //平滑修形
+    'PATHSMOOTH':'pathSmooth'
+
 }
