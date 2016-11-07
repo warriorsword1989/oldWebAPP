@@ -135,12 +135,12 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				zoomControl: false
 			});
 			//高亮作业区域
-			var substaskGeomotry = data.geometry;
-			var pointsArray = hightLightWorkArea(substaskGeomotry);
-			var lineLayer = L.multiPolygon(pointsArray, {
-				fillOpacity: 0
+			var pointsArray = getCoordinatesFromWKT(data.geometry);
+			var taskLayer = L.polygon(pointsArray, {
+				fillOpacity: 0,
+				noClip: true,
 			});
-			map.addLayer(lineLayer);
+			map.addLayer(taskLayer);
 			map.on("zoomend", function(e) {
 				document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
 			});
@@ -161,7 +161,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			if ($cookies.get('IMEEP_EDITOR_MAP_ZOOM') && $cookies.get('IMEEP_EDITOR_MAP_CENTER')) {
 				map.setView(JSON.parse($cookies.get('IMEEP_EDITOR_MAP_CENTER')), $cookies.get('IMEEP_EDITOR_MAP_ZOOM'));
 			} else {
-				map.fitBounds(lineLayer.getBounds());
+				map.fitBounds(taskLayer.getBounds());
 			}
 			// L.control.scale({position:'bottomleft',imperial:false}).addTo(map);
 			// map.setView([40.012834, 116.476293], 17);
@@ -483,16 +483,25 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			$scope.currentPage = 1;
 		};
 		//高亮作业区域方法;
-		function hightLightWorkArea(substaskGeomotry) {
+		function getCoordinatesFromWKT(substaskGeomotry) {
 			var wkt = new Wkt.Wkt();
-			var pointsArr = new Array();
+			var polygon;
 			//读取wkt格式的集合对象;
 			try {
-				var polygon = wkt.read(substaskGeomotry);
+				polygon = wkt.read(substaskGeomotry);
+			} catch (e1) {
+				try {
+					polygon = wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
+				} catch (e2) {
+					if (e2.name === 'WKTError') {
+						swal("错误", 'WKT数据有误，请检查！', "error");
+					}
+				}
+			}
+			if(polygon) {
 				var coords = polygon.components;
 				var points = [];
 				var point = [];
-				var poly = [];
 				for (var i = 0; i < coords.length; i++) {
 					for (var j = 0; j < coords[i].length; j++) {
 						if (polygon.type == 'multipolygon') {
@@ -506,17 +515,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 					points.push(point);
 					point = [];
 				}
-				return points;
-			} catch (e1) {
-				try {
-					wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
-				} catch (e2) {
-					if (e2.name === 'WKTError') {
-						swal("错误", 'WKT数据有误，请检查！', "error");
-						return;
-					}
-				}
 			}
+			return points;
 		}
 		/**
 		 * 页面初始化方法调用
