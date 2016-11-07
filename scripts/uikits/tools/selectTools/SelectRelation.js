@@ -237,10 +237,27 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 event:event
             })
         } else if (this.overlays.length > 1) {
+            var branchTypeObj = {
+                0:'高速分歧',
+                1:'方面分歧',
+                2:'IC分歧',
+                3:'3D分歧',
+                4:'复杂路口模式图',
+                5:'实景图',
+                6:'实景看板',
+                7:'连续分歧',
+                8:'大规模交叉点',
+                9:'方向看板'
+            };
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
             for (var item in this.overlays) {
-                html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +App.Temp.relationNameObj[this.overlays[item].data.properties.featType] +"&nbsp"+ this.overlays[item].data.properties.id + '</a></li>';
+                //如果类型为分歧需要显示出分歧类型
+                if(this.overlays[item].data.properties.featType == 'RDBRANCH'){
+                    html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +branchTypeObj[this.overlays[item].data.properties.branchType] +"&nbsp"+ this.overlays[item].data.properties.id + '</a></li>';
+                }else{
+                    html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +App.Temp.relationNameObj[this.overlays[item].data.properties.featType] +"&nbsp"+ this.overlays[item].data.properties.id + '</a></li>';
+                }
             }
             html += '</ul>';
             this.popup
