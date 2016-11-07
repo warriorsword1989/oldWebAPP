@@ -13,7 +13,6 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
-        this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndexs = [];
@@ -23,13 +22,12 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
-            selectedSnap: false,
-            snapLine: true,
+            snapLine: false,
             snapNode: true,
             snapVertex: false
         });
-        this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdNode'));
+        this.snapHandler.enable();
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
         });
@@ -103,7 +101,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
     },
 
     onMouseMove: function(event) {
-        this.container.style.cursor = 'pointer';
+        this.container.style.cursor = 'crosshair';
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
@@ -114,11 +112,17 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
 
         if(this.snapHandler.snaped == true){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
-
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
+                point: {
+                    x: this.targetPoint.lng,
+                    y: this.targetPoint.lat
+                }
+            });
         }else{
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
             this.targetPoint = event.latlng;
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
 
         this.resetVertex(this.targetIndex-1, this.targetPoint);
@@ -130,12 +134,9 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             this.selectCtrl.selectedFeatures.selectedIndex = 1;
             nodePid = this.selectCtrl.selectedFeatures.enode;
         }
-
         this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id : 0;
         this.selectCtrl.selectedFeatures.workLinkPid = this.selectCtrl.workLinkPid;
         this.selectCtrl.selectedFeatures.id = nodePid;
-        this.selectCtrl.selectedFeatures.latlng = this.snapHandler.snaped ? null : this.targetPoint;
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
     onMouseUp: function(event) {
