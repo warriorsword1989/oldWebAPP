@@ -4246,6 +4246,9 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 }
             }  else if (type === "RESETPOI") {
                 if (selectCtrl.selectedFeatures) {
+                    if (tooltipsCtrl.getCurrentTooltip()) {
+                        tooltipsCtrl.onRemoveTooltip();
+                    }
                     map.currentTool.disable();
                     selectCtrl.selectedFeatures.geometry.components[0].y = objCtrl.data.geometry.coordinates[1];
                     selectCtrl.selectedFeatures.geometry.components[0].x = objCtrl.data.geometry.coordinates[0];
