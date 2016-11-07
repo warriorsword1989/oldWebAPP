@@ -5,7 +5,6 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
     function($scope, $interval, dsEdit, dsOutput) {
         var logMsgCtrl = fastmap.uikit.LogMsgController($scope);
         $scope.searchBoxData = [];
-
         $scope.selectedBatches = [];
         $scope.pageSize = 10;
         $scope.page = 1;
@@ -18,14 +17,32 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
         * @param type
         */
         $scope.switchBatchType = function(type){
-            //$scope.selectedBatches = [];
+            if(type==$scope.batchType)return;
             $scope.batchType = type;
+            $scope.currentBoxIndex = 0;
             getSeachBox();
         }
 
         //点击table行查询当前批处理包下的批处理规则;
         $scope.getCheckItem = function(param){
             $scope.currentBoxIndex = param;
+        }
+
+        //如果对应的检查项勾选对应检查包的复选款状态及样式;
+        $scope.setFatherSelectStyle = function(){
+            var selectedLength = 0;
+            for(var i=0;i<$scope.searchBoxData[$scope.currentBoxIndex].rules.length;i++){
+                if($scope.searchBoxData[$scope.currentBoxIndex].rules[i].checked)selectedLength++;
+            }
+            if(selectedLength == $scope.searchBoxData[$scope.currentBoxIndex].rules.length){
+                $scope.searchBoxData[$scope.currentBoxIndex].checked = true;
+                $('.fatherSelect').eq($scope.currentBoxIndex)[0].indeterminate = false;
+            }else if(selectedLength==0){
+                $scope.searchBoxData[$scope.currentBoxIndex].checked = false;
+                $('.fatherSelect').eq($scope.currentBoxIndex)[0].indeterminate = false;
+            }else{
+                $('.fatherSelect').eq($scope.currentBoxIndex)[0].indeterminate = true;
+            }
         }
 
         //获取所有批处理包;
@@ -39,6 +56,7 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
             dsEdit.seachCheckBox(params).then(function(data){
                 $scope.searchBoxData = data;
                 for(var i=0;i<$scope.searchBoxData.length;i++){
+                    $scope.searchBoxData[i].checked = false;
                     for(var j=0;j<$scope.searchBoxData[i].rules.length;j++){
                         $scope.searchBoxData[i].rules[j].checked = false;
                     }
@@ -49,11 +67,14 @@ angular.module('app').controller("BeginCheckPanelCtrl", ['$scope', '$interval', 
 
         //全选或反选处理;
         $scope.batchSelect = function(index){
+            $scope.currentBoxIndex = index;
             if($scope.searchBoxData[index].checked){
+                $scope.searchBoxData[index].checked = true;
                 for(var i=0;i<$scope.searchBoxData[index].rules.length;i++){
                     $scope.searchBoxData[index].rules[i].checked = true;
                 }
             }else{
+                $scope.searchBoxData[index].checked = false;
                 for(var i=0;i<$scope.searchBoxData[index].rules.length;i++){
                     $scope.searchBoxData[index].rules[i].checked = false
                 }
