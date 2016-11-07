@@ -41,53 +41,55 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        this._map.on('click', this.onClick, this);
+
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
         this._map.on('mouseup', this.onMouseUp, this);
+
     },
 
     /***
      * 移除事件
      */
     removeHooks: function () {
-        this._map.off('click', this.onClick, this);
+
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
         this._map.off('mouseup', this.onMouseUp, this);
+
     },
 
 
     onMouseDown: function (event) {
-        // this.isMouseDown = true;
-        // // button：0.左键,1.中键,2.右键
-        // // 限制为左键点击事件
-        // if(event.originalEvent.button > 0) {
-        //     return;
-        // }
-        // if (this._mapDraggable) {
-        //     this._map.dragging.disable();
-        // }
-        // var layerPoint = event.layerPoint;
-        //
-        // var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
-        //
-        // for (var j = 1, len = points.length-1; j < len; j++) {
-        //     var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-        //     if (disAB < 5) {
-        //         this.targetIndex = j;
-        //     }
-        // }
-        // this.snapHandler.setTargetIndex(this.targetIndex);
-        //
-        // //计算图幅的四个顶角
-        // if(this.nodeArray.indexOf(this.objectCtrl.data.geoLiveType) > -1){ //增加对形状点不能移动到顶角的判断
-        //     var temp = new fastmap.mapApi.GridLayer();
-        //     var arr = temp.Calculate25TMeshBorder(this.objectCtrl.data.meshId+"");
-        //     this.hornPoints = [{x:arr.maxLat,y:arr.maxLon},{x:arr.maxLat,y:arr.minLon},{x:arr.minLat,y:arr.maxLon},{x:arr.minLat,y:arr.minLon}];
-        // }
-
-
+        // button：0.左键,1.中键,2.右键
+        // 限制为左键点击事件
+        if (event.originalEvent.button > 0) {
+            return;
+        }
+        if (this.snapHandler.snaped) {
+            //var layerPoint = event.layerPoint;
+            this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
+                changeTooltips: true
+            });
+        } else {
+            // this.snapHandler.targetindex=-1;
+            // this.snapHandler.onMouseMove(event);
+            // if(this.snapHandler.snaped){
+            //     this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            //     layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
+            //     this.resetVertex(layerPoint);
+            //
+            //     this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+            //     this.disable();
+            //     this.snapHandler.snaped=false;
+            // }
+            //解决移动后不能新增形状点的问题
+            this.snapHandler.targetindex = -1;
+            this.snapHandler.onMouseMove(event);
+            this.targetPoint = L.latLng(event.latlng.lat, event.latlng.lng);
+            this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
+        }
 
     },
 
@@ -134,7 +136,7 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
     },
 
     onClick: function (event) {
-
+        console.log('-----------')
         //判断点击的位置是否有node或是节点
         if(!this.isMouseDownMove ){
             if (event.originalEvent.button > 0) {
