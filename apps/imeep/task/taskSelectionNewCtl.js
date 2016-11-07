@@ -3,6 +3,20 @@
  */
 angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap']).controller('TaskSelectionCtlNew', ['$scope', '$q', '$cookies', '$location', '$timeout', 'dsManage',
   function($scope, $q, $cookies, $location, $timeout, dsManage) {
+        // 从cookie中取出登陆用户信息，由于查询任务列表依赖于userId，因此如果cookie被清空，则需要重新登陆
+        var pUserCookie = $cookies.getObject('FM-WEBEDITOR-USER-' + App.Temp.accessToken);
+        if (!pUserCookie) {
+            swal({
+                title: "登陆已失效，请重新登陆！",
+                type: "error",
+                animation: 'slide-from-top',
+                closeOnConfirm: true,
+                confirmButtonText: "重新登陆"
+            }, function() {
+                App.Util.logout();
+            });
+            return;
+        }
         $scope.currentTab = 1;
         $scope.dataExist = false;
         $scope.myOption = '0';
@@ -42,15 +56,15 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
             $scope.sortCondtion = $scope.sortOrient + $scope.sortCondtion.substr(1);
         }
         $scope.goEditorPage = function(param) {
-            $cookies.remove('IMEEP_EDITOR_MAP_ZOOM', {
-                path: '/'
-            });
-            $cookies.remove('IMEEP_EDITOR_MAP_CENTER', {
-                path: '/'
-            });
-            window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + param;
-        }
-        /*切换当前作业和历史作业tab页*/
+                $cookies.remove('IMEEP_EDITOR_MAP_ZOOM', {
+                    path: '/'
+                });
+                $cookies.remove('IMEEP_EDITOR_MAP_CENTER', {
+                    path: '/'
+                });
+                window.location.href = "../editor/editor.html?access_token=" + App.Temp.accessToken + "&subtaskId=" + param;
+            }
+            /*切换当前作业和历史作业tab页*/
         $scope.chnageTab = function(param) {
             $scope.showLoading = true;
             $scope.currentSubTaskList = [];
@@ -66,15 +80,13 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
             }
             loadSubTaskfn();
         };
-
-        $scope.submitTask = function (subTaskId){
-            dsManage.submitTask(subTaskId).then(function (data){
-                if(data){
+        $scope.submitTask = function(subTaskId) {
+            dsManage.submitTask(subTaskId).then(function(data) {
+                if (data) {
                     loadSubTaskfn();
                 }
             });
         };
-
         $scope.logout = function() {
                 App.Util.logout();
             }
@@ -99,7 +111,7 @@ angular.module('app', ['ui.layout', 'dataService', 'ngCookies', 'ui.bootstrap'])
         function loadSubTaskfn() {
             $scope.selectArrow = false;
             dsManage.getSubtaskListByUser({
-                'exeUserId': $cookies.get('FM_USER_ID'),
+                'exeUserId': pUserCookie.userId,
                 'status': $scope.currentTab,
                 'snapshot': 0,
                 'platForm': 1,

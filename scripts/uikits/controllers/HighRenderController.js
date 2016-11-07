@@ -651,6 +651,23 @@ fastmap.uikit.HighRenderController = (function() {
                         boolPixelCrs: true,
                         drawy: -31
                     });
+
+                    if(feature.properties.name){ //poi如果存在名称则显示名称
+                        var n = feature.properties.name;
+                        if(n.length > 10){
+                            n = n.substr(0,10)+"...";
+                        }
+                        this.layer._drawText({
+                            ctx: ctx,
+                            text: feature.properties.name,
+                            geo: point_loc,
+                            font: 'bold 13px Courier New',
+                            align: 'center',
+                            drawx: 1,
+                            drawy: -32
+                        });
+                    }
+
                     // var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
                     // feature.properties['symbol'] = symbolFactory.dataToSymbol({
                     //     type: 'SampleLineSymbol',
