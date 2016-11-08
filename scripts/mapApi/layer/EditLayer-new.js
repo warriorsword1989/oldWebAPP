@@ -32,9 +32,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.eventController.on(this.eventController.eventTypes.SNAPED, function (event) {
             that.snaped = event.snaped;
         })
+
         this.eventController.on(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, delegateDraw);
         function delegateDraw(event) {
-
             that.selectCtrl = fastmap.uikit.SelectController();
             if (that.shapeEditor.shapeEditorResult == null) {
                 return;

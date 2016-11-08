@@ -472,7 +472,6 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         }
         doHighlight();
     };
-    $scope.initialize();
     // $document.unbind("keydown");
     $document.bind("keydown", function(event) {
         if ($scope.CurrentObject.selectedLaneIndex == undefined) {
@@ -490,4 +489,5 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT, $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE, $scope.initialize);
+    $scope.initialize();
 }]);

@@ -76,7 +76,6 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         if(event.originalEvent.button > 0) {
             return;
         }
-
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
@@ -84,8 +83,8 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         var layerPoint = event.layerPoint;
         var geom = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         var points = [];
-        points.push(geom.components[0]);
-        points.push(geom.components[geom.components.length -1]);
+        points.push(geom.points[0]);
+        points.push(geom.points[geom.points.length -1]);
         var distAB = 0,
             k = 0;
         for (var j = 0, len = points.length; j < len; j++) {
