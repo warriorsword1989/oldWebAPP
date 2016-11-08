@@ -99,14 +99,17 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
         }else if($scope.imgSwitchCondition == 1){
             switchPic(1);
         }
-    }
+    };
     /*tips图片全屏*/
     $scope.showFullPic = function () {
         $("#fullScalePic").show();
         // $("#fullScalePic img").attr('src', $scope.tipsPhoto);
         $scope.$emit('showRoadFullScreen',$scope.tipsPhoto);
-    }
-
+    };
+    //新窗口打开图片
+    $scope.showNewWindow = function(url){
+        window.open(url);
+    };
     /*图片切换*/
     function switchPic(type) {
         if (type == 0) {
