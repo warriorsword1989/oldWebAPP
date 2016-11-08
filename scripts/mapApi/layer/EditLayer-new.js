@@ -34,6 +34,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         })
         this.eventController.on(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, delegateDraw);
         function delegateDraw(event) {
+
             that.selectCtrl = fastmap.uikit.SelectController();
             if (that.shapeEditor.shapeEditorResult == null) {
                 return;
@@ -48,7 +49,6 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                     crosspoint.type = 'Cross';
                     that.draw(crosspoint, that);
                 }
-
             }
 
         }

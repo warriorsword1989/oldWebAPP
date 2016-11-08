@@ -24,7 +24,13 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         $scope.$emit("kindChange", pKindFormat[newVlaue]);
         $scope.getTruckByKindChain(newVlaue,"",null);
     });
-
+    //调试代码，没有调用
+    $scope.$on('initBaseinfo',function (){
+        var level = pKindFormat[$scope.poi.kindCode].level;
+        $scope.rootCommonTemp.levelArr = [];
+        $scope.rootCommonTemp.levelArr = level.split("|");
+        $scope.poi.level = $scope.rootCommonTemp.levelArr[0];
+    });
     /*初始化品牌*/
     var initChain = function(kindCode) {
         var chainArray = pAllChain[kindCode];
@@ -156,5 +162,5 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         if (!(value && value.length <= 35)) {
             swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
         }
-    }
+    };
 }]);

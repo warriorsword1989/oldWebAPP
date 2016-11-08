@@ -22,11 +22,11 @@ fastmap.uikit.HighRenderController = (function() {
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
                 var that = this;
-                this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
+                // this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
+                //     that.drawHighlight();
+                // });
+                this.eventController.on('AllTileLayerLoaded', function(e) {
                     that.drawHighlight();
-                });
-                this.eventController.on('TileJsonLayerLoaded', function(e) {
-                    console.log('--------------------------------------------');
                 });
             },
             /**
@@ -667,7 +667,7 @@ fastmap.uikit.HighRenderController = (function() {
                             font: 'bold 13px Courier New',
                             align: 'center',
                             drawx: 1,
-                            drawy: -32
+                            drawy: -36
                         });
                     }
 

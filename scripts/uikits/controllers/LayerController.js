@@ -26,19 +26,21 @@ fastmap.uikit.LayerController = (function() {
                 this.eventController.on(this.eventController.eventTypes.LAYERONADD, this.OnAddLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONREMOVE, this.OnRemoveLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONSWITCH, this.OnSwitchLayer, this);
-                this.tileLayerLoaded = 0;
-                this.tileLayerVisible = 0;
+                this.reloadTileLayers = 0; // 加载完成瓦片图层
+                this.loadedTileLayers = 0; // 可见的瓦片图层
             },
             initLayer: function() {
-                var cnt = 0,
-                    tileLayer;
                 var that = this;
-                var loadedFunc = function() {
-                    that.tileLayerLoaded++;
-                    if (that.tileLayerLoaded == that.tileLayerVisible) {
-                        that.eventController.fire('TileJsonLayerLoaded');
+                var beforeLoadFunc = function() {
+                    that.reloadTileLayers++;
+                };
+                var afterLoadFunc = function() {
+                    that.loadedTileLayers++;
+                    if (that.loadedTileLayers == that.reloadTileLayers) {
+                        this.eventController.fire('AllTileLayerLoaded', null);
                     }
                 };
+                var tileLayer;
                 for (var group in this.config) {
                     for (var layer in this.config[group].layers) {
                         if (this.maxZIndex < (this.config[group].layers[layer].options.zIndex)) {
@@ -52,11 +54,13 @@ fastmap.uikit.LayerController = (function() {
                         this.config[group].layers[layer].options.groupId = this.config[group].groupId;
                         if (this.config[group].groupId == "dataLayers") {
                             tileLayer = this.config[group].layers[layer].clazz(App.Util.createTileRequestObject(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options);
-                            tileLayer.on('load', loadedFunc);
+                            tileLayer.on('loading', beforeLoadFunc);
+                            tileLayer.on('load', afterLoadFunc);
                             this.layers.push(tileLayer);
                         } else if (this.config[group].groupId == "worklayer") {
                             tileLayer = this.config[group].layers[layer].clazz(App.Util.createTileRequestObjectForTips(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options);
-                            tileLayer.on('load', loadedFunc);
+                            tileLayer.on('loading', beforeLoadFunc);
+                            tileLayer.on('load', afterLoadFunc);
                             this.layers.push(tileLayer);
                         } else {
                             this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));

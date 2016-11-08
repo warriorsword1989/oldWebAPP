@@ -2857,6 +2857,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         return a.seqNum < b.seqNum ? -1 : 1;
                     });
                     var conLinkPids = [];
+                    var outLinkPids = null;
                     var param1 = {};
                     param1["dbId"] = App.Temp.dbId;
                     param1["type"] = "RDLINK";
@@ -2906,8 +2907,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         }
                     });
                     tooltipsCtrl.setCurrentTooltip('请选择新的退出线！');
+                    eventController.off(eventController.eventTypes.GETLINKID);
                     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                        if (comPids.indexOf(parseInt(data.id)) > -1) {
+                        if (comPids.indexOf(parseInt(data.id)) > -1 && parseInt(data.id)!= selData.linkPid ) {
+                            outLinkPids = data.id.toString();
                             highRenderCtrl._cleanHighLight();
                             highRenderCtrl.highLightFeatures = [];
                             highRenderCtrl.highLightFeatures.push({
@@ -2925,14 +2928,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 }
                             });
                             highRenderCtrl.drawHighlight();
-                            shapeCtrl.setEditingType("UPDATERDSLOPE"); //设置热键修改时的监听类型;
-                            tooltipsCtrl.setCurrentTooltip('点击空格保存修改！'); //退出线选完后的鼠标提示;
-                            featCodeCtrl.setFeatCode({ //设置修改确认的数据;
-                                "linkPid": data.id.toString(),
-                                "linkPids": conLinkPids,
-                                "objStatus": "UPDATE"
-                            });
+                            conLinkPids = [];
+                        } else if (comPids.indexOf(parseInt(data.id)) > -1 && parseInt(data.id) == selData.nodePid ) {
+                            tooltipsCtrl.setCurrentTooltip('请选择新的退出线！');
+                        } else {
+                            conLinkPids.push(parseInt(data.id));
                         }
+                        shapeCtrl.setEditingType("UPDATERDSLOPE"); //设置热键修改时的监听类型;
+                        tooltipsCtrl.setCurrentTooltip('继续选择线或者点击空格保存修改！'); //退出线选完后的鼠标提示;
+                        featCodeCtrl.setFeatCode({ //设置修改确认的数据;
+                            "linkPid": outLinkPids,
+                            "linkPids": conLinkPids,
+                            "objStatus": "UPDATE"
+                        });
                     });
                     return;
                 } else if (type === "MODIFYLINKPIDS") {
@@ -4147,7 +4155,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     });
                 }
             } else {
-                dsEdit.getByPid(id, type).then(function(data) {
+                dsEdit.getByPid(id, type, false).then(function(data) {
                     getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj);
                 });
              }
