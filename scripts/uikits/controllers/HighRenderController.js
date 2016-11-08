@@ -22,9 +22,12 @@ fastmap.uikit.HighRenderController = (function() {
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
                 var that = this;
-                this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
+                // this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
+                //     that.drawHighlight();
+                // });
+                this.eventController.on('AllTileLayerLoaded', function(e) {
                     that.drawHighlight();
-                })
+                });
             },
             /**
              * 当前渲染图层

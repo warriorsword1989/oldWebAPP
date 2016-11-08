@@ -150,6 +150,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 					map.invalidateSize()
 				}, 400);
 			});
+			map.on("movestart", function(e) {
+				layerCtrl.reloadTileLayers = 0;
+				layerCtrl.loadedTileLayers = 0;
+			});
 			map.on("moveend", function(e) {
 				var c = map.getCenter();
 				$cookies.put('IMEEP_EDITOR_MAP_ZOOM', map.getZoom(), {
