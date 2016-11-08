@@ -133,20 +133,24 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         var id = data[item].properties.id;
 
                         if (this.selectedFeatures.length == 0 || (this.selectedFeatures.length > 0 && id == this.selectedFeatures[0])) {
-                            if (touchids[0] == 0) {
+                        	this.selectedFeatures.push(id);
+                        	if (touchids[0] == 0) {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.snode,
                                     event:event,
+                                    properties:data[item].properties,
                                     index: this.selectedFeatures.length
                                 })
                             } else {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.enode,
                                     event:event,
+                                    properties:data[item].properties,
                                     index: this.selectedFeatures.length
                                 })
                             }
-                            this.selectedFeatures.push(id);
+                        	//为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
+                            //this.selectedFeatures.push(id);
                             break;
                         }
                     }
@@ -155,13 +159,15 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                 for (var item in data) {
                     if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                         var id = data[item].properties.id;
+                        this.selectedFeatures.push(id);
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                             id: id,
                             event:event,
                             properties:data[item].properties,
                             index: this.selectedFeatures.length
                         })
-                        this.selectedFeatures.push(id);
+                        //为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
+                        //this.selectedFeatures.push(id);
                         break;
                     }
                 }
@@ -172,7 +178,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
                     if (touchids.length) {
                         var id = data[item].properties.id;
-
+                        this.selectedFeatures.push(id);
                         if (id == this.selectedFeatures[0]) {
                             if (touchids[0] == 0) {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
@@ -189,7 +195,8 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                                     style:'node'
                                 })
                             }
-                            this.selectedFeatures.push(id);
+                            //为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
+                            //this.selectedFeatures.push(id);
                             break;
                         }
                     }
@@ -198,12 +205,14 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                 for (var item in data) {
                     if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                         var id = data[item].properties.id;
+                        this.selectedFeatures.push(id);
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                             id: id,
                             properties:data[item].properties,
                             index: this.selectedFeatures.length
                         })
-                        this.selectedFeatures.push(id);
+                        //为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
+                        //this.selectedFeatures.push(id);
                         break;
                     }
                 }

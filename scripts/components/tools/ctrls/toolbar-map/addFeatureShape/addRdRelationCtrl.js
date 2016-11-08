@@ -1140,7 +1140,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1178,7 +1178,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         } else {
                             tooltipsCtrl.setCurrentTooltip("已经选择进入线,请选择进入点!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
                         //清除鼠标十字
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -1196,7 +1196,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl.drawHighlight();
                         map.currentTool.selectedFeatures.push($scope.gate.nodePid.toString());
                         automaticCommand();
-                    } else if (data.index >= 2) { //退出线
+                    } else if (data.index >= 3) { //退出线
                         $scope.gate.outLinkPid = parseInt(data.id);
                         if (highLightFeatures.length === 3) {
                             highLightFeatures.pop();
@@ -1237,9 +1237,12 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.warningInfo = {};
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                     	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1){
-                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+//                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+//                    		return;
+                    		tooltipsCtrl.setCurrentTooltip("警示信息不能制作在九级辅路上!");
+                    		map.currentTool.selectedFeatures.pop();
                     		return;
                     	}
                         map.currentTool.snapHandler.snaped = false;
@@ -1277,7 +1280,11 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             featCodeCtrl.setFeatCode($scope.warningInfo);
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
+//                    	if(data.properties.meshes.length>1){
+//                    		swal("提示","警示信息的点形态不能是图廓点","warning");
+//                    		return;
+//                    	}
                         $scope.warningInfo.nodePid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.warningInfo.nodePid.toString(),
@@ -1421,7 +1428,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入点
+                    if (data.index === 1) { //进入点
                         slopeData.nodePid = parseInt(data.id);
                         highLightFeatures.push({
                             id: data.id.toString(),
@@ -1683,7 +1690,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     }
                     //选择分歧监听事件;
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) {
+                    if (data.index === 1) {
                         //清除吸附的十字
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -1722,7 +1729,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             map.currentTool.snapHandler._guides = [];
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
-                    } else if (data.index === 1) {
+                    } else if (data.index === 2) {
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.getOutLink(data.id);
                         } else {
@@ -1743,7 +1750,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             map.currentTool.snapHandler._guides = [];
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
-                    } else if (data.index > 1) {
+                    } else if (data.index > 2) {
                         $scope.getOutLink(data.id);
                         $scope.directRoute.outLinkPid = parseInt(data.id);
                     }
@@ -1771,7 +1778,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.speedBumpInfo = {};
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1807,7 +1814,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             featCodeCtrl.setFeatCode($scope.speedBumpInfo);
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
                         $scope.speedBumpInfo.nodePid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.speedBumpInfo.nodePid.toString(),
@@ -1882,7 +1889,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1919,7 +1926,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             // featCodeCtrl.setFeatCode($scope.rdSe);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1937,7 +1944,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         map.currentTool.selectedFeatures.push($scope.rdSe.nodePid.toString());
                         featCodeCtrl.setFeatCode($scope.rdSe);
                         tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
-                    } else if (data.index >= 2) { //退出线
+                    } else if (data.index >= 3) { //退出线
                         $scope.rdSe.outLinkPid = parseInt(data.id);
                         if (highLightFeatures.length === 3) {
                             highLightFeatures.pop();
@@ -2017,7 +2024,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 };
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -2054,7 +2061,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             // featCodeCtrl.setFeatCode($scope.rdTollgateData);
                             // tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
                         //清除鼠标十字
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -2072,7 +2079,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl.drawHighlight();
                         map.currentTool.selectedFeatures.push($scope.rdTollgateData.nodePid.toString());
                         automaticCommand();
-                    } else if (data.index >= 2) { //退出线
+                    } else if (data.index >= 3) { //退出线
                         $scope.rdTollgateData.outLinkPid = parseInt(data.id);
                         if (highLightFeatures.length === 3) {
                             highLightFeatures.pop();
@@ -2113,7 +2120,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.rdVoiceguide.outLinkPids = [];
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -2148,7 +2155,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             map.currentTool.selectedFeatures.push($scope.rdVoiceguide.nodePid.toString());
                             tooltipsCtrl.setCurrentTooltip("已选进入点,请选择退出线!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
                         //清除鼠标十字
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -2165,7 +2172,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         });
                         highRenderCtrl.drawHighlight();
                         map.currentTool.selectedFeatures.push($scope.rdVoiceguide.nodePid.toString());
-                    } else if (data.index >= 2) { //退出线
+                    } else if (data.index >= 3) { //退出线
                         if ($scope.rdVoiceguide.outLinkPids.indexOf(parseInt(data.id)) <= 0) {
                             $scope.rdVoiceguide.outLinkPids.push(parseInt(data.id));
                             highLightFeatures.push({
@@ -2329,7 +2336,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 //选择分歧监听事件;
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 0) { //第一次选择进入线的逻辑
+                    if (data.index === 1) { //第一次选择进入线的逻辑
                         //初始化新增数据;
                         $scope.limitRelation.vias = [];
                         $scope.limitRelation.inLinkPid = '';
@@ -2371,7 +2378,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             tooltipsCtrl.setCurrentTooltip("已经选择进入点,选择退出线!");
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
-                    } else if (data.index === 1) {
+                    } else if (data.index === 2) {
                         //如果进入线是双方向的，则根据用户的选择高亮进入点;
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         $scope.linkNodes.push($scope.limitRelation.nodePid);
@@ -2389,7 +2396,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             tooltipsCtrl.setCurrentTooltip("请选择退出线!");
                         }, 30)
                         map.currentTool.snapHandler.addGuideLayer(rdLink);
-                    } else if (data.index == 2) {
+                    } else if (data.index == 3) {
                         getLinkInfos(parseInt(data.id)).then(function(outLinkData) {
                             /*判断退出线的合法与否*/
                             if (outLinkData.eNodePid != $scope.limitRelation.nodePid && outLinkData.sNodePid != $scope.limitRelation.nodePid) {
@@ -2600,7 +2607,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                         return newLink;
                     }
-                    if (data.index === 0) { //进入线;
+                    if (data.index === 1) { //进入线;
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -2643,7 +2650,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             }
                             tooltipsCtrl.setCurrentTooltip("已选进入点,请选择道路线!");
                         }
-                    } else if (data.index === 1) { //进入点
+                    } else if (data.index === 2) { //进入点
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.chargeTrackLink($scope.formatLink(data.properties));
                         } else {
@@ -2668,7 +2675,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             }
                             tooltipsCtrl.setCurrentTooltip("已选进入点,请选择道路线!");
                         }
-                    } else if (data.index > 1) {
+                    } else if (data.index > 2) {
                         $scope.chargeTrackLink($scope.formatLink(data.properties));
                         if ($scope.linkArray.length > 0 && parseInt($scope.linkArray[0].snode) == $scope.laneInfo.nodePid) {
                             $scope.laneInfo.laneDir = 1;
