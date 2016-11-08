@@ -1239,7 +1239,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入线;
                     	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1){
-                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+//                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+//                    		return;
+                    		tooltipsCtrl.setCurrentTooltip("警示信息不能制作在九级辅路上!");
+                    		map.currentTool.selectedFeatures.pop();
                     		return;
                     	}
                         map.currentTool.snapHandler.snaped = false;
@@ -1278,6 +1281,10 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
                     } else if (data.index === 1) { //进入点
+//                    	if(data.properties.meshes.length>1){
+//                    		swal("提示","警示信息的点形态不能是图廓点","warning");
+//                    		return;
+//                    	}
                         $scope.warningInfo.nodePid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.warningInfo.nodePid.toString(),
