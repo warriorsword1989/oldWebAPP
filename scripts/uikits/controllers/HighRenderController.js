@@ -664,7 +664,7 @@ fastmap.uikit.HighRenderController = (function() {
                             font: 'bold 13px Courier New',
                             align: 'center',
                             drawx: 1,
-                            drawy: -32
+                            drawy: -36
                         });
                     }
 

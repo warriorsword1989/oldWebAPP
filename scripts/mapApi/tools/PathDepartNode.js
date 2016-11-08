@@ -138,6 +138,7 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id : 0;
         this.selectCtrl.selectedFeatures.workLinkPid = this.selectCtrl.workLinkPid;
         this.selectCtrl.selectedFeatures.id = nodePid;
+        this.selectCtrl.selectedFeatures.latlng = this.snapHandler.snaped ? null : this.targetPoint;
     },
 
     onMouseUp: function(event) {

@@ -10,8 +10,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         if ($scope.generalPoiForm) {
             $scope.generalPoiForm.$setPristine();
         }
-        $scope.poi = objectCtrl.data;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+        $scope.poi = objectCtrl.data;
         if ($scope.poi.status == 3 || $scope.poi.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
             $rootScope.isSpecialOperation = true;
         } else {
@@ -22,6 +22,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             }
         }
         $scope.changeProperty('base');//默认显示基本属性页面
+        // if(!$scope.poi.level){
+        //     $scope.$broadcast('initBaseinfo');
+        // }
         _retreatData($scope.poi);
         initShowTag();
         /**
