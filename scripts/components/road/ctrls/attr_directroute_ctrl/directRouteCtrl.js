@@ -98,6 +98,7 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 				$scope.directRouteData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
+				$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
 			}
 		})
 	};
