@@ -4147,7 +4147,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     });
                 }
             } else {
-                dsEdit.getByPid(id, type).then(function(data) {
+                dsEdit.getByPid(id, type, false).then(function(data) {
                     getByPidCallback(type, ctrl, tpl, data, selectedData, toolsObj);
                 });
              }
