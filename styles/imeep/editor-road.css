@@ -155,15 +155,15 @@
 .road-switch-right:hover {
   opacity: .8;
 }
-#fullPicBtn {
-  position: absolute;
-  right: 40px;
-  top: 16px;
+.fullPicBtn {
+  position: relative;
+  margin: 0 5px;
+  top: 2px;
   color: #ccc;
   transition: all 0.3s;
   cursor: pointer;
 }
-#fullPicBtn:hover {
+.fullPicBtn:hover {
   color: #555;
 }
 .cursor-left,

@@ -99,6 +99,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		$scope.subAttrTplContainerSwitch = function(flag) {
 			$scope.suspendPanelOpened = flag;
 			$('body .carTypeTip').hide();
+			$('body .datetip').hide();
 		}
 		$scope.changeProperty = function(val) {
 			$scope.propertyType = val;
@@ -148,6 +149,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				setTimeout(function() {
 					map.invalidateSize()
 				}, 400);
+			});
+			map.on("movestart", function(e) {
+				layerCtrl.reloadTileLayers = 0;
+				layerCtrl.loadedTileLayers = 0;
 			});
 			map.on("moveend", function(e) {
 				var c = map.getCenter();

@@ -187,7 +187,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				swal("", data.errmsg, "提示信息");
 				return;
 			}
-			map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+			map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], map.getZoom() < 17 ? 17 : map.getZoom());
 
 			var highLightFeatures = [];
 			highLightFeatures.push({
