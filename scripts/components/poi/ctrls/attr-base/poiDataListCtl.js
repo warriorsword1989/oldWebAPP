@@ -5,6 +5,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
         var layerCtrl = fastmap.uikit.LayerController();
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var poiLayer = layerCtrl.getLayerById('poi');
+        var popup = L.popup({'offset':L.point(0,-22)});
         var _self = scope;
         scope.radio_select = '名称';
         //当前表格数据;
@@ -29,19 +30,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
             if (!(data && data.pid)) {
                 return;
             }
-            //scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
-            // scope.$parent.$parent.showLoading = true;
             scope.$emit("showFullLoadingOrNot", true);
-            //if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
-            // if(data.status == 3 || data.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
-            //     $rootScope.isSpecialOperation = true;
-            // } else {
-            //     if(!scope.specialWork) { // 非专项作业
-            //         $rootScope.isSpecialOperation = false;
-            //     }
-            // }
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 // scope.$parent.$parent.showLoading = false;
                 scope.$emit("showFullLoadingOrNot", false);
@@ -63,7 +54,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                         "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
-                    scope.highlightPoi(rest.pid);
+                    scope.highlightPoi(rest.pid,objCtrl.data); //必须使用objCtrl.data，因为里面包含name属性
                     scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto", true);
                     scope.$emit("clearAttrStyleUp"); //清除属性样式
@@ -316,7 +307,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 3: '改'
             }[row.state]);
         }
-        scope.highlightPoi = function(pid) {
+        scope.highlightPoi = function(pid,poi) {
+            map.closePopup();
+            if(poi.name && poi.name.name){
+                popup.setLatLng([poi.geometry.coordinates[1], poi.geometry.coordinates[0]]).setContent(poi.name.name);
+                map.openPopup(popup);
+            }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
