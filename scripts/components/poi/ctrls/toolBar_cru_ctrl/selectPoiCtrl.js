@@ -502,6 +502,8 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.$on("highlightPoiByPid",function (event) {
         var pid = objCtrl.data.pid;
         $scope.clearMap();
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         var highLightFeatures = [];
         highLightFeatures.push({
             id:pid,

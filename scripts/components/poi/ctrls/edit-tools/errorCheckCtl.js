@@ -45,8 +45,17 @@ angular.module('app').controller('ErrorCheckCtl', ['$window', '$scope', '$timeou
          */
     $scope.changeType = function(selectInd, rowid) {
         dsEdit.updateCheckType(rowid, selectInd).then(function(data) {
-            console.log('修改成功')
-                // $scope.$emit('refreshCheckResult',true);
+            console.log('修改成功');
+            if($scope.checkResultData.length > 1){
+                for(var i = 0 ; i < $scope.checkResultData.length ; i++){
+                    if($scope.checkResultData[i].id == rowid){
+                        $scope.checkResultData.splice(i,1);
+                        break;
+                    }
+                }
+            }else {
+                $scope.$emit('refreshCheckResult',true);
+            }
         });
     };
     /**

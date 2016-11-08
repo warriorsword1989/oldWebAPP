@@ -13,18 +13,21 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
         /*当前选中图片*/
         $scope.nowActiveImg = $scope.poi.photos[0];
         $scope.nowActiveIndex = 0;
+        if($scope.poi.photos.length){
+            $scope.nowActiveIndex = 1;
+        }
     }
     initData();
 
     function initData() {
         $scope.tempPhotos = [];
-        if ($scope.poi.photos.length < 4) {
+        /*if ($scope.poi.photos.length < 4) {
             for (var i = 0, len = 4 - $scope.poi.photos.length; i < len; i++) {
                 $scope.tempPhotos.push(new FM.dataApi.IxPoiPhoto({
                     thumbnailUrl: '../../../images/road/img/noimg.png'
                 }));
             }
-        }
+        }*/
         initPhotos();
     }
     /*tips图片翻页*/
@@ -78,7 +81,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     /*预览active图片的缩略图*/
     $scope.showPreviewImg = function(img, index) {
         $scope.nowActiveImg = img;
-        $scope.nowActiveIndex = index;
+        $scope.nowActiveIndex = index+1;
     };
     /*关闭tips事件*/
     $scope.closeTips = function() {
