@@ -139,14 +139,14 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                                     id: data[item].properties.snode,
                                     event:event,
                                     properties:data[item].properties,
-                                    index: this.selectedFeatures.length
+                                    index: this.selectedFeatures.length - 1
                                 })
                             } else {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.enode,
                                     event:event,
                                     properties:data[item].properties,
-                                    index: this.selectedFeatures.length
+                                    index: this.selectedFeatures.length - 1
                                 })
                             }
                         	//为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
@@ -164,7 +164,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                             id: id,
                             event:event,
                             properties:data[item].properties,
-                            index: this.selectedFeatures.length
+                            index: this.selectedFeatures.length - 1
                         })
                         //为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
                         //this.selectedFeatures.push(id);
@@ -184,14 +184,14 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.snode,
                                     event:event,
-                                    index: this.selectedFeatures.length,
+                                    index: this.selectedFeatures.length - 1,
                                     style:'node'
                                 })
                             } else {
                                 this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                     id: data[item].properties.enode,
                                     event:event,
-                                    index: this.selectedFeatures.length,
+                                    index: this.selectedFeatures.length - 1,
                                     style:'node'
                                 })
                             }
@@ -209,7 +209,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                             id: id,
                             properties:data[item].properties,
-                            index: this.selectedFeatures.length
+                            index: this.selectedFeatures.length - 1
                         })
                         //为了保证on到的时候，selectedFeatures中已经放入了选择的feature,所以在fire之前push
                         //this.selectedFeatures.push(id);

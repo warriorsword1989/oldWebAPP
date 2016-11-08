@@ -1211,7 +1211,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.snapHandler._guides = [];
                         map.currentTool.snapHandler.addGuideLayer(rdNode);
-                        if (data.index === 1) {
+                        if (data.index === 0) {
                             $scope.laneInfo.nodePid = data.id;
                             $scope.linkHighLight();
                             tooltipsCtrl.setCurrentTooltip("已选进入点,空格查询!");

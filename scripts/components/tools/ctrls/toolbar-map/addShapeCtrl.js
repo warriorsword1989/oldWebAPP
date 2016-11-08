@@ -1084,7 +1084,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                     })
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 1) {
+                    if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.limitRelation.inLinkPid.toString(),
@@ -1117,9 +1117,9 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                             }
                             //自动追踪;
                             autoTrail($scope.param);
-                            data.index = 2;
+                            data.index = 1;
                         }
-                    } else if (data.index === 2) {
+                    } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         highLightFeatures.push({
                             id: $scope.limitRelation.nodePid.toString(),
@@ -1140,7 +1140,7 @@ angular.module('app').controller("addShapeCtrl", ['$scope', '$ocLazyLoad', 'dsEd
                         //自动追踪;
                         autoTrail($scope.param);
                     }
-                    if(data.index==2){
+                    if(data.index==1){
                         if (!map.floatMenu) {
                             map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, {
                                 items: [{

@@ -109,7 +109,7 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                 }
                 //选择分歧监听事件;
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-                    if (data.index === 1) {
+                    if (data.index === 0) {
                         //清除吸附的十字
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
@@ -147,7 +147,7 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
                             map.currentTool.snapHandler._guides = [];
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
-                    } else if (data.index === 2) {
+                    } else if (data.index === 1) {
                         if (linkDirect == 2 || linkDirect == 3) {
                             $scope.getOutLink(data.id);
                         } else {
@@ -168,7 +168,7 @@ angular.module('app').controller("addRdBranchCtrl", ['$scope', '$ocLazyLoad', 'd
 
                             map.currentTool.snapHandler.addGuideLayer(rdLink);
                         }
-                    } else if (data.index > 2) {
+                    } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
                         $scope.limitRelation.outLinkPid = parseInt(data.id);
                     }
