@@ -469,8 +469,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
         attrToDBC(); //部分属性转全角
         objectCtrl.save();
         var changed = objectCtrl.changedProperty;
-        console.info(changed);
-        return ;
         if (!changed) {
             swal({
                 title: "属性值没有变化，是否保存？",
