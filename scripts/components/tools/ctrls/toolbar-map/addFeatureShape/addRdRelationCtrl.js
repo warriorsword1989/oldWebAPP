@@ -1281,23 +1281,31 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
                         }
                     } else if (data.index === 1) { //进入点
-//                    	if(data.properties.meshes.length>1){
-//                    		swal("提示","警示信息的点形态不能是图廓点","warning");
-//                    		return;
-//                    	}
                         $scope.warningInfo.nodePid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.warningInfo.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'rdnode',
-                            style: {
-                                color: '#21ed25'
+                        dsEdit.getByPid($scope.warningInfo.nodePid, "RDNODE").then(function(data) {
+                            if (data) {
+                                if(data.meshes.length > 1){
+                                    tooltipsCtrl.setCurrentTooltip("警示信息中的点形态不能是图廓点!");
+                                    map.currentTool.selectedFeatures.pop();
+                                }else{
+                                    highLightFeatures.push({
+                                        id: $scope.warningInfo.nodePid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'rdnode',
+                                        style: {
+                                            color: '#21ed25'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.warningInfo.nodePid.toString());
+                                    featCodeCtrl.setFeatCode($scope.warningInfo);
+                                    tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                                }
+                            } else {
+                                tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                             }
-                        });
-                        highRenderCtrl.drawHighlight();
-                        map.currentTool.selectedFeatures.push($scope.warningInfo.nodePid.toString());
-                        featCodeCtrl.setFeatCode($scope.warningInfo);
-                        tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                        })
+
                     }
                 });
             } else if (type === "ELECTRONIC_EYE") { //电子眼
