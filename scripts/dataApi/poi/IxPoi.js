@@ -284,7 +284,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         //ret["yGuide"] = this.guide.coordinates[1];
         ret["names"] = [];
         if (this.names) {
-            if (this.names.length > 0) {
+            //if (this.names.length > 0) {
                 // if (this.name && !FM.Util.isEmptyObject(this.name) && this.name.name != "") {
                 //     var flag = true;
                 //     for (var i = 0, len = this.names.length; i < len; i++) {
@@ -300,15 +300,15 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 for (var i = 0, len = this.names.length; i < len; i++) {
                     ret["names"].push(this.names[i].getIntegrate());
                 }
-            } else {
-                if (!FM.Util.isEmptyObject(this.name) && this.name.name != "") {
-                    ret["names"].push(this.name.getIntegrate());
-                }
-            }
+            // } else {
+            //     if (!FM.Util.isEmptyObject(this.name) && this.name.name != "") {
+            //         ret["names"].push(this.name.getIntegrate());
+            //     }
+            // }
         }
         ret["addresses"] = [];
         if (this.addresses) {
-            if (this.addresses.length > 0) {
+            //if (this.addresses.length > 0) {
                 // if (this.address && !FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
                 //     var flag = true;
                 //     for (var i = 0, len = this.addresses.length; i < len; i++) {
@@ -324,11 +324,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 for (var i = 0, len = this.addresses.length; i < len; i++) {
                     ret["addresses"].push(this.addresses[i].getIntegrate());
                 }
-            } else {
-                if (!FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
-                    ret["addresses"].push(this.address.getIntegrate());
-                }
-            }
+            // } else {
+            //     if (!FM.Util.isEmptyObject(this.address) && this.address.fullname != "") {
+            //         ret["addresses"].push(this.address.getIntegrate());
+            //     }
+            // }
         }
         ret["contacts"] = [];
         if (this.contacts) {
