@@ -18,6 +18,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 scope.filters.name = ""; //当过滤条件发生变化时会自动调用表格的查询
                 scope.filters.pid = null;
             } else {
+                _self.tableParams.page(1);//设置为第一页
                 _self.tableParams.reload();
             }
             //initPoiTable();
@@ -137,7 +138,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
         scope.cols = [{
                 field: "num_index",
                 title: "序号",
-                width: '30px',
+                width: '35px',
                 show: true
             }, {
                 field: "state",

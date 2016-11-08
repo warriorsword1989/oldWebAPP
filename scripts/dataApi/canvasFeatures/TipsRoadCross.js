@@ -12,11 +12,10 @@ fastmap.uikit.canvasTips.TipsRoadCross = fastmap.uikit.canvasTips.Tips.extend({
         );
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                    text: item.m.e,
+                    text: item.m.c,
                     row: 0,
                     column: 3,
                     location: this.geometry['coordinates'],
-                    rotate: (item.m.c) * (Math.PI / 180),
                     dx: 16,
                     dy: 7
                 }
