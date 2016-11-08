@@ -85,39 +85,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 if (scope.tableParams.data[i]) { //排除最后一条报错的问题
                     scope.selectData(scope.tableParams.data[i], i);
                 } else { //最后一条
-                    scope.$emit("reQueryByPid", {
-                        "pid": obj.poi.pid,
-                        "type": "IXPOI"
-                    });
+                    //scope.$emit("reQueryByPid", { "pid": obj.poi.pid, "type": "IXPOI"  });
+                    scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+                    scope.$emit('closePopoverTips', false);
+                    refreshData(); //刷新当前页，因为待作业的数据会自动流到已作业列表
                 }
             } else if (scope.dataListType == 2) { //已作业
-                // if(obj.flag == 'del'){
-                //     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                //         if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                //             scope.tableParams.data.splice(i, 1);
-                //             break;
-                //         }
-                //     }
-                //     if(scope.tableParams.data[i]){
-                //         scope.selectData(scope.tableParams.data[i], i);
-                //     } else {//最后一条
-                //         scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
-                //     }
-                // } else if (obj.flag  == "update") {
-                //     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                //         if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                //             scope.tableParams.data[i].name = obj.poi.name.name;
-                //             scope.tableParams.data[i].kindCode = obj.poi.kindCode;
-                //             scope.tableParams.data[i].state = 3;//修改
-                //             break;
-                //         }
-                //     }
-                //     if(i < scope.tableParams.data.length -1){
-                //         scope.selectData(scope.tableParams.data[i+1], i+1);
-                //     } else { //最后一条
-                //         scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
-                //     }
-                // }
                 if (obj.flag == "update" || obj.flag == 'del') {
                     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
                         if (scope.tableParams.data[i].pid == obj.poi.pid) {
@@ -134,10 +107,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                     if (i < scope.tableParams.data.length - 1) {
                         scope.selectData(scope.tableParams.data[i + 1], i + 1);
                     } else { //最后一条
-                        scope.$emit("reQueryByPid", {
-                            "pid": obj.poi.pid,
-                            "type": "IXPOI"
-                        });
+                        //scope.$emit("reQueryByPid", { "pid": obj.poi.pid,  "type": "IXPOI" });
+                        scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+                        scope.$emit('closePopoverTips', false);
+                        getNextPage(); //获取下一页
                     }
                 }
             }
@@ -249,8 +222,17 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
          scope.filters.pid = 0;
          });*/
         //刷新表格方法;
-        var refreshData = function() {
+        var refreshData = function(flag) {
             _self.tableParams.reload();
+        };
+        //获取下一页数据
+        var getNextPage = function (){
+            var totalpage = parseInt(_self.tableParams.total() / _self.tableParams.count())
+                + ((_self.tableParams.total() % _self.tableParams.count()) > 0 ? 1 : 0);
+            var currentPage = _self.tableParams.page();
+            if(totalpage > currentPage){
+                _self.tableParams.page(currentPage+1)
+            }
         };
         scope.total = 0;
 
