@@ -1396,7 +1396,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.resetOperator("addRelation", type);
                 var highLightFeatures = [];
                 var linkPids = []; //推荐的退出线
-                var continueLinkPid = null; //退出线或者连续link的另一个端点
+                var continueLinkPid = null; //退出线
+                var continueNodePid = null; //连续link的另一个端点
                 var linkLength = 0; //长度
                 var slopeData = {
                     nodePid: null,
@@ -1422,7 +1423,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入点
-                        slopeData.nodePid = parseInt(data.id);
+                        continueNodePid = parseInt(data.id);
+                        slopeData.nodePid = continueNodePid;
                         highLightFeatures.push({
                             id: data.id.toString(),
                             layerid: 'rdLink',
@@ -1457,36 +1459,37 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                         });
                                         highRenderCtrl.highLightFeatures = highLightFeatures;
                                         highRenderCtrl.drawHighlight();
+                                        if (linkLength && linkLength < 100) {
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
+                                        } else if(linkLength && linkLength > 150){
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                                            eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
+                                            map.currentTool.disable();
+                                        }
                                         //判断此退出线是否有多个挂接link
                                         var param1 = {};
                                         param1["dbId"] = App.Temp.dbId;
                                         param1["type"] = "RDLINK";
-                                        if (linkData.data[0].sNodePid == slopeData.nodePid) {
-                                            param1["data"] = {
-                                                "nodePid": linkData.data[0].eNodePid
-                                            };
+                                        if (linkData.data[0].sNodePid == continueNodePid) {
+                                            continueNodePid =linkData.data[0].eNodePid;
                                         } else {
-                                            param1["data"] = {
-                                                "nodePid": linkData.data[0].sNodePid
-                                            };
+                                            continueNodePid =linkData.data[0].sNodePid;
                                         }
+                                        param1["data"] = {
+                                            "nodePid": continueNodePid
+                                        };
                                         dsEdit.getByCondition(param1).then(function(continueLinks) {
                                             if (continueLinks.errcode === -1) {
                                                 return;
                                             }
                                             if (continueLinks.data) {
                                                 if (continueLinks.data.length > 2 || continueLinks.data.length == 1) {
-                                                    tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
                                                     eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
                                                 } else if (continueLinks.data.length == 2) {
                                                     if (continueLinks.data[0].pid == slopeData.linkPid) {
                                                         continueLinkPid = continueLinks.data[1].pid;
                                                     } else {
                                                         continueLinkPid = continueLinks.data[0].pid;
-                                                    }
-                                                    if (linkLength && linkLength < 100) {
-                                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1536,35 +1539,38 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function(conLinkDetail) { //查询连续link的长度
                                     if (conLinkDetail) {
                                         linkLength += conLinkDetail.length;
+                                        if (linkLength && linkLength < 100) {
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
+                                        } else if(linkLength && linkLength > 150){
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                                            eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
+                                            map.currentTool.disable();
+                                        }
                                         //判断此退出线是否有多个挂接link
                                         var param1 = {};
                                         param1["dbId"] = App.Temp.dbId;
                                         param1["type"] = "RDLINK";
-                                        if (conLinkDetail.sNodePid == continueLinkPid) {
-                                            param1["data"] = {
-                                                "nodePid": conLinkDetail.eNodePid
-                                            };
+                                        if (conLinkDetail.sNodePid == continueNodePid) {
+                                            continueNodePid =conLinkDetail.eNodePid
                                         } else {
-                                            param1["data"] = {
-                                                "nodePid": conLinkDetail.sNodePid
-                                            };
+                                            continueNodePid =conLinkDetail.sNodePid
                                         }
+                                        param1["data"] = {
+                                            "nodePid": continueNodePid
+                                        };
                                         dsEdit.getByCondition(param1).then(function(continueLinks) {
                                             if (continueLinks.errcode === -1) {
                                                 return;
                                             }
                                             if (continueLinks.data) {
                                                 if (continueLinks.data.length > 2) {
+                                                    map.currentTool.disable();
                                                     eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
                                                 } else if (continueLinks.data.length == 2) {
-                                                    if (continueLinks.data[0].pid == slopeData.linkPid) {
+                                                    if (continueLinks.data[0].pid == continueLinkPid) {
                                                         continueLinkPid = continueLinks.data[1].pid;
                                                     } else {
                                                         continueLinkPid = continueLinks.data[0].pid;
-                                                    }
-                                                    if (linkLength && linkLength < 100) {
-                                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1576,7 +1582,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 return;
                             }
                         } else if (linkPids.indexOf(parseInt(data.id)) > -1) { //所选的link在推荐link中
-                            slopeData.linkPid = parseInt(data.id);
+                            continueLinkPid = parseInt(data.id);
+                            slopeData.linkPid = continueLinkPid;
                             highLightFeatures.length = 0;
                             highRenderCtrl.highLightFeatures.length = 0;
                             highRenderCtrl._cleanHighLight();
@@ -1599,36 +1606,40 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             dsEdit.getByPid(slopeData.linkPid, "RDLINK").then(function(exLinkDetail) { //查询退出线的长度
                                 if (exLinkDetail) {
                                     linkLength += exLinkDetail.length;
+                                    if (linkLength && linkLength < 100) {
+                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
+                                    } else if(linkLength && linkLength > 150){
+                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                                        eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
+                                        map.currentTool.disable();
+                                    }
                                     //判断此退出线是否有多个挂接link
                                     var param1 = {};
                                     param1["dbId"] = App.Temp.dbId;
                                     param1["type"] = "RDLINK";
-                                    if (exLinkDetail.sNodePid == slopeData.nodePid) {
-                                        param1["data"] = {
-                                            "nodePid": exLinkDetail.eNodePid
-                                        };
+                                    if (exLinkDetail.sNodePid == continueNodePid) {
+                                        continueNodePid  = exLinkDetail.eNodePid;
                                     } else {
-                                        param1["data"] = {
-                                            "nodePid": exLinkDetail.sNodePid
-                                        };
+                                        continueNodePid  = exLinkDetail.sNodePid;
                                     }
+                                    param1["data"] = {
+                                        "nodePid": continueNodePid
+                                    };
                                     dsEdit.getByCondition(param1).then(function(continueLinks) {
                                         if (continueLinks.errcode === -1) {
                                             return;
                                         }
                                         if (continueLinks.data) {
                                             if (continueLinks.data.length > 2) {
+                                                map.currentTool.disable();
                                                 eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
                                             } else if (continueLinks.data.length == 2) {
-                                                if (continueLinks.data[0].pid == slopeData.linkPid) {
+                                                if (continueLinks.data[0].pid == continueLinkPid) {
                                                     continueLinkPid = continueLinks.data[1].pid;
                                                 } else {
                                                     continueLinkPid = continueLinks.data[0].pid;
                                                 }
-                                                if (linkLength && linkLength < 100) {
-                                                    tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
-                                                    return;
-                                                }
+
                                             }
                                         }
                                     });
@@ -1640,8 +1651,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                     }
                     shapeCtrl.shapeEditorResult.setFinalGeometry(slopeData);
-                    tooltipsCtrl.setEditEventType('slopeData');
-                    tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                    // tooltipsCtrl.setEditEventType('slopeData');
+                    // tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
                 });
             } else if (type === 'RDDIRECTROUTE') { //顺行
