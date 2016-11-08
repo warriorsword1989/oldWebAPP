@@ -5,7 +5,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
         var layerCtrl = fastmap.uikit.LayerController();
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var poiLayer = layerCtrl.getLayerById('poi');
-        var popup = L.popup({'offset':L.point(0,-22)});
         var _self = scope;
         scope.radio_select = '名称';
         //当前表格数据;
@@ -54,7 +53,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                         "propertyCtrl": appPath.poi + "ctrls/attr-base/generalBaseCtl",
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
-                    scope.highlightPoi(rest.pid,objCtrl.data); //必须使用objCtrl.data，因为里面包含name属性
+                    scope.highlightPoi(rest.pid);
                     scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto", true);
                     scope.$emit("clearAttrStyleUp"); //清除属性样式
@@ -308,11 +307,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
             }[row.state]);
         }
         scope.highlightPoi = function(pid,poi) {
-            map.closePopup();
-            if(poi.name && poi.name.name){
-                popup.setLatLng([poi.geometry.coordinates[1], poi.geometry.coordinates[0]]).setContent(poi.name.name);
-                map.openPopup(popup);
-            }
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
