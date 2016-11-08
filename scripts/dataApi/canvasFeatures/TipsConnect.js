@@ -3,7 +3,7 @@ fastmap.uikit.canvasTips.TipsConnect = fastmap.uikit.canvasTips.Tips.extend({
         this.geometry['coordinates'] = item.g;
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1803/0.svg',
+                iconName: '../../../images/road/hook/'+item.m.d.split('_')[1]+'.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
