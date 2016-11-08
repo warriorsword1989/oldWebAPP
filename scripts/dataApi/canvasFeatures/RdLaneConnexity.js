@@ -35,7 +35,7 @@ fastmap.uikit.canvasFeature.RdLaneConnexity = fastmap.uikit.canvasFeature.Featur
                     scaley: 2 / 3
                 }));
             }
-            if (laneArr[lane].indexOf("<") >= 0) {
+            if (laneArr[lane].indexOf("<") >= 0) { // 公交车道
                 this.properties['markerStyle']["icon"].push(fastmap.uikit.canvasFeature.Feature.getIconStyle({
                     iconName: '../../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg',
                     row: 1,
