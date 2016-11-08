@@ -99,6 +99,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		$scope.subAttrTplContainerSwitch = function(flag) {
 			$scope.suspendPanelOpened = flag;
 			$('body .carTypeTip').hide();
+			$('body .datetip').hide();
 		}
 		$scope.changeProperty = function(val) {
 			$scope.propertyType = val;
