@@ -100,7 +100,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     $scope.excitLineArr = [];
     eventController.off(eventController.eventTypes.GETLINKID);
     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
-        if (data.index === 1) {
+        if (data.index === 0) {
             if (parseInt(data.properties.direct) == 1) {
                 $scope.CurrentObject.inLinkPid = parseInt(data.id);
                 tooltipsCtrl.setCurrentTooltip("已经选择进入线, 请选择进入点!");
@@ -114,11 +114,11 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
                 map.currentTool.selectedFeatures.push($scope.CurrentObject.nodePid);
             }
-        } else if (data.index === 2) {
+        } else if (data.index === 1) {
             $scope.CurrentObject.nodePid = parseInt(data.id);
             tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
             map.currentTool.selectedFeatures.push($scope.CurrentObject.nodePid);
-        } else if (data.index > 2) {
+        } else if (data.index > 1) {
             var pid = parseInt(data.id);
             // 退出线不能是9级路
             // 退出线不能与进入线相同
