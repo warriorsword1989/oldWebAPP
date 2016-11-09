@@ -184,14 +184,14 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				}
 
 			});
-			map.on("mousedown", function(e) {
-				if (e.originalEvent.button == 2) { // 右键
-					map.setView(e.latlng);
-					if(map.floatMenu){
-						map.floatMenu._latlng = e.latlng; //让半圆形工具条随右键移动
-					}
-				}
-			});
+			// map.on("mousedown", function(e) {
+			// 	if (e.originalEvent.button == 2) { // 右键
+			// 		map.setView(e.latlng);
+			// 		if(map.floatMenu){
+			// 			map.floatMenu._latlng = e.latlng; //让半圆形工具条随右键移动
+			// 		}
+			// 	}
+			// });
 			// map.on("click", function(e) {
 			//     console.log('click');
 			// });
