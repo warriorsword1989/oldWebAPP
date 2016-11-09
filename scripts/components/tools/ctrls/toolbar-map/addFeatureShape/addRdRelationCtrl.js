@@ -613,8 +613,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     }
                                 }
                                 angle = $scope.angleOfLink(sVertex, eVertex);
-                                if (sVertex.x > eVertex.x) {
-                                    angle = Math.PI + angle;
+                                if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) {
+                                    angle = angle + Math.PI;
                                 }
                                 var marker = {
                                     flag: false,
@@ -2719,95 +2719,67 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
                 //地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdLaneTopoDetail');
-                tooltipsCtrl.setCurrentTooltip('请选择详细车道作为进入线！');
-                map.currentTool = new fastmap.uikit.SelectRelation({
+                tooltipsCtrl.setCurrentTooltip('请选择进入线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
-                    relationFlag: true
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList: ['line', 'point', 'line']
                 });
                 map.currentTool.enable();
-                editLayer.bringToBack();
-                eventController.off(eventController.eventTypes.GETRELATIONID);
-                eventController.on(eventController.eventTypes.GETRELATIONID, function(data) {
-                    if (data.optype != "RDLANE") {
-                        return;
-                    }
-                    var rdlinks = rdLink.tiles[data.tileId].data;
-
-                    for (var i = 0; i < rdlinks.length; i++) {
-                        if (rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
+                eventController.off(eventController.eventTypes.GETLINKID);
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                    if (data.index === 0) {
+                        if (parseInt(data.properties.direct) == 1) {
                             laneTopoData.linkPids.push(parseInt(data.id));
-                            rdlinkData.push(rdlinks[i]);
-                            nodePids.push(rdlinks[i].properties.snode);
-                            nodePids.push(rdlinks[i].properties.enode);
-                            break;
-                        }
-                    }
-                    if (laneTopoData.linkPids.length == 0) {
-                        swal("提示", "找不到详细车道对应的link，请重试！", "info");
-                        return;
-                    } else if (laneTopoData.linkPids.length == 1) { //进入线
-                        tooltipsCtrl.setCurrentTooltip('请选择详细车道作为进入线！');
-                        highRenderCtrl.highLightFeatures.push({
-                            id: laneTopoData.linkPids[0].toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {
-                                color: 'red'
-                            }
-                        });
-                        highRenderCtrl.drawHighlight();
-                        if (rdlinks[0].properties.direct == 2) { //单方向，=2时enode作为进入点，=3是snode作为进入点
-                            laneTopoData.nodePid = parseInt(nodePids[1]);
                             highRenderCtrl.highLightFeatures.push({
-                                id: nodePids[1].toString(),
-                                layerid: 'rdLink',
-                                type: 'node',
-                                style: {}
-                            });
-                            highRenderCtrl.drawHighlight();
-                        } else if (rdlinks[0].properties.direct == 3) {
-                            laneTopoData.nodePid = parseInt(nodePids[0]);
-                            highRenderCtrl.highLightFeatures.push({
-                                id: nodePids[0].toString(),
-                                layerid: 'rdLink',
-                                type: 'node',
-                                style: {}
-                            });
-                            highRenderCtrl.drawHighlight();
-                        }
-                        tooltipsCtrl.setCurrentTooltip('请选择经过线或者退出线！');
-                    } else if (laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") { //进入线方向为1时候的经过线、退出线
-                        if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2 || nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
-                            highRenderCtrl.highLightFeatures.push({
-                                id: laneTopoData.linkPids[1].toString(),
+                                id: laneTopoData.linkPids[0].toString(),
                                 layerid: 'rdLink',
                                 type: 'line',
+                                style: {
+                                    color: 'red'
+                                }
+                            });
+                            highRenderCtrl.drawHighlight();
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入线, 请选择进入点!");
+                        } else if (parseInt(data.properties.direct) == 2 || parseInt(data.properties.direct) == 3) {
+                            laneTopoData.linkPids.push(parseInt(data.id));
+                            highRenderCtrl.highLightFeatures.push({
+                                id: laneTopoData.linkPids[0].toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {
+                                    color: 'red'
+                                }
+                            });
+                            if (parseInt(data.properties.direct) == 2) {
+                                laneTopoData.nodePid = parseInt(data.properties.enode);
+                            } else if (parseInt(data.properties.direct) == 3) {
+                                laneTopoData.nodePid = parseInt(data.properties.snode);
+                            }
+                            highRenderCtrl.highLightFeatures.push({
+                                id: laneTopoData.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'node',
                                 style: {}
                             });
-                            if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2) {
-                                laneTopoData.nodePid = parseInt(nodePids[2]);
-                                highRenderCtrl.highLightFeatures.push({
-                                    id: nodePids[2].toString(),
-                                    layerid: 'rdLink',
-                                    type: 'node',
-                                    style: {}
-                                });
-                            }
-                            if (nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
-                                laneTopoData.nodePid = parseInt(nodePids[3]);
-                                highRenderCtrl.highLightFeatures.push({
-                                    id: nodePids[3].toString(),
-                                    layerid: 'rdLink',
-                                    type: 'node',
-                                    style: {}
-                                });
-                            }
                             highRenderCtrl.drawHighlight();
-                        } else {
-                            nodePids.length = 2;
-                            laneTopoData.linkPids.pop();
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+                            map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
                         }
-                    } else {
+                    } else if (data.index === 1) {
+                        laneTopoData.nodePid = parseInt(data.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id: laneTopoData.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'node',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+                        map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
+                    } else if (data.index > 1) {
+                        laneTopoData.linkPids.push(parseInt(data.id));
                         highRenderCtrl.highLightFeatures.push({
                             id: laneTopoData.linkPids[laneTopoData.linkPids.length - 1].toString(),
                             layerid: 'rdLink',
@@ -2815,10 +2787,111 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             style: {}
                         });
                         highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已选退出线, 点击空格保存车道连通信息,或者按ESC键取消!");
                     }
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
-                    // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
+                        // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
                 });
+
+                // map.currentTool = new fastmap.uikit.SelectRelation({
+                //     map: map,
+                //     relationFlag: true
+                // });
+                // map.currentTool.enable();
+                // editLayer.bringToBack();
+                // eventController.off(eventController.eventTypes.GETRELATIONID);
+                // eventController.on(eventController.eventTypes.GETRELATIONID, function(data) {
+                //     if (data.optype != "RDLANE") {
+                //         return;
+                //     }
+                //     var rdlinks = rdLink.tiles[data.tileId].data;
+                //
+                //     for (var i = 0; i < rdlinks.length; i++) {
+                //         if (rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
+                //             laneTopoData.linkPids.push(parseInt(data.id));
+                //             rdlinkData.push(rdlinks[i]);
+                //             nodePids.push(rdlinks[i].properties.snode);
+                //             nodePids.push(rdlinks[i].properties.enode);
+                //             break;
+                //         }
+                //     }
+                //     if (laneTopoData.linkPids.length == 0) {
+                //         swal("提示", "找不到详细车道对应的link，请重试！", "info");
+                //         return;
+                //     } else if (laneTopoData.linkPids.length == 1) { //进入线
+                //         tooltipsCtrl.setCurrentTooltip('请选择详细车道作为进入线！');
+                //         highRenderCtrl.highLightFeatures.push({
+                //             id: laneTopoData.linkPids[0].toString(),
+                //             layerid: 'rdLink',
+                //             type: 'line',
+                //             style: {
+                //                 color: 'red'
+                //             }
+                //         });
+                //         highRenderCtrl.drawHighlight();
+                //         if (rdlinks[0].properties.direct == 2) { //单方向，=2时enode作为进入点，=3是snode作为进入点
+                //             laneTopoData.nodePid = parseInt(nodePids[1]);
+                //             highRenderCtrl.highLightFeatures.push({
+                //                 id: nodePids[1].toString(),
+                //                 layerid: 'rdLink',
+                //                 type: 'node',
+                //                 style: {}
+                //             });
+                //             highRenderCtrl.drawHighlight();
+                //         } else if (rdlinks[0].properties.direct == 3) {
+                //             laneTopoData.nodePid = parseInt(nodePids[0]);
+                //             highRenderCtrl.highLightFeatures.push({
+                //                 id: nodePids[0].toString(),
+                //                 layerid: 'rdLink',
+                //                 type: 'node',
+                //                 style: {}
+                //             });
+                //             highRenderCtrl.drawHighlight();
+                //         }
+                //         tooltipsCtrl.setCurrentTooltip('请选择经过线或者退出线！');
+                //     } else if (laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") { //进入线方向为1时候的经过线、退出线
+                //         if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2 || nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
+                //             highRenderCtrl.highLightFeatures.push({
+                //                 id: laneTopoData.linkPids[1].toString(),
+                //                 layerid: 'rdLink',
+                //                 type: 'line',
+                //                 style: {}
+                //             });
+                //             if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2) {
+                //                 laneTopoData.nodePid = parseInt(nodePids[2]);
+                //                 highRenderCtrl.highLightFeatures.push({
+                //                     id: nodePids[2].toString(),
+                //                     layerid: 'rdLink',
+                //                     type: 'node',
+                //                     style: {}
+                //                 });
+                //             }
+                //             if (nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
+                //                 laneTopoData.nodePid = parseInt(nodePids[3]);
+                //                 highRenderCtrl.highLightFeatures.push({
+                //                     id: nodePids[3].toString(),
+                //                     layerid: 'rdLink',
+                //                     type: 'node',
+                //                     style: {}
+                //                 });
+                //             }
+                //             highRenderCtrl.drawHighlight();
+                //         } else {
+                //             nodePids.length = 2;
+                //             laneTopoData.linkPids.pop();
+                //         }
+                //     } else {
+                //         highRenderCtrl.highLightFeatures.push({
+                //             id: laneTopoData.linkPids[laneTopoData.linkPids.length - 1].toString(),
+                //             layerid: 'rdLink',
+                //             type: 'line',
+                //             style: {}
+                //         });
+                //         highRenderCtrl.drawHighlight();
+                //     }
+                //     shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
+                //     // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
+                // });
             }
         }
     }

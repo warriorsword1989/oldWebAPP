@@ -514,12 +514,12 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                 case 'RDLINKSPEEDLIMIT':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html";
-                    $scope.getLinkSpeedLimit(data.selectData.properties, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getLinkSpeedLimit(data.selectData.properties, 'RDSPEEDLIMIT', ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'DBRDLINKSPEEDLIMIT':
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_speedLimit_ctrl/linkSpeedLimitCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_speedLimit_tpl/linkSpeedLimitTpl.html";
-                    $scope.getLinkSpeedLimit(data.speedData.properties, data.orgtype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getLinkSpeedLimit(data.speedData.properties, 'RDSPEEDLIMIT', ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                     break;
                 case 'RDCROSS':
                     toolsObj = {

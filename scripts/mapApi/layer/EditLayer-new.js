@@ -197,8 +197,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             for (var i = 0; i < geom.length; i++) {
                 proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
             }
-            var ctx = self._ctx;
-            ctx.lineWidth = width;
+            var ctx = self._ctx ;
+            ctx.lineWidth = width *2;
             ctx.save();
             ctx.beginPath();
             ctx.lineCap = "round";
@@ -211,7 +211,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 var method = (i === 0 ? 'move' : 'line') + 'To';
                 ctx[method](proj[i].x, proj[i].y);
             }
-            ctx.lineWidth = width - 1;
+            ctx.lineWidth = (width-1)*2;
             ctx.strokeStyle = 'white';
             ctx.stroke();
             ctx.clip();

@@ -85,6 +85,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
     },
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
+        var ids = [];
         this.overlays = [];
         var transform = new fastmap.mapApi.MecatorTranform();
         var PointLoc = transform.lonlat2Tile(event.latlng.lng, event.latlng.lat, map.getZoom());
@@ -110,10 +111,11 @@ fastmap.uikit.SelectTips = L.Handler.extend({
                     if(data[item].geometry.coordinates){
                         if (data[item].geometry.coordinates.length <= 2) {
                             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
-                                id = data[item].properties.id;
-                                this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
-
-                                break;
+                                var id = data[item].properties.id;
+                                var type = data[item].properties.featType;
+                                ids.push({'id':id,type:type});
+                                //this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                                //break;
                             }
                         } else {
                             var temp = [];
@@ -125,9 +127,11 @@ fastmap.uikit.SelectTips = L.Handler.extend({
                             }
                             for (var i = 0; i < temp.length; i++) {
                                 if (this._TouchesPoint(temp[i], x, y, 27)) {
-                                    id = data[item].properties.id;
-                                    this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
-                                    break;
+                                    var id = data[item].properties.id;
+                                    var type = data[item].properties.featType;
+                                    ids.push({'id':id,type:type});
+                                    //this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                                    //break;
                                 }
                             }
                         }
@@ -135,6 +139,45 @@ fastmap.uikit.SelectTips = L.Handler.extend({
 
                 }
             }
+        }
+        //ids = Utils.distinctArr(ids);
+
+        /*过滤框选后的数组，去重*/
+        var containObj = [];
+        var tempLays = [];
+        for (var num = 0, numLen = ids.length; num < numLen; num++) {
+            if (!containObj[ids[num].id]) {
+                containObj[ids[num].id] = true;
+                tempLays.push(ids[num]);
+            }
+        }
+        if(tempLays.length == 1){
+            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: tempLays[0].id, tips: 0,optype:"TIPS"})
+        } else if (tempLays.length > 1){
+            var html = '<ul id="layerpopup">';
+            for (var i in tempLays) {
+                //html += '<li><a href="#" id="'+ id +'">TIPS ' +Application.relationNameObj[this.overlays[item].data.properties.featType] + '</a></li>';
+                var showId = tempLays[i].id;
+                if(tempLays[i].id.length > 18){
+                    showId = tempLays[i].id.substr(0,18)+"..."
+                }
+                html += '<li><a href="#" id="'+ tempLays[i].id +'">TIPS '+ App.Temp.tipsNameObj[tempLays[i].type] +' ' + showId + '</a></li>';
+            }
+            html += '</ul>';
+            this.popup
+                .setLatLng(event.latlng)
+                .setContent(html);
+            var that = this;
+            this._map.on('popupopen', function () {
+                document.getElementById('layerpopup').onclick = function (e) {
+                    if (e.target.tagName == 'A') {
+                        that.eventController.fire(that.eventController.eventTypes.GETTIPSID, {id: e.target.id, tips: 0,optype:"TIPS"})
+                    }
+                }
+            });
+            setTimeout(function () {
+                that._map.openPopup(that.popup);
+            }, 200)
         }
         // if (this.overlays.length == 1) {
         //     frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
