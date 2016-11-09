@@ -217,7 +217,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         var directNum = transData[item];
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
-            if (parseInt(data.properties.fc) == 9) { // 不能选择9级路
+            if (parseInt(data.properties.kind) == 9) { // 不能选择9级路
                 return;
             }
             var flag = false,
