@@ -1654,12 +1654,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 //调用编辑接口;
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
+                        var emitFlag = true;
+                        var errorLink = null;
                         relationData.redraw();
                         featCodeCtrl.setFeatCode({
                             laneTopo:data.data,
                             rdLaneData:rdLaneData
                         });
-                        scope.$emit("OPENRDLANETOPO");
+                        for(var i=0;i<data.data.length;i++){
+                            var laneInfos = data.data[i].laneInfos;
+                            for(var j=0;j<laneInfos.length;j++){
+                                if(!(laneInfos[j].lanes && laneInfos[j].lanes.length >0)){
+                                    emitFlag = false;
+                                    errorLink = laneInfos[j].linkPid;
+                                    break;
+                                }
+                            }
+                        }
+                        if(emitFlag){
+                            scope.$emit("OPENRDLANETOPO");
+                        } else {
+                            swal("错误提示","Pid="+errorLink+"的RdLink不存在详细车道，不能制作车道连通！","error");
+                        }
                     }
                 });
             } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
