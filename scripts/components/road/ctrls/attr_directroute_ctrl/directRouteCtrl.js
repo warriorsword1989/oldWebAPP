@@ -38,9 +38,19 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 				color: 'yellow'
 			}
 		});
+		for(var i=0;i<$scope.directRouteData.vias.length;i++){
+			highLightFeatures.push({
+				id: $scope.directRouteData.vias[i].linkPid.toString(),
+				layerid: 'rdLink',
+				type: 'line',
+				style: {
+					size: 5,
+					color:'#990099'
+				}
+			});
+		}
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
-
 	};
 	$scope.initializeData();
 	$scope.refreshData = function () {
