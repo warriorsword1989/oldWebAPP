@@ -146,7 +146,6 @@ selectApp.controller("linkSpeedlimitController", ['$scope', '$timeout', '$ocLazy
                 }
                 map.currentTool._enabled = true;
                 map.currentTool.disable();
-                swal("操作成功", "创建线限速成功！", "success");
             }
         })
     };

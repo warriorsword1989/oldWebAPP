@@ -66,7 +66,6 @@ rdSlopeApp.controller("rdSlopeCtl",['$scope','dsEdit',function($scope,dsEdit) {
             if (data) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
-                swal("操作成功", "修改坡度成功！", "success");
             }
         })
     };
