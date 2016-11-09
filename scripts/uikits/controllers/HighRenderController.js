@@ -656,10 +656,11 @@ fastmap.uikit.HighRenderController = (function() {
                     });
 
                     map.closePopup();
-                    if(data.name && data.name.name){
+                    if(feature.properties.name){
                         var popup = L.popup({'offset':L.point(0,-22),'closeButton':false});
-                        popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(data.name.name);
+                        popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
                         map.openPopup(popup);
+
                     }
 
                     // if(feature.properties.name){ //poi如果存在名称则显示名称
