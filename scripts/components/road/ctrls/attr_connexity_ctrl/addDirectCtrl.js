@@ -209,7 +209,8 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                 param["data"] = {
                     "inLinkPid": CurrentObject.inLinkPid,
                     "nodePid": CurrentObject.nodePid,
-                    "outLinkPid": pid
+                    "outLinkPid": pid,
+                    "type": "RDLANECONNEXITY" // 车信专用
                 };
                 dsEdit.getByCondition(param).then(function(data) { //找出经过线
                     if (data !== -1) {
