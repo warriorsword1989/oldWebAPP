@@ -261,7 +261,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                     "inLinkPid": $scope.CurrentObject.inLinkPid,
                     "nodePid": $scope.CurrentObject.nodePid,
                     "outLinkPid": parseInt(data.id),
-                    "type": "RDLANECONNEXITY"
+                    "type": "RDLANECONNEXITY" // 车信专用
                 };
                 dsEdit.getByCondition(param).then(function(data) { //找出经过线
                     if (data !== -1) {
