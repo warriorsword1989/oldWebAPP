@@ -166,7 +166,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
             var pid = parseInt(data.id);
-            if (parseInt(data.properties.fc) == 9 || pid == CurrentObject.inLinkPid) { // 不能选择9级路，不能选择进入线
+            if (parseInt(data.properties.kind) == 9 || pid == CurrentObject.inLinkPid) { // 不能选择9级路，不能选择进入线
                 return;
             }
             var flag = false,

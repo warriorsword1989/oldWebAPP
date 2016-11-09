@@ -2778,7 +2778,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
                         map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
-                    } else if (data.index > 1) {
+                    } else if (data.index > 1 && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
                         laneTopoData.linkPids.push(parseInt(data.id));
                         highRenderCtrl.highLightFeatures.push({
                             id: laneTopoData.linkPids[laneTopoData.linkPids.length - 1].toString(),
@@ -2787,7 +2787,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             style: {}
                         });
                         highRenderCtrl.drawHighlight();
-                        tooltipsCtrl.setCurrentTooltip("已选退出线, 点击空格保存车道连通信息,或者按ESC键取消!");
+                        tooltipsCtrl.setCurrentTooltip("继续选退出线, 或者点击空格创建,或者按ESC键取消!");
                     }
                         shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
                         // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");

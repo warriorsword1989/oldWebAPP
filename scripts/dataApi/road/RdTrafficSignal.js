@@ -37,14 +37,14 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["linkPid"]  = this.linkPid;
-        data["location"] = this.location;
-        data["flag"] = this.flag;
-        data["rowId"] = this.rowId;
-        data["type"] = this.type;
-        data["kgFlag"] = this.kgFlag;
+        data["pid"] = parseInt(this.pid);
+        data["nodePid"] = parseInt(this.nodePid);
+        data["linkPid"]  = parseInt(this.linkPid);
+        data["location"] = parseInt(this.location);
+        data["flag"] = parseInt(this.flag);
+        data["rowId"] = parseInt(this.rowId);
+        data["type"] = parseInt(this.type);
+        data["kgFlag"] = parseInt(this.kgFlag);
         data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
@@ -58,14 +58,14 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["linkPid"]  = this.linkPid;
-        data["location"] = this.location;
-        data["flag"] = this.flag;
-        data["rowId"] = this.rowId;
-        data["type"] = this.type;
-        data["kgFlag"] = this.kgFlag;
+        data["pid"] = parseInt(this.pid);
+        data["nodePid"] = parseInt(this.nodePid);
+        data["linkPid"]  = parseInt(this.linkPid);
+        data["location"] = parseInt(this.location);
+        data["flag"] = parseInt(this.flag);
+        data["rowId"] = parseInt(this.rowId);
+        data["type"] = parseInt(this.type);
+        data["kgFlag"] = parseInt(this.kgFlag);
         data["uRecord"] = this.uRecord;
         data["geoLiveType"] = this.geoLiveType;
         return data;
