@@ -260,7 +260,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                 param["data"] = {
                     "inLinkPid": $scope.CurrentObject.inLinkPid,
                     "nodePid": $scope.CurrentObject.nodePid,
-                    "outLinkPid": parseInt(data.id)
+                    "outLinkPid": parseInt(data.id),
+                    "type": "RDLANECONNEXITY"
                 };
                 dsEdit.getByCondition(param).then(function(data) { //找出经过线
                     if (data !== -1) {
