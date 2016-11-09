@@ -211,17 +211,18 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                     "nodePid": CurrentObject.nodePid,
                     "outLinkPid": pid
                 };
-                dsEdit.getByCondition(param).then(function(conLinks) { //找出经过线
-                    if (conLinks !== -1) {
+                dsEdit.getByCondition(param).then(function(data) { //找出经过线
+                    if (data !== -1) {
+                        var temp = data.data[0];
+                        topo.relationshipType = temp.relationshipType;
                         var via;
-                        for (i = 0; i < conLinks.data.length; i++) {
+                        for (i = 0; i < temp.links.length; i++) {
                             via = fastmap.dataApi.rdLaneVIA({
                                 rowId: "",
-                                linkPid: conLinks.data[i],
+                                linkPid: temp.links[i],
                                 seqNum: i + 1
                             });
                             topo.vias.push(via);
-                            topo.relationshipType = conLinks.data[i].relationshipType;
                         }
                     }
                     // CurrentObject["topos"].unshift(topo);
