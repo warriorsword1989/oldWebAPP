@@ -22,9 +22,12 @@ fastmap.uikit.HighRenderController = (function() {
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
                 var that = this;
-                this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
+                // this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function(e) {
+                //     that.drawHighlight();
+                // });
+                this.eventController.on('AllTileLayerLoaded', function(e) {
                     that.drawHighlight();
-                })
+                });
             },
             /**
              * 当前渲染图层
@@ -652,21 +655,28 @@ fastmap.uikit.HighRenderController = (function() {
                         drawy: -31
                     });
 
-                    if(feature.properties.name){ //poi如果存在名称则显示名称
-                        var n = feature.properties.name;
-                        if(n.length > 10){
-                            n = n.substr(0,10)+"...";
-                        }
-                        this.layer._drawText({
-                            ctx: ctx,
-                            text: feature.properties.name,
-                            geo: point_loc,
-                            font: 'bold 13px Courier New',
-                            align: 'center',
-                            drawx: 1,
-                            drawy: -32
-                        });
+                    map.closePopup();
+                    if(data.name && data.name.name){
+                        var popup = L.popup({'offset':L.point(0,-22),'closeButton':false});
+                        popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(data.name.name);
+                        map.openPopup(popup);
                     }
+
+                    // if(feature.properties.name){ //poi如果存在名称则显示名称
+                    //     var n = feature.properties.name;
+                    //     if(n.length > 10){
+                    //         n = n.substr(0,10)+"...";
+                    //     }
+                    //     this.layer._drawText({
+                    //         ctx: ctx,
+                    //         text: feature.properties.name,
+                    //         geo: point_loc,
+                    //         font: 'bold 13px Courier New',
+                    //         align: 'center',
+                    //         drawx: 1,
+                    //         drawy: -36
+                    //     });
+                    // }
 
                     // var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
                     // feature.properties['symbol'] = symbolFactory.dataToSymbol({

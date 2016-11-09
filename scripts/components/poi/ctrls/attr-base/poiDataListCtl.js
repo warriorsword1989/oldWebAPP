@@ -18,6 +18,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 scope.filters.name = ""; //当过滤条件发生变化时会自动调用表格的查询
                 scope.filters.pid = null;
             } else {
+                _self.tableParams.page(1);//设置为第一页
                 _self.tableParams.reload();
             }
             //initPoiTable();
@@ -28,19 +29,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
             if (!(data && data.pid)) {
                 return;
             }
-            //scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
-            // scope.$parent.$parent.showLoading = true;
             scope.$emit("showFullLoadingOrNot", true);
-            //if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
-            // if(data.status == 3 || data.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
-            //     $rootScope.isSpecialOperation = true;
-            // } else {
-            //     if(!scope.specialWork) { // 非专项作业
-            //         $rootScope.isSpecialOperation = false;
-            //     }
-            // }
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 // scope.$parent.$parent.showLoading = false;
                 scope.$emit("showFullLoadingOrNot", false);
@@ -85,39 +76,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 if (scope.tableParams.data[i]) { //排除最后一条报错的问题
                     scope.selectData(scope.tableParams.data[i], i);
                 } else { //最后一条
-                    scope.$emit("reQueryByPid", {
-                        "pid": obj.poi.pid,
-                        "type": "IXPOI"
-                    });
+                    //scope.$emit("reQueryByPid", { "pid": obj.poi.pid, "type": "IXPOI"  });
+                    scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+                    scope.$emit('closePopoverTips', false);
+                    refreshData(); //刷新当前页，因为待作业的数据会自动流到已作业列表
                 }
             } else if (scope.dataListType == 2) { //已作业
-                // if(obj.flag == 'del'){
-                //     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                //         if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                //             scope.tableParams.data.splice(i, 1);
-                //             break;
-                //         }
-                //     }
-                //     if(scope.tableParams.data[i]){
-                //         scope.selectData(scope.tableParams.data[i], i);
-                //     } else {//最后一条
-                //         scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
-                //     }
-                // } else if (obj.flag  == "update") {
-                //     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                //         if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                //             scope.tableParams.data[i].name = obj.poi.name.name;
-                //             scope.tableParams.data[i].kindCode = obj.poi.kindCode;
-                //             scope.tableParams.data[i].state = 3;//修改
-                //             break;
-                //         }
-                //     }
-                //     if(i < scope.tableParams.data.length -1){
-                //         scope.selectData(scope.tableParams.data[i+1], i+1);
-                //     } else { //最后一条
-                //         scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
-                //     }
-                // }
                 if (obj.flag == "update" || obj.flag == 'del') {
                     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
                         if (scope.tableParams.data[i].pid == obj.poi.pid) {
@@ -134,10 +98,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                     if (i < scope.tableParams.data.length - 1) {
                         scope.selectData(scope.tableParams.data[i + 1], i + 1);
                     } else { //最后一条
-                        scope.$emit("reQueryByPid", {
-                            "pid": obj.poi.pid,
-                            "type": "IXPOI"
-                        });
+                        //scope.$emit("reQueryByPid", { "pid": obj.poi.pid,  "type": "IXPOI" });
+                        scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+                        scope.$emit('closePopoverTips', false);
+                        getNextPage(); //获取下一页
                     }
                 }
             }
@@ -164,7 +128,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
         scope.cols = [{
                 field: "num_index",
                 title: "序号",
-                width: '30px',
+                width: '35px',
                 show: true
             }, {
                 field: "state",
@@ -249,8 +213,17 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
          scope.filters.pid = 0;
          });*/
         //刷新表格方法;
-        var refreshData = function() {
+        var refreshData = function(flag) {
             _self.tableParams.reload();
+        };
+        //获取下一页数据
+        var getNextPage = function (){
+            var totalpage = parseInt(_self.tableParams.total() / _self.tableParams.count())
+                + ((_self.tableParams.total() % _self.tableParams.count()) > 0 ? 1 : 0);
+            var currentPage = _self.tableParams.page();
+            if(totalpage > currentPage){
+                _self.tableParams.page(currentPage+1)
+            }
         };
         scope.total = 0;
 
@@ -333,7 +306,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 3: '改'
             }[row.state]);
         }
-        scope.highlightPoi = function(pid) {
+        scope.highlightPoi = function(pid,poi) {
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
