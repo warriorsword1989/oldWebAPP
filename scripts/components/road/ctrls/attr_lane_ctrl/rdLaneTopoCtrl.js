@@ -10,12 +10,15 @@ var inLanePid = null;
 var outLanePid = null;
 var outLinkPid = null;
 var laneTopoVias = [];
-function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
-    if(self.checked == true){
+function selectLane (self,event,inLinkPid,linkPid, lanePid, laneDir,index) {
+    if(index == 1){//选中车道，一条link上的车道只能被选一次
         if (linkPid == inLinkPid) {//进入车道,只能选一条进入线
             if(inLanePid == null){
                 inLanePid = lanePid;
                 $("#"+lanePid).addClass('red');
+                $("#checkbox"+lanePid).prop({
+                    checked:true
+                });
             }else {
                 $("#"+inLanePid).removeClass('red');
                 $("#checkbox"+inLanePid).prop({
@@ -27,9 +30,7 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
                     checked:true
                 });
             }
-        } else {//作为退出线、经过线
-            outLanePid = lanePid;
-            outLinkPid = linkPid;
+        } else {//作为经过线
             laneTopoVias.push({
                 lanePid: lanePid,
                 seqNum: laneTopoVias.length+1,
@@ -39,31 +40,62 @@ function selectLane (self,inLinkPid,linkPid, lanePid, laneDir) {
             $("#label"+lanePid).text(laneTopoVias.length);
             modifyNums();
         }
-    } else {
-        if (linkPid == inLinkPid) {//进入车道
-            inLanePid = null;//清空进入车道
-            $("#"+lanePid).removeClass('red');
-        } else if(linkPid == outLinkPid){//退出线
-            laneTopoVias.splice(laneTopoVias.length-1, 1);
-            if(laneTopoVias.length >0){
-                outLinkPid = laneTopoVias[laneTopoVias.length-1].linkPid;
-            } else {
-                outLinkPid = null;
-            }
-            $("#"+lanePid).removeClass('green');
-
-            $("#label"+lanePid).text("");
-            modifyNums();
-        } else {//经过线
-            for (var i = 0; i < laneTopoVias.length; i++) {
-                if (laneTopoVias[i].lanePid == outLanePid) {
-                    laneTopoVias.splice(i, 1);
-                    i--;
+    } else {//选中checkbox
+        event.stopPropagation();
+        if(self.checked == true){
+            if (linkPid == inLinkPid) {//进入车道,只能选一条进入线
+                if(inLanePid == null){
+                    inLanePid = lanePid;
+                    $("#"+lanePid).addClass('red');
+                }else {
+                    $("#"+inLanePid).removeClass('red');
+                    $("#checkbox"+inLanePid).prop({
+                        checked:false
+                    });
+                    inLanePid = lanePid;
+                    $("#"+lanePid).addClass('red');
+                    $("#checkbox"+lanePid).prop({
+                        checked:true
+                    });
                 }
+            } else {//作为退出线、经过线
+                outLanePid = lanePid;
+                outLinkPid = linkPid;
+                laneTopoVias.push({
+                    lanePid: lanePid,
+                    seqNum: laneTopoVias.length+1,
+                    linkPid: linkPid
+                });
+                $("#"+lanePid).addClass('green');
+                $("#label"+lanePid).text(laneTopoVias.length);
+                modifyNums();
             }
-            $("#"+lanePid).removeClass('green');
-            $("#label"+lanePid).text("");
-            modifyNums();
+        } else {
+            if (linkPid == inLinkPid) {//进入车道
+                inLanePid = null;//清空进入车道
+                $("#"+lanePid).removeClass('red');
+            } else if(linkPid == outLinkPid){//退出线
+                laneTopoVias.splice(laneTopoVias.length-1, 1);
+                if(laneTopoVias.length >0){
+                    outLinkPid = laneTopoVias[laneTopoVias.length-1].linkPid;
+                } else {
+                    outLinkPid = null;
+                }
+                $("#"+lanePid).removeClass('green');
+
+                $("#label"+lanePid).text("");
+                modifyNums();
+            } else {//经过线
+                for (var i = 0; i < laneTopoVias.length; i++) {
+                    if (laneTopoVias[i].lanePid == outLanePid) {
+                        laneTopoVias.splice(i, 1);
+                        i--;
+                    }
+                }
+                $("#"+lanePid).removeClass('green');
+                $("#label"+lanePid).text("");
+                modifyNums();
+            }
         }
     }
 }
@@ -89,6 +121,15 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
     $scope.insertLaneTopoArr = [];//所有的新增的车道连通
     $scope.showLaneDetail = false;
     $scope.laneDetail = null;
+    var laneInfoObject = {};
+    for (var i = 0; i < $scope.laneInfoArr.length; i++) {
+        laneInfoObject[$scope.laneInfoArr[i].linkPid] = {
+            eNode: $scope.laneInfoArr[i].eNodePid,
+            sNode: $scope.laneInfoArr[i].sNodePid,
+            direct: $scope.laneInfoArr[i].direct,
+            distance: $scope.laneInfoArr[i].distance
+        }
+    }
     var rdLaneTopoDetail = {
         topoIds: [],
         inLinkPid: null,
@@ -117,6 +158,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
     };
     $scope.checkLanes =function(){
         var checkFlag = true;
+        var lastNodePid = $scope.rdLaneData.nodePid;
         if(inLanePid == null){
             checkFlag = false;
             swal("提示","进入线错误！","error");
@@ -133,6 +175,35 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 checkFlag = false;
                 return checkFlag;
             }
+        }
+        //检查是否连通
+        if(laneTopoVias && laneTopoVias.length > 0){//有经过线
+           for(var i = 0;i<laneTopoVias.length;i++){
+                if(laneInfoObject[laneTopoVias[i]].direct == 2 && laneInfoObject[laneTopoVias[i]].sNode == lastNodePid){
+                    lastNodePid = laneInfoObject[laneTopoVias[i]].eNode;
+                } else if(laneInfoObject[laneTopoVias[i]].direct == 3 && laneInfoObject[laneTopoVias[i]].eNode == lastNodePid){
+                    lastNodePid = laneInfoObject[laneTopoVias[i]].sNode;
+                } else if(laneInfoObject[laneTopoVias[i]].direct == 1){
+                    if(laneInfoObject[laneTopoVias[i]].sNode == lastNodePid){
+                        lastNodePid = laneInfoObject[laneTopoVias[i]].eNode;
+                    } else if(laneInfoObject[laneTopoVias[i]].eNode == lastNodePid){
+                        lastNodePid = laneInfoObject[laneTopoVias[i]].sNode;
+                    } else {
+                        swal("提示","车道不连通！","error");
+                        checkFlag = false;
+                        return checkFlag;
+                    }
+                } else {
+                    swal("提示","车道不连通！","error");
+                    checkFlag = false;
+                    return checkFlag;
+                }
+           }
+        }
+        if((laneInfoObject[outLanePid].direct == 2 && laneInfoObject[outLanePid].sNode == lastNodePid) || (laneInfoObject[outLanePid].direct == 3 && laneInfoObject[outLanePid].eNode == lastNodePid)){
+            checkFlag = true;
+        } else {
+            checkFlag = false;
         }
         return checkFlag;
     };
@@ -191,12 +262,15 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
     topoMap = new L.Map('topoMap', {
         attributionControl: false,
         doubleClickZoom: false,
-        zoomControl: false
+        zoomControl: false,
+        minZoom:17,
+        maxZoom:22
     });
     var polyLines = new L.layerGroup();
-    var miniPolyLines = new L.layerGroup();
     polyLines.id = "polyLines";
-    miniPolyLines.id = "miniPolyLines";
+
+    // var miniPolyLines = new L.layerGroup();
+    // miniPolyLines.id = "miniPolyLines";
 
     for (var i = 0; i < $scope.laneInfoArr.length; i++) {
         var linkPid = $scope.laneInfoArr[i].linkPid;
@@ -220,14 +294,14 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 id: "guideLine"
             });
         }
-
-        var miniLine = L.polyline(geo, {
-            color: 'red',
-            weight: 3,
-            id: "miniLine"
-        });
         polyLines.addLayer(guideLine);
-        miniPolyLines.addLayer(miniLine);
+
+        // var miniLine = L.polyline(geo, {
+        //     color: 'red',
+        //     weight: 3,
+        //     id: "miniLine"
+        // });
+        // miniPolyLines.addLayer(miniLine);
 
         var lanes1Arr = [], lanes2Arr = [], lanes3Arr = [];
         for (var j = 0; j < $scope.laneInfoArr[i].lanes.length; j++) {
@@ -263,13 +337,13 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 var laneDir = lanes1Arr[k].laneDir;
                 var arrowDir = lanes1Arr[k].arrowDir;
                 var m = k + 1;
-                html += "<div class='lane-driveway' id='"+lanePid+"'>";
+                html += "<div class='lane-driveway' id='"+lanePid+"' onclick='selectLane(this,event," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ',' + 1 + ")'>";
                 html += "<span class='top'>" + m + "</span>";
                 html += "<div class='middle'>";
                 html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
                 html += "</div>";
                 html += "<span class='number' id ='label"+lanePid+"'></span>";
-                html += "<input class='bottom' id='checkbox"+lanePid+"' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this,"+ inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ");'>";
+                html += "<input class='bottom' id='checkbox"+lanePid+"' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this,event,"+ inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ',' + 2 + ");'>";
                 html += "</div>";
             }
             html += "<div class='roadside-right'></div>";
@@ -312,13 +386,13 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                     var laneDir = lanes2Arr[k].laneDir;
                     var arrowDir = lanes2Arr[k].arrowDir;
                     var m = k + 1;
-                    html += "<div class='lane-driveway' id='"+lanePid+"'>";
+                    html += "<div class='lane-driveway' id='"+lanePid+"' onclick='selectLane(this,event," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ',' + 1 + ")'>";
                     html += "<span class='top'>" + m + "</span>";
                     html += "<div class='middle'>";
                     html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
                     html += "</div>";
                     html += "<span class='number' id ='label"+lanePid+"'></span>";
-                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ");'>";
+                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this,event," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ',' + 2 + ");'>";
                     html += "</div>";
                 }
                 html += "<div class='roadside-right'></div>";
@@ -358,13 +432,13 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                     var laneDir = lanes3Arr[k].laneDir;
                     var arrowDir = lanes3Arr[k].arrowDir;
                     var m = k + 1;
-                    html += "<div class='lane-driveway' id='"+lanePid+"'>";
+                    html += "<div class='lane-driveway' id='"+lanePid+"' onclick='selectLane(this,event," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ',' + 1 + ")'>";
                     html += "<span class='top'>" + m + "</span>";
                     html += "<div class='middle'>";
                     html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
                     html += "</div>";
                     html += "<span class='number' id ='label"+lanePid+"'></span>";
-                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ");'>";
+                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this,event," + inLinkPid + ','+ linkPid + ',' + lanePid + ',' + laneDir + ',' + 2 + ")'>";
                     html += "</div>";
                 }
                 html += "<div class='roadside-right'></div>";
@@ -389,16 +463,16 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
     topoMap.addLayer(polyLines);
 
     topoMap.setView([$scope.laneInfoArr[0].geometry.coordinates[0][1], $scope.laneInfoArr[0].geometry.coordinates[0][0]], 17);
-    var miniMap = new L.Control.MiniMap(miniPolyLines, {
-        width: 200,
-        height: 200,
-        toggleDisplay: true,
-        strings: {
-            hideText: '隐藏小地图',
-            showText: '显示小地图'
-        },
-        position: 'bottomleft'
-    }).addTo(topoMap);
+    // var miniMap = new L.Control.MiniMap(miniPolyLines, {
+    //     width: 200,
+    //     height: 200,
+    //     toggleDisplay: true,
+    //     strings: {
+    //         hideText: '隐藏小地图',
+    //         showText: '显示小地图'
+    //     },
+    //     position: 'bottomleft'
+    // }).addTo(topoMap);
     //防止地图视口加载不全;
     topoMap.on('resize', function () {
         setTimeout(function () {
