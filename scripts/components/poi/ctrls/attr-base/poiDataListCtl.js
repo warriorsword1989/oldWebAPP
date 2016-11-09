@@ -18,6 +18,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 scope.filters.name = ""; //当过滤条件发生变化时会自动调用表格的查询
                 scope.filters.pid = null;
             } else {
+                _self.tableParams.page(1);//设置为第一页
                 _self.tableParams.reload();
             }
             //initPoiTable();
@@ -28,19 +29,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
             if (!(data && data.pid)) {
                 return;
             }
-            //scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
-            // scope.$parent.$parent.showLoading = true;
             scope.$emit("showFullLoadingOrNot", true);
-            //if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
-            // if(data.status == 3 || data.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
-            //     $rootScope.isSpecialOperation = true;
-            // } else {
-            //     if(!scope.specialWork) { // 非专项作业
-            //         $rootScope.isSpecialOperation = false;
-            //     }
-            // }
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
                 // scope.$parent.$parent.showLoading = false;
                 scope.$emit("showFullLoadingOrNot", false);
@@ -137,7 +128,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
         scope.cols = [{
                 field: "num_index",
                 title: "序号",
-                width: '30px',
+                width: '35px',
                 show: true
             }, {
                 field: "state",
@@ -315,7 +306,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgT
                 3: '改'
             }[row.state]);
         }
-        scope.highlightPoi = function(pid) {
+        scope.highlightPoi = function(pid,poi) {
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
