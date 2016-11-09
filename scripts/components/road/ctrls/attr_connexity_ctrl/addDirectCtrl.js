@@ -221,6 +221,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                                 seqNum: i + 1
                             });
                             topo.vias.push(via);
+                            topo.relationshipType = conLinks.data[i].relationshipType;
                         }
                     }
                     // CurrentObject["topos"].unshift(topo);
