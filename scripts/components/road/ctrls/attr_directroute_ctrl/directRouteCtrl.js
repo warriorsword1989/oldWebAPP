@@ -57,7 +57,6 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 		dsEdit.getByPid(parseInt($scope.directRouteData.pid), "RDDIRECTROUTE").then(function (data) {
 			if (data) {
 				objCtrl.setCurrentObject("RDDIRECTROUTE", data);
-				$scope.initializeData();
 			}
 		});
 	};
@@ -86,7 +85,6 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 						selectCtrl.rowkey.rowkey = undefined;
 					});
 				}
-				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
 			}
 			$scope.refreshData();
