@@ -241,7 +241,6 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
             if (data != null) {
                 relationData.redraw();
                 $scope.clearLanes();
-                swal("提示","保存车道连通成功！","success");
                 $scope.doClose();
             }
         });

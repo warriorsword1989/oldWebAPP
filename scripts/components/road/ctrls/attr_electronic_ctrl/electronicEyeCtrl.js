@@ -171,7 +171,6 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				if (data) {
 					objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 					relationData.redraw();
-					swal("操作成功", "删除配对关系成功！", "success");
 				}
 				$scope.refreshData();
 			})

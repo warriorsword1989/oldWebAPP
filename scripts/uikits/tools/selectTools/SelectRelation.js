@@ -267,27 +267,27 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             this._map.on('popupopen', function () {
                 document.getElementById('layerpopup').onclick = function (e) {
                     if (e.target.tagName == 'A') {
-                        // var layer = '';
-                        // var d = '';
-                        // var layertype = '';
-                        // var tileId = '';
-                        // for (var key in that.overlays) {
-                        //     if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
-                        //         layer = that.overlays[key].layer;
-                        //         layertype = that.overlays[key].data.properties.featType;
-                        //         d = that.overlays[key].data;
-                        //         tileId = that.overlays[key].tileId;
-                        //     }
-                        // }
-                        // that.eventController.fire(that.eventController.eventTypes.GETRELATIONID, {
-                        //     id: d.properties.id,
-                        //     rowId:d.properties.rowId,
-                        //     optype: layertype,
-                        //     selectData: d,
-                        //     branchType:d.properties.branchType,
-                        //     tileId:tileId,
-                        //     event:event
-                        // })
+                        var layer = '';
+                        var d = '';
+                        var layertype = '';
+                        var tileId = '';
+                        for (var key in that.overlays) {
+                            if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
+                                layer = that.overlays[key].layer;
+                                layertype = that.overlays[key].data.properties.featType;
+                                d = that.overlays[key].data;
+                                tileId = that.overlays[key].tileId;
+                            }
+                        }
+                        that.eventController.fire(that.eventController.eventTypes.GETRELATIONID, {
+                            id: d.properties.id,
+                            rowId:d.properties.rowId,
+                            optype: layertype,
+                            selectData: d,
+                            branchType:d.properties.branchType,
+                            tileId:tileId,
+                            event:event
+                        })
                     }
                 }
             });

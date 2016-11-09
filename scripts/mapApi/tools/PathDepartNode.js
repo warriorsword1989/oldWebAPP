@@ -23,11 +23,13 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
-            snapLine: false,
+            snapLine: true,
             snapNode: true,
+            selectedSnap: false,
             snapVertex: false
         });
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdNode'));
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('rdLink'));
         this.snapHandler.enable();
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
@@ -76,7 +78,6 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         if(event.originalEvent.button > 0) {
             return;
         }
-
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
@@ -110,7 +111,6 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
         if (this.targetIndex == 0 || this.targetIndex == undefined) {
             return;
         }
-
         if(this.snapHandler.snaped == true){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
@@ -125,20 +125,25 @@ fastmap.mapApi.pathDepartNode = L.Handler.extend({
             this.targetPoint = event.latlng;
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-
+        //重绘几何；
         this.resetVertex(this.targetIndex-1, this.targetPoint);
         var nodePid = null;
         if(this.targetIndex-1 == 0){
             this.selectCtrl.selectedFeatures.selectedIndex = 0;
-            nodePid = this.selectCtrl.selectedFeatures.snode;
+            this.selectCtrl.selectedFeatures.dragNodePid = this.selectCtrl.selectedFeatures.snode;
         } else {
             this.selectCtrl.selectedFeatures.selectedIndex = 1;
-            nodePid = this.selectCtrl.selectedFeatures.enode;
+            this.selectCtrl.selectedFeatures.dragNodePid = this.selectCtrl.selectedFeatures.enode;
         }
-        this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id : 0;
-        this.selectCtrl.selectedFeatures.workLinkPid = this.selectCtrl.workLinkPid;
-        this.selectCtrl.selectedFeatures.id = nodePid;
-        this.selectCtrl.selectedFeatures.latlng = this.snapHandler.snaped ? null : this.targetPoint;
+        this.selectCtrl.selectedFeatures.catchFlag = this.snapHandler.properties.featType;
+        this.selectCtrl.selectedFeatures.catchNodePid = this.snapHandler.snaped ? this.snapHandler.properties.id:0;
+        this.selectCtrl.selectedFeatures.selectedLinkPid = this.selectCtrl.workLinkPid;
+        //如果是扑捉node，不传几何；如果是线或者不扑捉要传几何;
+        if(this.snapHandler.snaped && this.snapHandler.properties.featType=='RDNODE'){
+            this.selectCtrl.selectedFeatures.latlng = null;
+        }else{
+            this.selectCtrl.selectedFeatures.latlng = this.targetPoint;
+        }
     },
 
     onMouseUp: function(event) {
