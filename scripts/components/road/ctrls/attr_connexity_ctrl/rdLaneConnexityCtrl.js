@@ -257,6 +257,10 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
     };
     //删除车道
     $scope.deleteLane = function(item, index) {
+        if($scope.CurrentObject.lanes.length == 1) {
+            swal("操作提示", "不允许操作，删除车信的全部车道意味着删除车信；如果确定要删除车信，请点击下方的删除按钮进行删除。", "info");
+            return;
+        }
         var topo;
         for (var i = 0; i < $scope.CurrentObject.topos.length; i++) {
             topo = $scope.CurrentObject.topos[i];
