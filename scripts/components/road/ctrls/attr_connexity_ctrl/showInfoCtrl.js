@@ -272,8 +272,10 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                                 seqNum: i + 1
                             });
                             topo.vias.push(via);
+                            topo.relationshipType = conLinks.data[i].relationshipType;
                         }
                     }
+
                     $scope.CurrentObject["topos"].unshift(topo);
                     $scope.outLinkArray.push(topo);
                     doHighlight();
