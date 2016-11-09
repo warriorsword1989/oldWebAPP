@@ -257,8 +257,8 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
     };
     //删除车道
     $scope.deleteLane = function(item, index) {
-        if($scope.CurrentObject.lanes.length == 1) {
-            swal("操作提示", "不允许操作，删除车信的全部车道意味着删除车信；如果确定要删除车信，请点击下方的删除按钮进行删除。", "info");
+        if ($scope.CurrentObject.lanes.length == 1) {
+            swal("操作禁止", "删除车信的全部车道意味着删除车信；\n如果确定要删除车信，请点击下方的删除按钮进行删除。", "info");
             return;
         }
         var topo;
@@ -269,6 +269,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         }
         $scope.CurrentObject.lanes.splice(index, 1);
         toggleExtend();
+        doHighlight();
     };
     // 增加公交车道属性
     var addBusLane = function(item, index) {
