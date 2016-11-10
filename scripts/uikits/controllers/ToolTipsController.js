@@ -36,7 +36,8 @@ fastmap.uikit.ToolTipsController = (function() {
                     borderRadius: '2px',
                     backgroundColor: 'rgba(0,0,0,0.75)',
                     color: 'rgba(255,255,255,0.85)',
-                    'max-width': '300px'
+                    'max-width': '300px',
+                    height: 'auto'
                 };
                 this.tooltipDiv = L.DomUtil.get(divId);
                 L.extend(this.tooltipDiv.style, this.originStyle);
@@ -90,8 +91,8 @@ fastmap.uikit.ToolTipsController = (function() {
             },
             onMoveTooltip: function(event) {
                 this.tooltipDiv.style.display = "inline-block";
-                this.tooltipDiv.style.marginLeft = event.originalEvent.clientX + 10 + 'px';
-                this.tooltipDiv.style.marginTop = event.originalEvent.clientY - 10 + 'px';
+                this.tooltipDiv.style.left = event.originalEvent.clientX + 20 + 'px';
+                this.tooltipDiv.style.top = event.originalEvent.clientY + 20 + 'px';
             },
             onClickTooltip: function(event) {
                 if (this.externalStyle) {
@@ -117,6 +118,7 @@ fastmap.uikit.ToolTipsController = (function() {
              * @param {Object}tooltip
              */
             setCurrentTooltip: function(tooltip, type) {
+                L.extend(this.tooltipDiv.style, this.originStyle); // 赋默认样式
                 var bgColor;
                 if (type) {
                     switch (type) {
