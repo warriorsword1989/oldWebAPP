@@ -22,7 +22,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     //高亮
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     eventController = fastmap.uikit.EventController();
-    $scope.outIdS = [];
     //全部要素配置
     $scope.featureConfig = fastmap.uikit.FeatureConfig.tip;
     //清除地图数据
@@ -151,18 +150,33 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 
     };
     /*车信高亮link*/
-    $scope.highlightSymbol = function(id){
+    $scope.highlightSymbol = function(id,seq){
+        $scope.dataTipsData.seqNow = seq;
         if (!id) {
             return;
         }
-        highRenderCtrl.highLightFeatures.push({
-            id: id.toString(),
-            layerid: 'rdLink',
-            type: 'line',
-            style: {
-                strokeColor: '#21ed25'
+        if(highRenderCtrl.highLightFeatures.length){
+            for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
+                if(i == highRenderCtrl.highLightFeatures.length - 1 && highRenderCtrl.highLightFeatures[i].id != id.toString()){
+                    highRenderCtrl.highLightFeatures.push({
+                        id: id.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {
+                            strokeColor: '#21ed25'
+                        }
+                    });
+                }
+                if(highRenderCtrl.highLightFeatures[i].id == id.toString()){
+                    highRenderCtrl.highLightFeatures[i].style = {
+                        strokeColor: '#21ed25'
+                    };
+                }
+                if(highRenderCtrl.highLightFeatures[i].style.strokeColor == '#21ed25' && highRenderCtrl.highLightFeatures[i].id != id.toString()){
+                    highRenderCtrl.highLightFeatures[i].style = {};
+                }
             }
-        });
+        }
         highRenderCtrl.drawHighlight();
     };
     $scope.showItem = function(index) {
@@ -233,6 +247,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.mileageNm = '';
         $scope.mileageSrc = '';
         $scope.busDriveway = '';
+        $scope.outIdS = [];
         $scope.variableDirectionInfo = '';
         switch ($scope.allTipsType) {
             case "1101": //点限速
@@ -619,7 +634,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     for (var j in $scope.oarrayData[i].d_array) {
                         for (var m in $scope.oarrayData[i].d_array[j].out) {
                             $scope.outIdS.push({
-                                id: $scope.oarrayData[i].d_array[j].out[m].id
+                                id: $scope.oarrayData[i].d_array[j].out[m].id,
+                                sq:$scope.oarrayData[i].sq,
+                                type:$scope.oarrayData[i].d_array[j].out[m].type
                             });
                             highRenderCtrl.highLightFeatures.push({
                                 id: $scope.oarrayData[i].d_array[j].out[m].id.toString(),
@@ -630,6 +647,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         }
                     }
                 }
+                $scope.dataTipsData.seqNow = 1;
+                $scope.dataTipsData.isLaneConnexity = true;
                 break;
             case "1302": //交限
                 //高亮

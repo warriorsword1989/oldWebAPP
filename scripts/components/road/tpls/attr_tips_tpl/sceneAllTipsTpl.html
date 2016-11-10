@@ -29,15 +29,15 @@
     .right {
         float: left;
         width: 90%;
-        margin-left: 5px;
+        margin-left: 10px;
         margin-top: 5px;
     }
     .right img{
         height: 35px;
         width: 35px;
-        margin-bottom: 8px;
+        margin-bottom: 7px;
         margin-top: 8px;
-        margin-left: 4px;
+        /*margin-left: 4px;*/
     }
     .both {
         margin: 5px;
@@ -151,20 +151,20 @@
         </div>
     </div>
     <div class="right" ng-if="allTipsType==1301" >
-        <div class="form-group" style="margin-bottom: 0px;height:30px;">
-            <div class="col-sm-2" ng-repeat="item in dataTipsData.info" ng-if="item.arwG">
+        <div class="form-group" style="margin-bottom: 0px;height:50px;">
+            <div ng-class="{'col-sm-2 tips-thumbnail':true,'active':dataTipsData.o_array[item.sq-1].sq == dataTipsData.seqNow && item.arwG}" ng-repeat="item in dataTipsData.info" ng-if="item.arwG || item.arwG==''">
                 <div class="out-link-img" ng-if="item.ext == 0">
-                    <img ng-src="../../../images/road/1301/1301_0_{{item.arwG}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id)">
+                    <img ng-src="../../../images/road/1301/1301_0_{{item.arwG}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id,dataTipsData.o_array[item.sq-1].sq)" ng-if="item.arwG">
                 </div>
                 <div class="out-link-img" ng-if="item.ext == 1">
-                    <img ng-src="../../../images/road/1301/1301_2_{{item.arwG}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id)">
+                    <img ng-src="../../../images/road/1301/1301_2_{{item.arwG}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id,dataTipsData.o_array[item.sq-1].sq)" ng-if="item.arwG">
                 </div>
             </div>
         </div>
-        <div class="form-group" style="margin-bottom: 0px;height:30px;">
-            <div class="col-sm-2" ng-repeat="item in dataTipsData.info" ng-if="item.arwB">
+        <div class="form-group" style="margin-bottom: 0px;height:50px;">
+            <div ng-class="{'col-sm-2 tips-thumbnail':true,'active':dataTipsData.o_array[item.sq-1].sq == dataTipsData.seqNow && item.arwB}" ng-repeat="item in dataTipsData.info" ng-if="item.arwB || item.arwB==''">
                 <div class="out-link-img">
-                    <img ng-src="../../../images/road/1301/1301_1_{{item.arwB}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[0].out[0].id)">
+                    <img ng-src="../../../images/road/1301/1301_1_{{item.arwB}}.svg" ng-click="highlightSymbol(dataTipsData.o_array[item.sq-1].d_array[1].out[0].id,dataTipsData.o_array[item.sq-1].sq)" ng-if="item.arwB">
                 </div>
             </div>
         </div>
@@ -232,9 +232,9 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('n_array')">
                             <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
-                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
-                                <div ng-repeat="item in dataTipsData.n_array">
-                                    <span class="label " ng-bind="item"></span>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <div ng-repeat="item in dataTipsData.n_array" class="text-ellipsis">
+                                    <span class="label" ng-bind="item" title="{{item}}"></span>
                                 </div>
                             </div>
                         </div>
@@ -271,10 +271,10 @@
                                 <span class="label" ng-bind="dataTipsData.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.out,'RDLINK')"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight && !dataTipsData.isVariableDirectionLane">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && !dataTipsData.isBranch && !dataTipsData.leftAndRight && !dataTipsData.isVariableDirectionLane && !dataTipsData.isLaneConnexity">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7">
-                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array">
+                                <div class="col-sm-12" style="padding: 3px" ng-repeat="item in dataTipsData.o_array && !dataTipsData.isLaneConnexity">
                                     <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out,'RDLINK')"></span>
                                 </div>
                             </div>
@@ -303,10 +303,10 @@
                               </div>
                           </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_orray')">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isLaneConnexity">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="outItem in outIdS">
+                                <div ng-repeat="outItem in outIdS" ng-if="outItem.sq == dataTipsData.seqNow">
                                     <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(outItem,'RDLINK')">{{outItem.id}}</span>
                                 </div>
                             </div>
