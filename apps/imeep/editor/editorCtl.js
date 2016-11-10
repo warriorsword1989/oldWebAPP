@@ -681,6 +681,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				map.removeLayer(map.markerLayer);
 				map.markerLayer = null;
 			}
+			map.closePopup();
 
 			$scope.$broadcast('closeTipsImg',false);
 		});
