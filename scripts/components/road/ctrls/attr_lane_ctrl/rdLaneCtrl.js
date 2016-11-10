@@ -508,7 +508,6 @@ rdLineApp.controller("ClmCtl",['$scope','dsEdit','appPath','$timeout','$ocLazyLo
                 }
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
-                swal("操作成功", "操作详细车道编辑成功！", "success");
             }
             $scope.refreshData();
         });

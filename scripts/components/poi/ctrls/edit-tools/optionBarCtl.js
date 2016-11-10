@@ -25,6 +25,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
                 });
                 break;
             case 'errorCheck':
+                initCheckResultData();
                 $ocll.load('scripts/components/poi/ctrls/edit-tools/errorCheckCtl').then(function() {
                     $scope.tagContentTpl = '../../../scripts/components/poi/tpls/edit-tools/errorCheckTpl.html';
                 });

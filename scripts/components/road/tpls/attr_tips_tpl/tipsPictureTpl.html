@@ -1,18 +1,21 @@
-<div ng-controller="tipsPictureController" style="height:100%;">
+<div ng-controller="tipsPictureController">
     <div class="modal-header">
-        <div class="pull-right" id="fullPicBtn" ng-click="showFullPic();" title="全屏">
-            <span class="glyphicon glyphicon-fullscreen"></span>
-        </div>
         <button id="tipsImgClose" type="button" class="close"
                 ng-click="closePicContainer()"
                 data-dismiss="modal" aria-hidden="true" title="关闭">
             &times;
         </button>
+        <div class="pull-right fullPicBtn" ng-click="showNewWindow(tipsPhoto);" title="新窗口查看">
+            <span class="glyphicon glyphicon-new-window"></span>
+        </div>
+        <div class="pull-right fullPicBtn" ng-click="showFullPic();" title="全屏">
+            <span class="glyphicon glyphicon-fullscreen"></span>
+        </div>
         <h4 class="modal-title" id="myModalLabel">
             图片
         </h4>
     </div>
-    <div class="modal-body" style="height: 80%;">
+    <div class="modal-body">
         <!--<div class="road-switch-left" ng-click="switchPic(0);">
             <img src="../../../images/road/img/left.png">
         </div>-->

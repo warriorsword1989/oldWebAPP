@@ -5,7 +5,6 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     pKindFormat = $scope.$parent.metaData.kindFormat;
     pAllChain = $scope.$parent.metaData.allChain;
     $scope.truckTypeOpt = FM.dataApi.Constant.truckType;
-    $scope.truckFlagDisable = false;
     //初始化时让分类、品牌默认选中
     $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
         //$scope.selectedKind = newVlaue;
@@ -23,9 +22,15 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             }
         }
         $scope.$emit("kindChange", pKindFormat[newVlaue]);
-        getTruckByKindChain(newVlaue,"",null);
+        $scope.getTruckByKindChain(newVlaue,"",null);
     });
-
+    //调试代码，没有调用
+    $scope.$on('initBaseinfo',function (){
+        var level = pKindFormat[$scope.poi.kindCode].level;
+        $scope.rootCommonTemp.levelArr = [];
+        $scope.rootCommonTemp.levelArr = level.split("|");
+        $scope.poi.level = $scope.rootCommonTemp.levelArr[0];
+    });
     /*初始化品牌*/
     var initChain = function(kindCode) {
         var chainArray = pAllChain[kindCode];
@@ -83,7 +88,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                 checkLevel(dataLevel);
             }
         });
-        getTruckByKindChain($scope.poi.kindCode,$scope.poi.chain,null)
+        $scope.getTruckByKindChain($scope.poi.kindCode,$scope.poi.chain,null)
     };
 
     $scope.addContact = function() {
@@ -149,27 +154,6 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             });
         }
     };
-    /***
-     * kindcode chain fueltype变化时，联动truck 
-     */
-    var getTruckByKindChain = function(kindcode,chain,fuelType){
-        if(kindcode == "230215"){
-        	fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
-        }
-    	var param = {
-        		kindCode: kindcode,
-        		chain: chain,
-        		fuelType:fuelType
-			};
-        dsMeta.queryTruck(param).then(function(data){
-        	if(data != -1){
-        		$scope.poi.truckFlag = data;
-        		$scope.truckFlagDisable = true;
-        	}else{
-        		$scope.truckFlagDisable = false;
-        	}
-        });
-    };
     /**
      * 名称为空或者长度大于35的校验
      */
@@ -178,5 +162,5 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         if (!(value && value.length <= 35)) {
             swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
         }
-    }
+    };
 }]);

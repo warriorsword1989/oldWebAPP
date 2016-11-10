@@ -679,8 +679,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;
                     }
-                    highRenderCtrl.highLightFeatures = null;
                     highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     rdBranch.redraw();
                     $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 }

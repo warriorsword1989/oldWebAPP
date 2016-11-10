@@ -38,16 +38,25 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 				color: 'yellow'
 			}
 		});
+		for(var i=0;i<$scope.directRouteData.vias.length;i++){
+			highLightFeatures.push({
+				id: $scope.directRouteData.vias[i].linkPid.toString(),
+				layerid: 'rdLink',
+				type: 'line',
+				style: {
+					size: 5,
+					color:'#990099'
+				}
+			});
+		}
 		highRenderCtrl.highLightFeatures = highLightFeatures;
 		highRenderCtrl.drawHighlight();
-
 	};
 	$scope.initializeData();
 	$scope.refreshData = function () {
 		dsEdit.getByPid(parseInt($scope.directRouteData.pid), "RDDIRECTROUTE").then(function (data) {
 			if (data) {
 				objCtrl.setCurrentObject("RDDIRECTROUTE", data);
-				$scope.initializeData();
 			}
 		});
 	};
@@ -76,9 +85,7 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 						selectCtrl.rowkey.rowkey = undefined;
 					});
 				}
-				objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 				relationData.redraw();
-				swal("操作成功", "修改顺行成功！", "success");
 			}
 			$scope.refreshData();
 		})
@@ -98,6 +105,7 @@ rdElectronicEyeApp.controller("DirectRouteCtl", ['$scope', 'dsEdit', function ($
 				$scope.directRouteData = null;
 				relationData.redraw();
 				highRenderCtrl._cleanHighLight();
+				$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
 			}
 		})
 	};

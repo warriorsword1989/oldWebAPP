@@ -148,7 +148,6 @@ rdcrfObjectApp.controller("crfObjectCtrl", ['$scope', 'dsEdit', function ($scope
             if (data) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
-                swal("操作成功", "修改CRF对象成功！", "success");
             }
         })
     };

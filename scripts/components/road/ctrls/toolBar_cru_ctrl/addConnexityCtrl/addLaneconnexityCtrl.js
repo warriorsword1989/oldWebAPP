@@ -26,8 +26,11 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
     $scope.toBusLane = function(item) {
-        item.busDir = item.dir;
-        item.laneInfo = '<' + item.dir.flag + '>';
+        item.busDir = {
+            flag: item.dir.flag,
+            log: item.dir.log
+        };;
+        item.laneInfo = item.dir.flag + '<' + item.busDir.flag + '>';
         if (item.adt == 1) {
             item.laneInfo = '[' + item.laneInfo + ']';
         }
@@ -119,7 +122,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             var pid = parseInt(data.id);
             // 退出线不能是9级路
             // 退出线不能与进入线相同
-            if (parseInt(data.properties.fc) == 9 || pid == $scope.CurrentObject.inLinkPid) {
+            if (parseInt(data.properties.kind) == 9 || pid == $scope.CurrentObject.inLinkPid) {
                 return;
             }
             if ($scope.CurrentObject.outLinkPids.indexOf(pid) >= 0) {

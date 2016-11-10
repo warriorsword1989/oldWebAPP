@@ -2,8 +2,7 @@
     <div class="fm-component" >
         <div class="title">
             分歧
-            <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-            </label>
+            <span class="label label-info" ng-bind="branchPid"></span>
         </div>
 
         <div class="content">
@@ -122,13 +121,13 @@
                     <li>
                         <label>设施类型</label>
                         <div >
-                            <select ng-disabled="diverObj.details[0].estabType==9" ng-class="{'rounded':true,'chosen-disabled':diverObj.details[0].estabType==9}" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                            <select class="rounded" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
                         </div>
                     </li>
                     <li>
                         <label>名称种别</label>
                         <div >
-                            <select ng-disabled="diverObj.details[0].nameKind==9" ng-class="{'rounded':true,'chosen-disabled':diverObj.details[0].nameKind==9}" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                            <select class="rounded" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
                             </select>
                         </div>
                     </li>

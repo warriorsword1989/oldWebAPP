@@ -7,7 +7,7 @@
     <div class="picMapShow">
         <img class="picMapImg" ng-src="{{arrowCodeSrc}}" alt="无此模式图">
         <img class="picModalImg" ng-src="{{arrowMapShow}}">
-        <div class="picMapDesc" ng-bind="diverObj.realimages[0].realCode"></div>
+        <div class="picMapDesc" ng-bind="diverObj.realimages[0].realCode" style="margin-top: 10px;"></div>
     </div>
     <form name="nameBranchForm">
     <!--begin 模式图信息-->
@@ -52,7 +52,7 @@
                             </button>
                         </div>
                         <div class="pic-show-well">
-                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName)">
+                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName)" style="width: 78px;">
                                 <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
                                 <div class="img-describe">{{picture.fileName}}</div>
                             </div>

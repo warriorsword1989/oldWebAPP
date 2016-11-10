@@ -38,6 +38,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		$scope.suspendPanelOpened = false;
 		$scope.consolePanelOpened = false;
 		$scope.workPanelOpened = false;
+		$scope.clmPanelOpened = false;
 		$scope.rdLaneOpened = false;
 		//$scope.selectPoiInMap = false; //false表示从poi列表选择，true表示从地图上选择
 		//$scope.controlFlag = {}; //用于父Scope控制子Scope
@@ -46,6 +47,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		//$scope.specialWork = false;
 		$rootScope.specialWork = false;
 		$rootScope.isSpecialOperation = false;
+		// add by chenx on 2016-11-10: 利用shapeEditCtrl.editType来控制属性面板的保存、删除、取消 按钮的显示和隐藏
+		$scope.shapeEditCtrl = fastmap.uikit.ShapeEditorController();
 		/*切换项目平台*/
 		$scope.changeProject = function(type) {
 			$scope.showLoading.flag = true;
@@ -98,6 +101,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		$scope.subAttrTplContainerSwitch = function(flag) {
 			$scope.suspendPanelOpened = flag;
 			$('body .carTypeTip').hide();
+			$('body .datetip').hide();
 		}
 		$scope.changeProperty = function(val) {
 			$scope.propertyType = val;
@@ -134,12 +138,12 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				zoomControl: false
 			});
 			//高亮作业区域
-			var substaskGeomotry = data.geometry;
-			var pointsArray = hightLightWorkArea(substaskGeomotry);
-			var lineLayer = L.multiPolygon(pointsArray, {
-				fillOpacity: 0
+			var pointsArray = getCoordinatesFromWKT(data.geometry);
+			var taskLayer = L.polygon(pointsArray, {
+				fillOpacity: 0,
+				noClip: true,
 			});
-			map.addLayer(lineLayer);
+			map.addLayer(taskLayer);
 			map.on("zoomend", function(e) {
 				document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + map.getZoom();
 			});
@@ -147,6 +151,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				setTimeout(function() {
 					map.invalidateSize()
 				}, 400);
+			});
+			map.on("movestart", function(e) {
+				layerCtrl.reloadTileLayers = 0;
+				layerCtrl.loadedTileLayers = 0;
 			});
 			map.on("moveend", function(e) {
 				var c = map.getCenter();
@@ -160,7 +168,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			if ($cookies.get('IMEEP_EDITOR_MAP_ZOOM') && $cookies.get('IMEEP_EDITOR_MAP_CENTER')) {
 				map.setView(JSON.parse($cookies.get('IMEEP_EDITOR_MAP_CENTER')), $cookies.get('IMEEP_EDITOR_MAP_ZOOM'));
 			} else {
-				map.fitBounds(lineLayer.getBounds());
+				map.fitBounds(taskLayer.getBounds());
 			}
 			// L.control.scale({position:'bottomleft',imperial:false}).addTo(map);
 			// map.setView([40.012834, 116.476293], 17);
@@ -173,12 +181,19 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			 */
 			map.on("contextmenu", function(e) { // 右键
 				map.setView(e.latlng);
-			});
-			map.on("mousedown", function(e) {
-				if (e.originalEvent.button == 2) { // 右键
-					map.setView(e.latlng);
+				if(map.floatMenu){
+					map.floatMenu._latlng = e.latlng; //让半圆形工具条随右键移动
 				}
+
 			});
+			// map.on("mousedown", function(e) {
+			// 	if (e.originalEvent.button == 2) { // 右键
+			// 		map.setView(e.latlng);
+			// 		if(map.floatMenu){
+			// 			map.floatMenu._latlng = e.latlng; //让半圆形工具条随右键移动
+			// 		}
+			// 	}
+			// });
 			// map.on("click", function(e) {
 			//     console.log('click');
 			// });
@@ -482,16 +497,25 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			$scope.currentPage = 1;
 		};
 		//高亮作业区域方法;
-		function hightLightWorkArea(substaskGeomotry) {
+		function getCoordinatesFromWKT(substaskGeomotry) {
 			var wkt = new Wkt.Wkt();
-			var pointsArr = new Array();
+			var polygon;
 			//读取wkt格式的集合对象;
 			try {
-				var polygon = wkt.read(substaskGeomotry);
+				polygon = wkt.read(substaskGeomotry);
+			} catch (e1) {
+				try {
+					polygon = wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
+				} catch (e2) {
+					if (e2.name === 'WKTError') {
+						swal("错误", 'WKT数据有误，请检查！', "error");
+					}
+				}
+			}
+			if(polygon) {
 				var coords = polygon.components;
 				var points = [];
 				var point = [];
-				var poly = [];
 				for (var i = 0; i < coords.length; i++) {
 					for (var j = 0; j < coords[i].length; j++) {
 						if (polygon.type == 'multipolygon') {
@@ -505,17 +529,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 					points.push(point);
 					point = [];
 				}
-				return points;
-			} catch (e1) {
-				try {
-					wkt.read(substaskGeomotry.replace('\n', '').replace('\r', '').replace('\t', ''));
-				} catch (e2) {
-					if (e2.name === 'WKTError') {
-						swal("错误", 'WKT数据有误，请检查！', "error");
-						return;
-					}
-				}
 			}
+			return points;
 		}
 		/**
 		 * 页面初始化方法调用
@@ -817,7 +832,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		});
 		//道路作业面板是否展开
 		$scope.$on("OPENRDLANETOPO", function(event, data) {
-			$scope.workPanelOpened = !$scope.workPanelOpened;
+			$scope.clmPanelOpened = !$scope.clmPanelOpened;
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/attr_lane_ctrl/rdLaneTopoCtrl.js').then(function() {
 				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/attr_lane_tpl/rdLaneTopoTpl.html';
 			});
@@ -827,7 +842,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			$ocLazyLoad.load(appPath.root + 'scripts/components/road/ctrls/blank_ctrl/blankCtrl.js').then(function() {
 				$scope.rdLaneTopoPanelTpl = appPath.root + 'scripts/components/road/tpls/blank_tpl/blankTpl.html';
 			});
-			$scope.workPanelOpened = !$scope.workPanelOpened;
+			$scope.clmPanelOpened = !$scope.clmPanelOpened;
 		});
 		/**
 		 * 为了解决多次点击保存子表重复新增的问题，增加此方法，保存完成之后重新调用查询方法
@@ -892,7 +907,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 
         /*要素地图高亮及定位事件监听*/
         $scope.$on("locatedOnMap", function(event, data) {
-            _showOnMapNew(data.objPid,data.objType);
+            _showOnMapNew(data.objPid, data.objType);
             //$scope.showOnMap(data.pid, data.type);
         });
 
@@ -903,17 +918,19 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             dsEdit.getByPid(pid, featType).then(function(data) {
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
-                var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
-                var coord;
-                if (data.geometry.type == 'Point') {
-                    coord = data.geometry.coordinates;
-                } else if (data.geometry.type == 'LineString') {
-                    coord = data.geometry.coordinates[0];
-                } else if (data.geometry.type == 'Polygon') {
-                    coord = data.geometry.coordinates[0][0];
-                }
-                if (coord) {
-                    map.setView([coord[1], coord[0]]);
+                if (data.geometry) {
+                    var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
+                    var coord;
+                    if (data.geometry.type == 'Point') {
+                        coord = data.geometry.coordinates;
+                    } else if (data.geometry.type == 'LineString') {
+                        coord = data.geometry.coordinates[0];
+                    } else if (data.geometry.type == 'Polygon') {
+                        coord = data.geometry.coordinates[0][0];
+                    }
+                    if (coord) {
+                        map.setView([coord[1], coord[0]], zoom);
+                    }
                 }
                 var page = _getFeaturePage(featType);
                 if (featType == "IXPOI") {
@@ -929,10 +946,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                         "propertyHtml": appPath.root + appPath.poi + "tpls/attr-base/generalBaseTpl.html"
                     });
                     highRenderCtrl.highLightFeatures.push({
-                        id:data.pid.toString(),
-                        layerid:'poi',
-                        type:'IXPOI',
-                        style:{}
+                        id: data.pid.toString(),
+                        layerid: 'poi',
+                        type: 'IXPOI',
+                        style: {}
                     });
                     highRenderCtrl.drawHighlight();
                     return;

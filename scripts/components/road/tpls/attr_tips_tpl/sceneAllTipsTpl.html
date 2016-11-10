@@ -297,8 +297,8 @@
                           <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="lane.time">
                               <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
                               <div class="col-sm-7" style="padding: 4px">
-                                  <div ng-repeat="item in lane.time.split(';')" class="text-ellipsis">
-                                      <span class="label" title="{{item}}">{{item}}</span>
+                                  <div ng-repeat="item in lane.time.split(';')">
+                                      <span class="label" title="{{item}}" style="white-space: normal;word-wrap: break-word;">{{item}}</span>
                                   </div>
                               </div>
                           </div>
@@ -382,7 +382,9 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.o_array && dataTipsData.o_array[0].hasOwnProperty('time')">
                             <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;段:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label" ng-bind="dataTipsData.o_array[0].time"></span>
+                                <div ng-repeat="item in dataTipsData.o_array[0].time.split(';')">
+                                    <span class="label" ng-bind="item" style="white-space: normal;word-wrap: break-word;"></span>
+                                </div>
                             </div>
                         </div>
                         <!-- 类型 -->
@@ -429,7 +431,9 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('time')">
                             <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " >{{wArrayitem.time}}</span>
+                                <div ng-repeat="item in wArrayitem.time.split(';')">
+                                    <span class="label" ng-bind="item" style="white-space: normal;word-wrap: break-word;"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="wArrayitem.hasOwnProperty('desc')">
@@ -442,8 +446,8 @@
                         <!--begin 收费站-->
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="tollGateTp">
                             <label class="col-sm-5 control-label" style="padding: 4px">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:</label>
-                            <div class="col-sm-7 text-ellipsis" style="padding: 4px">
-                                <span class="label">{{tollGateTp}}</span>
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label" style="white-space: normal;word-wrap: break-word;">{{tollGateTp}}</span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.pNum">
@@ -466,7 +470,7 @@
                         </div>
                         <!--end 收费站-->
                         <!--begin 高速分歧-->
-                        <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isBranch" ng-repeat="branchItem in dataTipsData.o_array">
+                        <div ng-if="dataTipsData.hasOwnProperty('o_array') && dataTipsData.isBranch" ng-repeat="branchItem in dataTipsData.o_array track by $index">
                             <hr style="margin:0;">
                             <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                                 <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
@@ -515,8 +519,8 @@
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="!dataTipsData.isNoCrossing && !dataTipsData.isReversibleLine">时&nbsp;&nbsp;间&nbsp;&nbsp;段:</label>
                             <label class="col-sm-5 control-label" style="padding: 4px" ng-if="dataTipsData.isNoCrossing || dataTipsData.isReversibleLine">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in timeDomain" class="text-ellipsis">
-                                    <span class="label" title="{{item}}">{{item}}</span>
+                                <div ng-repeat="item in timeDomain">
+                                    <span class="label" title="{{item}}" style="white-space: normal;word-wrap: break-word;">{{item}}</span>
                                 </div>
                             </div>
                         </div>
@@ -554,8 +558,8 @@
                         <!--begin 挂接-->
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('pcd')">
                             <label class="col-sm-5 control-label" style="padding: 4px">图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片:</label>
-                            <div class="col-sm-7" style="padding: 4px">
-                                <img ng-src="{{pcd}}">
+                            <div class="col-sm-7" style="padding: 10px;">
+                                <img ng-src="{{pcd}}" style="background-color: #fff;">
                             </div>
                         </div>
                         <!--end 挂接-->
@@ -626,7 +630,7 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">通行时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
                                 <div ng-repeat="date in timeDomain">
-                                	<span ng-bind="date"></span>
+                                	<span ng-bind="date" style="white-space: normal;word-wrap: break-word;"></span>
                                 </div>
                             </div>
                         </div>
@@ -649,7 +653,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.hasOwnProperty('d_array') && dataTipsData.isConditionLimit">
                             <label class="col-sm-5 control-label" style="padding: 4px">时&nbsp; 间&nbsp; 段:</label>
                             <div class="col-sm-7" style="padding: 3px">
-                                <div ng-repeat="item in dataTipsData.d_array" class="label text-left" style="float: inherit;" ng-bind="item.time">
+                                <div ng-repeat="item in dataTipsData.d_array" class="label text-left" style="float: inherit;white-space: normal;word-wrap: break-word;" ng-bind="item.time">
                                 </div>
                             </div>
                         </div>
@@ -838,8 +842,8 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="dataTipsData.c_array[0].hasOwnProperty('out')">
                             <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in timeDomain" class="text-ellipsis">
-                                    <span class="label" title="{{item}}">{{item}}</span>
+                                <div ng-repeat="item in timeDomain">
+                                    <span class="label" title="{{item}}" style="white-space: normal;word-wrap: break-word;">{{item}}</span>
                                 </div>
                             </div>
                         </div>
@@ -904,8 +908,8 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;" ng-if="oArrayItem.c_array[0].hasOwnProperty('time')">
                             <label class="col-sm-5 control-label" style="padding: 4px">限制时间:</label>
                             <div class="col-sm-7" style="padding: 4px">
-                                <div ng-repeat="item in oArrayItem.c_array[0].time.split(';')" class="text-ellipsis">
-                                    <span class="label" title="{{item}}">{{item}}</span>
+                                <div ng-repeat="item in oArrayItem.c_array[0].time.split(';')">
+                                    <span class="label" title="{{item}}" style="white-space: normal;word-wrap: break-word;">{{item}}</span>
                                 </div>
                             </div>
                         </div>

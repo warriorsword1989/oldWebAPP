@@ -41,6 +41,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'elecTransformDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                     'pathNodeMove':new fastmap.mapApi.PathNodeMove({shapeEditor:shapeEditor}),
                     'pointVertexAdd':new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor}),
+                    'updateSpeedNode': new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor}),
                     'addAdAdmin':new fastmap.mapApi.adAdminAdd({shapeEditor:shapeEditor}),
                     'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor}),
                     'poiLocMove':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:false}),

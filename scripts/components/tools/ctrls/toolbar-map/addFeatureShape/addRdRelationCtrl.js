@@ -121,7 +121,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     point3 = map.latLngToContainerPoint([shapePoints[j + 2].y, shapePoints[j + 2].x]);
                     angle1 = $scope.angleOfLink(point1, point2);
                     angle2 = $scope.angleOfLink(point2, point3);
-                    if (Math.abs(angle1 - angle2) > 0.2) {
+                    if (Math.abs(angle1 - angle2) > 0.06) {
                         var points = [];
                         points.push(shapePoints[j]);
                         points.push(shapePoints[j + 1]);
@@ -575,21 +575,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                        if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 5 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 5){
+                        if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 1 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 1){
                             selectCtrl.selectedFeatures = null;
                             editLayer.drawGeometry = null;
                             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                            // editLayer.bringToBack();
                             editLayer.clear();
-                            // eventController.off(eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK);
-                            // shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
-                            // shapeCtrl.startEditing();
-                            // map.currentTool = shapeCtrl.getCurrentTool();
-                            // map.currentTool.enable();
-                            // map.currentTool.snapHandler.addGuideLayer(rdLink);
-                            // tooltipsCtrl.setEditEventType('pointVertexAdd');
-                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">距离端点小于5米，请重新增加限速！</span>');
+                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">距离端点太近啦，请重新选择位置！</span>');
                             return;
                         }
                         if (data) {
@@ -621,8 +613,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                     }
                                 }
                                 angle = $scope.angleOfLink(sVertex, eVertex);
-                                if (sVertex.x > eVertex.x) {
-                                    angle = Math.PI + angle;
+                                if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) {
+                                    angle = angle + Math.PI;
                                 }
                                 var marker = {
                                     flag: false,
@@ -1246,6 +1238,13 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入线;
+                    	if(data.properties.kind == 9 && data.properties.form.indexOf("34")>-1){
+//                    		swal("提示","警示信息不能制作在九级辅路上","warning");
+//                    		return;
+                    		tooltipsCtrl.setCurrentTooltip("警示信息不能制作在九级辅路上!");
+                    		map.currentTool.selectedFeatures.pop();
+                    		return;
+                    	}
                         map.currentTool.snapHandler.snaped = false;
                         map.currentTool.clearCross();
                         map.currentTool.snapHandler._guides = [];
@@ -1283,18 +1282,30 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                     } else if (data.index === 1) { //进入点
                         $scope.warningInfo.nodePid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id: $scope.warningInfo.nodePid.toString(),
-                            layerid: 'rdLink',
-                            type: 'rdnode',
-                            style: {
-                                color: '#21ed25'
+                        dsEdit.getByPid($scope.warningInfo.nodePid, "RDNODE").then(function(data) {
+                            if (data) {
+                                if(data.meshes.length > 1){
+                                    tooltipsCtrl.setCurrentTooltip("警示信息中的点形态不能是图廓点!");
+                                    map.currentTool.selectedFeatures.pop();
+                                }else{
+                                    highLightFeatures.push({
+                                        id: $scope.warningInfo.nodePid.toString(),
+                                        layerid: 'rdLink',
+                                        type: 'rdnode',
+                                        style: {
+                                            color: '#21ed25'
+                                        }
+                                    });
+                                    highRenderCtrl.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.warningInfo.nodePid.toString());
+                                    featCodeCtrl.setFeatCode($scope.warningInfo);
+                                    tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                                }
+                            } else {
+                                tooltipsCtrl.setCurrentTooltip('请重新选择进入点!');
                             }
-                        });
-                        highRenderCtrl.drawHighlight();
-                        map.currentTool.selectedFeatures.push($scope.warningInfo.nodePid.toString());
-                        featCodeCtrl.setFeatCode($scope.warningInfo);
-                        tooltipsCtrl.setCurrentTooltip("已选进入点,点击空格键保存!");
+                        })
+
                     }
                 });
             } else if (type === "ELECTRONIC_EYE") { //电子眼
@@ -1400,7 +1411,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 $scope.resetOperator("addRelation", type);
                 var highLightFeatures = [];
                 var linkPids = []; //推荐的退出线
-                var continueLinkPid = null; //退出线或者连续link的另一个端点
+                var continueLinkPid = null; //退出线
+                var continueNodePid = null; //连续link的另一个端点
                 var linkLength = 0; //长度
                 var slopeData = {
                     nodePid: null,
@@ -1426,7 +1438,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 eventController.off(eventController.eventTypes.GETLINKID);
                 eventController.on(eventController.eventTypes.GETLINKID, function(data) {
                     if (data.index === 0) { //进入点
-                        slopeData.nodePid = parseInt(data.id);
+                        continueNodePid = parseInt(data.id);
+                        slopeData.nodePid = continueNodePid;
                         highLightFeatures.push({
                             id: data.id.toString(),
                             layerid: 'rdLink',
@@ -1461,36 +1474,37 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                         });
                                         highRenderCtrl.highLightFeatures = highLightFeatures;
                                         highRenderCtrl.drawHighlight();
+                                        if (linkLength && linkLength < 100) {
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
+                                        } else if(linkLength && linkLength > 150){
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                                            eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
+                                            map.currentTool.disable();
+                                        }
                                         //判断此退出线是否有多个挂接link
                                         var param1 = {};
                                         param1["dbId"] = App.Temp.dbId;
                                         param1["type"] = "RDLINK";
-                                        if (linkData.data[0].sNodePid == slopeData.nodePid) {
-                                            param1["data"] = {
-                                                "nodePid": linkData.data[0].eNodePid
-                                            };
+                                        if (linkData.data[0].sNodePid == continueNodePid) {
+                                            continueNodePid =linkData.data[0].eNodePid;
                                         } else {
-                                            param1["data"] = {
-                                                "nodePid": linkData.data[0].sNodePid
-                                            };
+                                            continueNodePid =linkData.data[0].sNodePid;
                                         }
+                                        param1["data"] = {
+                                            "nodePid": continueNodePid
+                                        };
                                         dsEdit.getByCondition(param1).then(function(continueLinks) {
                                             if (continueLinks.errcode === -1) {
                                                 return;
                                             }
                                             if (continueLinks.data) {
                                                 if (continueLinks.data.length > 2 || continueLinks.data.length == 1) {
-                                                    tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
                                                     eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
                                                 } else if (continueLinks.data.length == 2) {
                                                     if (continueLinks.data[0].pid == slopeData.linkPid) {
                                                         continueLinkPid = continueLinks.data[1].pid;
                                                     } else {
                                                         continueLinkPid = continueLinks.data[0].pid;
-                                                    }
-                                                    if (linkLength && linkLength < 100) {
-                                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1540,35 +1554,38 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 dsEdit.getByPid(parseInt(data.id), "RDLINK").then(function(conLinkDetail) { //查询连续link的长度
                                     if (conLinkDetail) {
                                         linkLength += conLinkDetail.length;
+                                        if (linkLength && linkLength < 100) {
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
+                                        } else if(linkLength && linkLength > 150){
+                                            tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                                            eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
+                                            map.currentTool.disable();
+                                        }
                                         //判断此退出线是否有多个挂接link
                                         var param1 = {};
                                         param1["dbId"] = App.Temp.dbId;
                                         param1["type"] = "RDLINK";
-                                        if (conLinkDetail.sNodePid == continueLinkPid) {
-                                            param1["data"] = {
-                                                "nodePid": conLinkDetail.eNodePid
-                                            };
+                                        if (conLinkDetail.sNodePid == continueNodePid) {
+                                            continueNodePid =conLinkDetail.eNodePid
                                         } else {
-                                            param1["data"] = {
-                                                "nodePid": conLinkDetail.sNodePid
-                                            };
+                                            continueNodePid =conLinkDetail.sNodePid
                                         }
+                                        param1["data"] = {
+                                            "nodePid": continueNodePid
+                                        };
                                         dsEdit.getByCondition(param1).then(function(continueLinks) {
                                             if (continueLinks.errcode === -1) {
                                                 return;
                                             }
                                             if (continueLinks.data) {
                                                 if (continueLinks.data.length > 2) {
+                                                    map.currentTool.disable();
                                                     eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
                                                 } else if (continueLinks.data.length == 2) {
-                                                    if (continueLinks.data[0].pid == slopeData.linkPid) {
+                                                    if (continueLinks.data[0].pid == continueLinkPid) {
                                                         continueLinkPid = continueLinks.data[1].pid;
                                                     } else {
                                                         continueLinkPid = continueLinks.data[0].pid;
-                                                    }
-                                                    if (linkLength && linkLength < 100) {
-                                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
-                                                        return;
                                                     }
                                                 }
                                             }
@@ -1580,7 +1597,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 return;
                             }
                         } else if (linkPids.indexOf(parseInt(data.id)) > -1) { //所选的link在推荐link中
-                            slopeData.linkPid = parseInt(data.id);
+                            continueLinkPid = parseInt(data.id);
+                            slopeData.linkPid = continueLinkPid;
                             highLightFeatures.length = 0;
                             highRenderCtrl.highLightFeatures.length = 0;
                             highRenderCtrl._cleanHighLight();
@@ -1603,36 +1621,40 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             dsEdit.getByPid(slopeData.linkPid, "RDLINK").then(function(exLinkDetail) { //查询退出线的长度
                                 if (exLinkDetail) {
                                     linkLength += exLinkDetail.length;
+                                    if (linkLength && linkLength < 100) {
+                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
+                                    } else if(linkLength && linkLength > 150){
+                                        tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                                        eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
+                                        map.currentTool.disable();
+                                    }
                                     //判断此退出线是否有多个挂接link
                                     var param1 = {};
                                     param1["dbId"] = App.Temp.dbId;
                                     param1["type"] = "RDLINK";
-                                    if (exLinkDetail.sNodePid == slopeData.nodePid) {
-                                        param1["data"] = {
-                                            "nodePid": exLinkDetail.eNodePid
-                                        };
+                                    if (exLinkDetail.sNodePid == continueNodePid) {
+                                        continueNodePid  = exLinkDetail.eNodePid;
                                     } else {
-                                        param1["data"] = {
-                                            "nodePid": exLinkDetail.sNodePid
-                                        };
+                                        continueNodePid  = exLinkDetail.sNodePid;
                                     }
+                                    param1["data"] = {
+                                        "nodePid": continueNodePid
+                                    };
                                     dsEdit.getByCondition(param1).then(function(continueLinks) {
                                         if (continueLinks.errcode === -1) {
                                             return;
                                         }
                                         if (continueLinks.data) {
                                             if (continueLinks.data.length > 2) {
+                                                map.currentTool.disable();
                                                 eventController.off(eventController.eventTypes.GETLINKID); //不再寻找连续link
                                             } else if (continueLinks.data.length == 2) {
-                                                if (continueLinks.data[0].pid == slopeData.linkPid) {
+                                                if (continueLinks.data[0].pid == continueLinkPid) {
                                                     continueLinkPid = continueLinks.data[1].pid;
                                                 } else {
                                                     continueLinkPid = continueLinks.data[0].pid;
                                                 }
-                                                if (linkLength && linkLength < 100) {
-                                                    tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，请选择坡度接续link!");
-                                                    return;
-                                                }
+
                                             }
                                         }
                                     });
@@ -1644,8 +1666,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                         }
                     }
                     shapeCtrl.shapeEditorResult.setFinalGeometry(slopeData);
-                    tooltipsCtrl.setEditEventType('slopeData');
-                    tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
+                    // tooltipsCtrl.setEditEventType('slopeData');
+                    // tooltipsCtrl.setCurrentTooltip("Link长度为：" + linkLength + "米，点击空格保存坡度信息,或者按ESC键取消!");
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDSLOPE);
                 });
             } else if (type === 'RDDIRECTROUTE') { //顺行
@@ -2689,102 +2711,75 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     nodePid: "",
                     laneDir: 1
                 };
+                var rdlinkData = [];
+                var nodePids = [];
                 highRenderCtrl.highLightFeatures = [];
                 highRenderCtrl._cleanHighLight();
                 //设置快捷键保存的事件类型供热键通过（shapeCtrl.editType）监听;
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
                 //地图编辑相关设置;
                 tooltipsCtrl.setEditEventType('rdLaneTopoDetail');
-                tooltipsCtrl.setCurrentTooltip('请选择详细车道作为进入线！');
-                map.currentTool = new fastmap.uikit.SelectRelation({
+                tooltipsCtrl.setCurrentTooltip('请选择进入线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
-                    relationFlag: true
+                    currentEditLayer: rdLink,
+                    shapeEditor: shapeCtrl,
+                    operationList: ['line', 'point', 'line']
                 });
                 map.currentTool.enable();
-                editLayer.bringToBack();
-                eventController.off(eventController.eventTypes.GETRELATIONID);
-                eventController.on(eventController.eventTypes.GETRELATIONID, function(data) {
-                    if (data.optype != "RDLANE") {
-                        return;
-                    }
-                    var rdlinks = rdLink.tiles[data.tileId].data;
-                    var rdlinkData = [];
-                    var nodePids = [];
-                    for (var i = 0; i < rdlinks.length; i++) {
-                        if (rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
+                eventController.off(eventController.eventTypes.GETLINKID);
+                eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+                    if (data.index === 0) {
+                        if (parseInt(data.properties.direct) == 1) {
                             laneTopoData.linkPids.push(parseInt(data.id));
-                            rdlinkData.push(rdlinks[i]);
-                            nodePids.push(rdlinks[i].properties.snode);
-                            nodePids.push(rdlinks[i].properties.enode);
-                            break;
-                        }
-                    }
-                    if (laneTopoData.linkPids.length == 0) {
-                        swal("提示", "找不到详细车道对应的link，请重试！", "info");
-                        return;
-                    } else if (laneTopoData.linkPids.length == 1) { //进入线
-                        tooltipsCtrl.setCurrentTooltip('请选择详细车道作为进入线！');
-                        highRenderCtrl.highLightFeatures.push({
-                            id: laneTopoData.linkPids[0].toString(),
-                            layerid: 'rdLink',
-                            type: 'line',
-                            style: {
-                                color: 'red'
-                            }
-                        });
-                        highRenderCtrl.drawHighlight();
-                        if (rdlinks[0].properties.direct == 2) { //单方向，=2时enode作为进入点，=3是snode作为进入点
-                            laneTopoData.nodePid = parseInt(nodePids[1]);
                             highRenderCtrl.highLightFeatures.push({
-                                id: nodePids[1].toString(),
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {}
-                            });
-                            highRenderCtrl.drawHighlight();
-                        } else if (rdlinks[0].properties.direct == 3) {
-                            laneTopoData.nodePid = parseInt(nodePids[0]);
-                            highRenderCtrl.highLightFeatures.push({
-                                id: nodePids[0].toString(),
-                                layerid: 'rdLink',
-                                type: 'rdnode',
-                                style: {}
-                            });
-                            highRenderCtrl.drawHighlight();
-                        }
-                        tooltipsCtrl.setCurrentTooltip('请选择经过线或者退出线！');
-                    } else if (laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") { //经过线、退出线
-                        if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2 || nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
-                            highRenderCtrl.highLightFeatures.push({
-                                id: laneTopoData.linkPids[1].toString(),
+                                id: laneTopoData.linkPids[0].toString(),
                                 layerid: 'rdLink',
                                 type: 'line',
+                                style: {
+                                    color: 'red'
+                                }
+                            });
+                            highRenderCtrl.drawHighlight();
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入线, 请选择进入点!");
+                        } else if (parseInt(data.properties.direct) == 2 || parseInt(data.properties.direct) == 3) {
+                            laneTopoData.linkPids.push(parseInt(data.id));
+                            highRenderCtrl.highLightFeatures.push({
+                                id: laneTopoData.linkPids[0].toString(),
+                                layerid: 'rdLink',
+                                type: 'line',
+                                style: {
+                                    color: 'red'
+                                }
+                            });
+                            if (parseInt(data.properties.direct) == 2) {
+                                laneTopoData.nodePid = parseInt(data.properties.enode);
+                            } else if (parseInt(data.properties.direct) == 3) {
+                                laneTopoData.nodePid = parseInt(data.properties.snode);
+                            }
+                            highRenderCtrl.highLightFeatures.push({
+                                id: laneTopoData.nodePid.toString(),
+                                layerid: 'rdLink',
+                                type: 'node',
                                 style: {}
                             });
-                            if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2) {
-                                laneTopoData.nodePid = parseInt(nodePids[2]);
-                                highRenderCtrl.highLightFeatures.push({
-                                    id: nodePids[2].toString(),
-                                    layerid: 'rdLink',
-                                    type: 'rdnode',
-                                    style: {}
-                                });
-                            }
-                            if (nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
-                                laneTopoData.nodePid = parseInt(nodePids[3]);
-                                highRenderCtrl.highLightFeatures.push({
-                                    id: nodePids[3].toString(),
-                                    layerid: 'rdLink',
-                                    type: 'rdnode',
-                                    style: {}
-                                });
-                            }
                             highRenderCtrl.drawHighlight();
-                        } else {
-                            nodePids.length = 2;
-                            laneTopoData.linkPids.pop();
+                            tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+                            map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
                         }
-                    } else {
+                    } else if (data.index === 1) {
+                        laneTopoData.nodePid = parseInt(data.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id: laneTopoData.nodePid.toString(),
+                            layerid: 'rdLink',
+                            type: 'node',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
+                        map.currentTool.selectedFeatures.push(laneTopoData.nodePid);
+                    } else if (data.index > 1 && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
+                        laneTopoData.linkPids.push(parseInt(data.id));
                         highRenderCtrl.highLightFeatures.push({
                             id: laneTopoData.linkPids[laneTopoData.linkPids.length - 1].toString(),
                             layerid: 'rdLink',
@@ -2792,12 +2787,111 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             style: {}
                         });
                         highRenderCtrl.drawHighlight();
+                        tooltipsCtrl.setCurrentTooltip("继续选退出线, 或者点击空格创建,或者按ESC键取消!");
                     }
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
-                    tooltipsCtrl.setEditEventType('laneTopoData');
-                    tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
-                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDLANETOPODETAIL);
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
+                        // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
                 });
+
+                // map.currentTool = new fastmap.uikit.SelectRelation({
+                //     map: map,
+                //     relationFlag: true
+                // });
+                // map.currentTool.enable();
+                // editLayer.bringToBack();
+                // eventController.off(eventController.eventTypes.GETRELATIONID);
+                // eventController.on(eventController.eventTypes.GETRELATIONID, function(data) {
+                //     if (data.optype != "RDLANE") {
+                //         return;
+                //     }
+                //     var rdlinks = rdLink.tiles[data.tileId].data;
+                //
+                //     for (var i = 0; i < rdlinks.length; i++) {
+                //         if (rdlinks[i].properties.id == data.id && laneTopoData.linkPids.indexOf(parseInt(data.id)) < 0) {
+                //             laneTopoData.linkPids.push(parseInt(data.id));
+                //             rdlinkData.push(rdlinks[i]);
+                //             nodePids.push(rdlinks[i].properties.snode);
+                //             nodePids.push(rdlinks[i].properties.enode);
+                //             break;
+                //         }
+                //     }
+                //     if (laneTopoData.linkPids.length == 0) {
+                //         swal("提示", "找不到详细车道对应的link，请重试！", "info");
+                //         return;
+                //     } else if (laneTopoData.linkPids.length == 1) { //进入线
+                //         tooltipsCtrl.setCurrentTooltip('请选择详细车道作为进入线！');
+                //         highRenderCtrl.highLightFeatures.push({
+                //             id: laneTopoData.linkPids[0].toString(),
+                //             layerid: 'rdLink',
+                //             type: 'line',
+                //             style: {
+                //                 color: 'red'
+                //             }
+                //         });
+                //         highRenderCtrl.drawHighlight();
+                //         if (rdlinks[0].properties.direct == 2) { //单方向，=2时enode作为进入点，=3是snode作为进入点
+                //             laneTopoData.nodePid = parseInt(nodePids[1]);
+                //             highRenderCtrl.highLightFeatures.push({
+                //                 id: nodePids[1].toString(),
+                //                 layerid: 'rdLink',
+                //                 type: 'node',
+                //                 style: {}
+                //             });
+                //             highRenderCtrl.drawHighlight();
+                //         } else if (rdlinks[0].properties.direct == 3) {
+                //             laneTopoData.nodePid = parseInt(nodePids[0]);
+                //             highRenderCtrl.highLightFeatures.push({
+                //                 id: nodePids[0].toString(),
+                //                 layerid: 'rdLink',
+                //                 type: 'node',
+                //                 style: {}
+                //             });
+                //             highRenderCtrl.drawHighlight();
+                //         }
+                //         tooltipsCtrl.setCurrentTooltip('请选择经过线或者退出线！');
+                //     } else if (laneTopoData.linkPids.length == 2 && laneTopoData.nodePid == "") { //进入线方向为1时候的经过线、退出线
+                //         if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2 || nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
+                //             highRenderCtrl.highLightFeatures.push({
+                //                 id: laneTopoData.linkPids[1].toString(),
+                //                 layerid: 'rdLink',
+                //                 type: 'line',
+                //                 style: {}
+                //             });
+                //             if (nodePids.indexOf(nodePids[2]) > -1 && nodePids.indexOf(nodePids[2]) < 2) {
+                //                 laneTopoData.nodePid = parseInt(nodePids[2]);
+                //                 highRenderCtrl.highLightFeatures.push({
+                //                     id: nodePids[2].toString(),
+                //                     layerid: 'rdLink',
+                //                     type: 'node',
+                //                     style: {}
+                //                 });
+                //             }
+                //             if (nodePids.indexOf(nodePids[3]) > -1 && nodePids.indexOf(nodePids[3]) < 2) {
+                //                 laneTopoData.nodePid = parseInt(nodePids[3]);
+                //                 highRenderCtrl.highLightFeatures.push({
+                //                     id: nodePids[3].toString(),
+                //                     layerid: 'rdLink',
+                //                     type: 'node',
+                //                     style: {}
+                //                 });
+                //             }
+                //             highRenderCtrl.drawHighlight();
+                //         } else {
+                //             nodePids.length = 2;
+                //             laneTopoData.linkPids.pop();
+                //         }
+                //     } else {
+                //         highRenderCtrl.highLightFeatures.push({
+                //             id: laneTopoData.linkPids[laneTopoData.linkPids.length - 1].toString(),
+                //             layerid: 'rdLink',
+                //             type: 'line',
+                //             style: {}
+                //         });
+                //         highRenderCtrl.drawHighlight();
+                //     }
+                //     shapeCtrl.shapeEditorResult.setFinalGeometry(laneTopoData);
+                //     // tooltipsCtrl.setCurrentTooltip("点击空格保存车道连通信息,或者按ESC键取消!");
+                // });
             }
         }
     }

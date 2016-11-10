@@ -3,7 +3,7 @@ fastmap.uikit.canvasTips.TipsTrafficSignalDir = fastmap.uikit.canvasTips.Tips.ex
         this.geometry['coordinates'] = item.g;
         this.properties['markerStyle']["icon"].push(
             fastmap.uikit.canvasTips.Tips.getIconStyle({
-                iconName: '../../../images/road/tips/1102/1102_0_0.svg',
+                iconName: '../../../images/road/tips/1103/1103_'+item.m.c+'_0.svg',
                 row: 0,
                 column: 1,
                 location: this.geometry['coordinates'],
