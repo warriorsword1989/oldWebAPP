@@ -32,7 +32,7 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         this.validation = fastmap.uikit.geometryValidation({
             transform: new fastmap.mapApi.MecatorTranform()
         });
-        this.nodeArray = ["RDNODE"]; //["RDNODE","ADNODE","LCNODE","LUNODE","ZONENODE"];
+        this.nodeArray = ["RDNODE","RWNODE","ADNODE","LCNODE","LUNODE","ZONENODE"];//["RDNODE"];
     },
     /***
      * 添加事件处理

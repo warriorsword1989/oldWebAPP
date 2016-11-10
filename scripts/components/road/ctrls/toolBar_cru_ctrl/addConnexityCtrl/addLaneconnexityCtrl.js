@@ -100,15 +100,20 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     $scope.excitLineArr = [];
     eventController.off(eventController.eventTypes.GETLINKID);
     eventController.on(eventController.eventTypes.GETLINKID, function(data) {
+        var pid = parseInt(data.id);
+        // 进入线、退出线不能是9级以上路
+        if (parseInt(data.properties.kind) >= 9) {
+            return;
+        }
         if (data.index === 0) {
-            if (parseInt(data.properties.direct) == 1) {
-                $scope.CurrentObject.inLinkPid = parseInt(data.id);
+            var direct = parseInt(data.properties.direct);
+            $scope.CurrentObject.inLinkPid = pid;
+            if (direct == 1) {
                 tooltipsCtrl.setCurrentTooltip("已经选择进入线, 请选择进入点!");
-            } else if (parseInt(data.properties.direct) == 2 || parseInt(data.properties.direct) == 3) {
-                $scope.CurrentObject.inLinkPid = parseInt(data.id);
-                if (parseInt(data.properties.direct) == 2) {
+            } else {
+                if (direct == 2) {
                     $scope.CurrentObject.nodePid = parseInt(data.properties.enode);
-                } else if (parseInt(data.properties.direct) == 3) {
+                } else if (direct == 3) {
                     $scope.CurrentObject.nodePid = parseInt(data.properties.snode);
                 }
                 tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
@@ -119,10 +124,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
             map.currentTool.selectedFeatures.push($scope.CurrentObject.nodePid);
         } else if (data.index > 1) {
-            var pid = parseInt(data.id);
-            // 退出线不能是9级路
             // 退出线不能与进入线相同
-            if (parseInt(data.properties.kind) == 9 || pid == $scope.CurrentObject.inLinkPid) {
+            if (pid == $scope.CurrentObject.inLinkPid) {
                 return;
             }
             if ($scope.CurrentObject.outLinkPids.indexOf(pid) >= 0) {
