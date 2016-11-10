@@ -167,6 +167,10 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'MODIFYRDCROSS':'modifyRdcross',
     /*
+     限高限重
+     */
+    'RDHGWGLIMIT':'rdHgwgLimit',
+    /*
      分离节点
      */
     'PATHDEPARTNODE':'pathDepartNode'
