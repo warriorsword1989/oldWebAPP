@@ -166,7 +166,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
             var pid = parseInt(data.id);
-            if (parseInt(data.properties.fc) == 9 || pid == CurrentObject.inLinkPid) { // 不能选择9级路，不能选择进入线
+            if (parseInt(data.properties.kind) == 9 || pid == CurrentObject.inLinkPid) { // 不能选择9级路，不能选择进入线
                 return;
             }
             var flag = false,
@@ -209,19 +209,21 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
                 param["data"] = {
                     "inLinkPid": CurrentObject.inLinkPid,
                     "nodePid": CurrentObject.nodePid,
-                    "outLinkPid": pid
+                    "outLinkPid": pid,
+                    "type": "RDLANECONNEXITY" // 车信专用
                 };
-                dsEdit.getByCondition(param).then(function(conLinks) { //找出经过线
-                    if (conLinks !== -1) {
+                dsEdit.getByCondition(param).then(function(data) { //找出经过线
+                    if (data !== -1) {
+                        var temp = data.data[0];
+                        topo.relationshipType = temp.relationshipType;
                         var via;
-                        for (i = 0; i < conLinks.data.length; i++) {
+                        for (i = 0; i < temp.links.length; i++) {
                             via = fastmap.dataApi.rdLaneVIA({
                                 rowId: "",
-                                linkPid: conLinks.data[i],
+                                linkPid: temp.links[i],
                                 seqNum: i + 1
                             });
                             topo.vias.push(via);
-                            topo.relationshipType = conLinks.data[i].relationshipType;
                         }
                     }
                     // CurrentObject["topos"].unshift(topo);

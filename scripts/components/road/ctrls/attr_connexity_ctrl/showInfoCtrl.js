@@ -217,7 +217,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         var directNum = transData[item];
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
-            if (parseInt(data.properties.fc) == 9) { // 不能选择9级路
+            if (parseInt(data.properties.kind) == 9) { // 不能选择9级路
                 return;
             }
             var flag = false,
@@ -260,22 +260,24 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                 param["data"] = {
                     "inLinkPid": $scope.CurrentObject.inLinkPid,
                     "nodePid": $scope.CurrentObject.nodePid,
-                    "outLinkPid": parseInt(data.id)
+                    "outLinkPid": parseInt(data.id),
+                    "type": "RDLANECONNEXITY" // 车信专用
                 };
-                dsEdit.getByCondition(param).then(function(conLinks) { //找出经过线
-                    if (conLinks !== -1) {
+                dsEdit.getByCondition(param).then(function(data) { //找出经过线
+                    if (data !== -1) {
+                        // 查询经过线的接口返回的是经过线组，车信、交限只查一组经过线，因此取第一个即可
+                        var temp = data.data[0];
+                        topo.relationshipType = temp.relationshipType;
                         var via;
-                        for (i = 0; i < conLinks.data.length; i++) {
+                        for (i = 0; i < temp.links.length; i++) {
                             via = fastmap.dataApi.rdLaneVIA({
                                 rowId: "",
-                                linkPid: conLinks.data[i],
+                                linkPid: temp.links[i],
                                 seqNum: i + 1
                             });
                             topo.vias.push(via);
-                            topo.relationshipType = conLinks.data[i].relationshipType;
                         }
                     }
-
                     $scope.CurrentObject["topos"].unshift(topo);
                     $scope.outLinkArray.push(topo);
                     doHighlight();

@@ -501,18 +501,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             else if (shapeCtrl.editType === "pathDepartNode") { //节点分离
                 param["command"] = "DEPART";
                 param["dbId"] = App.Temp.dbId;
-                param["objId"] = selectCtrl.selectedFeatures.id;
+                param["objId"] = selectCtrl.selectedFeatures.dragNodePid;
+                var catchPid;
+                if(selectCtrl.selectedFeatures.catchFlag=='RDLINK'){
+                    catchLinkPid = selectCtrl.selectedFeatures.catchNodePid;
+                    catchNodePid = 0;
+                }else if(selectCtrl.selectedFeatures.catchFlag=='RDNODE'){
+                    catchNodePid = selectCtrl.selectedFeatures.catchNodePid;
+                    catchLinkPid = 0;
+                }
                 if(selectCtrl.selectedFeatures.latlng){
                     param["data"] = {
-                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
-                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        catchNodePid: catchNodePid,
+                        catchLinkPid: catchLinkPid,
+                        linkPid: selectCtrl.selectedFeatures.selectedLinkPid,
                         longitude: selectCtrl.selectedFeatures.latlng.lng,
                         latitude: selectCtrl.selectedFeatures.latlng.lat
                     };
                 }else{
                     param["data"] = {
-                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
-                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        catchNodePid:catchNodePid,
+                        catchLinkPid: catchLinkPid,
+                        linkPid: selectCtrl.selectedFeatures.selectedLinkPid
                     };
                 }
                 param["type"] = 'RDLINK';
