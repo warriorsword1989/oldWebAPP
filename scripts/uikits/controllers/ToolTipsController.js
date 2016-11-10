@@ -2,10 +2,9 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class ToolTipsController
  */
-
-
-fastmap.uikit.ToolTipsController=(function() {
+fastmap.uikit.ToolTipsController = (function() {
     var instantiated;
+
     function init(options) {
         var toolTipsController = L.Class.extend({
             /**
@@ -14,103 +13,139 @@ fastmap.uikit.ToolTipsController=(function() {
              */
             includes: L.Mixin.Events,
             options: {},
-
             /***
              *
              * @param {Object}options
              */
-            initialize: function (options) {
+            initialize: function(options) {
                 this.options = options || {};
-                this._map=null;
                 L.setOptions(this, options);
                 this.on("toolStateChanged", this.setCurrentTooltip, this);
-                this.toolsdiv="";
-                this.orginStyle="";
             },
             /***
              * 设置地图对象
              * @param map
              */
-            setMap:function(map,divid){
+            setMap: function(map, divId) {
                 this._map = map;
-                this._divid=divid;
+                this.originStyle = {
+                    position: 'fixed',
+                    display: 'none',
+                    padding: '0px 3px',
+                    border: 'none',
+                    borderRadius: '2px',
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    color: 'rgba(255,255,255,0.85)',
+                    'max-width': '300px'
+                };
+                this.tooltipDiv = L.DomUtil.get(divId);
+                L.extend(this.tooltipDiv.style, this.originStyle);
+                this._enabled = false;
+                this.eventType = null;
+            },
+            enable: function() {
+                if (!this._enabled) {
+                    this._map.on('mousemove', this.onMoveTooltip, this);
+                    this._map.on('mouseout', this.onMoveOutTooltip, this);
+                    this._enabled = true;
+                }
+            },
+            disable: function() {
+                if (this._enabled) {
+                    this.eventType = null;
+                    this.innervalue = null;
+                    this.DbClickInnervalue = null;
+                    this.externalStyle = null;
+                    this.tooltipDiv.innerHTML = "";
+                    L.extend(this.tooltipDiv.style, this.originStyle);
+                    this._map.off('click', this.onClickTooltip, this);
+                    this._map.off('dblclick', this.onDbClickTooltip, this);
+                    this._map.off('mousemove', this.onMoveTooltip, this);
+                    this._map.off('mouseout', this.onMoveOutTooltip, this);
+                    this._enabled = false;
+                }
             },
             /***
              *
              * @param type
              */
-            setEditEventType:function(type){
+            setEditEventType: function(type) {
                 this.eventType = type;
             },
-            setChangeInnerHtml:function(innerhtmltext){
+            setChangeInnerHtml: function(innerhtmltext) {
                 this.innervalue = innerhtmltext;
+                this._map.off('click', this.onClickTooltip, this);
+                this._map.on('click', this.onClickTooltip, this);
             },
-            setDbClickChangeInnerHtml:function(innerhtmltext){
+            setDbClickChangeInnerHtml: function(innerhtmltext) {
                 this.DbClickInnervalue = innerhtmltext;
+                this._map.off('dblclick', this.onDbClickTooltip, this);
+                this._map.on('dblclick', this.onDbClickTooltip, this);
             },
-            setStyleTooltip:function(style){
-                this.tooltipstyle=style;
+            setStyleTooltip: function(style) {
+                this.externalStyle = style;
             },
-            onMoveOutTooltip:function(){
-                this.toolsdiv.style.display = "none";
+            onMoveOutTooltip: function() {
+                this.tooltipDiv.style.display = "none";
             },
-            onMoveTooltip:function(event){
-                this.toolsdiv.style.display = "block";
-                this.toolsdiv.style.backgroundColor = "rgba(0,0,0,0.75)";
-                this.toolsdiv.style.padding="0px 3px";
-                this.toolsdiv.style.borderRadius="2px";
-                this.toolsdiv.style.border = 'none';
-                this.toolsdiv.style.color = "rgba(255,255,255,0.85)";
-                this.toolsdiv.style.marginLeft = event.originalEvent.clientX+10+ 'px';
-                this.toolsdiv.style.marginTop = event.originalEvent.clientY -10+ 'px';
-                this.toolsdiv.style.position = "fixed";
-                this._map.on('click', this.onClickTooltip,this);
-                this._map.on('mouseout', this.onMoveOutTooltip,this);
+            onMoveTooltip: function(event) {
+                this.tooltipDiv.style.display = "inline-block";
+                this.tooltipDiv.style.marginLeft = event.originalEvent.clientX + 10 + 'px';
+                this.tooltipDiv.style.marginTop = event.originalEvent.clientY - 10 + 'px';
             },
-            onClickTooltip:function(event){
-                if(this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPATH||this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPOLYGON||this.eventType==fastmap.mapApi.ShapeOptionType.POINTVERTEXADD){
-                    this.toolsdiv.innerHTML=this.innervalue;
-                    this.toolsdiv.style.cssText+=this.tooltipstyle;
-                    this._map.on('dblclick', this.onDbClickTooltip,this);
-                }else {
-                    if(this.innervalue){
-                        this.toolsdiv.innerHTML=this.innervalue;
-                    }
-                    this.toolsdiv.style.cssText+=this.tooltipstyle;
+            onClickTooltip: function(event) {
+                if (this.externalStyle) {
+                    this.tooltipDiv.style.cssText += this.externalStyle;
+                }
+                if (this.innervalue) {
+                    this.tooltipDiv.innerHTML = this.innervalue;
                 }
             },
-            onRemoveTooltip:function(){
-                this.innervalue="";
-                this.eventType="";
-                this.toolsdiv.innerHTML = "";
-                this.toolsdiv.style.display = 'none';
-                this._map.off('click', this.onClickTooltip,this);
-                this._map.off('mousemove', this.onMoveTooltip,this);
-                this._map.off('dblclick', this.onDbClickTooltip,this);
+            onRemoveTooltip: function() {
+                this.disable();
             },
-            onDbClickTooltip:function(){
-                this.toolsdiv.innerHTML=this.DbClickInnervalue;
-                this.toolsdiv.style.cssText+=this.tooltipstyle;
+            onDbClickTooltip: function() {
+                if (this.externalStyle) {
+                    this.tooltipDiv.style.cssText += this.externalStyle;
+                }
+                if (this.DbClickInnervalue) {
+                    this.tooltipDiv.innerHTML = this.DbClickInnervalue;
+                }
             },
             /***
              * 设置tooltip
              * @param {Object}tooltip
              */
-            setCurrentTooltip: function (tooltip) {
-                var tools=L.DomUtil.get(this._divid);
-                this._map.on('mousemove', this.onMoveTooltip,this);
-                tools.style.backgroundColor = "#000";
-                tools.innerHTML=tooltip;
-                this.toolsdiv=tools;
-                this.orginStyle=tools.style.cssText;
+            setCurrentTooltip: function(tooltip, type) {
+                var bgColor;
+                if (type) {
+                    switch (type) {
+                        case 'info': // 信息
+                            bgColor = '#31b0d5';
+                            break;
+                        case 'warn': // 警告
+                            bgColor = '#f0ad4e';
+                            break;
+                        case 'error': // 错误
+                            bgColor = '#c9302c';
+                            break;
+                        case 'succ': // 成功
+                            bgColor = '#449d44';
+                            break;
+                    }
+                }
+                if (bgColor) {
+                    this.tooltipDiv.style.backgroundColor = bgColor;
+                }
+                this.tooltipDiv.innerHTML = tooltip;
+                this.enable();
             },
-            setCurrentTooltipText: function(tooltiptext){
-                this.toolsdiv.innerHTML = tooltiptext;
+            setCurrentTooltipText: function(tooltiptext) {
+                this.tooltipDiv.innerHTML = tooltiptext;
             },
-            getCurrentTooltip:function(){
-                return this.toolsdiv.innerHTML;
+            getCurrentTooltip: function() {
+                return this.tooltipDiv.innerHTML;
             }
-
         });
         return new toolTipsController(options);
     }
@@ -121,5 +156,3 @@ fastmap.uikit.ToolTipsController=(function() {
         return instantiated;
     }
 })();
-
-

@@ -116,7 +116,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
             });
             function saveOrEsc (event) {
                 if(event.changeTooltips){
-                    tooltipsCtrl.setStyleTooltip("color:black;");
                     tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
                 }
 

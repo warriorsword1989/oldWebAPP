@@ -28,6 +28,7 @@ fastmap.uikit.HighRenderController = (function() {
                 this.eventController.on('AllTileLayerLoaded', function(e) {
                     that.drawHighlight();
                 });
+                this.popup = L.popup({'offset':L.point(0,-22),'closeButton':false});
             },
             /**
              * 当前渲染图层
@@ -657,10 +658,8 @@ fastmap.uikit.HighRenderController = (function() {
 
                     map.closePopup();
                     if(feature.properties.name){
-                        var popup = L.popup({'offset':L.point(0,-22),'closeButton':false});
-                        popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
-                        map.openPopup(popup);
-
+                        this.popup.setLatLng([data.geometry.coordinates[1], data.geometry.coordinates[0]]).setContent(feature.properties.name);
+                        map.openPopup(this.popup);
                     }
 
                     // if(feature.properties.name){ //poi如果存在名称则显示名称

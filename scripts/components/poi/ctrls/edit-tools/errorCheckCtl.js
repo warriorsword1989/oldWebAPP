@@ -66,7 +66,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$window', '$scope', '$timeou
     $scope.showOnMap = function(pid, featType, checkResult) {
         resetToolAndMap();
         if (checkResult.geometry) {
-            var coord = checkResult.geometry.replace(/\(|\)/, "").split(",");
+            var coord = checkResult.geometry.replace(/\(|\)/g, "").split(",");
             var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
             map.setView([parseFloat(coord[1]), parseFloat(coord[0])], zoom);
         }

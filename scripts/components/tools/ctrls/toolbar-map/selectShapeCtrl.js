@@ -2599,7 +2599,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     tooltipsCtrl.setEditEventType('updateSpeedNode');
                     tooltipsCtrl.setCurrentTooltip('请选择新的位置点！');
-                    tooltipsCtrl.setStyleTooltip("color:black;");
+
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
@@ -2658,7 +2658,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     map.currentTool.snapHandler.addGuideLayer(rdLink);
                     tooltipsCtrl.setEditEventType('pointVertexAdd');
                     tooltipsCtrl.setCurrentTooltip('请选择电子眼位置点！');
-                    tooltipsCtrl.setStyleTooltip("color:black;");
+
                     eventController.off(eventController.eventTypes.RESETCOMPLETE);
                     eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                         var pro = e.property;
@@ -4006,7 +4006,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
 
                 function saveOrEsc(event) {
                     if (event.changeTooltips) {
-                        tooltipsCtrl.setStyleTooltip("color:black;");
+
                         tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
                     }
                 }
@@ -4578,7 +4578,7 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
             highRenderCtrl.drawHighlight();
             //wt改，注释前会因为地图移动导致弹出工具条位置有偏移
             //map.setView([objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]]);
-            console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
+            //console.log('-----------------'+[objCtrl.data.geometry.coordinates[1], objCtrl.data.geometry.coordinates[0]])
         }
     }
 ]);

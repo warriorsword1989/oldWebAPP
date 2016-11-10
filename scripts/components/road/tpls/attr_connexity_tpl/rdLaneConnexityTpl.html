@@ -26,16 +26,14 @@
                     <div class="lane-direct-img-container">
                         <img class="lanePic"
                         ng-src="../../../images/road/1301/1301_{{item.adt == 0?0:2}}_{{item.dir.flag}}.svg"
-                        ng-mousedown="clickLane(item, $index, $event)"
-                        title="{{item.dir.log}}">
+                        ng-mousedown="clickLane(item, $index, $event)">
                         <span class="glyphicon glyphicon-remove-sign remove"
                         ng-click="deleteLane(item, $index)"></span>
                     </div>
                     <div ng-if="item.busDir" class="lane-direct-img-container">
                         <img class="lanePic"
                         ng-src="../../../images/road/1301/1301_1_{{item.busDir.flag}}.svg"
-                        ng-click="changeBusLaneDir(item, $index, $event)"
-                        title="{{item.busDir.log}}">
+                        ng-click="changeBusLaneDir(item, $index, $event)">
                         <span class="glyphicon glyphicon-remove-sign remove"
                         ng-click="deleteBusLane(item, $index)"></span>
                     </div>
