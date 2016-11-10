@@ -47,6 +47,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		//$scope.specialWork = false;
 		$rootScope.specialWork = false;
 		$rootScope.isSpecialOperation = false;
+		// add by chenx on 2016-11-10: 利用shapeEditCtrl.editType来控制属性面板的保存、删除、取消 按钮的显示和隐藏
+		$scope.shapeEditCtrl = fastmap.uikit.ShapeEditorController();
 		/*切换项目平台*/
 		$scope.changeProject = function(type) {
 			$scope.showLoading.flag = true;
