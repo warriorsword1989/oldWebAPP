@@ -173,6 +173,7 @@
         "TipsCrossVoiceGuide.js",
         "TipsTruckRestrictions.js",
         "TipsTruckRestriction.js",
+        "TipsTruckRestrictionTemp.js",
         "TipsOverpassName.js",
         "TipsRoute.js"
     ]; // etc.

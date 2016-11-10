@@ -21,12 +21,12 @@ fastmap.dataApi.RdDirectRoute = fastmap.dataApi.GeoDataModel.extend({
         this.nodePid = data["nodePid"];
         this.inLinkPid = data["inLinkPid"];
         this.outLinkPid = data["outLinkPid"];
-        if(data["flag"] == ''){
+        if(data["flag"] == undefined){
             this.flag = 2;
         } else {
             this.flag = data["flag"];
         }
-        if(data["processFlag"] == ''){
+        if(data["processFlag"] == undefined){
             this.processFlag = 1;
         } else {
             this.processFlag = data["processFlag"];
@@ -49,13 +49,13 @@ fastmap.dataApi.RdDirectRoute = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["inLinkPid"]  = this.inLinkPid;
-        data["outLinkPid"] = this.outLinkPid;
-        data["flag"] = this.flag;
-        data["processFlag"] = this.processFlag;
-        data["relationshipType"] = this.relationshipType;
+        data["pid"] = parseInt(this.pid);
+        data["nodePid"] = parseInt(this.nodePid);
+        data["inLinkPid"]  = parseInt(this.inLinkPid);
+        data["outLinkPid"] = parseInt(this.outLinkPid);
+        data["flag"] = parseInt(this.flag);
+        data["processFlag"] = parseInt(this.processFlag);
+        data["relationshipType"] = parseInt(this.relationshipType);
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["vias"] = this.vias;
@@ -71,13 +71,13 @@ fastmap.dataApi.RdDirectRoute = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["inLinkPid"]  = this.inLinkPid;
-        data["outLinkPid"] = this.outLinkPid;
-        data["flag"] = this.flag;
-        data["processFlag"] = this.processFlag;
-        data["relationshipType"] = this.relationshipType;
+        data["pid"] = parseInt(this.pid);
+        data["nodePid"] = parseInt(this.nodePid);
+        data["inLinkPid"]  = parseInt(this.inLinkPid);
+        data["outLinkPid"] = parseInt(this.outLinkPid);
+        data["flag"] = parseInt(this.flag);
+        data["processFlag"] = parseInt(this.processFlag);
+        data["relationshipType"] = parseInt(this.relationshipType);
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
         data["vias"] = this.vias;
