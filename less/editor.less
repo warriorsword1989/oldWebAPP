@@ -95,6 +95,10 @@ a{
   }
 }
 
+.label{
+  padding:0;
+}
+
 .fm-banner {
   .absolute-position(0,auto,0,0);
   width: 50px;
@@ -609,6 +613,10 @@ label > input[type='checkbox'] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.text-nowrap{
+  white-space: normal;
+  //word-break: break-all;
+}
 .fm-console-content {
   height: 100%;
   overflow-y: auto;
@@ -694,6 +702,18 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
   margin-right: 10px;
 }
 /**********tips style**********/
+.tips-thumbnail{
+  height:50px;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s ;
+  -ms-transition: all .3s ;
+  -o-transition: all .3s ;
+  transition: all .3s ;
+  &.active{
+    //border-bottom: 3px solid #49A7DA;
+    background-color: #4C4B4B;
+  }
+}
 .modal-tips-img {
   left: 242px;
   position: relative;

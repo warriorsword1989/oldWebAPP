@@ -66,7 +66,9 @@ App.Temp = {
         IXPOI: '兴趣点（POI）',
         RDNODE: '道路点',
         RDLINKSPEEDLIMIT: '线限速',
-        TIPS:"TIPS"
+        TIPS:"TIPS",
+        TMCPOINT:"TMC点",
+        TMCLOCATION:"TMC匹配信息"
     },
     thematicMapFlag: false,
     taskType:null
