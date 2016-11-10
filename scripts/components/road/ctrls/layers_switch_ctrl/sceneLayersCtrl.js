@@ -125,6 +125,19 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "workPoint",
             "requestType": "1202,1508,1113"
         }]
+    }, {
+        "id": 9,
+        "label": "TMC场景",
+        "dataLayers": [{
+            "layerId": "rdLink"
+        }, {
+            "layerId": "rdNode"
+        }, {
+            "layerId": "rwLink"
+        },{
+            "layerId": "tmcData",
+            "requestType": "TMCPOINT,RDTMCLOCATION"
+        }]
     }];
     $scope.dataLayers = [];
     var reqType;

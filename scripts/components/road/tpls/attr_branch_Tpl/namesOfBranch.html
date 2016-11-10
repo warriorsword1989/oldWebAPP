@@ -121,13 +121,13 @@
                     <li>
                         <label>设施类型</label>
                         <div >
-                            <select class="rounded" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                            <select ng-disabled="speacialBranch" ng-class="{'rounded':true,'chosen-disabled':speacialBranch}" class="rounded" ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
                         </div>
                     </li>
                     <li>
                         <label>名称种别</label>
                         <div >
-                            <select class="rounded" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                            <select ng-disabled="speacialBranch" ng-class="{'rounded':true,'chosen-disabled':speacialBranch}" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
                             </select>
                         </div>
                     </li>

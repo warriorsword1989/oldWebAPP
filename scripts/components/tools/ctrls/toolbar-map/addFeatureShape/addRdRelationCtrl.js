@@ -570,7 +570,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('点击增加限速!！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;
@@ -1324,7 +1323,6 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('请选择电子眼位置点！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
                 eventController.off(eventController.eventTypes.RESETCOMPLETE);
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
                     var pro = e.property;

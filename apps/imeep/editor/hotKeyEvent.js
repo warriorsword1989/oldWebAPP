@@ -779,7 +779,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                         toolTipsCtrl.setEditEventType('pointVertexAdd');
                         toolTipsCtrl.setCurrentTooltip('开始增加节点！');
-                        toolTipsCtrl.setStyleTooltip("color:black;");
                         toolTipsCtrl.setChangeInnerHtml("点击增加节点!");
                         toolTipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                     }
