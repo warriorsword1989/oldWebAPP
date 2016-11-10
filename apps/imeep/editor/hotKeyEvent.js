@@ -4,10 +4,7 @@
  */
 function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
-        //取消
-        event.preventDefault();//取消浏览器快捷键的默认设置
         var layerCtrl = fastmap.uikit.LayerController();
-        var outPutCtrl = fastmap.uikit.OutPutController();//没用啦
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var evtCtrl = fastmap.uikit.EventController();
         var toolTipsCtrl = fastmap.uikit.ToolTipsController();
@@ -38,6 +35,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
         if (event.keyCode == 27) {
+            event.preventDefault(); //取消浏览器快捷键的默认设置
             resetPage();
             map._container.style.cursor = '';
         }
