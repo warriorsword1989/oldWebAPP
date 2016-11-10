@@ -648,6 +648,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     }
                 }
                 $scope.dataTipsData.seqNow = 1;
+                if($scope.dataTipsData.o_array[0].d_array[0].out[0].id){
+                    $scope.highlightSymbol($scope.dataTipsData.o_array[0].d_array[0].out[0].id,1);
+                }
                 $scope.dataTipsData.isLaneConnexity = true;
                 break;
             case "1302": //交限
