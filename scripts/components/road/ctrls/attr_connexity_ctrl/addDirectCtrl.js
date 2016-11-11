@@ -168,11 +168,11 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             var pid = parseInt(data.id);
             // 退出线不能与进入线相同
             if (pid == CurrentObject.inLinkPid) {
-                tooltipsCtrl.setCurrentTooltip("退出线不能与进入线是同一条线，请重新选择!", 'error');
+                tooltipsCtrl.notify("退出线不能与进入线是同一条线，请重新选择!", 'error');
                 return;
             }
             if (parseInt(data.properties.kind) >= 9) { // 不能选择9级路
-                tooltipsCtrl.setCurrentTooltip("退出线不能是9级以上道路，请重新选择!", 'error');
+                tooltipsCtrl.notify("退出线不能是9级以上道路，请重新选择!", 'error');
                 return;
             }
             var flag = false,
@@ -239,11 +239,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
             } else {
                 doHighlight();
             }
-            if (outLanesArr.length > 0) {
-                tooltipsCtrl.setCurrentTooltip('已选择了' + outLanesArr.length + '根退出线！');
-            } else {
-                tooltipsCtrl.setCurrentTooltip('请在地图上选择退出线！');
-            }
+            tooltipsCtrl.setCurrentTooltip('已选择' + outLanesArr.length + '条退出线，继续选择或者点击“增加”按钮进行车道添加！', 'succ');
         });
     };
     $scope.addLane = function() {
