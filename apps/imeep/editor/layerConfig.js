@@ -312,7 +312,7 @@ App.layersConfig = [{
             updateWhenIdle: true,
             tileSize: 256,
             type: 'Marker',
-            zIndex: 17,
+            zIndex: 21,
             restrictZoom: 10,
             visible: false,
             requestType: 'TMCPOINT,RDTMCLOCATION',
