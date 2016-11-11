@@ -107,6 +107,12 @@ fastmap.uikit.FeatureConfig = {
     },
     "RDLANE": {
       name: "详细车道"
+    },
+    "TMCPOINT": {
+      name: "TMC点"
+    },
+    "RDTMCLOCATION": {
+      name: "TMC匹配信息"
     }
   },
   tip: {

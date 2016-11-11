@@ -183,5 +183,13 @@ fastmap.dataApi.GeoLiveModelType={
     /*
      坡度连续link
      */
-    "RDSLOPELINKS":"RDSLOPELINKS"
+    "RDSLOPELINKS":"RDSLOPELINKS",
+    /*
+     TMC点
+     */
+    "TMCPOINT":"TMCPOINT",
+    /*
+     TMC匹配信息
+     */
+    "TMCLOCATION":"TMCLOCATION"
 };

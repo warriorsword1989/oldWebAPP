@@ -1,9 +1,9 @@
 /**
- * Created by zhongxiaoming on 2015/9/16.
- * Class PathVertexAdd
+ * Created by wangmingdong on 2016/11/11.
+ * Class addTmcLocation
  */
 
-fastmap.mapApi.adAdminAdd = L.Handler.extend({
+fastmap.mapApi.adTmcAdd = L.Handler.extend({
 
     /***
      *
@@ -24,11 +24,14 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.targetPoint = null;
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
+        this.featCodeCtrl = fastmap.uikit.FeatCodeController();
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('tmcData'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        // this.tmcLocs = [];
+        this.featCodeCtrl.newObj = [];
     },
 
     /***
@@ -58,7 +61,11 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
+            return;
+        }
+        //如果已经选了两个点，则不允许再次选择
+        if (this.featCodeCtrl.newObj.length > 1) {
             return;
         }
         var mouseLatlng;
@@ -67,6 +74,9 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         } else {
             mouseLatlng = event.latlng;
         }
+        // this.tmcLocs.push(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
+        // this.featCodeCtrl.setFeatCode(this.tmcLocs);
+        this.featCodeCtrl.newObj.push(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this.drawGeomCanvasHighlight(tileCoordinate, event);
@@ -82,7 +92,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                 pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
             }
 
-            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
+            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256;
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
