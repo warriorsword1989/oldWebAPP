@@ -541,6 +541,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		 */
 		$scope.doSave = function() {
 			$(".datetip").hide();
+			$(".carTypeTip").hide();
 			eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
 		};
 		/**
@@ -557,6 +558,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			}, function(f) {
 				if (f) {
 					$(".datetip").hide();
+					$(".carTypeTip").hide();
 					eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
 				}
 			});
