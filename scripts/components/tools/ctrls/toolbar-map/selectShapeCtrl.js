@@ -3983,13 +3983,14 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.editType = 'transformDirect';
                 } else if (type === "PATHDEPARTNODE") {
+                    feature.noFormNode = true;
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry
-                    editLayer.draw(selectCtrl.selectedFeatures, editLayer); //把需要编辑的几何体画在editLayer上
+                    editLayer.draw(feature, editLayer); //把需要编辑的几何体画在editLayer上
                     sObj.setOriginalGeometry(feature);
                     sObj.setFinalGeometry(feature);
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]); //设置编辑状态
                     shapeCtrl.startEditing();
-                    shapeCtrl.editFeatType = 'RDNODE';
+                    shapeCtrl.editFeatType = 'pathDepartNode';
                     selectCtrl.workLinkPid = $scope.selectedFeature.id;
                 } else {
                     editLayer.drawGeometry = feature; //获取需要编辑几何体的geometry

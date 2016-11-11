@@ -210,24 +210,41 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
         modifyOutLink();
     };
 
-    //修改退出线;
-    map.currentTool = new fastmap.uikit.SelectPath({
-        map: map,
-        currentEditLayer: rdLink,
-        linksFlag: true,
-        shapeEditor: shapeCtrl
-    });
-    //开启link和node的捕捉功能;
-    map.currentTool.snapHandler.addGuideLayer(rdnode);
-    map.currentTool.snapHandler.addGuideLayer(rdLink);
+    var clearMapTool = function() {
+        if (eventController.eventTypesMap[eventController.eventTypes.GETLINKID]) {
+            for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETLINKID].length; ii < lenII; ii++) {
+                eventController.off(eventController.eventTypes.GETLINKID, eventController.eventTypesMap[eventController.eventTypes.GETLINKID][ii]);
+            }
+        }
+        if (map.currentTool) {
+            map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
+        }
+    };
     function modifyOutLink(){
+        clearMapTool();
+        //修改退出线;
+        map.currentTool = new fastmap.uikit.SelectPath({
+            map: map,
+            currentEditLayer: rdLink,
+            linksFlag: true,
+            shapeEditor: shapeCtrl
+        });
+        //开启link和node的捕捉功能;
+        map.currentTool.snapHandler.addGuideLayer(rdnode);
+        map.currentTool.snapHandler.addGuideLayer(rdLink);
         map.currentTool.enable();
         eventController.off(eventController.eventTypes.GETLINKID);
         eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
-
             //退出线的合法判断;
             if(dataresult.id == $scope.rdSubRestrictData.inLinkPid){
                 tooltipsCtrl.setCurrentTooltip("退出线和进入线不能为同一条线");return ;
+            }
+            if(dataresult.id == $scope.currentOrigin.outLinkPid){
+                $scope.rdRestrictData.details.splice($scope.flag,1)
+                highRenderCtrl.highLightFeatures = [];
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.drawHighlight();
+                return;
             }
             param = {};
             param["dbId"] = App.Temp.dbId;
@@ -239,8 +256,9 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
                 "type": "RDRESTRICTION" // 交限专用;
             };
             dsEdit.getByCondition(param).then(function(result) {
-                console.log(result)
                 if (result !== -1) {
+                    var highLightFeatures = [];
+                    $scope.rdSubRestrictData.vias = [];
                     $scope.rdSubRestrictData.outLinkPid = dataresult.id;
                     var temp = result.data[0],via = [];
                     for (i = 0; i < temp.links.length; i++) {
@@ -252,7 +270,6 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
                         $scope.rdSubRestrictData.vias = via;
                     }
                     $scope.currentVias = via;
-                    var highLightFeatures = [];
                     highLightFeatures.push({
                         id: objectEditCtrl.data["inLinkPid"].toString(),
                         layerid: 'rdLink',
@@ -345,6 +362,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures = [];
                 $scope.refreshData();
+                map.currentTool.disable();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false
                 });
@@ -386,6 +404,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             restrict.redraw();
             highRenderCtrl.highLightFeatures.length = 0;
             highRenderCtrl._cleanHighLight();
+            map.currentTool.disable();
             $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
         });
         if (selectCtrl.rowkey) {
