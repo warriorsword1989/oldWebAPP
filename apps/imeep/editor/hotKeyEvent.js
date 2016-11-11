@@ -646,6 +646,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         if (param["type"] === "RDNODE") {
                             rdLink.redraw();
                             rdnode.redraw();
+                            rdCross.redraw();
                             ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                             tpl = 'attr_node_tpl/rdNodeFormTpl.html';
                         } else if (param["type"] === "ADNODE") {
