@@ -15,6 +15,8 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.electronicEyeData = objCtrl.data;
+		//电子眼坐标显示
+		$scope.coordinates = $scope.electronicEyeData.geometry.coordinates.join(',');
 		conversionSystem();
 		$scope.changeElecType($scope.electronicEyeData.kind);
 		if($scope.electronicEyeData.pairs.length){
