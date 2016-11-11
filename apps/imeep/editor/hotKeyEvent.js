@@ -34,6 +34,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var relationData = layerCtrl.getLayerById('relationData');
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
+        var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
         var resetPageFlag = true;
         if (event.keyCode == 27) {
             event.preventDefault(); //取消浏览器快捷键的默认设置
@@ -427,6 +428,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                             if (param["type"] === "RDLINK") {
                                 rdLink.redraw();
                                 rdnode.redraw();
+                                rdLinkSpeedLimit.redraw();
                             } else if (param["type"] === "ADLINK") {
                                 adLink.redraw();
                                 adNode.redraw();
