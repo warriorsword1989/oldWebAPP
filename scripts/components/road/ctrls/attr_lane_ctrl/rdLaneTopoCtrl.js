@@ -20,24 +20,39 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
                     checked: true
                 });
             } else {
-                $("#" + inLanePid).removeClass('red');
-                $("#checkbox" + inLanePid).prop({
-                    checked: false
-                });
-                inLanePid = lanePid;
-                $("#" + lanePid).addClass('red');
-                $("#checkbox" + lanePid).prop({
-                    checked: true
-                });
+                if(inLanePid == lanePid){//取消选择
+                    $("#" + inLanePid).removeClass('red');
+                    $("#checkbox" + inLanePid).prop({
+                        checked: false
+                    });
+                    inLanePid = null;
+                } else {
+                    $("#" + inLanePid).removeClass('red');
+                    $("#checkbox" + inLanePid).prop({
+                        checked: false
+                    });
+                    inLanePid = lanePid;
+                    $("#" + lanePid).addClass('red');
+                    $("#checkbox" + lanePid).prop({
+                        checked: true
+                    });
+                }
             }
-        } else {//作为经过线
+        } else {//作为经过车道
+            if(outLinkPid == linkPid){//退出车道所在的link
+                return;
+            }
             var selfFlag = true;
-            for (var k = 0; k < laneTopoVias.length; k++) {//不能重复选自己
+            for (var k = 0; k < laneTopoVias.length; k++) {//取消选择
                 if (laneTopoVias[k].lanePid == lanePid) {
+                    $("#" + lanePid).removeClass('green');
+                    $("#label" + lanePid).text("");
+                    laneTopoVias.splice(k, 1);
                     selfFlag = false;
                 }
             }
             if (!selfFlag) {
+                modifyNums();
                 return;
             }
             laneTopoVias.push({
@@ -75,39 +90,50 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
                     });
                     inLanePid = lanePid;
                     $("#" + lanePid).addClass('red');
-                    $("#checkbox" + lanePid).prop({
-                        checked: true
-                    });
                 }
-            } else {//退出线
+            } else {//退出车道
                 if (outLanePid == null) {
                     $("#" + lanePid).siblings().removeClass('yellow');
+                    $("#" + lanePid).siblings().removeClass('green');
                     $("#" + lanePid).siblings().find('.bottom').prop({
                         checked: false
                     });
                     $("#" + lanePid).siblings().find('.number').text("");
-                    $("#label" + lanePid).text("");
+                    for (var k = 0; k < laneTopoVias.length; k++) {//之前是经过车道，去掉
+                        if (laneTopoVias[k].linkPid == linkPid) {
+                            $("#" + laneTopoVias[k].lanePid).removeClass('green');
+                            $("#label" + laneTopoVias[k].lanePid).text("");
+                            laneTopoVias.splice(k, 1);
+                            k--;
+                        }
+                    }
+                    outLanePid = lanePid;
+                    outLinkPid = linkPid;
                     $("#" + lanePid).addClass('yellow');
                 } else {
                     $("#checkbox" + outLanePid).prop({
                         checked: false
                     });
-                    laneTopoVias.push({
-                        lanePid: outLanePid,
-                        seqNum: laneTopoVias.length + 1,
-                        linkPid: linkPid
-                    });
+                    $("#" + outLanePid).removeClass('yellow');
+                    if(outLinkPid !=linkPid){
+                        laneTopoVias.push({
+                            lanePid: outLanePid,
+                            seqNum: laneTopoVias.length + 1,
+                            linkPid: linkPid
+                        });
+                        $("#" + outLanePid).removeClass('green');
+                    }
+                    outLanePid = lanePid;
+                    outLinkPid = linkPid;
+                    for (var i = 0; i < laneTopoVias.length; i++) {
+                        if (laneTopoVias[i].linkPid == linkPid) {
+                            laneTopoVias.splice(i, 1);
+                            i--;
+                        }
+                    }
                     $("#label" + lanePid).text("");
                     $("#" + lanePid).addClass('yellow');
                 }
-                for (var i = 0; i < laneTopoVias.length; i++) {
-                    if (laneTopoVias[i].lanePid == lanePid) {
-                        laneTopoVias.splice(i, 1);
-                        i--;
-                    }
-                }
-                outLanePid = lanePid;
-                outLinkPid = linkPid;
             }
         } else {
             if (linkPid == inLinkPid) {//进入车道
@@ -115,11 +141,12 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
                 $("#" + lanePid).removeClass('red');
 
             } else if (linkPid == outLinkPid) {//退出线
-                laneTopoVias.push({
-                    lanePid: outLanePid,
-                    seqNum: laneTopoVias.length + 1,
-                    linkPid: linkPid
-                });
+                // laneTopoVias.push({
+                //     lanePid: outLanePid,
+                //     seqNum: laneTopoVias.length + 1,
+                //     linkPid: linkPid
+                // });
+                outLanePid = null;
                 outLinkPid = null;
                 $("#" + lanePid).removeClass('yellow');
             }
@@ -336,7 +363,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
         attributionControl: false,
         doubleClickZoom: false,
         zoomControl: false,
-        minZoom: 17,
+        minZoom: 16,
         maxZoom: 22
     });
     var polyLines = new L.layerGroup();
@@ -432,7 +459,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
             var eLatlng = new L.latLng(e_lat, e_lng);
             var distance = sLatlng.distanceTo(eLatlng);
             if (distance < 150) {
-                L.marker([s_lat, s_lng], {icon: myIcon}).addTo(topoMap);
+                L.marker([s_lat, s_lng], {icon: myIcon, draggable: true}).addTo(topoMap);
             } else {
                 L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {icon: myIcon}).addTo(topoMap);
             }
@@ -479,7 +506,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 var eLatlng = new L.latLng(e_lat, e_lng);
                 var distance = sLatlng.distanceTo(eLatlng);
                 if (distance < 150) {
-                    L.marker([s_lat, s_lng], {icon: myIcon}).addTo(topoMap);
+                    L.marker([s_lat, s_lng], {icon: myIcon, draggable: true}).addTo(topoMap);
                 } else {
                     L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {icon: myIcon}).addTo(topoMap);
                 }
