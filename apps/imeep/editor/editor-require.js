@@ -27,6 +27,7 @@ requirejs.config({
         'e-smart-zoom': 'scripts/libs/e-smart-zoom/js/e-smart-zoom-jquery.min',
         'bootspopover': 'scripts/utils/popoverSelect',
         'poi-msg': 'scripts/libs/poi-msg/poiMsg',
+        'hotkey': 'scripts/libs/angular-hotkey/hotkeys',
         // app相关
         'dataService': 'apps/imeep/service/dataService',
         'metaService': 'apps/imeep/service/dataService-meta',
@@ -60,6 +61,7 @@ requirejs.config({
         'e-smart-zoom': ['jquery'],
         'angularDrag': ['angular', 'jquery'],
         'poi-msg': ['jquery'],
+        'hotkey': ['angular'],
         'dataService': ['angular', "sweet-alert"],
         'metaService': ['dataService'],
         'fccService': ['dataService'],
@@ -76,7 +78,7 @@ requirejs.config({
         'fmBindCompiledHtml': ['fastmapUikit'],
         'select2': ['jquery'],
         'langcodeFilter': ['fastmapUikit'],
-        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngCookies', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree', 'poi-msg', 'fastmapUikit', 'fmEditView', 'angularChosen', 'select2', 'langcodeFilter']
+        'EditorCtl': ['ocLazyLoad', 'jquery', 'ngCookies', 'ngLayout', 'uiBootstrap', 'fileUpload', 'angularDrag', 'sweet-alert', 'metaService', 'fccService', 'editService', 'manService', 'layers', 'wheelZoom', 'ngTable', 'ngSanitize', 'keyPressFunctions', 'bootstrapDatepicker', 'bootstrapDatepickerCN', 'timepicki', 'bootspopover', 'e-smart-zoom', 'z-tree', 'poi-msg', 'fastmapUikit', 'fmEditView', 'angularChosen', 'select2', 'langcodeFilter', 'hotkey']
     }
 });
 // Start the main app logic.

@@ -1,0 +1,150 @@
+<link rel="stylesheet" href="../../../../node_modules/ng-dialog/css/ngDialog.css">
+<link rel="stylesheet" href="../../../../node_modules/ng-dialog/css/ngDialog-theme-default.css">
+<link rel="stylesheet" href="../../../../node_modules/ng-dialog/css/ngDialog-theme-plain.css">
+<link rel="stylesheet" href="../../../../node_modules/ng-dialog/css/ngDialog-custom-width.css">
+<link href="../../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    .listTitleDiv {
+        width: 100%;
+        border-bottom: 1px solid;
+        height: 30px;
+        text-align: center
+    }
+    .listTitleDiv >div{
+        width: 33%;
+        border-right: 1px solid;
+        display: inline-block;
+        height: 100%
+    }
+    .listBodyDiv {
+        width: 100%;
+    }
+    .listBodyDiv >div {
+        width: 6.6%;
+        display: inline-block;
+    }
+    .ngdialog.ngdialog-theme-default {
+        padding: 40px;
+    }
+</style>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a ng-href="home" data-toggle="tab" ng-click="swithchWork(0)">
+            常规作业
+        </a>
+    </li>
+    <li><a ng-href="ios" data-toggle="tab" ng-click="swithchWork(1)">质检作业</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div ng-class="ruleWork">
+        <div class="listTitleDiv">
+            <div>
+                待作业
+            </div>
+            <div>
+                待提交
+            </div>
+            <div style="border-right: none">
+                已提交
+            </div>
+        </div>
+        <div class="listBodyDiv">
+            <div>
+                <span> 序号 </span>
+            </div>
+            <div >
+                <span> FID </span>
+            </div>
+            <div>
+                <span> PID </span>
+            </div>
+            <div>
+                <span> 状态 </span>
+            </div>
+            <div>
+                <span> 名称 </span>
+            </div>
+            <div>
+                <span> 分类 </span>
+            </div>
+            <div>
+                <span> 审核状态 </span>
+            </div>
+            <div>
+                <span> 检查错误 </span>
+            </div>
+            <div>
+                <span> 标记 </span>
+            </div>
+            <div>
+                <span> 照片 </span>
+            </div>
+            <div>
+                <span> 备注 </span>
+            </div>
+            <div>
+                <span> 采集时间 </span>
+            </div>
+            <div>
+                <span> 预处理时间 </span>
+            </div>
+            <div>
+                <span> 鲜度验证 </span>
+            </div>
+        </div>
+    </div>
+    <div ng-class="qualityWork">
+        <div class="listTitleDiv">
+            <div style="width: 50%">
+                待质检
+            </div>
+            <div style="border-right: none;width: 49%">
+                已质检
+            </div>
+        </div>
+        <div class="listBodyDiv">
+            <div>
+                <span> 序号 </span>
+            </div>
+            <div >
+                <span> FID </span>
+            </div>
+            <div>
+                <span> PID </span>
+            </div>
+            <div>
+                <span> 状态 </span>
+            </div>
+            <div>
+                <span> 名称 </span>
+            </div>
+            <div>
+                <span> 分类 </span>
+            </div>
+            <div>
+                <span> 审核状态 </span>
+            </div>
+            <div>
+                <span> 检查错误 </span>
+            </div>
+            <div>
+                <span> 标记 </span>
+            </div>
+            <div>
+                <span> 照片 </span>
+            </div>
+            <div>
+                <span> 备注 </span>
+            </div>
+            <div>
+                <span> 采集时间 </span>
+            </div>
+            <div>
+                <span> 预处理时间 </span>
+            </div>
+            <div>
+                <span> 鲜度验证 </span>
+            </div>
+        </div>
+    </div>
+</div>

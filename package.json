@@ -48,7 +48,8 @@
     "karma-jasmine": "^1.0.2",
     "karma-requirejs": "^1.0.0",
     "minifyjs": "^0.2.0",
-    "requirejs": "^2.2.0"
+    "requirejs": "^2.2.0",
+    "ng-dialog": "^0.6.4"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,76 @@
+<div style="height:100%;background-color:#f0f0f0" ng-controller="poiLeftPanelCtrl">
+    <div style="width: 100%;height: 80px;background-color: white;line-height: 80px">
+        <div style="width: 120px;padding-left: 10px;display: inline-block">
+            <strong>博泰嘉华酒店</strong>
+        </div>
+        <div style="width: 120px;padding-left: 10px;display: inline-block">
+            <strong>分类：</strong>
+            <span>酒店</span>
+        </div>
+        <div style="padding-left: 10px;display: inline-block">
+            <span>2015-10-26 09:32:10</span>
+        </div>
+        <div class="arrow-left" ng-click="closeLeftPanel()">
+
+        </div>
+    </div>
+    <div style="width: 100%;height: 80px;;line-height: 80px;border-bottom: 1px solid white">
+        <div style="width: 140px;padding-left: 10px;display: inline-block">
+            <strong>审核状态：</strong>
+            <span>已作业</span>
+        </div>
+        <div style="width: 100px;display: inline-block">
+            <strong>鲜度验证：</strong>
+            <span>否</span>
+        </div>
+        <div style="width: 100px;display: inline-block">
+            <strong>3D标识：</strong>
+            <span>否</span>
+        </div>
+        <div style="width: 100px;display: inline-block">
+            <strong>重要POI：</strong>
+            <span>否</span>
+        </div>
+    </div>
+    <div>
+        <div ng-style="imgContainer"
+             style="width: 560px;height: 550px;overflow: auto;text-align: center;line-height: 549px">
+            <img ng-src="{{bigImgSrc.src}}" img-show ng-style="bigImgStyle">
+        </div>
+        <div style="display: inline-block">
+            <select>
+                <option value="aaaa">当前作业季</option>
+                <option value="saab">全部</option>
+            </select>
+        </div>
+        <div style="display: inline-block">
+            <select>
+                <option value="aaaa">全貌</option>
+                <option value="saab">水牌</option>
+                <option value="aaaa">名称</option>
+                <option value="saab">名片</option>
+                <option value="saab">英文名</option>
+            </select>
+        </div>
+        <div style="display: inline-block" ng-click="rotateBigImg(-90)">
+            逆时针
+        </div>
+        <div style="display: inline-block; padding-left: 20px" ng-click="rotateBigImg(90)">
+            顺时针
+        </div>
+    </div>
+    <div style="padding-top: 20px">
+        <div style="display: inline-block" ng-click="lastImg()">
+            <
+        </div>
+        <div style="display: inline-block">
+            <div style="height: 100px;width: 100px;display: inline-block;text-align: center"
+                 ng-repeat="item in imgSrcList">
+                <img ng-src="{{item.src}}" style="height: 80px;width: 80px" ng-click="changeBigImg(item)">
+            </div>
+        </div>
+        <div style="display: inline-block" ng-click="nextImg()">
+            >
+        </div>
+    </div>
+</div>
