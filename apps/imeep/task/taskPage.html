@@ -184,7 +184,7 @@
                                 <div class="taskItem">
                                     <div class="taskItem-heading" ng-class="{true:'finishColor',false:'unfinishColor'}[item.percent==100]">
                                         <div style="float: left;width: 200px;margin-left: 10px;margin-right: 20px" title="{{item.name}}" class="text-ellipsis" ng-bind="item.name"></div>
-                                        <button ng-if="item.percent==100" type="button" class="btn submitBtn">提交</button>
+                                        <button  type="button" ng-click="submitTask(item.subtaskId);" class="btn submitBtn">提交</button>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div ng-click="goEditorPage(item.subtaskId)" class="taskItem-body">
@@ -208,9 +208,9 @@
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="width: 60px;text-align: right;font-weight: 100">任务量：</label></div>
-                                                <div ng-if="(!(item.stage=='日编'&&item.type=='POI子任务')&&!(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="itemInfo-right">200个POI，200个Tips</div>
-                                                <div ng-if="((item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="itemInfo-right"><span style="font-weight: bold">{{item.poi}}</span>个POI <span style="font-weight: bold">{{item.tips}}</span>个Tips</div>
-                                                <div ng-if="((item.stage=='日编'&&item.type=='POI子任务'))" class="itemInfo-right"><span style="font-weight: bold">{{item.poi}}</span>个POI <span style="font-weight: bold">{{item.poi}}</span>个Tips</div>
+                                                <div ng-if="(!(item.stage=='日编'&&item.type=='POI子任务')&&!(item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="itemInfo-right" ng-bind="'200个POI，200个Tips'"></div>
+                                                <div ng-if="((item.stage=='日编'&&item.type=='一体化_GRID粗编子任务'))" class="itemInfo-right"><span ng-bind="item.poi+'个POI'"></span> <span ng-bind="item.tips+'个Tips'"></span></div>
+                                                <div ng-if="((item.stage=='日编'&&item.type=='POI子任务'))" class="itemInfo-right"><span ng-bind="item.poi+'个POI'"></span> <span ng-bind="item.poi+'个Tips'"></span></div>
                                             </li>
                                             <li>
                                                 <div class="itemInfo-left"><label style="width: 60px;text-align: right;font-weight: 100">类型：</label></div>

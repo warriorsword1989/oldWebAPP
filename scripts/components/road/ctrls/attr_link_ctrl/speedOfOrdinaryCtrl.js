@@ -76,18 +76,19 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         if (dir == 2) {
             item.fromLimitSrc = 1;
             value = parseFloat(item.fromSpeedLimit);
-            if (item.toSpeedLimit && (item.toSpeedLimit < item.fromSpeedLimit)) {
+            if (value == 0 || (item.toSpeedLimit != "0" && item.toSpeedLimit < item.fromSpeedLimit)) {
                 value = parseFloat(item.toSpeedLimit);
             }
         } else if (dir == 3) {
             item.toLimitSrc = 1;
             value = parseFloat(item.toSpeedLimit);
-            if (item.fromSpeedLimit && (item.fromSpeedLimit < item.toSpeedLimit)) {
+            if (value == 0 || (item.fromSpeedLimit != "0" && item.fromSpeedLimit < item.toSpeedLimit)) {
                 value = parseFloat(item.fromSpeedLimit);
             }
         }
-
-        if(value < 11 && value >= 0){
+        if(value == 0){
+            item.speedClass = 0;
+        } else if(value < 11 && value > 0){
             item.speedClass = 8;
         }else if(value <= 30 && value >= 11){
             item.speedClass = 7;
@@ -103,8 +104,6 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
             item.speedClass = 2;
         }else if(value > 130){
             item.speedClass = 1;
-        }else {
-            item.speedClass = 0;
         }
         item.speedClassWork = 1;
     };
@@ -159,17 +158,6 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
 
     };
 
-    $scope.angleOfLink=function(pointA,pointB) {
-        var PI = Math.PI,angle;
-        if((pointA.x-pointB.x)===0) {
-            angle = PI / 2;
-        }else{
-            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
-        }
-        return angle;
-
-    };
-
     $scope.showDirect = function (direct) {
         if($scope.rticDir != 1){
             return;
@@ -186,6 +174,10 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        if (containerPoint.x < pointVertex.x || (containerPoint.x == pointVertex.x && containerPoint.y > pointVertex.y)) {
+            angle = angle + Math.PI;
+        }
+
         var marker = {
             flag:false,
             pid:$scope.roadlinkData.pid,

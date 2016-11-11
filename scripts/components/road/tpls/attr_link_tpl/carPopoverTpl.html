@@ -410,11 +410,19 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="date-body">
+    <!--<div class="date-body">
         <div class="date-list"></div>
         <div class="date-list" ng-repeat="item in carData">
             <div class="col-md-6" style="padding: 5px;" ng-style="{color:{true: 'blue', false: 'red'}[checkValue]}" ng-bind="item.label">
             </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="line"></div>
+    </div>-->
+    <div class="date-body full-width">
+        <div ng-class="{'select-car animated-fast':true,'blue':checkValue,'red':!checkValue}" ng-repeat="item in carData track by $index" ng-click="carSelect(item,$parent.$index);">
+            <div class="select-car-text" ng-bind="item.label"></div>
+            <span class="glyphicon glyphicon-remove remove-car-type"></span>
         </div>
         <div class="clearfix"></div>
         <div class="line"></div>

@@ -97,7 +97,8 @@ fastmap.mapApi.PointVertexAdd = L.Handler.extend({
         this.eventController.fire(this.eventController.eventTypes.RESETCOMPLETE,
             {
                 'property':this.snapHandler.properties,
-                'geometry':this.snapHandler.coordinates
+                'geometry':this.snapHandler.coordinates,
+                'latlng':latlng
             }
         );
     }

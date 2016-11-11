@@ -69,7 +69,6 @@ addFaceShapeApp.controller("addFaceFeatureCtrl", ['$scope', '$ocLazyLoad',
                 //提示信息
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPOLYGON);
                 tooltipsCtrl.setCurrentTooltip('开始画面！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if(index == 2){//线构面

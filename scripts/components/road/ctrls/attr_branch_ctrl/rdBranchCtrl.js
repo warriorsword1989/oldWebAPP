@@ -314,7 +314,9 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
         if($scope.diverObj.details[0].branchType == 3 || $scope.diverObj.details[0].branchType == 4){
             $scope.diverObj.details[0].estabType = 9;
             $scope.diverObj.details[0].nameKind = 9;
+            $scope.speacialBranch = true;
         }else{
+            $scope.speacialBranch = false;
             $scope.diverObj.details[0].estabType = 0;
             $scope.diverObj.details[0].nameKind = 0;
         }
@@ -440,6 +442,15 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
                 changeArrowPosition();
+                if($scope.diverObj.details[0].branchType == 3 || $scope.diverObj.details[0].branchType == 4){
+                    $scope.diverObj.details[0].estabType = 9;
+                    $scope.diverObj.details[0].nameKind = 9;
+                    $scope.speacialBranch = true;
+                }else{
+                    $scope.speacialBranch = false;
+                    $scope.diverObj.details[0].estabType = 0;
+                    $scope.diverObj.details[0].nameKind = 0;
+                }
             }
         }
     }
@@ -679,8 +690,8 @@ namesOfBranch.controller("namesOfBranchCtrl",['$scope','$timeout','$ocLazyLoad',
                         map.removeLayer(map.floatMenu);
                         map.floatMenu = null;
                     }
-                    highRenderCtrl.highLightFeatures = null;
                     highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.highLightFeatures.length = 0;
                     rdBranch.redraw();
                     $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 }

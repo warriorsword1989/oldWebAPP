@@ -32,7 +32,6 @@ rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($sc
         dsEdit.getByPid(parseInt($scope.trafficSignalData.pid), "RDTRAFFICSIGNAL").then(function(data){
         	if (data) {
                 objCtrl.setCurrentObject("RDTRAFFICSIGNAL", data);
-                $scope.initializeData();
             }
         });
     };
@@ -132,9 +131,7 @@ rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($sc
                         selectCtrl.rowkey.rowkey = undefined;
                     });
                 }
-                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 relationData.redraw();
-                swal("操作成功", "修改信号灯成功！", "success");
             }
             $scope.refreshData();
         })
@@ -154,6 +151,7 @@ rdTrafficSignalApp.controller("trafficSignalCtl",['$scope','dsEdit',function($sc
                 $scope.trafficSignalData = null;
                 relationData.redraw();
                 highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false,
                     'attrContainerTpl': false

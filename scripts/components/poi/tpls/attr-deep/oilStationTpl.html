@@ -53,7 +53,7 @@
                         <label>柴油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in fuelTypeML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]" ng-disabled="isSpecialOperation"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]" ng-disabled="isSpecialOperation" ng-change="getTruckInfo($event)"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in fuelTypeHM" ng-if="">
                                 <input type="checkbox" value="{{key}}" ng-model="poi.gasstations[0].fuelType[key]" ng-disabled="isSpecialOperation"> {{value}}

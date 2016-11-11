@@ -56,7 +56,6 @@ addNodeShapeApp.controller("addNodeFeatureCtrl", ['$scope', '$ocLazyLoad',
             }
             tooltipsCtrl.setEditEventType('pointVertexAdd');
             tooltipsCtrl.setCurrentTooltip('开始增加节点！');
-            tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
             tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
         }

@@ -15,6 +15,8 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 	$scope.initializeData = function () {
 		objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 		$scope.electronicEyeData = objCtrl.data;
+		//电子眼坐标显示
+		$scope.coordinates = $scope.electronicEyeData.geometry.coordinates.join(',');
 		conversionSystem();
 		$scope.changeElecType($scope.electronicEyeData.kind);
 		if($scope.electronicEyeData.pairs.length){
@@ -171,7 +173,6 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				if (data) {
 					objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 					relationData.redraw();
-					swal("操作成功", "删除配对关系成功！", "success");
 				}
 				$scope.refreshData();
 			})
@@ -187,7 +188,7 @@ rdElectronicEyeApp.controller("electronicEyeCtl", ['$scope', 'dsEdit', function 
 				swal("", data.errmsg, "提示信息");
 				return;
 			}
-			map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 17);
+			map.setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], map.getZoom() < 17 ? 17 : map.getZoom());
 
 			var highLightFeatures = [];
 			highLightFeatures.push({

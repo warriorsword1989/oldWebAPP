@@ -275,6 +275,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
     else if (arrlen == 1) {
       for (var item in data) {
         if (data[item].length == 1) {
+          data[item][0].layer.selectedid = data[item][0].id;
           this.fireEvents(item, data[item][0], event);
         }
       }
@@ -298,6 +299,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
       }
 
       if (totalFeature.length == 1) {
+        totalFeature[0].layer.selectedid = totalFeature[0].id;
         this.fireEvents(totalFeature[0].selectedtype, totalFeature[0], event);
         return;
       }
@@ -321,6 +323,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
 
             for (var item in totalFeature) {
               if (e.target.id == totalFeature[item].properties.featType + totalFeature[item].id) {
+                totalFeature[0].layer.selectedid = totalFeature[0].id;
                 that.fireEvents(totalFeature[item].selectedtype, totalFeature[item], event);
               }
             }

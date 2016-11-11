@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
         var RD_LINK_Colors = [];
         if (thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null) {
             RD_LINK_Colors = [
-                '#000000', '#FF0000', '#00A500', '#E7EFF7', '#0000FF', '#AB5C25'
+                '#000000', '#FF0000', '#00A500', '#FEFD06', '#0000FF', '#000000'
             ];
         } else {
             RD_LINK_Colors = [
@@ -17,6 +17,7 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
         }
         this.geometry['type'] = 'LineString';
         this.properties["featType"] = "RDLINK";
+        this.properties['kind'] = data.m.a;
         this.properties['name'] = data.m.b;
         this.properties['direct'] = data.m.d;
         this.properties['snode'] = data.m.e;
@@ -27,60 +28,63 @@ fastmap.uikit.canvasFeature.RdLink = fastmap.uikit.canvasFeature.Feature.extend(
         this.properties['imiCode'] = data.m.j;
         var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
         var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
-        if (this.properties['form'] && this.properties['form'].indexOf('30') !== -1) {
-            var symbolData = {
-                type: 'HashLineSymbol',
-                hashHeight: 6,
-                hashOffset: 0,
-                hashAngle: -90,
-                hashSymbol: {
-                    type: 'SampleLineSymbol',
-                    color: thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null ?  RD_LINK_Colors[parseInt(data.m.i)] : RD_LINK_Colors[parseInt(data.m.a)],
-                    width: 1,
-                    style: 'solid'
-                },
-                pattern: [2, 5]
-            };
-            var subSymbol = symbolFactory.dataToSymbol(symbolData);
-            compositeSymbol.symbols.push(subSymbol);
+        if (!thematicMapFlag) {
+            if (this.properties['form'] && this.properties['form'].indexOf('30') !== -1) {
+                var symbolData = {
+                    type: 'HashLineSymbol',
+                    hashHeight: 6,
+                    hashOffset: 0,
+                    hashAngle: -90,
+                    hashSymbol: {
+                        type: 'SampleLineSymbol',
+                        color: thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null ?  RD_LINK_Colors[parseInt(data.m.i)] : RD_LINK_Colors[parseInt(data.m.a)],
+                        width: 1,
+                        style: 'solid'
+                    },
+                    pattern: [2, 5]
+                };
+                var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                compositeSymbol.symbols.push(subSymbol);
+            }
+            if (this.properties['limit'] && this.properties['limit'].indexOf('4') !== -1) {
+                var symbolData = {
+                    type: 'MarkerLineSymbol',
+                    markerSymbol: {
+                        type: 'TiltedCrossPointSymbol',
+                        size: 3,
+                        color: 'red',
+                        angle: 0,
+                        offsetX: 0,
+                        offsetY: 0,
+                        hasOutLine: false,
+                        outLineColor: 'black',
+                        outLineWidth: 1
+                    },
+                    pattern: [2, 10]
+                };
+                var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                compositeSymbol.symbols.push(subSymbol);
+            }
+            if (this.properties['form'] && this.properties['form'].indexOf('52') !== -1) {
+                var symbolData = {
+                    type: 'CompositeLineSymbol',
+                    symbols: [{
+                        type: 'SampleLineSymbol',
+                        color: 'gray',
+                        width: 1,
+                        style: 'solid'
+                    }, {
+                        type: 'CartoLineSymbol',
+                        color: 'blue',
+                        width: 1,
+                        pattern: [4, 4, 12, 4]
+                    }]
+                };
+                var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                compositeSymbol.symbols.push(subSymbol);
+            }
         }
-        if (this.properties['limit'] && this.properties['limit'].indexOf('4') !== -1) {
-            var symbolData = {
-                type: 'MarkerLineSymbol',
-                markerSymbol: {
-                    type: 'TiltedCrossPointSymbol',
-                    size: 3,
-                    color: 'red',
-                    angle: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    hasOutLine: false,
-                    outLineColor: 'black',
-                    outLineWidth: 1
-                },
-                pattern: [2, 10]
-            };
-            var subSymbol = symbolFactory.dataToSymbol(symbolData);
-            compositeSymbol.symbols.push(subSymbol);
-        }
-        if (this.properties['form'] && this.properties['form'].indexOf('52') !== -1) {
-            var symbolData = {
-                type: 'CompositeLineSymbol',
-                symbols: [{
-                    type: 'SampleLineSymbol',
-                    color: 'gray',
-                    width: 1,
-                    style: 'solid'
-                }, {
-                    type: 'CartoLineSymbol',
-                    color: 'blue',
-                    width: 1,
-                    pattern: [4, 4, 12, 4]
-                }]
-            };
-            var subSymbol = symbolFactory.dataToSymbol(symbolData);
-            compositeSymbol.symbols.push(subSymbol);
-        }
+
         this.properties['symbol'] = compositeSymbol;
         this.properties['style']['strokeColor'] = thematicMapFlag && typeof(data.m.i) !== 'undefined' && data.m.i !== null ?  RD_LINK_Colors[parseInt(data.m.i)] : RD_LINK_Colors[parseInt(data.m.a)];
         this.properties['style']['strokeWidth'] = 1;

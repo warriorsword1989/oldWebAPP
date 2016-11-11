@@ -268,31 +268,57 @@ App.layersConfig = [{
                 gap: 80
             }
     }, {
-            url: '/render/obj/getByTileWithGap?',
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                id: 'crfData',
-                name: '关系',
-                maxZoom: 20,
-                debug: false,
-                // this value should be equal to 'radius' of your points
-                buffer: 10,
-                boolPixelCrs: true,
-                parse: fastmap.uikit.canvasFeature.Feature.transform,
-                boundsArr: [],
-                unloadInvisibleTiles: true,
-                reuseTiles: false,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                updateWhenIdle: true,
-                tileSize: 256,
-                type: 'Marker',
-                zIndex: 17,
-                restrictZoom: 10,
-                visible: false,
-                requestType: 'RDINTER,RDROAD,RDOBJECT',
-                showNodeLevel: 17,
-                gap: 40
-            }
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'crfData',
+            name: '关系',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Marker',
+            zIndex: 17,
+            restrictZoom: 10,
+            visible: false,
+            requestType: 'RDINTER,RDROAD,RDOBJECT',
+            showNodeLevel: 17,
+            gap: 40
+        }
+    }, {
+        url: '/render/obj/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'tmcData',
+            name: '关系',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 10,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasFeature.Feature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'Marker',
+            zIndex: 17,
+            restrictZoom: 10,
+            visible: false,
+            requestType: 'TMCPOINT,RDTMCLOCATION',
+            showNodeLevel: 17,
+            gap: 40
+        }
     }, {
             url: '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,

@@ -273,6 +273,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
+//        $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
     };
     // 删除数据
     $scope.del = function() {
@@ -283,6 +284,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
                 // var editorLayer = layerCtrl.getLayerById("edit");
                 // editorLayer.clear();
                 highRenderCtrl._cleanHighLight(); //清空高亮
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             }
         });

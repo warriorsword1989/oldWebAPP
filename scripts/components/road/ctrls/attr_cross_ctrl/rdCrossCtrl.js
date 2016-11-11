@@ -21,6 +21,8 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
         initNameInfo();
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures = [];
         var links = $scope.rdCrossData.links,
             highLightFeatures = [];
         for (var i = 0, len = links.length; i < len; i++) {
@@ -225,6 +227,9 @@ selectApp.controller("rdCrossController", ['$scope', 'dsEdit', 'dsFcc', 'appPath
         dsEdit.save(param).then(function(data) {
             var info = [];
             if (data) {
+                if(objCtrl.changedProperty.hasOwnProperty("type")){
+                    relation.redraw();//主要是想刷新一下信号灯
+                }
                 if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,

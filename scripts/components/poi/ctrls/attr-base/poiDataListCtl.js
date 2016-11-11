@@ -1,5 +1,5 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout','dsOutput',
-    function(scope, $rootScope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout,dsOutput) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope', 'NgTableParams', 'ngTableEventsChannel', 'uibButtonConfig', '$sce', 'dsEdit', '$document', 'appPath', '$interval', '$timeout', 'dsOutput',
+    function(scope, $rootScope, NgTableParams, ngTableEventsChannel, uibBtnCfg, $sce, dsEdit, $document, appPath, $interval, $timeout, dsOutput) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         var evtCtrl = fastmap.uikit.EventController();
         var layerCtrl = fastmap.uikit.LayerController();
@@ -14,36 +14,29 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
         /*切换poi列表类型*/
         scope.changeDataList = function(val) {
             scope.dataListType = val;
-            if(scope.filters.name || scope.filters.pid ){
+            if (scope.filters.name || scope.filters.pid) {
                 scope.filters.name = ""; //当过滤条件发生变化时会自动调用表格的查询
                 scope.filters.pid = null;
             } else {
+                _self.tableParams.page(1);//设置为第一页
                 _self.tableParams.reload();
             }
             //initPoiTable();
         };
         /*选择数据查找poi详情*/
         scope.selectData = function(data, index) {
-            if(!(data && data.pid)){
-                return ;
+            scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
+            if (!(data && data.pid)) {
+                return;
             }
-            //scope.$parent.$parent.selectPoiInMap = false; //表示poi是列表中选择的
             scope.rootCommonTemp.selectPoiInMap = false; //表示poi是列表中选择的
             scope.$emit('closePopoverTips', false);
-            scope.$parent.$parent.showLoading = true;
-            //if(data.status == 3 || data.uRecord == 3) { // 提交、删除状态的POI不允许编辑
-            if(data.status == 3 || data.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
-                $rootScope.isSpecialOperation = true;
-            } else {
-                if(!scope.specialWork) { // 非专项作业
-                    $rootScope.isSpecialOperation = false;
-                }
-            }
+            scope.$emit("showFullLoadingOrNot", true);
             dsEdit.getByPid(data.pid, "IXPOI").then(function(rest) {
-                scope.$parent.$parent.showLoading = false;
+                // scope.$parent.$parent.showLoading = false;
+                scope.$emit("showFullLoadingOrNot", false);
                 if (rest) {
                     scope.getCurrentKindByLittle(rest); //获取当前小分类所对应的大分类下的所有小分类
-
                     objCtrl.setCurrentObject('IXPOI', rest);
                     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                     evtCtrl.fire(evtCtrl.eventTypes.SELECTBYATTRIBUTE, {
@@ -63,7 +56,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                     scope.highlightPoi(rest.pid);
                     scope.$emit("highLightPoi", rest.pid);
                     scope.$emit("refreshPhoto", true);
-                    scope.$emit("clearAttrStyleUp");//清除属性样式
+                    scope.$emit("clearAttrStyleUp"); //清除属性样式
                 }
             });
             scope.itemActive = index;
@@ -80,56 +73,35 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                         break;
                     }
                 }
-                if(scope.tableParams.data[i]){ //排除最后一条报错的问题
+                if (scope.tableParams.data[i]) { //排除最后一条报错的问题
                     scope.selectData(scope.tableParams.data[i], i);
                 } else { //最后一条
-                    scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
+                    //scope.$emit("reQueryByPid", { "pid": obj.poi.pid, "type": "IXPOI"  });
+                    scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+                    scope.$emit('closePopoverTips', false);
+                    refreshData(); //刷新当前页，因为待作业的数据会自动流到已作业列表
                 }
             } else if (scope.dataListType == 2) { //已作业
-                // if(obj.flag == 'del'){
-                //     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                //         if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                //             scope.tableParams.data.splice(i, 1);
-                //             break;
-                //         }
-                //     }
-                //     if(scope.tableParams.data[i]){
-                //         scope.selectData(scope.tableParams.data[i], i);
-                //     } else {//最后一条
-                //         scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
-                //     }
-                // } else if (obj.flag  == "update") {
-                //     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
-                //         if (scope.tableParams.data[i].pid == obj.poi.pid) {
-                //             scope.tableParams.data[i].name = obj.poi.name.name;
-                //             scope.tableParams.data[i].kindCode = obj.poi.kindCode;
-                //             scope.tableParams.data[i].state = 3;//修改
-                //             break;
-                //         }
-                //     }
-                //     if(i < scope.tableParams.data.length -1){
-                //         scope.selectData(scope.tableParams.data[i+1], i+1);
-                //     } else { //最后一条
-                //         scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
-                //     }
-                // }
-                if (obj.flag  == "update" || obj.flag == 'del') {
+                if (obj.flag == "update" || obj.flag == 'del') {
                     for (var i = 0, len = scope.tableParams.data.length; i < len; i++) {
                         if (scope.tableParams.data[i].pid == obj.poi.pid) {
                             scope.tableParams.data[i].name = obj.poi.name.name;
                             scope.tableParams.data[i].kindCode = obj.poi.kindCode;
-                            if(obj.flag  == "update"){
+                            if (obj.flag == "update") {
                                 //scope.tableParams.data[i].state = 3;//修改 保存不会修改数据状态(不存在数据状态为无的数据)
-                            } else if (obj.flag  == "del"){
-                                scope.tableParams.data[i].state = 2;//删除
+                            } else if (obj.flag == "del") {
+                                scope.tableParams.data[i].state = 2; //删除
                             }
                             break;
                         }
                     }
-                    if(i < scope.tableParams.data.length -1){
-                        scope.selectData(scope.tableParams.data[i+1], i+1);
+                    if (i < scope.tableParams.data.length - 1) {
+                        scope.selectData(scope.tableParams.data[i + 1], i + 1);
                     } else { //最后一条
-                        scope.$emit("reQueryByPid",{"pid":obj.poi.pid,"type":"IXPOI"});
+                        //scope.$emit("reQueryByPid", { "pid": obj.poi.pid,  "type": "IXPOI" });
+                        scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
+                        scope.$emit('closePopoverTips', false);
+                        getNextPage(); //获取下一页
                     }
                 }
             }
@@ -156,7 +128,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
         scope.cols = [{
                 field: "num_index",
                 title: "序号",
-                width: '30px',
+                width: '35px',
                 show: true
             }, {
                 field: "state",
@@ -202,7 +174,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                 getValue: getFreshnessVefication
             }
         ];
-
         //初始化显示表格字段方法;
         scope.initShowField = function(params) {
             for (var i = 0; i < scope.cols.length; i++) {
@@ -242,10 +213,20 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
          scope.filters.pid = 0;
          });*/
         //刷新表格方法;
-        var refreshData = function() {
+        var refreshData = function(flag) {
             _self.tableParams.reload();
         };
+        //获取下一页数据
+        var getNextPage = function (){
+            var totalpage = parseInt(_self.tableParams.total() / _self.tableParams.count())
+                + ((_self.tableParams.total() % _self.tableParams.count()) > 0 ? 1 : 0);
+            var currentPage = _self.tableParams.page();
+            if(totalpage > currentPage){
+                _self.tableParams.page(currentPage+1)
+            }
+        };
         scope.total = 0;
+
         function initPoiTable() {
             _self.tableParams = new NgTableParams({
                 page: 1,
@@ -265,7 +246,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                     };
                     dsEdit.getPoiList(param).then(function(data) {
                         scope.poiListTableMsg = '列表无数据';
-                        if(data){
+                        if (data) {
                             scope.poiList = data.rows;
                             scope.total = data.total;
                             _self.tableParams.total(data.total);
@@ -306,21 +287,26 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
         }
         /*新鲜度验证*/
         function getKindName(scope, row) {
-            if(row.kindCode){
-                if(scope.metaData.kindFormat[row.kindCode] && scope.metaData.kindFormat[row.kindCode].kindName){
+            if (row.kindCode) {
+                if (scope.metaData.kindFormat[row.kindCode] && scope.metaData.kindFormat[row.kindCode].kindName) {
                     return $sce.trustAsHtml(scope.metaData.kindFormat[row.kindCode].kindName);
-                }else {
+                } else {
                     return $sce.trustAsHtml("");
                 }
             } else {
                 return $sce.trustAsHtml("");
             }
+        }
 
-        }
         function getState(scope, row) {
-            return $sce.trustAsHtml({0:'无',1: '增', 2:'删', 3:'改'}[row.state]);
+            return $sce.trustAsHtml({
+                0: '无',
+                1: '增',
+                2: '删',
+                3: '改'
+            }[row.state]);
         }
-        scope.highlightPoi = function(pid) {
+        scope.highlightPoi = function(pid,poi) {
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             // $scope.clearMap();
@@ -356,8 +342,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                         subAttrContainerTpl: false
                     });
                     //scope.$parent.$parent.showLoading = true;
-                    $timeout(function(){
-                        scope.$emit("showFullLoadingOrNot",true); //初次打开必须要等待会儿
+                    $timeout(function() {
+                        scope.$emit("showFullLoadingOrNot", true); //初次打开必须要等待会儿
                     });
                     var param = {
                         dbId: App.Temp.dbId,
@@ -368,10 +354,9 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                             var timer = $interval(function() {
                                 dsEdit.getJobById(jobId).then(function(data) {
                                     scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
-
                                     if (data.status == 3 || data.status == 4) { //1-创建，2-执行中 3-成功 4-失败
                                         //scope.$parent.$parent.showLoading = false;
-                                        scope.$emit("showFullLoadingOrNot",false);
+                                        scope.$emit("showFullLoadingOrNot", false);
                                         refreshData();
                                         poiLayer.redraw();
                                         $interval.cancel(timer);
@@ -398,7 +383,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', '$rootScope','NgTa
                             }, 500);
                         } else {
                             scope.$emit("refreshCheckResultToMainPage"); //刷新检查结果数据
-                            scope.$emit("showFullLoadingOrNot",false);
+                            scope.$emit("showFullLoadingOrNot", false);
                         }
                     });
                 }

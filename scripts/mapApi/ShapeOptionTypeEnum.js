@@ -65,6 +65,11 @@ fastmap.mapApi.ShapeOptionType = {
      */
     'POINTVERTEXADD': "pointVertexAdd",
     /*
+     /*
+     移动点限速操作
+     */
+    'UPDATESPEEDNODE': "updateSpeedNode",
+    /*
     移动行政区划代表点
      */
     'ADADMINMOVE': "adAdminMove",
@@ -161,6 +166,10 @@ fastmap.mapApi.ShapeOptionType = {
      路口修改
      */
     'MODIFYRDCROSS':'modifyRdcross',
+    /*
+     限高限重
+     */
+    'RDHGWGLIMIT':'rdHgwgLimit',
     /*
      分离节点
      */

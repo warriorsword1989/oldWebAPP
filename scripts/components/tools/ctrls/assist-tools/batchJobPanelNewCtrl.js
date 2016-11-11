@@ -30,7 +30,7 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                 $scope.selectedBatches = 'BATCH_SPEED_CLASS:P_ASSIGN_WAY=>'+$scope.myOption;
             }else{
                 $scope.selectedBatches = 'BATCH_POI_GUIDELINK';
-                batchType = 1
+                batchType = 0
             }
             if ($scope.selectedBatches.length == 0) {
                 swal("请选择要执行的批处理", "", "info");
@@ -73,21 +73,6 @@ angular.module('app').controller("BatchJobPanelCtrl", ['$scope', '$interval', 'd
                                             "childPid": ""
                                         });
                                         logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'失败');
-                                    }
-                                }else{
-                                    $interval.cancel(timer);
-                                    if(d.status!=1||d.status!=2){
-                                        $scope.$emit("job-batch", {
-                                            status: 'end'
-                                        });
-                                        $scope.running = false;
-                                        dsOutput.push({
-                                            "op": "执行批处理执行异常",
-                                            "type": "fail",
-                                            "pid": data,
-                                            "childPid": ""
-                                        });
-                                        logMsgCtrl.pushMsg($scope,'执行批处理任务'+data+'异常');
                                     }
                                 }
                             });

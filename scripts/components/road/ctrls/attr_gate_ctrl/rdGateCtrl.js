@@ -71,11 +71,16 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
         var highLightFeatures = [];
         $scope.rdGateData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures = [];
         highLightFeatures.push({
 			id: $scope.rdGateData.inLinkPid.toString(),
 			layerid: 'rdLink',
 			type: 'line',
-			style: {}
+			style: {
+                strokeWidth:3,
+                color: '#008000'
+            }
 		});
         highLightFeatures.push({
             id: $scope.rdGateData.outLinkPid.toString(),
@@ -153,6 +158,7 @@ angular.module("app").controller("rdGateController",["$scope",'appPath',"dsEdit"
                 // var editorLayer = layerCtrl.getLayerById("edit");
                 // editorLayer.clear();
                 highRenderCtrl._cleanHighLight(); //清空高亮
+                highRenderCtrl.highLightFeatures.length = 0;
             }
             $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         });

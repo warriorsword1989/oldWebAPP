@@ -1,56 +1,81 @@
-angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout', 'dsEdit', 'appPath', function($window,$scope,$timeout,dsEdit,appPath) {
+angular.module('app').controller('ErrorCheckCtl', ['$window', '$scope', '$timeout', 'dsEdit', 'appPath', function($window, $scope, $timeout, dsEdit, appPath) {
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = new fastmap.uikit.HighRenderController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.initType = 0;
-
     /**
      * table表头配置项
      * @type {string[]}
      */
     $scope.theadInfo = ['检查规则', '错误等级', '错误对象', '错误信息', '检查时间', '检查管理'];
     $scope.initTypeOptions = [
-        {"id": 0, "label": " 未修改"},
-        {"id": 1, "label": " 例外"},
-        {"id": 2, "label": " 确认不修改"},
-        {"id": 3, "label": " 确认已修改"}
+        {
+            "id": 0,
+            "label": " 未修改"
+        },
+        {
+            "id": 1,
+            "label": " 例外"
+        },
+        {
+            "id": 2,
+            "label": " 确认不修改"
+        },
+        {
+            "id": 3,
+            "label": " 确认已修改"
+        }
     ];
-
     /**
      * 修改table单元格显示的宽度防止属性面板弹出挤压出现垂直滚动条;
      */
-    $scope.setTableCeilWidth = function(){
-        var tableWidth=document.getElementById("errorCheckTable").clientWidth;
-        $scope.descriptStyle={
-            "width" : (tableWidth-60-tableWidth*0.06-tableWidth*0.05-110-110)+'px',
-            "overflow": "hidden",
-            "text-overflow":"ellipsis",
-            "white-space":"nowrap"
+    $scope.setTableCeilWidth = function() {
+            var tableWidth = document.getElementById("errorCheckTable").clientWidth;
+            $scope.descriptStyle = {
+                "width": (tableWidth - 60 - tableWidth * 0.06 - tableWidth * 0.05 - 110 - 110) + 'px',
+                "overflow": "hidden",
+                "text-overflow": "ellipsis",
+                "white-space": "nowrap"
+            }
         }
-    }
-
-    /**
-     * 修改检查项状态
-     * @param selectInd
-     * @param rowid
-     */
+        /**
+         * 修改检查项状态
+         * @param selectInd
+         * @param rowid
+         */
     $scope.changeType = function(selectInd, rowid) {
         dsEdit.updateCheckType(rowid, selectInd).then(function(data) {
-            console.log('修改成功')
-            // $scope.$emit('refreshCheckResult',true);
+            console.log('修改成功');
+            if($scope.checkResultData.length > 1){
+                for(var i = 0 ; i < $scope.checkResultData.length ; i++){
+                    if($scope.checkResultData[i].id == rowid){
+                        $scope.checkResultData.splice(i,1);
+                        break;
+                    }
+                }
+            }else {
+                $scope.$emit('refreshCheckResult',true);
+            }
         });
     };
-
     /**
      * 定位并高亮显示要素
      * @param pid
      * @param type
      */
-    $scope.showOnMap = function(pid, type) {
+    $scope.showOnMap = function(pid, featType, checkResult) {
         resetToolAndMap();
-        $scope.$emit('locatedOnMap',{'objPid':pid,'objType':type.split('_').join('')})
+        if (checkResult.geometry) {
+            var coord = checkResult.geometry.replace(/\(|\)/g, "").split(",");
+            var zoom = map.getZoom() < 17 ? 17 : map.getZoom();
+            map.setView([parseFloat(coord[1]), parseFloat(coord[0])], zoom);
+        }
+        $scope.$emit('locatedOnMap', {
+            'objPid': pid,
+            'objType': featType.split('_').join('')
+        })
     };
-
+    //$scope.$on('highMappoi',highlighPoi);
     /************** 数据格式化 **************/
     /*检查时间*/
     function getCreateData($scope, rows) {
@@ -60,7 +85,6 @@ angular.module('app').controller('ErrorCheckCtl', ['$window','$scope','$timeout'
     function getOption($scope, rows) {
         return rows;
     }
-
     //重新设置选择工具
     var resetToolAndMap = function() {
         var layerCtrl = fastmap.uikit.LayerController();

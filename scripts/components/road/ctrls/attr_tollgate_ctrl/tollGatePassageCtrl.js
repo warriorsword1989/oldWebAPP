@@ -75,7 +75,7 @@ tollApp.controller("TollGatePassageCtl", ['$scope', 'dsEdit', function ($scope, 
      */
     $scope.carSelect=function(item,index){
         //根据点击的位置必须要更新当前编辑数组的下标;
-        if(index){$scope.passageIndex = index}
+        if(index || index==0){$scope.passageIndex = index}
         if(item.checked){
             item.checked=false;
             for(var i in $scope.carData[$scope.passageIndex]){

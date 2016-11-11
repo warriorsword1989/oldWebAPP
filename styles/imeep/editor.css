@@ -22,6 +22,9 @@ a:hover {
   color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
 }
+.label {
+  padding: 0;
+}
 .fm-banner {
   top: 0;
   right: auto;
@@ -551,6 +554,9 @@ label > input[type='checkbox'] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.text-nowrap {
+  white-space: normal;
+}
 .fm-console-content {
   height: 100%;
   overflow-y: auto;
@@ -638,6 +644,17 @@ a.fm-panel-controlArrowRight > span {
   margin-right: 10px;
 }
 /**********tips style**********/
+.tips-thumbnail {
+  height: 50px;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s ;
+  -ms-transition: all .3s ;
+  -o-transition: all .3s ;
+  transition: all .3s ;
+}
+.tips-thumbnail.active {
+  background-color: #4C4B4B;
+}
 .modal-tips-img {
   left: 242px;
   position: relative;
@@ -807,6 +824,7 @@ a.fm-panel-controlArrowRight > span {
   max-height: 190px;
   max-width: 220px;
   margin: auto;
+  height: 140px;
 }
 .preview-left {
   position: absolute;
@@ -1094,10 +1112,10 @@ a.fm-panel-controlArrowRight > span {
   border-radius: 16px;
   left: 200px;
   top: 300px;
-  padding: 8px;
+  line-height: 2.5;
   text-align: center;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   background-color: #0A06B8;
   cursor: pointer;
   z-index: 1000;
@@ -1111,6 +1129,78 @@ a.fm-panel-controlArrowRight > span {
 }
 .floatMenu > li .float-option-bar {
   color: #fff;
+}
+.floatMenu > li .icon-location {
+  background-image: url("../../images/road/floatBtn/default/location.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-location:hover {
+  background-image: url("../../images/road/floatBtn/hover/location.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-father {
+  background-image: url("../../images/road/floatBtn/default/father.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-father:hover {
+  background-image: url("../../images/road/floatBtn/hover/father.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-same {
+  background-image: url("../../images/road/floatBtn/default/same.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-same:hover {
+  background-image: url("../../images/road/floatBtn/hover/same.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-guide {
+  background-image: url("../../images/road/floatBtn/default/guide.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-guide:hover {
+  background-image: url("../../images/road/floatBtn/hover/guide.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-move {
+  background-image: url("../../images/road/floatBtn/default/move.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-move:hover {
+  background-image: url("../../images/road/floatBtn/hover/move.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-reset {
+  background-image: url("../../images/road/floatBtn/default/reset.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
+}
+.floatMenu > li .icon-reset:hover {
+  background-image: url("../../images/road/floatBtn/hover/reset.png");
+  width: 30px;
+  height: 30px;
+  transition: all 1s;
 }
 /* ---------------------滚动条-------------------------------------------------- */
 .scroll-styled {
@@ -1650,7 +1740,7 @@ a.fm-panel-controlArrowRight > span {
   right: auto;
   bottom: 0;
   left: 60px;
-  position: absolute;
+  position: fixed;
   width: 250px;
   z-index: 99;
   display: none;
@@ -1659,7 +1749,7 @@ a.fm-panel-controlArrowRight > span {
   color: #fff;
   background-color: #949090;
   padding: 13px;
-  height: 40px;
+  min-height: 40px;
   margin-top: 3px;
 }
 .log-message-container .log-message .log-message-remove {
@@ -2098,6 +2188,7 @@ a.batchButton {
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+  display: inline-block;
 }
 .select-car.blue {
   background-color: #40A2D7;
@@ -2119,6 +2210,7 @@ a.batchButton {
   color: #ffffff;
   right: -2px;
   position: relative;
+  display: inline-block;
 }
 .select-car .remove-car-type {
   position: relative;

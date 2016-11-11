@@ -28,8 +28,8 @@
                     <div ng-if="row.mutiCheck">
                         [{{row.featureType}},
                         <span ng-repeat="item in row.mutiListCheck">
-                            <a href="#" ng-if="$index < row.mutiListCheck.length-1" class="fm-target" ng-click="showOnMap(item,row.featureType)">{{item }},</a>
-                            <a href="#" ng-if="$index == row.mutiListCheck.length-1" class="fm-target" ng-click="showOnMap(item,row.featureType)">{{item }}</a>
+                            <a href="#" ng-if="$index < row.mutiListCheck.length-1" class="fm-target" ng-click="showOnMap(item,row.featureType, row)">{{item }},</a>
+                            <a href="#" ng-if="$index == row.mutiListCheck.length-1" class="fm-target" ng-click="showOnMap(item,row.featureType, row)">{{item }}</a>
                         </span>
                         ]
                     </div>

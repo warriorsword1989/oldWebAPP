@@ -22,7 +22,6 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     //高亮
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     eventController = fastmap.uikit.EventController();
-    $scope.outIdS = [];
     //全部要素配置
     $scope.featureConfig = fastmap.uikit.FeatureConfig.tip;
     //清除地图数据
@@ -52,6 +51,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         }
         if(link.type == 1){
             dsEdit.getByPid(link.id, type).then(function(data) {
+                var options = {};
                 if (!data) {
                     return;
                 }
@@ -82,13 +82,26 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         style: {}
                     });
                     highRenderCtrl.drawHighlight();
+                    options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                        "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+                    };
+                }else if(type== "RDNODE"){
+                    highRenderCtrl.highLightFeatures.push({
+                        id: data.pid.toString(),
+                        layerid: 'rdNode',
+                        type: 'node',
+                        style: {}
+                    });
+                    highRenderCtrl.drawHighlight();
+                    options = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "scripts/components/road/ctrls/attr_node_ctrl/rdNodeFormCtrl",
+                        "propertyHtml": "../../../scripts/components/road/tpls/attr_node_tpl/rdNodeFormTpl.html"
+                    };
                 }
                 objCtrl.setCurrentObject(type, data);
-                var options = {
-                    "loadType": 'attrTplContainer',
-                    "propertyCtrl": "scripts/components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
-                    "propertyHtml": "../../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
-                };
                 $scope.$emit("transitCtrlAndTpl", options);
             });
         }else{
@@ -137,18 +150,33 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
 
     };
     /*车信高亮link*/
-    $scope.highlightSymbol = function(id){
+    $scope.highlightSymbol = function(id,seq){
+        $scope.dataTipsData.seqNow = seq;
         if (!id) {
             return;
         }
-        highRenderCtrl.highLightFeatures.push({
-            id: id.toString(),
-            layerid: 'rdLink',
-            type: 'line',
-            style: {
-                strokeColor: '#21ed25'
+        if(highRenderCtrl.highLightFeatures.length){
+            for(var i=0;i<highRenderCtrl.highLightFeatures.length;i++){
+                if(i == highRenderCtrl.highLightFeatures.length - 1 && highRenderCtrl.highLightFeatures[i].id != id.toString()){
+                    highRenderCtrl.highLightFeatures.push({
+                        id: id.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {
+                            strokeColor: '#21ed25'
+                        }
+                    });
+                }
+                if(highRenderCtrl.highLightFeatures[i].id == id.toString()){
+                    highRenderCtrl.highLightFeatures[i].style = {
+                        strokeColor: '#21ed25'
+                    };
+                }
+                if(highRenderCtrl.highLightFeatures[i].style.strokeColor == '#21ed25' && highRenderCtrl.highLightFeatures[i].id != id.toString()){
+                    highRenderCtrl.highLightFeatures[i].style = {};
+                }
             }
-        });
+        }
         highRenderCtrl.drawHighlight();
     };
     $scope.showItem = function(index) {
@@ -219,6 +247,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         $scope.mileageNm = '';
         $scope.mileageSrc = '';
         $scope.busDriveway = '';
+        $scope.outIdS = [];
         $scope.variableDirectionInfo = '';
         switch ($scope.allTipsType) {
             case "1101": //点限速
@@ -605,7 +634,9 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                     for (var j in $scope.oarrayData[i].d_array) {
                         for (var m in $scope.oarrayData[i].d_array[j].out) {
                             $scope.outIdS.push({
-                                id: $scope.oarrayData[i].d_array[j].out[m].id
+                                id: $scope.oarrayData[i].d_array[j].out[m].id,
+                                sq:$scope.oarrayData[i].sq,
+                                type:$scope.oarrayData[i].d_array[j].out[m].type
                             });
                             highRenderCtrl.highLightFeatures.push({
                                 id: $scope.oarrayData[i].d_array[j].out[m].id.toString(),
@@ -616,6 +647,11 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                         }
                     }
                 }
+                $scope.dataTipsData.seqNow = 1;
+                if($scope.dataTipsData.o_array[0].d_array[0].out[0].id){
+                    $scope.highlightSymbol($scope.dataTipsData.o_array[0].d_array[0].out[0].id,1);
+                }
+                $scope.dataTipsData.isLaneConnexity = true;
                 break;
             case "1302": //交限
                 //高亮
@@ -760,12 +796,12 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
                 $scope.dataTipsData.schemaNo = $scope.dataTipsData.ptn;
                 $scope.scheName = $scope.dataTipsData.name;
                 /*出口编号*/
-                $scope.sceneExit = [];
+                /*$scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array, function(i, v) {
                     if (v.out) {
                         $scope.sceneExit.push(v.out.id);
                     }
-                });
+                });*/
                 $scope.dataTipsData.isBranch = true;
                 break;
             case "1409": //普通路口模式图
@@ -957,6 +993,8 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
         /*时间段*/
         if ($scope.dataTipsData.time) {
             $scope.timeDomain = $scope.dataTipsData.time.split(';');
+        }else{
+        	$scope.timeDomain = [];
         }
         var dir = {
             "0": "不应用",
@@ -1020,6 +1058,7 @@ dataTipsApp.controller("sceneAllTipsController", ['$scope', '$timeout', '$ocLazy
     }
     //打开图片大图页面
     $scope.openOriginPic = function(id) {
+        selectCtrl.rowKey = $scope.dataTipsData;
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType": "tipsPitureContainer",

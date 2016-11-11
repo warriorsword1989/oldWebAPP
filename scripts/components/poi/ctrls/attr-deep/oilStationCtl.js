@@ -12,5 +12,7 @@ angular.module('app').controller('OilStationCtl', function($scope) {
     $scope.egType = FM.dataApi.Constant.egType;
     $scope.fuelTypeML = FM.dataApi.Constant.fuelType_ml;
     $scope.fuelTypeHM = FM.dataApi.Constant.fuelType_hm;
-
+    $scope.getTruckInfo = function(event){
+    	$scope.getTruckByKindChain($scope.poi.kindCode,$scope.poi.chain,null);
+    };
 });

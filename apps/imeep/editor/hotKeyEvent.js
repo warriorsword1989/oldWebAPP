@@ -4,9 +4,7 @@
  */
 function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
     $(document).bind('keydown', function (event) {
-        //取消
         var layerCtrl = fastmap.uikit.LayerController();
-        var outPutCtrl = fastmap.uikit.OutPutController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
         var evtCtrl = fastmap.uikit.EventController();
         var toolTipsCtrl = fastmap.uikit.ToolTipsController();
@@ -37,6 +35,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
         if (event.keyCode == 27) {
+            event.preventDefault(); //取消浏览器快捷键的默认设置
             resetPage();
             map._container.style.cursor = '';
         }
@@ -113,6 +112,12 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             editLayer.clear();
+            if(objEditCtrl.originalData && !objEditCtrl.originalData.hasOwnProperty("pid")){
+                scope.$emit('SWITCHCONTAINERSTATE', {
+                    'subAttrContainerTpl': false,
+                    'attrContainerTpl': false
+                });
+            }
         }
 
         //获取当前的控制器级对应的模板;
@@ -457,22 +462,17 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     point = feature.point;
                 if (geo) {
                     if (!geo.flag) {
-                        var directOfLink = {
-                            "objStatus": "UPDATE",
-                            "pid": selectCtrl.selectedFeatures.id,
-                            "direct": parseInt(selectCtrl.selectedFeatures.direct),
-                            "laneNum":objEditCtrl.data.laneNum,
-                            "direct": objEditCtrl.data.direct,
-                            "laneLeft":objEditCtrl.data.laneLeft,
-                            "laneRight":objEditCtrl.data.laneRight
-                        };
+                        objEditCtrl.save();
+                        if (!objEditCtrl.changedProperty) {
+                            swal("保存提示", '属性值没有变化，不需要保存！', "info");
+                            return;
+                        }
                         param = {
                             "type": "RDLINK",
                             "command": "UPDATE",
                             "dbId": App.Temp.dbId,
-                            "data": directOfLink
+                            "data": objEditCtrl.changedProperty
                         };
-                        console.log(objEditCtrl)
                         dsEdit.save(param).then(function (data) {
                             evtCtrl.fire(evtCtrl.eventTypes.SAVEPROPERTY);
                             if (data != null) {
@@ -500,18 +500,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             else if (shapeCtrl.editType === "pathDepartNode") { //节点分离
                 param["command"] = "DEPART";
                 param["dbId"] = App.Temp.dbId;
-                param["objId"] = selectCtrl.selectedFeatures.id;
+                param["objId"] = selectCtrl.selectedFeatures.dragNodePid;
+                var catchPid;
+                if(selectCtrl.selectedFeatures.catchFlag=='RDLINK'){
+                    catchLinkPid = selectCtrl.selectedFeatures.catchNodePid;
+                    catchNodePid = 0;
+                }else if(selectCtrl.selectedFeatures.catchFlag=='RDNODE'){
+                    catchNodePid = selectCtrl.selectedFeatures.catchNodePid;
+                    catchLinkPid = 0;
+                }
                 if(selectCtrl.selectedFeatures.latlng){
                     param["data"] = {
-                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
-                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        catchNodePid: catchNodePid,
+                        catchLinkPid: catchLinkPid,
+                        linkPid: selectCtrl.selectedFeatures.selectedLinkPid,
                         longitude: selectCtrl.selectedFeatures.latlng.lng,
                         latitude: selectCtrl.selectedFeatures.latlng.lat
                     };
                 }else{
                     param["data"] = {
-                        catchNodePid:selectCtrl.selectedFeatures.catchNodePid,
-                        linkPid: selectCtrl.selectedFeatures.workLinkPid,
+                        catchNodePid:catchNodePid,
+                        catchLinkPid: catchLinkPid,
+                        linkPid: selectCtrl.selectedFeatures.selectedLinkPid
                     };
                 }
                 param["type"] = 'RDLINK';
@@ -677,6 +687,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 })
             } else if (shapeCtrl.editType === "pointVertexAdd") {
+                if(!shapeCtrl.editFeatType){//创建点限速时距离过近，不让保存
+                    return;
+                }
                 var ctrl, tpl;
                 var selectShapeType = shapeCtrl.editFeatType;
                 param["command"] = "CREATE";
@@ -700,6 +713,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                 if (param["type"] === "RDLINK") {
                                     rdLink.redraw();
                                     rdnode.redraw();
+
                                 } else if (param["type"] === "RWNODE") {
                                     rwLink.redraw();
                                     rwnode.redraw();
@@ -714,6 +728,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                 } else if (param["type"] === "RDNODE") {
                                     rdLink.redraw();
                                     rdnode.redraw();
+                                    relationData.redraw();//打断线后点限速关联的link发生了变化，其他有类似联系的要素应该也有这样的变化
                                     ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                                     tpl = 'attr_node_tpl/rdNodeFormTpl.html';
                                 } else if (param["type"] === "ZONENODE") {
@@ -762,7 +777,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                         toolTipsCtrl.setEditEventType('pointVertexAdd');
                         toolTipsCtrl.setCurrentTooltip('开始增加节点！');
-                        toolTipsCtrl.setStyleTooltip("color:black;");
                         toolTipsCtrl.setChangeInnerHtml("点击增加节点!");
                         toolTipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                     }
@@ -1489,13 +1503,14 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     }
                 });
             } else if (shapeCtrl.editType === "updateSpeedNode") {
+                if(!featCodeCtrl.getFeatCode().speedData){return;}
                 var param = {
                     "command": "UPDATE",
                     "type": "RDSPEEDLIMIT",
                     "dbId": App.Temp.dbId,
-                    "data": geo
+                    "data": featCodeCtrl.getFeatCode().speedData
                 };
-                if (geo.direct == objEditCtrl.data.direct) {
+                if (featCodeCtrl.getFeatCode().speedData.direct == objEditCtrl.data.direct) {
                     swal("操作失败", "方向未改变！", "info");
                     return;
                 }
@@ -1634,6 +1649,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                    scope.$emit("transitCtrlAndTpl", showLaneInfoObj);
                   });
             } else if (shapeCtrl.editType === "rdLaneTopoDetail") {    //查询详细车道
+                if(geo && (geo.nodePid == undefined || (geo.linkPids && geo.linkPids.length < 2))){
+                    swal("提示","选择要素不全，重新选择一下!","warning");
+                    return;
+                }
                 var param = {
                     "type": "RDLANE",
                     "dbId": App.Temp.dbId,
@@ -1643,12 +1662,28 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 //调用编辑接口;
                 dsEdit.getByCondition(param).then(function(data) {
                     if(data != null){
+                        var emitFlag = true;
+                        var errorLink = null;
                         relationData.redraw();
                         featCodeCtrl.setFeatCode({
                             laneTopo:data.data,
                             rdLaneData:rdLaneData
                         });
-                        scope.$emit("OPENRDLANETOPO");
+                        for(var i=0;i<data.data.length;i++){
+                            var laneInfos = data.data[i].laneInfos;
+                            for(var j=0;j<laneInfos.length;j++){
+                                if(!(laneInfos[j].lanes && laneInfos[j].lanes.length >0)){
+                                    emitFlag = false;
+                                    errorLink = laneInfos[j].linkPid;
+                                    break;
+                                }
+                            }
+                        }
+                        if(emitFlag){
+                            scope.$emit("OPENRDLANETOPO");
+                        } else {
+                            swal("错误提示","Pid="+errorLink+"的RdLink不存在详细车道，不能制作车道连通！","error");
+                        }
                     }
                 });
             } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口

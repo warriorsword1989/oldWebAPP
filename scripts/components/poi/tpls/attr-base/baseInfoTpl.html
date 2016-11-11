@@ -6,7 +6,7 @@
                   <li>
                       <label>名 称</label>
                       <div >
-                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.name.name" ng-blur="validataName($event);"/>
+                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.name.name" title="{{poi.name.name}}" ng-blur="validataName($event);"/>
                       </div>
                   </li>
                   <li>
@@ -15,7 +15,7 @@
                           <!--<input type="text" class="fm-control" ng-model="address.fullname"/>-->
                       <!--</div>-->
                       <div>
-                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.address.fullname"/>
+                          <input fm-edit-view type="text" class="fm-control" ng-model="poi.address.fullname" title="{{poi.address.fullname}}"/>
                       </div>
                   </li>
                   <li>
@@ -57,7 +57,7 @@
                       <label>卡 车</label>
                       <div class="block">
                             <label ng-repeat="(key, value) in truckTypeOpt">
-                                <input type="radio" value={{key}} name="truckType" ng-model="poi.truckFlag" ng-class="{true:'chosen-disabled'}[truckFlagDisable]" ng-disabled="truckFlagDisable"> {{value}}
+                                <input fm-edit-view type="radio" value={{key}} name="truckType" ng-model="poi.truckFlag" ng-class="{true:'chosen-disabled'}[truckFlagDisable]" ng-disabled="truckFlagDisable"> {{value}}
                             </label>
                       </div>
                   </li>
@@ -94,7 +94,8 @@
                   <li>
                       <label >关联LINK</label>
                       <div>
-                          <span ng-bind="poi.linkPid"></span>
+                          <span ng-bind="poi.linkPid"></span>&nbsp;&nbsp;
+                          <span>{{{0:'不应用',1:'左侧',2:'右侧',3:'线上'}[poi.side]}}</span>
                       </div>
                   </li>
                   <li>

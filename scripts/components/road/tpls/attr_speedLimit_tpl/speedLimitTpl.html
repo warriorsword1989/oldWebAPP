@@ -77,18 +77,11 @@
                         </li>
                         <li>
                             <label>采集标志</label>
-
-                            <div class="radio  inline" style="text-align: left">
-                                <label>
-                                    <input type="radio" name="secneOrTheory" value=0
-                                           ng-model="speedLimitData.captureFlag">
-                                    现场采集
-                                </label>
-                                <label>
-                                    <input type="radio" name="secneOrTheory" value=1
-                                           ng-model="speedLimitData.captureFlag">
-                                    理论判断
-                                </label>
+                            <div>
+                                <select ng-model="speedLimitData.captureFlag"
+                                        ng-options="value.id as value.label for value in captureFlagOption">
+                                    <option>--</option>
+                                </select>
                             </div>
                         </li>
                         <!--<li class="list-group-item">-->

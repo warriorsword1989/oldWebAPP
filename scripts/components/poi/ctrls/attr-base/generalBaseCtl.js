@@ -1,17 +1,32 @@
-angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $ocll, $q, dsEdit, dsMeta, appPath) {
+angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$ocLazyLoad', '$q', 'dsEdit', 'dsMeta', 'appPath', function($scope, $rootScope, $ocll, $q, dsEdit, dsMeta, appPath) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var eventCtrl = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var poiLayer = layerCtrl.getLayerById('poi');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    $scope.truckFlagDisable = false;
 
     function initData() {
         if ($scope.generalPoiForm) {
             $scope.generalPoiForm.$setPristine();
         }
-        $scope.poi = objectCtrl.data;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+        $scope.poi = objectCtrl.data;
+        if ($scope.poi.status == 3 || $scope.poi.state == 2) { // 提交、删除状态的POI不允许编辑   state --1新增，2删除 3修改
+            $rootScope.isSpecialOperation = true;
+        } else {
+            if ($rootScope.specialWork) { // 专项作业
+                $rootScope.isSpecialOperation = true;
+            } else {
+                $rootScope.isSpecialOperation = false;
+            }
+        }
+        $scope.changeProperty('base');//默认显示基本属性页面
+        // if(!$scope.poi.level){
+        //     $scope.$broadcast('initBaseinfo');
+        // }
         _retreatData($scope.poi);
+        initShowTag();
         /**
          * 名称组可地址组特殊处理（暂时只做了大陆的控制）
          * 将名称组中的21CHI的名称放置在name中，如果不存在21CHI的数据，则给name赋值默认数据
@@ -53,7 +68,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             }
         }
     }
-    initData();
     /*切换tag按钮*/
     $scope.changeProperty = function(tagName) {
         $scope.propertyType = tagName;
@@ -274,19 +288,52 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         if (chain == 0) {
             objectCtrl.data.chain = "";
         }
-        if (FM.Util.isEmptyObject(objectCtrl.data.sportsVenue)) { //运动场馆特殊处理，如果页面没有选择默认赋值为2
-            objectCtrl.data.sportsVenue = {
-                2: true
-            };
-        } else {
-            if (!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])) {
+        if (data && data.extend == '5') {
+            if (!(objectCtrl.data.sportsVenue[0] || objectCtrl.data.sportsVenue[1])) { //运动场馆特殊处理，如果页面没有选择默认赋值为2
+                objectCtrl.data.sportsVenue[0] = false;
+                objectCtrl.data.sportsVenue[1] = false;
                 objectCtrl.data.sportsVenue[2] = true;
+            } else {
+                objectCtrl.data.sportsVenue[2] = false;
+            }
+        } else {
+            objectCtrl.data.sportsVenue[0] = false;
+            objectCtrl.data.sportsVenue[1] = false;
+            objectCtrl.data.sportsVenue[2] = false;
+        }
+        //需求--当分类为加油站，并且open14h为1时，需要将gasstations中的openHour字段赋值为“00:00-24:00”
+        if (objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1) {
+            objectCtrl.data.gasstations[0].openHour = '00:00-24:00';
+        }
+        //21CHI为空时,增加名称的控制
+        var flag = true;
+        for (var i = 0, len = $scope.poi.names.length; i < len; i++) {
+            if ($scope.poi.name.langCode == $scope.poi.names[i].langCode && $scope.poi.name.nameClass == $scope.poi.names[i].nameClass && $scope.poi.name.nameType == $scope.poi.names[i].nameType) {
+                flag = false;
+                break;
             }
         }
-
-        //需求--当分类为加油站，并且open14h为1时，需要将gasstations中的openHour字段赋值为“00:00-24:00”
-        if(objectCtrl.data.kindCode == "230215" && objectCtrl.data.open24h == 1){
-            objectCtrl.data.gasstations[0].openHour = '00:00-24:00';
+        if (flag) {
+            $scope.poi.names.unshift($scope.poi.name);
+        }
+        //增加对CHI地址为空的控制
+        flag = true;
+        var addIndex = -1;
+        for (var i = 0, len = $scope.poi.addresses.length; i < len; i++) {
+            if ($scope.poi.address.langCode == $scope.poi.addresses[i].langCode) {
+                flag = false;
+                addIndex = i;
+                break;
+            }
+        }
+        if (flag) {
+            if($scope.poi.address.fullname){ //当fullname不为空时在增加地址对象
+                $scope.poi.addresses.unshift($scope.poi.address);
+            }
+        } else {
+            if(!$scope.poi.address.fullname){ //当从编辑页面把fullname字段删除后，需要清除address对象
+                $scope.poi.addresses.splice(addIndex,1);
+            }
         }
     }
     /*默认显示baseInfo的tab页*/
@@ -298,7 +345,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
         $scope.changeProperty($scope.propertyType);
     }
-    initShowTag();
     //清除样式
     $scope.$on("clearBaseInfo", function() {
         $scope.nodeForm.$setPristine(); //清除ng-ditry
@@ -340,6 +386,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         var name = objectCtrl.data.name.name;
         if (!(name && name.length <= 35)) {
             swal("保存提示", '名称为必填项，且不能大于35个字符，请检查！', "warning");
+            return false;
+        }
+        if(objectCtrl.data.address.fullname && objectCtrl.data.address.fullname.length == 1){
+            swal("保存提示", '地址的长度不能为1！', "warning");
             return false;
         }
         var kindCode = objectCtrl.data.kindCode;
@@ -407,16 +457,16 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     };
     // 保存数据
     function save() {
-        if (!validateForm()) {
+        //对于已提交的数据支持编辑|| objectCtrl.data.state == 2
+        if (objectCtrl.data.status == 3) {
+            swal("提示", '数据已提交或者删除，不能修改属性！', "info");
             return;
         }
-        if (objectCtrl.data.status == 3 || objectCtrl.data.state == 2){
-            swal("提示", '数据已提交或者删除，不能修改属性！', "info");
+        if (!validateForm()) {
             return;
         }
         clearDeepInfo(); //清除不使用的深度信息,某些字段特殊处理,必须要写在objectCtrl.save()之前
         attrToDBC(); //部分属性转全角
-
         objectCtrl.save();
         var changed = objectCtrl.changedProperty;
         if (!changed) {
@@ -438,16 +488,13 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         if (data) {
                             //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
                             if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
-                                if (map.floatMenu) {
-                                    map.removeLayer(map.floatMenu);
-                                    map.floatMenu = null;
-                                }
                                 $scope.$emit("clearAttrStyleUp"); //清除属性样式
                                 eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
                                     "poi": $scope.poi,
                                     "flag": 'update'
                                 });
                             } else {
+                                $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
                                 $scope.$emit("reQueryByPid", {
                                     "pid": objectCtrl.data.pid,
                                     "type": "IXPOI"
@@ -462,7 +509,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             if (objectCtrl.originalData.level == 'A' || objectCtrl.originalData.vipFlag) {
                 vipPoi = true;
             }
-            if(vipPoi){
+            if (vipPoi) {
                 swal({
                     title: "确定要维护该重要POI吗？",
                     type: "warning",
@@ -479,20 +526,16 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             } else {
                 saveChaged(changed);
             }
-
         }
     }
-    
+
     function saveChaged(changed) {
         dsEdit.update($scope.poi.pid, "IXPOI", changed).then(function(data) {
             if (data) {
+                $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
                 if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
                     if (changed.hasOwnProperty("kindCode") || changed.hasOwnProperty("indoor")) {
                         poiLayer.redraw();
-                    }
-                    if (map.floatMenu) {
-                        map.removeLayer(map.floatMenu);
-                        map.floatMenu = null;
                     }
                     $scope.$emit("clearAttrStyleUp"); //清除属性样式
                     eventCtrl.fire(eventCtrl.eventTypes.CHANGEPOILIST, {
@@ -500,6 +543,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                         "flag": 'update'
                     });
                 } else {
+                    $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
                     $scope.$emit("reQueryByPid", {
                         "pid": objectCtrl.data.pid,
                         "type": "IXPOI"
@@ -525,15 +569,15 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         //$scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
         dsEdit.delete($scope.poi.pid, "IXPOI").then(function(data) {
             poiLayer.redraw();
-            if (map.floatMenu) { //移除半圈工具条
-                map.removeLayer(map.floatMenu);
-                map.floatMenu = null;
-            }
+            $scope.$emit("CLEARPAGEINFO"); //清除地图上的工具条等
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
             var editorLayer = layerCtrl.getLayerById("edit");
             editorLayer.clear();
-            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
+            $scope.$emit("SWITCHCONTAINERSTATE", {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            });
             $scope.$emit('closePopoverTips', false);
             //if(!$scope.$parent.$parent.selectPoiInMap){ //false表示从poi列表选择，true表示从地图上选择
             if (!$scope.rootCommonTemp.selectPoiInMap) { //false表示从poi列表选择，true表示从地图上选择
@@ -544,9 +588,32 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
             }
         });
     }
+    /***
+     * kindcode chain fueltype变化时，联动truck
+     */
+    $scope.getTruckByKindChain = function(kindcode, chain, fuelType) {
+        if (kindcode == "230215") { //加油站
+            fuelType = $scope.poi.getIntegrate().gasstations[0].fuelType;
+        }
+        var param = {
+            kindCode: kindcode,
+            chain: chain,
+            fuelType: fuelType
+        };
+        dsMeta.queryTruck(param).then(function(data) {
+            if (data != -1) {
+                $scope.poi.truckFlag = data;
+                $scope.truckFlagDisable = true;
+            } else {
+                $scope.poi.truckFlag = 0;
+                $scope.truckFlagDisable = false;
+            }
+        });
+    };
     /* start 事件监听 ********************************************************/
     eventCtrl.on(eventCtrl.eventTypes.SAVEPROPERTY, save); // 保存
     eventCtrl.on(eventCtrl.eventTypes.DELETEPROPERTY, del); // 删除
     eventCtrl.on(eventCtrl.eventTypes.CANCELEVENT, $scope.cancel); // 取消
     eventCtrl.on(eventCtrl.eventTypes.SELECTEDFEATURECHANGE, initData); // 数据切换
+    initData();
 }]);

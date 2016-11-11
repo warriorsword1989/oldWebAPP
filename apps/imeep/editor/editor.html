@@ -20,6 +20,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-datepicker/css/datepicker3.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/srs/srs.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/select2/css/select2.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-hotkey/hotkeys.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
         <script src="../../../scripts/libs/leaflet-0.7.3/plugins/Control.MiniMap.js"></script>
@@ -119,7 +120,7 @@
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
-                        <div ng-cloak id="map" ng-style="{backgroundColor:'#F0F4F8',width: '100%',height: '100%'}">
+                        <div ng-cloak id="map" ng-style="{backgroundColor:'#FFFFFF',width: '100%',height: '100%'}">
                             <div id="zoomLevelBar" class="div-float" style="bottom:5px;left:5px;width:100px;"></div>
                         </div>
                         <div ng-show="advancedTool!=null" class="div-float animated-fast fadeInDown" ng-style="{left:advancedTool=='check'?'12%':'25%',right:advancedTool=='check'?'12%':'25%'}" style="top:50px;left:30%;right: 30%;">
@@ -134,7 +135,7 @@
                             </div>
                             <div ng-cloak class="fm-container fm-col"  ng-style="{width: '300px'}">
                                 <div ng-include="attrTplContainer" class="fm-fitsize scroll-styled dark blackTheme" style="bottom: 25px;"></div>
-                                <div style="bottom: 0px;position:absolute;width: 100%;">
+                                <div ng-if="!shapeEditCtrl.editType" style="bottom: 0px;position:absolute;width: 100%;">
                                     <div class="btn-group btn-group-justified fm-btn-group">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-xs" ng-click="doSave()">
@@ -156,7 +157,7 @@
                             </div>
                         </div>
                         <!-- 二级属性片段 -->
-                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px','z-index':2,display: {true: 'block', false:'none'}[suspendPanelOpened]}">
+                        <div class="fm-container fm-col" style="display: none" ng-style="{width:'300px',right:'301px',top: '0px','z-index':1,display: {true: 'block', false:'none'}[suspendPanelOpened]}">
                             <div style="padding: 5px;">
                                 <button ng-click="subAttrTplContainerSwitch(false)" type="button" class="btn btn-xs">
                                 <i class="glyphicon glyphicon-remove-circle"></i> 关 闭
@@ -187,6 +188,12 @@
                                 <div ng-include="rdLaneTopoPanelTpl"></div>
                             </div>
                         </div> -->
+                        <div class="fm-foldable fm-row" style="height:100%;left:2px;width:auto;"
+                             ng-style="{'top':{true: '0px', false: '-1100px'}[clmPanelOpened], right: '0px'}">
+                            <div class="fm-container fm-row" style="height:100%;">
+                                <div ng-include="rdLaneTopoPanelTpl"></div>
+                            </div>
+                        </div>
                         <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[tipsPanelOpened]">
                             <div ng-include="tipsTplContainer" class="tipsPanel"></div>
                         </div>
@@ -202,17 +209,18 @@
                 <img ng-src="{{pImageNow.originUrl}}"/>
             </div>
         </div>
+
         </div>
         </div>
 
         <div ng-show="showLoading.flag" id="loadingAnimate" class="show-animation" ng-include="'svgLoading.html'"></div>
         <div id="dataTipsOriginModal" style="display:none" class="animated-fast zoomIn">
-            <div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
+            <div ng-include="tipsPitureContainer"></div>
         </div>
         <div id="dataTipsVideoModal" style="display:none">
             <div ng-include="tipsVideoContainer" style="height: 100%;width: 100%"></div>
         </div>
-         <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();" style="display: none;" class="animated-fast zoomIn"><img src=""></div>
+         <div id="fullScalePic" ng-show="roadFullScreen" ng-click="hideFullPic();" style="display: none;" class="animated-fast zoomIn"><img ng-src="{{fullPhoto}}"></div>
         <!-- logMsg提示 -->
         <div class="log-message-container" ng-style="logMsgStyle">
           <div class="log-message animated-fast fadeInLeft" ng-repeat="msg in logMessage">

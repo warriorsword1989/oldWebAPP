@@ -11,6 +11,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.reGscData = objCtrl.data;
@@ -57,13 +58,6 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
         {"id": 3, "label": "特殊处理"}
 
     ];
-    /*$scope.getLevels = function(){
-        $scope.zlevel = [];
-        for(var i=0;i<$scope.reGscData.links.length;i++){
-            $scope.zlevel.push({id:$scope.reGscData.links[i].zlevel,label:$scope.reGscData.links[i].zlevel});
-        }
-    };
-    $scope.getLevels();*/
 
     $scope.tableName = [
         {"id": "RD_LINK", "label": "RD_LINK"},
@@ -115,6 +109,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
                 // swal("操作成功", "修改立交成功！", "success");
             }
             $scope.refreshData();
+            $scope.$emit("CLEARPAGEINFO");
         })
     };
 
@@ -136,6 +131,7 @@ rdGscApp.controller("rdGscController",['$scope','dsEdit','dsFcc',function($scope
                 map.removeLayer(map.floatMenu);
                 map.floatMenu = null;
             }
+            $scope.$emit("CLEARPAGEINFO");
         })
     };
     $scope.cancel = function(){

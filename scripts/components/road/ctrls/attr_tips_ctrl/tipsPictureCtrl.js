@@ -38,15 +38,17 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
             $scope.openshotoorigin =  $scope.picData[id];
             $scope.imgPageNow =  id + 1;
             $scope.showLoading = true;
-            var originImg = $("#dataTipsOriginImg");
-            originImg.attr("src", App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            $scope.tipsPhoto = App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}';
+            // var originImg = $("#dataTipsOriginImg");
+            // originImg.attr("src", App.Config.serviceUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
             //加载完显示图片,
             // var imgUrl = originImg.attr('src');
             /*imgLoad(imgUrl,function(){
                 $scope.showLoading = false;
             });*/
-            originImg.smartZoom({'containerClass':'zoomableContainer'});
-            document.getElementById("dataTipsOriginModal").style.display = 'block';
+            // originImg.smartZoom({'containerClass':'zoomableContainer'});
+            // document.getElementById("dataTipsOriginModal").style.display = 'block';
+            $("#dataTipsOriginModal").show();
         }
     }
     var getCoordInDocumentExample = function(canvasObj){
@@ -97,14 +99,17 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
         }else if($scope.imgSwitchCondition == 1){
             switchPic(1);
         }
-    }
+    };
     /*tips图片全屏*/
     $scope.showFullPic = function () {
         $("#fullScalePic").show();
-        $("#fullScalePic img").attr('src', $("#dataTipsOriginImg").attr('src'));
-        $scope.$emit('showRoadFullScreen',true);
-    }
-
+        // $("#fullScalePic img").attr('src', $scope.tipsPhoto);
+        $scope.$emit('showRoadFullScreen',$scope.tipsPhoto);
+    };
+    //新窗口打开图片
+    $scope.showNewWindow = function(url){
+        window.open(url);
+    };
     /*图片切换*/
     function switchPic(type) {
         if (type == 0) {
