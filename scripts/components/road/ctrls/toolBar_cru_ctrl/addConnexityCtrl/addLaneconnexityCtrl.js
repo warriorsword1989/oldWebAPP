@@ -104,7 +104,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         // 进入线、退出线不能是9级以上路
         if (parseInt(data.properties.kind) >= 9) {
             map.currentTool.selectedFeatures.pop();
-            tooltipsCtrl.setCurrentTooltip("进入线/退出线不能是9级以上道路，请重新选择!", 'error');
+            tooltipsCtrl.notify("进入线/退出线不能是9级以上道路，请重新选择!", 'error');
             return;
         }
         if (data.index === 0) {
@@ -129,7 +129,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             // 退出线不能与进入线相同
             if (pid == $scope.CurrentObject.inLinkPid) {
                 map.currentTool.selectedFeatures.pop();
-                tooltipsCtrl.setCurrentTooltip("退出线不能与进入线是同一条线，请重新选择!", 'error');
+                tooltipsCtrl.notify("退出线不能与进入线是同一条线，请重新选择!", 'error');
                 return;
             }
             if ($scope.CurrentObject.outLinkPids.indexOf(pid) >= 0) {
@@ -141,9 +141,9 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
             } else {
                 if ($scope.CurrentObject.lanes.length > 0) {
-                    tooltipsCtrl.setCurrentTooltip("已选退出线, 可以继续选择退出线或者按空格键保存!", 'succ');
+                    tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者按空格键进行保存!", 'succ');
                 } else {
-                    tooltipsCtrl.setCurrentTooltip("已选退出线, 请在右侧面板中选择车道方向或者继续选择退出线!", 'info');
+                    tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者在右侧面板中选择车道方向!", 'info');
                 }
             }
         }

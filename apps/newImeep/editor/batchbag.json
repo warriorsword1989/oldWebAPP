@@ -1,0 +1,62 @@
+[
+  {
+    "id":"1",
+    "type":"CLM批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"2",
+    "type":"限速类批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"3",
+    "type":"Rtic批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"4",
+    "type":"建关联批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"5",
+    "type":"CLM批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"6",
+    "type":"限速类批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"7",
+    "type":"Rtic批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"8",
+    "type":"建关联批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"9",
+    "type":"CLM批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  },
+  {
+    "id":"10",
+    "type":"限速类批处理",
+    "handleArea":"子任务范围内",
+    "checked": false
+  }
+]
