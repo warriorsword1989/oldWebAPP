@@ -31,8 +31,13 @@ fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
                 var condition =fastmap.dataApi.rdRestrictionCondition(data["conditions"][i]);
                 this.conditions.push(condition);
             }
-
-
+        }
+        this.vias = [];
+        if(data["vias"] && data["vias"].length > 0){
+            for(var i = 0, len = data["vias"].length; i < len; i++){
+                var vias  = fastmap.dataApi.rdRestrictionVias(data["vias"][i]);
+                this.vias.push(vias);
+            }
         }
     },
 
@@ -70,13 +75,19 @@ fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         data["restricInfo"] = this.restricInfo;
         data["type"] = this.type;
         data["relationshipType"] = this.relationshipType;
-
+        data["geoLiveType"] = this.geoLiveType;
         var conditions = [];
         for (var i = 0, len = this.conditions.length; i < len; i++) {
             conditions.push(this.conditions[i].getIntegrate());
         }
         data["conditions"] = conditions;
-        data["geoLiveType"] = this.geoLiveType;
+
+        var vias = [];
+        for(var i = 0, len = this.vias.length; i < len; i++){
+            vias.push(this.vias[i].getIntegrate())
+        }
+        data["vias"] = vias;
+
         return data;
     }
 });

@@ -36,6 +36,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var relationData = layerCtrl.getLayerById('relationData');
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
+        var resetPageFlag = true;
         if (event.keyCode == 27) {
             resetPage();
             map._container.style.cursor = '';
@@ -329,8 +330,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     });
                 }
             } else if (shapeCtrl.editType === "addRestriction") {
+                resetPageFlag = false;
                 var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                     laneInfo = objEditCtrl.originalData["limitRelation"];
+                    laneInfo["infos"] = '';
                 var laneStr = "";
                 if (laneData.length === 0) {
                     laneStr = laneData[0];
@@ -349,14 +352,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     swal("提示", '请选择进入点！', "warning");
                     return;
                 }
-                if(laneInfo.outLinkPids.length != laneData.length){
+                if(laneInfo.outLinkPids&&laneInfo.outLinkPids.length&&laneInfo.outLinkPids.length != laneData.length){
                     swal("提示", '退出线和交限不匹配！', "warning");
                     return;
                 }
-                // if (laneInfo.outLinkPids == undefined || (laneInfo.outLinkPids && laneInfo.outLinkPids.length == 0)) {
-                //     swal("提示", '请选择退出线！', "warning");
-                //     return;
-                // }
                 laneInfo["infos"] = laneStr;
                 param = {
                     "command": "CREATE",
@@ -1719,7 +1718,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
                 return;
             }
-            resetPage();
+            if(resetPageFlag)resetPage();
         }
     });
 }

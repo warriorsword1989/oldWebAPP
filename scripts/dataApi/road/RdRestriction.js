@@ -22,6 +22,7 @@ fastmap.dataApi.RdRestriction = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData: function (data) {
         this.pid = data["pid"] || null;
         this.inLinkPid = data["inLinkPid"] || null;
+        this.nodePid = data["nodePid"] || null;
         this.restricInfo = data["restricInfo"] || null;
         this.kgFlag = data["kgFlag"] || 0;
 
@@ -63,15 +64,13 @@ fastmap.dataApi.RdRestriction = fastmap.dataApi.GeoDataModel.extend({
         data["restricInfo"] = this.restricInfo;
         data["geoLiveType"] = this.geoLiveType;
         data["kgFlag"] = this.kgFlag;
-
+        data["nodePid"] = this.nodePid;
         var details = [];
         for (var i = 0, len = this.details.length; i < len; i++) {
             details.push(this.details[i].getIntegrate());
 
         }
         data["details"]=details
-
-
         return data;
     }
 });
