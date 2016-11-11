@@ -166,7 +166,13 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
             var pid = parseInt(data.id);
-            if (parseInt(data.properties.kind) == 9 || pid == CurrentObject.inLinkPid) { // 不能选择9级路，不能选择进入线
+            // 退出线不能与进入线相同
+            if (pid == CurrentObject.inLinkPid) {
+                tooltipsCtrl.setCurrentTooltip("退出线不能与进入线是同一条线，请重新选择!", 'error');
+                return;
+            }
+            if (parseInt(data.properties.kind) >= 9) { // 不能选择9级路
+                tooltipsCtrl.setCurrentTooltip("退出线不能是9级以上道路，请重新选择!", 'error');
                 return;
             }
             var flag = false,
