@@ -177,6 +177,10 @@ fastmap.dataApi.GeoLiveModelType={
      */
     "RDSLOPE":"RDSLOPE",
     /*
+     限高限重
+     */
+    "RDHGWGLIMIT":"RDHGWGLIMIT",
+    /*
      坡度连续link
      */
     "RDSLOPELINKS":"RDSLOPELINKS"

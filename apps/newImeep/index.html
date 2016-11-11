@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一体化编辑</title>
+    <!--<link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="../../scripts/libs/sweet-alert/css/sweet-alert.css" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="../../styles/imeep/newlogin.css" rel="stylesheet" type="text/css" />-->
+    <!--<script src="../../scripts/libs/sweet-alert/js/sweet-alert.js"></script>-->
+    <script src="../../scripts/libs/wheelzoom/wheelzoom.js"></script>
+    <script src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+    <script src="../../scripts/libs/angularjs/1.4.4/angular.js"></script>
+    <script src="../../scripts/libs/angularjs/1.4.4/angular-route.js"></script>
+    <script src="../../scripts/libs/angularjs/1.4.4/angular-cookies.js"></script>
+    <script src="../../scripts/libs/angularjs/1.4.4/angular-animate.js"></script>
+    <script src="../../scripts/libs/angular-strap-master/dist/angular-strap.min.js"></script>
+    <script src="../../scripts/libs/angular-strap-master/dist/angular-strap.tpl.min.js"></script>
+    <script src="../../scripts/libs/ui-layout/ui-layout.js"></script>
+    <script src="../../scripts/libs/angular-drag/angular-drag.js"></script>
+    <script src="../../node_modules/ng-dialog/js/ngDialog.js"></script>
+    <script src="../../scripts/libs/highcharts-ng/dist/highcharts-ng.js"></script>
+    <script src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="../../scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2.js"></script>
+    <!--<script src="../../scripts/libs/"></script>-->
+
+
+    <script src="../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script>
+    <script src="Application.js"></script>
+    <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
+    <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
+    <script src="./editor/loadMapApi.js"></script>
+    <script src="./editor/loadUikit.js"></script>
+    <script src="../../scripts/dataApi/dataApi-canvasFeature.js"></script>
+    <script src="./editor/layerConfig.js"></script>
+
+    <!--<script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>-->
+    <!--<script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>-->
+
+
+
+    <script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>
+
+    <!--<script src="app.module.js"></script>-->
+    <script src="app.config.js"></script>
+    <!--<script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>-->
+    <script src="./service/dataService.js"></script>
+    <script src="./service/dataService-manage.js"></script>
+    <script src="loginCtrl.js"></script>
+    <script src="task/taskPageCtrl.js"></script>
+    <script src="editor/editorCtrl.js"></script>
+    <script src="task/taskMainMapCtrl.js"></script>
+    <script src="task/taskGeneralPageCtrl.js"></script>
+    <script src="editor/templates/poiHeaderCtrl.js"></script>
+    <script src="editor/templates/poiListCtrl.js"></script>
+    <script src="editor/templates/mapController.js"></script>
+    <script src="editor/templates/poiLeftPanelCtrl.js"></script>
+    <script src="editor/templates/poiRightPanelCtrl.js"></script>
+    <!--<script src="task/taskSelectionCtl.js"></script>-->
+
+
+
+
+</head>
+<body ng-app="webeditor" >
+
+    <div class="view-container">
+        <div ng-view class="view-frame"></div>
+    </div>
+
+</body>
+</html>
+
+

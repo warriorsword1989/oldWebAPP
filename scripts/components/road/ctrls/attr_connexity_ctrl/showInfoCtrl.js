@@ -217,7 +217,14 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         var directNum = transData[item];
         eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
-            if (parseInt(data.properties.kind) == 9) { // 不能选择9级路
+            var pid = parseInt(data.id);
+            // 退出线不能与进入线相同
+            if (pid == $scope.CurrentObject.inLinkPid) {
+                tooltipsCtrl.notify("退出线不能与进入线是同一条线，请重新选择!", 'error');
+                return;
+            }
+            if (parseInt(data.properties.kind) >= 9) { // 不能选择9级路
+                tooltipsCtrl.notify("退出线不能是9级以上道路，请重新选择!", 'error');
                 return;
             }
             var flag = false,
@@ -225,7 +232,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
             //如果在当前车道相同方向的退出线内,进行车道信息删除
             for (i = $scope.outLinkArray.length - 1; i >= 0; i--) {
                 topo = $scope.outLinkArray[i];
-                if (topo.outLinkPid == data.id) {
+                if (topo.outLinkPid == pid) {
                     topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, $scope.currLaneIndex, 0);
                     topo.busLaneInfo = changeLineInfo(topo.busLaneInfo, $scope.currLaneIndex, 0);
                     $scope.outLinkArray.splice(i, 1);
@@ -236,7 +243,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
             if (!flag) {
                 for (i = 0, len = $scope.CurrentObject["topos"].length; i < len; i++) {
                     topo = $scope.CurrentObject["topos"][i];
-                    if (topo.outLinkPid == data.id && topo.reachDir == directNum) {
+                    if (topo.outLinkPid == pid && topo.reachDir == directNum) {
                         topo.inLaneInfo = changeLineInfo(topo.inLaneInfo, $scope.currLaneIndex, 1);
                         $scope.outLinkArray.push(topo);
                         flag = true;
@@ -249,7 +256,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                     "busLaneInfo": 0,
                     "connexityPid": $scope.CurrentObject["pid"],
                     "inLaneInfo": changeLineInfo(0, $scope.currLaneIndex, 1),
-                    "outLinkPid": parseInt(data.id),
+                    "outLinkPid": pid,
                     "reachDir": directNum,
                     "relationshipType": 1,
                     "vias": []
@@ -260,7 +267,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
                 param["data"] = {
                     "inLinkPid": $scope.CurrentObject.inLinkPid,
                     "nodePid": $scope.CurrentObject.nodePid,
-                    "outLinkPid": parseInt(data.id),
+                    "outLinkPid": pid,
                     "type": "RDLANECONNEXITY" // 车信专用
                 };
                 dsEdit.getByCondition(param).then(function(data) { //找出经过线
@@ -285,6 +292,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
             } else {
                 doHighlight();
             }
+            tooltipsCtrl.setCurrentTooltip("已选择" + $scope.outLinkArray.length + "条退出线，继续修改或者按右下方保存按钮进行保存!", 'succ');
         });
     };
     // todo 重构经过线的维护
@@ -307,6 +315,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         eventController.on(eventController.eventTypes.GETLINKID, function(data) {
             var pid = parseInt(data.id);
             if (pid == $scope.CurrentObject["inLinkPid"] || pid == item.outLinkPid) {
+                tooltipsCtrl.setCurrentTooltip("经过线不能与进入线/退出线是同一条先，请重新选择!", 'error');
                 return;
             }
             var flag = false;

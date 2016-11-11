@@ -18,6 +18,7 @@ fastmap.dataApi.RwNode = fastmap.dataApi.GeoDataModel.extend({
         this.kind = data["kind"];
         this.form = data["form"];
         this.geometry = data["geometry"];
+        this.meshes = data["meshes"];
         var str = [];
         for (var i = 0; i<data.meshes.length;i++) {
             str.push(data.meshes[i].meshId);

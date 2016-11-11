@@ -9,6 +9,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById("rdLink");
     var rdNode = layerCtrl.getLayerById("rdNode");
+    var rdcross = layerCtrl.getLayerById('rdCross');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -316,6 +317,7 @@ otherApp.controller("rdNodeFormController",["$scope",'appPath',"dsEdit",function
             if (data) {
                 rdLink.redraw();
                 rdNode.redraw();
+                rdcross.redraw();
                 $scope.rdNodeData = null;
                 // var editorLayer = layerCtrl.getLayerById("edit");
                 // editorLayer.clear();

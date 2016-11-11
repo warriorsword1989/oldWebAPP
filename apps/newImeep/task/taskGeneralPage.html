@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="../../../node_modules/ng-dialog/css/ngDialog.css">
+<link rel="stylesheet" href="../../../node_modules/ng-dialog/css/ngDialog-theme-default.css">
+<link rel="stylesheet" href="../../../node_modules/ng-dialog/css/ngDialog-theme-plain.css">
+<link rel="stylesheet" href="../../../node_modules/ng-dialog/css/ngDialog-custom-width.css">
+<link href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    .ngdialog.ngdialog-theme-default {
+        padding: 40px;
+    }
+    p {
+        margin: 0 0 5px;
+    }
+    hr {
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        border: 0;
+        border-top: 1px solid black;
+    }
+    div.itemInfo-left{
+        width: 30%;
+    }
+    div.itemInfo-right{
+        width: 70%;
+    }
+</style>
+<div style="width: 100%; padding-top: 20px">
+    <div class="col-md-3 col-sm-3">
+        <div class="row">
+            <h4>任务类型</h4>
+        </div>
+        <div>
+            <p>全部任务 <span style="float: right">0/10</span></p>
+            <p>POI采集<span style="float: right">0/2</span></p>
+            <p>道路采集<span style="float: right">0/1</span></p>
+            <p>一体化采集<span style="float: right">0/1</span></p>
+            <p>POI日编<span style="float: right">0/2</span></p>
+            <p>一体化Grid粗编<span style="float: right">0/2</span></p>
+            <p>代理店<span style="float: right">0/1</span></p>
+        </div>
+        <div class="row">
+            <h4>作业进展</h4>
+        </div>
+        <div>
+            <p>任务数据：<span style="float: right">1919条</span></p>
+            <p>外业已处理：<span style="float: right">224条</span></p>
+            <p>外业未处理：<span style="float: right">19695条</span></p>
+            <p>室内已提交：<span style="float: right">208条</span></p>
+            <p>室内待提交：<span style="float: right">15条</span></p>
+            <p>室内待作业：<span style="float: right">1条</span></p>
+            <p>外业进度：<span style="float: right">11条</span></p>
+            <p>室内进度：<span style="float: right">92条</span></p>
+            <p>任务总体进度：<span style="float: right">0条</span></p>
+        </div>
+    </div>
+    <div class="col-md-9 col-sm-9">
+        <div style="width: 250px;height: 120px;border: 1px solid;display: inline-block;margin-right: 20px;margin-bottom: 10px" ng-repeat="item in testTaskData" ng-click="openEditor()">
+            <span style="padding-left: 10px">
+                {{item.taskType}}
+            </span>
+            <hr>
+            <div style="padding-left: 5px">
+                <div>
+                    <span style="font-weight: 600">
+                        {{item.taskName}}
+                    </span>
+                    <span class="glyphicon glyphicon-expand" style="float: right;padding-right: 20px"></span>
+                </div>
+                <div>
+                    <span>
+                        {{item.createDate}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        POI：
+                    </span>
+                    <span>
+                        {{item.poiNum}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        TIPS：
+                    </span>
+                    <span>
+                        {{item.tipsNum}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

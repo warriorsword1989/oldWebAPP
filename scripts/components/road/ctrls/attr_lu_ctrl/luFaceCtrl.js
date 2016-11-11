@@ -80,12 +80,19 @@ angular.module("app").controller("luFaceCtrl",["$scope","dsEdit" ,'appPath','$fi
         //保存调用方法
         dsEdit.update($scope.luFaceData.pid, "LUFACE", objCtrl.changedProperty).then(function(data) {
             if (data) {
-                if($scope.lcLinkForm) {
-                    $scope.lcLinkForm.$setPristine();
-                }
-                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+            	luFace.redraw();
+            	dsEdit.getByPid($scope.lcFaceData.pid, "LUFACE").then(function(ret) {
+					if (ret) {
+						objCtrl.setCurrentObject('LUFACE', ret);
+						objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+					}
+				});
+//                if($scope.lcLinkForm) {
+//                    $scope.lcLinkForm.$setPristine();
+//                }
             }
-        })
+        });
+        $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
     };
     /**
      *

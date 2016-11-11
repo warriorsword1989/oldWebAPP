@@ -1,4 +1,4 @@
-angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize']).constant("appPath", {
+angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap', 'ngSanitize', 'cfp.hotkeys']).constant("appPath", {
 	root: App.Util.getAppPath() + "/",
 	meta: "scripts/components/meta/",
 	road: "scripts/components/road/",
@@ -47,6 +47,8 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		//$scope.specialWork = false;
 		$rootScope.specialWork = false;
 		$rootScope.isSpecialOperation = false;
+		// add by chenx on 2016-11-10: 利用shapeEditCtrl.editType来控制属性面板的保存、删除、取消 按钮的显示和隐藏
+		$scope.shapeEditCtrl = fastmap.uikit.ShapeEditorController();
 		/*切换项目平台*/
 		$scope.changeProject = function(type) {
 			$scope.showLoading.flag = true;
@@ -539,6 +541,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 		 */
 		$scope.doSave = function() {
 			$(".datetip").hide();
+			$(".carTypeTip").hide();
 			eventCtrl.fire(eventCtrl.eventTypes.SAVEPROPERTY);
 		};
 		/**
@@ -555,6 +558,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			}, function(f) {
 				if (f) {
 					$(".datetip").hide();
+					$(".carTypeTip").hide();
 					eventCtrl.fire(eventCtrl.eventTypes.DELETEPROPERTY);
 				}
 			});
@@ -681,6 +685,7 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 				map.removeLayer(map.markerLayer);
 				map.markerLayer = null;
 			}
+			map.closePopup();
 
 			$scope.$broadcast('closeTipsImg',false);
 		});
