@@ -105,6 +105,9 @@ fastmap.uikit.FeatureConfig = {
     "RDLINKSPEEDLIMIT": {
       name: "线限速"
     },
+    "RDHGWGLIMIT": {
+      name: "限高限重"
+    },
     "RDLANE": {
       name: "详细车道"
     }

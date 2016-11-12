@@ -732,6 +732,10 @@ fastmap.uikit.HighRenderController = (function() {
                 if (poiGuideLayer != undefined && action != 'mouseover') {
                     poiGuideLayer.clearLayers();
                 }
+            },
+            cleanHighLight : function (){
+                this.highLightFeatures = [];
+                this._cleanHighLight();
             }
         });
         return new highRenderController(options);
