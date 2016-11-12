@@ -89,6 +89,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     shapeCtrl.setEditingType("addRdLaneConnexity");
     tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDLANECONNEXITY);
     tooltipsCtrl.setCurrentTooltip('开始新建车信, 请选择进入线！');
+    var tooltipWatcher;
     map.currentTool = new fastmap.uikit.SelectForRestriction({
         map: map,
         createLaneFlag: true,
@@ -140,13 +141,39 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             if ($scope.CurrentObject.outLinkPids.length == 0) {
                 tooltipsCtrl.setCurrentTooltip("已经选择进入点, 请选择退出线!");
             } else {
-                if ($scope.CurrentObject.lanes.length > 0) {
-                    tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者按空格键进行保存!", 'succ');
-                } else {
-                    tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者在右侧面板中选择车道方向!", 'info');
-                }
+                // if ($scope.CurrentObject.lanes.length > 0) {
+                //     tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者按空格键进行保存!", 'succ');
+                // } else {
+                //     tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者在右侧面板中选择车道方向!", 'info');
+                // }
+                tooltipWatcher = $scope.$watch('CurrentObject.lanes.length', function(newVal, oldVal) {
+                    if (newVal == 0) {
+                        tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者在右侧面板中选择车道方向!", 'info');
+                    } else {
+                        tooltipsCtrl.setCurrentTooltip("已选择" + $scope.CurrentObject.outLinkPids.length + "条退出线, 可以继续选择或者按空格键进行保存!", 'succ');
+                    }
+                });
             }
         }
         doHighlight();
+    });
+    var clearMapTool = function() {
+        eventController.off(eventController.eventTypes.GETLINKID);
+        if (map.currentTool) {
+            map.currentTool.disable();
+        }
+        if (tooltipsCtrl.enabled()) {
+            tooltipsCtrl.disable();
+        }
+        if (tooltipWatcher) {
+            tooltipWatcher();
+        }
+    };
+    // 二级面板关闭时，自动清理地图操作工具（只绑定一次watch）
+    var unwatch = $scope.$watch('suspendPanelOpened', function(newVal, oldVal) {
+        if (newVal == false) {
+            clearMapTool();
+            unwatch();
+        }
     });
 }])

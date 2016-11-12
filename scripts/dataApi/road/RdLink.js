@@ -293,9 +293,11 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
             }
         }
 
-        //根据车道种别位9，轮渡，人渡时维护车道数和车道等级为1;
-        if (newValue == 9 || newValue == 11 || newValue == 13){
+        //根据车道种别为9、10、轮渡、人渡时维护车道数和车道等级为1;
+        if (newValue == 9 || newValue == 10 || newValue == 11 || newValue == 13){
             this.laneNum = 1;
+            this.laneLeft = 0;
+            this.laneRight = 0;
             this.laneClass = 1;
         }
         //根据道路种别维护路径采纳字段 ，参考的是bug4修改
