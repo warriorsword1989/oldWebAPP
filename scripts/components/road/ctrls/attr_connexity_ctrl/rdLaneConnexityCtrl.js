@@ -428,10 +428,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
                     }
                 });
             }
-            map.currentTool.disable();
-            if (tooltipsCtrl.getCurrentTooltip()) {
-                tooltipsCtrl.onRemoveTooltip();
-            }
+            clearMapTool();
             rdConnexity.redraw();
         })
     };
@@ -452,9 +449,7 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
-                if (map.currentTool) {
-                    map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
-                }
+                clearMapTool();
                 rdConnexity.redraw();
                 //清空编辑图层和shapeCtrl
                 shapeCtrl.stopEditing();
@@ -472,10 +467,16 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         $scope.$emit('SWITCHCONTAINERSTATE', {
             'subAttrContainerTpl': false
         });
-        if (map.currentTool) {
-            map.currentTool.disable();
-        }
+        clearMapTool();
         doHighlight();
+    };
+    var clearMapTool = function() {
+        if (map.currentTool) {
+            map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
+        }
+        if (tooltipsCtrl.enabled()) {
+            tooltipsCtrl.disable();
+        }
     };
     // $document.unbind("keydown");
     // $document.bind("keydown", function(event) {

@@ -69,6 +69,7 @@ App.Temp = {
         TIPS:"TIPS",
         TMCPOINT:"TMC点",
         RDTMCLOCATION:"TMC匹配信息"
+        RDHGWGLIMIT:"限高限重",
     },
     thematicMapFlag: false,
     taskType:null

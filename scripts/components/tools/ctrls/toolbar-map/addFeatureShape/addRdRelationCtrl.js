@@ -580,7 +580,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                             editLayer.clear();
-                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">距离端点太近啦，请重新选择位置！</span>');
+                            tooltipsCtrl.notify('距离端点太近啦，请重新选择位置！','error');
                             return;
                         }
                         if (data) {
@@ -632,6 +632,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.setEditingType("speedLimit");
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
+                                eventController.off(eventController.eventTypes.DIRECTEVENT);
                                 eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
@@ -1390,6 +1391,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.ELECTRONICEYE);
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("点击方向图标开始修改方向！");
+                                eventController.off(eventController.eventTypes.DIRECTEVENT);
                                 eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
                                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
@@ -2703,102 +2705,117 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     featCodeCtrl.setFeatCode($scope.laneInfo);
                 });
             } else if(type === 'RDHGWGLIMIT'){ //限高限重
-                // $scope.resetOperator("addRelation", type);
-                // var minLen = 100000,
-                //     pointsOfDis, pointForAngle, angle;
-                // if (shapeCtrl.shapeEditorResult) {
-                //     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
-                //     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                //     layerCtrl.pushLayerFront('edit');
-                // }
-                // shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
-                // shapeCtrl.startEditing();
-                // map.currentTool = shapeCtrl.getCurrentTool();
-                // map.currentTool.enable();
-                // map.currentTool.snapHandler.addGuideLayer(rdLink);
-                // tooltipsCtrl.setEditEventType('pointVertexAdd');
-                // tooltipsCtrl.setCurrentTooltip('请选择限高限重位置点！');
-                // tooltipsCtrl.setStyleTooltip("color:black;");
-                // eventController.off(eventController.eventTypes.RESETCOMPLETE);
-                // eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
-                //     var pro = e.property;
-                //     highLightFeatures = [];
-                //     highRenderCtrl._cleanHighLight();
-                //     highLightFeatures.push({
-                //         id: pro.id.toString(),
-                //         layerid: 'rdLink',
-                //         type: 'line',
-                //         style: '#00F5FF'
-                //     });
-                //     highRenderCtrl.highLightFeatures = highLightFeatures;
-                //     highRenderCtrl.drawHighlight();
-                //     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
-                //         if (data) {
-                //             selectCtrl.onSelected({
-                //                 geometry: data.geometry.coordinates,
-                //                 id: data.pid,
-                //                 direct: pro.direct,
-                //                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
-                //             });
-                //             if (pro.direct == 1) {
-                //                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
-                //                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
-                //                 var linkCoords = data.geometry.coordinates;
-                //                 //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
-                //                 //并用斜率判断默认值
-                //                 var index = 0,
-                //                     tp = map.latLngToContainerPoint([point.y, point.x]),
-                //                     dist, sVertex, eVertex, d1, d2, d3;
-                //                 for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
-                //                     sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
-                //                     eVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i + 1][1], linkCoords[i + 1][0]));
-                //                     dist = L.LineUtil.pointToSegmentDistance(tp, sVertex, eVertex);
-                //                     if (dist < 5) {
-                //                         d1 = (tp.x - sVertex.x) * (tp.x - sVertex.x) + (tp.y - sVertex.y) * (tp.y - sVertex.y);
-                //                         d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
-                //                         d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
-                //                         if (d1 <= d3 && d2 <= d3) {
-                //                             index = i;
-                //                             break;
-                //                         }
-                //                     }
-                //                 }
-                //                 angle = $scope.angleOfLink(sVertex, eVertex);
-                //                 if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
-                //                     angle = Math.PI + angle;
-                //                 }
-                //                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
-                //                 var marker = {
-                //                     flag: false,
-                //                     point: point,
-                //                     type: "marker",
-                //                     angle: angle,
-                //                     orientation: "2",
-                //                     pointForDirect: point
-                //                 };
-                //                 layerCtrl.pushLayerFront('edit');
-                //                 var sObj = shapeCtrl.shapeEditorResult;
-                //                 editLayer.drawGeometry = marker;
-                //                 editLayer.draw(marker, editLayer);
-                //                 sObj.setOriginalGeometry(marker);
-                //                 sObj.setFinalGeometry(marker);
-                //                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
-                //                 shapeCtrl.startEditing();
-                //                 tooltipsCtrl.setCurrentTooltip("点击方向图标开始修改方向！");
-                //                 eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
-                //                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
-                //                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-                //                 });
-                //             } else {
-                //                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                //                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限高限重!');
-                //                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
-                //             }
-                //         } else {
-                //             tooltipsCtrl.setCurrentTooltip('请重新选择位置创建限高限重!');
-                //         }
-                //     })
-                // });
+                $scope.resetOperator("addRelation", type);
+                var angle,hgwgLimitObj = {};
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setCurrentTooltip('请选择限高限重位置点！');
+                eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
+                    var pro = e.property;
+                    hgwgLimitObj.linkPid = pro.id;
+                    hgwgLimitObj.latitude = e.latlng.lat;
+                    hgwgLimitObj.longitude = e.latlng.lng;
+                    highLightFeatures = [];
+                    highRenderCtrl.cleanHighLight();
+                    highLightFeatures.push({
+                        id: pro.id.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: '#00F5FF'
+                    });
+                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                    highRenderCtrl.drawHighlight();
+                    dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                        if (data) {
+                            //当前点位和线的断点距离小于0.5米就认为是同一点
+                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 0.5 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 0.5){
+                                selectCtrl.selectedFeatures = null;
+                                editLayer.drawGeometry = null;
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                                editLayer.clear();
+                                tooltipsCtrl.notify('卡车地图不能制作到关联link端点！','error');
+                                return;
+                            }
+
+                            selectCtrl.onSelected({
+                                linkPid: pro.id,
+                                latitude: e.latlng.lat,
+                                longitude: e.latlng.lng,
+                                direct:pro.direct
+                            });
+                            if (pro.direct == 1) {
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
+                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                var linkCoords = data.geometry.coordinates;
+                                //计算鼠标点位置与线的节点的关系，判断与鼠标点最近的节点
+                                //并用斜率判断默认值
+                                var index = 0,
+                                    tp = map.latLngToContainerPoint([point.y, point.x]),
+                                    dist, sVertex, eVertex, d1, d2, d3;
+                                for (var i = 0, len = linkCoords.length - 1; i < len; i++) {
+                                    sVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i][1], linkCoords[i][0]));
+                                    eVertex = map.latLngToContainerPoint(L.latLng(linkCoords[i + 1][1], linkCoords[i + 1][0]));
+                                    dist = L.LineUtil.pointToSegmentDistance(tp, sVertex, eVertex);
+                                    if (dist < 5) {
+                                        d1 = (tp.x - sVertex.x) * (tp.x - sVertex.x) + (tp.y - sVertex.y) * (tp.y - sVertex.y);
+                                        d2 = (tp.x - eVertex.x) * (tp.x - eVertex.x) + (tp.y - eVertex.y) * (tp.y - eVertex.y);
+                                        d3 = (sVertex.x - eVertex.x) * (sVertex.x - eVertex.x) + (sVertex.y - eVertex.y) * (sVertex.y - eVertex.y);
+                                        if (d1 <= d3 && d2 <= d3) {
+                                            index = i;
+                                            break;
+                                        }
+                                    }
+                                }
+                                angle = $scope.angleOfLink(sVertex, eVertex);
+                                if (sVertex.x > eVertex.x || (sVertex.x == eVertex.x && sVertex.y > eVertex.y)) { // 从右往左划线或者从下网上划线
+                                    angle = Math.PI + angle;
+                                }
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDHGWGLIMIT);
+                                var marker = {
+                                    flag: false,
+                                    point: point,
+                                    type: "marker",
+                                    angle: angle,
+                                    orientation: "2",
+                                    pointForDirect: point
+                                };
+                                layerCtrl.pushLayerFront('edit');
+                                var sObj = shapeCtrl.shapeEditorResult;
+                                editLayer.drawGeometry = marker;
+                                editLayer.draw(marker, editLayer);
+                                sObj.setOriginalGeometry(marker);
+                                sObj.setFinalGeometry(marker);
+                                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
+                                shapeCtrl.startEditing();
+                                tooltipsCtrl.setCurrentTooltip("点击方向图标开始修改方向！");
+
+                                selectCtrl.selectedFeatures.direct = 2; //默认顺方向
+                                eventController.off(eventController.eventTypes.DIRECTEVENT);
+                                eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
+                                    selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
+                                    tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                                });
+                            } else {
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限高限重!');
+                                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
+                            }
+                        } else {
+                            tooltipsCtrl.setCurrentTooltip('请重新选择位置创建限高限重!');
+                        }
+                    })
+                });
 
             } else if (type === 'RDLANETOPO') { //车道连通
                 $scope.resetOperator("addRelation", type);

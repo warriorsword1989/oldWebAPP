@@ -190,6 +190,9 @@ fastmap.uikit.ObjectEditController = (function() {
                     case "ROADNAME"://道路名称
                     	this.data = fastmap.dataApi.roadName(obj);
                     	break;
+                    case "RDHGWGLIMIT"://限高限重
+                        this.data = fastmap.dataApi.rdHgwgLimit(obj);
+                        break;
                     case "RDLANE"://详细车道
                       this.data = fastmap.dataApi.rdLanes(obj);
                       break;

@@ -158,6 +158,7 @@ fastmap.uikit.SelectFeature = L.Handler.extend({
                 case 'RDINTER':
                 case 'RDOBJECT':
                 case 'RDSAMENODE':
+                case 'RDHGWGLIMIT':
                 case 'RDLINKSPEEDLIMIT':
                   lineGeo = tileData[marker].geometry.coordinates;
                   if (this._TouchesPoint(lineGeo, x, y, 15)) {
