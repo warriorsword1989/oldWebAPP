@@ -1,0 +1,67 @@
+<div ng-controller="hgwgLimitCtl">
+    <div class="fm-component" >
+        <div class="title">
+            限高限重PID
+            <span class="label label-info">{{hgwgLimitObj.pid}}</span>
+        </div>
+        <div class="fm-panel">
+        <div class="content">
+            <form name="hgwgLimitForm">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>LINK号码</label>
+                        <div >
+                            <input type="text" disabled class="fm-control chosen-disabled" ng-model="hgwgLimitObj.linkPid" />
+                        </div>
+                    </li>
+                    <li>
+                        <label>限高</label>
+                        <div >
+                            <input type="number" style="width: 75%" ng-blur="formateNumbers('resHigh',999.99,2)" class="fm-control" min="1" ng-model="hgwgLimitObj.resHigh"/>&nbsp;&nbsp;米
+                        </div>
+                    </li>
+                    <li>
+                        <label>限宽</label>
+                        <div>
+                            <input type="number" style="width: 75%" min="1"   ng-blur="formateNumbers('resWidth',999.99,2)" ng-model="hgwgLimitObj.resWidth" >&nbsp;&nbsp;米
+                        </div>
+                    </li>
+                    <li>
+                        <label>限重</label>
+                        <div >
+                            <input type="number" style="width: 75%" class="fm-control" min="1"  ng-blur="formateNumbers('resWeigh',999.99,2)" ng-model="hgwgLimitObj.resWeigh"/>&nbsp;&nbsp;吨
+                        </div>
+                    </li>
+                    <li>
+                        <label>轴重限制</label>
+                        <div>
+                            <input type="number" style="width: 75%" class="fm-control" min="1"  ng-blur="formateNumbers('resAxleLoad',999.99,2)" ng-model="hgwgLimitObj.resAxleLoad" >&nbsp;&nbsp;吨
+                        </div>
+                    </li>
+                    <li>
+                        <label>作用方向</label>
+                        <div>
+                            <select disabled class="chosen-disabled" ng-model="hgwgLimitObj.direct"
+                                    ng-options="value.id as value.label for value in directList">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>图幅号码</label>
+                        <div>
+                            <input type="text" disabled class="chosen-disabled" ng-model="hgwgLimitObj.meshId" >
+                        </div>
+                    </li>
+                    <li>
+                        <label>坐标</label>
+                        <div>
+                            <input type="text" disabled class="chosen-disabled" ng-model="hgwgLimitObj.geometryStr" >
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        </div>
+    </div>
+
+</div>
