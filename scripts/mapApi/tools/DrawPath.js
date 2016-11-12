@@ -110,8 +110,9 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                 } else if (this.snapHandler.snapIndex == -2) {
                     this.catches.push({
                         nodePid: parseInt(this.snapHandler.properties.id),
-                        lon: mousePoint.lng,
-                        lat: mousePoint.lat
+                        seqNum: comp.length-1
+                        //lon: mousePoint.lng,
+                        //lat: mousePoint.lat
                     });
                     snapedNodePid = parseInt(this.snapHandler.properties.id);
                 } else {

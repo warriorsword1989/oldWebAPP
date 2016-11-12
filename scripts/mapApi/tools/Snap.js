@@ -97,17 +97,16 @@ fastmap.mapApi.Snap = L.Handler.extend({
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
             if (this.currentTileData&&this.currentTileData.data) {
                 var closest = null;
-                    closest = this.closeestSnap({
-                        tolerance:10,
-                        point:tilePixcel,
-                        data:this.currentTileData.data,
-                        candidateId:this._guides[layerindex].selectedid
-                    })
+                closest = this.closeestSnap({
+                    tolerance:10,
+                    point:tilePixcel,
+                    data:this.currentTileData.data,
+                    candidateId:this._guides[layerindex].selectedid
+                })
                 if (closest) {
                     this.snaped = true;
                     this.properties = closest.properties;
                     this.snapIndex = closest.index;
-
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
