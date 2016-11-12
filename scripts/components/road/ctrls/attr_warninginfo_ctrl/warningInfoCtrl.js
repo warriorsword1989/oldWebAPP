@@ -273,7 +273,7 @@ angular.module('app').controller('warningInfoCtl', ['$scope','$timeout', 'dsEdit
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
             }
         });
-        $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
+//        $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false});
     };
     // 删除数据
     $scope.del = function() {

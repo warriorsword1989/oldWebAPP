@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/23.
  */
 var otherApp = angular.module('app');
-otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$document', 'appPath', 'dsEdit', '$q', function($scope, $ocLazyLoad, $document, appPath, dsEdit, $q) {
+otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$document', 'appPath', 'dsEdit', '$q', 'hotkeys', function($scope, $ocLazyLoad, $document, appPath, dsEdit, $q, hotkeys) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -478,16 +478,37 @@ otherApp.controller("rdLaneConnexityController", ['$scope', '$ocLazyLoad', '$doc
         doHighlight();
     };
     // $document.unbind("keydown");
-    $document.bind("keydown", function(event) {
-        if ($scope.CurrentObject.selectedLaneIndex == undefined) {
-            return;
-        }
-        if (event.keyCode == 16) { //shift键 公交车道
+    // $document.bind("keydown", function(event) {
+    //     if ($scope.CurrentObject.selectedLaneIndex == undefined) {
+    //         return;
+    //     }
+    //     if (event.keyCode == 16) { //shift键 公交车道
+    //         toggleBusLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex], $scope.CurrentObject.selectedLaneIndex);
+    //         $scope.$apply();
+    //     } else if (event.keyCode === 17) { //ctrl键 附加车道
+    //         toggleAdtLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex]);
+    //         $scope.$apply();
+    //     }
+    // });
+    hotkeys.bindTo($scope).add({
+        combo: 'shift',
+        description: '公交车道',
+        callback: function() {
+            if ($scope.CurrentObject.selectedLaneIndex == undefined) {
+                return;
+            }
             toggleBusLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex], $scope.CurrentObject.selectedLaneIndex);
-            $scope.$apply();
-        } else if (event.keyCode === 17) { //ctrl键 附加车道
+            // $scope.$apply();
+        }
+    }).add({
+        combo: 'ctrl',
+        description: '附加车道',
+        callback: function() {
+            if ($scope.CurrentObject.selectedLaneIndex == undefined) {
+                return;
+            }
             toggleAdtLane($scope.CurrentObject.lanes[$scope.CurrentObject.selectedLaneIndex]);
-            $scope.$apply();
+            // $scope.$apply();
         }
     });
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);

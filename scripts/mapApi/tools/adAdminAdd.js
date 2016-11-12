@@ -62,9 +62,9 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
             return;
         }
         var mouseLatlng;
-        if(this.snapHandler.snaped == true){
-            mouseLatlng = this.targetPoint
-        }else{
+        if (this.snapHandler.snaped == true) {
+            mouseLatlng = this.targetPoint;
+        } else {
             mouseLatlng = event.latlng;
         }
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));

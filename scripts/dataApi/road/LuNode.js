@@ -2,13 +2,13 @@
  * Created by mali on 2016/7/25.
  */
 fastmap.dataApi.LUNode = fastmap.dataApi.GeoDataModel.extend({
-	/**
-	 * 初始化
-	 * @param data
-	 * @param options
-	 */
+    /**
+     * 初始化
+     * @param data
+     * @param options
+     */
     initialize: function (data, options) {
-    	L.setOptions(this, options);
+        L.setOptions(this, options);
         this.geoLiveType = "LUNODE";
         this.setAttributeData(data);
     },
@@ -56,4 +56,3 @@ fastmap.dataApi.LUNode = fastmap.dataApi.GeoDataModel.extend({
 fastmap.dataApi.luNode = function (data, options) {
     return new fastmap.dataApi.LUNode(data, options);
 };
-

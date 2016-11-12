@@ -106,9 +106,13 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         switch (currentGeo.type) {
-
             case 'LineString':
-                drawLineString(currentGeo.components, null, {color: 'red', size: 2}, false, null, false, false, self);
+                if(currentGeo.noFormNode){
+                    drawLineString(currentGeo.components, null, {color: 'red', size: 2}, false, null, true, false, self);
+                }else{
+                    drawLineString(currentGeo.components, null, {color: 'red', size: 2}, false, null, false, false, self);
+                }
+
                 break;
             case 'Link':
                 self.clear();

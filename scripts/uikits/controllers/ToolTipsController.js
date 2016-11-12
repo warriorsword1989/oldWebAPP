@@ -111,7 +111,7 @@ fastmap.uikit.ToolTipsController = (function() {
                 }
             },
             /***
-             * 设置tooltip
+             * 设置tooltip，设置后会跟随鼠标移动
              * @param {Object}tooltip
              */
             setCurrentTooltip: function(text, type) {
