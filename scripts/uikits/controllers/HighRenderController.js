@@ -128,7 +128,7 @@ fastmap.uikit.HighRenderController = (function() {
                                         this.drawRestrict(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDLANECONNEXITY') {
                                         this.drawLane(id, hightlightfeature, ctx);
-                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDWARNINGINFO') {
+                                    } else if (['RDWARNINGINFO','RDHGWGLIMIT'].indexOf(this.currentEditLayer.tiles[tile].data[feature].properties.featType) > -1) {
                                         this.drawBorder(id, hightlightfeature, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDBRANCH') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
