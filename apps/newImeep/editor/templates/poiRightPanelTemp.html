@@ -1,0 +1,320 @@
+<!--右侧属性编辑面板-->
+<div style="height:100%;background-color:#f0f0f0" ng-controller="poiRightPanelCtrl">
+    <div style="width: 100%;height: 80px;background-color: white;line-height: 80px">
+        <div class="right-property-right" ng-click="closeRightPanel()">
+
+        </div>
+        <div style="width: 120px;padding-left: 20px;display: inline-block">
+            <strong>POI</strong>
+            <span>56554543</span>
+        </div>
+        <div style="padding-left: 10px;display: inline-block">
+            <span>待审核</span>
+        </div>
+        <div style="padding-left: 10px;display: inline-block">
+            <span>保存</span>
+        </div>
+        <div style="padding-left: 10px;display: inline-block">
+            <span>删除</span>
+        </div>
+    </div>
+    <div ng-style="rightPanelHeight" ng-style="{'display':basicOpenFlag?'block':'none'}">
+        <div style="background-color: grey;width: 100%" ng-click="basicOpen()">
+            基本属性
+        </div>
+        <div style="width: 100%" ng-style="{'display':basicOpenFlag?'block':'none'}">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        FID
+                    </div>
+                    <div style="display: inline-block">
+                        110105-NH-752
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        PID
+                    </div>
+                    <div style="display: inline-block">
+                        110105-NH-752
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        名称
+                    </div>
+                    <div style="display: inline-block">
+                        <input class="form-control"/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        地址
+                    </div>
+                    <div style="display: inline-block">
+                        <input class="form-control"/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        电话
+                    </div>
+                    <div style="display: inline-block">
+                        <input class="form-control"/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        邮编
+                    </div>
+                    <div style="display: inline-block">
+                        <input class="form-control"/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        分类
+                    </div>
+                    <div style="display: inline-block">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        品牌
+                    </div>
+                    <div style="display: inline-block">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        等级
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios" value="option1" checked>选项1
+                            </label>
+                        </div>
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios" value="option2">选项2
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        卡车
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios1" value="option1" checked>选项1
+                            </label>
+                        </div>
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios1" value="option2">选项2
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        24小时
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios2" value="option1" checked>选项1
+                            </label>
+                        </div>
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios2" value="option2">选项2
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        内部POI
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios3" value="option1" checked>选项1
+                            </label>
+                        </div>
+                        <div class="radio" style="display: inline-block">
+                            <label>
+                                <input type="radio" name="optionsRadios3" value="option2">选项2
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        关联Link
+                    </div>
+                    <div style="display: inline-block">
+                        2080001147
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        备注
+                    </div>
+                    <div style="display: inline-block">
+                        <textarea class="form-control" rows="2"></textarea>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div style="background-color: grey;width: 100%" ng-click="depthOpen()">
+            深度信息
+        </div>
+        <div style="width: 100%" ng-style="{'display':depthOpenFlag?'block':'none'}">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        信用卡类型
+                    </div>
+                    <div style="display: inline-block">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option1">选项 1
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option2">选项 2
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option3">选项 3
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option4">选项 1
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option5">选项 2
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option6">选项 3
+                        </label>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        停车信息
+                    </div>
+                    <div style="display: inline-block">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        人均消费
+                    </div>
+                    <div style="display: inline-block">
+                        <input class="form-control"/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        营业时间
+                    </div>
+                    <div style="display: inline-block">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option1">选项 1
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option2">选项 2
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option3">选项 3
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option4">选项 1
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option5">选项 2
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="option6">选项 3
+                        </label>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        菜品风格
+                    </div>
+                    <div style="display: inline-block">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div style="background-color: grey;width: 100%" ng-click="fatherAndSonOpen()">
+            父子关系
+        </div>
+        <div style="width: 100%" ng-style="{'display':fatherAndSonOpenFlag?'block':'none'}">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        父POI
+                    </div>
+                    <div style="display: inline-block">
+                        东方文化艺术学院
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        子POI
+                    </div>
+                    <div style="display: inline-block">
+                        2222
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div style="background-color: grey;width: 100%" ng-click="sameOpen()">
+            同一关系
+        </div>
+        <div style="width: 100%" ng-style="{'display':sameOpenFlag?'block':'none'}">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div style="width: 50px;background-color: grey;display: inline-block">
+                        同一关系POI
+                    </div>
+                    <div style="display: inline-block">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

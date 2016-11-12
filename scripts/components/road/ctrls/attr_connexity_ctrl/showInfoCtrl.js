@@ -220,11 +220,11 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
             var pid = parseInt(data.id);
             // 退出线不能与进入线相同
             if (pid == $scope.CurrentObject.inLinkPid) {
-                tooltipsCtrl.setCurrentTooltip("退出线不能与进入线是同一条线，请重新选择!", 'error');
+                tooltipsCtrl.notify("退出线不能与进入线是同一条线，请重新选择!", 'error');
                 return;
             }
             if (parseInt(data.properties.kind) >= 9) { // 不能选择9级路
-                tooltipsCtrl.setCurrentTooltip("退出线不能是9级以上道路，请重新选择!", 'error');
+                tooltipsCtrl.notify("退出线不能是9级以上道路，请重新选择!", 'error');
                 return;
             }
             var flag = false,
@@ -292,6 +292,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
             } else {
                 doHighlight();
             }
+            tooltipsCtrl.setCurrentTooltip("已选择" + $scope.outLinkArray.length + "条退出线，继续修改或者按右下方保存按钮进行保存!", 'succ');
         });
     };
     // todo 重构经过线的维护

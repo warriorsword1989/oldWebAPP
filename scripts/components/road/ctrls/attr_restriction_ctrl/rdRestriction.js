@@ -6,11 +6,14 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('rdLink');
+    var rdnode = layerCtrl.getLayerById('rdNode');
     var eventController = fastmap.uikit.EventController();
     var rdRestriction = layerCtrl.getLayerById('relationData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
+    $scope.currentVias = [];
 
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
@@ -75,35 +78,38 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
     //初始化数据
     $scope.initializeData = function () {
         //对交限图表进行排序,为了解决属性栏图表顺序和地图上的不一致
-        //sortRestricInfo();
-
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
+        $scope.currentOrigin = objectEditCtrl.originalData.details[0];
+        $scope.currentVias = $scope.currentOrigin.vias;
         $scope.flag = 0;
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures = [];
         var highLightFeatures = [];
+        //高亮进入线;
         highLightFeatures.push({
             id: objectEditCtrl.data["inLinkPid"].toString(),
             layerid: 'rdLink',
             type: 'line',
-            style: {
-                strokeWidth:3,
-                color: '#3A5FCD'
-            }
+            style: {color: '#3A5FCD', strokeWidth:4}
         });
-        for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
+        //高亮退出线;
+        highLightFeatures.push({
+            id: objectEditCtrl.data.details[$scope.flag].outLinkPid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {color: '#CD0000'}
+        });
+        //高亮经过线;
+        for(var j=0; j<objectEditCtrl.data.details[$scope.flag].vias.length;j++){
             highLightFeatures.push({
-                id: objectEditCtrl.data.details[i].outLinkPid.toString(),
+                id: objectEditCtrl.data.details[$scope.flag].vias[j].linkPid.toString(),
                 layerid: 'rdLink',
                 type: 'line',
-                style: {
-                    strokeWidth:3,
-                    color: '#CD0000'
-                }
-
+                style: {color: 'blue'}
             });
         }
+        //高亮图标；
         highLightFeatures.push({
             id: $scope.rdRestrictData.pid.toString(),
             layerid: 'relationData',
@@ -164,60 +170,133 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             $(v).removeClass('active');
         });
     };
-    // //根据details数组中的每一项获取restricInfo对应的下标
-    // $scope.getRestrictInfoIndex = function (item){
-    //     var restricInfo = objectEditCtrl.data.restricInfo;
-    //     var restricInfoArr = restricInfo.split(',');
-    //     var flag = item.flag;
-    //     var index = -1;
-    //     if(flag == 1){ //实地交限
-    //         index = restricInfoArr.indexOf(item.restricInfo+"");
-    //     } else {  // 0--未验证 2--理论交限
-    //         index = restricInfoArr.indexOf('['+item.restricInfo+']');
-    //     }
-    //     return index;
-    // };
 
     //点击限制方向时,显示其有的属性信息
     $scope.showTips = function (item, e, index) {
-        highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
-
         limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
-
-        //$scope.flag = $scope.getRestrictInfoIndex(item);
         $scope.flag = index;
         $scope.removeTipsActive();
         $(e.target).addClass('active');
-
         $scope.rdSubRestrictData = item;
-
-        // if($scope.rdSubRestrictData.conditions && $scope.rdSubRestrictData.conditions[0].timeDomain){
-        //     $scope.fmdateTimer($scope.rdSubRestrictData.conditions[0].timeDomain);
-        // }else {
-        //     $scope.fmdateTimer("");
-        // }
-
+        $scope.currentOrigin = objectEditCtrl.originalData.details[index];
+        $scope.currentVias = $scope.currentOrigin.vias;
         $scope.changeLimitType($scope.rdSubRestrictData.type);
-
         //高亮选择限制防线的进入线和退出线
         var highLightFeatures = [];
         highLightFeatures.push({
             id: objectEditCtrl.data["inLinkPid"].toString(),
             layerid: 'rdLink',
             type: 'line',
-            style: {}
+            style: {color: '#3A5FCD'}
         });
+        for(var i=0;i<$scope.currentOrigin.vias.length;i++){
+            highLightFeatures.push({
+                id: $scope.currentOrigin.vias[i].linkPid.toString(),
+                layerid: 'rdLink',
+                type: 'line',
+                style: {color: 'blue'}
+            });
+        }
         highLightFeatures.push({
-            id: item.outLinkPid.toString(),
+            id: $scope.currentOrigin.outLinkPid.toString(),
             layerid: 'rdLink',
             type: 'line',
-            style: {}
+            style: {color: '#CD0000'}
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl._cleanHighLight();
         highRenderCtrl.drawHighlight();
-
+        modifyOutLink();
     };
+
+    var clearMapTool = function() {
+        if (eventController.eventTypesMap[eventController.eventTypes.GETLINKID]) {
+            for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETLINKID].length; ii < lenII; ii++) {
+                eventController.off(eventController.eventTypes.GETLINKID, eventController.eventTypesMap[eventController.eventTypes.GETLINKID][ii]);
+            }
+        }
+        if (map.currentTool) {
+            map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
+        }
+    };
+    function modifyOutLink(){
+        clearMapTool();
+        //修改退出线;
+        map.currentTool = new fastmap.uikit.SelectPath({
+            map: map,
+            currentEditLayer: rdLink,
+            linksFlag: true,
+            shapeEditor: shapeCtrl
+        });
+        //开启link和node的捕捉功能;
+        map.currentTool.snapHandler.addGuideLayer(rdnode);
+        map.currentTool.snapHandler.addGuideLayer(rdLink);
+        map.currentTool.enable();
+        eventController.off(eventController.eventTypes.GETLINKID);
+        eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
+            //退出线的合法判断;
+            if(dataresult.id == $scope.rdSubRestrictData.inLinkPid){
+                tooltipsCtrl.setCurrentTooltip("退出线和进入线不能为同一条线");return ;
+            }
+            if(dataresult.id == $scope.currentOrigin.outLinkPid){
+                $scope.rdRestrictData.details.splice($scope.flag,1)
+                highRenderCtrl.highLightFeatures = [];
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.drawHighlight();
+                return;
+            }
+            param = {};
+            param["dbId"] = App.Temp.dbId;
+            param["type"] = "RDLANEVIA";
+            param["data"] = {
+                "inLinkPid": objectEditCtrl.data["inLinkPid"].toString(),
+                "nodePid": objectEditCtrl.data["nodePid"].toString(),
+                "outLinkPid": dataresult.id,
+                "type": "RDRESTRICTION" // 交限专用;
+            };
+            dsEdit.getByCondition(param).then(function(result) {
+                if (result !== -1) {
+                    var highLightFeatures = [];
+                    $scope.rdSubRestrictData.vias = [];
+                    $scope.rdSubRestrictData.outLinkPid = dataresult.id;
+                    var temp = result.data[0],via = [];
+                    for (i = 0; i < temp.links.length; i++) {
+                        via.push(fastmap.dataApi.rdRestrictionVias({
+                            rowId: "",
+                            linkPid: temp.links[i],
+                            seqNum: i + 1
+                        }))
+                        $scope.rdSubRestrictData.vias = via;
+                    }
+                    $scope.currentVias = via;
+                    highLightFeatures.push({
+                        id: objectEditCtrl.data["inLinkPid"].toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {color: '#3A5FCD'}
+                    });
+                    for(var i=0;i<$scope.rdSubRestrictData.vias.length;i++){
+                        highLightFeatures.push({
+                            id: $scope.rdSubRestrictData.vias[i].linkPid.toString(),
+                            layerid: 'rdLink',
+                            type: 'line',
+                            style: {color: 'blue'}
+                        });
+                    }
+                    highLightFeatures.push({
+                        id: $scope.rdSubRestrictData.outLinkPid.toString(),
+                        layerid: 'rdLink',
+                        type: 'line',
+                        style: {color: '#CD0000'}
+                    });
+                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                    highRenderCtrl._cleanHighLight();
+                    highRenderCtrl.drawHighlight();
+                }
+            })
+        })
+    }
 
     $scope.deleteDirect = function (item, event,index) {
         var len = $scope.rdRestrictData.details.length;
@@ -264,20 +343,6 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             }
         }
         objectEditCtrl.save();
-        // if (objectEditCtrl.changedProperty) {
-        //     if (objectEditCtrl.changedProperty.details) {
-        //         $.each(objectEditCtrl.changedProperty.details, function (i, v) {
-        //             delete v.linkPid;
-        //         })
-        //     }
-        //
-        //     if (objectEditCtrl.changedProperty.details[0].conditions) {
-        //         $.each(objectEditCtrl.changedProperty.details[0].conditions, function (i, v) {
-        //             delete v.pid;
-        //             delete v.geoLiveType;
-        //         })
-        //     }
-        // }
         var param = {
             "command": "UPDATE",
             "type": "RDRESTRICTION",
@@ -297,6 +362,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
                 highRenderCtrl._cleanHighLight();
                 highRenderCtrl.highLightFeatures = [];
                 $scope.refreshData();
+                map.currentTool.disable();
                 $scope.$emit('SWITCHCONTAINERSTATE', {
                     'subAttrContainerTpl': false
                 });
@@ -338,6 +404,7 @@ angular.module("app").controller("normalController", ['$scope', '$timeout', '$oc
             restrict.redraw();
             highRenderCtrl.highLightFeatures.length = 0;
             highRenderCtrl._cleanHighLight();
+            map.currentTool.disable();
             $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false});
         });
         if (selectCtrl.rowkey) {

@@ -40,4 +40,24 @@
         </div>
     </div>
 
+    <div class="fm-panel" >
+        <div class="title">
+            <div>
+                <a ng-click="addTmcLocation()" style="cursor: pointer;color:#FFF;">TMC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）</a>
+                <span title="显示场景" class="glyphicon glyphicon-transfer" style="padding-top:0px;float: right;color: darkgray;float: right;cursor:pointer;" ng-click="showScene(3)"></span>
+            </div>
+        </div>
+        <div class="content">
+            <ul class="fm-ul fm-ul-form">
+                <li ng-repeat="item in rticData.intRtics track by $index">
+                    <div ng-click="showRticsInfo(item)" style="cursor: pointer;">
+                        <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="item.updownFlag == 0">上行 &nbsp;{{item.code}}</label>
+                        <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="item.updownFlag == 1">下行 &nbsp;{{item.code}}</label>
+                        <span id="rticSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusIntRtic($index)"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>

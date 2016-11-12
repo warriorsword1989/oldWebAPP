@@ -28,7 +28,8 @@ fastmap.uikit.ToolTipsController = (function() {
              */
             setMap: function(map, divId) {
                 this._map = map;
-                this.originStyle = {
+                this.tooltipDiv = L.DomUtil.get(divId);
+                L.extend(this.tooltipDiv.style, {
                     position: 'fixed',
                     display: 'none',
                     padding: '0px 3px',
@@ -38,9 +39,11 @@ fastmap.uikit.ToolTipsController = (function() {
                     color: 'rgba(255,255,255,0.85)',
                     'max-width': '300px',
                     height: 'auto'
+                });
+                this.originStyle = {
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    color: 'rgba(255,255,255,0.85)'
                 };
-                this.tooltipDiv = L.DomUtil.get(divId);
-                L.extend(this.tooltipDiv.style, this.originStyle);
                 this._enabled = false;
                 this.eventType = null;
             },
@@ -57,7 +60,8 @@ fastmap.uikit.ToolTipsController = (function() {
                     this.innervalue = null;
                     this.DbClickInnervalue = null;
                     this.externalStyle = null;
-                    this.tooltipDiv.innerHTML = "";
+                    this.tooltipText = null;
+                    this.tooltipDiv.innerHTML = null;
                     L.extend(this.tooltipDiv.style, this.originStyle);
                     this._map.off('click', this.onClickTooltip, this);
                     this._map.off('dblclick', this.onDbClickTooltip, this);
@@ -83,70 +87,88 @@ fastmap.uikit.ToolTipsController = (function() {
                 this._map.off('dblclick', this.onDbClickTooltip, this);
                 this._map.on('dblclick', this.onDbClickTooltip, this);
             },
-            setStyleTooltip: function(style) {
-                this.externalStyle = style;
-            },
             onMoveOutTooltip: function() {
                 this.tooltipDiv.style.display = "none";
             },
             onMoveTooltip: function(event) {
+                this.tooltipDiv.innerHTML = this.tooltipText;
+                L.extend(this.tooltipDiv.style, this.currentStyle); // 当前设置的样式
                 this.tooltipDiv.style.display = "inline-block";
                 this.tooltipDiv.style.left = event.originalEvent.clientX + 20 + 'px';
                 this.tooltipDiv.style.top = event.originalEvent.clientY + 20 + 'px';
             },
             onClickTooltip: function(event) {
-                if (this.externalStyle) {
-                    this.tooltipDiv.style.cssText += this.externalStyle;
-                }
                 if (this.innervalue) {
-                    this.tooltipDiv.innerHTML = this.innervalue;
+                    this.setCurrentTooltipText(this.innervalue);
                 }
             },
             onRemoveTooltip: function() {
                 this.disable();
             },
             onDbClickTooltip: function() {
-                if (this.externalStyle) {
-                    this.tooltipDiv.style.cssText += this.externalStyle;
-                }
                 if (this.DbClickInnervalue) {
-                    this.tooltipDiv.innerHTML = this.DbClickInnervalue;
+                    this.setCurrentTooltipText(this.DbClickInnervalue);
                 }
             },
             /***
-             * 设置tooltip
+             * 设置tooltip，设置后会跟随鼠标移动
              * @param {Object}tooltip
              */
-            setCurrentTooltip: function(tooltip, type) {
-                L.extend(this.tooltipDiv.style, this.originStyle); // 赋默认样式
-                var bgColor;
+            setCurrentTooltip: function(text, type) {
+                var style = {
+                    backgroundColor: this.originStyle.backgroundColor,
+                    color: this.originStyle.color
+                };
                 if (type) {
                     switch (type) {
                         case 'info': // 信息
-                            bgColor = '#31b0d5';
+                            style.backgroundColor = '#31b0d5';
                             break;
                         case 'warn': // 警告
-                            bgColor = '#f0ad4e';
+                            style.backgroundColor = '#f0ad4e';
                             break;
                         case 'error': // 错误
-                            bgColor = '#c9302c';
+                            style.backgroundColor = '#c9302c';
                             break;
                         case 'succ': // 成功
-                            bgColor = '#449d44';
+                            style.backgroundColor = '#449d44';
                             break;
                     }
                 }
-                if (bgColor) {
-                    this.tooltipDiv.style.backgroundColor = bgColor;
-                }
-                this.tooltipDiv.innerHTML = tooltip;
+                this.currentStyle = style;
+                this.setCurrentTooltipText(text);
                 this.enable();
             },
             setCurrentTooltipText: function(tooltiptext) {
-                this.tooltipDiv.innerHTML = tooltiptext;
+                this.tooltipText = tooltiptext;
             },
             getCurrentTooltip: function() {
-                return this.tooltipDiv.innerHTML;
+                return this.tooltipText;
+            },
+            // 与setCurrentTooltip区别，只在点击的时候显示一次，鼠标移动后恢复到之前的tooltip
+            // 只有在tooltip启用的情况下可用
+            notify: function(text, type) {
+                if (this._enabled) {
+                    var bgColor = '#c9302c'; // 默认红色
+                    if (type) {
+                        switch (type) {
+                            case 'info': // 信息
+                                bgColor = '#31b0d5';
+                                break;
+                            case 'warn': // 警告
+                                bgColor = '#f0ad4e';
+                                break;
+                            case 'error': // 错误
+                                bgColor = '#c9302c';
+                                break;
+                            case 'succ': // 成功
+                                bgColor = '#449d44';
+                                break;
+                        }
+                    }
+                    this.tooltipDiv.style.backgroundColor = bgColor;
+                    this.tooltipDiv.innerHTML = text;
+                }
             }
         });
         return new toolTipsController(options);

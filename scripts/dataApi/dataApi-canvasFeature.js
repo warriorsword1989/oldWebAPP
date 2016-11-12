@@ -59,6 +59,7 @@
         "RdSpeedBump.js",
         "RdDirectRoute.js",
         "RdLane.js",
+        "TmcPoint.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",
