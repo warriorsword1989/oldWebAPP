@@ -168,6 +168,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 48: //TMC
                     ret = new fastmap.uikit.canvasFeature.RdTmcPoint(data);
                     break;
+                case 47://限高限重
+                    ret = new fastmap.uikit.canvasFeature.RdHgwgLimit(data);
+                    break;
             }
             return ret;
         },

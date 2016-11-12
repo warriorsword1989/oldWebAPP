@@ -52,7 +52,8 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'poiAdd':new fastmap.mapApi.poiAdd({shapeEditor:shapeEditor}),
                     'poiGuideMove':new fastmap.mapApi.poiGuideMove({shapeEditor:shapeEditor}),
                     'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor}),
-                    'pathDepartNode':new fastmap.mapApi.pathDepartNode({shapeEditor:shapeEditor})
+                    'pathDepartNode':new fastmap.mapApi.pathDepartNode({shapeEditor:shapeEditor}),
+                    'hgwgLimitDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
                 };
                 return toolsObject;
             }

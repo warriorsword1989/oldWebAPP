@@ -169,7 +169,7 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      限高限重
      */
-    'RDHGWGLIMIT':'rdHgwgLimit',
+    'RDHGWGLIMIT':'hgwgLimitDirect',
     /*
      分离节点
      */
