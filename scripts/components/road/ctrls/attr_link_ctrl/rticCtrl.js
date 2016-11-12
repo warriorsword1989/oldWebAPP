@@ -13,6 +13,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var rdCross = layerCtrl.getLayerById("relationData");
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    var tmcLayer = layerCtrl.getLayerById('tmcData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData =  objCtrl.data;
 
@@ -102,6 +103,45 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         // map.currentTool = shapeCtrl.getCurrentTool();
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+    };
+    //框选TMCPoint
+    $scope.selectTmcPoint = function () {
+        map.currentTool = new fastmap.uikit.SelectForRectang({
+            map: map,
+            shapeEditor: shapeCtrl,
+            LayersList: [tmcLayer]
+        });
+        map.currentTool.enable();
+        eventController.off(eventController.eventTypes.GETRECTDATA);
+        eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+            var tmcPointArray = [];
+            console.log(data)
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures = [];
+            if (data && data.data && data.data.length == 0) {
+                tooltipsCtrl.setCurrentTooltip('请重新框选TMCPoint！');
+                return;
+            }
+            //筛选排除非TMCPoint要素
+            for (var i = 0; i < data.data.length; i++) {
+                if (data.data[i].data && data.data[i].data.properties.featType == 'TMCPOINT') {
+                    if (data.data[i].data.properties.id !== undefined) {
+                        tmcPointArray.push(data.data[i].data.properties.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id:data.data[i].data.properties.id.toString(),
+                            layerid:'tmcData',
+                            type:'TMCPOINT',
+                            style:{}
+                        });
+                    }
+                    // data.data.splice(i, 1);
+                    // i--;
+                }
+            }
+            highRenderCtrl.drawHighlight();
+            tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
+            console.info(tmcPointArray)
+        });
     };
     $scope.minusCarRtic = function (id) {
         $scope.rticData.rtics.splice(id, 1);
