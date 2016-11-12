@@ -195,13 +195,13 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
     }
     $scope.selectLaneDirect(0);
     var clearMapTool = function() {
-        if (eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID]) {
-            for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID].length; ii < lenII; ii++) {
-                eventController.off(eventController.eventTypes.GETOUTLINKSPID, eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID][ii]);
-            }
-        }
+        eventController.off(eventController.eventTypes.GETOUTLINKSPID);
+        eventController.off(eventController.eventTypes.GETLINKID);
         if (map.currentTool) {
             map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
+        }
+        if (tooltipsCtrl.enabled()) {
+            tooltipsCtrl.disable();
         }
     };
     $scope.doEditOutLinks = function(item) {
@@ -215,7 +215,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         });
         map.currentTool.enable();
         var directNum = transData[item];
-        eventController.off(eventController.eventTypes.GETOUTLINKSPID);
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function(data) {
             var pid = parseInt(data.id);
             // 退出线不能与进入线相同
@@ -311,7 +310,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         });
         map.currentTool.enable();
         var directNum = transData[item];
-        eventController.off(eventController.eventTypes.GETLINKID);
         eventController.on(eventController.eventTypes.GETLINKID, function(data) {
             var pid = parseInt(data.id);
             if (pid == $scope.CurrentObject["inLinkPid"] || pid == item.outLinkPid) {
@@ -412,4 +410,11 @@ infoOfConnexityApp.controller("infoOfConnexityController", ['$scope', 'dsEdit', 
         }
         return ret;
     };
+    // 二级面板关闭时，自动清理地图操作工具（只绑定一次watch）
+    var unwatch = $scope.$watch('suspendPanelOpened', function(newVal, oldVal) {
+        if (newVal == false) {
+            clearMapTool();
+            unwatch();
+        }
+    });
 }]);
