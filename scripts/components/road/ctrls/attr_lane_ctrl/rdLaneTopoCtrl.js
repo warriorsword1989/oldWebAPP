@@ -10,6 +10,7 @@ var inLanePid = null;
 var outLanePid = null;
 var outLinkPid = null;
 var laneTopoVias = [];
+
 function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
     if (index == 1) {//选中车道，一条link上的车道只能被选一次
         if (linkPid == inLinkPid) {//进入车道,只能选一条进入线
@@ -48,6 +49,7 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
                     $("#" + lanePid).removeClass('green');
                     $("#label" + lanePid).text("");
                     laneTopoVias.splice(k, 1);
+                    k--;
                     selfFlag = false;
                 }
             }
@@ -141,11 +143,6 @@ function selectLane(self, event, inLinkPid, linkPid, lanePid, laneDir, index) {
                 $("#" + lanePid).removeClass('red');
 
             } else if (linkPid == outLinkPid) {//退出线
-                // laneTopoVias.push({
-                //     lanePid: outLanePid,
-                //     seqNum: laneTopoVias.length + 1,
-                //     linkPid: linkPid
-                // });
                 outLanePid = null;
                 outLinkPid = null;
                 $("#" + lanePid).removeClass('yellow');
@@ -195,7 +192,48 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
     var inLinkPid = $scope.rdLaneData.linkPids[0];//进入线
     rdLaneTopoDetail.inLinkPid = $scope.rdLaneData.linkPids[0];
     rdLaneTopoDetail.inNodePid = $scope.rdLaneData.nodePid;
-
+    topoMap = new L.Map('topoMap', {
+        attributionControl: false,
+        doubleClickZoom: false,
+        zoomControl: false,
+        minZoom: 16,
+        maxZoom: 22
+    });
+    $scope.getLayerById =function(layerId) {
+        var layers = null;
+        for (var item in topoMap._layers) {
+            if (topoMap._layers[item].id) {
+                if (topoMap._layers[item].id === layerId) {
+                    layers = topoMap._layers[item];
+                }
+            }
+        }
+        return layers;
+    };
+    $scope.changeLineColor =function(e) {
+        var selectLine = e.target.id + "polyLine";
+        var selectLineLayer = $scope.getLayerById(selectLine);
+        var newStyle = {
+            // color: "#FFA8FF",
+            weight: 8
+        };
+        selectLineLayer.setStyle(newStyle);
+    };
+    $scope.resetLineColor =function(e) {
+        var selectLine = e.target.id + "polyLine";
+        var selectLineLayer = $scope.getLayerById(selectLine);
+        var newStyle = {
+            // color: "#FFA8FF",
+            weight: 5
+        };
+        selectLineLayer.setStyle(newStyle);
+    };
+    $scope.resetLaneInfo = function () {
+        inLanePid = null;
+        outLanePid = null;
+        outLinkPid = null;
+        laneTopoVias = [];
+    };
     $scope.showLaneDetails = function (item, index) {
         $('.red').removeClass('red');
         $('.green').removeClass('green');
@@ -228,6 +266,28 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
             $("#" + laneTopoVias[i].lanePid).removeClass('green');
         }
 
+    };
+    $scope.checkRepeat = function () {
+        var checkFlag = 1;
+        //检查是否重复
+        for (var i = 0; i < $scope.insertLaneTopoArr.length; i++) {
+            for(var j = 0;j<$scope.insertLaneTopoArr[i].rdLaneTopoDetail.laneTopoInfos.length;j++){
+                if ($scope.insertLaneTopoArr[i].rdLaneTopoDetail.laneTopoInfos[j].inLanePid == inLanePid && $scope.insertLaneTopoArr[i].rdLaneTopoDetail.laneTopoInfos[j].outLanePid == outLanePid) {
+                    swal("提示", "已经新增过该车道连通！", "error");
+                    checkFlag = 0;
+                    return checkFlag;
+                }
+            }
+        }
+        for (var i = 0; i < $scope.laneTopoInfoArr.length; i++) {
+            if ($scope.laneTopoInfoArr[i].inLanePid == inLanePid && $scope.laneTopoInfoArr[i].outLanePid == outLanePid) {
+                checkFlag = $scope.laneTopoInfoArr[i];
+                $scope.laneTopoInfoArr.splice(i,1);
+                i--;
+                return checkFlag;
+            }
+        }
+        return checkFlag;
     };
     $scope.checkLanes = function () {
         var checkFlag = true;
@@ -269,49 +329,18 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
         }
         //检查退出线是否连通
         checkFlag = laneInfoObject[outLinkPid].direct == 1 || (laneInfoObject[outLinkPid].direct == 2 && laneInfoObject[outLinkPid].sNode == lastNodePid) || (laneInfoObject[outLinkPid].direct == 3 && laneInfoObject[outLinkPid].eNode == lastNodePid);
-        //检查是否重复
-        for (var i = 0; i < $scope.insertLaneTopoArr.length; i++) {
-            if ($scope.insertLaneTopoArr[i].inLanePid == inLanePid && $scope.insertLaneTopoArr[i].outLanePid == outLanePid) {
-                swal("提示", "已经新增过该车道连通！", "error");
-                checkFlag = false;
-                return checkFlag;
-            }
-        }
-        for (var i = 0; i < $scope.laneTopoInfoArr.length; i++) {
-            if ($scope.laneTopoInfoArr[i].inLanePid == inLanePid && $scope.laneTopoInfoArr[i].outLanePid == outLanePid) {
-                swal({
-                    title: "跟现有车道连通重复",
-                    type: "warning",
-                    animation: 'slide-from-top',
-                    showCancelButton: true,
-                    confirmButtonText: "替换",
-                    cancelButtonText: "放弃",
-                    confirmButtonColor: "#ec6c62"
-                }, function (f) {
-                    if (f) {
-                        $scope.deleteLaneTopoArr.push($scope.laneTopoInfoArr[i]);
-                        checkFlag = true;
-                    } else {
-                        checkFlag = false;
-                    }
-                });
-                return checkFlag;
-            }
-        }
         return checkFlag;
     };
     $scope.doClose = function () {
         $scope.$emit("CLOSERDLANETOPO");
-        inLanePid = null;
-        outLanePid = null;
-        outLinkPid = null;
-        laneTopoVias = [];
+        $scope.resetLaneInfo();
         featCodeCtrl.setFeatCode(null);
     };
     $scope.doCreate = function () {
         $scope.clearLanes();
         var flag = $scope.checkLanes();
-        if (flag) {
+        var repeat = $scope.checkRepeat();
+        if (flag && repeat == 1) {
             rdLaneTopoDetail.laneTopoInfos.push({
                 inLanePid: inLanePid,
                 outLanePid: outLanePid,
@@ -322,13 +351,40 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 pid: 0,
                 rdLaneTopoDetail: rdLaneTopoDetail
             });
-            inLanePid = null;
-            outLanePid = null;
-            outLinkPid = null;
-            laneTopoVias = [];
+            $scope.resetLaneInfo();
             swal("提示", "创建车道连通成功！", "success");
-        } else {
-            swal("提示", "车道不连通！", "error");
+        } else if(!flag || repeat == 0){
+            $scope.resetLaneInfo();
+        } else if(flag && repeat!=0 && repeat != 1){
+            swal({
+                title: "跟现有车道连通重复",
+                type: "warning",
+                animation: 'slide-from-top',
+                showCancelButton: true,
+                confirmButtonText: "替换",
+                cancelButtonText: "放弃",
+                confirmButtonColor: "#ec6c62",
+                closeOnConfirm: false
+            }, function (f) {
+                if (f) {
+                    $scope.deleteLaneTopoArr.push(repeat);
+                    rdLaneTopoDetail.topoIds.push(repeat.inLinkPid);
+                    rdLaneTopoDetail.laneTopoInfos.push({
+                        inLanePid: inLanePid,
+                        outLanePid: outLanePid,
+                        outLinkPid: outLinkPid,
+                        laneTopoVias: laneTopoVias
+                    });
+                    $scope.insertLaneTopoArr.push({
+                        pid: 0,
+                        rdLaneTopoDetail: rdLaneTopoDetail
+                    });
+                    $scope.resetLaneInfo();
+                    swal("提示", "创建车道连通成功！", "success");
+                } else {
+                    $scope.resetLaneInfo();
+                }
+            });
         }
     };
     $scope.doSave = function () {
@@ -359,13 +415,7 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
     //         laneTopoInfoArr.push(laneTopo[i].laneTopoInfos[k]);
     //     }
     // }
-    topoMap = new L.Map('topoMap', {
-        attributionControl: false,
-        doubleClickZoom: false,
-        zoomControl: false,
-        minZoom: 16,
-        maxZoom: 22
-    });
+
     var polyLines = new L.layerGroup();
     polyLines.id = "polyLines";
 
@@ -381,19 +431,18 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 lat: $scope.laneInfoArr[i].geometry.coordinates[j][1]
             });
         }
-        if ($scope.laneInfoArr[i].linkPid == inLinkPid) {
+        if (linkPid == inLinkPid) {
             var guideLine = L.polyline(geo, {
                 color: 'red',
-                weight: 5,
-                id: "guideLine"
+                weight: 5
             });
         } else {
             var guideLine = L.polyline(geo, {
                 color: '#AE8F00',
-                weight: 5,
-                id: "guideLine"
+                weight: 5
             });
         }
+        guideLine.id = linkPid + "polyLine";
         polyLines.addLayer(guideLine);
 
         // var miniLine = L.polyline(geo, {
@@ -402,18 +451,8 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
         //     id: "miniLine"
         // });
         // miniPolyLines.addLayer(miniLine);
-
-        var lanes1Arr = [], lanes2Arr = [], lanes3Arr = [];
-        for (var j = 0; j < $scope.laneInfoArr[i].lanes.length; j++) {
-            if ($scope.laneInfoArr[i].lanes[j].laneDir == 1) {
-                lanes1Arr.push($scope.laneInfoArr[i].lanes[j]);
-            } else if ($scope.laneInfoArr[i].lanes[j].laneDir == 2) {
-                lanes2Arr.push($scope.laneInfoArr[i].lanes[j]);
-            } else {
-                lanes3Arr.push($scope.laneInfoArr[i].lanes[j]);
-            }
-        }
-        if (lanes1Arr.length > 0) {
+        var lanesArr = $scope.laneInfoArr[i].lanes;
+        if (lanesArr.length > 0) {
             var s_lng = $scope.laneInfoArr[i].geometry.coordinates[0][0],
                 s_lat = $scope.laneInfoArr[i].geometry.coordinates[0][1],
                 e_lng = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][0],
@@ -425,17 +464,17 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
                 deg = 180 + deg;
             }
             // var scale = distance/150;
-            var _width = lanes1Arr.length * 30 + 20;
+            var _width = lanesArr.length * 30 + 20;
             var xtrans = _width / 2 * Math.sin(deg);
             var ytrans = _width / 2 * Math.cos(deg);
             var html = "<div class ='lane-img-container' style='width:" + _width + "px;transform: translateX(" + xtrans + "px);transform: translateX(" + ytrans + "px);-webkit-transform:rotate(" + deg + "deg);'>";
             html += "<div class='roadside-left'>";
             html += "</div>";
-            for (var k = 0; k < lanes1Arr.length; k++) {
-                var lanePid = lanes1Arr[k].pid;
-                var seqNum = lanes1Arr[k].seqNum;
-                var laneDir = lanes1Arr[k].laneDir;
-                var arrowDir = lanes1Arr[k].arrowDir;
+            for (var k = 0; k < lanesArr.length; k++) {
+                var lanePid = lanesArr[k].pid;
+                var seqNum = lanesArr[k].seqNum;
+                var laneDir = lanesArr[k].laneDir;
+                var arrowDir = lanesArr[k].arrowDir;
                 var m = k + 1;
                 html += "<div class='lane-driveway' id='" + lanePid + "' onclick='selectLane(this,event," + inLinkPid + ',' + linkPid + ',' + lanePid + ',' + laneDir + ',' + 1 + ")'>";
                 html += "<span class='top'>" + m + "</span>";
@@ -459,103 +498,13 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
             var eLatlng = new L.latLng(e_lat, e_lng);
             var distance = sLatlng.distanceTo(eLatlng);
             if (distance < 150) {
-                L.marker([s_lat, s_lng], {icon: myIcon, draggable: true}).addTo(topoMap);
+                var marker = L.marker([s_lat, s_lng], {icon: myIcon, draggable: true}).on("drag",$scope.changeLineColor).on("dragend",$scope.resetLineColor);
+                marker.id =linkPid;
+                marker.addTo(topoMap);
             } else {
-                L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {icon: myIcon}).addTo(topoMap);
-            }
-        } else {
-            if (lanes2Arr.length > 0) {
-                var s_lng = $scope.laneInfoArr[i].geometry.coordinates[0][0],
-                    s_lat = $scope.laneInfoArr[i].geometry.coordinates[0][1],
-                    e_lng = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][0],
-                    e_lat = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][1];
-                var kk = ( s_lng - e_lng) / (s_lat - e_lat);
-                var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI);//旋转角度
-                if ((s_lat > e_lat || (s_lat == e_lat && s_lng > e_lng))) {
-                    deg = 180 + deg;
-                }
-                var _width = lanes2Arr.length * 30 + 20;
-                var xtrans = _width / 2 * Math.sin(deg);
-                var ytrans = _width / 2 * Math.cos(deg);
-                var html = "<div class ='lane-img-container' style='width:" + _width + "px;-webkit-transform:rotate(" + deg + "deg);transform-origin:left'>";
-                html += "<div class='roadside-left'>";
-                html += "</div>";
-                for (var k = 0; k < lanes2Arr.length; k++) {
-                    var lanePid = lanes2Arr[k].pid;
-                    var seqNum = lanes2Arr[k].seqNum;
-                    var laneDir = lanes2Arr[k].laneDir;
-                    var arrowDir = lanes2Arr[k].arrowDir;
-                    var m = k + 1;
-                    html += "<div class='lane-driveway' id='" + lanePid + "' onclick='selectLane(this,event," + inLinkPid + ',' + linkPid + ',' + lanePid + ',' + laneDir + ',' + 1 + ")'>";
-                    html += "<span class='top'>" + m + "</span>";
-                    html += "<div class='middle'>";
-                    html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
-                    html += "</div>";
-                    html += "<span class='number' id ='label" + lanePid + "'></span>";
-                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this,event," + inLinkPid + ',' + linkPid + ',' + lanePid + ',' + laneDir + ',' + 2 + ");'>";
-                    html += "</div>";
-                }
-                html += "<div class='roadside-right'></div>";
-                html += "</div>";
-                var myIcon = L.divIcon({
-                    iconSize: [0, 0],
-                    // iconAnchor:[0,50],
-                    html: html
-                });
-                var sLatlng = new L.latLng(s_lat, s_lng);
-                var eLatlng = new L.latLng(e_lat, e_lng);
-                var distance = sLatlng.distanceTo(eLatlng);
-                if (distance < 150) {
-                    L.marker([s_lat, s_lng], {icon: myIcon, draggable: true}).addTo(topoMap);
-                } else {
-                    L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {icon: myIcon}).addTo(topoMap);
-                }
-            } else if (lanes3Arr.length > 0) {
-                var s_lng = $scope.laneInfoArr[i].geometry.coordinates[0][0],
-                    s_lat = $scope.laneInfoArr[i].geometry.coordinates[0][1],
-                    e_lng = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][0],
-                    e_lat = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][1];
-                var kk = ( s_lng - e_lng) / (s_lat - e_lat);
-                var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI);//旋转角度
-                if ((s_lat > e_lat || (s_lat == e_lat && s_lng > e_lng))) {
-                    deg = 180 + deg;
-                }
-                var _width = lanes3Arr.length * 30 + 20;
-                var xtrans = _width / 2 * Math.sin(deg);
-                var ytrans = _width / 2 * Math.cos(deg);
-                var html = "<div class ='lane-img-container' style='width:" + _width + "px;-webkit-transform:rotate(" + deg + "deg);transform-origin:right'>";
-                html += "<div class='roadside-left'>";
-                html += "</div>";
-                for (var k = 0; k < lanes3Arr.length; k++) {
-                    var lanePid = lanes3Arr[k].pid;
-                    var seqNum = lanes3Arr[k].seqNum;
-                    var laneDir = lanes3Arr[k].laneDir;
-                    var arrowDir = lanes3Arr[k].arrowDir;
-                    var m = k + 1;
-                    html += "<div class='lane-driveway' id='" + lanePid + "' onclick='selectLane(this,event," + inLinkPid + ',' + linkPid + ',' + lanePid + ',' + laneDir + ',' + 1 + ")'>";
-                    html += "<span class='top'>" + m + "</span>";
-                    html += "<div class='middle'>";
-                    html += "<img src='../../../images/road/1301/1301_0_" + arrowDir + ".svg' style='width: 30px;height:30px;'/>";
-                    html += "</div>";
-                    html += "<span class='number' id ='label" + lanePid + "'></span>";
-                    html += "<input class='bottom' type='checkbox' style='margin:" + 0 + "px' onclick='selectLane(this,event," + inLinkPid + ',' + linkPid + ',' + lanePid + ',' + laneDir + ',' + 2 + ")'>";
-                    html += "</div>";
-                }
-                html += "<div class='roadside-right'></div>";
-                html += "</div>";
-                var myIcon = L.divIcon({
-                    iconSize: [0, 0],
-                    // iconAnchor:[0,50],
-                    html: html
-                });
-                var sLatlng = new L.latLng(s_lat, s_lng);
-                var eLatlng = new L.latLng(e_lat, e_lng);
-                var distance = sLatlng.distanceTo(eLatlng);
-                if (distance < 150) {
-                    L.marker([s_lat, s_lng], {icon: myIcon, draggable: true}).addTo(topoMap);
-                } else {
-                    L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {icon: myIcon}).addTo(topoMap);
-                }
+                var marker = L.marker([(s_lat + e_lat) / 2, (s_lng + e_lng) / 2], {icon: myIcon, draggable: true}).on("drag",$scope.changeLineColor).on("dragend",$scope.resetLineColor);
+                marker.id =linkPid;
+                marker.addTo(topoMap);
             }
         }
     }
