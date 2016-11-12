@@ -99,7 +99,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         }
         // shapeCtrl.setEditingType('addTmcLocation');
         // shapeCtrl.startEditing();
-        map.currentTool = shapeCtrl.getCurrentTool();
+        // map.currentTool = shapeCtrl.getCurrentTool();
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
     };
@@ -111,7 +111,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     };
     $scope.showScene = function (id) {
         for (var layer in layerCtrl.layers) {
-            if(id == 1){
+            if (id === 1) {
                 if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = true;
@@ -125,40 +125,34 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
                         layerArr: layerCtrl.layers
                     });
                 }
-            } else if(id == 2){
+            } else if (id === 2) {
                 if (layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = true;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                } else if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = true;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
                 }
-            } else if(id == 3){
-                if (layerCtrl.layers[layer].options.requestType === "TMCPOINT") {
-                    layerCtrl.layers[layer].options.isUpDirect = false;
+            } else if (id === 3) {
+                if (layerCtrl.layers[layer].options.id === 'tmcData') {
                     layerCtrl.layers[layer].options.visible = true;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "TMCLOCATION"){
-                    layerCtrl.layers[layer].options.isUpDirect = true;
-                    layerCtrl.layers[layer].options.visible = true;
-                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
-                        layerArr: layerCtrl.layers
-                    });
-                }else if (layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
+                }
+                if (layerCtrl.layers[layer].options.requestType === 'RDLINKRTIC') {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                } else if(layerCtrl.layers[layer].options.requestType === 'RDLINKINTRTIC') {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {

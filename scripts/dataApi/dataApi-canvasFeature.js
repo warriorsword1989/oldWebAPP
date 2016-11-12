@@ -60,6 +60,7 @@
         "RdDirectRoute.js",
         "RdLane.js",
         "TmcPoint.js",
+        "TmcLocation.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",
