@@ -14,14 +14,14 @@
                                 <img title="点击修改退出线" ng-if="item.flag===1"
                                      ng-src="../../../images/road/1302/1302_1_{{item.restricInfo}}.svg"
                                      class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}"
-                                     ng-click="showData(item,$event,$index)">
+                                     ng-mousedown="showData(item,$event,$index)">
                                 <img title="点击修改退出线" ng-if="item.flag===2||item.flag===0"
                                      ng-src="../../../images/road/1302/1302_2_{{item.restricInfo}}.svg"
                                      data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips"
-                                     ng-click="showData(item,$event,$index)">
+                                     ng-mousedown="showData(item,$event,$index)">
                             </div>
                             <!--增加交限的按钮-->
-                            <div class="inline"><span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" class="glyphicon glyphicon-plus" ng-click="showAddDirectTepl()"></span></div>
+                            <div class="inline"><span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;cursor: pointer" class="glyphicon glyphicon-plus" ng-click="showAddOrEditDirectTpl('add')"></span></div>
                         </li>
                         <li>
                             <label class="control-label">进入</label>
@@ -36,17 +36,17 @@
                             <div class="radio inline" style="text-align: left">
                                 <label>
                                     <input type="radio" name="theoryOrActual" value=0 ng-model="rdRestrictionCurrentDetail.flag"
-                                           ng-change="changeType(rdRestrictionCurrentDetai)" >
+                                           ng-change="changeType(rdRestrictionCurrentDetail)" >
                                     未验证
                                 </label>
                                 <label>
                                     <input type="radio" name="theoryOrActual" value=1 ng-model="rdRestrictionCurrentDetail.flag"
-                                           ng-change="changeType(rdRestrictionCurrentDetai)">
+                                           ng-change="changeType(rdRestrictionCurrentDetail)">
                                     实地
                                 </label>
                                 <label>
                                     <input type="radio" name="theoryOrActual" value=2 ng-model="rdRestrictionCurrentDetail.flag"
-                                           ng-change="changeType(rdRestrictionCurrentDetai)">
+                                           ng-change="changeType(rdRestrictionCurrentDetail)">
                                     理论
                                 </label>
                             </div>
@@ -89,23 +89,23 @@
                             </div>
                         </li>
                         <li class="list-group-item" style="padding:7px;"
-                            ng-if="rdRestrictionCurrentDetai.type=='2'">
-                            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{rdRestrictionCurrentDetai["conditions"][0]["timeDomain"]}}' style="width:100%;padding: 5px;"></div>
+                            ng-if="rdRestrictionCurrentDetail.type=='2'">
+                            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{rdRestrictionCurrentDetail["conditions"][0]["timeDomain"]}}' style="width:100%;padding: 5px;"></div>
                         </li>
                     </ul>
                 </div>
             </div>
             <!--显示经过线部分-->
-            <div ng-if="rdRestrictionCurrentDetai.vias.length" class="fm-panel">
+            <div ng-if="rdRestrictionCurrentDetail.vias.length" class="fm-panel">
                 <div class="content">
                     <ul class="fm-ul fm-ul-form">
                         <li>
                             <label class="control-label">经过线:</label>
                             <div>
-                                <span style="font-size: 14px;float: right;" ng-click="modifyThroughLink()" class="glyphicon glyphicon-edit"></span>
+                                <span style="font-size: 14px;float: right;" ng-if="editStatus" ng-click="modifyThroughLink()" class="glyphicon glyphicon-edit"></span>
                             </div>
                         </li>
-                        <li ng-repeat="item in $scope.rdRestrictionCurrentDetail.vias">
+                        <li ng-repeat="item in rdRestrictionCurrentDetail.vias">
                             <label class="control-label">经过线{{$index+1}}</label>
                             <div>
                                 <input type="text" class="chosen-disabled" ng-model="item.linkPid" disabled="disabled" />
