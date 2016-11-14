@@ -167,7 +167,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                     ret = new fastmap.uikit.canvasFeature.RdLane(data);
                     break;
                 case 48: //TMCPoint
-                    ret = new fastmap.uikit.canvasFeature.TmcPoints(data);
+                    ret = new fastmap.uikit.canvasFeature.TmcPoint(data);
                     break;
                 case 49: //TMCLocation
                     ret = new fastmap.uikit.canvasFeature.TmcLocation(data);

@@ -19,8 +19,8 @@ fastmap.uikit.canvasFeature.TmcPoint = fastmap.uikit.canvasFeature.Feature.exten
                 row: 0,
                 column: 3,
                 location: this.geometry.coordinates,
-                dx: 16,
-                dy: 7
+                dx: 17,
+                dy: item.m.c ? item.m.c * 15 : 0
             })
         );
     }
