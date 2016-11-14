@@ -48,6 +48,10 @@ addDirectOfRest.controller("editDirectOfRestController", function ($rootScope, $
         }
         $scope.editDirectData.details[$rootScope.flag].flag = flag;
         $scope.editDirectData.details[$rootScope.flag].restricInfo = item.id;
+
+        var tempArr = $scope.editDirectData.restricInfo.split(',');
+        tempArr[$rootScope.flag] = item.id;
+        $scope.editDirectData.restricInfo = tempArr.join(',');
     };
 
     $scope.initPage();

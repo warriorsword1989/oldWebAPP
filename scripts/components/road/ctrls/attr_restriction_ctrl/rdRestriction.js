@@ -98,7 +98,59 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
     };
     //修改经过线;
     $scope.modifyThroughLink = function(){
-        console.log('开始修改经过线!')
+        //开始修改经过线前清除对修改某一方向箭头的事件监听;
+        clearMapTool();
+        highLightRestrictAll();
+        //修改退出线;
+        map.currentTool = new fastmap.uikit.SelectPath({
+            map: map,
+            currentEditLayer: rdLink,
+            linksFlag: true,
+            shapeEditor: shapeCtrl
+        });
+        //开启link的捕捉功能;
+        map.currentTool.snapHandler.addGuideLayer(rdLink);
+        map.currentTool.enable();
+        eventController.off(eventController.eventTypes.GETLINKID);
+        eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
+            /*
+            * 对经过线的合法性前判断;
+            * （1）经过线不能为退出线;
+            * （2）经过线不能为进入线;
+            * （3）经过线必须和最后一根接续线连接;
+            * */
+            if(dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid){
+                console.log('退出线和进入线不能为同一条线')
+                return ;
+            }
+            if(dataresult.id == $scope.rdRestrictOriginalData.details[$scope.flag].outLinkPid){
+                console.log('经过线和退出线不能为同一条线')
+                return;
+            }
+            var selectLink = parseInt(dataresult.id);var arrIndex=-1;
+            for(var i=0;i<$scope.rdRestrictionCurrentDetail.vias.length;i++){
+                if($scope.rdRestrictionCurrentDetail.vias[i].linkPid==selectLink){
+                    arrIndex =$scope.rdRestrictionCurrentDetail.vias[i].seqNum-1;
+                }
+            }
+            //如果经过线重复;
+            //if(arrIndex!=-1){
+            //    for(var i=0;i<$scope.rdRestrictionCurrentDetail.vias.length;i++){
+            //        if($scope.rdRestrictionCurrentDetail.vias[i].seqNum>arrIndex){
+            //            $scope.rdRestrictionCurrentDetail.vias.splice(i,1);
+            //            i--;
+            //        }
+            //    }
+            //    highLightRestrictAll();
+            //}else{
+            //    if(){
+            //
+            //    }else{
+            //
+            //    }
+            //}
+        })
+
     }
 
     $scope.showAddOrEditDirectTpl = function (type) {
@@ -287,9 +339,12 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             $scope.editStatus = false;
             //退出线的合法判断;
             if(dataresult.id == $scope.rdRestrictionCurrentDetail.inLinkPid){
-                tooltipsCtrl.setCurrentTooltip("退出线和进入线不能为同一条线");return ;
+                //tooltipsCtrl.setCurrentTooltip("退出线和进入线不能为同一条线");
+                return ;
             }
-            if(dataresult.id == $scope.rdRestrictionCurrentDetail.outLinkPid){
+            //退出线与之前一样则不请求;
+            if(dataresult.id == $scope.rdRestrictOriginalData.details[$scope.flag].outLinkPid){
+                //tooltipsCtrl.setCurrentTooltip("退出线和之前一样，请重新选择");
                 return;
             }
             param = {};
