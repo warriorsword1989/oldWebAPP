@@ -135,6 +135,34 @@ App.layersConfig = [{
                 gap: 10
             }
     }, {
+        url: '/render/specia/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'thematicLink',
+            name: '专题图',
+            // id: 'rdLink',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasTMFeature.TMFeature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 16,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'rdLinkLimit',
+            showNodeLevel: 17,
+            gap: 20
+        }
+    },{
             url: '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {

@@ -95,9 +95,14 @@ App.Util = {
             gap: layerOptions.gap || 10
         }
         if (layerOptions.requestType) {
-            reqObj.parameter['types'] = layerOptions.requestType.split(',');
-            if (reqObj.parameter.types.indexOf('RDLINK') >= 0 || reqObj.parameter.types.indexOf('RDLINKINTRTIC') >= 0) {
-                reqObj.hbaseUrl = reqObj.url;
+            //为专题图的时候  types字段要传字符串类型
+            if (layerOptions.id === 'thematicLink') {
+                reqObj.parameter['type'] = layerOptions.requestType;
+            } else {
+                reqObj.parameter['types'] = layerOptions.requestType.split(',');
+                if (reqObj.parameter.types.indexOf('RDLINK') >= 0 || reqObj.parameter.types.indexOf('RDLINKINTRTIC') >= 0) {
+                    reqObj.hbaseUrl = reqObj.url;
+                }
             }
         }
         return reqObj;
