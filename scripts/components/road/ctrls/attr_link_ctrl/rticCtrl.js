@@ -111,6 +111,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
             shapeEditor: shapeCtrl,
             LayersList: [tmcLayer]
         });
+        map.currentTool.disable();
         map.currentTool.enable();
         eventController.off(eventController.eventTypes.GETRECTDATA);
         eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
@@ -138,9 +139,10 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
                     // i--;
                 }
             }
+            tmcPointArray = Utils.distinctArr(tmcPointArray);
             highRenderCtrl.drawHighlight();
             tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
-            console.info(tmcPointArray)
+            console.info(Utils.distinctArr(tmcPointArray))
         });
     };
     $scope.minusCarRtic = function (id) {
