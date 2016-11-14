@@ -291,7 +291,7 @@ App.layersConfig = [{
                 zIndex: 7,
                 restrictZoom: 10,
                 visible: false,
-                requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE',
+                requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE,RDHGWGLIMIT',
                 showNodeLevel: 17,
                 gap: 80
             }
@@ -340,7 +340,7 @@ App.layersConfig = [{
             updateWhenIdle: true,
             tileSize: 256,
             type: 'Marker',
-            zIndex: 17,
+            zIndex: 21,
             restrictZoom: 10,
             visible: false,
             requestType: 'TMCPOINT,RDTMCLOCATION',

@@ -31,6 +31,7 @@
                 "dataApi/road/RdNodeMesh.js",
                 "dataApi/road/RdRestriction.js",
                 "dataApi/road/RdRestrictionDetail.js",
+                "dataApi/road/RdRestrictionVias.js",
                 "dataApi/road/RdRestrictionCondition.js",
                 "dataApi/road/RdCross.js",
                 "dataApi/road/RdCrossLink.js",
@@ -101,7 +102,8 @@
                 "dataApi/road/RoadName.js",
                 "dataApi/road/RdLanes.js",
                 "dataApi/road/RdLane.js",
-                "dataApi/road/RdLaneCondition.js"
+                "dataApi/road/RdLaneCondition.js",
+                "dataApi/road/RdHgwgLimit.js"
             ]; // etc.
 
 

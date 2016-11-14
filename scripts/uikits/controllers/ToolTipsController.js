@@ -70,6 +70,9 @@ fastmap.uikit.ToolTipsController = (function() {
                     this._enabled = false;
                 }
             },
+            enabled: function() {
+                return this._enabled;
+            },
             /***
              *
              * @param type

@@ -154,7 +154,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         enableOutLinkHandler();
     };
     var enableOutLinkHandler = function() {
-        map.currentTool.disable();
+        clearMapTool();
         map.currentTool = new fastmap.uikit.SelectPath({
             map: map,
             currentEditLayer: rdLink,
@@ -244,9 +244,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
     };
     $scope.addLane = function() {
         if (selectedLaneInfo) {
-            if (map.currentTool) {
-                map.currentTool.disable();
-            }
+            clearMapTool();
             if (CurrentObject.lanes.length == currentLaneIndex) { // 插入
                 CurrentObject.lanes.push(selectedLaneInfo);
             } else { // 替换
@@ -346,6 +344,22 @@ addDirectConnexityApp.controller("addDirectOfConnexityController", ["$scope", 'd
         });
         highRenderCtrl.drawHighlight();
     };
+    var clearMapTool = function() {
+        eventController.off(eventController.eventTypes.GETOUTLINKSPID);
+        if (map.currentTool) {
+            map.currentTool.disable();
+        }
+        if (tooltipsCtrl.enabled()) {
+            tooltipsCtrl.disable();
+        }
+    };
+    // 二级面板关闭时，自动清理地图操作工具（只绑定一次watch）
+    var unwatch = $scope.$watch('suspendPanelOpened', function(newVal, oldVal) {
+        if (newVal == false) {
+            clearMapTool();
+            unwatch();
+        }
+    });
     // 初始化时渲染一次
     doHighlight();
 }]);

@@ -135,4 +135,17 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
             return item.auxiFlag === 3;
         }
     };
+
+    $scope.formateNumbers=function(field,maxVal,len){
+        var val = $scope.roadlinkData[field];
+        if(!val){
+            $scope.roadlinkData[field] = 0.00;
+            return;
+        }
+        var b = parseFloat(val);
+        if(b > maxVal){
+            b = maxVal;
+        }
+        $scope.roadlinkData[field] = parseFloat(Number(b).toFixed(len));
+    };
 });

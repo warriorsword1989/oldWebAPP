@@ -1,7 +1,7 @@
 angular.module('app').controller('ShowImgModalCtl', ['$scope', function ($scope) {
 	/*点击切换图片显示*/
 	$scope.$on('changeImgShow',function(event,data){
-		$scope.indexNow = data.index;
+		$scope.indexNow = data.index-1;
 		$scope.imageNow = data.img;
 	});
 	/*上一张*/

@@ -401,7 +401,7 @@ basicApp.controller("basicController", function($scope, $ocLazyLoad) {
             }
             for (var p in $scope.linkData.forms) {
                 for (var s in $scope.fromOfWayOption) {
-                    if ($scope.linkData.forms[p].formOfWay == $scope.fromOfWayOption[s].id) {
+                    if ($scope.linkData.forms[p].formOfWay == $scope.fromOfWayOption[s].id && $scope.linkData.forms[p].status == true) {
                         $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
                     }
                 }

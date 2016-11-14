@@ -132,8 +132,6 @@ angular.module('app').controller('scenceLayersController', function($scope) {
             "layerId": "rdLink"
         }, {
             "layerId": "rdNode"
-        }, {
-            "layerId": "rwLink"
         },{
             "layerId": "tmcData",
             "requestType": "TMCPOINT,RDTMCLOCATION"

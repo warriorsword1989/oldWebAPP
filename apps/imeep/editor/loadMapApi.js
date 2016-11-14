@@ -39,6 +39,7 @@
         "tools/DrawPath.js",
         "tools/DrawPolygon.js",
         "tools/GeometryValidation.js",
+        "tools/adTmcAdd.js",
         //"tools/HighLightRender.js",
         "tools/PathBreak.js",
         "tools/PathCopy.js",

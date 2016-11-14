@@ -68,7 +68,8 @@ App.Temp = {
         RDLINKSPEEDLIMIT: '线限速',
         TIPS:"TIPS",
         TMCPOINT:"TMC点",
-        TMCLOCATION:"TMC匹配信息"
+        RDTMCLOCATION:"TMC匹配信息",
+        RDHGWGLIMIT:"限高限重"
     },
     thematicMapFlag: false,
     taskType:null
