@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-angular.module("app").controller("normalController", ['$rootScope','$scope', '$timeout', '$ocLazyLoad', 'dsFcc', 'dsEdit', function ($rootScope, $scope, $timeout, $ocLazyLoad, dsFcc, dsEdit) {
+angular.module("app").controller("normalController", ['$rootScope','$scope', '$timeout', '$ocLazyLoad', 'dsFcc', 'dsEdit','$q', function ($rootScope, $scope, $timeout, $ocLazyLoad, dsFcc, dsEdit, $q) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -58,6 +58,19 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             e.target.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
             clearMapTool();
             $scope.showAddOrEditDirectTpl('edit');
+            // //获取退出线的进入点以供修改经过线使用;
+            // $q.all([getLinkInfos($scope.rdRestrictionCurrentDetail.outLinkPid),getLinkInfos($scope.rdRestrictionCurrentDetail.vias[$scope.rdRestrictionCurrentDetail.vias.length-1].linkPid)]).then(function(data){
+            //     var tempArr1 =tempArr2 =  [];
+            //     tempArr1.push(data[0].eNodePid);
+            //     tempArr1.push(data[0].sNodePid);
+            //     tempArr2.push(data[1].eNodePid);
+            //     tempArr2.push(data[1].sNodePid);
+            //     for(var i=0;i<tempArr1.length;i++){
+            //         if(tempArr2.indexOf(tempArr1[i])!=-1){
+            //             $scope.outLinkInNode = tempArr1[i];
+            //         }
+            //     }
+            // })
         }
 
     };
@@ -100,6 +113,7 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
     $scope.modifyThroughLink = function(){
         //开始修改经过线前清除对修改某一方向箭头的事件监听;
         clearMapTool();
+        $scope.rdRestrictionCurrentDetail.vias = [];
         highLightRestrictAll();
         //修改退出线;
         map.currentTool = new fastmap.uikit.SelectPath({
@@ -111,6 +125,9 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
         //开启link的捕捉功能;
         map.currentTool.snapHandler.addGuideLayer(rdLink);
         map.currentTool.enable();
+        var nodeArr = [$scope.rdRestrictCurrentData.nodePid];
+        var linkArr = [];
+        var reDrawFlag = true;
         eventController.off(eventController.eventTypes.GETLINKID);
         eventController.on(eventController.eventTypes.GETLINKID, function(dataresult) {
             /*
@@ -127,24 +144,35 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
                 console.log('经过线和退出线不能为同一条线')
                 return;
             }
-            var selectLink = parseInt(dataresult.id);var arrIndex=-1;
-            for(var i=0;i<$scope.rdRestrictionCurrentDetail.vias.length;i++){
-                if($scope.rdRestrictionCurrentDetail.vias[i].linkPid==selectLink){
-                    arrIndex =$scope.rdRestrictionCurrentDetail.vias[i].seqNum-1;
+            var selectLink = parseInt(dataresult.id);
+            if(dataresult.properties.direct==1){
+                if(dataresult.properties.enode==nodeArr[nodeArr.length-1]||dataresult.properties.snode==nodeArr[nodeArr.length-1]){
+                    var temp = (dataresult.properties.enode==nodeArr[nodeArr.length-1])?dataresult.properties.snode:dataresult.properties.enode;
+                    nodeArr.push(parseInt(temp));
+                    linkArr.push(dataresult.id);
+                }else{
+                    console.log('不连续');
+                    return;
+                }
+            }else{
+                if(dataresult.properties.enode == nodeArr[nodeArr.length - 1] && dataresult.properties.direct == 3){
+                    nodeArr.push(dataresult.properties.snode);
+                }else if(dataresult.properties.snode == nodeArr[nodeArr.length - 1] && dataresult.properties.direct == 2){
+                    nodeArr.push(parseInt(dataresult.properties.enode));
+                    linkArr.push(dataresult.id);
+                }else{
+                    console.log('不连续');
+                    return;
                 }
             }
-            //如果经过线重复;
-            //if(arrIndex!=-1){
-            //    for(var i=0;i<$scope.rdRestrictionCurrentDetail.vias.length;i++){
-            //        if($scope.rdRestrictionCurrentDetail.vias[i].seqNum>arrIndex){
-            //            $scope.rdRestrictionCurrentDetail.vias.splice(i,1);
-            //            i--;
-            //        }
-            //    }
-            //    highLightRestrictAll();
-            //}else{
-            //
-            //}
+            for(var i=0;i<linkArr.length;i++){
+                $scope.rdRestrictionCurrentDetail.vias.push(fastmap.dataApi.rdRestrictionVias({
+                    rowId: "",
+                    linkPid: linkArr[i].toString(),
+                    seqNum: i + 1
+                }))
+            }
+            highLightRestrictAll();
         })
 
     }
@@ -315,6 +343,17 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
         }
     };
+
+    //获取一条link对象;
+    function getLinkInfos(param) {
+        var defer = $q.defer();
+        dsEdit.getByPid(param, "RDLINK").then(function(data) {
+            if (data) {
+                defer.resolve(data);
+            }
+        })
+        return defer.promise;
+    }
 
 
     function modifyOutLink(){
