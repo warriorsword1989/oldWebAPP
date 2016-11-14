@@ -580,7 +580,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                             editLayer.clear();
-                            tooltipsCtrl.setCurrentTooltip('<span style="color: red">距离端点太近啦，请重新选择位置！</span>');
+                            tooltipsCtrl.notify('距离端点太近啦，请重新选择位置！','error');
                             return;
                         }
                         if (data) {
@@ -2737,6 +2737,17 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                     highRenderCtrl.drawHighlight();
                     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
                         if (data) {
+                            //当前点位和线的断点距离小于0.5米就认为是同一点
+                            if(e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[0][1],data.geometry.coordinates[0][0])) < 0.5 || e.latlng.distanceTo(new L.latLng(data.geometry.coordinates[data.geometry.coordinates.length -1][1],data.geometry.coordinates[data.geometry.coordinates.length -1][0])) < 0.5){
+                                selectCtrl.selectedFeatures = null;
+                                editLayer.drawGeometry = null;
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                                editLayer.clear();
+                                tooltipsCtrl.notify('卡车地图不能制作到关联link端点！','error');
+                                return;
+                            }
+
                             selectCtrl.onSelected({
                                 linkPid: pro.id,
                                 latitude: e.latlng.lat,
@@ -2788,6 +2799,8 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("点击方向图标开始修改方向！");
+
+                                selectCtrl.selectedFeatures.direct = 2; //默认顺方向
                                 eventController.off(eventController.eventTypes.DIRECTEVENT);
                                 eventController.on(eventController.eventTypes.DIRECTEVENT, function(event) {
                                     selectCtrl.selectedFeatures.direct = parseInt(event.geometry.orientation);
@@ -2795,7 +2808,7 @@ angular.module('app').controller("addRdRelationCtrl", ['$scope', '$ocLazyLoad', 
                                 });
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建电子眼!');
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限高限重!');
                                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.RDHGWGLIMIT);
                             }
                         } else {

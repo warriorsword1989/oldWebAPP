@@ -13,5 +13,17 @@ fastmap.uikit.canvasFeature.RdHgwgLimit = fastmap.uikit.canvasFeature.Feature.ex
                 }
             )
         );
+        this.properties['markerStyle']["icon"].push(
+            fastmap.uikit.canvasFeature.Feature.getIconStyle({
+                    iconName: '../../../images/road/1101/1101_0_0_s.svg',
+                    row: 0,
+                    column: 1,
+                    location:  this.geometry['coordinates'],
+                    rotate: (item.m.c - 90) * (Math.PI / 180),
+                    dx: 6,
+                    dy: 0
+                }
+            )
+        );
     }
 });

@@ -61,6 +61,7 @@
         "RdLane.js",
         "RdHgwgLimit.js",
         "TmcPoint.js",
+        "TmcLocation.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",

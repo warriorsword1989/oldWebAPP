@@ -24,7 +24,6 @@ angular.module('app').controller('hgwgLimitCtl', ['$scope','$timeout', 'dsEdit',
         if($scope.hgwgLimitObj.geometry && $scope.hgwgLimitObj.geometry.coordinates.length == 2){
             $scope.hgwgLimitObj.geometryStr = $scope.hgwgLimitObj.geometry.coordinates[0]+","+$scope.hgwgLimitObj.geometry.coordinates[1];
         }
-        console.info($scope.hgwgLimitObj);
 
         highRenderCtrl.cleanHighLight();
         var highlightFeatures = [];
