@@ -227,7 +227,9 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         data["reserved"] = this.reserved;
         var forms = [];
         for (var i = 0, len = this.forms.length; i < len; i++) {
-            forms.push(this.forms[i].getIntegrate());
+        	if(this.forms[i].status){
+        		forms.push(this.forms[i].getIntegrate());
+        	}
         }
         data["forms"] = forms;
         var limits = [];
