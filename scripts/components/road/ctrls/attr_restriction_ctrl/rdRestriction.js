@@ -143,11 +143,7 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             //    }
             //    highLightRestrictAll();
             //}else{
-            //    if(){
             //
-            //    }else{
-            //
-            //    }
             //}
         })
 
