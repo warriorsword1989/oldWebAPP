@@ -59,6 +59,9 @@
         "RdSpeedBump.js",
         "RdDirectRoute.js",
         "RdLane.js",
+        "RdHgwgLimit.js",
+        "TmcPoint.js",
+        "TmcLocation.js",
         "Tips.js",
         "TipsRestrictions.js",
         "TipsLane_Connexity.js",
@@ -175,7 +178,16 @@
         "TipsTruckRestriction.js",
         "TipsTruckRestrictionTemp.js",
         "TipsOverpassName.js",
-        "TipsRoute.js"
+        "TipsRoute.js",
+        "TMFeature.js",
+        "TMLinkFunctionClass.js",
+        "TMLinkLaneClass.js",
+        "TMLinkLaneNum.js",
+        "TMLinkLimitNum.js",
+        "TMLinkSpeedlimitSpeedClass.js",
+        "TMLinkSpeedlimitSpeedClassWork.js",
+        "TMLinkSpeedlimitSpeedLimitSrc.js",
+        "TMTruckLimitData.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

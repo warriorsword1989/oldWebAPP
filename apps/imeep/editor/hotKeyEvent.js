@@ -34,6 +34,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var relationData = layerCtrl.getLayerById('relationData');
         var rdCross = layerCtrl.getLayerById('rdCross');
         var crfData = layerCtrl.getLayerById('crfData');
+        var rdLinkSpeedLimit = layerCtrl.getLayerById('rdLinkSpeedLimit');
         var resetPageFlag = true;
         if (event.keyCode == 27) {
             event.preventDefault(); //取消浏览器快捷键的默认设置
@@ -427,6 +428,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                             if (param["type"] === "RDLINK") {
                                 rdLink.redraw();
                                 rdnode.redraw();
+                                rdLinkSpeedLimit.redraw();
                             } else if (param["type"] === "ADLINK") {
                                 adLink.redraw();
                                 adNode.redraw();
@@ -647,6 +649,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         if (param["type"] === "RDNODE") {
                             rdLink.redraw();
                             rdnode.redraw();
+                            rdCross.redraw();
                             ctrl = 'attr_node_ctrl/rdNodeFormCtrl';
                             tpl = 'attr_node_tpl/rdNodeFormTpl.html';
                         } else if (param["type"] === "ADNODE") {
@@ -1686,6 +1689,31 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         }
                     }
                 });
+            } else if(shapeCtrl.editType == "hgwgLimitDirect"){
+                console.info(selectCtrl);
+                //treatmentOfChanged(data, "RDHGWGLIMIT", 'attr_hgwglimit_ctrl/hgwgLimitCtrl', 'attr_hgwglimit_tpl/hgwglimitTpl.html');
+                var temp = selectCtrl.selectedFeatures;
+                if(temp.linkPid){
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDHGWGLIMIT",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            direct:temp.direct,
+                            linkPid:temp.linkPid,
+                            latitude:temp.latitude,
+                            longitude:temp.longitude
+                        }
+                    };
+                    dsEdit.save(param).then(function (data) {
+                        if(data != null) {
+                            relationData.redraw();
+                            treatmentOfChanged(data, "RDHGWGLIMIT", 'attr_hgwglimit_ctrl/hgwgLimitCtrl', 'attr_hgwglimit_tpl/hgwglimitTpl.html');
+                        }
+                    });
+                }else {
+                    swal("错误提示","请先创建限高限重！","error");
+                }
             } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
                 if(geo.nodePids && geo.nodePids.length > 0){
                     var param = {
@@ -1714,6 +1742,10 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                     })
                 }
 
+            } else if (shapeCtrl.editType === "addTmcLocation") {    //增加TMC匹配信息
+                console.info(featCodeCtrl.getFeatCode(),selectCtrl)
+
+                featCodeCtrl.newObj = [];
             } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
                 return;
             }

@@ -28,6 +28,7 @@ fastmap.dataApi.RdLinkForm = fastmap.dataApi.GeoDataModel.extend({
         this.extendedForm = data["extendedForm"] || 0;
         this.auxiFlag = data["auxiFlag"] || 0;
         this.kgFlag = data["kgFlag"] || 0;
+        this.status = true;
     },
     /**
      * 获取Node简略信息

@@ -1219,6 +1219,11 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         featCodeCtrl.setFeatCode($scope.laneInfo);
                     });
                     break;
+                case "RDHGWGLIMIT":
+                    ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_hgwglimit_ctrl/hgwgLimitCtrl';
+                    ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_hgwglimit_tpl/hgwglimitTpl.html";
+                    $scope.getFeatDataCallback(data, data.id, "RDHGWGLIMIT", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    break;
                 case "TIPS":
                     $("#popoverTips").css("display", "block");
                     dsFcc.getTipsResult(data.id).then(function(result) {

@@ -609,6 +609,11 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/beginCheckPanelTpl.html';
 					});
 					break;
+				case 'thematicMap':
+					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/thematicMapChooseCtrl').then(function() {
+						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/thematicMapChooseTpl.html';
+					});
+					break;
 			}
 			$scope.advancedTool = toolType;
 		};
@@ -622,11 +627,14 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			});
 		};
 		$scope.thematicMapChange = function() {
+			$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function() {
+				$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
+			});
+
 			var layerCtrl = fastmap.uikit.LayerController();
-			var rdLink = layerCtrl.getLayerById('rdLink');
-			App.Temp.thematicMapFlag = !$scope.thematicMapShow;
-			$scope.thematicMapShow = !$scope.thematicMapShow;
-			rdLink.redraw();
+			layerCtrl.setLayerVisibleOrNot('rdLink',false);
+			layerCtrl.setLayerVisibleOrNot('thematicLink',true);
+			//App.Temp.thematicMapFlag = !$scope.thematicMapShow;
 		};
 		$scope.closeAdvancedToolsPanel = function() {
 			$scope.advancedTool = null;

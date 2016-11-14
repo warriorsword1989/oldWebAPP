@@ -13,6 +13,8 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var rdCross = layerCtrl.getLayerById("relationData");
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    var tmcLayer = layerCtrl.getLayerById('tmcData');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData =  objCtrl.data;
 
 
@@ -60,6 +62,87 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         var newRtic = fastmap.dataApi.rdLinkRtic({"linkPid": $scope.rticData.pid});
         $scope.rticData.rtics.unshift(newRtic)
     };
+    //选择TMCPoint方法
+    $scope.selectTmcCallback = function (data) {
+        $scope.selectedFeature = data;
+        //地图小于17级时不能选择
+        if (map.getZoom < 17) {
+            return;
+        }
+        console.log(data)
+    };
+    //新增TMC匹配信息
+    $scope.addTmcLocation = function () {
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.rticData.pid.toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {}
+        });
+        highRenderCtrl.drawHighlight();
+        tooltipsCtrl.setCurrentTooltip('开始TMC匹配信息起点！');
+
+        map.currentTool.disable();
+        //初始化选择关系的工具
+        map.currentTool = new fastmap.uikit.SelectRelation({
+            map: map,
+            relationFlag: true
+        });
+        map.currentTool.enable();
+        editLayer.bringToBack();
+        $scope.toolTipText = '请选择关系！';
+        eventController.off(eventController.eventTypes.GETRELATIONID);
+        eventController.on(eventController.eventTypes.GETRELATIONID, $scope.selectTmcCallback);
+        if (shapeCtrl.shapeEditorResult) {
+            shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
+            selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+            layerCtrl.pushLayerFront('edit');
+        }
+        // shapeCtrl.setEditingType('addTmcLocation');
+        // shapeCtrl.startEditing();
+        // map.currentTool = shapeCtrl.getCurrentTool();
+        tooltipsCtrl.setEditEventType('addTmcLocation');
+        tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+    };
+    //框选TMCPoint
+    $scope.selectTmcPoint = function () {
+        map.currentTool = new fastmap.uikit.SelectForRectang({
+            map: map,
+            shapeEditor: shapeCtrl,
+            LayersList: [tmcLayer]
+        });
+        map.currentTool.enable();
+        eventController.off(eventController.eventTypes.GETRECTDATA);
+        eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+            var tmcPointArray = [];
+            console.log(data)
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures = [];
+            if (data && data.data && data.data.length == 0) {
+                tooltipsCtrl.setCurrentTooltip('请重新框选TMCPoint！');
+                return;
+            }
+            //筛选排除非TMCPoint要素
+            for (var i = 0; i < data.data.length; i++) {
+                if (data.data[i].data && data.data[i].data.properties.featType == 'TMCPOINT') {
+                    if (data.data[i].data.properties.id !== undefined) {
+                        tmcPointArray.push(data.data[i].data.properties.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id:data.data[i].data.properties.id.toString(),
+                            layerid:'tmcData',
+                            type:'TMCPOINT',
+                            style:{}
+                        });
+                    }
+                    // data.data.splice(i, 1);
+                    // i--;
+                }
+            }
+            highRenderCtrl.drawHighlight();
+            tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
+            console.info(tmcPointArray)
+        });
+    };
     $scope.minusCarRtic = function (id) {
         $scope.rticData.rtics.splice(id, 1);
         if ($scope.rticData.rtics.length === 0) {
@@ -68,7 +151,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     };
     $scope.showScene = function (id) {
         for (var layer in layerCtrl.layers) {
-            if(id == 1){
+            if (id === 1) {
                 if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = true;
@@ -82,15 +165,35 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
                         layerArr: layerCtrl.layers
                     });
                 }
-            } else if(id == 2){
+            } else if (id === 2) {
                 if (layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = true;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                } else if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = true;
+                    layerCtrl.layers[layer].options.visible = false;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                }
+            } else if (id === 3) {
+                if (layerCtrl.layers[layer].options.id === 'tmcData') {
+                    layerCtrl.layers[layer].options.visible = true;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                }
+                if (layerCtrl.layers[layer].options.requestType === 'RDLINKRTIC') {
+                    layerCtrl.layers[layer].options.isUpDirect = false;
+                    layerCtrl.layers[layer].options.visible = false;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
+                        layerArr: layerCtrl.layers
+                    });
+                } else if(layerCtrl.layers[layer].options.requestType === 'RDLINKINTRTIC') {
+                    layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
