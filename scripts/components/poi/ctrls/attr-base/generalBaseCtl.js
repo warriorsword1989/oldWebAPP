@@ -22,9 +22,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$rootScope', '$oc
             }
         }
         $scope.changeProperty('base');//默认显示基本属性页面
-        // if(!$scope.poi.level){
-        //     $scope.$broadcast('initBaseinfo');
-        // }
+         if(!$scope.poi.level){
+             $scope.$broadcast('initBaseinfo');
+         }
         _retreatData($scope.poi);
         initShowTag();
         /**
