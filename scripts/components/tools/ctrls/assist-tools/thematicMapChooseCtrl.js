@@ -40,9 +40,6 @@ angular.module('app').controller("ThematicMap", ['$scope',
         layer.url.parameter["type"] = (type);
         layer.redraw();
       }
-      if($event.preventDefault){
-        $event.preventDefault();
-      }
     }
   }
 ]);
