@@ -8,18 +8,18 @@ fastmap.mapApi.ShapeEditorResult = L.Class.extend({
         this.options = options || {};
         L.setOptions(this, options);
         this.originalObject = null;
-        this.final=null;
-        this.original=null;
+        this.final = null;
+        this.original = null;
         this.properties = null;
     },
-    /***
+    /** *
      * 当前编辑几何对象属性信息
      * @param obj
      */
-    setProperties:function(obj){
+    setProperties: function (obj) {
         this.properties = obj;
     },
-    getProperties:function(){
+    getProperties: function () {
         return this.properties;
     },
     setOriginalObject: function (value) {
@@ -46,8 +46,8 @@ fastmap.mapApi.ShapeEditorResult = L.Class.extend({
         return this.final;
     },
 
-    resetFinalGeometry: function (){
-       this.final = Utils.clone(this.original);
-    },
+    resetFinalGeometry: function () {
+        this.final = Utils.clone(this.original);
+    }
 
 });

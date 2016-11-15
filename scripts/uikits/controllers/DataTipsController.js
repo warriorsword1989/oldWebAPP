@@ -9,7 +9,6 @@ fastmap.uikit.DataTipsController = (function () {
     var instantiated;
 
     function init() {
-
         var dataTipsController = L.Class.extend({
             /**
              * 事件管理器
@@ -31,7 +30,7 @@ fastmap.uikit.DataTipsController = (function () {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.dataTipsData = {};
-                this.on("dataFromScene", this.OnSetDataTips, this);
+                this.on('dataFromScene', this.OnSetDataTips, this);
             },
             OnSetDataTips: function (event) {
                 this.setDataTipsData(event.id);
@@ -43,7 +42,8 @@ fastmap.uikit.DataTipsController = (function () {
             toDataMode: function (data) {
                 var switchData = {};
                 if (data === null || data === undefined) {
-                    var outLink = "", info = [];
+                    var outLink = '',
+                        info = [];
                     switchData.pid = this.dataTipsData.id;
                     switchData.inLinkPid = this.dataTipsData.id;
                     var arr = this.dataTipsData.o_array;
@@ -58,19 +58,15 @@ fastmap.uikit.DataTipsController = (function () {
                     switchData.flag = 1;
                     switchData.relationshipType = 1;
                     switchData.type = 1;
-                    switchData.time = [{startTime: "20121212", endTime: "20121213"}, {
-                        startTime: "20141214",
-                        endTime: "20141215"
+                    switchData.time = [{ startTime: '20121212', endTime: '20121213' }, {
+                        startTime: '20141214',
+                        endTime: '20141215'
                     }],
                     switchData.vehicleExpression = 14;
+                } else if (data.type === 'rdLink') {
+                    alert(data.name);
+                } else if (data.type === 'tips') {
 
-
-                } else {
-                    if (data.type === "rdLink") {
-                        alert(data.name);
-                    } else if (data.type === "tips") {
-
-                    }
                 }
             },
             /**
@@ -106,8 +102,6 @@ fastmap.uikit.DataTipsController = (function () {
             instantiated = init();
         }
         return instantiated;
-    }
-})();
-
-
+    };
+}());
 

@@ -6,27 +6,27 @@
 fastmap.dataApi.RdVoiceGuide = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RdVOICEGUIDE";
+        this.geoLiveType = 'RdVOICEGUIDE';
         this.setAttributeData(data);
     },
     /**
      * 设置信息
      */
-    setAttributeData:function(data){
-        this.pid = data["pid"];
-        this.inLinkPid = data["inLinkPid"];
-        this.nodePid = data["nodePid"];
-        this.rowId = data["rowId"] || null;
+    setAttributeData: function (data) {
+        this.pid = data.pid;
+        this.inLinkPid = data.inLinkPid;
+        this.nodePid = data.nodePid;
+        this.rowId = data.rowId || null;
 
         this.details = [];
-        if (data["details"]) {
-            for (var i = 0, len = data["details"].length; i < len; i++) {
-                this.details.push(fastmap.dataApi.rdVoiceGuideDetail(data["details"][i]));
+        if (data.details) {
+            for (var i = 0, len = data.details.length; i < len; i++) {
+                this.details.push(fastmap.dataApi.rdVoiceGuideDetail(data.details[i]));
             }
         }
     },
@@ -34,21 +34,21 @@ fastmap.dataApi.RdVoiceGuide = fastmap.dataApi.GeoDataModel.extend({
     /**
      * 获取简略信息
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["inLinkPid"] = this.inLinkPid;
-        data["nodePid"] = this.nodePid;
-        data["rowId"] = this.rowId;
+        data.pid = this.pid;
+        data.inLinkPid = this.inLinkPid;
+        data.nodePid = this.nodePid;
+        data.rowId = this.rowId;
 
-        data["details"] = [];
+        data.details = [];
         if (this.details) {
             for (var i = 0, len = this.details.length; i < len; i++) {
-                data["details"].push(this.details[i].getIntegrate());
+                data.details.push(this.details[i].getIntegrate());
             }
         }
 
-        data["geoLiveType"] = this.geoLiveType;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -58,26 +58,26 @@ fastmap.dataApi.RdVoiceGuide = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["inLinkPid"] = this.inLinkPid;
-        data["nodePid"] = this.nodePid;
-        data["rowId"] = this.rowId;
+        data.pid = this.pid;
+        data.inLinkPid = this.inLinkPid;
+        data.nodePid = this.nodePid;
+        data.rowId = this.rowId;
 
-        data["details"] = [];
+        data.details = [];
         if (this.details) {
             for (var i = 0, len = this.details.length; i < len; i++) {
-                data["details"].push(this.details[i].getIntegrate());
+                data.details.push(this.details[i].getIntegrate());
             }
         }
 
-        data["geoLiveType"] = this.geoLiveType;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdSameNode初始化函数
  * @param id
  * @param options 其他可选参数
@@ -85,5 +85,5 @@ fastmap.dataApi.RdVoiceGuide = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdVoiceGuide = function (data, options) {
     return new fastmap.dataApi.RdVoiceGuide(data, options);
-}
+};
 

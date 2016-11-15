@@ -5,10 +5,10 @@
  * @class SelectController
  */
 
-fastmap.uikit.SelectController=(function() {
+fastmap.uikit.SelectController = (function () {
     var instantiated;
     function init(options) {
-            var selectController = L.Class.extend({
+        var selectController = L.Class.extend({
 
             /**
              * 相关属性
@@ -25,17 +25,17 @@ fastmap.uikit.SelectController=(function() {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.selectedFeatures = null;
-                this.snapObj= null;
+                this.snapObj = null;
                 var eventController = fastmap.uikit.EventController();
-                eventController.on(eventController.eventTypes.SELECTBYATTRIBUTE, this.OnSelectByAttribute,this);
+                eventController.on(eventController.eventTypes.SELECTBYATTRIBUTE, this.OnSelectByAttribute, this);
             },
             /**
              * 根据属性获取元素
              * @method selectByAttribute
              */
-            OnSelectByAttribute:function(event) {
+            OnSelectByAttribute: function (event) {
                 this.rowKey = event.feather;
-                var features=[];
+                var features = [];
                 this.onSelected(features);
             },
             /**
@@ -43,10 +43,10 @@ fastmap.uikit.SelectController=(function() {
              * @selectByGeometry
              * @param {Geometry}geometry
              */
-            selectByGeometry:function(geometry) {
+            selectByGeometry: function (geometry) {
                 this.geometry = geometry;
-                var features={geometry:geometry};
-                if(geometry==="circle"){
+                var features = { geometry: geometry };
+                if (geometry === 'circle') {
                 }
 
                 this.onSelected(features);
@@ -56,35 +56,35 @@ fastmap.uikit.SelectController=(function() {
              * @method onSelected
              * @param {Object}features
              */
-            onSelected:function(features) {
+            onSelected: function (features) {
                 this.selectedFeatures = features;
             },
             /**
              * 清空存放数据的数组
              * @method clear
              */
-            clear:function() {
-                this.selectedFeatures= [];
+            clear: function () {
+                this.selectedFeatures = [];
             },
 
-            /***
+            /** *
              * 当前捕捉到的对象
               */
-            getSnapObj:function(){
+            getSnapObj: function () {
                 return this.snapObj;
             },
 
-            setSnapObj:function(obj){
+            setSnapObj: function (obj) {
                 this.snapObj = obj;
             }
         });
         return new selectController(options);
     }
-    return function(options) {
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
         return instantiated;
-    }
-})();
+    };
+}());
 

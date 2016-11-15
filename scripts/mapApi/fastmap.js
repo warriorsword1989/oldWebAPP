@@ -1,9 +1,9 @@
-﻿/**
+/**
  * fastmap模块
  *
  * @module fastmap
  */
-var fastmap = (function() {
+var fastmap = (function () {
     var instantiated;
 
     function init() {
@@ -13,11 +13,11 @@ var fastmap = (function() {
              * @property version
              * @type String
              */
-            version: "1.1.0"
+            version: '1.1.0'
         };
     }
     return !instantiated ? instantiated = init() : instantiated;
-})();
+}());
 /**
  * mapApi类
  * 封装地图相关操作
@@ -25,26 +25,26 @@ var fastmap = (function() {
  * @namespace fastmap
  * @class mapApi
  */
-fastmap.mapApi = (function() {
+fastmap.mapApi = (function () {
     var instantiated;
 
     function init() {
         return {};
     }
     return !instantiated ? instantiated = init() : instantiated;
-})();
+}());
 /**
  * symbol类
  * 封装符号库相关操作
  */
-fastmap.mapApi.symbol = (function() {
+fastmap.mapApi.symbol = (function () {
     var instantiated;
 
     function init() {
         return {};
     }
     return !instantiated ? instantiated = init() : instantiated;
-})();
+}());
 /**
  * uiKit类
  * 封装地图界面类
@@ -52,14 +52,14 @@ fastmap.mapApi.symbol = (function() {
  * @namespace fastmap
  * @class uiKit
  */
-fastmap.uikit = (function() {
+fastmap.uikit = (function () {
     var instantiated;
 
     function init() {
         return {};
     }
     return !instantiated ? instantiated = init() : instantiated;
-})();
+}());
 /**
  * dataApi类
  * 封装相关地图数据类
@@ -67,13 +67,13 @@ fastmap.uikit = (function() {
  * @namespace fastmap
  * @class dataApi
  */
-fastmap.dataApi = (function() {
+fastmap.dataApi = (function () {
     var instantiated;
 
     function init() {
         return {
-            id: "test"
+            id: 'test'
         };
     }
     return !instantiated ? instantiated = init() : instantiated;
-})();
+}());

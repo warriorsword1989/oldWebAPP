@@ -3,9 +3,7 @@
  */
 
 define(['symbol.SymbolFactory'], function () {
-
     describe('symbol.SymbolFactory类', function () {
-
         var factory;
 
         beforeEach(function () {

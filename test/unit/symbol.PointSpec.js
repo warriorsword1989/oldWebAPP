@@ -3,9 +3,7 @@
  */
 
 define(['symbol.Point'], function () {
-
     describe('symbol.Point类', function () {
-
         var point;
 
         beforeEach(function () {

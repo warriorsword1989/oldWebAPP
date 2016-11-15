@@ -3,14 +3,12 @@
  * Class ShapeEditorFactory
  */
 
-fastmap.mapApi.ShapeEditorFactory = (function() {
+fastmap.mapApi.ShapeEditorFactory = (function () {
     var instantiated;
 
     function init(options) {
-
-
         var createShapeTools = L.Class.extend({
-            /***
+            /** *
              *
              * @param {Object}options
              */
@@ -22,7 +20,6 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
 
             CreateShapeToolsObject: function (shapeEditor) {
                 var toolsObject = {
-
                     'drawPath': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawRwLink': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawAdLink': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
@@ -53,20 +50,22 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor}),
                     'pathDepartNode':new fastmap.mapApi.pathDepartNode({shapeEditor:shapeEditor}),
                     'pathSmooth':new fastmap.mapApi.PathSmooth({shapeEditor:shapeEditor}),
+                    pathDepartNode: new fastmap.mapApi.pathDepartNode({ shapeEditor: shapeEditor }),
+                    hgwgLimitDirect: new fastmap.mapApi.TransformDirection({ shapeEditor: shapeEditor }),
+                    updateHgwgLimitNode: new fastmap.mapApi.PointVertexAdd({ shapeEditor: shapeEditor })
                 };
                 return toolsObject;
             }
-        })
+        });
 
 
         return new createShapeTools(options);
     }
 
-    return function(options) {
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
         return instantiated;
-    }
-
-})()
+    };
+}());

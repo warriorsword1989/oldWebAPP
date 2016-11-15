@@ -5,7 +5,7 @@
 
 fastmap.mapApi.adAdminAdd = L.Handler.extend({
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -25,13 +25,13 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
+        this.snapHandler = new fastmap.mapApi.Snap({ map: this._map, shapeEditor: this.shapeEditor, selectedSnap: false, snapLine: true, snapNode: false, snapVertex: false });
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController().getLayerById('adAdmin'));
-        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -40,7 +40,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -48,9 +48,9 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         this._map.off('mousemove', this.onMouseMove, this);
     },
 
-    onMouseMove:function(event){
+    onMouseMove: function (event) {
         this.container.style.cursor = 'pointer';
-        this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
+        this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: false });
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
@@ -58,61 +58,54 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         var mouseLatlng;
-        if(this.snapHandler.snaped == true){
-            mouseLatlng = this.targetPoint
-        }else{
+        if (this.snapHandler.snaped == true) {
+            mouseLatlng = this.targetPoint;
+        } else {
             mouseLatlng = event.latlng;
         }
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(mouseLatlng.lng, mouseLatlng.lat));
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this.drawGeomCanvasHighlight(tileCoordinate, event);
-
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
-        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
+        if (this.tiles[tilePoint[0] + ':' + tilePoint[1]]) {
             var pixels = null;
-            if(this.snapHandler.snaped == true){
-
-                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat,this._map.getZoom());
-            }else{
-                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+            if (this.snapHandler.snaped == true) {
+                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
+            } else {
+                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
             }
 
-            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+            var x = pixels[0] - tilePoint[0] * 256,
+                y = pixels[1] - tilePoint[1] * 256;
+            var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
 
             var temp = 0;
-            for (var i = 0; i < data.length; i++)
-            {
-                for (var j = 0; j < data.length - i; j++)
-                {
-                    if((j+1)<(data.length - i-1)){
-                        if (this._TouchesPath(data[j].geometry.coordinates, x, y) > this._TouchesPath(data[j+1].geometry.coordinates, x, y))
-                        {
-                            temp = data[j+1];
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < data.length - i; j++) {
+                    if ((j + 1) < (data.length - i - 1)) {
+                        if (this._TouchesPath(data[j].geometry.coordinates, x, y) > this._TouchesPath(data[j + 1].geometry.coordinates, x, y)) {
+                            temp = data[j + 1];
                             data[j + 1] = data[j];
                             data[j] = temp;
                         }
                     }
-
                 }
             }
-            var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
-            point= new fastmap.mapApi.Point(point[0], point[1]);
-            //id = data[0].properties.id;
+            var point = transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
+            point = new fastmap.mapApi.Point(point[0], point[1]);
+            // id = data[0].properties.id;
             this.selectCtrl.selectedFeatures = data[0].properties;
         }
-
-
     },
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -125,7 +118,7 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
         var N = d.length;
         var p1x = d[0][0][0];
         var p1y = d[0][0][1];
-        var arr=[];
+        var arr = [];
         for (var i = 1; i < N; i += 1) {
             var p2x = d[i][0][0];
             var p2y = d[i][0][1];
@@ -135,29 +128,26 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
             var diffy = y - p1y;
             var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
             if (t < 0) {
-                t = 0
+                t = 0;
             }
             if (t > 1) {
-                t = 1
+                t = 1;
             }
             var closestx = p1x + t * dirx;
             var closesty = p1y + t * diry;
             var dx = x - closestx;
             var dy = y - closesty;
-            //if ((dx * dx + dy * dy) <= r * r) {
+            // if ((dx * dx + dy * dy) <= r * r) {
             //    return (dx * dx + dy * dy)
-            //}
+            // }
             p1x = p2x;
-            p1y = p2y
-            arr.push(dx * dx + dy * dy)
+            p1y = p2y;
+            arr.push(dx * dx + dy * dy);
         }
         var temp = 0;
-        for (var i = 0; i < arr.length; i++)
-        {
-            for (var j = 0; j < arr.length - i; j++)
-            {
-                if (arr[j] > arr[j + 1])
-                {
+        for (var i = 0; i < arr.length; i++) {
+            for (var j = 0; j < arr.length - i; j++) {
+                if (arr[j] > arr[j + 1]) {
                     temp = arr[j + 1];
                     arr[j + 1] = arr[j];
                     arr[j] = temp;
@@ -165,13 +155,11 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
             }
         }
         return arr[0];
-
-
     },
     cleanHeight: function () {
         this._cleanHeight();
     },
-    /***
+    /** *
      *清除高亮
      */
     _cleanHeight: function () {
@@ -182,8 +170,8 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
-            }
-            if (data.hasOwnProperty("features")) {
+            };
+            if (data.hasOwnProperty('features')) {
                 for (var i = 0; i < data.features.length; i++) {
                     var feature = data.features[i];
 
@@ -195,46 +183,38 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                     var style = this.currentEditLayer.styleFor(feature, color);
 
                     var geom = feature.geometry.coordinates;
-                    if(!style) {
+                    if (!style) {
                         this.currentEditLayer._drawLineString(ctx, geom, true, {
-                                size: 4,
-                                color: '#FBD356',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            },
+                            size: 4,
+                            color: '#FBD356',
+                            mouseOverColor: 'rgba(255,0,0,1)',
+                            clickColor: 'rgba(252,0,0,1)'
+                        },
                             {
                                 color: 'rgba(255,0,0,1) ',
                                 radius: 3
                             }, feature.properties);
-                    }else{
+                    } else {
                         this.currentEditLayer._drawLineString(ctx, geom, true, style, {
                             color: '#696969',
                             radius: 3
                         }, feature.properties);
                     }
-
-
                 }
             }
-
         }
-
-
-    }
-    ,
-    /***
+    },
+    /** *
      * 绘制高亮
      * @param id
      * @private
      */
-    _drawHeight: function (id,point) {
+    _drawHeight: function (id, point) {
         this.redrawTiles = this.tiles;
         for (var obj in this.tiles) {
-
             var data = this.tiles[obj].data.features;
 
             for (var key in data) {
-
                 if (data[key].properties.id == id) {
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
@@ -242,16 +222,14 @@ fastmap.mapApi.adAdminAdd = L.Handler.extend({
                         zoom: this._map.getZoom()
                     };
                     this.currentEditLayer._drawImg({
-                        ctx:ctx,
-                        geo:point,
-                        style:{src:'../../images/road/img/star.png'},
-                        boolPixelCrs:true
-                    })
+                        ctx: ctx,
+                        geo: point,
+                        style: { src: '../../images/road/img/star.png' },
+                        boolPixelCrs: true
+                    });
                 }
             }
         }
-
-
     }
 
 });

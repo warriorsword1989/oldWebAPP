@@ -6,18 +6,18 @@
 fastmap.dataApi.RdObjectLinks = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDOBJECTLINKS";
+        this.geoLiveType = 'RDOBJECTLINKS';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.linkPid = data["linkPid"];
+    setAttributeData: function (data) {
+        this.linkPid = data.linkPid;
     },
 
     /**
@@ -26,10 +26,10 @@ fastmap.dataApi.RdObjectLinks = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -39,15 +39,15 @@ fastmap.dataApi.RdObjectLinks = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["linkPid"] = this.linkPid;
-        data["geoLiveType"] = this.geoLiveType;
+        data.linkPid = this.linkPid;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * rdInterLinks初始化函数
  * @param id
  * @param point 初始化rdInterLinks的点
@@ -56,5 +56,5 @@ fastmap.dataApi.RdObjectLinks = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdObjectLinks = function (data, options) {
     return new fastmap.dataApi.RdObjectLinks(data, options);
-}
+};
 

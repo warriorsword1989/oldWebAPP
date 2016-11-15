@@ -2,24 +2,24 @@
  * Created by mali on 2016/7/25.
  */
 fastmap.uikit.canvasFeature.LUFace = fastmap.uikit.canvasFeature.Feature.extend({
-    setAttribute: function(item) {
-        var color = "";
-        this.properties["featType"] = "LUFACE";
-        this.geometry['type'] = 'Polygon';
+    setAttribute: function (item) {
+        var color = '';
+        this.properties.featType = 'LUFACE';
+        this.geometry.type = 'Polygon';
         if (Number(this.properties.id).toString(16).length > 6) {
             color = Number(this.properties.id).toString(16).substring(Number(this.properties.id).toString(16).length - 4);
         } else {
             color = Number(this.properties.id).toString(16);
         }
-        this.properties['style'] = {
-            //'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
-            //'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
+        this.properties.style = {
+            // 'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
+            // 'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
 //            'fillColor': '#' + color + '00',
-            'fillColor': '#CD853F',
-            'fillOpacity': 0.2,
-            'strokeColor': '#CD853F',
-            'strokeWidth': 1,
-            'backgroundImage': ""
+            fillColor: '#CD853F',
+            fillOpacity: 0.2,
+            strokeColor: '#CD853F',
+            strokeWidth: 1,
+            backgroundImage: ''
         };
     }
 });

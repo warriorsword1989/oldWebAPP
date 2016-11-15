@@ -6,27 +6,27 @@
 fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDTRAFFICSIGNAL";
+        this.geoLiveType = 'RDTRAFFICSIGNAL';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"] || "";
-        this.nodePid = data["nodePid"];
-        this.linkPid = data["linkPid"];
-        this.location = data["location"];
-        this.flag = data["flag"] || 0;
-        this.rowId = data["rowId"] || 0;
+    setAttributeData: function (data) {
+        this.pid = data.pid || '';
+        this.nodePid = data.nodePid;
+        this.linkPid = data.linkPid;
+        this.location = data.location;
+        this.flag = data.flag || 0;
+        this.rowId = data.rowId || 0;
 
-        this.type = data["type"] || 0;
-        this.kgFlag = data["kgFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
+        this.type = data.type || 0;
+        this.kgFlag = data.kgFlag || 0;
+        this.uRecord = data.uRecord || 0;
     },
 
     /**
@@ -35,18 +35,18 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["linkPid"]  = this.linkPid;
-        data["location"] = this.location;
-        data["flag"] = this.flag;
-        data["rowId"] = this.rowId;
-        data["type"] = this.type;
-        data["kgFlag"] = this.kgFlag;
-        data["uRecord"] = this.uRecord;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = parseInt(this.pid);
+        data.nodePid = parseInt(this.nodePid);
+        data.linkPid = parseInt(this.linkPid);
+        data.location = parseInt(this.location);
+        data.flag = parseInt(this.flag);
+        data.rowId = parseInt(this.rowId);
+        data.type = parseInt(this.type);
+        data.kgFlag = parseInt(this.kgFlag);
+        data.uRecord = this.uRecord;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -56,23 +56,23 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodePid"] = this.nodePid;
-        data["linkPid"]  = this.linkPid;
-        data["location"] = this.location;
-        data["flag"] = this.flag;
-        data["rowId"] = this.rowId;
-        data["type"] = this.type;
-        data["kgFlag"] = this.kgFlag;
-        data["uRecord"] = this.uRecord;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = parseInt(this.pid);
+        data.nodePid = parseInt(this.nodePid);
+        data.linkPid = parseInt(this.linkPid);
+        data.location = parseInt(this.location);
+        data.flag = parseInt(this.flag);
+        data.rowId = parseInt(this.rowId);
+        data.type = parseInt(this.type);
+        data.kgFlag = parseInt(this.kgFlag);
+        data.uRecord = this.uRecord;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * RdTrafficSignal初始化函数
  * @param id
  * @param options 其他可选参数
@@ -80,5 +80,5 @@ fastmap.dataApi.RdTrafficSignal = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdTrafficSignal = function (data, options) {
     return new fastmap.dataApi.RdTrafficSignal(data, options);
-}
+};
 

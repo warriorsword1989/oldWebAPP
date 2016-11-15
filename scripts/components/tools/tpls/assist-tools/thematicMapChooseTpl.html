@@ -1,0 +1,15 @@
+<div class="fm-panel" ng-controller="ThematicMap">
+    <div class="title">专题图</div>
+    <div class="content">
+        <div class="radio">
+            <label>
+                <input type="radio" name="optionsRadios" value="close" checked ng-click="selectThematicMap('close',$event)">关闭专题图
+            </label>
+        </div>
+        <div class="radio" ng-repeat="ThematicMap in ThematicMapArray">
+            <label>
+                <input type="radio" name="optionsRadios" value={{ThematicMap.type}} ng-click="selectThematicMap(ThematicMap.type,$event)" >{{ThematicMap.name}}
+            </label>
+        </div>
+    </div>
+</div>

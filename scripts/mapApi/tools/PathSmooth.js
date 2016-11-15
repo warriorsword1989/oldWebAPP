@@ -435,3 +435,4 @@ fastmap.mapApi.PathSmooth = L.Handler.extend({
   }
 
 })
+

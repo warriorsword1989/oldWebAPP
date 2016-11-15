@@ -4,23 +4,23 @@
  */
 
 fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
-    /***
+    /** *
      *
      * @param data 初始化属性对象
      */
     initialize: function (data) {
-        this.geoLiveType = "RDOBJECTNAME";
+        this.geoLiveType = 'RDOBJECTNAME';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.nameId = data["nameId"] || "";
-        this.pid = data["pid"] || "";
-        this.nameGroupid = data["nameGroupid"] || 1;
-        this.langCode = data["langCode"] || "";
-        this.name = data["name"] || "";
-        this.phonetic = data["phonetic"] || "";
-        this.srcFlag = data["srcFlag"] || 0;
+    setAttributeData: function (data) {
+        this.nameId = data.nameId || '';
+        this.pid = data.pid || '';
+        this.nameGroupid = data.nameGroupid || 1;
+        this.langCode = data.langCode || '';
+        this.name = data.name || '';
+        this.phonetic = data.phonetic || '';
+        this.srcFlag = data.srcFlag || 0;
     },
 
     /**
@@ -29,16 +29,16 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["nameId"] = this.nameId;
-        data["pid"] = this.pid;
-        data["nameGroupid"] = this.nameGroupid;
-        data["langCode"] = this.langCode;
-        data["name"] = this.name;
-        data["phonetic"] = this.phonetic;
-        data["srcFlag"]= this.srcFlag;
-        data["geoLiveType"] = this.geoLiveType;
+        data.nameId = this.nameId;
+        data.pid = this.pid;
+        data.nameGroupid = this.nameGroupid;
+        data.langCode = this.langCode;
+        data.name = this.name;
+        data.phonetic = this.phonetic;
+        data.srcFlag = this.srcFlag;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -48,21 +48,21 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["nameId"] = this.nameId;
-        data["pid"] = this.pid;
-        data["nameGroupid"] = this.nameGroupid;
-        data["langCode"] = this.langCode;
-        data["name"] = this.name;
-        data["phonetic"] = this.phonetic;
-        data["srcFlag"]= this.srcFlag;
-        data["geoLiveType"] = this.geoLiveType;
+        data.nameId = this.nameId;
+        data.pid = this.pid;
+        data.nameGroupid = this.nameGroupid;
+        data.langCode = this.langCode;
+        data.name = this.name;
+        data.phonetic = this.phonetic;
+        data.srcFlag = this.srcFlag;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * linkLimit初始化函数
  * @param data 初始化rdnode的点
  * @param options 其他可选参数
@@ -70,5 +70,5 @@ fastmap.dataApi.RdObjectNames = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdObjectNames = function (data, options) {
     return new fastmap.dataApi.RdObjectNames(data, options);
-}
+};
 

@@ -1,4 +1,4 @@
-fastmap.uikit.canvasFeature.RdGsc = function(data) {
+fastmap.uikit.canvasFeature.RdGsc = function (data) {
     var parts = [],
         idx;
     parts.push(new fastmap.uikit.canvasFeature.RdGscMarker(data));
@@ -6,4 +6,4 @@ fastmap.uikit.canvasFeature.RdGsc = function(data) {
         parts.push(new fastmap.uikit.canvasFeature.RdGscPart(data, idx));
     }
     return parts;
-}
+};

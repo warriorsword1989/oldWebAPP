@@ -57,7 +57,7 @@
         <li class="list-group-item">
             <div><label class="control-label">收费标准</label></div>
             <div class="inline">
-                <input type="text" placeholder="0" style="width:120px"
+                <input type="number" min="1" ng-blur="formateNumbers('feeStd',999.99,2)" placeholder="0.00" style="width:120px"
                        ng-model="roadlinkData.feeStd">
                 <label>元/公里</label>
             </div>

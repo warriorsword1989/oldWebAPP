@@ -3,9 +3,7 @@
  */
 
 define(['symbol.Template'], function () {
-
     describe('symbol.Template类', function () {
-
         describe('构造函数', function () {
             it('无参数构造函数应该正确初始化成员变量', function () {
                 var template = new fastmap.mapApi.symbol.Template();
@@ -126,7 +124,6 @@ define(['symbol.Template'], function () {
         });
 
         describe('getMarks函数', function () {
-
             var geometry;
             var template;
 

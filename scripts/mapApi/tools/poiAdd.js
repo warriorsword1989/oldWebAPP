@@ -5,7 +5,7 @@
 
 fastmap.mapApi.poiAdd = L.Handler.extend({
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -25,13 +25,13 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.captureHandler = new fastmap.mapApi.Capture({map:this._map,shapeEditor:this.shapeEditor,selectedCapture:false,captureLine:true});
+        this.captureHandler = new fastmap.mapApi.Capture({ map: this._map, shapeEditor: this.shapeEditor, selectedCapture: false, captureLine: true });
         this.captureHandler.enable();
         // this.captureHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('poi'));
-        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        this.validation = fastmap.uikit.geometryValidation({ transform: new fastmap.mapApi.MecatorTranform() });
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -40,7 +40,7 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -48,7 +48,7 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         this._map.off('mousemove', this.onMouseMove, this);
     },
 
-    onMouseMove:function(event){
+    onMouseMove: function (event) {
         this.container.style.cursor = 'pointer';
         this.captureHandler.setTargetIndex(0);
 
@@ -57,11 +57,11 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
 
         var that = this;
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-        this.eventController.fire(this.eventController.eventTypes.CAPTURED,{'captured':true});
+        this.eventController.fire(this.eventController.eventTypes.CAPTURED, { captured: true });
         this.captureHandler.targetIndex = this.targetIndex;
         // this.selectCtrl.setCaptureObj(this.captureHandler);
-        if(this.captureHandler.captureLatlng){
-            var guide = L.latLng(this.captureHandler.captureLatlng[1],this.captureHandler.captureLatlng[0]);
+        if (this.captureHandler.captureLatlng) {
+            var guide = L.latLng(this.captureHandler.captureLatlng[1], this.captureHandler.captureLatlng[0]);
             points.components[1].x = guide.lng;
             points.components[1].y = guide.lat;
             points.linkPid = this.captureHandler.properties.id;
@@ -69,20 +69,19 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         points.components[0].x = this.targetPoint.lng;
         points.components[0].y = this.targetPoint.lat;
         that.shapeEditor.shapeEditorResult.setFinalGeometry(points);
-        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
+        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({ index: that.targetIndex });
     },
 
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
-
     },
 
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -95,7 +94,7 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
         var N = d.length;
         var p1x = d[0][0][0];
         var p1y = d[0][0][1];
-        var arr=[];
+        var arr = [];
         for (var i = 1; i < N; i += 1) {
             var p2x = d[i][0][0];
             var p2y = d[i][0][1];
@@ -105,29 +104,26 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
             var diffy = y - p1y;
             var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
             if (t < 0) {
-                t = 0
+                t = 0;
             }
             if (t > 1) {
-                t = 1
+                t = 1;
             }
             var closestx = p1x + t * dirx;
             var closesty = p1y + t * diry;
             var dx = x - closestx;
             var dy = y - closesty;
-            //if ((dx * dx + dy * dy) <= r * r) {
+            // if ((dx * dx + dy * dy) <= r * r) {
             //    return (dx * dx + dy * dy)
-            //}
+            // }
             p1x = p2x;
-            p1y = p2y
-            arr.push(dx * dx + dy * dy)
+            p1y = p2y;
+            arr.push(dx * dx + dy * dy);
         }
         var temp = 0;
-        for (var i = 0; i < arr.length; i++)
-        {
-            for (var j = 0; j < arr.length - i; j++)
-            {
-                if (arr[j] > arr[j + 1])
-                {
+        for (var i = 0; i < arr.length; i++) {
+            for (var j = 0; j < arr.length - i; j++) {
+                if (arr[j] > arr[j + 1]) {
                     temp = arr[j + 1];
                     arr[j + 1] = arr[j];
                     arr[j] = temp;
@@ -135,13 +131,11 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
             }
         }
         return arr[0];
-
-
     },
     cleanHeight: function () {
         this._cleanHeight();
     },
-    /***
+    /** *
      *清除高亮
      */
     _cleanHeight: function () {
@@ -152,8 +146,8 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
-            }
-            if (data.hasOwnProperty("features")) {
+            };
+            if (data.hasOwnProperty('features')) {
                 for (var i = 0; i < data.features.length; i++) {
                     var feature = data.features[i];
 
@@ -165,46 +159,38 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
                     var style = this.currentEditLayer.styleFor(feature, color);
 
                     var geom = feature.geometry.coordinates;
-                    if(!style) {
+                    if (!style) {
                         this.currentEditLayer._drawLineString(ctx, geom, true, {
-                                size: 4,
-                                color: '#FBD356',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            },
+                            size: 4,
+                            color: '#FBD356',
+                            mouseOverColor: 'rgba(255,0,0,1)',
+                            clickColor: 'rgba(252,0,0,1)'
+                        },
                             {
                                 color: 'rgba(255,0,0,1) ',
                                 radius: 3
                             }, feature.properties);
-                    }else{
+                    } else {
                         this.currentEditLayer._drawLineString(ctx, geom, true, style, {
                             color: '#696969',
                             radius: 3
                         }, feature.properties);
                     }
-
-
                 }
             }
-
         }
-
-
-    }
-    ,
-    /***
+    },
+    /** *
      * 绘制高亮
      * @param id
      * @private
      */
-    _drawHeight: function (id,point) {
+    _drawHeight: function (id, point) {
         this.redrawTiles = this.tiles;
         for (var obj in this.tiles) {
-
             var data = this.tiles[obj].data.features;
 
             for (var key in data) {
-
                 if (data[key].properties.id == id) {
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
@@ -212,16 +198,14 @@ fastmap.mapApi.poiAdd = L.Handler.extend({
                         zoom: this._map.getZoom()
                     };
                     this.currentEditLayer._drawImg({
-                        ctx:ctx,
-                        geo:point,
-                        style:{src:'../../images/road/img/star.png'},
-                        boolPixelCrs:true
-                    })
+                        ctx: ctx,
+                        geo: point,
+                        style: { src: '../../images/road/img/star.png' },
+                        boolPixelCrs: true
+                    });
                 }
             }
         }
-
-
     }
 
 });

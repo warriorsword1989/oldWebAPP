@@ -1,7 +1,7 @@
 /**
  * Created by chenx on 2016-09-30
  */
-angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', '$q', 'appPath',
+angular.module('app').controller('EditorToolbarCtrl', ['$scope', '$ocLazyLoad', '$q', 'appPath',
     function ($scope, $ocLazyLoad, $q, appPath) {
         var layerCtrl = fastmap.uikit.LayerController();
         var editLayer = layerCtrl.getLayerById('edit');
@@ -36,7 +36,7 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
         $scope.nodeChecked = false;
         $scope.linkChecked = true;
         // 编辑操作符
-        $scope.shapeOperator = "navigate"; // 形狀操作符selectNode,addLink等
+        $scope.shapeOperator = 'navigate'; // 形狀操作符selectNode,addLink等
         $scope.featureOperator = null; // 要素操作符RDNODE,RWLINK,ADLINK等，必須与形狀操作符配合使用
         // $ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar-map/selectShapeCtrl.js').then(function () {
         //     $scope.selectShapeTpl = appPath.root + 'scripts/components/tools/tpls/toolbar-map/selectShapeTpl.htm';
@@ -74,7 +74,7 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
         // llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addFeatureShape/addCRFShapeCtrl.js'));
         // llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addFeatureShape/addSameFeatureCtrl.js'));
         // llPromises.push($ocLazyLoad.load(appPath.root + 'scripts/components/tools/ctrls/toolbar/addFeatureShape/addPoiCtrl.js'));
-        $q.all(llPromises).then(function() {
+        $q.all(llPromises).then(function () {
             console.log('all js loaded');
         });
         $scope.toggleSelectBtn = function () {
@@ -93,7 +93,7 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             $scope.advanceBtnOpened = !$scope.advanceBtnOpened;
         };
         $scope.clearOperator = function () {
-            $scope.shapeOperator = "navigate";
+            $scope.shapeOperator = 'navigate';
             $scope.featureOperator = null;
             $scope.resetToolAndMap();
         };
@@ -107,9 +107,9 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
                 $scope.featureOperator = null;
             }
         };
-        //重新设置选择工具
+        // 重新设置选择工具
         $scope.resetToolAndMap = function () {
-            eventCtrl.off(eventCtrl.eventTypes.GETLINKID); //清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
+            eventCtrl.off(eventCtrl.eventTypes.GETLINKID); // 清除select**ShapeCtrl.js中的事件,防止菜单之间事件错乱
             eventCtrl.off(eventCtrl.eventTypes.GETADADMINNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETNODEID);
             eventCtrl.off(eventCtrl.eventTypes.GETRELATIONID);
@@ -141,7 +141,7 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
                 tooltipsCtrl.onRemoveTooltip();
             }
             if (map.currentTool) {
-                map.currentTool.disable(); //禁止当前的参考线图层的事件捕获
+                map.currentTool.disable(); // 禁止当前的参考线图层的事件捕获
             }
 
             if (selectCtrl.rowKey) {
@@ -149,12 +149,11 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             }
 
             $(editLayer.options._div).unbind();
-
         };
-        $scope.$on("resetButtons", function (event) {
+        $scope.$on('resetButtons', function (event) {
             $scope.clearOperator();
         });
-        //用于控制dropdown的收缩与展示
+        // 用于控制dropdown的收缩与展示
         $scope.dropdownStatus = {
             isopen: false
         };
@@ -162,13 +161,13 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             $scope.specialOperAdvanceBtnOpened = !$scope.specialOperAdvanceBtnOpened;
         };
 
-        //更改捕捉，type:node,link;
+        // 更改捕捉，type:node,link;
         $scope.changeSnap = function (type, featType, snapLayer) {
             var snapList = shapeCtrl.getCurrentTool().snapHandler._guides;
-            if (type == "node") {
+            if (type == 'node') {
                 if (!$scope.nodeChecked) {
                     for (var i = 0; i < snapList.length; i++) {
-                        if (snapList[i].type == "Point") {
+                        if (snapList[i].type == 'Point') {
                             snapList.splice(i, 1);
                             i--;
                         }
@@ -176,10 +175,10 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
                 } else {
                     snapList.unshift(snapLayer);
                 }
-            } else if (type == "link") {
+            } else if (type == 'link') {
                 if (!$scope.linkChecked) {
                     for (var i = 0; i < snapList.length; i++) {
-                        if (snapList[i].type == "LineString") {
+                        if (snapList[i].type == 'LineString') {
                             snapList.splice(i, 1);
                             i--;
                         }
@@ -190,12 +189,12 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
             }
         };
 
-        //更改图层可见性，type:node,link;
+        // 更改图层可见性，type:node,link;
         $scope.changeLayer = function (type, featType) {
             var visible = true;
-            if (type == "node") {
+            if (type == 'node') {
                 visible = $scope.nodeChecked;
-            } else if (type == "link") {
+            } else if (type == 'link') {
                 visible = $scope.linkChecked;
             }
             for (var layer in layerCtrl.layers) {
@@ -219,55 +218,55 @@ angular.module("app").controller("EditorToolbarCtrl", ["$scope", '$ocLazyLoad', 
                 var linkType = tool.shapeEditor.editFeatType;
 
                 switch (linkType) {
-                    case "RDLINK":
-                        nodeType = "RDNODE";
-                        snapLink = rdLink;
-                        snapNode = rdNode;
-                        break;
-                    case "RWLINK":
-                        nodeType = "RWNODE";
-                        snapLink = rwLink;
-                        snapNode = rwNode;
-                        break;
-                    case "ADLINK":
-                        nodeType = "ADNODE";
-                        snapLink = adLink;
-                        snapNode = adNode;
-                        break;
-                    case "ZONELINK":
-                        nodeType = "ZONENODE";
-                        snapLink = zoneLink;
-                        snapNode = zoneNode;
-                        break;
-                    case "LCLINK":
-                        nodeType = "LCNODE";
-                        snapLink = lcLink;
-                        snapNode = lcNode;
-                        break;
-                    case "LULINK":
-                        nodeType = "LUNODE";
-                        snapLink = luLink;
-                        snapNode = luNode;
-                        break;
+                case 'RDLINK':
+                    nodeType = 'RDNODE';
+                    snapLink = rdLink;
+                    snapNode = rdNode;
+                    break;
+                case 'RWLINK':
+                    nodeType = 'RWNODE';
+                    snapLink = rwLink;
+                    snapNode = rwNode;
+                    break;
+                case 'ADLINK':
+                    nodeType = 'ADNODE';
+                    snapLink = adLink;
+                    snapNode = adNode;
+                    break;
+                case 'ZONELINK':
+                    nodeType = 'ZONENODE';
+                    snapLink = zoneLink;
+                    snapNode = zoneNode;
+                    break;
+                case 'LCLINK':
+                    nodeType = 'LCNODE';
+                    snapLink = lcLink;
+                    snapNode = lcNode;
+                    break;
+                case 'LULINK':
+                    nodeType = 'LUNODE';
+                    snapLink = luLink;
+                    snapNode = luNode;
+                    break;
                 }
-                if (type == "node") {
+                if (type == 'node') {
                     if ($scope.nodeChecked == true) {
                         $scope.nodeChecked = false;
                     } else {
                         $scope.nodeChecked = true;
                     }
-                    $scope.changeSnap("node", nodeType, snapNode);
-                    $scope.changeLayer("node", nodeType);
+                    $scope.changeSnap('node', nodeType, snapNode);
+                    $scope.changeLayer('node', nodeType);
                 } else {
                     if ($scope.linkChecked == true) {
                         $scope.linkChecked = false;
                     } else {
                         $scope.linkChecked = true;
                     }
-                    $scope.changeSnap("link", linkType, snapLink);
+                    $scope.changeSnap('link', linkType, snapLink);
                     // $scope.changeLayer("link", linkType);
                 }
             }
-        }
+        };
     }
 ]);

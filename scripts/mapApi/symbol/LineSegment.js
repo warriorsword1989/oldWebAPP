@@ -64,6 +64,6 @@ fastmap.mapApi.symbol.LineSegment = L.Class.extend({
         var point = this.start.plusVector(vector);
 
         return point;
-    },
+    }
 
 });

@@ -22,6 +22,9 @@ a:hover {
   color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
 }
+.label {
+  padding: 0;
+}
 .fm-banner {
   top: 0;
   right: auto;
@@ -551,6 +554,9 @@ label > input[type='checkbox'] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.text-nowrap {
+  white-space: normal;
+}
 .fm-console-content {
   height: 100%;
   overflow-y: auto;
@@ -638,6 +644,17 @@ a.fm-panel-controlArrowRight > span {
   margin-right: 10px;
 }
 /**********tips style**********/
+.tips-thumbnail {
+  height: 50px;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s ;
+  -ms-transition: all .3s ;
+  -o-transition: all .3s ;
+  transition: all .3s ;
+}
+.tips-thumbnail.active {
+  background-color: #4C4B4B;
+}
 .modal-tips-img {
   left: 242px;
   position: relative;

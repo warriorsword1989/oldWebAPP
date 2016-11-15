@@ -1,86 +1,84 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var modifyApp = angular.module("app");
-modifyApp.controller("modifyToolController", function ($scope) {
-
+var modifyApp = angular.module('app');
+modifyApp.controller('modifyToolController', function ($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var ly = fastmap.uikit.LayerController();
-    var rdLink=ly.getLayerById("rdLink");
+    var rdLink = ly.getLayerById('rdLink');
     var adNode = ly.getLayerById('rdNode');
-    var tooltipsCtrl=fastmap.uikit.ToolTipsController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var editLyer = ly.getLayerById('edit');
-    $scope.type = "";
-    $scope.modifyShape = function (type, num,event) {
+    $scope.type = '';
+    $scope.modifyShape = function (type, num, event) {
         event.stopPropagation();
-        $scope.$emit("SWITCHCONTAINERSTATE",
+        $scope.$emit('SWITCHCONTAINERSTATE',
             {
-                "attrContainerTpl":false,
-                "subAttrContainerTpl":false
-            })
-        $("#popoverTips").hide();
-        if (shapeCtrl.getCurrentTool()['options']) {
+                attrContainerTpl: false,
+                subAttrContainerTpl: false
+            });
+        $('#popoverTips').hide();
+        if (shapeCtrl.getCurrentTool().options) {
             shapeCtrl.stopEditing();
         }
         var feature = null;
         // $scope.changeBtnClass(num);
-        if(!$scope.classArr[num]){
-            if(map.currentTool) {
+        if (!$scope.classArr[num]) {
+            if (map.currentTool) {
                 map.currentTool.disable();
             }
             map._container.style.cursor = '';
             return;
         }
-        if(map.currentTool) {
+        if (map.currentTool) {
             map.currentTool.disable();
         }
         if (shapeCtrl.shapeEditorResult) {
-            if(tooltipsCtrl.getCurrentTooltip()){
+            if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if(type==="PATHVERTEXINSERT") {
-                if(selectCtrl.selectedFeatures){
+            if (type === 'PATHVERTEXINSERT') {
+                if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('insertDot');
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
-                }else{
+                } else {
                     tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                     return;
                 }
-            }else if(type==="PATHVERTEXREMOVE") {
-                if(selectCtrl.selectedFeatures){
+            } else if (type === 'PATHVERTEXREMOVE') {
+                if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('deleteDot');
                     tooltipsCtrl.setCurrentTooltip('删除此形状点！');
-                }else{
+                } else {
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                     return;
                 }
-            }else if(type==="PATHVERTEXMOVE") {
-                if(selectCtrl.selectedFeatures){
+            } else if (type === 'PATHVERTEXMOVE') {
+                if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('moveDot');
                     tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
-                }else{
+                } else {
                     tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
                     return;
                 }
-            }else if(type==="PATHBREAK") {
-                if(selectCtrl.selectedFeatures){
+            } else if (type === 'PATHBREAK') {
+                if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('pathBreak');
                     tooltipsCtrl.setCurrentTooltip('开始打断link！');
-
-                }else{
+                } else {
                     tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                     return;
                 }
-            }else if(type==="PATHNODEMOVE") {
-                if(selectCtrl.selectedFeatures){
+            } else if (type === 'PATHNODEMOVE') {
+                if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('pathNodeMove');
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
-                }else{
+                } else {
                     tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
                     return;
                 }
-            }else if(type === 'naviTool'){
+            } else if (type === 'naviTool') {
                 map._container.style.cursor = '';
 
                 editLyer.drawGeometry = null;
@@ -92,7 +90,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 return;
             }
-            if (!selectCtrl.selectedFeatures){
+            if (!selectCtrl.selectedFeatures) {
                 return;
             }
             feature = selectCtrl.selectedFeatures.geometry;
@@ -107,22 +105,18 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();
-            shapeCtrl.editFeatType = "rdLink";
+            shapeCtrl.editFeatType = 'rdLink';
             map.currentTool.snapHandler.addGuideLayer(rdLink);
             map.currentTool.snapHandler.addGuideLayer(adNode);
-            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
-            shapeCtrl.on("stopshapeeditresultfeedback",function(){
-                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
+            shapeCtrl.on('startshapeeditresultfeedback', saveOrEsc);
+            shapeCtrl.on('stopshapeeditresultfeedback', function () {
+                shapeCtrl.off('startshapeeditresultfeedback', saveOrEsc);
             });
-            function saveOrEsc (event) {
-                if(event.changeTooltips){
-                    tooltipsCtrl.setStyleTooltip("color:black;");
-                    tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            function saveOrEsc(event) {
+                if (event.changeTooltips) {
+                    tooltipsCtrl.setChangeInnerHtml('点击空格键保存操作或者按ESC键取消!');
                 }
-
             }
-
         }
-
     };
-})
+});

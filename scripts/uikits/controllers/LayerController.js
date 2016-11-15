@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/9/16.
  */
-fastmap.uikit.LayerController = (function() {
+fastmap.uikit.LayerController = (function () {
     var instantiated;
 
     function init(options) {
@@ -13,7 +13,7 @@ fastmap.uikit.LayerController = (function() {
              * @namespace fastmap.uikit
              * @param {Object}options
              */
-            initialize: function(options) {
+            initialize: function (options) {
                 this.eventController = fastmap.uikit.EventController();
                 this.options = options || {};
                 L.setOptions(this, options);
@@ -26,8 +26,21 @@ fastmap.uikit.LayerController = (function() {
                 this.eventController.on(this.eventController.eventTypes.LAYERONADD, this.OnAddLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONREMOVE, this.OnRemoveLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONSWITCH, this.OnSwitchLayer, this);
+                this.reloadTileLayers = 0; // 加载完成瓦片图层
+                this.loadedTileLayers = 0; // 可见的瓦片图层
             },
-            initLayer: function() {
+            initLayer: function () {
+                var that = this;
+                var beforeLoadFunc = function () {
+                    that.reloadTileLayers++;
+                };
+                var afterLoadFunc = function () {
+                    that.loadedTileLayers++;
+                    if (that.loadedTileLayers == that.reloadTileLayers) {
+                        this.eventController.fire('AllTileLayerLoaded', null);
+                    }
+                };
+                var tileLayer;
                 for (var group in this.config) {
                     for (var layer in this.config[group].layers) {
                         if (this.maxZIndex < (this.config[group].layers[layer].options.zIndex)) {
@@ -39,10 +52,16 @@ fastmap.uikit.LayerController = (function() {
                         };
                         this.zIndexQueue.push(zIndexObj);
                         this.config[group].layers[layer].options.groupId = this.config[group].groupId;
-                        if (this.config[group].groupId == "dataLayers") {
-                            this.layers.push(this.config[group].layers[layer].clazz(App.Util.createTileRequestObject(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options));
-                        } else if (this.config[group].groupId == "worklayer") {
-                            this.layers.push(this.config[group].layers[layer].clazz(App.Util.createTileRequestObjectForTips(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options));
+                        if (this.config[group].groupId == 'dataLayers') {
+                            tileLayer = this.config[group].layers[layer].clazz(App.Util.createTileRequestObject(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options);
+                            tileLayer.on('loading', beforeLoadFunc);
+                            tileLayer.on('load', afterLoadFunc);
+                            this.layers.push(tileLayer);
+                        } else if (this.config[group].groupId == 'worklayer') {
+                            tileLayer = this.config[group].layers[layer].clazz(App.Util.createTileRequestObjectForTips(this.config[group].layers[layer].url, this.config[group].layers[layer].options), this.config[group].layers[layer].options);
+                            tileLayer.on('loading', beforeLoadFunc);
+                            tileLayer.on('load', afterLoadFunc);
+                            this.layers.push(tileLayer);
                         } else {
                             this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));
                         }
@@ -54,21 +73,21 @@ fastmap.uikit.LayerController = (function() {
              * @method pushLayerFront
              * @param id
              */
-            pushLayerFront: function(id) {
+            pushLayerFront: function (id) {
                 this.pushLayerNormal();
                 var layer = this.getLayerById(id);
                 if (layer != null) {
                     layer.options.zIndex = this.maxZIndex;
                     layer.setZIndex(this.maxZIndex);
                 }
-                //this.OnSwitchLayer({layerArr: this.layers});
+                // this.OnSwitchLayer({layerArr: this.layers});
             },
             /**
              * 图层显示隐藏转换方法
              * @method pushLayerNormal
              */
-            pushLayerNormal: function() {
-                //所有的都先归位，然后再设置最大的。
+            pushLayerNormal: function () {
+                // 所有的都先归位，然后再设置最大的。
                 for (var i = 0; i < this.layers.length; i++) {
                     if (this.layers[i].options.zIndex == this.maxZIndex) {
                         for (var j = 0; j < this.zIndexQueue.length; j++) {
@@ -85,7 +104,7 @@ fastmap.uikit.LayerController = (function() {
              * @method OnSwitchLayer
              * @param event
              */
-            OnSwitchLayer: function(event) {
+            OnSwitchLayer: function (event) {
                 var layerArr = event.layerArr;
                 for (var i = 0, len = layerArr.length; i < len; i++) {
                     this.setLayerVisibleOrNot(layerArr[i].options.id, layerArr[i].options.visible);
@@ -97,7 +116,7 @@ fastmap.uikit.LayerController = (function() {
              * @param layer
              * @constructor
              */
-            OnAddLayer: function(layer) {
+            OnAddLayer: function (layer) {
                 this.layers.push(layer);
             },
             /**
@@ -106,7 +125,7 @@ fastmap.uikit.LayerController = (function() {
              * @param {Layer}layer
              * @constructor
              */
-            OnRemoveLayer: function(layer) {
+            OnRemoveLayer: function (layer) {
                 for (var item in this.layers) {
                     if (layer === this.layers[item]) {
                         this.layers.splice(item + 1, 1);
@@ -119,7 +138,7 @@ fastmap.uikit.LayerController = (function() {
              * @param {Layer}layer
              * @param flag
              */
-            setLayerVisibleOrNot: function(id, flag) {
+            setLayerVisibleOrNot: function (id, flag) {
                 var layer = this.getLayerById(id);
                 this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {
                     layer: layer,
@@ -131,23 +150,25 @@ fastmap.uikit.LayerController = (function() {
              * @method setLayersVisible
              * @param layerId
              */
-            setLayersVisible : function(layerId){
+            setLayersVisible: function (layerId) {
                 var tempLayer = [];
-                if(typeof layerId=='object'&&layerId.length){
-                    for(var layer in layerId){
+                if (typeof layerId === 'object' && layerId.length) {
+                    for (var layer in layerId) {
                         tempLayer.push(this.getLayerById(layerId[layer]));
                     }
-                }else{
+                } else {
                     tempLayer.push(this.getLayerById(layerId));
                 }
-                this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {layer: tempLayer});
+                this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {
+                    layer: tempLayer
+                });
             },
             /**
              * 可编辑的图层
              * @method editLayer
              * @param {Layer}layer
              */
-            setLayerEditable: function(layer) {
+            setLayerEditable: function (layer) {
                 for (var item in this.layers) {
                     if (layer === this.layers[item]) {
                         this.layers.options.editable = true;
@@ -162,7 +183,7 @@ fastmap.uikit.LayerController = (function() {
              * @method setLayerSelectable
              * @param {String}id
              */
-            setLayerSelectable: function(id) {
+            setLayerSelectable: function (id) {
                 this.getLayerById(id);
             },
             /**
@@ -170,23 +191,22 @@ fastmap.uikit.LayerController = (function() {
              * @method getVisibleLayers
              * @returns {Array}
              */
-            getVisibleLayers: function() {
-                var layers = []
+            getVisibleLayers: function () {
+                var layers = [];
                 for (var item in this.layers) {
                     if (this.layers[item].options.visible == true) {
-                        layers.push(this.layers[item])
+                        layers.push(this.layers[item]);
                     }
                 }
                 return layers;
             },
-
             /**
              * 根据id获取图层
              * @method getLayerById
              * @param {String}id
              * @returns {L.TileLayer.WMS.defaultWmsParams.layers|*|o.TileLayer.WMS.defaultWmsParams.layers|i.TileLayer.WMS.defaultWmsParams.layers|Array|L.control.layers}
              */
-            getLayerById: function(id) {
+            getLayerById: function (id) {
                 var layer = null;
                 for (var item in this.layers) {
                     if (this.layers[item].options) {
@@ -197,10 +217,10 @@ fastmap.uikit.LayerController = (function() {
                 }
                 return layer;
             },
-            highLightLayers: function(highLayer) {
+            highLightLayers: function (highLayer) {
                 this.highLightLayersArr.push(highLayer);
             },
-            removeHighLightLayer: function() {
+            removeHighLightLayer: function () {
                 for (var i = 0, len = this.highLightLayersArr.length; i < len; i++) {
                     this.highLightLayersArr(i).cleanHighLight();
                 }
@@ -211,11 +231,11 @@ fastmap.uikit.LayerController = (function() {
              * @method getSelectableLayers
              * @returns {Array}
              */
-            getSelectableLayers: function() {
+            getSelectableLayers: function () {
                 var layers = [];
                 for (var item in this.layers) {
                     if (this.layers[item].options.selected == true) {
-                        layers.push(this.layers[item])
+                        layers.push(this.layers[item]);
                     }
                 }
                 return layers;
@@ -225,11 +245,11 @@ fastmap.uikit.LayerController = (function() {
              * @method getEditableLayers
              * @returns {Array}
              */
-            getEditableLayers: function() {
+            getEditableLayers: function () {
                 var layers = [];
                 for (var item in this.layers) {
                     if (this.layers[item].options.editable == true) {
-                        layers.push(this.layers[item])
+                        layers.push(this.layers[item]);
                     }
                 }
                 return layers;
@@ -239,22 +259,21 @@ fastmap.uikit.LayerController = (function() {
              * @author chenx
              * @returns {Object}
              */
-            getLayerByFeatureType: function(type) {
+            getLayerByFeatureType: function (type) {
                 for (var item in this.layers) {
-                    if (this.layers[item].options.requestType && this.layers[item].options.requestType.split(",").indexOf(type) >= 0) {
+                    if (this.layers[item].options.requestType && this.layers[item].options.requestType.split(',').indexOf(type) >= 0) {
                         return this.layers[item];
                     }
                 }
             },
-
-          /**
-           * 获取所有可见的tilejson图层
-           * @returns {Array}
-           */
+            /**
+             * 获取所有可见的tilejson图层
+             * @returns {Array}
+             */
             getAllTileJsonLayer: function () {
                 var layers = [];
                 for (var item in this.layers) {
-                    if (!FM.Util.isEmptyObject(this.layers[item].tiles)&&this.layers[item].options.visible==true) {
+                    if (!FM.Util.isEmptyObject(this.layers[item].tiles) && this.layers[item].options.visible == true) {
                         layers.push(this.layers[item]);
                     }
                 }
@@ -263,10 +282,10 @@ fastmap.uikit.LayerController = (function() {
         });
         return new layerController(options);
     }
-    return function(options) {
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
         return instantiated;
-    }
-})();
+    };
+}());

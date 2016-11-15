@@ -10,7 +10,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
      */
     includes: L.Mixin.Events,
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -36,10 +36,10 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
         });
         this.snapHandler.enable();
         this.popup = L.popup();
-        //this.floatVisible=false;
+        // this.floatVisible=false;
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -48,12 +48,12 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             this._map.on('click', this.onMouseDown, this);
             this.snapHandler.disable();
         }
-        if (this.id !== "rdcross") {
+        if (this.id !== 'rdcross') {
             this._map.on('mousemove', this.onMouseMove, this);
         }
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -68,8 +68,8 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
     onMouseMove: function (event) {
         this.snapHandler.setTargetIndex(0);
         if (this.snapHandler.snaped) {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, {'snaped': true});
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0])
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: true });
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0]);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({
                 point: {
                     x: this.targetPoint.lng,
@@ -77,7 +77,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
                 }
             });
         } else {
-            this.eventController.fire(this.eventController.eventTypes.SNAPED, {'snaped': false});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED, { snaped: false });
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
@@ -85,7 +85,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         var mouseLatlng = event.latlng;
@@ -95,13 +95,14 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
     },
     getPoiId: function (tilePoint, event) {
         this.samePois = [];
-        //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
-        var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256;
-        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]].data === undefined) {
+        var x = pixels[0] - tilePoint[0] * 256,
+            y = pixels[1] - tilePoint[1] * 256;
+        if (this.tiles[tilePoint[0] + ':' + tilePoint[1]].data === undefined) {
             return;
         }
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+        var data = this.tiles[tilePoint[0] + ':' + tilePoint[1]].data;
 
         var id = null;
         for (var item in data) {
@@ -110,21 +111,21 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
             if (this._TouchesPoint(newGeom, x, y, 5)) {
-                this.samePois.push({id:data[item].properties.id, data: data[item]});
+                this.samePois.push({ id: data[item].properties.id, data: data[item] });
             }
         }
-        //同位点的处理
+        // 同位点的处理
         if (this.samePois.length == 1) {
             this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
                 id: this.samePois[0].id,
-                optype: "POIPOINT",
+                optype: 'POIPOINT',
                 event: event
             });
         } else if (this.samePois.length > 1) {
             var html = '<ul id="layerpopup">';
-            //this.overlays = this.unique(this.overlays);
+            // this.overlays = this.unique(this.overlays);
             for (var item in this.samePois) {
-                html += '<li><a href="#" id="' + this.samePois[item].data.properties.id+'">' +this.samePois[item].data.properties.name + '</a></li>';
+                html += '<li><a href="#" id="' + this.samePois[item].data.properties.id + '">' + this.samePois[item].data.properties.name + '</a></li>';
             }
             html += '</ul>';
             this.popup
@@ -135,32 +136,32 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
                 document.getElementById('layerpopup').onclick = function (e) {
                     that.eventController.fire(that.eventController.eventTypes.GETPOIID, {
                         id: e.target.id,
-                        optype: "POIPOINT",
+                        optype: 'POIPOINT',
                         event: event
                     });
                     that._map.closePopup(that.popup);
                     that._map.off('popupopen');
-                }
+                };
             });
 
             var that = this;
             if (this.samePois && this.samePois.length >= 1) {
                 setTimeout(function () {
                     that._map.openPopup(that.popup);
-                }, 200)
+                }, 200);
             }
         }
     },
-    showPoi:function (e) {
+    showPoi: function (e) {
         this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
             id: e.target.id,
-            optype: "POIPOINT",
+            optype: 'POIPOINT',
             event: event
         });
         this._map.closePopup(this.popup);
     },
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -180,19 +181,16 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
+    },
 
-    }
-    ,
-
-    /***
+    /** *
      *清除高亮
      */
     _cleanHeight: function () {
 
-    }
-    ,
+    },
 
-    /***
+    /** *
      * 点击node点
      * @param d
      * @param x
