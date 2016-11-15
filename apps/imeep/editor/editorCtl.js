@@ -207,8 +207,11 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			shapeCtrl.setMap(map);
 			layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function(event) {
 				if (event.flag == true) {
+					//改变图层显隐要将layerConfig中的visible状态改变
+					event.layer.options.visible = true;
 					map.addLayer(event.layer);
 				} else {
+					event.layer.options.visible = false;
 					map.removeLayer(event.layer);
 				}
 			})
