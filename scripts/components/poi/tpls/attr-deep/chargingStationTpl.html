@@ -14,10 +14,17 @@
                     <li ng-if="poi.chargingstations[0].chargingType == 2 || poi.chargingstations[0].chargingType == 4">
                         <label>换电车品牌</label>
                         <div>
+                            <!--<select fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].changeBrands"-->
+                                    <!--no_results_text="'&#45;&#45;无&#45;&#45;'" placeholder_text_single="'&#45;&#45;请选择&#45;&#45;'"-->
+                                    <!--ng-options="value as lable.chainName for (value, lable) in chainList"-->
+                                    <!--chosen multiple ng-disabled="isSpecialOperation">-->
+                            <!--</select>-->
+
                             <select fm-edit-view class="fm-control" ng-model="poi.chargingstations[0].changeBrands"
-                                    no_results_text="'--无--'" placeholder_text_single="'--请选择--'"
+                                    no_results_text="'--无--'"  placeholder_text_single="'--请选择--'" search_contains=true
                                     ng-options="value as lable.chainName for (value, lable) in chainList"
                                     chosen multiple ng-disabled="isSpecialOperation">
+                                <option></option>
                             </select>
                         </div>
                     </li>
@@ -26,7 +33,7 @@
                         <div class="block">
                             <label ng-repeat="(key, value) in chargingOpenType" class="col-md-5">
                                 <input fm-edit-view type="checkbox" value="{{key}}"
-                                       ng-model="poi.chargingStation[0].chargingOpenType[key]"
+                                       ng-model="poi.chargingstations[0].changeOpenType[key]"
                                        ng-click="chargingOpenTypeChange($event)" ng-disabled="isSpecialOperation"> {{value}}
                             </label>
                         </div>
@@ -62,11 +69,11 @@
                         <label >停车收费</label>
                         <div>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="0" ng-model="poi.chargingstations[0].parkingFees">
+                                <input fm-edit-view type="radio" name="indoor" value=0 ng-model="poi.chargingstations[0].parkingFees">
                                 免费
                             </label>
                             <label>
-                                <input fm-edit-view type="radio" name="indoor" value="1" ng-model="poi.chargingstations[0].parkingFees">
+                                <input fm-edit-view type="radio" name="indoor" value=1 ng-model="poi.chargingstations[0].parkingFees">
                                 收费
                             </label>
                         </div>

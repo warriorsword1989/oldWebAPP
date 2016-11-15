@@ -3,6 +3,8 @@
   "extends": "airbnb-base/legacy",
   // 添加全局函数和对象
   "globals": {
+    "fastmap":true,
+    "L":true
   },
   "plugins": ["angular"],
   /**
