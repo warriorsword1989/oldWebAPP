@@ -31,8 +31,10 @@ fastmap.mapApi.Collection = fastmap.mapApi.Geometry.extend({
      * @returns {string}
      */
     getComponentsString: function () {
-        var strings = [];
-        for (var i = 0, len = this.components.length; i < len; i++) {
+        var i,
+            len,
+            strings = [];
+        for (i = 0, len = this.components.length; i < len; i++) {
             strings.push(this.components[i].toShortString());
         }
         return strings.join(',');
@@ -48,10 +50,12 @@ fastmap.mapApi.Collection = fastmap.mapApi.Geometry.extend({
      * @param components
      */
     addComponents: function (components) {
+        var i,
+            len;
         if (!(L.Util.isArray(components))) {
             components = [components];
         }
-        for (var i = 0, len = components.length; i < len; i++) {
+        for (i = 0, len = components.length; i < len; i++) {
             this.addComponent(components[i]);
         }
     },
@@ -62,14 +66,16 @@ fastmap.mapApi.Collection = fastmap.mapApi.Geometry.extend({
      * @param index
      */
     addComponent: function (component, index) {
-        var added = false;
+        var added = false,
+            components1,
+            components2;
         if (component) {
             if (this.componentTypes == null ||
                 (OpenLayers.Util.indexOf(this.componentTypes,
                     component.CLASS_NAME) > -1)) {
                 if (index != null && (index < this.components.length)) {
-                    var components1 = this.components.slice(0, index);
-                    var components2 = this.components.slice(index,
+                    components1 = this.components.slice(0, index);
+                    components2 = this.components.slice(index,
                         this.components.length);
                     components1.push(component);
                     this.components = components1.concat(components2);

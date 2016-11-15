@@ -62,9 +62,9 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
      * @return {object} result.
      */
     distanceTo: function (geometry, options) {
-        var edge = !(options && options.edge === false);
-        var details = edge && options && options.details;
-        var distance,
+        var edge = !(options && options.edge === false),
+            details = edge && options && options.details,
+            distance,
             x0,
             y0,
             x1,

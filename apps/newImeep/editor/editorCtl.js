@@ -513,7 +513,6 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                 } catch (e2) {
                     if (e2.name === 'WKTError') {
                         swal('错误', 'WKT数据有误，请检查！', 'error');
-                        return;
                     }
                 }
             }

@@ -73,7 +73,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             if (that.clickcount > 1) {
                 that.clickcount = 0;
                 that.onDbClick(event);
-                return;
             } else if (that.clickcount == 1) {
                 that.clickcount = 0;
                 that.drawGeomCanvasHighlight(tileCoordinate, event);

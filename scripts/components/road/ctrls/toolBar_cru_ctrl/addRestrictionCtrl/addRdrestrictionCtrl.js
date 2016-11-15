@@ -67,6 +67,11 @@ rdRestrictionApp.controller('addRdRestrictionController', ['$scope', '$ocLazyLoa
     eventController.on(eventController.eventTypes.GETLINKID, function (data) {
         if (data.index === 0) {
             $scope.limitRelation.inLinkPid = parseInt(data.id);
+            if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+        		tooltipsCtrl.notify('10级路、步行街、人渡不能作为交限的进入线!', 'error');
+        		map.currentTool.selectedFeatures.pop();
+        		return;
+        	}
             $scope.highFeatures.push({
                 id: $scope.limitRelation.inLinkPid.toString(),
                 layerid: 'rdLink',
@@ -100,6 +105,11 @@ rdRestrictionApp.controller('addRdRestrictionController', ['$scope', '$ocLazyLoa
             _highLightCompoments();
             tooltipsCtrl.setCurrentTooltip('已经选择进入点,选择退出线!');
         } else if (data.index > 1) {
+        	if (data.properties.kind == 10 || data.properties.kind == 11 || data.properties.form.indexOf('20') > -1) {
+        		tooltipsCtrl.notify('10级路、步行街、人渡不能作为交限的退出线!', 'error');
+        		map.currentTool.selectedFeatures.pop();
+        		return;
+        	}
             // 退出线的合法判断;
             if (data.id == $scope.limitRelation.inLinkPid) {
                 tooltipsCtrl.setCurrentTooltip('退出线和进入线不能为同一条线'); return;

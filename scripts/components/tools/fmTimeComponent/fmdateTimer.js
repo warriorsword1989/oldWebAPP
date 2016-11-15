@@ -936,8 +936,8 @@ angular.module('lazymodule', []).controller('DateCtrl', ['$scope', '$timeout', '
                                     var difYear = '';
                                     var bYear = parseInt($beginYear);
                                     for (var i = 1; i < yearLength; i++) {
-                                            difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
-                                        }
+                                        difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
+                                    }
                                     return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' + '(y' + $beginYear + 'M12d31)]' + difYear + '+[(y' + $endYear + 'M1d1)' + '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]*z]';
                                 }
                             } else {
@@ -950,8 +950,8 @@ angular.module('lazymodule', []).controller('DateCtrl', ['$scope', '$timeout', '
                                     var difYear = '';
                                     var bYear = parseInt($beginYear);
                                     for (var i = 1; i < yearLength; i++) {
-                                            difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
-                                        }
+                                        difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
+                                    }
                                     return '[[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' + '(y' + $beginYear + 'M12d31h23m59)]' + difYear + '+[(y' + $endYear + 'M1d1h0m0)' + '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]*z]';
                                 }
                             }
@@ -964,8 +964,8 @@ angular.module('lazymodule', []).controller('DateCtrl', ['$scope', '$timeout', '
                                 var difYear = '';
                                 var bYear = parseInt($beginYear);
                                 for (var i = 1; i < yearLength; i++) {
-                                        difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
-                                    }
+                                    difYear = difYear + '+[(y' + (bYear + i) + 'M1d1)(y' + (bYear + i) + 'M12d31)]';
+                                }
                                 return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + ')' + '(y' + $beginYear + 'M12d31)]' + difYear + '+[(y' + $endYear + 'M1d1)' + '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + ')]]';
                             }
                         } else if (yearLength == 0) { // 开始年和结束年为同一年
@@ -976,8 +976,8 @@ angular.module('lazymodule', []).controller('DateCtrl', ['$scope', '$timeout', '
                             var difYear = '';
                             var bYear = parseInt($beginYear);
                             for (var i = 1; i < yearLength; i++) {
-                                    difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
-                                }
+                                difYear = difYear + '+[(y' + (bYear + i) + 'M1d1h0m0)(y' + (bYear + i) + 'M12d31h23m59)]';
+                            }
                             return '[[(y' + $beginYear + 'M' + $beginMonth + 'd' + $beginDay + 'h' + $beginHour + 'm' + $beginMinute + ')' + '(y' + $beginYear + 'M12d31h23m59)]' + difYear + '+[(y' + $endYear + 'M1d1h0m0)' + '(y' + $endYear + 'M' + $endMonth + 'd' + $endDay + 'h' + $endHour + 'm' + $endMinute + ')]]';
                         }
                     case 'w': // 持续时间——周

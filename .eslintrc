@@ -21,12 +21,15 @@
     "no-unused-vars": 0,
     // 关闭规则，忽略行结尾符
     "linebreak-style": 0,
-    // 允许对函数的参数属性修改和赋值
-    "no-param-reassign": [
-      2,
-      {
-        "props": false
-      }
-    ]
+    // 允许二进制运算符
+    "no-bitwise":0,
+    // 允许使用一元操作符 ++ 和 --
+    "no-plusplus":0,
+    // 允许标识符中含有下划线
+    "no-underscore-dangle": 0,
+    // 允许一个var声明多个变量
+    "one-var": [2, { "var": "always" }],
+    // 允许对 function 的参数进行重新赋值
+    "no-param-reassign": 0
   }
 }

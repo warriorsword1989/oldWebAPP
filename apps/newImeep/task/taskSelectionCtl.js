@@ -220,7 +220,6 @@ angular.module('webeditor').controller('TaskSelectionCtl', ['$scope', 'dsManage'
                 } catch (e2) {
                     if (e2.name === 'WKTError') {
                         alert('Wicket could not understand the WKT string you entered. Check that you have parentheses balanced, and try removing tabs and newline characters.');
-                        return;
                     }
                 }
             }

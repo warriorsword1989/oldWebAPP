@@ -364,7 +364,6 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
             	if ($scope.roadNameData.langCode == 'ENG' || $scope.roadNameData.langCode == 'POR') {
             		if ($scope.roadNameData.nameGroupid == undefined || $scope.roadNameData.nameGroupid == null || $scope.roadNameData.nameGroupid == '') {
                 		swal('非中文的语言类型，必须选择一个名称组', '', 'info');
-                		return;
                 	}
             	} else {
             		var param = {
@@ -424,7 +423,6 @@ angular.module('app').controller('RoadNameEditPanelCtl', ['$scope', '$ocLazyLoad
                 });
                 } else {
                 	swal('属性值没有变化', '', 'info');
-    				return;
                 }
             }
         };

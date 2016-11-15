@@ -12,6 +12,9 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
     },
 
     draw: function (ctx) {
+        var segments,
+            i;
+
         if (this.geometry.length < 2) {
             return;
         }
@@ -30,10 +33,10 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
         ctx.lineWidth = this.width;
 
         this.template.lineString = this.geometry;
-        var segments = this.template.getSegments();
+        segments = this.template.getSegments();
 
         ctx.beginPath();
-        for (var i = 0; i < segments.length; ++i) {
+        for (i = 0; i < segments.length; ++i) {
             this.drawSegment(ctx, segments[i]);
         }
         ctx.stroke();
@@ -43,15 +46,17 @@ fastmap.mapApi.symbol.CartoLineSymbol = L.Class.extend({
     },
 
     drawSegment: function (ctx, segment) {
+        var i;
         var marks = this.template.getMarks(segment);
-        for (var i = 0; i < marks.length; ++i) {
+        for ( i = 0; i < marks.length; ++i) {
             this.drawMark(ctx, marks[i]);
         }
     },
 
     drawMark: function (ctx, mark) {
+        var i;
         ctx.moveTo(mark.coordinates[0].x, mark.coordinates[0].y);
-        for (var i = 1; i < mark.coordinates.length; ++i) {
+        for ( i = 1; i < mark.coordinates.length; ++i) {
             ctx.lineTo(mark.coordinates[i].x, mark.coordinates[i].y);
         }
     }
