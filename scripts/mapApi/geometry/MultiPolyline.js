@@ -11,7 +11,7 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
      * @property type
      * @type String
      */
-    type: "MultiPolyline",
+    type: 'MultiPolyline',
     /**
      * 构造函数
      * @class MultiPolyline
@@ -47,23 +47,27 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
      * @method splitWith
      * @return {Array} 几何对象集合
      */
-    split:function(geometry, options) {
+    split: function (geometry, options) {
         var results = null;
         var mutual = options && options.mutual;
-        var splits, sourceLine, sourceLines, sourceSplit, targetSplit;
+        var splits,
+            sourceLine,
+            sourceLines,
+            sourceSplit,
+            targetSplit;
         var sourceParts = [];
         var targetParts = [geometry];
-        for(var i=0, len=this.components.length; i<len; ++i) {
+        for (var i = 0, len = this.components.length; i < len; ++i) {
             sourceLine = this.components[i];
             sourceSplit = false;
-            for(var j=0; j < targetParts.length; ++j) {
+            for (var j = 0; j < targetParts.length; ++j) {
                 splits = sourceLine.split(targetParts[j], options);
-                if(splits) {
-                    if(mutual) {
+                if (splits) {
+                    if (mutual) {
                         sourceLines = splits[0];
-                        for(var k=0, klen=sourceLines.length; k<klen; ++k) {
-                            if(k===0 && sourceParts.length) {
-                                sourceParts[sourceParts.length-1].addComponent(
+                        for (var k = 0, klen = sourceLines.length; k < klen; ++k) {
+                            if (k === 0 && sourceParts.length) {
+                                sourceParts[sourceParts.length - 1].addComponent(
                                     sourceLines[k]
                                 );
                             } else {
@@ -77,7 +81,7 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
                         sourceSplit = true;
                         splits = splits[1];
                     }
-                    if(splits.length) {
+                    if (splits.length) {
                         // splice in new target parts
                         splits.unshift(j, 1);
                         Array.prototype.splice.apply(targetParts, splits);
@@ -85,11 +89,11 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
                     }
                 }
             }
-            if(!sourceSplit) {
+            if (!sourceSplit) {
                 // source line was not hit
-                if(sourceParts.length) {
+                if (sourceParts.length) {
                     // add line to existing multi
-                    sourceParts[sourceParts.length-1].addComponent(
+                    sourceParts[sourceParts.length - 1].addComponent(
                         sourceLine.clone()
                     );
                 } else {
@@ -102,18 +106,18 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
                 }
             }
         }
-        if(sourceParts && sourceParts.length > 1) {
+        if (sourceParts && sourceParts.length > 1) {
             sourceSplit = true;
         } else {
             sourceParts = [];
         }
-        if(targetParts && targetParts.length > 1) {
+        if (targetParts && targetParts.length > 1) {
             targetSplit = true;
         } else {
             targetParts = [];
         }
-        if(sourceSplit || targetSplit) {
-            if(mutual) {
+        if (sourceSplit || targetSplit) {
+            if (mutual) {
                 results = [sourceParts, targetParts];
             } else {
                 results = targetParts;
@@ -127,35 +131,41 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
      * @method splitWith
      * @return {Array} 几何对象集合
      */
-    splitWith: function(geometry, options) {
+    splitWith: function (geometry, options) {
         var results = null;
         var mutual = options && options.mutual;
-        var splits, targetLine, sourceLines, sourceSplit, targetSplit, sourceParts, targetParts;
-        if(geometry instanceof fastmap.mapApi.LineString) {
+        var splits,
+            targetLine,
+            sourceLines,
+            sourceSplit,
+            targetSplit,
+            sourceParts,
+            targetParts;
+        if (geometry instanceof fastmap.mapApi.LineString) {
             targetParts = [];
             sourceParts = [geometry];
-            for(var i=0, len=this.components.length; i<len; ++i) {
+            for (var i = 0, len = this.components.length; i < len; ++i) {
                 targetSplit = false;
                 targetLine = this.components[i];
-                for(var j=0; j<sourceParts.length; ++j) {
+                for (var j = 0; j < sourceParts.length; ++j) {
                     splits = sourceParts[j].split(targetLine, options);
-                    if(splits) {
-                        if(mutual) {
+                    if (splits) {
+                        if (mutual) {
                             sourceLines = splits[0];
-                            if(sourceLines.length) {
+                            if (sourceLines.length) {
                                 // splice in new source parts
                                 sourceLines.unshift(j, 1);
                                 Array.prototype.splice.apply(sourceParts, sourceLines);
                                 j += sourceLines.length - 2;
                             }
                             splits = splits[1];
-                            if(splits.length === 0) {
+                            if (splits.length === 0) {
                                 splits = [targetLine.clone()];
                             }
                         }
-                        for(var k=0, klen=splits.length; k<klen; ++k) {
-                            if(k===0 && targetParts.length) {
-                                targetParts[targetParts.length-1].addComponent(
+                        for (var k = 0, klen = splits.length; k < klen; ++k) {
+                            if (k === 0 && targetParts.length) {
+                                targetParts[targetParts.length - 1].addComponent(
                                     splits[k]
                                 );
                             } else {
@@ -169,11 +179,11 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
                         targetSplit = true;
                     }
                 }
-                if(!targetSplit) {
+                if (!targetSplit) {
                     // target component was not hit
-                    if(targetParts.length) {
+                    if (targetParts.length) {
                         // add it to any existing multi-line
-                        targetParts[targetParts.length-1].addComponent(
+                        targetParts[targetParts.length - 1].addComponent(
                             targetLine.clone()
                         );
                     } else {
@@ -184,24 +194,23 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
                             ])
                         ];
                     }
-
                 }
             }
         } else {
             results = geometry.split(this);
         }
-        if(sourceParts && sourceParts.length > 1) {
+        if (sourceParts && sourceParts.length > 1) {
             sourceSplit = true;
         } else {
             sourceParts = [];
         }
-        if(targetParts && targetParts.length > 1) {
+        if (targetParts && targetParts.length > 1) {
             targetSplit = true;
         } else {
             targetParts = [];
         }
-        if(sourceSplit || targetSplit) {
-            if(mutual) {
+        if (sourceSplit || targetSplit) {
+            if (mutual) {
                 results = [sourceParts, targetParts];
             } else {
                 results = targetParts;
@@ -270,6 +279,6 @@ fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
         return simplifiedMultiLineString;
     }
 });
-fastmap.mapApi.multiPolyline=function(coordiates,options) {
+fastmap.mapApi.multiPolyline = function (coordiates, options) {
     return new fastmap.mapApi.MultiPolyline(coordiates, options);
 };

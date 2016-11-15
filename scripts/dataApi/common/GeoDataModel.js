@@ -5,17 +5,17 @@
  */
 FM.dataApi.GeoDataModel = FM.dataApi.DataModel.extend({
     options: {},
-    /***
+    /** *
      *
      * @param id
      * 模型类型
      */
-    geoLiveType: "GLM",
-    /***
+    geoLiveType: 'GLM',
+    /** *
      *
      * @param options
      */
-    initialize: function(data, options) {
+    initialize: function (data, options) {
         if (options) {
             this.options = options || {};
             FM.setOptions(this, options);

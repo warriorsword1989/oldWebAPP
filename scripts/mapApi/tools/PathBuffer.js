@@ -4,7 +4,7 @@
 
 fastmap.mapApi.pathBuffer = L.Handler.extend({
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -19,27 +19,27 @@ fastmap.mapApi.pathBuffer = L.Handler.extend({
         this.targetIndex = null;
         this.selectCtrl = fastmap.uikit.SelectController();
         this.transform = new fastmap.mapApi.MecatorTranform();
-        this.validation =fastmap.uikit.geometryValidation({transform:  this.transform});
+        this.validation = fastmap.uikit.geometryValidation({ transform: this.transform });
         this.eventController = fastmap.uikit.EventController();
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
        /* this._map.on('mousewheel', this.onMouseWheel, this);*/
         L.DomEvent
-            .on(this._map.getContainer(), 'mousewheel',this.onMouseWheel,this)
+            .on(this._map.getContainer(), 'mousewheel', this.onMouseWheel, this);
     },
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
         this._map.off('mousewheel', this.onMouseWheel, this);
     },
 
-    /***
+    /** *
      * 重写disable，加入地图拖动控制
      */
     disable: function () {
@@ -48,37 +48,37 @@ fastmap.mapApi.pathBuffer = L.Handler.extend({
         this._enabled = false;
         this.removeHooks();
     },
-    /***
+    /** *
      * 鼠标滚轮处理事件
      * @param event
      */
     onMouseWheel: function (event) {
-        if(this.shapeEditor.shapeEditorResult.original){
-            this.scale =  this.transform.scale( this._map);
+        if (this.shapeEditor.shapeEditorResult.original) {
+            this.scale = this.transform.scale(this._map);
 
-            var k =  this.shapeEditor.shapeEditorResult.original.linkWidth;
+            var k = this.shapeEditor.shapeEditorResult.original.linkWidth;
             var e = window.event || event; // old IE support
             var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-            var scale =  k+delta*(1.7/this.scale);
-            if (scale*this.scale<6.6) {
-                scale = 6.6/this.scale;
-            }else if (scale*this.scale>160) {
-                scale = 160/this.scale;
+            var scale = k + delta * (1.7 / this.scale);
+            if (scale * this.scale < 6.6) {
+                scale = 6.6 / this.scale;
+            } else if (scale * this.scale > 160) {
+                scale = 160 / this.scale;
             }
             this.shapeEditor.shapeEditorResult.getFinalGeometry().linkWidth = scale;
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
-    //两点之间的距离
-    distance:function(pointA, pointB) {
+    // 两点之间的距离
+    distance: function (pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     },
 
-    /***
+    /** *
      * 重新设置节点
      */
-    resetVertex:function(){
+    resetVertex: function () {
         this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
     }
-})
+});

@@ -40,13 +40,13 @@ fastmap.mapApi.symbol.Template = L.Class.extend({
             return segments;
         }
 
-        //处理pattern，确保包含偶数个元素
+        // 处理pattern，确保包含偶数个元素
         var newPattern = this.processPattern(this.pattern);
 
-        //计算pattern的总长度
+        // 计算pattern的总长度
         var patternLength = this.getPatternLength(newPattern);
 
-        //将线几何按照模式总长度打段
+        // 将线几何按照模式总长度打段
         this.breakGeometry(patternLength, this.lineString, segments);
 
         return segments;
@@ -63,7 +63,6 @@ fastmap.mapApi.symbol.Template = L.Class.extend({
      * @return Array 所有下标为偶数的子段
      */
     getMarks: function (segment) {
-
         var pattern = this.processPattern(this.pattern);
 
         var marks = [];
@@ -76,10 +75,10 @@ fastmap.mapApi.symbol.Template = L.Class.extend({
         for (var i = 0; i < pattern.length; ++i) {
             var subSegments = sourceSegment.splitByLength(pattern[i]);
             if (i % 2 === 0 && subSegments[0] !== null) {
-                marks.push(subSegments[0]);//取下标为偶数的subSegment作为mark
+                marks.push(subSegments[0]);// 取下标为偶数的subSegment作为mark
             }
 
-            //当segment长度小于等于pattern长度时，subSegments[1]为[]
+            // 当segment长度小于等于pattern长度时，subSegments[1]为[]
             if (subSegments[1] === null) {
                 break;
             }
@@ -100,21 +99,21 @@ fastmap.mapApi.symbol.Template = L.Class.extend({
      * @param segments 切分产生的结果
      */
     breakGeometry: function (length, lineString, segments) {
-        //计算geometry长度
+        // 计算geometry长度
         var geometryLength = lineString.length();
 
-        //如果geometry长度不足以再次切分，停止切分
+        // 如果geometry长度不足以再次切分，停止切分
         if (length <= 0 || geometryLength <= length) {
-            var newGeometry = lineString.clone();//拷贝geometry
+            var newGeometry = lineString.clone();// 拷贝geometry
             segments.push(newGeometry);
 
             return;
         }
 
-        //将几何切分成两段
+        // 将几何切分成两段
         var subLineStrings = lineString.splitByLength(length);
 
-        //将切下来的第一段加入segments
+        // 将切下来的第一段加入segments
         segments.push(subLineStrings[0]);
 
         // 第二段递归处理，继续切分
@@ -144,7 +143,6 @@ fastmap.mapApi.symbol.Template = L.Class.extend({
      * @param patternArray
      */
     processPattern: function (patternArray) {
-
         if (patternArray.length % 2 !== 0) {
             return patternArray = patternArray.concat(patternArray);
         }

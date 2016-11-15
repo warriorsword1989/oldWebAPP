@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Geometry
  * 基于leaflet的几何基类
  *
@@ -12,7 +12,7 @@ fastmap.mapApi.Geometry = L.Class.extend({
      * @property type
      * @type String
      */
-    type: "Geometry",
+    type: 'Geometry',
 
     /**
      * @method initialize
@@ -41,7 +41,7 @@ fastmap.mapApi.Geometry = L.Class.extend({
     /**
      * 清除外包框
      */
-    clearBounds: function() {
+    clearBounds: function () {
         this.bounds = null;
         if (this.parent) {
             this.parent.clearBounds();
@@ -66,7 +66,7 @@ fastmap.mapApi.Geometry = L.Class.extend({
      * @return {string} geoJsonString.
      */
     toWkt: function () {
-        return "";
+        return '';
     },
 
     /**
@@ -95,7 +95,7 @@ fastmap.mapApi.Geometry = L.Class.extend({
  * Returns:
  * {<OpenLayers.Geometry>} A geometry of the appropriate class.
  */
-fastmap.mapApi.Geometry.fromWKT = function(wkt) {
+fastmap.mapApi.Geometry.fromWKT = function (wkt) {
     var geom;
     if (OpenLayers.Format && OpenLayers.Format.WKT) {
         var format = OpenLayers.Geometry.fromWKT.format;
@@ -109,7 +109,7 @@ fastmap.mapApi.Geometry.fromWKT = function(wkt) {
         } else if (OpenLayers.Util.isArray(result)) {
             var len = result.length;
             var components = new Array(len);
-            for (var i=0; i<len; ++i) {
+            for (var i = 0; i < len; ++i) {
                 components[i] = result[i].geometry;
             }
             geom = new OpenLayers.Geometry.Collection(components);
@@ -158,7 +158,7 @@ fastmap.mapApi.Geometry.fromWKT = function(wkt) {
  *     are coincident, return will be true (and the instersection is equal
  *     to the shorter segment).
  */
-fastmap.mapApi.Geometry.segmentsIntersect = function(seg1, seg2, options) {
+fastmap.mapApi.Geometry.segmentsIntersect = function (seg1, seg2, options) {
     var point = options && options.point;
     var tolerance = options && options.tolerance;
     var intersection = false;
@@ -171,18 +171,18 @@ fastmap.mapApi.Geometry.segmentsIntersect = function(seg1, seg2, options) {
     var d = (y22_21 * x12_11) - (x22_21 * y12_11);
     var n1 = (x22_21 * y11_21) - (y22_21 * x11_21);
     var n2 = (x12_11 * y11_21) - (y12_11 * x11_21);
-    if(d == 0) {
+    if (d == 0) {
         // parallel
-        if(n1 == 0 && n2 == 0) {
+        if (n1 == 0 && n2 == 0) {
             // coincident
             intersection = true;
         }
     } else {
         var along1 = n1 / d;
         var along2 = n2 / d;
-        if(along1 >= 0 && along1 <= 1 && along2 >=0 && along2 <= 1) {
+        if (along1 >= 0 && along1 <= 1 && along2 >= 0 && along2 <= 1) {
             // intersect
-            if(!point) {
+            if (!point) {
                 intersection = true;
             } else {
                 // calculate the intersection point
@@ -192,47 +192,53 @@ fastmap.mapApi.Geometry.segmentsIntersect = function(seg1, seg2, options) {
             }
         }
     }
-    if(tolerance) {
+    if (tolerance) {
         var dist;
-        if(intersection) {
-            if(point) {
+        if (intersection) {
+            if (point) {
                 var segs = [seg1, seg2];
-                var seg, x, y;
+                var seg,
+                    x,
+                    y;
                 // check segment endpoints for proximity to intersection
                 // set intersection to first endpoint within the tolerance
-                outer: for(var i=0; i<2; ++i) {
+                outer: for (var i = 0; i < 2; ++i) {
                     seg = segs[i];
-                    for(var j=1; j<3; ++j) {
-                        x = seg["x" + j];
-                        y = seg["y" + j];
+                    for (var j = 1; j < 3; ++j) {
+                        x = seg['x' + j];
+                        y = seg['y' + j];
                         dist = Math.sqrt(
                                 Math.pow(x - intersection.x, 2) +
                                 Math.pow(y - intersection.y, 2)
                         );
-                        if(dist < tolerance) {
+                        if (dist < tolerance) {
                             intersection.x = x;
                             intersection.y = y;
                             break outer;
                         }
                     }
                 }
-
             }
         } else {
             // no calculated intersection, but segments could be within
             // the tolerance of one another
             var segs = [seg1, seg2];
-            var source, target, x, y, p, result;
+            var source,
+                target,
+                x,
+                y,
+                p,
+                result;
             // check segment endpoints for proximity to intersection
             // set intersection to first endpoint within the tolerance
-            outer: for(var i=0; i<2; ++i) {
+            outer: for (var i = 0; i < 2; ++i) {
                 source = segs[i];
-                target = segs[(i+1)%2];
-                for(var j=1; j<3; ++j) {
-                    p = {x: source["x"+j], y: source["y"+j]};
+                target = segs[(i + 1) % 2];
+                for (var j = 1; j < 3; ++j) {
+                    p = { x: source['x' + j], y: source['y' + j] };
                     result = fastmap.mapApi.Geometry.distanceToSegment(p, target);
-                    if(result.distance < tolerance) {
-                        if(point) {
+                    if (result.distance < tolerance) {
+                        if (point) {
                             intersection = new fastmap.mapApi.Point(p.x, p.y);
                         } else {
                             intersection = true;
@@ -262,7 +268,7 @@ fastmap.mapApi.Geometry.segmentsIntersect = function(seg1, seg2, options) {
  *     where the shortest distance meets the segment. The along attribute
  *     describes how far between the two segment points the given point is.
  */
-fastmap.mapApi.Geometry.distanceToSegment = function(point, segment) {
+fastmap.mapApi.Geometry.distanceToSegment = function (point, segment) {
     var result = fastmap.mapApi.Geometry.distanceSquaredToSegment(point, segment);
     result.distance = Math.sqrt(result.distance);
     return result;
@@ -288,7 +294,7 @@ fastmap.mapApi.Geometry.distanceToSegment = function(point, segment) {
  *     attribute describes how far between the two segment points the given
  *     point is.
  */
-fastmap.mapApi.Geometry.distanceSquaredToSegment = function(point, segment) {
+fastmap.mapApi.Geometry.distanceSquaredToSegment = function (point, segment) {
     var x0 = point.x;
     var y0 = point.y;
     var x1 = segment.x1;
@@ -299,11 +305,12 @@ fastmap.mapApi.Geometry.distanceSquaredToSegment = function(point, segment) {
     var dy = y2 - y1;
     var along = ((dx * (x0 - x1)) + (dy * (y0 - y1))) /
         (Math.pow(dx, 2) + Math.pow(dy, 2));
-    var x, y;
-    if(along <= 0.0) {
+    var x,
+        y;
+    if (along <= 0.0) {
         x = x1;
         y = y1;
-    } else if(along >= 1.0) {
+    } else if (along >= 1.0) {
         x = x2;
         y = y2;
     } else {
@@ -317,6 +324,6 @@ fastmap.mapApi.Geometry.distanceSquaredToSegment = function(point, segment) {
     };
 };
 
-fastmap.mapApi.geometry=function() {
+fastmap.mapApi.geometry = function () {
     return new fastmap.mapApi.Geometry();
 };

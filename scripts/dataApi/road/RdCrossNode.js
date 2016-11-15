@@ -1,41 +1,41 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.RdCrossNode=fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdCrossNode = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         // L.setOptions(this, options);
-        this.geoLiveType = "RDCROSSNODE";
+        this.geoLiveType = 'RDCROSSNODE';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"];
-        this.isMain = data["isMain"] || 0;
-        this.nodePid = data["nodePid"];
-        this.rowId = data["rowId"];
+    setAttributeData: function (data) {
+        this.pid = data.pid;
+        this.isMain = data.isMain || 0;
+        this.nodePid = data.nodePid;
+        this.rowId = data.rowId;
     },
 
-    getIntegrate:function(){
-        var data={};
-        data["pid"] = this.pid ;
-        data["isMain"] = this.isMain;
-        data["nodePid"] = this.nodePid ;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+    getIntegrate: function () {
+        var data = {};
+        data.pid = this.pid;
+        data.isMain = this.isMain;
+        data.nodePid = this.nodePid;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
-    getSnapShot:function(){
-        var data={};
-        data["pid"] = this.pid ;
-        data["isMain"] = this.isMain;
-        data["nodePid"] = this.nodePid ;
-        data["rowId"] = this.rowId;
-        data["geoLiveType"] = this.geoLiveType;
+    getSnapShot: function () {
+        var data = {};
+        data.pid = this.pid;
+        data.isMain = this.isMain;
+        data.nodePid = this.nodePid;
+        data.rowId = this.rowId;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
-})
+});
 
 fastmap.dataApi.rdCrossNode = function (data, options) {
     return new fastmap.dataApi.RdCrossNode(data, options);
-}
+};

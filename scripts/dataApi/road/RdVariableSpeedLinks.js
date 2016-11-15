@@ -4,20 +4,20 @@
  */
 
 fastmap.dataApi.RdVariableSpeedLinks = fastmap.dataApi.GeoDataModel.extend({
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDVARIABLESPEEDLINKS";
+        this.geoLiveType = 'RDVARIABLESPEEDLINKS';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"];
-        this.linkPid = data["linkPid"];
-        this.seqNum = data["seqNum"] || 1;
+    setAttributeData: function (data) {
+        this.pid = data.pid;
+        this.linkPid = data.linkPid;
+        this.seqNum = data.seqNum || 1;
     },
 
     /**
@@ -26,12 +26,12 @@ fastmap.dataApi.RdVariableSpeedLinks = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["seqNum"] = this.seqNum;
-        data["linkPid"] = this.linkPid;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = this.pid;
+        data.seqNum = this.seqNum;
+        data.linkPid = this.linkPid;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -41,17 +41,17 @@ fastmap.dataApi.RdVariableSpeedLinks = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["seqNum"] = this.seqNum;
-        data["linkPid"] = this.linkPid;
-        data["geoLiveType"] = this.geoLiveType;
+        data.pid = this.pid;
+        data.seqNum = this.seqNum;
+        data.linkPid = this.linkPid;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * Rdnode初始化函数
  * @param id
  * @param point 初始化rdnode的点
@@ -60,5 +60,5 @@ fastmap.dataApi.RdVariableSpeedLinks = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdVariableSpeedLinks = function (data, options) {
     return new fastmap.dataApi.RdVariableSpeedLinks(data, options);
-}
+};
 

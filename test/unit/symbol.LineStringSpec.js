@@ -3,9 +3,7 @@
  */
 
 define(['symbol.LineString'], function () {
-
     describe('symbol.LineString类', function () {
-
         var geometry;
         var lineString;
 

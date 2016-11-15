@@ -1,6 +1,6 @@
-fastmap.uikit.canvasFeature.TmcPoints = function(data) {
+fastmap.uikit.canvasFeature.TmcPoints = function (data) {
     var parts = [];
-    for(var i = 0; i < data.g.length; i++) {
+    for (var i = 0; i < data.g.length; i++) {
         var temp = {
             g: data.g[i],
             i: data.m.a[i],

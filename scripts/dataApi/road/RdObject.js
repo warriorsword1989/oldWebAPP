@@ -5,43 +5,43 @@
 
 fastmap.dataApi.RdObject = fastmap.dataApi.GeoDataModel.extend({
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDOBJECT";
+        this.geoLiveType = 'RDOBJECT';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.pid = data["pid"] || "";
-        this.geometry = data["geometry"] || "";
+    setAttributeData: function (data) {
+        this.pid = data.pid || '';
+        this.geometry = data.geometry || '';
         this.links = [];
         this.nodes = [];
         this.inters = [];
         this.roads = [];
         this.names = [];
 
-        for(var i=0;i<data["links"].length;i++){
-            var link = fastmap.dataApi.rdObjectLinks(data["links"][i]);
+        for (var i = 0; i < data.links.length; i++) {
+            var link = fastmap.dataApi.rdObjectLinks(data.links[i]);
             this.links.push(link);
         }
-        for(var i=0;i<data["nodes"].length;i++){
-            var node = fastmap.dataApi.rdObjectNodes(data["nodes"][i]);
+        for (var i = 0; i < data.nodes.length; i++) {
+            var node = fastmap.dataApi.rdObjectNodes(data.nodes[i]);
             this.nodes.push(node);
         }
-        for(var i=0;i<data["inters"].length;i++){
-            var inter = fastmap.dataApi.rdObjectInters(data["inters"][i]);
+        for (var i = 0; i < data.inters.length; i++) {
+            var inter = fastmap.dataApi.rdObjectInters(data.inters[i]);
             this.inters.push(inter);
         }
-        for(var i=0;i<data["roads"].length;i++){
-            var road = fastmap.dataApi.rdObjectRoads(data["roads"][i]);
+        for (var i = 0; i < data.roads.length; i++) {
+            var road = fastmap.dataApi.rdObjectRoads(data.roads[i]);
             this.roads.push(road);
         }
-        for(var i=0;i<data["names"].length;i++){
-            var name = fastmap.dataApi.rdObjectNames(data["names"][i]);
+        for (var i = 0; i < data.names.length; i++) {
+            var name = fastmap.dataApi.rdObjectNames(data.names[i]);
             this.names.push(name);
         }
     },
@@ -52,29 +52,29 @@ fastmap.dataApi.RdObject = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodes"] = [];
-        data["links"] = [];
-        data["inters"] = [];
-        data["roads"] = [];
-        data["names"] = [];
-        data["geoLiveType"] = this.geoLiveType;
-        for(var i=0;i<this.links.length;i++){
-            data["links"].push(this.links[i].getIntegrate());
+        data.pid = this.pid;
+        data.nodes = [];
+        data.links = [];
+        data.inters = [];
+        data.roads = [];
+        data.names = [];
+        data.geoLiveType = this.geoLiveType;
+        for (var i = 0; i < this.links.length; i++) {
+            data.links.push(this.links[i].getIntegrate());
         }
-        for(var i=0;i<this.nodes.length;i++){
-            data["nodes"].push(this.nodes[i].getIntegrate());
+        for (var i = 0; i < this.nodes.length; i++) {
+            data.nodes.push(this.nodes[i].getIntegrate());
         }
-        for(var i=0;i<this.inters.length;i++){
-            data["inters"].push(this.inters[i].getIntegrate());
+        for (var i = 0; i < this.inters.length; i++) {
+            data.inters.push(this.inters[i].getIntegrate());
         }
-        for(var i=0;i<this.roads.length;i++){
-            data["roads"].push(this.roads[i].getIntegrate());
+        for (var i = 0; i < this.roads.length; i++) {
+            data.roads.push(this.roads[i].getIntegrate());
         }
-        for(var i=0;i<this.names.length;i++){
-            data["names"].push(this.names[i].getIntegrate());
+        for (var i = 0; i < this.names.length; i++) {
+            data.names.push(this.names[i].getIntegrate());
         }
         return data;
     },
@@ -85,35 +85,35 @@ fastmap.dataApi.RdObject = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid;
-        data["nodes"] = [];
-        data["links"] = [];
-        data["inters"] = [];
-        data["roads"] = [];
-        data["names"] = [];
-        data["geoLiveType"] = this.geoLiveType;
-        for(var i=0;i<this.links.length;i++){
-            data["links"].push(this.links[i].getIntegrate());
+        data.pid = this.pid;
+        data.nodes = [];
+        data.links = [];
+        data.inters = [];
+        data.roads = [];
+        data.names = [];
+        data.geoLiveType = this.geoLiveType;
+        for (var i = 0; i < this.links.length; i++) {
+            data.links.push(this.links[i].getIntegrate());
         }
-        for(var i=0;i<this.nodes.length;i++){
-            data["nodes"].push(this.nodes[i].getIntegrate());
+        for (var i = 0; i < this.nodes.length; i++) {
+            data.nodes.push(this.nodes[i].getIntegrate());
         }
-        for(var i=0;i<this.inters.length;i++){
-            data["inters"].push(this.inters[i].getIntegrate());
+        for (var i = 0; i < this.inters.length; i++) {
+            data.inters.push(this.inters[i].getIntegrate());
         }
-        for(var i=0;i<this.roads.length;i++){
-            data["roads"].push(this.roads[i].getIntegrate());
+        for (var i = 0; i < this.roads.length; i++) {
+            data.roads.push(this.roads[i].getIntegrate());
         }
-        for(var i=0;i<this.names.length;i++){
-            data["names"].push(this.names[i].getIntegrate());
+        for (var i = 0; i < this.names.length; i++) {
+            data.names.push(this.names[i].getIntegrate());
         }
         return data;
     }
 });
 
-/***
+/** *
  * RdSlope初始化函数
  * @param id
  * @param options 其他可选参数
@@ -121,5 +121,5 @@ fastmap.dataApi.RdObject = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdObject = function (data, options) {
     return new fastmap.dataApi.RdObject(data, options);
-}
+};
 

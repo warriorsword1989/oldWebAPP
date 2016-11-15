@@ -2,7 +2,7 @@
  * Created by liuyang on 2016/8/31.
  */
 FM.dataApi.IxPoiChargingstation = FM.dataApi.DataModel.extend({
-    dataModelType: "IX_POI_CHARGINGSTATION",
+    dataModelType: 'IX_POI_CHARGINGSTATION',
     /*
      * 返回参数赋值
      */
@@ -37,7 +37,7 @@ FM.dataApi.IxPoiChargingstation = FM.dataApi.DataModel.extend({
         this.availableState = data['availableState'] || 0;
         this.rowId = data["rowId"];
     },
-    getIntegrate: function(){
+    getIntegrate: function () {
         var ret = {};
         ret['_flag_'] = this._flag_;
         ret['pid'] = this.pid;

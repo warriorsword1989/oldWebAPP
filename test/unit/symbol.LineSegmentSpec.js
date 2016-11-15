@@ -3,9 +3,7 @@
  */
 
 define(['symbol.LineSegment'], function () {
-
     describe('symbol.LineSegment类', function () {
-
         var start;
         var end;
         var lineSegment;
