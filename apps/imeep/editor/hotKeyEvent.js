@@ -1680,7 +1680,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                                         emitFlag = false;
                                         errorLink = laneInfos[j].linkPid;
                                         break;
-                                    } else {
+                                    } else if(laneInfos[j].lanes && laneInfos[j].lanes.length ==0){
                                         emitFlag = false;
                                     }
                                 }

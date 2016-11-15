@@ -390,12 +390,10 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
         var checkFlag = 1;
         //检查是否重复
         for (var i = 0; i < $scope.insertLaneTopoArr.length; i++) {
-            for(var j = 0;j<$scope.insertLaneTopoArr[i].rdLaneTopoDetail.laneTopoInfos.length;j++){
-                if ($scope.insertLaneTopoArr[i].rdLaneTopoDetail.laneTopoInfos[j].inLanePid == inLanePid && $scope.insertLaneTopoArr[i].rdLaneTopoDetail.laneTopoInfos[j].outLanePid == outLanePid) {
-                    swal("提示", "已经新增过该车道连通！", "error");
-                    checkFlag = 0;
-                    return checkFlag;
-                }
+            if ($scope.insertLaneTopoArr[i].inLanePid == inLanePid && $scope.insertLaneTopoArr[i].outLanePid == outLanePid) {
+                swal("提示", "已经新增过该车道连通！", "error");
+                checkFlag = 0;
+                return checkFlag;
             }
         }
         for (var i = 0; i < $scope.laneTopoInfoArr.length; i++) {
@@ -576,21 +574,28 @@ rdLaneTopoApp.controller("rdLaneTopoCtrl", ['$scope', '$compile', 'dsEdit', '$sc
         if (lanesArr.length > 0) {
             var s_lng = $scope.laneInfoArr[i].geometry.coordinates[0][0],
                 s_lat = $scope.laneInfoArr[i].geometry.coordinates[0][1],
+                s1_lng = $scope.laneInfoArr[i].geometry.coordinates[1][0],
+                s1_lat = $scope.laneInfoArr[i].geometry.coordinates[1][1],
+                e1_lng = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 2][0],
+                e1_lat = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 2][1],
                 e_lng = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][0],
                 e_lat = $scope.laneInfoArr[i].geometry.coordinates[$scope.laneInfoArr[i].geometry.coordinates.length - 1][1];
-            var kk = (s_lng - e_lng) / (s_lat - e_lat);
-            // var distance = (L.latLng(laneInfoArr[i].geometry.coordinates[0][1],laneInfoArr[i].geometry.coordinates[0][0])).distanceTo(L.latLng(laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length-1][1],laneInfoArr[i].geometry.coordinates[laneInfoArr[i].geometry.coordinates.length-1][0]))
-            var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI);//旋转角度
+            var kk;
+            if($scope.laneInfoArr[i].direct == 2){
+                kk = (e1_lng - e_lng) / (e1_lat - e_lat);
+            }else if($scope.laneInfoArr[i].direct == 3){
+                kk = (s1_lng - s_lng) / (s1_lat - s_lat);
+            }else {
+                kk = (s_lng - e_lng) / (s_lat - e_lat);
+            }
 
-            // var deg;//旋转角度
-            // if ((s_lat - e_lat) === 0) {
-            //     deg = Math.PI / 2;
-            // } else {
-            //     deg = Math.atan((s_lng - e_lng) / (s_lat - e_lat));
-            // }
-            if (($scope.laneInfoArr[i].direct == 2) && (s_lng > e_lng || (s_lng == e_lng && s_lat > e_lat))) {
+            var deg = Math.round(Math.atan(Math.abs(kk)) * 180 / Math.PI);//旋转角度
+            if (($scope.laneInfoArr[i].direct == 2) && (e1_lng > e_lng || (e1_lng == e_lng && e1_lat > e_lat))) {
                 deg =  180 + deg;
             }
+            // if (($scope.laneInfoArr[i].direct == 3) && (s_lat < s1_lat || (s_lat == s1_lat && s_lng < s1_lng))) {
+            //     deg =  180 + deg;
+            // }
             // var scale = distance/150;
             var _width = lanesArr.length * 30 + 20;
             var xtrans = _width / 2 * Math.sin(deg);
