@@ -334,14 +334,10 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
          * @param data
          */
         $scope.selectObjCallback = function(data) {
-            //console.info("selectObjCallback",$scope);
-            //$scope.$parent.$parent.$parent.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
-            //$scope.$parent.$parent.selectPoiInMap = true;//表示poi是从地图上选中的
-            //$scope.selectPoiInMap = true;
             $scope.selectedFeature = data;
-            $scope.$emit("SWITCHCONTAINERSTATE", {
-                "subAttrContainerTpl": false
-            });
+            // $scope.$emit("SWITCHCONTAINERSTATE", {
+            //     "subAttrContainerTpl": false
+            // });
             //地图小于17级时不能选择
             if (map.getZoom < 17) {
                 return;
@@ -1219,10 +1215,19 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                         featCodeCtrl.setFeatCode($scope.laneInfo);
                     });
                     break;
-                case "RDHGWGLIMIT":
+                case "RDHGWGLIMIT": //限高限重
+                    toolsObj = {
+                        items: [{
+                            'text': "<span class='float-option-bar'>修</span>",
+                            'title': "修改点位",
+                            'type': 'MODIFYHGWGLIMITNODE',
+                            'class': "feaf",
+                            callback: $scope.modifyTools
+                        }]
+                    };
                     ctrlAndTmplParams.propertyCtrl = appPath.road + 'ctrls/attr_hgwglimit_ctrl/hgwgLimitCtrl';
                     ctrlAndTmplParams.propertyHtml = appPath.root + appPath.road + "tpls/attr_hgwglimit_tpl/hgwglimitTpl.html";
-                    $scope.getFeatDataCallback(data, data.id, "RDHGWGLIMIT", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                    $scope.getFeatDataCallback(data, data.id, "RDHGWGLIMIT", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml,toolsObj);
                     break;
                 case "TIPS":
                     $("#popoverTips").css("display", "block");
@@ -2654,6 +2659,78 @@ angular.module("app").controller("selectShapeCtrl", ["$scope", '$q', '$ocLazyLoa
                                 });
                                 tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
                             }
+                        }
+                    });
+                    return;
+                } else if (type === "MODIFYHGWGLIMITNODE") { //限高限重点位
+                    var hgwgLimitData = selectCtrl.selectedFeatures;
+                    if (shapeCtrl.shapeEditorResult) {
+                        //shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point($scope.selectedFeature.event.latlng.lng, $scope.selectedFeature.event.latlng.lat)]));
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(hgwgLimitData.data.geometry.coordinates[0], hgwgLimitData.data.geometry.coordinates[1])]));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.UPDATEHGWHLIMITNODE);
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.enable();
+                    map.currentTool.snapHandler.addGuideLayer(rdLink);
+                    tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.UPDATEHGWHLIMITNODE);
+                    tooltipsCtrl.setCurrentTooltip('请选择新的位置点！');
+
+                    eventController.off(eventController.eventTypes.RESETCOMPLETE);
+                    eventController.on(eventController.eventTypes.RESETCOMPLETE, function(e) {
+                        var pro = e.property;
+                        var actualDistance = $scope.selectedFeature.event.latlng.distanceTo(new L.latLng(shapeCtrl.shapeEditorResult.getFinalGeometry().y,shapeCtrl.shapeEditorResult.getFinalGeometry().x));
+                        if (actualDistance > 50) {
+                            selectCtrl.selectedFeatures = null;
+                            editLayer.drawGeometry = null;
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                            editLayer.clear();
+                            tooltipsCtrl.setCurrentTooltip('移动距离必须小于50米，请重新选择位置！','error');
+                        } else {
+                            var tempData = {
+                                pid:hgwgLimitData.data.pid,
+                                lat:e.latlng.lat,
+                                lng:e.latlng.lng,
+                                linkPid:pro.id
+                            };
+                            // featCodeCtrl.setFeatCode({
+                            //     "hgwgLimat": tempData
+                            // });
+                            featCodeCtrl.setFeatCode( tempData);
+                            tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消！');
+                            // var point = $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry());
+                            // var speedData = {
+                            //     pid: pid,
+                            //     longitude: point.x,
+                            //     latitude: point.y,
+                            //     objStatus: "UPDATE",
+                            //     linkPid:parseInt(pro.id)
+                            // };
+                            // if(pro.id != currentLink){
+                            //     currentLink = pro.id;
+                            //     dsEdit.getByPid(pro.id, "RDLINK").then(function(data) {
+                            //         if (data) {
+                            //             selectCtrl.onSelected({
+                            //                 geometry: data.geometry.coordinates,
+                            //                 id: data.pid,
+                            //                 direct: pro.direct,
+                            //                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
+                            //             });
+                            //             featCodeCtrl.setFeatCode({
+                            //                 "speedData": speedData
+                            //             });
+                            //             tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
+                            //         }
+                            //     })
+                            // } else {
+                            //     featCodeCtrl.setFeatCode({
+                            //         "speedData": speedData
+                            //     });
+                            //     tooltipsCtrl.setCurrentTooltip('点击空格键保存操作或者按ESC键取消!');
+                            // }
                         }
                     });
                     return;

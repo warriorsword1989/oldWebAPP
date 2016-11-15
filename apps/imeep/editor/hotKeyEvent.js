@@ -1675,24 +1675,32 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         });
                         for(var i=0;i<data.data.length;i++){
                             var laneInfos = data.data[i].laneInfos;
-                            for(var j=0;j<laneInfos.length;j++){
-                                if(!(laneInfos[j].lanes && laneInfos[j].lanes.length >0)){
-                                    emitFlag = false;
-                                    errorLink = laneInfos[j].linkPid;
-                                    break;
+                            if(laneInfos && laneInfos.length >0){
+                                for(var j=0;j<laneInfos.length;j++){
+                                    if(!(laneInfos[j].lanes && laneInfos[j].lanes.length >0)){
+                                        emitFlag = false;
+                                        errorLink = laneInfos[j].linkPid;
+                                        break;
+                                    } else if(laneInfos[j].lanes && laneInfos[j].lanes.length ==0){
+                                        emitFlag = false;
+                                    }
                                 }
+                            } else {
+                                emitFlag = false;
                             }
                         }
                         if(emitFlag){
                             scope.$emit("OPENRDLANETOPO");
                         } else {
-                            swal("错误提示","Pid="+errorLink+"的RdLink不存在详细车道，不能制作车道连通！","error");
+                            if(errorLink){
+                                swal("错误提示","Pid="+errorLink+"的RdLink不存在详细车道，不能制作车道连通！","error");
+                            } else {
+                                swal("错误提示","所选的RdLink不存在详细车道，不能制作车道连通！","error");
+                            }
                         }
                     }
                 });
             } else if(shapeCtrl.editType == "hgwgLimitDirect"){
-                console.info(selectCtrl);
-                //treatmentOfChanged(data, "RDHGWGLIMIT", 'attr_hgwglimit_ctrl/hgwgLimitCtrl', 'attr_hgwglimit_tpl/hgwglimitTpl.html');
                 var temp = selectCtrl.selectedFeatures;
                 if(temp.linkPid){
                     var param = {
@@ -1715,7 +1723,31 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 }else {
                     swal("错误提示","请先创建限高限重！","error");
                 }
-            } else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
+            } else if(shapeCtrl.editType == "updateHgwgLimitNode"){
+                console.info(featCodeCtrl.getFeatCode());
+                var temp = featCodeCtrl.getFeatCode();
+                if(temp.linkPid){
+                    var param = {
+                        "command": "MOVE",
+                        "type": "RDHGWGLIMIT",
+                        "dbId": App.Temp.dbId,
+                        "data": {
+                            pid:temp.pid,
+                            linkPid:temp.linkPid,
+                            latitude:temp.lat,
+                            longitude:temp.lng
+                        }
+                    };
+                    dsEdit.save(param).then(function (data) {
+                        if(data != null) {
+                            relationData.redraw();
+                            treatmentOfChanged(data, "RDHGWGLIMIT", 'attr_hgwglimit_ctrl/hgwgLimitCtrl', 'attr_hgwglimit_tpl/hgwglimitTpl.html');
+                        }
+                    });
+                }else {
+                    swal("错误提示","请移动限高限重位置！","error");
+                }
+            }  else if (shapeCtrl.editType === "modifyRdcross") {    //更改路口
                 if(geo.nodePids && geo.nodePids.length > 0){
                     var param = {
                         "command": "BATCH",

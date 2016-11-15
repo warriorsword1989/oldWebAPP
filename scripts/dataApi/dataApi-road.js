@@ -103,6 +103,8 @@
                 "dataApi/road/RdLanes.js",
                 "dataApi/road/RdLane.js",
                 "dataApi/road/RdLaneCondition.js",
+                "dataApi/road/RdLaneTopoDetail.js",
+                "dataApi/road/RdLaneTopoVia.js",
                 "dataApi/road/RdHgwgLimit.js"
             ]; // etc.
 

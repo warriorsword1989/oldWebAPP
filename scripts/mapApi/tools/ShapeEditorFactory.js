@@ -54,6 +54,7 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor}),
                     'pathDepartNode':new fastmap.mapApi.pathDepartNode({shapeEditor:shapeEditor}),
                     'hgwgLimitDirect':new fastmap.mapApi.TransformDirection({shapeEditor:shapeEditor}),
+                    'updateHgwgLimitNode': new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor})
                 };
                 return toolsObject;
             }

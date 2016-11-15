@@ -173,5 +173,9 @@ fastmap.mapApi.ShapeOptionType = {
     /*
      分离节点
      */
-    'PATHDEPARTNODE':'pathDepartNode'
+    'PATHDEPARTNODE':'pathDepartNode',
+    /*
+    * 限高限重
+    * */
+    'UPDATEHGWHLIMITNODE':'updateHgwgLimitNode'
 }
