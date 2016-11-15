@@ -34,6 +34,12 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();
         }
+        //最后一根退出线;
+        for(var i=0;i<$scope.rdRestrictionCurrentDetail.vias.length;i++){
+            if($scope.rdRestrictionCurrentDetail.vias[i].seqNum == $scope.rdRestrictionCurrentDetail.vias.length){
+                $scope.lastLinkLine = $scope.rdRestrictionCurrentDetail.vias[i].linkPid;
+            }
+        }
     };
 
     //点击限制方向时,显示其有的属性信息
@@ -59,19 +65,6 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             e.target.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
             clearMapTool();
             $scope.showAddOrEditDirectTpl('edit');
-            // //获取退出线的进入点以供修改经过线使用;
-            // $q.all([getLinkInfos($scope.rdRestrictionCurrentDetail.outLinkPid),getLinkInfos($scope.rdRestrictionCurrentDetail.vias[$scope.rdRestrictionCurrentDetail.vias.length-1].linkPid)]).then(function(data){
-            //     var tempArr1 =tempArr2 =  [];
-            //     tempArr1.push(data[0].eNodePid);
-            //     tempArr1.push(data[0].sNodePid);
-            //     tempArr2.push(data[1].eNodePid);
-            //     tempArr2.push(data[1].sNodePid);
-            //     for(var i=0;i<tempArr1.length;i++){
-            //         if(tempArr2.indexOf(tempArr1[i])!=-1){
-            //             $scope.outLinkInNode = tempArr1[i];
-            //         }
-            //     }
-            // })
         }
 
     };
@@ -112,6 +105,20 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
     };
     //修改经过线;
     $scope.modifyThroughLink = function(){
+        // //获取退出线的进入点以供修改经过线使用;
+        $q.all([getLinkInfos($scope.rdRestrictionCurrentDetail.outLinkPid),getLinkInfos($scope.lastLinkLine)]).then(function(data){
+            var tempArr1 = [];
+            var tempArr2 = [];
+            tempArr1.push(data[0].eNodePid);
+            tempArr1.push(data[0].sNodePid);
+            tempArr2.push(data[1].eNodePid);
+            tempArr2.push(data[1].sNodePid);
+            for(var i=0;i<tempArr1.length;i++){
+                if(tempArr2.indexOf(tempArr1[i])!=-1){
+                    $scope.outLinkInNode = tempArr1[i];
+                }
+            }
+        })
         //开始修改经过线前清除对修改某一方向箭头的事件监听;
         clearMapTool();
         $scope.rdRestrictionCurrentDetail.vias = [];
@@ -153,6 +160,8 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
             if(linkArr.length&&repeatNum!=-1){
                 nodeArr.splice(repeatNum+1);
                 linkArr.splice(repeatNum);
+                tooltipsCtrl.onRemoveTooltip();
+                tooltipsCtrl.setCurrentTooltip('请继续选择经过线！','info');
             }else{
                 if(dataresult.properties.direct==1){
                     if(dataresult.properties.enode==nodeArr[nodeArr.length-1]||dataresult.properties.snode==nodeArr[nodeArr.length-1]){
@@ -183,6 +192,10 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
                         return;
                     }
                 }
+            }
+            if(nodeArr[nodeArr.length-1]==$scope.outLinkInNode){
+                tooltipsCtrl.onRemoveTooltip();
+                tooltipsCtrl.setCurrentTooltip('经过线与退出线已连续，请点击保存！','info');
             }
 
             //重新绘制;
