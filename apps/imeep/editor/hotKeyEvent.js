@@ -16,6 +16,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
         var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
         var coordinate = [];
         var rdLink = layerCtrl.getLayerById('rdLink');
+        var thematicLink = layerCtrl.getLayerById('thematicLink');
         var rdnode = layerCtrl.getLayerById('rdNode');
         var adLink = layerCtrl.getLayerById('adLink');
         var adNode = layerCtrl.getLayerById('adNode');
@@ -307,6 +308,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                         if (data != null) {
                             if (param.type === 'RDLINK') {
                                 rdLink.redraw();
+                                thematicLink.redraw();
                                 rdnode.redraw();
                             } else if (param.type === 'ADLINK') {
                                 adLink.redraw();
