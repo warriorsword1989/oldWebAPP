@@ -9,7 +9,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
      */
     includes: L.Mixin.Events,
 
-    /***
+    /** *
      *
      * @param {Object}options
      */
@@ -29,13 +29,12 @@ fastmap.uikit.SelectTips = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.highlightLayer = this.layerController.getLayerById('highlightLayer');
         for (var item in this.editLayerIds) {
-            this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
+            this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]));
         }
         this.popup = L.popup();
-
     },
 
-    /***
+    /** *
      * 添加事件处理
      */
     addHooks: function () {
@@ -46,7 +45,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
     },
 
 
-    /***
+    /** *
      * 移除事件
      */
     removeHooks: function () {
@@ -58,7 +57,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
     onMouseDown: function (event) {
         // button：0.左键,1.中键,2.右键
         // 限制为左键点击事件
-        if(event.originalEvent.button > 0) {
+        if (event.originalEvent.button > 0) {
             return;
         }
         this.tiles = [];
@@ -68,7 +67,7 @@ fastmap.uikit.SelectTips = L.Handler.extend({
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
 
-    /***
+    /** *
      * 获取鼠标点击周边所有瓦片
      * @param layer
      * @param tilePoint
@@ -97,25 +96,24 @@ fastmap.uikit.SelectTips = L.Handler.extend({
         var y = PointPixel[1] - 256 * PointLoc[1];
         var frs = null;
         for (var layer in this.currentEditLayers) {
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tilePoint));
 
-            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tilePoint))
-
-            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && !this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
+            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]] && !this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]].data) {
                 return;
             }
-            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
-                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]].data) {
+                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ':' + tilePoint[1]].data;
                 // var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
-                    if(data[item].geometry.coordinates){
+                    if (data[item].geometry.coordinates) {
                         if (data[item].geometry.coordinates.length <= 2) {
                             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                                 var id = data[item].properties.id;
                                 var type = data[item].properties.featType;
-                                ids.push({'id':id,type:type});
-                                //this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
-                                //break;
+                                ids.push({ id: id, type: type });
+                                // this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                                // break;
                             }
                         } else {
                             var temp = [];
@@ -129,20 +127,19 @@ fastmap.uikit.SelectTips = L.Handler.extend({
                                 if (this._TouchesPoint(temp[i], x, y, 27)) {
                                     var id = data[item].properties.id;
                                     var type = data[item].properties.featType;
-                                    ids.push({'id':id,type:type});
-                                    //this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
-                                    //break;
+                                    ids.push({ id: id, type: type });
+                                    // this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                                    // break;
                                 }
                             }
                         }
                     }
-
                 }
             }
         }
-        //ids = Utils.distinctArr(ids);
+        // ids = Utils.distinctArr(ids);
 
-        /*过滤框选后的数组，去重*/
+        /* 过滤框选后的数组，去重*/
         var containObj = [];
         var tempLays = [];
         for (var num = 0, numLen = ids.length; num < numLen; num++) {
@@ -151,17 +148,17 @@ fastmap.uikit.SelectTips = L.Handler.extend({
                 tempLays.push(ids[num]);
             }
         }
-        if(tempLays.length == 1){
-            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: tempLays[0].id, tips: 0,optype:"TIPS"})
-        } else if (tempLays.length > 1){
+        if (tempLays.length == 1) {
+            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, { id: tempLays[0].id, tips: 0, optype: 'TIPS' });
+        } else if (tempLays.length > 1) {
             var html = '<ul id="layerpopup">';
             for (var i in tempLays) {
-                //html += '<li><a href="#" id="'+ id +'">TIPS ' +Application.relationNameObj[this.overlays[item].data.properties.featType] + '</a></li>';
+                // html += '<li><a href="#" id="'+ id +'">TIPS ' +Application.relationNameObj[this.overlays[item].data.properties.featType] + '</a></li>';
                 var showId = tempLays[i].id;
-                if(tempLays[i].id.length > 18){
-                    showId = tempLays[i].id.substr(0,18)+"..."
+                if (tempLays[i].id.length > 18) {
+                    showId = tempLays[i].id.substr(0, 18) + '...';
                 }
-                html += '<li><a href="#" id="'+ tempLays[i].id +'">TIPS '+ App.Temp.tipsNameObj[tempLays[i].type] +' ' + showId + '</a></li>';
+                html += '<li><a href="#" id="' + tempLays[i].id + '">TIPS ' + App.Temp.tipsNameObj[tempLays[i].type] + ' ' + showId + '</a></li>';
             }
             html += '</ul>';
             this.popup
@@ -171,13 +168,13 @@ fastmap.uikit.SelectTips = L.Handler.extend({
             this._map.on('popupopen', function () {
                 document.getElementById('layerpopup').onclick = function (e) {
                     if (e.target.tagName == 'A') {
-                        that.eventController.fire(that.eventController.eventTypes.GETTIPSID, {id: e.target.id, tips: 0,optype:"TIPS"})
+                        that.eventController.fire(that.eventController.eventTypes.GETTIPSID, { id: e.target.id, tips: 0, optype: 'TIPS' });
                     }
-                }
+                };
             });
             setTimeout(function () {
                 that._map.openPopup(that.popup);
-            }, 200)
+            }, 200);
         }
         // if (this.overlays.length == 1) {
         //     frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
@@ -225,7 +222,8 @@ fastmap.uikit.SelectTips = L.Handler.extend({
         // }
     },
     unique: function (arr) {
-        var result = [], hash = {};
+        var result = [],
+            hash = {};
         for (var i = 0; i < arr.length; i++) {
             var elem = arr[i].layer.requestType;
             if (!hash[elem]) {
@@ -234,10 +232,9 @@ fastmap.uikit.SelectTips = L.Handler.extend({
             }
         }
         return result;
-
     },
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x

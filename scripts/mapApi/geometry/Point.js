@@ -1,4 +1,4 @@
-﻿/* global fastmap b:true */
+/* global fastmap b:true */
 /**
  * Point
  * 基于Geometry的Point类
@@ -64,7 +64,12 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
     distanceTo: function (geometry, options) {
         var edge = !(options && options.edge === false);
         var details = edge && options && options.details;
-        var distance, x0, y0, x1, y1, result;
+        var distance,
+            x0,
+            y0,
+            x1,
+            y1,
+            result;
         if (geometry instanceof fastmap.mapApi.Point) {
             x0 = this.x;
             y0 = this.y;

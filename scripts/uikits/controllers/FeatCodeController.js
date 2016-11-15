@@ -6,10 +6,10 @@
  */
 
 
-fastmap.uikit.FeatCodeController=(function() {
+fastmap.uikit.FeatCodeController = (function () {
     var instantiated;
     function init(options) {
-            var featCodeController = L.Class.extend({
+        var featCodeController = L.Class.extend({
             /**
              * 相关属性
              */
@@ -32,17 +32,17 @@ fastmap.uikit.FeatCodeController=(function() {
             setFeatCode: function (featCode) {
                 this.newObj = featCode;
             },
-            getFeatCode:function() {
+            getFeatCode: function () {
                 return this.newObj;
             }
         });
         return new featCodeController(options);
     }
-    return function(options) {
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
         return instantiated;
-    }
-})();
+    };
+}());
 

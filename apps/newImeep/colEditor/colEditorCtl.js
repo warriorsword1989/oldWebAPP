@@ -96,35 +96,35 @@ angular.module('app', ['oc.lazyLoad', 'fastmap.uikit', 'ui.layout', 'ngTable', '
                 });
             } else if ($scope.menuSelectedId == 'namePinyin') {
                 $ocLazyLoad.load(appPath.column + 'ctrls/chinaName/namePinyinCtl').then(function () {
-                $scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/namePinyinTpl.html';
-                $scope.showLoading = false;
-            });
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/namePinyinTpl.html';
+                    $scope.showLoading = false;
+                });
             } else if ($scope.menuSelectedId == 'shortName') {
-            $ocLazyLoad.load(appPath.column + 'ctrls/chinaName/shortNameCtl').then(function () {
-            $scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/shortNameTpl.html';
-            $scope.showLoading = false;
-        });
-        } else if ($scope.menuSelectedId == 'chiEngName') {
-        $ocLazyLoad.load(appPath.column + 'ctrls/englishName/chiEngNameCtl').then(function () {
-        $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/chiEngNameTpl.html';
-        $scope.showLoading = false;
-    });
-    } else if ($scope.menuSelectedId == 'confirmEngName') {
-    $ocLazyLoad.load(appPath.column + 'ctrls/englishName/confirmEngNameCtl').then(function () {
-        $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/confirmEngNameTpl.html';
-        $scope.showLoading = false;
-    });
-} else if ($scope.menuSelectedId == 'officalStandardEngName') {
-    $ocLazyLoad.load(appPath.column + 'ctrls/englishName/officalStandardEngNameCtl').then(function () {
-        $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/officalStandardEngNameTpl.html';
-        $scope.showLoading = false;
-    });
-}	else if ($scope.menuSelectedId == 'nonImportantLongEngName') {
-    $ocLazyLoad.load(appPath.column + 'ctrls/englishName/nonImportantLongEngNameCtl').then(function () {
-        $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/nonImportantLongEngNameTpl.html';
-        $scope.showLoading = false;
-    });
-}
+                $ocLazyLoad.load(appPath.column + 'ctrls/chinaName/shortNameCtl').then(function () {
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/chinaName/shortNameTpl.html';
+                    $scope.showLoading = false;
+                });
+            } else if ($scope.menuSelectedId == 'chiEngName') {
+                $ocLazyLoad.load(appPath.column + 'ctrls/englishName/chiEngNameCtl').then(function () {
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/chiEngNameTpl.html';
+                    $scope.showLoading = false;
+                });
+            } else if ($scope.menuSelectedId == 'confirmEngName') {
+                $ocLazyLoad.load(appPath.column + 'ctrls/englishName/confirmEngNameCtl').then(function () {
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/confirmEngNameTpl.html';
+                    $scope.showLoading = false;
+                });
+            } else if ($scope.menuSelectedId == 'officalStandardEngName') {
+                $ocLazyLoad.load(appPath.column + 'ctrls/englishName/officalStandardEngNameCtl').then(function () {
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/officalStandardEngNameTpl.html';
+                    $scope.showLoading = false;
+                });
+            }	else if ($scope.menuSelectedId == 'nonImportantLongEngName') {
+                $ocLazyLoad.load(appPath.column + 'ctrls/englishName/nonImportantLongEngNameCtl').then(function () {
+                    $scope.columnListTpl = appPath.root + appPath.column + 'tpls/englishName/nonImportantLongEngNameTpl.html';
+                    $scope.showLoading = false;
+                });
+            }
         };
 
         $scope.initMate = function () {

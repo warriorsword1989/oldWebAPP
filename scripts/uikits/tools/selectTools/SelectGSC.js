@@ -8,11 +8,11 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
      * @property includes
      */
     includes: L.Mixin.Events,
-    /***
+    /** *
      *
      * @param {Object}options
      */
-    initialize: function(options) {
+    initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
@@ -28,11 +28,11 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
         // this._setSnapHandler(this.options.snapLayers);
     },
 
-    /***
+    /** *
      * 开启捕捉
      * @param {type} 捕捉的图层
      */
-    _setSnapHandler: function(layers) {
+    _setSnapHandler: function (layers) {
         this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
@@ -45,32 +45,32 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
         }
         this.snapHandler.enable();
     },
-    /***
+    /** *
      * 添加事件处理
      */
-    addHooks: function() {
+    addHooks: function () {
         this._map.on('mousedown', this.onMouseDown_np, this);
         if (L.Browser.touch) {
             this._map.on('click', this.onMouseDown_np, this);
             this.snapHandler.disable();
         }
     },
-    /***
+    /** *
      * 移除事件
      */
-    removeHooks: function() {
+    removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown_np, this);
         if (L.Browser.touch) {
             this._map.off('click', this.onMouseDown_np, this);
         }
     },
 
-    onMouseDown_np: function(event) {
+    onMouseDown_np: function (event) {
         var selectFeatures = [];
         var x = event.containerPoint.x,
             y = event.containerPoint.y;
         var geoData = this.selectLayers.drawGeometry.geos.conPoints;
-        for(var i = 0;i<geoData.length;i++){
+        for (var i = 0; i < geoData.length; i++) {
             if (this._TouchesPath(geoData[i], x, y, 5)) {
                 selectFeatures.push({
                     index: i,
@@ -79,13 +79,13 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
                 });
             }
         }
-        if(selectFeatures.length >0){
+        if (selectFeatures.length > 0) {
             this.selectCtrl.selectedFeatures = selectFeatures[0];
             this.eventController.fire(this.eventController.eventTypes.GETEDITDATA, selectFeatures[0]);
         }
     },
 
-    /***
+    /** *
      *
      * @param {Array}d 几何图形
      * @param {number}x 鼠标x
@@ -94,7 +94,7 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesPath: function(d, x, y, r) {
+    _TouchesPath: function (d, x, y, r) {
         var i;
         var N = d.length;
         var p1x = d[0].x;
@@ -108,21 +108,21 @@ fastmap.uikit.SelectGSC = L.Handler.extend({
             var diffy = y - p1y;
             var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
             if (t < 0) {
-                t = 0
+                t = 0;
             }
             if (t > 1) {
-                t = 1
+                t = 1;
             }
             var closestx = p1x + t * dirx;
             var closesty = p1y + t * diry;
             var dx = x - closestx;
             var dy = y - closesty;
             if ((dx * dx + dy * dy) <= r * r) {
-                return 1
+                return 1;
             }
             p1x = p2x;
-            p1y = p2y
+            p1y = p2y;
         }
-        return 0
+        return 0;
     }
 });

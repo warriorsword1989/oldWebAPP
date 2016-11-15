@@ -729,9 +729,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
             } else if (data.loadType === 'sameRelationShapTplContainer') {
                 if (data.rectData) {
                     featCodeCtrl.setFeatCode({
-                    data: data.rectData,
-                    meta: $scope.metaData
-                });
+                        data: data.rectData,
+                        meta: $scope.metaData
+                    });
                 }
             }
             if (data.data) {

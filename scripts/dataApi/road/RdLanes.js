@@ -6,23 +6,23 @@
 fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
 
 
-    /***
+    /** *
      *
      * @param data
      * @param options 其他可选参数
      */
     initialize: function (data) {
-        this.geoLiveType = "RDLANE";
+        this.geoLiveType = 'RDLANE';
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
-        this.linkPids = data["linkPids"] || [];
-        this.laneDir = data["laneDir"] || 1;
+    setAttributeData: function (data) {
+        this.linkPids = data.linkPids || [];
+        this.laneDir = data.laneDir || 1;
         this.laneInfos = [];
-        if (data["laneInfos"] && data["laneInfos"].length > 0) {
-            for (var i = 0; i < data["laneInfos"].length; i++) {
-                var laneInfo = new fastmap.dataApi.RdLane(data["laneInfos"][i]);
+        if (data.laneInfos && data.laneInfos.length > 0) {
+            for (var i = 0; i < data.laneInfos.length; i++) {
+                var laneInfo = new fastmap.dataApi.RdLane(data.laneInfos[i]);
                 this.laneInfos.push(laneInfo);
             }
         }
@@ -34,15 +34,15 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["linkPids"] = this.linkPids;
-        data["laneDir"] = this.laneDir;
-        data["laneInfos"] = [];
+        data.linkPids = this.linkPids;
+        data.laneDir = this.laneDir;
+        data.laneInfos = [];
         for (var i = 0; i < this.laneInfos.length; i++) {
-            data["laneInfos"].push(this.laneInfos[i].getIntegrate());
+            data.laneInfos.push(this.laneInfos[i].getIntegrate());
         }
-        data["geoLiveType"] = this.geoLiveType;
+        data.geoLiveType = this.geoLiveType;
         return data;
     },
 
@@ -52,20 +52,20 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["linkPids"] = this.linkPids;
-        data["laneDir"] = this.laneDir;
-        data["laneInfos"] = [];
+        data.linkPids = this.linkPids;
+        data.laneDir = this.laneDir;
+        data.laneInfos = [];
         for (var i = 0; i < this.laneInfos.length; i++) {
-            data["laneInfos"].push(this.laneInfos[i].getIntegrate());
+            data.laneInfos.push(this.laneInfos[i].getIntegrate());
         }
-        data["geoLiveType"] = this.geoLiveType;
+        data.geoLiveType = this.geoLiveType;
         return data;
     }
 });
 
-/***
+/** *
  * rdLanes初始化函数
  * @param id
  * @param point 初始化rdInterLinks的点
@@ -74,4 +74,4 @@ fastmap.dataApi.RdLanes = fastmap.dataApi.GeoDataModel.extend({
  */
 fastmap.dataApi.rdLanes = function (data, options) {
     return new fastmap.dataApi.RdLanes(data, options);
-}
+};

@@ -1,9 +1,9 @@
-angular.module('app').controller('EditHistoryCtl', ['$scope', function($scope) {
-    $scope.theadInfo = ['序号','作业员','操作时间','操作描述','平台'];
+angular.module('app').controller('EditHistoryCtl', ['$scope', function ($scope) {
+    $scope.theadInfo = ['序号', '作业员', '操作时间', '操作描述', '平台'];
     $scope.editHistory = [];
-    function initData(){
-        /*重组履历数据*/
-        for(var i=0,len=$scope.poi.editHistoryData.mergeContents.length;i<len;i++){
+    function initData() {
+        /* 重组履历数据*/
+        for (var i = 0, len = $scope.poi.editHistoryData.mergeContents.length; i < len; i++) {
             var hisTemp = {};
             hisTemp.name = $scope.poi.editHistoryData.operator.name;
             hisTemp.mergeDate = $scope.poi.editHistoryData.mergeFormateData;
@@ -12,28 +12,26 @@ angular.module('app').controller('EditHistoryCtl', ['$scope', function($scope) {
             $scope.editHistory.push(hisTemp);
         }
     }
-    if($scope.poi.editHistoryData){
+    if ($scope.poi.editHistoryData) {
         initData();
     }
 
-    /*解析操作描述*/
-    function getOperDesc(oldContent){
+    /* 解析操作描述*/
+    function getOperDesc(oldContent) {
         var oldVal,
             msg;
-        for(var attr in oldContent){
-            msg = '修改了【'+FM.dataApi.Constant.CODE_NAME_MAPPING[attr]+'】';
-            if(!oldContent[attr]){
+        for (var attr in oldContent) {
+            msg = '修改了【' + FM.dataApi.Constant.CODE_NAME_MAPPING[attr] + '】';
+            if (!oldContent[attr]) {
                 oldVal = '（空）';
-            }else{
-                if (attr == "kindCode") {
-                    oldVal = kindName(oldContent[kk]);
-                } else if (attr == "open24h") {
-                    oldVal = oldContent[attr] == 2 ? "否" : "是";
-                } else {
-                    oldVal = oldContent[attr];
-                }
+            } else if (attr == 'kindCode') {
+                oldVal = kindName(oldContent[kk]);
+            } else if (attr == 'open24h') {
+                oldVal = oldContent[attr] == 2 ? '否' : '是';
+            } else {
+                oldVal = oldContent[attr];
             }
-            if (attr != "brands") {
+            if (attr != 'brands') {
                 msg += '，修改前：' + oldVal;
             }
         }

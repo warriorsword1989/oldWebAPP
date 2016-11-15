@@ -3,7 +3,7 @@
  (c) 2016-2026, Navinfo Corporation
  (c) 2016.4.21 by chenxiao
 */
-(function(window, document, undefined) {
+(function (window, document, undefined) {
     var oldFM = window.FM,
         FM = {};
     FM.version = '1.0.0';
@@ -15,7 +15,7 @@
         define(FM);
     }
     // define fastmap as a global FM variable, saving the original FM to restore later if needed
-    FM.noConflict = function() {
+    FM.noConflict = function () {
         window.FM = oldFM;
         return this;
     };
@@ -25,9 +25,12 @@
      * FM.Util contains various utility functions used throughout fastmap code.
      */
     FM.Util = {
-        extend: function(dest) { // (Object[, Object, ...]) ->
+        extend: function (dest) { // (Object[, Object, ...]) ->
             var sources = Array.prototype.slice.call(arguments, 1),
-                i, j, len, src;
+                i,
+                j,
+                len,
+                src;
             for (j = 0, len = sources.length; j < len; j++) {
                 src = sources[j] || {};
                 for (i in src) {
@@ -38,13 +41,13 @@
             }
             return dest;
         },
-        bind: function(fn, obj) { // (Function, Object) -> Function
+        bind: function (fn, obj) { // (Function, Object) -> Function
             var args = arguments.length > 2 ? Array.prototype.slice.call(arguments, 2) : null;
-            return function() {
+            return function () {
                 return fn.apply(obj, args || arguments);
             };
         },
-        setOptions: function(obj, options) {
+        setOptions: function (obj, options) {
             obj.options = FM.Util.extend({}, obj.options, options);
             return obj.options;
         }
@@ -56,10 +59,10 @@
     /*
      * FM.Class powers the OOP facilities of the library.
      */
-    FM.Class = function() {};
-    FM.Class.extend = function(props) {
+    FM.Class = function () {};
+    FM.Class.extend = function (props) {
         // extended class with the new prototype
-        var FMClass = function() {
+        var FMClass = function () {
             // call the constructor
             if (this.initialize) {
                 this.initialize.apply(this, arguments);
@@ -70,12 +73,12 @@
             }
         };
         // instantiate class without calling constructor
-        var F = function() {};
+        var F = function () {};
         F.prototype = this.prototype;
         var proto = new F();
         proto.constructor = FMClass;
         FMClass.prototype = proto;
-        //inherit parent's statics
+        // inherit parent's statics
         for (var i in this) {
             if (this.hasOwnProperty(i) && i !== 'prototype') {
                 FMClass[i] = this[i];
@@ -102,7 +105,7 @@
         // jshint camelcase: false
         FMClass.__super__ = parent.prototype;
         // add method for calling all hooks
-        proto.callInitHooks = function() {
+        proto.callInitHooks = function () {
             if (this._initHooksCalled) {
                 return;
             }
@@ -117,17 +120,17 @@
         return FMClass;
     };
     // method for adding properties to prototype
-    FM.Class.include = function(props) {
+    FM.Class.include = function (props) {
         FM.extend(this.prototype, props);
     };
     // merge new default options to the Class
-    FM.Class.mergeOptions = function(options) {
+    FM.Class.mergeOptions = function (options) {
         FM.extend(this.prototype.options, options);
     };
     // add a constructor hook
-    FM.Class.addInitHook = function(fn) { // (Function) || (String, args...)
+    FM.Class.addInitHook = function (fn) { // (Function) || (String, args...)
         var args = Array.prototype.slice.call(arguments, 1);
-        var init = typeof fn === 'function' ? fn : function() {
+        var init = typeof fn === 'function' ? fn : function () {
             this[fn].apply(this, args);
         };
         this.prototype._initHooks = this.prototype._initHooks || [];
@@ -135,7 +138,7 @@
     };
     FM.dataApi = {};
     FM.mapApi = {
-        symbol: {},
+        symbol: {}
     };
     FM.uikit = {};
-}(window, document))
+}(window, document));
