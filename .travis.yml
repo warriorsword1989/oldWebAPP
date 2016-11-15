@@ -3,6 +3,8 @@ node_js:
   - "4.4.5"
 before_install:
   - npm update -g npm
+script:
+  - npm run lint
 cache:
   directories:
   - node_modules

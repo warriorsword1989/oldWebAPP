@@ -923,9 +923,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         });
 
         function _showOnMapNew(pid, featType) {
-            if (featType == 'RDBRANCH') { // 暂时不支持分歧，因为这里不知道分歧的具体类型
-                return;
-            }
+            //if (featType == 'RDBRANCH') { // 暂时不支持分歧，因为这里不知道分歧的具体类型
+            //    return;
+            //}
             dsEdit.getByPid(pid, featType).then(function(data) {
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
@@ -943,7 +943,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                         map.setView([coord[1], coord[0]], zoom);
                     }
                 }
-                var page = _getFeaturePage(featType);
+                if(featType=='RDBRANCH'){
+                    detailType = data.details[0].branchType;
+                }
+                var page = _getFeaturePage(featType,detailType);
                 if (featType == "IXPOI") {
                     $scope.getCurrentKindByLittle(data); //获取当前小分类所对应的大分类下的所有小分类
                     $scope.$emit("transitCtrlAndTpl", {

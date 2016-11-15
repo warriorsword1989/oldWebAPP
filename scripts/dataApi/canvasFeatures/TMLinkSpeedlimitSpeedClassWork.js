@@ -6,7 +6,7 @@ fastmap.uikit.canvasTMFeature.TMLinkSpeedlimitSpeedClassWork = fastmap.uikit.can
   geometry: {},
   properties: {},
   setAttribute: function(data) {
-    var RD_LINK_Colors = [ 'red', 'blue'];
+    var RD_LINK_Colors = [ '#FF0000', '#0000FF'];
     this.geometry['type'] = 'LineString';
     this.properties["featType"] = "RDLINK";
     this.properties['kind'] = data.m.a;

@@ -1,5 +1,11 @@
 angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOutput', 'dsEdit','$interval', function($scope, $ocll, dsOutput, dsEdit,$interval) {
-    /*翻页事件*/
+
+    /*改变poi父子关系*/
+    $scope.$on('changeRelateParent', function(event, data) {
+        $scope.poi.relateParent = data;
+    });
+
+    /* 翻页事件 */
     $scope.turnPage = function(type) {
             if (type == 'prev') { //上一页
                 $scope.$emit('trunPaging', 'prev');
@@ -7,14 +13,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
                 $scope.$emit('trunPaging', 'next');
             }
         }
-        /*编辑关联poi数据*/
-    $scope.$on('editPoiInfo', function(event, data) {
-        refreshPoiData(data);
-    });
-    /*改变poi父子关系*/
-    $scope.$on('changeRelateParent', function(event, data) {
-        $scope.poi.relateParent = data;
-    });
+
     /*切换tag按钮*/
     $scope.changeTag = function(tagName) {
         $scope.tagSelect = tagName;
@@ -42,6 +41,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
                 break;
         }
     };
+
     /*清空数据*/
     $scope.emptyTableResult = function(type) {
         if (type == 'outputResult') { //输出结果
@@ -53,14 +53,17 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
             $scope.searchPageTotal = 1;
         }
     };
-    /*刷新检查*/
+
+    /**
+     *  刷新检查
+    */
     $scope.refreshCheckResult = function() {
         initCheckResultData();
     };
     /**
      * 接收刷新检查结果的事件
      */
-    $scope.$on("refreshCheckResult",function (event,data){
+    $scope.$on("refreshCheckResult", function (event, data){
         initCheckResultData();
     });
 
@@ -82,7 +85,10 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
             }
         });
     };
-    /*查找检查结果*/
+
+    /**
+    * 查找检查结果
+     */
     function getCheckResultData(num) {
         dsEdit.getCheckData(num).then(function(data) {
             if(data == -1){
@@ -129,6 +135,29 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
         $scope.changeTag('searchResult');
     });
 
+
+
+    // 翻页事件-搜索结果
+    $scope.turnSearchPage = function (type) {
+        // 上一页;
+        if (type == 'prev') {
+            $scope.searchPageNow -= 1;
+        //  下一页;
+        } else {
+            $scope.searchPageNow += 1;
+        }
+        getSearchResultData($scope.searchPageNow);
+    };
+
+    // 判断默认显示哪个tab;
+    function initShowTag() {
+        $scope.searchResultTotal = 0;
+        $scope.searchPageNow = 1;
+        $scope.searchPageTotal = 1;
+        $scope.tagSelect = 'outputResult';
+        $scope.changeTag('outputResult');
+    }
+
     /*查找搜索结果*/
     function getSearchResultData(num) {
         var searchMapping = {
@@ -143,23 +172,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', 'dsOu
                 $scope.searchResultData.push(new FM.dataApi.IxSearchResult(data.rows[i]));
             }
         });
-    };
-    /*翻页事件-搜索结果*/
-    $scope.turnSearchPage = function(type) {
-        if (type == 'prev') { //上一页
-            $scope.searchPageNow--;
-        } else { //  下一页
-            $scope.searchPageNow++;
-        }
-        getSearchResultData($scope.searchPageNow);
-    };
-    /*判断默认显示哪个tab*/
-    function initShowTag() {
-				$scope.searchResultTotal = 0;
-				$scope.searchPageNow = 1;
-				$scope.searchPageTotal = 1;
-        $scope.tagSelect = 'outputResult';
-        $scope.changeTag('outputResult');
     }
 
     initShowTag();

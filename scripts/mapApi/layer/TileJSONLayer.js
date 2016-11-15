@@ -24,7 +24,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.tiles = {};
         this.directColor = this.options.directColor || "#ff0000";
         this.mecator = this.options.mecator || "";
-        this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
         this.eventController = fastmap.uikit.EventController();
         this.redrawTiles = [];
@@ -505,8 +504,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
         var url = null;
         var parameter = null;
-        //从 oracle 获取
-        if (this._map.getZoom() >= this.showNodeLevel) {
+
+        if (this._map.getZoom() >= this.options.minZoom && this._map.getZoom() <= this.options.maxZoom) {
             url = this.url.url;
             parameter = this.url.parameter;
             if (parameter != null) {
@@ -516,17 +515,22 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
             url = url + 'parameter=' + JSON.stringify(parameter);
         }
+        //从 oracle 获取
+        //if (this._map.getZoom() >= this.showNodeLevel) {
+        //    url = this.url.url;
+        //    parameter = this.url.parameter;
+        //    if (parameter != null) {
+        //        parameter.z = this._map.getZoom();
+        //        parameter.x = tiles[0];
+        //        parameter.y = tiles[1];
+        //    }
+        //    url = url + 'parameter=' + JSON.stringify(parameter);
+        //}
         //rdlink 从hbase获取
-        if (this._map.getZoom() < this.showNodeLevel && this.requestType.indexOf('RDLINK') != -1 && this.requestType.indexOf("RDLINKINTRTIC") === -1) {
-            url = this.url.hbaseUrl;
-            parameter = this.url.parameter;
-            if (parameter != null) {
-                parameter.z = this._map.getZoom();
-                parameter.x = tiles[0];
-                parameter.y = tiles[1];
-            }
-            url = url + 'parameter=' + JSON.stringify(parameter);
-        }
+        //if (this._map.getZoom() < this.showNodeLevel && this.requestType.indexOf('RDLINK') != -1 &&
+        // this.requestType.indexOf("RDLINKINTRTIC") === -1) { url = this.url.hbaseUrl; parameter = this.url.parameter;
+        // if (parameter != null) { parameter.z = this._map.getZoom(); parameter.x = tiles[0]; parameter.y = tiles[1];
+        // } url = url + 'parameter=' + JSON.stringify(parameter); }
         return url;
     },
     //两点之间的距离
