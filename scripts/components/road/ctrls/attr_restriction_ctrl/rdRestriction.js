@@ -30,6 +30,7 @@ angular.module("app").controller("normalController", ['$rootScope','$scope', '$t
         if ($scope.rdRestrictionCurrentDetail.type == 2) {
             $scope.changeLimitType(2);
         }
+        objectEditCtrl.editType = '';
         //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
         if ($scope.restricOrdinaryForm) {
             $scope.restricOrdinaryForm.$setPristine();

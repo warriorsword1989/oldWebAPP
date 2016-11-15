@@ -333,7 +333,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 resetPageFlag = false;
                 var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                     laneInfo = objEditCtrl.originalData["limitRelation"];
-                    shapeCtrl.editType = '';
+                    //shapeCtrl.editType = '';
                     laneInfo["infos"] = '';
                 var laneStr = "";
                 if (laneData.length === 0) {
@@ -1782,7 +1782,9 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
             } else if (shapeCtrl.editType === "") {    //非正常情况下按空格
                 return;
             }
-            if(resetPageFlag)resetPage();
+            if(resetPageFlag){
+                resetPage();
+            }
         }
     });
 }
