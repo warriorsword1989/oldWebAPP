@@ -333,7 +333,6 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 resetPageFlag = false;
                 var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                     laneInfo = objEditCtrl.originalData["limitRelation"];
-                    //shapeCtrl.editType = '';
                     laneInfo["infos"] = '';
                 var laneStr = "";
                 if (laneData.length === 0) {
@@ -366,6 +365,7 @@ function bindHotKeys(ocLazyLoad, scope, dsEdit, appPath, rootScope) {
                 };
                 dsEdit.save(param).then(function (data) {
                     if (data != null) {
+                        shapeCtrl.editType = '';
                         relationData.redraw();
                         map.currentTool.disable();
                         treatmentOfChanged(data, "RDRESTRICTION", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html');
