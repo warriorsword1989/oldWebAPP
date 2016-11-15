@@ -13,6 +13,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var rdCross = layerCtrl.getLayerById("relationData");
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    var tmcLayer = layerCtrl.getLayerById('tmcData');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.rticData =  objCtrl.data;
 
@@ -99,9 +100,50 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         }
         // shapeCtrl.setEditingType('addTmcLocation');
         // shapeCtrl.startEditing();
-        map.currentTool = shapeCtrl.getCurrentTool();
+        // map.currentTool = shapeCtrl.getCurrentTool();
         tooltipsCtrl.setEditEventType('addTmcLocation');
         tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+    };
+    //框选TMCPoint
+    $scope.selectTmcPoint = function () {
+        map.currentTool = new fastmap.uikit.SelectForRectang({
+            map: map,
+            shapeEditor: shapeCtrl,
+            LayersList: [tmcLayer]
+        });
+        map.currentTool.disable();
+        map.currentTool.enable();
+        eventController.off(eventController.eventTypes.GETRECTDATA);
+        eventController.on(eventController.eventTypes.GETRECTDATA, function (data) {
+            var tmcPointArray = [];
+            console.log(data)
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures = [];
+            if (data && data.data && data.data.length == 0) {
+                tooltipsCtrl.setCurrentTooltip('请重新框选TMCPoint！');
+                return;
+            }
+            //筛选排除非TMCPoint要素
+            for (var i = 0; i < data.data.length; i++) {
+                if (data.data[i].data && data.data[i].data.properties.featType == 'TMCPOINT') {
+                    if (data.data[i].data.properties.id !== undefined) {
+                        tmcPointArray.push(data.data[i].data.properties.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id:data.data[i].data.properties.id.toString(),
+                            layerid:'tmcData',
+                            type:'TMCPOINT',
+                            style:{}
+                        });
+                    }
+                    // data.data.splice(i, 1);
+                    // i--;
+                }
+            }
+            tmcPointArray = Utils.distinctArr(tmcPointArray);
+            highRenderCtrl.drawHighlight();
+            tooltipsCtrl.setCurrentTooltip('空格查询TMC！');
+            console.info(Utils.distinctArr(tmcPointArray))
+        });
     };
     $scope.minusCarRtic = function (id) {
         $scope.rticData.rtics.splice(id, 1);
@@ -111,7 +153,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     };
     $scope.showScene = function (id) {
         for (var layer in layerCtrl.layers) {
-            if(id == 1){
+            if (id === 1) {
                 if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = true;
@@ -125,40 +167,34 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
                         layerArr: layerCtrl.layers
                     });
                 }
-            } else if(id == 2){
+            } else if (id === 2) {
                 if (layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = true;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                } else if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
                     layerCtrl.layers[layer].options.isUpDirect = true;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
                 }
-            } else if(id == 3){
-                if (layerCtrl.layers[layer].options.requestType === "TMCPOINT") {
-                    layerCtrl.layers[layer].options.isUpDirect = false;
+            } else if (id === 3) {
+                if (layerCtrl.layers[layer].options.id === 'tmcData') {
                     layerCtrl.layers[layer].options.visible = true;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "TMCLOCATION"){
-                    layerCtrl.layers[layer].options.isUpDirect = true;
-                    layerCtrl.layers[layer].options.visible = true;
-                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
-                        layerArr: layerCtrl.layers
-                    });
-                }else if (layerCtrl.layers[layer].options.requestType === "RDLINKRTIC") {
+                }
+                if (layerCtrl.layers[layer].options.requestType === 'RDLINKRTIC') {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {
                         layerArr: layerCtrl.layers
                     });
-                } else if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                } else if(layerCtrl.layers[layer].options.requestType === 'RDLINKINTRTIC') {
                     layerCtrl.layers[layer].options.isUpDirect = false;
                     layerCtrl.layers[layer].options.visible = false;
                     eventController.fire(eventController.eventTypes.LAYERONSWITCH, {

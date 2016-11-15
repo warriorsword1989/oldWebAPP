@@ -226,20 +226,32 @@ formOfWayApp.controller("formOfWayController", function($scope) {
             } else {
                 for (var p in $scope.formsData) {
                     if ($scope.formsData[p].formOfWay == 0 || $scope.formsData[p].formOfWay == 1) {
-                        $scope.formsData.splice(p, 1);
+//                        $scope.formsData.splice(p, 1);
+                    	$scope.formsData[p].status = false;
                     }
                 }
                 $scope.fromOfWayOption[0].isCheck = false;
                 $scope.fromOfWayOption[1].isCheck = false;
             }
-            var newForm = fastmap.dataApi.rdLinkForm({
-                "linkPid": objCtrl.data.pid,
-                "formOfWay": parseInt(item.id)
-            });
-            if (parseInt(item.id) === 53) {
-                newForm['auxiFlag'] = 3;
+            var exitFlag = false;
+            for (var p in $scope.formsData) {
+                if ($scope.formsData[p].formOfWay == item.id) {
+//                    $scope.formsData.splice(p, 1);
+                	$scope.formsData[p].status = true;
+                	exitFlag = true;
+                }
             }
-            $scope.formsData.unshift(newForm);
+            if(!exitFlag){
+            	var newForm = fastmap.dataApi.rdLinkForm({
+                    "linkPid": objCtrl.data.pid,
+                    "formOfWay": parseInt(item.id)
+                });
+                if (parseInt(item.id) === 53) {
+                    newForm['auxiFlag'] = 3;
+                }
+                
+                $scope.formsData.unshift(newForm);
+            }
         } else {
             // 最后一个是无属性，不能反选
             if (item.id == 1 && $scope.formsData.length == 1) {
@@ -247,7 +259,8 @@ formOfWayApp.controller("formOfWayController", function($scope) {
             } else {
                 for (var p in $scope.formsData) {
                     if ($scope.formsData[p].formOfWay == item.id) {
-                        $scope.formsData.splice(p, 1);
+//                        $scope.formsData.splice(p, 1);
+                    	$scope.formsData[p].status = false;
                     }
                 }
                 // 形态全部去掉后，自动加上无属性

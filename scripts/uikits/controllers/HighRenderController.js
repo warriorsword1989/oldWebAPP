@@ -136,6 +136,9 @@ fastmap.uikit.HighRenderController = (function() {
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDVARIABLESPEED') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawBranch(this.highLightFeatures[item].id, fea, ctx);
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'TMCPOINT') {
+                                        var fea = this.currentEditLayer.tiles[tile].data[feature];
+                                        this.drawBranch(this.highLightFeatures[item].id, fea, ctx);
                                     } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDTRAFFICSIGNAL') {
                                         var fea = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, fea, ctx);

@@ -1,0 +1,40 @@
+<style>
+    .trafficPic{
+        /*float: left;*/
+        transition: all 0.5s;
+        border-radius: 50%;
+
+    }
+    .trafficPic > img{
+        text-align: center;
+        cursor: pointer;
+        margin: 15px;
+        transition: all 0.5s;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+    }
+    .trafficPic > .active{
+        box-shadow: 0px 0px 7px 4px #9d9d9d;
+    }
+    #addDirectOfRest {
+        /*background-color: #000;*/
+        opacity: 1;
+        width: 100%;
+    }
+</style>
+<div ng-controller="editDirectOfRestController" id="addDirectOfRest">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">修改交限方向箭头</label></div>
+        </li>
+        <li class="list-group-item">
+            <div class="trafficPic ">
+                <img  ng-repeat="editItem in editLimitedData" ng-if="editItem.flag===false" ng-src="../../../images/road/1302/1302_1_{{editItem.id}}.svg" ng-click="selectTip(editItem,$event)">
+            </div>
+            <div class="trafficPic ">
+                <img  ng-repeat="editItems in editLimitedData" ng-if="editItems.flag===true" ng-src="../../../images/road/1302/1302_2_{{editItems.id}}.svg" ng-click="selectTip(editItems,$event)">
+            </div>
+        </li>
+    </ul>
+</div>

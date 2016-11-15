@@ -103,8 +103,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: true,
                 requestType: 'RDNODE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -131,10 +131,38 @@ App.layersConfig = [{
                 editable: false,
                 visible: true,
                 requestType: 'RDLINK',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 5
             }
     }, {
+        url: '/render/specia/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+            id: 'thematicLink',
+            name: '专题图',
+            // id: 'rdLink',
+            maxZoom: 20,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 5,
+            boolPixelCrs: true,
+            parse: fastmap.uikit.canvasTMFeature.TMFeature.transform,
+            boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator: new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize: 256,
+            type: 'LineString',
+            zIndex: 16,
+            restrictZoom: 10,
+            editable: false,
+            visible: false,
+            requestType: 'rdLinkLimit',
+            gap: 20,
+            minZoom: 10
+        }
+    },{
             url: '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -157,9 +185,9 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKINTRTIC',
-                showNodeLevel: 17,
                 isUpDirect: true,
-                gap: 80
+                gap: 80,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -184,9 +212,9 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKRTIC',
-                showNodeLevel: 17,
                 isUpDirect: true,
-                gap: 80
+                gap: 80,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -211,9 +239,9 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKSPEEDLIMIT',
-                showNodeLevel: 17,
                 isUpDirect: true,
-                gap: 80
+                gap: 80,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -238,8 +266,8 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: true,
                 requestType: 'RDCROSS',
-                showNodeLevel: 17,
-                gap: 40
+                gap: 40,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -264,8 +292,8 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDLANECONNEXITY,RDGSC,RDWARNINGINFO,RDTRAFFICSIGNAL,RDELECTRONICEYE,RDSLOPE,RDGATE,RDDIRECTROUTE,RDSPEEDBUMP,RDSE,RDTOLLGATE,RDVARIABLESPEED,RDVOICEGUIDE,RDLANE,RDHGWGLIMIT',
-                showNodeLevel: 17,
-                gap: 80
+                gap: 80,
+                minZoom: 17
             }
     }, {
         url: '/render/obj/getByTileWithGap?',
@@ -290,8 +318,8 @@ App.layersConfig = [{
             restrictZoom: 10,
             visible: false,
             requestType: 'RDINTER,RDROAD,RDOBJECT',
-            showNodeLevel: 17,
-            gap: 40
+            gap: 40,
+            minZoom: 17
         }
     }, {
         url: '/render/obj/getByTileWithGap?',
@@ -316,8 +344,8 @@ App.layersConfig = [{
             restrictZoom: 10,
             visible: false,
             requestType: 'TMCPOINT,RDTMCLOCATION',
-            showNodeLevel: 17,
-            gap: 40
+            gap: 40,
+            minZoom: 17
         }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -342,8 +370,8 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'ADADMIN',
-                showNodeLevel: 17,
-                gap: 40
+                gap: 40,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -369,8 +397,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'ADNODE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -395,8 +423,8 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'ADLINK',
-                showNodeLevel: 5,
-                gap: 10
+                gap: 10,
+                minZoom: 5
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -422,8 +450,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'ADFACE',
-                showNodeLevel: 13,
-                gap: 10
+                gap: 10,
+                minZoom: 13
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -449,8 +477,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'RWNODE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -476,8 +504,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: true,
                 requestType: 'RWLINK',
-                showNodeLevel: 12,
-                gap: 10
+                gap: 10,
+                minZoom: 12
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -503,8 +531,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'ZONENODE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -530,8 +558,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'ZONELINK',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -557,8 +585,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'ZONEFACE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -584,8 +612,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'LUNODE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -611,8 +639,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'LULINK',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -638,8 +666,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'LUFACE',
-                showNodeLevel: 17,
-                gap: 10
+                gap: 10,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -665,8 +693,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'LCNODE',
-                showNodeLevel: 16,
-                gap: 10
+                gap: 10,
+                minZoom: 16
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -692,8 +720,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'LCLINK',
-                showNodeLevel: 15,
-                gap: 10
+                gap: 10,
+                minZoom: 15
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -719,8 +747,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'LCFACE',
-                showNodeLevel: 14,
-                gap: 10
+                gap: 10,
+                minZoom: 14
             }
     },
         {
@@ -746,8 +774,8 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: true,
                 requestType: 'IXPOI',
-                showNodeLevel: 17,
-                gap: 40
+                gap: 40,
+                minZoom: 17
             }
     }, {
             url: '/render/obj/getByTileWithGap?',
@@ -773,8 +801,8 @@ App.layersConfig = [{
                 editable: false,
                 visible: false,
                 requestType: 'RDSAMENODE,RDSAMELINK',
-                showNodeLevel: 17,
-                gap: 40
+                gap: 40,
+                minZoom: 17
             }
     }]
 }, {

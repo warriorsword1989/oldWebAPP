@@ -8,24 +8,55 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
     var rdLink = layerCtrl.getLayerById('rdLink');
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    $scope.addDirectData = objCtrl.data;
-    //初始化交限
-    $scope.addLimitedData = [
-        {"id": 1, "flag": false},
-        {"id": 2, "flag": false},
-        {"id": 3, "flag": false},
-        {"id": 4, "flag": false},
-        {"id": 1, "flag": true},
-        {"id": 2, "flag": true},
-        {"id": 3, "flag": true},
-        {"id": 4, "flag": true}
 
-    ];
+    /**
+     * 初始化工作包括高亮显示交限的进入线和进入点以及交限图标;
+     * 初始化该控制器数据模型;
+     *
+     */
+    $scope.initPage = function(){
+        $scope.addDirectData = objCtrl.data;
+        //初始化交限
+        $scope.addLimitedData = [
+            {"id": 1, "flag": false},
+            {"id": 2, "flag": false},
+            {"id": 3, "flag": false},
+            {"id": 4, "flag": false},
+            {"id": 1, "flag": true},
+            {"id": 2, "flag": true},
+            {"id": 3, "flag": true},
+            {"id": 4, "flag": true}
+
+        ];
+        highRenderCtrl.highLightFeatures = [];
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.addDirectData["inLinkPid"].toString(),
+            layerid: 'rdLink',
+            type: 'line',
+            style: {color: 'green'}
+        });
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.addDirectData["nodePid"].toString(),
+            layerid: 'rdLink',
+            type: 'node',
+            style: {color: 'yellow'}
+        });
+        highRenderCtrl.highLightFeatures.push({
+            id: $scope.addDirectData["pid"].toString(),
+            layerid: 'relationData',
+            type: 'relationData',
+            style: {}
+        });
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.drawHighlight();
+    }
+
     $scope.removeImgActive = function () {
         $.each($('.trafficPic'), function (i, v) {
             $(v).find('img').removeClass('active');
         });
     };
+
     //选择弹出框中的交限
     $scope.selectTip = function (item, e) {
         /*选中高亮*/
@@ -35,7 +66,6 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
         $scope.tipsId = item.id;
         if (item.flag) {
             flag = 2;
-
         } else {
             flag = 1;
         }
@@ -124,4 +154,7 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
             $(".show-tips:first").trigger('click');
         });
     }
+
+
+    $scope.initPage();
 });

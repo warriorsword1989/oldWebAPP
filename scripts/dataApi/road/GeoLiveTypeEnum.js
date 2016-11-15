@@ -191,5 +191,5 @@ fastmap.dataApi.GeoLiveModelType={
     /*
      TMC匹配信息
      */
-    "TMCLOCATION":"TMCLOCATION"
+    "RDTMCLOCATION":"RDTMCLOCATION"
 };

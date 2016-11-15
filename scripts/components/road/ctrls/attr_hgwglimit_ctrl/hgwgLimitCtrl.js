@@ -4,6 +4,7 @@
  */
 angular.module('app').controller('hgwgLimitCtl', ['$scope','$timeout', 'dsEdit','appPath','$ocLazyLoad', function($scope,$timeout,dsEdit, appPath,$ocLazyLoad) {
     var eventCtrl = fastmap.uikit.EventController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -20,6 +21,9 @@ angular.module('app').controller('hgwgLimitCtl', ['$scope','$timeout', 'dsEdit',
             $scope.hgwgLimitForm.$setPristine();
         }
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        selectCtrl.onSelected({
+            data:objCtrl.data.getIntegrate()
+        });
         $scope.hgwgLimitObj = objCtrl.data;
         if($scope.hgwgLimitObj.geometry && $scope.hgwgLimitObj.geometry.coordinates.length == 2){
             $scope.hgwgLimitObj.geometryStr = $scope.hgwgLimitObj.geometry.coordinates[0]+","+$scope.hgwgLimitObj.geometry.coordinates[1];

@@ -609,6 +609,11 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/beginCheckPanelTpl.html';
 					});
 					break;
+				case 'thematicMap':
+					$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/thematicMapChooseCtrl').then(function() {
+						$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/thematicMapChooseTpl.html';
+					});
+					break;
 			}
 			$scope.advancedTool = toolType;
 		};
@@ -622,11 +627,14 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
 			});
 		};
 		$scope.thematicMapChange = function() {
+			$ocLazyLoad.load(appPath.tool + 'ctrls/assist-tools/searchPanelCtrl').then(function() {
+				$scope.advancedToolPanelTpl = appPath.root + appPath.tool + 'tpls/assist-tools/searchPanelTpl.html';
+			});
+
 			var layerCtrl = fastmap.uikit.LayerController();
-			var rdLink = layerCtrl.getLayerById('rdLink');
-			App.Temp.thematicMapFlag = !$scope.thematicMapShow;
-			$scope.thematicMapShow = !$scope.thematicMapShow;
-			rdLink.redraw();
+			layerCtrl.setLayerVisibleOrNot('rdLink',false);
+			layerCtrl.setLayerVisibleOrNot('thematicLink',true);
+			//App.Temp.thematicMapFlag = !$scope.thematicMapShow;
 		};
 		$scope.closeAdvancedToolsPanel = function() {
 			$scope.advancedTool = null;
@@ -915,9 +923,9 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
         });
 
         function _showOnMapNew(pid, featType) {
-            if (featType == 'RDBRANCH') { // 暂时不支持分歧，因为这里不知道分歧的具体类型
-                return;
-            }
+            //if (featType == 'RDBRANCH') { // 暂时不支持分歧，因为这里不知道分歧的具体类型
+            //    return;
+            //}
             dsEdit.getByPid(pid, featType).then(function(data) {
                 var highRenderCtrl = new fastmap.uikit.HighRenderController();
                 objectCtrl.setCurrentObject(featType, data);
@@ -935,7 +943,10 @@ angular.module('app', ['ngCookies', 'oc.lazyLoad', 'fastmap.uikit', 'ui.layout',
                         map.setView([coord[1], coord[0]], zoom);
                     }
                 }
-                var page = _getFeaturePage(featType);
+                if(featType=='RDBRANCH'){
+                    detailType = data.details[0].branchType;
+                }
+                var page = _getFeaturePage(featType,detailType);
                 if (featType == "IXPOI") {
                     $scope.getCurrentKindByLittle(data); //获取当前小分类所对应的大分类下的所有小分类
                     $scope.$emit("transitCtrlAndTpl", {
