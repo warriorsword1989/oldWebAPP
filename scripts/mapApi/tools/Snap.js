@@ -107,7 +107,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     this.snaped = true;
                     this.properties = closest.properties;
                     this.snapIndex = closest.index;
-
+                    this.snapType = closest.snaptype;
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
@@ -142,10 +142,10 @@ fastmap.mapApi.Snap = L.Handler.extend({
         //捕捉候选id
         var candidateId = options.candidateId?options.candidateId:null;
 
-        var mindistline = Infinity, mindistvertex = Infinity, mindistnode = Infinity,
+        var mindistline = 10, mindistvertex = 10, mindistnode = 10,
             result = null,
             distaceResult = null,
-            distance = Infinity;
+            distance = 10;
         for (var i = 0, n = data.length; i < n; i++) {
 
             var geometry = null;
@@ -167,7 +167,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                     latlng: [distaceResult.x, distaceResult.y],
                                     index: distaceResult.index,
                                     distance: distance,
-                                    properties: data[i].properties
+                                    properties: data[i].properties,
+                                    snaptype:'line'
                                 };
                             }
                         }
@@ -186,11 +187,13 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                 latlng: [distaceResult.x, distaceResult.y],
                                 index: distaceResult.index,
                                 distance: distance,
-                                properties: data[i].properties
+                                properties: data[i].properties,
+                                snaptype:'line'
                             };
                         }
                     }
-                } else if (this.snapVertex == true) {
+                }
+                if (this.snapVertex == true) {
                     if (this.selectedSnap == true) {
                         if (data[i].properties.id == this.selectedId) {
                             geometry = data[i].geometry.coordinates;
@@ -203,7 +206,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                     latlng: [distaceResult.x, distaceResult.y],
                                     distance: mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
                                     index: distaceResult.index,
-                                    selectedVertexe: true
+                                    properties: data[i].properties,
+                                    selectedVertexe: true,
+                                    snaptype:'vertex',
                                 }
                             }
                         }
@@ -218,7 +223,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
                                 latlng:[distaceResult.x, distaceResult.y],
                                 distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
                                 index: distaceResult.index,
-                                selectedVertexe:true
+                                properties: data[i].properties,
+                                selectedVertexe:true,
+                                snaptype:'vertex',
                             }
                         }
                     }
@@ -236,7 +243,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             latlng: geometry,
                             distance: distaceResult,
                             properties: data[i].properties,
-                            index: -2
+                            index: -2,
+                            snaptype:'node',
                         };
 
                     }

@@ -34,6 +34,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         })
         this.eventController.on(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, delegateDraw);
         function delegateDraw(event) {
+          
             that.selectCtrl = fastmap.uikit.SelectController();
             if (that.shapeEditor.shapeEditorResult == null) {
                 return;
@@ -55,7 +56,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         this.eventController.on(this.eventController.eventTypes.STOPSHAPEEDITRESULTFEEDBACK, function () {
             that.map._container.style.cursor = '';
-
+            console.log('draw-----------------draw')
             var coordinate1 = [];
             if (that.drawGeometry) {
                 for (var index in that.drawGeometry.components) {

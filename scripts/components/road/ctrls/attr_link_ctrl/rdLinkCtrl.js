@@ -17,6 +17,7 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var compare = new fastmap.dataApi.geoDataModelComparison();
     $scope.speedAndDirect = shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex = 0;
     $scope.modelArray = [false, false, false, false, false, false];
@@ -61,6 +62,229 @@ angular.module("app").controller('linkObjectController', ['$scope', '$ocLazyLoad
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
+//         //測試數據
+//         var obj1 = eval({
+//
+//                 "adasFlag": 0,
+//                 "adasMemo": 0,
+//                 "appInfo": 1,
+//                 "centerDivider": 0,
+//                 "developState": 1,
+//                 "diciType": 0,
+//                 "difGroupid": "",
+//                 "digitalLevel": 0,
+//                 "direct": 1,
+//                 "eNodePid": 73394459,
+//                 "editFlag": 1,
+//                 "feeFlag": 0,
+//                 "feeStd": 0.0,
+//                 "forms": [{
+//                     "auxiFlag": 0,
+//                     "extendedForm": 0,
+//                     "formOfWay": 1,
+//                     "kgFlag": 0,
+//                     "linkPid": 24438064,
+//                     "rowId": "3AE1FC32300892F7E050A8C08304EE4C"
+//                 }],
+//                 "functionClass": 5,
+//                 "geometry": {
+//                     "type": "LineString",
+//                     "coordinates": [[116.97195, 40.40465], [116.9718, 40.40446], [116.97036, 40.40258], [116.96955, 40.4014]]
+//                 },
+//                 "imiCode": 0,
+//                 "intRtics": [],
+//                 "isViaduct": 0,
+//                 "kind": 7,
+//                 "laneClass": 1,
+//                 "laneLeft": 0,
+//                 "laneNum": 2,
+//                 "laneRight": 0,
+//                 "laneWidthLeft": 1,
+//                 "laneWidthRight": 1,
+//                 "leftRegionId": 1028,
+//                 "length": 414.483,
+//                 "limitTrucks": [],
+//                 "limits": [],
+//                 "memo": "",
+//                 "meshId": 605647,
+//                 "multiDigitized": 0,
+//                 "names": [  {
+//                     "code": 1,
+//                     "inputTime": "",
+//                     "linkPid": 86889440,
+//                     "name": "",
+//                     "nameClass": 1,
+//                     "nameGroupid": 60078,
+//                     "nameType": 0,
+//                     "routeAtt": 0,
+//                     "rowId": "3AE1F9189FA692F7E050A8C08304EE4C",
+//                     "seqNum": 2,
+//                     "srcFlag": 9
+//                 },
+//                     {
+//                         "code": 1,
+//                         "inputTime": "",
+//                         "linkPid": 86889440,
+//                         "name": "",
+//                         "nameClass": 1,
+//                         "nameGroupid": 308935,
+//                         "nameType": 0,
+//                         "routeAtt": 0,
+//                         "rowId": "3AE1F9189FA792F7E050A8C08304EE4C",
+//                         "seqNum": 1,
+//                         "srcFlag": 9
+//                     }],
+//                 "onewayMark": 0,
+//                 "originLinkPid": 86344721,
+//                 "parkingFlag": 0,
+//                 "parkingLot": 0,
+//                 "paveStatus": 0,
+//                 "pid": 24438064,
+//                 "rightRegionId": 1028,
+//                 "routeAdopt": 2,
+//                 "rtics": [],
+//                 "sNodePid": 209496,
+//                 "sidewalkFlag": 0,
+//                 "sidewalks": [],
+//                 "specialTraffic": 0,
+//                 "speedlimits": [{
+//                     "fromLimitSrc": 9,
+//                     "fromSpeedLimit": 50,
+//                     "linkPid": 24438064,
+//                     "rowId": "3AE1FF187F2492F7E050A8C08304EE4C",
+//                     "speedClass": 6,
+//                     "speedClassWork": 1,
+//                     "speedDependent": 0,
+//                     "speedType": 0,
+//                     "timeDomain": "",
+//                     "toLimitSrc": 9,
+//                     "toSpeedLimit": 50
+//                 }],
+//                 "srcFlag": 6,
+//                 "streetLight": 0,
+//                 "systemId": 0,
+//                 "tollInfo": 2,
+//                 "truckFlag": 0,
+//                 "urban": 0,
+//                 "walkFlag": 0,
+//                 "walkstairFlag": 0,
+//                 "walkstairs": [],
+//                 "width": 55,
+//                 "zones": []
+//
+//         });
+//
+//         var obj2 = eval({
+//           "adasFlag": 2,
+//           "adasMemo": 2,
+//           "appInfo": 2,
+//           "centerDivider": 2,
+//           "developState": 2,
+//           "diciType": 0,
+//           "difGroupid": "",
+//           "digitalLevel": 0,
+//           "direct": 1,
+//           "eNodePid": 73394459,
+//           "editFlag": 1,
+//           "feeFlag": 0,
+//           "feeStd": 0.0,
+//           "forms": [{
+//             "auxiFlag": 0,
+//             "extendedForm": 0,
+//             "formOfWay": 1,
+//             "kgFlag": 0,
+//             "linkPid": 24438064,
+//             "rowId": "3AE1FC32300892F7E050A8C08304EE4C"
+//         }],
+//           "functionClass": 5,
+//           "geometry": {
+//             "type": "LineString",
+//               "coordinates": [[116.97195, 40.40465], [116.9718, 40.40446], [116.97036, 40.40258], [116.96955, 40.4014]]
+//         },
+//         "imiCode": 0,
+//           "intRtics": [],
+//           "isViaduct": 0,
+//           "kind": 7,
+//           "laneClass": 1,
+//           "laneLeft": 0,
+//           "laneNum": 2,
+//           "laneRight": 0,
+//           "laneWidthLeft": 1,
+//           "laneWidthRight": 1,
+//           "leftRegionId": 1028,
+//           "length": 414.483,
+//           "limitTrucks": [],
+//           "limits": [],
+//           "memo": "",
+//           "meshId": 605647,
+//           "multiDigitized": 0,
+//           "names": [  {
+//               "code": 2,
+//               "inputTime": "",
+//               "linkPid": 86889440,
+//               "name": "",
+//               "nameClass": 1,
+//               "nameGroupid": 60078,
+//               "nameType": 0,
+//               "routeAtt": 0,
+//               "rowId": "3AE1F9189FA692F7E050A8C08304EE4C",
+//               "seqNum": 2,
+//               "srcFlag": 9
+//           },
+//               {
+//                   "code": 1,
+//                   "inputTime": "",
+//                   "linkPid": 86889440,
+//                   "name": "",
+//                   "nameClass": 1,
+//                   "nameGroupid": 308935,
+//                   "nameType": 0,
+//                   "routeAtt": 0,
+//                   "rowId": "3AE1F9189FA792F7E050A8C08304EE4C",
+//                   "seqNum": 1,
+//                   "srcFlag": 9
+//               }],
+//           "onewayMark": 0,
+//           "originLinkPid": 86344721,
+//           "parkingFlag": 0,
+//           "parkingLot": 0,
+//           "paveStatus": 0,
+//           "pid": 24438064,
+//           "rightRegionId": 1028,
+//           "routeAdopt": 2,
+//           "rtics": [],
+//           "sNodePid": 209496,
+//           "sidewalkFlag": 0,
+//           "sidewalks": [],
+//           "specialTraffic": 0,
+//           "speedlimits": [{
+//             "fromLimitSrc": 9,
+//             "fromSpeedLimit": 50,
+//             "linkPid": 24438064,
+//             "rowId": "3AE1FF187F2492F7E050A8C08304EE4C",
+//             "speedClass": 6,
+//             "speedClassWork": 1,
+//             "speedDependent": 0,
+//             "speedType": 0,
+//             "timeDomain": "",
+//             "toLimitSrc": 9,
+//             "toSpeedLimit": 50
+//         }],
+//           "srcFlag": 6,
+//           "streetLight": 0,
+//           "systemId": 0,
+//           "tollInfo": 2,
+//           "truckFlag": 0,
+//           "urban": 0,
+//           "walkFlag": 0,
+//           "walkstairFlag": 0,
+//           "walkstairs": [],
+//           "width": 55,
+//           "zones": []
+//     });
+//
+//         $scope.linkData = compare.abstract([obj1, obj2]);
+// console.log(JSON.stringify($scope.linkData))
         $scope.currentURL = "";
         //随着地图的变化 高亮的线不变
         if ($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0) {
